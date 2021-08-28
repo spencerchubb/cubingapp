@@ -52,6 +52,7 @@ export class CubeLogic {
         this.layersHalf = parseInt(numOfLayers / 2);
         this.layersEven = numOfLayers % 2 == 0;
         this.numOfStickers = this.layersSq * 6;
+        this.axis = 0;
 
         this.stickers = [];
         pushN(this.stickers, WHITE, this.layersSq);
@@ -104,7 +105,6 @@ export class CubeLogic {
         this.resetAffectedStickers();
 
         this._matchTurn(axis, layer, clockwise);
-
     }
 
     sliceTurn(axis, clockwise) {
@@ -116,7 +116,6 @@ export class CubeLogic {
         for (let i = 1; i < this.numOfLayers - 1; i++) {
             this._matchTurn(axis, i, clockwise);
         }
-
     }
 
     wideTurn(axis, layer, clockwise) {
@@ -350,6 +349,31 @@ export class CubeLogic {
             case "r": // l'
                 this.wideTurn(0, this.numOfLayers - 1, true);
                 return true;
+        }
+    }
+
+    doTurnFromMouseDrag(id, dx, dy) {
+        this.turnType = turnTypes.DRAG;
+        this.factor = this.dragSpeedFactor;
+
+        const ratio = dy / dx;
+        const ratioThreshold = 0.55;
+        if (id < this.layersSq) {
+            if (ratio < -ratioThreshold || ratio > ratioThreshold) {
+                console.log("a");
+                this.turn(0, this.numOfLayers - 1 - parseInt(id / 3), dy < 0);
+            } else {
+                console.log("b");
+                this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
+            }
+        } else if (id >= this.layersSq) {
+            if (ratio < -ratioThreshold || ratio > ratioThreshold) {
+                console.log("c");
+                this.turn(0, this.numOfLayers - 1 - parseInt((id - this.layersSq) / 3), dy < 0);
+            } else {
+                console.log("d");
+                this.turn(1, (id - this.layersSq) % 3, dx < 0);
+            }
         }
     }
 
