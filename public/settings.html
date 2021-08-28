@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/gl-matrix@3/gl-matrix.js"></script>
+    <title>Rubik's Cube</title>
+</head>
+
+<body id="settings-page">
+    <nav>
+        <div class="navbar">
+            <h1 class="navbar-h">Settings</h1>
+        </div>
+    </nav>
+
+    <div id="main-container">
+        <div class="settings-container">
+            <h2>Rotation Speed</h2>
+            <p style="margin-bottom: 0.5rem;">How long it takes a turn to complete (seconds)</p>
+            <div class="flex-row">
+                <h3 class="me-3 my-2">Keyboard</h3>
+                <select id="keyboardSpeed">
+                    <option value="0.0">0.0</option>
+                    <option value="0.05">0.05</option>
+                    <option value="0.1">0.1</option>
+                    <option value="0.15">0.15</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4</option>
+                    <option value="0.5">0.5</option>
+                </select>
+            </div>
+            <div class="flex-row">
+                <h3 class="me-3 my-2">Drag</h3>
+                <select id="dragSpeed">
+                    <option value="0.0">0.0</option>
+                    <option value="0.05">0.05</option>
+                    <option value="0.1">0.1</option>
+                    <option value="0.15">0.15</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4</option>
+                    <option value="0.5">0.5</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="./dist/settings.js"></script>
+</body>
+
+</html>
