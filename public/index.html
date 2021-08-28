@@ -28,20 +28,7 @@
     <div id="main-container">
         <p id="time"></p>
         <button id="startStop" class="btn btn-primary"></button>
-        <canvas id="glCanvas" width="320" height="320"></canvas>
-
-        <div id="rotateButtonsContainer">
-            <div class="rotateButtonsRow">
-                <button id="x" class="btn btn-primary rotateButton">x</button>
-                <button id="y" class="btn btn-primary rotateButton">y</button>
-                <button id="z" class="btn btn-primary rotateButton">z</button>
-            </div>
-            <div class="rotateButtonsRow mt-3">
-                <button id="xPrime" class="btn btn-primary rotateButton">x'</button>
-                <button id="yPrime" class="btn btn-primary rotateButton">y'</button>
-                <button id="zPrime" class="btn btn-primary rotateButton">z'</button>
-            </div>
-        </div>
+        <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -53,10 +40,6 @@
             <button id="settingsButton" class="btn btn-primary">
                 Settings
             </button>
-            <div id="showRotateButtons" class="mt-3">
-                <button id="showRotateButtonsButton" class="btn btn-primary"></button>
-                <p>Show rotate buttons (recommended for mobile)</p>
-            </div>
             <div class="dropdown mt-3">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false">

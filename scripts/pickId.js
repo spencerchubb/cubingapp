@@ -1,24 +1,3 @@
-// export function colorFromId(id) {
-//     if (id >= 4294967295) {
-//         // Max id allowed 256^4 - 2.
-//         // 255, 255, 255, 255 is the id for the background which would correspond to id 256^4 - 1.
-//         console.error("Id is too large for rgba!");
-//         return;
-//     }
-//     const x = 256;
-//     const y = 256 * 256;
-//     const z = 256 * 256 * 256;
-//     let aremainder = id % z;
-//     let alpha = (id - aremainder) / z;
-//     let bremainder = aremainder % y;
-//     let blue = (aremainder - bremainder) / y;
-//     let gremainder = bremainder % x;
-//     let green = (bremainder - gremainder) / x;
-//     let rremainder = gremainder % 1;
-//     let red = (gremainder - rremainder) / 1;
-//     return [red, green, blue, alpha];
-// }
-
 export function colorFromId(id) {
     if (id >= 4294967295) {
         // Max id allowed 256^4 - 2.

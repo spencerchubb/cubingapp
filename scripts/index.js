@@ -36,57 +36,6 @@ export function main() {
         document.location = "settings.html";
     }
 
-    let showRotateButtonsState = true;
-
-    function updateShowRotateButtons() {
-        let button = document.querySelector("#showRotateButtonsButton");
-        let container = document.querySelector("#rotateButtonsContainer");
-        if (showRotateButtonsState) {
-            button.textContent = "On";
-            container.style.display = "block";
-        } else {
-            button.textContent = "Off";
-            container.style.display = "none";
-        }
-    }
-
-    updateShowRotateButtons();
-
-    document.querySelector("#showRotateButtons").onclick = () => {
-        showRotateButtonsState = !showRotateButtonsState;
-        updateShowRotateButtons();
-    }
-
-    document.querySelector("#x").onclick = () => {
-        scene.cube.doCubeRotateFromButton(0, true);
-        scene.startTurn();
-    }
-
-    document.querySelector("#y").onclick = () => {
-        scene.cube.doCubeRotateFromButton(1, true);
-        scene.startTurn();
-    }
-
-    document.querySelector("#z").onclick = () => {
-        scene.cube.doCubeRotateFromButton(2, true);
-        scene.startTurn();
-    }
-
-    document.querySelector("#xPrime").onclick = () => {
-        scene.cube.doCubeRotateFromButton(0, false);
-        scene.startTurn();
-    }
-
-    document.querySelector("#yPrime").onclick = () => {
-        scene.cube.doCubeRotateFromButton(1, false);
-        scene.startTurn();
-    }
-
-    document.querySelector("#zPrime").onclick = () => {
-        scene.cube.doCubeRotateFromButton(2, false);
-        scene.startTurn();
-    }
-
     const layerInput = document.querySelector("#layerInput");
     layerInput.addEventListener("change", (event) => {
         newSolvedCube(event.target.value);
@@ -127,9 +76,11 @@ export function main() {
         const id = idFromColor(scene.dragDetector.pixels);
         if (scene.dragDetector.getNumOfMouseMoves() > 2) {
             if (id == Math.pow(256, 4) - 1) {
-                const x = scene.dragDetector.pixelX;
-                const y = scene.dragDetector.pixelY;
-                scene.cube.doCubeRotateFromMouseDrag(x, y);
+                scene.cube.doCubeRotateFromMouseDrag(
+                    scene.dragDetector.mouseXOnDown, 
+                    scene.dragDetector.mouseYOnDown, 
+                    scene.dragDetector.getDx(), 
+                    scene.dragDetector.getDy());
                 scene.startTurn();
             } else {
                 const dx = scene.dragDetector.getDx();
@@ -140,22 +91,9 @@ export function main() {
         }
     }
 
-    gl.canvas.addEventListener('mousedown', (event) => {
-        pointerDown(event.clientX, event.clientY);
-    });
-
-    gl.canvas.addEventListener('mousemove', (event) => {
-        pointerMove(event.clientX, event.clientY);
-    });
-
-    gl.canvas.addEventListener('mouseup', () => {
-        pointerUp();
-    });
-
     gl.canvas.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
         pointerDown(touch.pageX, touch.pageY);
-
     });
 
     gl.canvas.addEventListener('touchmove', (event) => {

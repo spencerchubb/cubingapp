@@ -15,3 +15,8 @@ Serve
 ```
 firebase serve
 ```
+
+Serve to another device on network
+```
+firebase serve -o 192.168.0.205
+```

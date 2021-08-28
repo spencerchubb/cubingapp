@@ -213,7 +213,7 @@ function drawScene() {
 
     mat4.translate(modelViewMatrix,     // destination matrix
         modelViewMatrix,     // matrix to translate
-        [-0.0, 0.0, -4.5]);  // amount to translate
+        [-0.0, 0.0, -5.5]);  // amount to translate
 
     // Rotate to the starting position such that 3 faces are visible.
     mat4.rotate(

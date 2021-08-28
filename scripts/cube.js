@@ -1,3 +1,5 @@
+import { DEFAULT_SPEED } from "./constants.js";
+
 const canvas = document.querySelector('#glCanvas');
 const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
@@ -40,8 +42,14 @@ export class CubeLogic {
 
         const keyboardSpeed = localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED;
         const dragSpeed = localStorage.getItem("#dragSpeed") || DEFAULT_SPEED;
+
         this.keyboardSpeedFactor = keyboardSpeed * 1000 / (Math.PI / 2);
         this.dragSpeedFactor = dragSpeed * 1000 / (Math.PI / 2);
+
+        // The factor should be set each time you start a new turn type, whether it be keyboard or drag.
+        // This is because the different turn types may be a different speed.
+        this.factor = this.keyboardSpeedFactor;
+
         console.log(keyboardSpeed, dragSpeed);
         console.log(this.keyboardSpeedFactor, this.dragSpeedFactor);
     }
@@ -360,20 +368,59 @@ export class CubeLogic {
         const ratioThreshold = 0.55;
         if (id < this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                console.log("a");
                 this.turn(0, this.numOfLayers - 1 - parseInt(id / 3), dy < 0);
             } else {
-                console.log("b");
                 this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
             }
         } else if (id >= this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                console.log("c");
                 this.turn(0, this.numOfLayers - 1 - parseInt((id - this.layersSq) / 3), dy < 0);
             } else {
-                console.log("d");
                 this.turn(1, (id - this.layersSq) % 3, dx < 0);
             }
+        }
+    }
+
+    doCubeRotateFromMouseDrag(x, y, dx, dy) {
+        this.turnType = turnTypes.DRAG;
+        this.factor = this.dragSpeedFactor;
+
+        // console.log(x, y, dx, dy);
+
+        // top center
+        if (y < 62 && x > 88 && x < 226) {
+            console.log("top center");
+            this.cubeRotate(0, dy < 0);
+        }
+
+        // bottom center
+        else if (y > 260 && x > 88 && x < 226) {
+            console.log("bottom center");
+            this.cubeRotate(0, dy < 0);
+        }
+
+        // top left
+        else if (x < 88 && y > 62 && y < 145) {
+            console.log("top left");
+            this.cubeRotate(2, dx > 0);
+        }
+
+        // top right
+        else if (x > 226 && y > 62 && y < 145) {
+            console.log("top right");
+            this.cubeRotate(2, dx > 0);
+        }
+
+        // bottom left
+        else if (x < 88 && y > 145 && y < 260) {
+            console.log("bottom left");
+            this.cubeRotate(1, dx < 0);
+        }
+
+        // bottom right
+        else if (x > 226 && y > 145 && y < 260) {
+            console.log("bottom right");
+            this.cubeRotate(1, dx < 0);
         }
     }
 

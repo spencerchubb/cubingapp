@@ -50,20 +50,6 @@ html {
     font-size: 3em;
 }
 
-#rotateButtonsContainer {
-    width: 250px;
-}
-
-.rotateButtonsRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-
-.rotateButton {
-    width: 50px;
-}
-
 .offcanvas {
     max-width: 75%;
 
