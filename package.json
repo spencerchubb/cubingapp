@@ -1,11 +1,8 @@
 {
-	"name": "create-wasm-app",
+	"name": "rubiks-cube",
 	"version": "0.1.0",
 	"description": "Rubik's Cube",
 	"main": "index.js",
-	"bin": {
-		"create-wasm-app": ".bin/create-wasm-app.js"
-	},
 	"scripts": {
 		"build": "webpack --config webpack.config.js",
 		"start": "webpack-dev-server"
@@ -16,7 +13,7 @@
 	},
 	"devDependencies": {
 		"copy-webpack-plugin": "^5.0.0",
-		"webpack": "^4.29.3",
+		"ts-loader": "^9.2.5",
 		"webpack-cli": "^3.1.0",
 		"webpack-dev-server": "^3.11.2"
 	}

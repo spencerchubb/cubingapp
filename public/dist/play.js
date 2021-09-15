@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./scripts/play.ts":
+/*!*************************!*\
+  !*** ./scripts/play.ts ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"main\": () => (/* binding */ main)\n/* harmony export */ });\n/* harmony import */ var _scene_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scene.js */ \"./scripts/scene.js\");\n/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timer.js */ \"./scripts/timer.js\");\n/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui */ \"./scripts/ui.ts\");\n\r\n\r\n\r\nfunction newSolvedCube(numOfLayers) {\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"](parseInt(numOfLayers));\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.buffers.initBufferData(_scene_js__WEBPACK_IMPORTED_MODULE_0__.cube);\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.render();\r\n}\r\nfunction main() {\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_2__.listenToNavButtons)();\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_2__.initCanvas)();\r\n    var timer = new _timer_js__WEBPACK_IMPORTED_MODULE_1__.Timer();\r\n    // Prevent extra click if spacebar is pressed while a button is focused.\r\n    window.onkeydown = function (event) {\r\n        if (event.keyCode === 32) {\r\n            event.preventDefault();\r\n        }\r\n    };\r\n    var layerInput = document.querySelector(\"#layerInput\");\r\n    layerInput.addEventListener(\"change\", function (event) {\r\n        var target = event.target;\r\n        newSolvedCube(target.value);\r\n    });\r\n    document.querySelector(\"#solve\").addEventListener(\"click\", function (event) {\r\n        newSolvedCube(layerInput.value);\r\n    });\r\n    document.querySelector(\"#scramble\").addEventListener(\"click\", function (event) {\r\n        _scene_js__WEBPACK_IMPORTED_MODULE_0__.cube.naiveScramble();\r\n        _scene_js__WEBPACK_IMPORTED_MODULE_0__.render();\r\n    });\r\n    document.addEventListener('keydown', function (event) {\r\n        if (event.key == \" \") {\r\n            timer.startStop();\r\n        }\r\n        else if (_scene_js__WEBPACK_IMPORTED_MODULE_0__.cube.matchKeyToTurn(event.key)) {\r\n            _scene_js__WEBPACK_IMPORTED_MODULE_0__.startTurn();\r\n        }\r\n    });\r\n}\r\nmain();\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/play.ts?");
+
+/***/ }),
+
 /***/ "./scripts/ui.ts":
 /*!***********************!*\
   !*** ./scripts/ui.ts ***!
@@ -57,16 +67,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"DragDetector\": () => (/* binding */ DragDetector)\n/* harmony export */ });\nconst canvas = document.querySelector('#glCanvas');\r\nconst gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');\r\n\r\nclass DragDetector {\r\n    constructor() {\r\n        this.mouseX = -1;\r\n        this.mouseY = -1;\r\n        this.mouseXOnDown = -1;\r\n        this.mouseYOnDown = -1;\r\n        this.pixelX = -1;\r\n        this.pixelY = -1;\r\n        this.pixels = new Uint8Array(4);\r\n        this.pixelsOnDown;\r\n        this.numOfMouseMoves = 0;\r\n    }\r\n\r\n    getNumOfMouseMoves() {\r\n        return this.numOfMouseMoves;\r\n    }\r\n\r\n    onPointerDown(x, y) {\r\n        this.mouseXOnDown = x;\r\n        this.mouseYOnDown = y;\r\n        this.pixelX = x * gl.canvas.width / gl.canvas.clientWidth;\r\n        this.pixelY = gl.canvas.height - y * gl.canvas.height / gl.canvas.clientHeight - 1;\r\n\r\n        this.numOfMouseMoves = 0;\r\n    }\r\n\r\n    onPointerMove(x, y) {\r\n        this.mouseX = x;\r\n        this.mouseY = y;\r\n        this.numOfMouseMoves++;\r\n    }\r\n\r\n    getDx() {\r\n        return this.mouseX - this.mouseXOnDown;\r\n    }\r\n\r\n    getDy() {\r\n        return this.mouseY - this.mouseYOnDown;\r\n    }\r\n}\n\n//# sourceURL=webpack://rubiks-cube/./scripts/dragDetector.js?");
-
-/***/ }),
-
-/***/ "./scripts/index.js":
-/*!**************************!*\
-  !*** ./scripts/index.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"main\": () => (/* binding */ main)\n/* harmony export */ });\n/* harmony import */ var _scene_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scene.js */ \"./scripts/scene.js\");\n/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timer.js */ \"./scripts/timer.js\");\n/* harmony import */ var _ui_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui.ts */ \"./scripts/ui.ts\");\n\r\n\r\n\r\n\r\nfunction newSolvedCube(numOfLayers) {\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"](numOfLayers);\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.buffers.initBufferData(_scene_js__WEBPACK_IMPORTED_MODULE_0__.cube);\r\n    _scene_js__WEBPACK_IMPORTED_MODULE_0__.render();\r\n}\r\n\r\nfunction main() {\r\n    (0,_ui_ts__WEBPACK_IMPORTED_MODULE_2__.listenToNavButtons)();\r\n\r\n    (0,_ui_ts__WEBPACK_IMPORTED_MODULE_2__.initCanvas)();\r\n\r\n    document.addEventListener('keydown', (event) => {\r\n        if (event.key == \" \") {\r\n            timer.startStop();\r\n        } else if (_scene_js__WEBPACK_IMPORTED_MODULE_0__.cube.matchKeyToTurn(event.key)) {\r\n            _scene_js__WEBPACK_IMPORTED_MODULE_0__.startTurn();\r\n        }\r\n    });\r\n}\r\n\r\nmain();\n\n//# sourceURL=webpack://rubiks-cube/./scripts/index.js?");
 
 /***/ }),
 
@@ -160,7 +160,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/index.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/play.ts");
 /******/ 	
 /******/ })()
 ;
