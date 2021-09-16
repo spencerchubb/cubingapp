@@ -17,6 +17,10 @@ export function main() {
         }
     });
 
+    document.querySelector("#openClose").addEventListener("click", (event) => {
+        document.querySelector("#lessonNavigator").classList.toggle("slideUpOpen");
+    });
+
     // const alg = "R U R' U' R U R' U'";
     const alg = "R U R' U R U U R'";
     const moves = alg.split(" ");

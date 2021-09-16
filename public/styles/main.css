@@ -46,6 +46,28 @@ html {
     padding: 2px 4px;
 }
 
+.slideUp {
+    position: absolute;
+    top: 100vh;
+    width: 100vw;
+    height: 50vh;
+    background: white;
+   
+    transition-duration: .5s;
+    transition-timing-function: ease-in-out;
+}
+
+.slideUpOpen {
+    top: 50vh;
+}
+
+.fixedBottom {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+}
+
 #time {
     font-size: 3em;
 }
