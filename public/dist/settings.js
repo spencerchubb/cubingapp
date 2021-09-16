@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./scripts/settings.ts":
+/*!*****************************!*\
+  !*** ./scripts/settings.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants.js */ \"./scripts/constants.js\");\n\r\nfunction speedInput(elementId) {\r\n    var element = document.querySelector(elementId);\r\n    element.value = localStorage.getItem(elementId) || _constants_js__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_SPEED;\r\n    element.addEventListener(\"change\", function (event) {\r\n        var target = event.target;\r\n        var newValue = target.value;\r\n        localStorage.setItem(elementId, newValue);\r\n    });\r\n}\r\nfunction main() {\r\n    speedInput(\"#keyboardSpeed\");\r\n    speedInput(\"#dragSpeed\");\r\n}\r\nmain();\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/settings.ts?");
+
+/***/ }),
+
 /***/ "./scripts/constants.js":
 /*!******************************!*\
   !*** ./scripts/constants.js ***!
@@ -17,16 +27,6 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"DEFAULT_SPEED\": () => (/* binding */ DEFAULT_SPEED)\n/* harmony export */ });\nconst DEFAULT_SPEED = \"0.3\";\n\n//# sourceURL=webpack://rubiks-cube/./scripts/constants.js?");
-
-/***/ }),
-
-/***/ "./scripts/settings.js":
-/*!*****************************!*\
-  !*** ./scripts/settings.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants.js */ \"./scripts/constants.js\");\n\r\n\r\nfunction speedInput(elementId) {\r\n    const element = document.querySelector(elementId);\r\n\r\n    element.value = localStorage.getItem(elementId) || _constants_js__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_SPEED;\r\n\r\n    element.addEventListener(\"change\", (event) => {\r\n        const newValue = event.target.value;\r\n        localStorage.setItem(elementId, newValue);\r\n    });\r\n}\r\n\r\nfunction main() {\r\n    const keyboardSpeed = speedInput(\"#keyboardSpeed\");\r\n    const dragSpeed = speedInput(\"#dragSpeed\");\r\n}\r\n\r\nmain();\n\n//# sourceURL=webpack://rubiks-cube/./scripts/settings.js?");
 
 /***/ })
 
@@ -90,7 +90,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _con
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/settings.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/settings.ts");
 /******/ 	
 /******/ })()
 ;

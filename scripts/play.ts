@@ -41,7 +41,7 @@ export function main() {
         if (event.key == " ") {
             timer.startStop();
         } else if (scene.cube.matchKeyToTurn(event.key)) {
-            scene.startTurn();
+            scene.animateTurn();
         }
     });
 }

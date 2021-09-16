@@ -12,11 +12,11 @@ export const dragDetector = new DragDetector();
 let programInfo;
 
 let angle = 0.0;
-let delta = 0.0;
 let isTurning = false;
 let numTurnsQueued = 0;
 let time = Date.now();
 let rotationAxis = [1, 0, 0];
+let onTurnFinish = () => { }
 
 function setRotationAxis(axis, clockwise) {
     let x = clockwise ? -1 : 1;
@@ -31,12 +31,13 @@ function setRotationAxis(axis, clockwise) {
     }
 }
 
-export function startTurn() {
+export function animateTurn(newOnTurnFinish) {
     setRotationAxis(cube.axis, cube.clockwise);
 
     angle = 0.0;
     time = Date.now();
     isTurning = true;
+    onTurnFinish = newOnTurnFinish;
 
     numTurnsQueued += 1;
 
@@ -45,7 +46,9 @@ export function startTurn() {
 
 export function render() {
     drawScene();
-    renderLoop();
+    requestAnimationFrame(() => {
+        updateScene();
+    });
 }
 
 function updateScene() {
@@ -54,20 +57,16 @@ function updateScene() {
         angle += (newTime - time) / cube.factor;
         time = newTime;
         if (angle >= Math.PI / 2 || numTurnsQueued > 1) {
+            angle = 0.0;
             isTurning = false;
             numTurnsQueued = 0;
             cube.resetAffectedStickers();
             cube.setStickers();
+            if (onTurnFinish) onTurnFinish();
         }
 
         render();
     }
-}
-
-function renderLoop() {
-    requestAnimationFrame(() => {
-        updateScene();
-    });
 }
 
 export function initScene() {
@@ -237,7 +236,7 @@ function drawScene() {
     function drawObjects(range, selectBuffers) {
         for (let i = 0; i < range; i++) {
             let object = buffers.objects[i];
-    
+
             // Matrix specific to this object
             const m = mat4.create();
             mat4.rotate(
@@ -246,13 +245,13 @@ function drawScene() {
                 affectedStickers[i] ? angle : 0,
                 rotationAxis,
             );
-    
+
             gl.uniformMatrix4fv(
                 programInfo.uniformLocations.modelViewMatrix,
                 false,
                 m,
             );
-    
+
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
             const selected = selectBuffers(i);
             if (selected.color == undefined) {

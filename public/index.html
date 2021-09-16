@@ -20,7 +20,12 @@
     </nav>
 
     <div id="main-container">
-        <p id="time"></p>
+        <button id="startStopAnimation" class="btn btn-primary">Start</button>
+        <div style="display: flex; flex-direction: row;">
+            <button id="leftButton" class="btn btn-primary"><</button>
+            <div style="width: 8px;"></div>
+            <button id="rightButton" class="btn btn-primary">></button>
+        </div>
         <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
     </div>
 
