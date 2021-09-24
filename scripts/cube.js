@@ -3,12 +3,30 @@ import { DEFAULT_SPEED } from "./constants.js";
 const canvas = document.querySelector('#glCanvas');
 const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
-const WHITE = [1.0, 1.0, 1.0, 1.0];
-const YELLOW = [1.0, 1.0, 0.0, 1.0];
-const GREEN = [0.0, 1.0, 0.0, 1.0];
-const BLUE = [0.0, 0.0, 1.0, 1.0];
-const ORANGE = [1.0, 0.5, 0.0, 1.0];
-const RED = [1.0, 0.0, 0.0, 1.0];
+const WHITE = {
+    active: [1.0, 1.0, 1.0, 1.0],
+    inactive: [0.5, 0.5, 0.5, 1.0],
+}
+const YELLOW = {
+    active: [1.0, 1.0, 0.0, 1.0],
+    inactive: [0.5, 0.5, 0.0, 1.0],
+}
+const GREEN = {
+    active: [0.0, 1.0, 0.0, 1.0],
+    inactive: [0.0, 0.5, 0.0, 1.0],
+}
+const BLUE = {
+    active: [0.0, 0.0, 1.0, 1.0],
+    inactive: [0.0, 0.0, 0.5, 1.0],
+}
+const ORANGE = {
+    active: [1.0, 0.5, 0.0, 1.0],
+    inactive: [0.5, 0.25, 0.0, 1.0],
+}
+const RED = {
+    active: [1.0, 0.0, 0.0, 0.5],
+    inactive: [0.5, 0.0, 0.0, 1.0],
+}
 
 const DEFAULT_NUM_OF_LAYERS = 3;
 
@@ -17,7 +35,9 @@ const turnTypes = {
     DRAG: 1,
 }
 
-function repeatColorFor4Vertices(rgba) {
+function repeatColorFor4Vertices(color, activeStickers, sticker) {
+    let rgba = activeStickers.includes(sticker) ? color.active : color.inactive;
+    
     let arr = [];
     for (let i = 0; i < 4; i++) {
         arr.push(rgba[0], rgba[1], rgba[2], rgba[3]);
@@ -30,15 +50,16 @@ function repeatColorFor4Vertices(rgba) {
     return buffer;
 }
 
-function pushN(arr, color, n) {
-    for (let i = 0; i < n; i++) {
-        arr.push(repeatColorFor4Vertices(color));
+function pushN(cube, color, face) {
+    for (let i = 0; i < cube.layersSq; i++) {
+        cube.stickers.push(repeatColorFor4Vertices(color, cube.activeStickers, face + i));
     }
 }
 
 export class CubeLogic {
     constructor() {
-        this.new(DEFAULT_NUM_OF_LAYERS);
+        // this.setNumOfLayers(DEFAULT_NUM_OF_LAYERS);
+        // this.new();
 
         const keyboardSpeed = localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED;
         const dragSpeed = localStorage.getItem("#dragSpeed") || DEFAULT_SPEED;
@@ -49,27 +70,23 @@ export class CubeLogic {
         // The factor should be set each time you start a new turn type, whether it be keyboard or drag.
         // This is because the different turn types may be a different speed.
         this.factor = this.keyboardSpeedFactor;
-
-        console.log(keyboardSpeed, dragSpeed);
-        console.log(this.keyboardSpeedFactor, this.dragSpeedFactor);
     }
 
-    new(numOfLayers) {
-        this.numOfLayers = parseInt(numOfLayers);
-        this.layersSq = numOfLayers * numOfLayers;
-        this.layersHalf = parseInt(numOfLayers / 2);
-        this.layersEven = numOfLayers % 2 == 0;
-        this.numOfStickers = this.layersSq * 6;
+    new() {
         this.axis = 0;
 
-        this.stickers = [];
-        pushN(this.stickers, WHITE, this.layersSq);
-        pushN(this.stickers, GREEN, this.layersSq);
-        pushN(this.stickers, YELLOW, this.layersSq);
-        pushN(this.stickers, BLUE, this.layersSq);
-        pushN(this.stickers, ORANGE, this.layersSq);
-        pushN(this.stickers, RED, this.layersSq);
+        if (!this.activeStickers) {
+            this.activeStickers = [];
+        }
 
+        this.stickers = [];
+        console.log(this.activeStickers);
+        pushN(this, WHITE, 0);
+        pushN(this, GREEN, 9);
+        pushN(this, YELLOW, 18);
+        pushN(this, BLUE, 27);
+        pushN(this, ORANGE, 36);
+        pushN(this, RED, 45);
         this.resetAffectedStickers();
         this.setStickers();
     }
@@ -84,6 +101,14 @@ export class CubeLogic {
         }
 
         this.setStickers();
+    }
+
+    setNumOfLayers(num) {
+        this.numOfLayers = parseInt(num);
+        this.layersSq = this.numOfLayers * this.numOfLayers;
+        this.layersHalf = parseInt(this.numOfLayers / 2);
+        this.layersEven = this.numOfLayers % 2 == 0;
+        this.numOfStickers = this.layersSq * 6;
     }
 
     getStickers() {
@@ -103,6 +128,17 @@ export class CubeLogic {
         this.affectedStickers = [];
         for (let i = 0; i < numOfStickers; i++) {
             this.affectedStickers.push(false);
+        }
+    }
+
+    setActiveStickers(arr) {
+        this.activeStickers = arr;
+    }
+
+    activateAllStickers() {
+        this.activeStickers = [];
+        for (let i = 0; i < this.numOfStickers; i++) {
+            this.activeStickers.push(i);
         }
     }
 

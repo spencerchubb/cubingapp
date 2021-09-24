@@ -2,9 +2,16 @@ html {
     height: 100%;
 }
 
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
 #indexPage {
     margin: 0;
-    background: linear-gradient(white, rgb(70, 70, 70));
+    background: #595959;
+    display: flex;
+    flex-direction: column;
 
     /* Prevent scrolling and refresh on mobile */
     width: 100%;
@@ -15,23 +22,13 @@ html {
     bottom: 0;
 }
 
-#main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    margin: 75px 0 0 0;
-}
-
 .navbar {
     background-color: rgb(61, 75, 116);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    position: fixed;
     width: 100%;
-    top: 0px;
     padding: 12px 0;
 }
 
@@ -39,6 +36,31 @@ html {
     font-size: 1.5em;
     color: white;
     margin-bottom: 0;
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#moveCounter {
+    color: white;
+}
+
+#lessonHeader {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#lessonText {
+    color: white;
+    text-align: left;
+    padding: 0 24px;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 #layerInput {

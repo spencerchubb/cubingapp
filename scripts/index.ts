@@ -2,6 +2,28 @@ import * as scene from "./scene.js";
 import { initCanvas, listenToNavButtons } from "./ui";
 import { DEFAULT_SPEED } from "./constants.js";
 
+const CENTERS = [4, 13, 22, 31, 40, 49];
+const UBL = [0, 29, 36];
+const URB = [6, 35, 51];
+const ULF = [2, 9, 42];
+const UFR = [8, 15, 45];
+const DFL = [18, 11, 44];
+const DRF = [24, 47, 17];
+const DLB = [20, 38, 27];
+const DBR = [26, 33, 53];
+const UB = [3, 32];
+const UL = [1, 39];
+const UR = [7, 48];
+const UF = [5, 12];
+const FL = [10, 43];
+const FR = [16, 46];
+const DF = [21, 14];
+const DL = [19, 41];
+const DR = [25, 50];
+const DB = [23, 30];
+const BL = [28, 37];
+const BR = [34, 52];
+
 const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED) * 1000;
 // +200 for latency
 const timePerTurn = speed + 200;
@@ -9,6 +31,8 @@ const timePerTurn = speed + 200;
 export function main() {
     listenToNavButtons();
 
+    scene.cube.setNumOfLayers(3);
+    scene.cube.new();
     initCanvas();
 
     document.addEventListener("keydown", (event) => {
@@ -17,15 +41,205 @@ export function main() {
         }
     });
 
+    const lessonNavigator = document.querySelector("#lessonNavigator");
+    function toggleLessonNavigator() {
+        lessonNavigator.classList.toggle("slideUpOpen");
+    }
     document.querySelector("#openClose").addEventListener("click", (event) => {
-        document.querySelector("#lessonNavigator").classList.toggle("slideUpOpen");
+        toggleLessonNavigator();
+    });
+
+    // active stickers
+    // centers: 4, 13, 22, 31, 40, 49
+    // UBL: 0, 29, 36
+    const lessonsData = [
+        {
+            "title": "Intro",
+            "lessons": [
+                {
+                    "title": "About this tutorial",
+                    "algorithm": "",
+                    "text": `
+                    TODO
+                    `,
+                    "activeStickers": [],
+                },
+                {
+                    "title": "Centers",
+                    "algorithm": "",
+                    "text": `
+                    In this tutorial, we will refer to different types of pieces. One of these types are
+                    the centers, which are highlighted in the animation.
+                    `,
+                    "activeStickers": [...CENTERS],
+                },
+                {
+                    "title": "Corners",
+                    "algorithm": "",
+                    "text": `
+                    Now in the animation, the corners and the centers are highlighted.
+                    `,
+                    "activeStickers": [
+                        ...UBL,
+                        ...URB,
+                        ...ULF,
+                        ...UFR,
+                        ...DFL,
+                        ...DRF,
+                        ...DLB,
+                        ...DBR,
+                        ...CENTERS,
+                    ],
+                },
+                {
+                    "title": "Edges",
+                    "algorithm": "",
+                    "text": `
+                    The edges and centers are highlighted. This is the last category of piece that
+                    you need to know for the tutorial.
+                    `,
+                    "activeStickers": [
+                        ...UB,
+                        ...UL,
+                        ...UR,
+                        ...UF,
+                        ...FL,
+                        ...FR,
+                        ...DF,
+                        ...DL,
+                        ...DR,
+                        ...DB,
+                        ...BL,
+                        ...BR,
+                        ...CENTERS,
+                    ],
+                }
+            ]
+        },
+        {
+            "title": "Cross",
+            "lessons": [
+                {
+                    "title": "Get cross piece on bottom"
+                },
+                {
+                    "title": "Insert cross piece"
+                },
+            ]
+        },
+        {
+            "title": "First layer corners",
+            "lessons": [
+                {
+                    "title": "Prepare corner to insert"
+                },
+                {
+                    "title": "Insert corner",
+                    "algorithm": "R U R' U'",
+                    "text": `
+                    We only need one algorithm to insert the corners of the first layer. The key here
+                    is knowing how to use the algorithm based on what case you are given.
+                    `,
+                    "activeStickers": [0, 29, 36, 4, 13, 22, 31, 40, 49],
+                }
+            ]
+        },
+        {
+            "title": "Second layer edges",
+            "lessons": [
+                {
+                    "title": "Prepare edge to insert"
+                },
+                {
+                    "title": "Insert edge"
+                }
+            ]
+        },
+        {
+            "title": "Last layer",
+            "lessons": [
+                {
+                    "title": "OELL"
+                },
+                {
+                    "title": "OCLL"
+                },
+                {
+                    "title": "CPLL"
+                },
+                {
+                    "title": "EPLL"
+                }
+            ]
+        }
+    ];
+
+    lessonsData.forEach((l0, i0) => {
+        const p = document.createElement("p");
+        p.textContent = l0.title;
+        p.style.fontWeight = "bold";
+        lessonNavigator.appendChild(p);
+
+        l0.lessons.forEach((l1, i1) => {
+            const p = document.createElement("p");
+            p.textContent = l1.title;
+            p.style.margin = "8px 0 8px 16px";
+            p.addEventListener("click", (event) => {
+                loadLesson(i0, i1);
+            });
+            lessonNavigator.appendChild(p);
+        });
     });
 
     // const alg = "R U R' U' R U R' U'";
-    const alg = "R U R' U R U U R'";
-    const moves = alg.split(" ");
+    // const alg = "R U R' U R U U R'";
+    // let alg = "F D F' D' L B L' B'";
+    let alg = "";
+    let moves: string[] = [];
     let moveIndex = 0;
     let animationRunning = false;
+
+    const moveCounter = document.querySelector("#moveCounter");
+    function updateMoveCounter(i: number) {
+        moveCounter.textContent = `${i} / ${moves.length}`;
+    }
+    updateMoveCounter(0);
+
+    /**
+     * 
+     * @param i0 Index of the lesson (eg, Cross)
+     * @param i1 Index of the sublesson
+     */
+    function loadLesson(i0: number, i1: number) {
+        const lesson = lessonsData[i0].lessons[i1];
+
+        const lessonHeader = document.querySelector("#lessonHeader");
+        lessonHeader.textContent = lesson.title;
+
+        const lessonText = document.querySelector("#lessonText");
+        lessonText.textContent = lesson.text;
+
+        alg = lesson.algorithm;
+        if (!alg || alg === "") {
+            moves = [];
+        } else {
+            moves = alg.split(" ");
+        }
+        moveIndex = 0;
+        for (let i = moves.length - 1; i >= 0; i--) {
+            takeStepInAlgorithm(moves[i], false);
+        }
+
+        updateMoveCounter(0);
+
+        scene.cube.setActiveStickers(lesson.activeStickers);
+        scene.cube.setNumOfLayers(3);
+        scene.cube.new();
+        scene.buffers.initBufferData(scene.cube);
+        scene.render();
+
+        toggleLessonNavigator();
+    }
 
     const startStopAnimation = document.querySelector("#startStopAnimation");
     function toggleStartStop() {
@@ -42,9 +256,9 @@ export function main() {
     });
 
     function recursiveTurn() {
-        console.log("recursive call...");
-        takeStepInAlgorithm(true);
+        takeStepInAlgorithm(moves[moveIndex], true);
         moveIndex++;
+        updateMoveCounter(moveIndex);
         scene.animateTurn(() => {
             if (moveIndex < moves.length && animationRunning) {
                 recursiveTurn();
@@ -57,26 +271,53 @@ export function main() {
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
             moveIndex--;
-            takeStepInAlgorithm(false);
+            takeStepInAlgorithm(moves[moveIndex], false);
             scene.animateTurn();
+
+            updateMoveCounter(moveIndex);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
         if (moveIndex < moves.length) {
-            takeStepInAlgorithm(true);
+            takeStepInAlgorithm(moves[moveIndex], true);
             scene.animateTurn();
             moveIndex++;
+
+            updateMoveCounter(moveIndex);
         }
     });
 
-    function takeStepInAlgorithm(forward: boolean) {
-        const move = moves[moveIndex];
+    function takeStepInAlgorithm(move: string, forward: boolean) {
         switch (move) {
             case "U":
                 scene.cube.turn(1, 0, forward);
                 break;
             case "U'":
                 scene.cube.turn(1, 0, !forward);
+                break;
+            case "D":
+                scene.cube.turn(1, 2, !forward);
+                break;
+            case "D'":
+                scene.cube.turn(1, 2, forward);
+                break;
+            case "F":
+                scene.cube.turn(2, 0, forward);
+                break;
+            case "F'":
+                scene.cube.turn(2, 0, !forward);
+                break;
+            case "B":
+                scene.cube.turn(2, 2, !forward);
+                break;
+            case "B'":
+                scene.cube.turn(2, 2, forward);
+                break
+            case "L":
+                scene.cube.turn(0, 2, !forward);
+                break;
+            case "L'":
+                scene.cube.turn(0, 2, forward);
                 break;
             case "R":
                 scene.cube.turn(0, 0, forward);

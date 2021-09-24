@@ -25,7 +25,6 @@ function posRelativeToCanvas(x: number, y: number) {
 }
 
 export function initCanvas() {
-    console.log("hi!!!");
     scene.buffers.initBufferData(scene.cube);
     scene.initScene();
 

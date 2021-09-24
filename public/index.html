@@ -11,22 +11,30 @@
 </head>
 
 <body id="indexPage">
-    <nav>
-        <div class="navbar">
-            <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                <img id="menu" src="./images/menu.svg" alt="Menu">
-            </a>
-        </div>
+    <nav class="navbar">
+        <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+            <img id="menu" src="./images/menu.svg" alt="Menu">
+        </a>
     </nav>
 
     <div id="main-container">
+        <div style="padding: 16px 0 0 0"></div>
         <button id="startStopAnimation" class="btn btn-primary">Start</button>
+        <div style="padding: 16px 0 0 0"></div>
+        <p id="moveCounter"></p>
+        <div style="padding: 8px 0 0 0"></div>
         <div style="display: flex; flex-direction: row;">
-            <button id="leftButton" class="btn btn-primary"><</button>
+            <!-- &lt is less than -->
+            <button id="leftButton" class="btn btn-primary">&lt;</button>
             <div style="width: 8px;"></div>
             <button id="rightButton" class="btn btn-primary">></button>
         </div>
         <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
+        <div style="padding: 16px 0 0 0"></div>
+        <p id="lessonHeader"></p>
+        <div style="padding: 8px 0 0 0"></div>
+        <p id="lessonText"></p>
+        <div style="padding: 48px 0 0 0"></div>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -50,16 +58,6 @@
     </div>
 
     <div id="lessonNavigator" class="slideUp" style="padding: 16px; overflow-y: auto;">
-        <p>1. Cross</p>
-        <p>&emsp;random</p>
-        <p>&emsp;random</p>
-        <p>&emsp;random</p>
-        <p>2. First Layer Corners</p>
-        <p>&emsp;random</p>
-        <p>3. Second Layer Edges</p>
-        <p>&emsp;random</p>
-        <p>4. Last Layer</p>
-        <p>&emsp;random</p>
     </div>
 
     <button id="openClose" class="fixedBottom">Lessons</button>
