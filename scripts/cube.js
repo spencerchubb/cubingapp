@@ -28,8 +28,6 @@ const RED = {
     inactive: [0.5, 0.0, 0.0, 1.0],
 }
 
-const DEFAULT_NUM_OF_LAYERS = 3;
-
 const turnTypes = {
     KEYBOARD: 0,
     DRAG: 1,
@@ -58,9 +56,6 @@ function pushN(cube, color, face) {
 
 export class CubeLogic {
     constructor() {
-        // this.setNumOfLayers(DEFAULT_NUM_OF_LAYERS);
-        // this.new();
-
         const keyboardSpeed = localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED;
         const dragSpeed = localStorage.getItem("#dragSpeed") || DEFAULT_SPEED;
 

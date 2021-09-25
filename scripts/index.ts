@@ -28,6 +28,16 @@ const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAU
 // +200 for latency
 const timePerTurn = speed + 200;
 
+function parseMovesFromAlg(alg?: string): string[] {
+    let moves: string[] = [];
+    if (!alg || alg === "") {
+        moves = [];
+    } else {
+        moves = alg.split(" ");
+    }
+    return moves;
+}
+
 export function main() {
     listenToNavButtons();
 
@@ -41,32 +51,47 @@ export function main() {
         }
     });
 
-    // active stickers
-    // centers: 4, 13, 22, 31, 40, 49
-    // UBL: 0, 29, 36
-    const lessonsData = [
+
+    interface Lesson {
+        title: string,
+        lessons: Sublesson[],
+    }
+    interface Sublesson {
+        title: string,
+        setup?: string,
+        algorithm?: string,
+        text?: string,
+        activeStickers?: number[],
+    }
+
+    const lessonsData: Lesson[] = [
         {
             "title": "Intro",
             "lessons": [
                 {
                     "title": "About this tutorial",
-                    "algorithm": "",
+                    "setup": "",
+                    "algorithm": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L",
                     "text": `
-                    TODO
+                    This section simply explains how the tutorial works. Each section will come with an animation
+                    so you can understand what the step looks like. Use the arrow buttons above to try
+                    the animation! We gave you a dummy example of some moves.
                     `,
                     "activeStickers": [],
                 },
                 {
                     "title": "Centers",
+                    "setup": "",
                     "algorithm": "x x x' x' y y y' y'",
                     "text": `
-                    In this tutorial, we will refer to different types of pieces. One of these types are
+                    In this tutorial, we will refer to different types of pieces. One of these types is
                     the centers, which are highlighted in the animation.
                     `,
-                    "activeStickers": [...CENTERS],
+                    "activeStickers": [...CENTERS]
                 },
                 {
                     "title": "Corners",
+                    "setup": "",
                     "algorithm": "x x x' x' y y y' y'",
                     "text": `
                     Now in the animation, the corners and the centers are highlighted.
@@ -81,10 +106,11 @@ export function main() {
                         ...DLB,
                         ...DBR,
                         ...CENTERS,
-                    ],
+                    ]
                 },
                 {
                     "title": "Edges",
+                    "setup": "",
                     "algorithm": "x x x' x' y y y' y'",
                     "text": `
                     The edges and centers are highlighted. This is the last category of piece that
@@ -105,17 +131,34 @@ export function main() {
                         ...BR,
                         ...CENTERS,
                     ],
-                }
-            ]
+                },
+            ],
         },
         {
             "title": "Cross",
             "lessons": [
                 {
-                    "title": "Get cross piece on bottom"
+                    "title": "About the cross",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F'",
+                    "algorithm": "y y y y",
+                    "text": `
+                    Once you solve the cross, it should look like the animation.
+                    You should be able to see how it forms a white cross, hence the name of the step.
+                    Try the arrow buttons so you can see how it looks from all angles.
+                    `,
+                    "activeStickers": [
+                        ...UB,
+                        ...UL,
+                        ...UR,
+                        ...UF,
+                        ...CENTERS,
+                    ],
                 },
                 {
-                    "title": "Insert cross piece"
+                    "title": "Get cross piece on bottom",
+                },
+                {
+                    "title": "Insert cross piece",
                 },
             ]
         },
@@ -123,7 +166,7 @@ export function main() {
             "title": "First layer corners",
             "lessons": [
                 {
-                    "title": "Prepare corner to insert"
+                    "title": "Prepare corner to insert",
                 },
                 {
                     "title": "Insert corner",
@@ -218,6 +261,9 @@ export function main() {
     }
     updateMoveCounter(0);
 
+    // Load the 0th index by default.
+    updateLessonIndex(0);
+
     /**
      * 
      * @param i0 Index of the lesson (eg, Cross)
@@ -233,11 +279,7 @@ export function main() {
         lessonText.textContent = lesson.text;
 
         alg = lesson.algorithm;
-        if (!alg || alg === "") {
-            moves = [];
-        } else {
-            moves = alg.split(" ");
-        }
+        moves = parseMovesFromAlg(alg);
         moveIndex = 0;
         for (let i = moves.length - 1; i >= 0; i--) {
             takeStepInAlgorithm(moves[i], false);
@@ -249,6 +291,14 @@ export function main() {
         scene.cube.setNumOfLayers(3);
         scene.cube.new();
         scene.buffers.initBufferData(scene.cube);
+
+        const setup = lesson.setup;
+        const setupMoves = parseMovesFromAlg(setup);
+        setupMoves.forEach(move => {
+            takeStepInAlgorithm(move, true);
+        });
+        scene.cube.setStickers();
+
         scene.render();
     }
 
