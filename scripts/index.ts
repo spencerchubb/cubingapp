@@ -41,14 +41,6 @@ export function main() {
         }
     });
 
-    const lessonNavigator = document.querySelector("#lessonNavigator");
-    function toggleLessonNavigator() {
-        lessonNavigator.classList.toggle("slideUpOpen");
-    }
-    document.querySelector("#openClose").addEventListener("click", (event) => {
-        toggleLessonNavigator();
-    });
-
     // active stickers
     // centers: 4, 13, 22, 31, 40, 49
     // UBL: 0, 29, 36
@@ -66,7 +58,7 @@ export function main() {
                 },
                 {
                     "title": "Centers",
-                    "algorithm": "",
+                    "algorithm": "x x x' x' y y y' y'",
                     "text": `
                     In this tutorial, we will refer to different types of pieces. One of these types are
                     the centers, which are highlighted in the animation.
@@ -75,7 +67,7 @@ export function main() {
                 },
                 {
                     "title": "Corners",
-                    "algorithm": "",
+                    "algorithm": "x x x' x' y y y' y'",
                     "text": `
                     Now in the animation, the corners and the centers are highlighted.
                     `,
@@ -93,7 +85,7 @@ export function main() {
                 },
                 {
                     "title": "Edges",
-                    "algorithm": "",
+                    "algorithm": "x x x' x' y y y' y'",
                     "text": `
                     The edges and centers are highlighted. This is the last category of piece that
                     you need to know for the tutorial.
@@ -174,6 +166,24 @@ export function main() {
         }
     ];
 
+    // Array of index pairs for convenience when clicking prev or next.
+    let lessonIndices: any[] = [];
+
+    let currentLessonIndex = 0;
+    function updateLessonIndex(i: number) {
+        if (i < 0) {
+            return;
+        } else if (i > lessonIndices.length - 1) {
+            return;
+        }
+
+        currentLessonIndex = i;
+        const pair = lessonIndices[i];
+        loadLesson(pair.i0, pair.i1);
+    }
+
+    const lessonNavigator = document.querySelector("#lessonNavigator");
+
     lessonsData.forEach((l0, i0) => {
         const p = document.createElement("p");
         p.textContent = l0.title;
@@ -186,14 +196,17 @@ export function main() {
             p.style.margin = "8px 0 8px 16px";
             p.addEventListener("click", (event) => {
                 loadLesson(i0, i1);
+                toggleLessonNavigator();
             });
             lessonNavigator.appendChild(p);
+
+            lessonIndices.push({
+                i0: i0,
+                i1: i1,
+            });
         });
     });
 
-    // const alg = "R U R' U' R U R' U'";
-    // const alg = "R U R' U R U U R'";
-    // let alg = "F D F' D' L B L' B'";
     let alg = "";
     let moves: string[] = [];
     let moveIndex = 0;
@@ -237,8 +250,6 @@ export function main() {
         scene.cube.new();
         scene.buffers.initBufferData(scene.cube);
         scene.render();
-
-        toggleLessonNavigator();
     }
 
     const startStopAnimation = document.querySelector("#startStopAnimation");
@@ -287,8 +298,39 @@ export function main() {
         }
     });
 
+    function toggleLessonNavigator() {
+        lessonNavigator.classList.toggle("slideUpOpen");
+    }
+    document.querySelector("#openClose").addEventListener("click", (event) => {
+        toggleLessonNavigator();
+    });
+    document.querySelector("#prevLesson").addEventListener("click", () => {
+        updateLessonIndex(currentLessonIndex - 1);
+    });
+    document.querySelector("#nextLesson").addEventListener("click", () => {
+        updateLessonIndex(currentLessonIndex + 1);
+    });
+
     function takeStepInAlgorithm(move: string, forward: boolean) {
         switch (move) {
+            case "x":
+                scene.cube.cubeRotate(0, forward);
+                break;
+            case "x'":
+                scene.cube.cubeRotate(0, !forward);
+                break;
+            case "y":
+                scene.cube.cubeRotate(1, forward);
+                break;
+            case "y'":
+                scene.cube.cubeRotate(1, !forward);
+                break;
+            case "z":
+                scene.cube.cubeRotate(2, forward);
+                break;
+            case "z'":
+                scene.cube.cubeRotate(2, !forward);
+                break;
             case "U":
                 scene.cube.turn(1, 0, forward);
                 break;
