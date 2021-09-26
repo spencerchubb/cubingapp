@@ -23,6 +23,13 @@ const DR = [25, 50];
 const DB = [23, 30];
 const BL = [28, 37];
 const BR = [34, 52];
+const crossPieces = [
+    ...UB,
+    ...UL,
+    ...UR,
+    ...UF,
+    ...CENTERS,
+];
 
 const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED) * 1000;
 // +200 for latency
@@ -146,16 +153,18 @@ export function main() {
                     You should be able to see how it forms a white cross, hence the name of the step.
                     Try the arrow buttons so you can see how it looks from all angles.
                     `,
-                    "activeStickers": [
-                        ...UB,
-                        ...UL,
-                        ...UR,
-                        ...UF,
-                        ...CENTERS,
-                    ],
+                    "activeStickers": crossPieces,
                 },
                 {
-                    "title": "Get cross piece on bottom",
+                    "title": "Case 1",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F D",
+                    "algorithm": "D' F F",
+                    "text": `
+                    In this case, we want to insert the green white sticker. It is currently at the bottom-right
+                    of the animation, and it needs to go in the top-front position. First we will
+                    move the bottom layer to line it up. Then we will move the front layer.
+                    `,
+                    "activeStickers": crossPieces,
                 },
                 {
                     "title": "Insert cross piece",
@@ -253,7 +262,6 @@ export function main() {
     let alg = "";
     let moves: string[] = [];
     let moveIndex = 0;
-    let animationRunning = false;
 
     const moveCounter = document.querySelector("#moveCounter");
     function updateMoveCounter(i: number) {
@@ -300,33 +308,6 @@ export function main() {
         scene.cube.setStickers();
 
         scene.render();
-    }
-
-    const startStopAnimation = document.querySelector("#startStopAnimation");
-    function toggleStartStop() {
-        animationRunning = !animationRunning;
-        if (animationRunning) {
-            startStopAnimation.textContent = "Pause";
-            recursiveTurn();
-        } else {
-            startStopAnimation.textContent = "Start";
-        }
-    }
-    startStopAnimation.addEventListener("click", (event) => {
-        toggleStartStop();
-    });
-
-    function recursiveTurn() {
-        takeStepInAlgorithm(moves[moveIndex], true);
-        moveIndex++;
-        updateMoveCounter(moveIndex);
-        scene.animateTurn(() => {
-            if (moveIndex < moves.length && animationRunning) {
-                recursiveTurn();
-            } else {
-                toggleStartStop();
-            }
-        });
     }
 
     document.querySelector("#leftButton").addEventListener("click", (event) => {
