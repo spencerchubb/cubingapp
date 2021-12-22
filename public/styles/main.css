@@ -7,6 +7,10 @@ p, h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 
+.lessonNavButton {
+    background: pink;
+}
+
 #indexPage {
     margin: 0;
     background: #595959;
@@ -69,18 +73,18 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .slideUp {
+    border-radius: 8px 8px 0 0;
     position: absolute;
-    top: 100vh;
+    bottom: -50vh;
     width: 100vw;
     height: 50vh;
     background: white;
-   
     transition-duration: .5s;
     transition-timing-function: ease-in-out;
 }
 
 .slideUpOpen {
-    top: 50vh;
+    bottom: 0vh;
 }
 
 .fixedBottom {
@@ -92,6 +96,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 #time {
     font-size: 3em;
+    color: white;
 }
 
 .offcanvas {

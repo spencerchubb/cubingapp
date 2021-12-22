@@ -130,6 +130,11 @@ export class CubeLogic {
         this.activeStickers = arr;
     }
 
+    // Turning will be disabled on the "learn" page. There will be an animation instead of letting the user turn.
+    setDisableTurn(val) {
+        this.disableTurn = val;
+    }
+
     activateAllStickers() {
         this.activeStickers = [];
         for (let i = 0; i < this.numOfStickers; i++) {
@@ -300,6 +305,8 @@ export class CubeLogic {
     }
 
     matchKeyToTurn(key) {
+        if (this.disableTurn) return;
+
         this.turnType = turnTypes.KEYBOARD;
         this.factor = this.keyboardSpeedFactor;
 
@@ -392,6 +399,8 @@ export class CubeLogic {
     }
 
     doTurnFromMouseDrag(id, dx, dy) {
+        if (this.disableTurn) return;
+
         this.turnType = turnTypes.DRAG;
         this.factor = this.dragSpeedFactor;
 
@@ -413,6 +422,8 @@ export class CubeLogic {
     }
 
     doCubeRotateFromMouseDrag(x, y, dx, dy) {
+        if (this.disableTurn) return;
+        
         this.turnType = turnTypes.DRAG;
         this.factor = this.dragSpeedFactor;
 
@@ -453,12 +464,5 @@ export class CubeLogic {
             console.log("bottom right");
             this.cubeRotate(1, dx < 0);
         }
-    }
-
-    doCubeRotateFromButton(axis, clockwise) {
-        this.turnType = turnTypes.DRAG;
-        this.factor = this.dragSpeedFactor;
-
-        this.cubeRotate(axis, clockwise);
     }
 }

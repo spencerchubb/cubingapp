@@ -55,15 +55,21 @@
         </div>
     </div>
 
-    <div id="lessonNavigator" class="slideUp" style="padding: 16px; overflow-y: auto;">
+    <div id="lessonNavigator" class="slideUp" style="padding: 24px 16px 16px 16px; overflow-y: auto; z-index: 1;">
+        <button id="closeLessonNavigator"
+            style="padding: 2px; border-radius: 4px; background: #eee; border: none; outline: none; position: absolute; top: 16px; right: 18px; font-size: 16px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2"/>
+            </svg>
+        </button>
     </div>
 
     <div class="fixedBottom" style="display: flex; flex-direction: row;">
-        <button id="prevLesson">Prev</button>
+        <button id="prevLesson" class="btn btn-primary">Prev</button>
         <div style="width: 16px;"></div>
-        <button id="openClose">Lessons</button>
+        <button id="openClose" class="btn btn-primary">Lessons</button>
         <div style="width: 16px;"></div>
-        <button id="nextLesson">Next</button>
+        <button id="nextLesson" class="btn btn-primary">Next</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

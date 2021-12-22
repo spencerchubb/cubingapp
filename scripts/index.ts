@@ -81,6 +81,7 @@ export function main() {
 
     scene.cube.setNumOfLayers(3);
     scene.cube.new();
+    scene.cube.setDisableTurn(true);
     initCanvas();
 
     document.addEventListener("keydown", (event) => {
@@ -515,7 +516,9 @@ export function main() {
     // Array of index pairs for convenience when clicking prev or next.
     let lessonIndices: any[] = [];
 
-    let currentLessonIndex = 0;
+    // The index of the selected sublesson with all of the sublessons combined. Kind of like you "flatten" the 2d array and index that.
+    let flattenedLessonIndex = 0;
+
     let currentLesson: Sublesson;
     let currentMoves: string[] = [];
     function updateLessonIndex(i: number) {
@@ -525,27 +528,42 @@ export function main() {
             return;
         }
 
-        currentLessonIndex = i;
+        flattenedLessonIndex = i;
         const pair = lessonIndices[i];
         loadLesson(pair.i0, pair.i1);
     }
 
     const lessonNavigator = document.querySelector("#lessonNavigator");
 
+    let sublessonElements: HTMLElement[][] = [];
+    let selectedLessonIndex: number;
+    let selectedSublessonIndex: number;
+
     lessonsData.forEach((l0, i0) => {
         const p = document.createElement("p");
         p.textContent = l0.title;
         p.style.fontWeight = "bold";
         lessonNavigator.appendChild(p);
+        sublessonElements.push([]);
 
         l0.lessons.forEach((l1, i1) => {
             const p = document.createElement("p");
             p.textContent = l1.title;
-            p.style.margin = "8px 0 8px 16px";
+            p.style.padding = "4px";
+            p.style.margin = "4px 4px 4px 8px"
+            p.style.borderRadius = "4px";
             p.addEventListener("click", (event) => {
+                for (let i = 0; i < lessonIndices.length; i++) {
+                    const pair = lessonIndices[i];
+                    if (pair.i0 === i0 && pair.i1 === i1) {
+                        flattenedLessonIndex = i;
+                        break;
+                    }
+                }
                 loadLesson(i0, i1);
                 toggleLessonNavigator();
             });
+            sublessonElements[i0].push(p);
             lessonNavigator.appendChild(p);
 
             lessonIndices.push({
@@ -578,12 +596,19 @@ export function main() {
      * @param i1 Index of the sublesson
      */
     function loadLesson(i0: number, i1: number) {
+        sublessonElements[i0][i1].style.background = "lightblue";
+        console.log(selectedLessonIndex, selectedSublessonIndex);
+        if (selectedLessonIndex != undefined && selectedSublessonIndex != undefined) {
+            sublessonElements[selectedLessonIndex][selectedSublessonIndex].style.background = "transparent";
+        }
+        selectedLessonIndex = i0;
+        selectedSublessonIndex = i1;
+
         currentLesson = lessonsData[i0].lessons[i1];
 
         const lessonHeader = document.querySelector("#lessonHeader");
         lessonHeader.textContent = currentLesson.title;
 
-        // const lessonText = document.querySelector("#lessonText");
         if (currentLesson.text) {
             lessonText.textContent = currentLesson.text;
         } else if (currentLesson.textualInstructions) {
@@ -639,11 +664,14 @@ export function main() {
     document.querySelector("#openClose").addEventListener("click", (event) => {
         toggleLessonNavigator();
     });
+    document.querySelector("#closeLessonNavigator").addEventListener("click", (event) => {
+        toggleLessonNavigator();
+    });
     document.querySelector("#prevLesson").addEventListener("click", () => {
-        updateLessonIndex(currentLessonIndex - 1);
+        updateLessonIndex(flattenedLessonIndex - 1);
     });
     document.querySelector("#nextLesson").addEventListener("click", () => {
-        updateLessonIndex(currentLessonIndex + 1);
+        updateLessonIndex(flattenedLessonIndex + 1);
     });
 
     function takeStepInAlgorithm(move: string, forward: boolean) {
