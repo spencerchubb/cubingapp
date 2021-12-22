@@ -534,6 +534,7 @@ export function main() {
     }
 
     const lessonNavigator = document.querySelector("#lessonNavigator");
+    const lessonNavigatorInner = document.querySelector("#lessonNavigatorInner");
 
     let sublessonElements: HTMLElement[][] = [];
     let selectedLessonIndex: number;
@@ -543,7 +544,8 @@ export function main() {
         const p = document.createElement("p");
         p.textContent = l0.title;
         p.style.fontWeight = "bold";
-        lessonNavigator.appendChild(p);
+        // lessonNavigator.appendChild(p);
+        lessonNavigatorInner.appendChild(p);
         sublessonElements.push([]);
 
         l0.lessons.forEach((l1, i1) => {
@@ -564,7 +566,7 @@ export function main() {
                 toggleLessonNavigator();
             });
             sublessonElements[i0].push(p);
-            lessonNavigator.appendChild(p);
+            lessonNavigatorInner.appendChild(p);
 
             lessonIndices.push({
                 i0: i0,
