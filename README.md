@@ -18,5 +18,5 @@ firebase serve
 
 Serve to another device on network
 ```
-firebase serve -o 192.168.0.205
+firebase serve -o IP_ADDRESS
 ```
