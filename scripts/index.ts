@@ -30,6 +30,37 @@ const crossPieces = [
     ...UF,
     ...CENTERS,
 ];
+const firstLayerPieces = [
+    ...crossPieces,
+    ...UBL,
+    ...URB,
+    ...ULF,
+    ...UFR,
+];
+const f2lPieces = [
+    ...firstLayerPieces,
+    ...FL,
+    ...FR,
+    ...BL,
+    ...BR,
+];
+const lastLayerEdges = [
+    ...DF,
+    ...DL,
+    ...DR,
+    ...DB,
+];
+const lastLayerPieces = [
+    ...lastLayerEdges,
+    ...DFL,
+    ...DRF,
+    ...DLB,
+    ...DBR,
+];
+const allPieces = [
+    ...f2lPieces,
+    ...lastLayerPieces,
+];
 
 const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED) * 1000;
 // +200 for latency
@@ -67,6 +98,7 @@ export function main() {
         title: string,
         setup?: string,
         algorithm?: string,
+        textualInstructions?: string[],
         text?: string,
         activeStickers?: number[],
     }
@@ -89,7 +121,7 @@ export function main() {
                 {
                     "title": "Centers",
                     "setup": "",
-                    "algorithm": "x x x' x' y y y' y'",
+                    "algorithm": "x x x x y y y y",
                     "text": `
                     In this tutorial, we will refer to different types of pieces. One of these types is
                     the centers, which are highlighted in the animation.
@@ -99,7 +131,7 @@ export function main() {
                 {
                     "title": "Corners",
                     "setup": "",
-                    "algorithm": "x x x' x' y y y' y'",
+                    "algorithm": "x x x x y y y y",
                     "text": `
                     Now in the animation, the corners and the centers are highlighted.
                     `,
@@ -118,7 +150,7 @@ export function main() {
                 {
                     "title": "Edges",
                     "setup": "",
-                    "algorithm": "x x x' x' y y y' y'",
+                    "algorithm": "x x x x y y y y",
                     "text": `
                     The edges and centers are highlighted. This is the last category of piece that
                     you need to know for the tutorial.
@@ -157,17 +189,58 @@ export function main() {
                 },
                 {
                     "title": "Case 1",
-                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F D",
-                    "algorithm": "D' F F",
-                    "text": `
-                    In this case, we want to insert the green white sticker. It is currently at the bottom-right
-                    of the animation, and it needs to go in the top-front position. First we will
-                    move the bottom layer to line it up. Then we will move the front layer.
-                    `,
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F D y x",
+                    "algorithm": "x' y' D' F F",
+                    "textualInstructions": [
+                        "We want to solve the white-green piece.",
+                        "We want to solve the white-green piece.",
+                        "As you saw, the green-white piece is on the bottom. First we need to line it up by moving the bottom layer.",
+                        "Now we simply solve it by moving the front layer.",
+                        "Now we simply solve it by moving the front layer.",
+                        "Done",
+                    ],
                     "activeStickers": crossPieces,
                 },
                 {
-                    "title": "Insert cross piece",
+                    "title": "Case 2",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F'",
+                    "algorithm": "R' D' R F F",
+                    "textualInstructions": [
+                        "Now the white-green piece is in the middle layer, on the right. We are going to move it to the bottom.",
+                        "Then move the bottom layer to get the white-green out of the way.",
+                        "Then fix the white-red which we previously moved.",
+                        "Just like in Case 1, we can now move the front layer to solve it.",
+                        "Just like in Case 1, we can now move the front layer to solve it.",
+                        "Done",
+                    ],
+                    "activeStickers": crossPieces,
+                },
+                {
+                    "title": "Case 3",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F' F'",
+                    "algorithm": "F",
+                    "textualInstructions": [
+                        "The white-green piece is on the top and in its correct position. However, it is flipped incorrectly! We just need to do one move to bring us to a case that we have already learned.",
+                        "Now it's in the middle layer, which is the same as Case 2.",
+                    ],
+                    "activeStickers": crossPieces,
+                },
+                {
+                    "title": "Case 4",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R",
+                    "algorithm": "F'",
+                    "textualInstructions": [
+                        "The white-green is on the bottom, but flipped incorrectly. Again, we can use the concept of turning the case into another case that we already know.",
+                        "Now it's in the middle layer, which is the same as Case 2.",
+                    ],
+                    "activeStickers": crossPieces,
+                },
+                {
+                    "title": "Cross recap",
+                    "setup": "",
+                    "algorithm": "",
+                    "text": "Hopefully the cases we provide here are enough to show the concepts. Each scramble will be different and you just need to break it down and approach each cross piece one by one.",
+                    "activeStickers": crossPieces,
                 },
             ]
         },
@@ -176,52 +249,275 @@ export function main() {
             "lessons": [
                 {
                     "title": "Prepare corner to insert",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z",
+                    "algorithm": "U'",
+                    "textualInstructions": [
+                        "Since the cross is solved, we will hold it on the bottom from here on out. Here we are interested in the white-orange-green corner, which is currently in the top left and needs to go in the bottom right. We need to prepare it to be inserted by moving it above the position where it needs to go.",
+                        "With a simple move of the top layer, now the white-orange-green is above where it needs to go."
+                    ],
+                    "activeStickers": [
+                        ...crossPieces,
+                        ...ULF,
+                    ],
                 },
                 {
-                    "title": "Insert corner",
+                    "title": "Inserting a corner",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z L' U U L",
                     "algorithm": "R U R' U'",
-                    "text": `
-                    We only need one algorithm to insert the corners of the first layer. The key here
-                    is knowing how to use the algorithm based on what case you are given.
-                    `,
-                    "activeStickers": [0, 29, 36, 4, 13, 22, 31, 40, 49],
-                }
-            ]
+                    "text": "The white-orange-green is above where it needs to go. We only need a 4-move algorithm to insert it.",
+                    "activeStickers": [
+                        ...crossPieces,
+                        ...ULF,
+                    ],
+                },
+                {
+                    "title": "Example 2",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U'",
+                    "algorithm": "R U R' U' R U R' U' R U R' U' R U R' U' R U R' U'",
+                    "textualInstructions": [
+                        "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+                        "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+                        "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+                        "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "3rd repetition",
+                        "3rd repetition",
+                        "3rd repetition",
+                        "3rd repetition",
+                        "4th repetition",
+                        "4th repetition",
+                        "4th repetition",
+                        "4th repetition",
+                        "5th repetition",
+                        "5th repetition",
+                        "5th repetition",
+                        "5th repetition",
+                        "Done",
+                    ],
+                    "activeStickers": [
+                        ...crossPieces,
+                        ...ULF,
+                    ],
+                },
+                {
+                    "title": "Example 3",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U' R U R' U' R U R' U' R U R' U'",
+                    "algorithm": "R U R' U' R U R' U' R U R' U' R U R' U' R U R' U'",
+                    "textualInstructions": [
+                        "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+                        "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+                        "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+                        "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "2nd repetition",
+                        "Done",
+                    ],
+                    "activeStickers": [
+                        ...crossPieces,
+                        ...ULF,
+                    ],
+                },
+            ],
         },
         {
             "title": "Second layer edges",
             "lessons": [
                 {
-                    "title": "Prepare edge to insert"
+                    "title": "Prepare edge to insert",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L",
+                    "algorithm": "U",
+                    "text": "We are interested in the red-green. Move the top layer so that the green matches the center.",
+                    "activeStickers": [
+                        ...firstLayerPieces,
+                        ...FR,
+                    ],
                 },
                 {
-                    "title": "Insert edge"
-                }
-            ]
+                    "title": "Insert edge to the left",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L U",
+                    "algorithm": "U' L' U L y' U R U' R'",
+                    "text": "Notice the red-green is ready because the green matches the center. To insert it to the left, we use this algorithm.",
+                    "activeStickers": [
+                        ...firstLayerPieces,
+                        ...FR,
+                    ],
+                },
+                {
+                    "title": "Insert edge to the right",
+                    "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B F U' F' U F U' F'",
+                    "algorithm": "U R U' R' y U' L' U L",
+                    "text": "We want to insert the orange-green to the right. This is a mirror of the \"left insert\" algorithm.",
+                    "activeStickers": [
+                        ...firstLayerPieces,
+                        ...FL,
+                    ],
+                },
+            ],
         },
         {
-            "title": "Last layer",
+            "title": "Orient edges of last layer",
             "lessons": [
                 {
-                    "title": "OELL"
+                    "title": "Bar case",
+                    "setup": "z z R' L L F F L L F' L L F' L L F' R U F R U' R' F'",
+                    "algorithm": "F R U R' U' F'",
+                    "text": "This algorithm turns the Bar into a cross. It looks similar to the L case algorithm.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerEdges,
+                    ],
                 },
                 {
-                    "title": "OCLL"
+                    "title": "L case",
+                    "setup": "z z L L F D D B' R R B D D B' F' U U R' U R U B U L L U",
+                    "algorithm": "F U R U' R' F'",
+                    "text": "This algorithm turns the L into a cross. It looks similar to the Bar case algorithm.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerEdges,
+                    ],
                 },
                 {
-                    "title": "CPLL"
+                    "title": "Dot case",
+                    "setup": "z z B' L L F' D F' D R F' D D L L B' R R U U L L D D F F L L",
+                    "algorithm": "F R U R' U' F' U U F U R U' R' F'",
+                    "text": "To turn the dot into a cross, we combine the Bar algorithm and the L algorithm.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerEdges,
+                    ],
+                },
+            ],
+        },
+        {
+            "title": "Orient corners of last layer",
+            "lessons": [
+                {
+                    "title": "Sune Algorithm",
+                    "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U U R' U' R U' R'",
+                    "algorithm": "R U R' U R U U R'",
+                    "text": "This is the algorithm to get all the yellows on top. Lots of cubers give algorithms special names, and this one is called Sune. See the other lessons for an explanation on how to apply the algorithm.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerPieces,
+                    ],
                 },
                 {
-                    "title": "EPLL"
-                }
-            ]
-        }
+                    "title": "Example 1",
+                    "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U U R' U' R U' R'",
+                    "algorithm": "R U R' U R U U R'",
+                    "text": "This is the simplest application of Sune. When you have one yellow corner facing correctly and a yellow corner on the front, you just have to do Sune once.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerPieces,
+                    ],
+                },
+                {
+                    "title": "Example 2",
+                    "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U R' U R U U R' U U",
+                    "algorithm": "R U R' U R U U R' U U R U R' U R U U R'",
+                    "text": "There is one yellow corner facing correctly and another facing to the right. Perform Sune twice to solve.",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerPieces,
+                    ],
+                },
+                {
+                    "title": "Example 3",
+                    "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' F R' F' L F R F' L'",
+                    "algorithm": "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
+                    "text": "Here is an example that uses Sune 3 times. If you get a case that isn't covered here, just use the Sune and a bit of trial and error until you get to a case that you do know!",
+                    "activeStickers": [
+                        ...f2lPieces,
+                        ...lastLayerPieces,
+                    ],
+                },
+            ],
+        },
+        {
+            "title": "Permute corners of last layer",
+            "lessons": [
+                {
+                    "title": "Headlights",
+                    "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' U'",
+                    "algorithm": "U R U R' F' R U R' U' R' F R R U' R'",
+                    "text": "Notice the two red corners form a \"headlight\" pattern. Use this algorithm for headlights.",
+                    "activeStickers": allPieces,
+                },
+                {
+                    "title": "No headlights",
+                    "setup": "z z F R U' R' U' R U R' F' R U R' U' R' F R F'",
+                    "algorithm": "R U R' F' R U R' U' R' F R R U' R'",
+                    "text": "When there are no headlights, you can perform the same headlights algorithm and then proceed with the headlights case.",
+                    "activeStickers": allPieces,
+                },
+            ],
+        },
+        {
+            "title": "Permute edges of last layer",
+            "lessons": [
+                {
+                    "title": "Solved bar",
+                    "setup": "z z M M U' M' U U M U' M M",
+                    "algorithm": "U U U U M' M' U M' U U M U M' M'",
+                    "textualInstructions": [
+                        "Notice how there is a solved green bar and the other three edges need swapped.",
+                        "Notice how there is a solved green bar and the other three edges need swapped.",
+                        "Notice how there is a solved green bar and the other three edges need swapped.",
+                        "Notice how there is a solved green bar and the other three edges need swapped.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Use this algorithm when there is a solved bar.",
+                        "Done",
+                    ],
+                    "activeStickers": allPieces,
+                },
+                {
+                    "title": "No solved bar",
+                    "setup": "z z M M U M M U U M M U M M",
+                    "algorithm": "U U U U M' M' U M' U U M U M' M'",
+                    "text": "Noticed how all four edges need swapped. Use the same algorithm to produce a solved bar and then proceed from there.",
+                    "textualInstructions": [
+                        "Noticed how all four edges need swapped.",
+                        "Noticed how all four edges need swapped.",
+                        "Noticed how all four edges need swapped.",
+                        "Noticed how all four edges need swapped.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Use the same algorithm to produce a solved bar.",
+                        "Now there is a solved bar and you can proceed from here.",
+                    ],
+                    "activeStickers": allPieces,
+                },
+            ],
+        },
     ];
 
     // Array of index pairs for convenience when clicking prev or next.
     let lessonIndices: any[] = [];
 
     let currentLessonIndex = 0;
+    let currentLesson: Sublesson;
+    let currentMoves: string[] = [];
     function updateLessonIndex(i: number) {
         if (i < 0) {
             return;
@@ -259,15 +555,19 @@ export function main() {
         });
     });
 
-    let alg = "";
-    let moves: string[] = [];
     let moveIndex = 0;
 
     const moveCounter = document.querySelector("#moveCounter");
+    const lessonText = document.querySelector("#lessonText");
     function updateMoveCounter(i: number) {
-        moveCounter.textContent = `${i} / ${moves.length}`;
+        moveCounter.textContent = `${i} / ${currentMoves.length}`;
+        if (currentLesson.textualInstructions) {
+            updateTextualInstruction(moveIndex);
+        }
     }
-    updateMoveCounter(0);
+    function updateTextualInstruction(instructionIndex: number) {
+        lessonText.textContent = currentLesson.textualInstructions[instructionIndex];
+    }
 
     // Load the 0th index by default.
     updateLessonIndex(0);
@@ -278,29 +578,33 @@ export function main() {
      * @param i1 Index of the sublesson
      */
     function loadLesson(i0: number, i1: number) {
-        const lesson = lessonsData[i0].lessons[i1];
+        currentLesson = lessonsData[i0].lessons[i1];
 
         const lessonHeader = document.querySelector("#lessonHeader");
-        lessonHeader.textContent = lesson.title;
+        lessonHeader.textContent = currentLesson.title;
 
-        const lessonText = document.querySelector("#lessonText");
-        lessonText.textContent = lesson.text;
+        // const lessonText = document.querySelector("#lessonText");
+        if (currentLesson.text) {
+            lessonText.textContent = currentLesson.text;
+        } else if (currentLesson.textualInstructions) {
+            updateTextualInstruction(0);
+        }
 
-        alg = lesson.algorithm;
-        moves = parseMovesFromAlg(alg);
+        let alg = currentLesson.algorithm;
+        currentMoves = parseMovesFromAlg(alg);
         moveIndex = 0;
-        for (let i = moves.length - 1; i >= 0; i--) {
-            takeStepInAlgorithm(moves[i], false);
+        for (let i = currentMoves.length - 1; i >= 0; i--) {
+            takeStepInAlgorithm(currentMoves[i], false);
         }
 
         updateMoveCounter(0);
 
-        scene.cube.setActiveStickers(lesson.activeStickers);
+        scene.cube.setActiveStickers(currentLesson.activeStickers);
         scene.cube.setNumOfLayers(3);
         scene.cube.new();
         scene.buffers.initBufferData(scene.cube);
 
-        const setup = lesson.setup;
+        const setup = currentLesson.setup;
         const setupMoves = parseMovesFromAlg(setup);
         setupMoves.forEach(move => {
             takeStepInAlgorithm(move, true);
@@ -313,15 +617,15 @@ export function main() {
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
             moveIndex--;
-            takeStepInAlgorithm(moves[moveIndex], false);
+            takeStepInAlgorithm(currentMoves[moveIndex], false);
             scene.animateTurn();
 
             updateMoveCounter(moveIndex);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
-        if (moveIndex < moves.length) {
-            takeStepInAlgorithm(moves[moveIndex], true);
+        if (moveIndex < currentMoves.length) {
+            takeStepInAlgorithm(currentMoves[moveIndex], true);
             scene.animateTurn();
             moveIndex++;
 
@@ -397,6 +701,12 @@ export function main() {
                 break;
             case "R'":
                 scene.cube.turn(0, 0, !forward);
+                break;
+            case "M":
+                scene.cube.turn(0, 1, !forward);
+                break;
+            case "M'":
+                scene.cube.turn(0, 1, forward);
                 break;
             default:
                 throw new Error("Invalid turn in algorithm: " + move);
