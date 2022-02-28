@@ -92,7 +92,6 @@ export class CubeLogic {
         }
 
         this.stickers = [];
-        console.log(this.activeStickers);
         pushN(this, WHITE, 0);
         pushN(this, GREEN, 9);
         pushN(this, YELLOW, 18);
@@ -572,8 +571,20 @@ export class CubeLogic {
                 this.turn(0, 0, !forward);
                 break;
             case "R2":
+            case "R2'":
                 this.turn(0, 0, forward);
                 this.turn(0, 0, forward);
+                break;
+            case "r":
+                this.wideTurn(0, 0, forward);
+                break;
+            case "r'":
+                this.wideTurn(0, 0, !forward);
+                break;
+            case "r2":
+            case "r2'":
+                this.wideTurn(0, 0, forward);
+                this.wideTurn(0, 0, forward);
                 break;
             case "M":
                 this.turn(0, 1, !forward);
