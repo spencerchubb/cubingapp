@@ -1,9 +1,10 @@
 import { Buffers } from "./buffers.js";
-import { CubeLogic } from "./cube.js";
+import { CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector.js";
+const glMatrix = require("./gl-matrix.js");
 
-const canvas = document.querySelector('#glCanvas');
-const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
+const gl = canvas.getContext('webgl');
 
 export const buffers = new Buffers();
 export const cube = new CubeLogic();

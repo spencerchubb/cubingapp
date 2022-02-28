@@ -5,6 +5,7 @@ module.exports = {
 		index: "./scripts/index.ts",
 		play: "./scripts/play.ts",
 		settings: "./scripts/settings.ts",
+		train: "./scripts/train.ts",
 	},
 	output: {
 		path: path.resolve(__dirname, "public/dist"),

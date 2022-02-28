@@ -1,7 +1,7 @@
 import { DEFAULT_SPEED } from "./constants.js";
 
-const canvas = document.querySelector('#glCanvas');
-const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
+const gl = canvas.getContext('webgl');
 
 const WHITE = {
     active: [1.0, 1.0, 1.0, 1.0],
@@ -55,9 +55,26 @@ function pushN(cube, color, face) {
 }
 
 export class CubeLogic {
+    keyboardSpeedFactor: number;
+    dragSpeedFactor: number;
+    factor: number;
+    axis: number;
+    activeStickers: any;
+    stickers: any[];
+    numOfLayers: any;
+    layersSq: number;
+    layersHalf: number;
+    layersEven: boolean;
+    numOfStickers: number;
+    currentStickers: any;
+    affectedStickers: any;
+    disableTurn: any;
+    clockwise: any;
+    turnType: number;
+    
     constructor() {
-        const keyboardSpeed = localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED;
-        const dragSpeed = localStorage.getItem("#dragSpeed") || DEFAULT_SPEED;
+        const keyboardSpeed: number = +localStorage.getItem("#keyboardSpeed") || +DEFAULT_SPEED;
+        const dragSpeed = +localStorage.getItem("#dragSpeed") || +DEFAULT_SPEED;
 
         this.keyboardSpeedFactor = keyboardSpeed * 1000 / (Math.PI / 2);
         this.dragSpeedFactor = dragSpeed * 1000 / (Math.PI / 2);
@@ -101,7 +118,7 @@ export class CubeLogic {
     setNumOfLayers(num) {
         this.numOfLayers = parseInt(num);
         this.layersSq = this.numOfLayers * this.numOfLayers;
-        this.layersHalf = parseInt(this.numOfLayers / 2);
+        this.layersHalf = Math.floor(this.numOfLayers / 2);
         this.layersEven = this.numOfLayers % 2 == 0;
         this.numOfStickers = this.layersSq * 6;
     }
@@ -408,13 +425,13 @@ export class CubeLogic {
         const ratioThreshold = 0.55;
         if (id < this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - parseInt(id / 3), dy < 0);
+                this.turn(0, this.numOfLayers - 1 - Math.floor(id / 3), dy < 0);
             } else {
                 this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
             }
         } else if (id >= this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - parseInt((id - this.layersSq) / 3), dy < 0);
+                this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / 3), dy < 0);
             } else {
                 this.turn(1, (id - this.layersSq) % 3, dx < 0);
             }
@@ -463,6 +480,127 @@ export class CubeLogic {
         else if (x > 226 && y > 145 && y < 260) {
             console.log("bottom right");
             this.cubeRotate(1, dx < 0);
+        }
+    }
+
+    stepAlgorithm(move: string, forward: boolean) {
+        switch (move) {
+            case "x":
+                this.cubeRotate(0, forward);
+                break;
+            case "x'":
+                this.cubeRotate(0, !forward);
+                break;
+            case "x2":
+                this.cubeRotate(0, forward);
+                this.cubeRotate(0, forward);
+                break;
+            case "y":
+                this.cubeRotate(1, forward);
+                break;
+            case "y'":
+                this.cubeRotate(1, !forward);
+                break;
+            case "y2":
+                this.cubeRotate(1, forward);
+                this.cubeRotate(1, forward);
+                break;
+            case "z":
+                this.cubeRotate(2, forward);
+                break;
+            case "z'":
+                this.cubeRotate(2, !forward);
+                break;
+            case "z2":
+                this.cubeRotate(2, forward);
+                this.cubeRotate(2, forward);
+                break;
+            case "U":
+                this.turn(1, 0, forward);
+                break;
+            case "U'":
+                this.turn(1, 0, !forward);
+                break;
+            case "U2":
+                this.turn(1, 0, forward);
+                this.turn(1, 0, forward);
+                break;
+            case "D":
+                this.turn(1, 2, !forward);
+                break;
+            case "D'":
+                this.turn(1, 2, forward);
+                break;
+            case "D2":
+                this.turn(1, 2, forward);
+                this.turn(1, 2, forward);
+                break;
+            case "F":
+                this.turn(2, 0, forward);
+                break;
+            case "F'":
+                this.turn(2, 0, !forward);
+                break;
+            case "F2":
+                this.turn(2, 0, forward);
+                this.turn(2, 0, forward);
+                break;
+            case "B":
+                this.turn(2, 2, !forward);
+                break;
+            case "B'":
+                this.turn(2, 2, forward);
+                break
+            case "B2":
+                this.turn(2, 2, forward);
+                this.turn(2, 2, forward);
+                break
+            case "L":
+                this.turn(0, 2, !forward);
+                break;
+            case "L'":
+                this.turn(0, 2, forward);
+                break;
+            case "L2":
+                this.turn(0, 2, forward);
+                this.turn(0, 2, forward);
+                break;
+            case "R":
+                this.turn(0, 0, forward);
+                break;
+            case "R'":
+                this.turn(0, 0, !forward);
+                break;
+            case "R2":
+                this.turn(0, 0, forward);
+                this.turn(0, 0, forward);
+                break;
+            case "M":
+                this.turn(0, 1, !forward);
+                break;
+            case "M'":
+                this.turn(0, 1, forward);
+                break;
+            case "M2":
+                this.turn(0, 1, forward);
+                this.turn(0, 1, forward);
+                break;
+            default:
+                throw new Error("Invalid turn in algorithm: " + move);
+        }
+    }
+
+    execAlg(alg: string) {
+        let moves = alg.split(" ");
+        for (let i = 0; i < moves.length; i++) {
+            this.stepAlgorithm(moves[i], true);
+        }
+    }
+
+    execAlgReverse(alg: string) {
+        let moves = alg.split(" ");
+        for (let i = moves.length - 1; i >= 0; i--) {
+            this.stepAlgorithm(moves[i], false);
         }
     }
 }

@@ -1,4 +1,4 @@
-import * as scene from "./scene.js";
+import * as scene from "./scene";
 import { initCanvas, listenToNavButtons } from "./ui";
 import { DEFAULT_SPEED } from "./constants.js";
 
@@ -67,13 +67,10 @@ const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAU
 const timePerTurn = speed + 200;
 
 function parseMovesFromAlg(alg?: string): string[] {
-    let moves: string[] = [];
     if (!alg || alg === "") {
-        moves = [];
-    } else {
-        moves = alg.split(" ");
+        return [];
     }
-    return moves;
+    return alg.split(" ");
 }
 
 export function main() {
@@ -86,7 +83,7 @@ export function main() {
 
     document.addEventListener("keydown", (event) => {
         if (scene.cube.matchKeyToTurn(event.key)) {
-            scene.animateTurn();
+            scene.animateTurn(null);
         }
     });
 
@@ -544,15 +541,15 @@ export function main() {
         const p = document.createElement("p");
         p.textContent = l0.title;
         p.style.fontWeight = "bold";
-        // lessonNavigator.appendChild(p);
         lessonNavigatorInner.appendChild(p);
         sublessonElements.push([]);
 
         l0.lessons.forEach((l1, i1) => {
             const p = document.createElement("p");
+            p.className = "lesson-p";
             p.textContent = l1.title;
             p.style.padding = "4px";
-            p.style.margin = "4px 4px 4px 8px"
+            p.style.margin = "4px 4px 4px 8px";
             p.style.borderRadius = "4px";
             p.addEventListener("click", (event) => {
                 for (let i = 0; i < lessonIndices.length; i++) {
@@ -620,9 +617,6 @@ export function main() {
         let alg = currentLesson.algorithm;
         currentMoves = parseMovesFromAlg(alg);
         moveIndex = 0;
-        for (let i = currentMoves.length - 1; i >= 0; i--) {
-            takeStepInAlgorithm(currentMoves[i], false);
-        }
 
         updateMoveCounter(0);
 
@@ -634,7 +628,7 @@ export function main() {
         const setup = currentLesson.setup;
         const setupMoves = parseMovesFromAlg(setup);
         setupMoves.forEach(move => {
-            takeStepInAlgorithm(move, true);
+            scene.cube.stepAlgorithm(move, true);
         });
         scene.cube.setStickers();
 
@@ -644,16 +638,16 @@ export function main() {
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
             moveIndex--;
-            takeStepInAlgorithm(currentMoves[moveIndex], false);
-            scene.animateTurn();
+            scene.cube.stepAlgorithm(currentMoves[moveIndex], false);
+            scene.animateTurn(null);
 
             updateMoveCounter(moveIndex);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
         if (moveIndex < currentMoves.length) {
-            takeStepInAlgorithm(currentMoves[moveIndex], true);
-            scene.animateTurn();
+            scene.cube.stepAlgorithm(currentMoves[moveIndex], true);
+            scene.animateTurn(null);
             moveIndex++;
 
             updateMoveCounter(moveIndex);
@@ -676,72 +670,6 @@ export function main() {
         updateLessonIndex(flattenedLessonIndex + 1);
     });
 
-    function takeStepInAlgorithm(move: string, forward: boolean) {
-        switch (move) {
-            case "x":
-                scene.cube.cubeRotate(0, forward);
-                break;
-            case "x'":
-                scene.cube.cubeRotate(0, !forward);
-                break;
-            case "y":
-                scene.cube.cubeRotate(1, forward);
-                break;
-            case "y'":
-                scene.cube.cubeRotate(1, !forward);
-                break;
-            case "z":
-                scene.cube.cubeRotate(2, forward);
-                break;
-            case "z'":
-                scene.cube.cubeRotate(2, !forward);
-                break;
-            case "U":
-                scene.cube.turn(1, 0, forward);
-                break;
-            case "U'":
-                scene.cube.turn(1, 0, !forward);
-                break;
-            case "D":
-                scene.cube.turn(1, 2, !forward);
-                break;
-            case "D'":
-                scene.cube.turn(1, 2, forward);
-                break;
-            case "F":
-                scene.cube.turn(2, 0, forward);
-                break;
-            case "F'":
-                scene.cube.turn(2, 0, !forward);
-                break;
-            case "B":
-                scene.cube.turn(2, 2, !forward);
-                break;
-            case "B'":
-                scene.cube.turn(2, 2, forward);
-                break
-            case "L":
-                scene.cube.turn(0, 2, !forward);
-                break;
-            case "L'":
-                scene.cube.turn(0, 2, forward);
-                break;
-            case "R":
-                scene.cube.turn(0, 0, forward);
-                break;
-            case "R'":
-                scene.cube.turn(0, 0, !forward);
-                break;
-            case "M":
-                scene.cube.turn(0, 1, !forward);
-                break;
-            case "M'":
-                scene.cube.turn(0, 1, forward);
-                break;
-            default:
-                throw new Error("Invalid turn in algorithm: " + move);
-        }
-    }
 }
 
 main();

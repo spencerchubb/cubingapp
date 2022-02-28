@@ -1,4 +1,4 @@
-import * as scene from "./scene.js";
+import * as scene from "./scene";
 import { idFromColor } from "./pickId.js";
 
 export function listenToNavButtons() {
@@ -7,6 +7,9 @@ export function listenToNavButtons() {
     });
     document.querySelector("#playButton").addEventListener("click", () => {
         document.location = "play.html";
+    });
+    document.querySelector("#trainButton").addEventListener("click", () => {
+        document.location = "train.html";
     });
     document.querySelector("#settingsButton").addEventListener("click", () => {
         document.location = "settings.html";
@@ -51,12 +54,12 @@ export function initCanvas() {
                     scene.dragDetector.mouseYOnDown,
                     scene.dragDetector.getDx(),
                     scene.dragDetector.getDy());
-                scene.animateTurn();
+                scene.animateTurn(null);
             } else {
                 const dx = scene.dragDetector.getDx();
                 const dy = scene.dragDetector.getDy();
                 scene.cube.doTurnFromMouseDrag(id, dx, dy);
-                scene.animateTurn();
+                scene.animateTurn(null);
             }
         }
     }

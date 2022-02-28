@@ -1,5 +1,4 @@
 import * as scene from "./scene";
-import { Timer } from "./timer.js";
 import { initCanvas, listenToNavButtons } from "./ui";
 
 function newSolvedCube(numOfLayers: string) {
@@ -19,8 +18,6 @@ export function main() {
 
     initCanvas();
 
-    const timer = new Timer();
-
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
@@ -37,15 +34,59 @@ export function main() {
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key == " ") {
-            // Prevent extra click if spacebar is pressed while a button is focused.
-            event.preventDefault();
-
-            timer.startStop();
+        if (event.key === " ") {
+            nextAlg();
         } else if (scene.cube.matchKeyToTurn(event.key)) {
             scene.animateTurn(null);
         }
     });
+
+    const algs = [
+        {
+            alg: "R U R' U R U2 R'",
+            category: "S",
+        },
+        {
+            alg: "R U R' U R' F R F' R U2 R'",
+            category: "S",
+        },
+        {
+            alg: "F R' F' R U2 R U2 R'",
+            category: "S",
+        },
+        {
+            alg: "R U' L' U R' U' L",
+            category: "S",
+        },
+        {
+            alg: "R U R' U R U' R D R' U' R D' R2",
+            category: "S",
+        },
+        {
+            alg: "L' U2 L U2 L F' L' F",
+            category: "S",
+        },
+    ];
+
+    let currAlg = 0;
+    function loadCurrAlg() {
+        let alg = algs[currAlg];
+        scene.cube.new();
+        scene.cube.execAlgReverse(alg.alg);
+        scene.cube.setStickers();
+        scene.render();
+    }
+
+    // To start off, load alg 0
+    loadCurrAlg();
+
+    function nextAlg() {
+        currAlg += 1;
+        if (currAlg >= algs.length) {
+            currAlg = 0;
+        }
+        loadCurrAlg();
+    }
 }
 
 main();
