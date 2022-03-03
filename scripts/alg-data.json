@@ -1,0 +1,279 @@
+[
+    {
+        "set": "CMLL",
+        "categories": [
+            "S",
+            "AS",
+            "Pi",
+            "U",
+            "L",
+            "T",
+            "H",
+            "O"
+        ],
+        "algs": [
+            {
+                "alg": "R U R' U R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "R U R' U R' F R F' R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "F R' F' R U2 R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "R U' L' U R' U' L",
+                "category": "S"
+            },
+            {
+                "alg": "R U R' U R U' R D R' U' R D' R2",
+                "category": "S"
+            },
+            {
+                "alg": "L' U2 L U2 L F' L' F",
+                "category": "S"
+            },
+            {
+                "alg": "L' U' L U' L' U2 L",
+                "category": "AS"
+            },
+            {
+                "alg": "R' U' R U' R' U R' F R F' U R",
+                "category": "AS"
+            },
+            {
+                "alg": "F' L F L' U2 L' U2 L",
+                "category": "AS"
+            },
+            {
+                "alg": "L' U R U' L U R'",
+                "category": "AS"
+            },
+            {
+                "alg": "R2 D R' U R D' R' U R' U' R U' R'",
+                "category": "AS"
+            },
+            {
+                "alg": "R U2 R' U2 R' F R F'",
+                "category": "AS"
+            },
+            {
+                "alg": "F R U R' U' R U R' U' F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' U' R' F R F' R U' R' U2 R",
+                "category": "Pi"
+            },
+            {
+                "alg": "r U' r2' D' r U r' D r2 U r'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' F R U F U' R U R' U' F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R U2 R' U' R U R' U2 R' F R F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R' F' R U2 R U' R' U R U2 R'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R U R' U' F'",
+                "category": "U"
+            },
+            {
+                "alg": "R' U' R U' R' U2 R2 U R' U R U2 R'",
+                "category": "U"
+            },
+            {
+                "alg": "F R2 D R' U R D' R2 U' F'",
+                "category": "U"
+            },
+            {
+                "alg": "r U' r' U r' D' r U' r' D r",
+                "category": "U"
+            },
+            {
+                "alg": "R2 D' R U2 R' D R U2 R",
+                "category": "U"
+            },
+            {
+                "alg": "R2 D R' U2 R D' R' U2 R'",
+                "category": "U"
+            },
+            {
+                "alg": "F' L F L' U' L' U L",
+                "category": "L"
+            },
+            {
+                "alg": "F R' F' R U R U' R'",
+                "category": "L"
+            },
+            {
+                "alg": "R U2 R2' F R F' R U2 R'",
+                "category": "L"
+            },
+            {
+                "alg": "R U R' U R U' R' U R U' R' U R U2 R'",
+                "category": "L"
+            },
+            {
+                "alg": "R' U2 R' D' R U2 R' D R2",
+                "category": "L"
+            },
+            {
+                "alg": "R U2 R D R' U2 R D' R2",
+                "category": "L"
+            },
+            {
+                "alg": "R U R' U' R' F R F'",
+                "category": "T"
+            },
+            {
+                "alg": "L' U' L U L F' L' F",
+                "category": "T"
+            },
+            {
+                "alg": "r U' r2' D' r U2 r' D r2 U r'",
+                "category": "T"
+            },
+            {
+                "alg": "R U2 R' U' R U' R2 U2 R U R' U R",
+                "category": "T"
+            },
+            {
+                "alg": "r' D' r U r' D r U' r U r'",
+                "category": "T"
+            },
+            {
+                "alg": "r' U r U2 R2 F R F' R",
+                "category": "T"
+            },
+            {
+                "alg": "R U R' U R U' R' U R U2 R'",
+                "category": "H"
+            },
+            {
+                "alg": "F R U R' U' R U R' U' R U R' U' F'",
+                "category": "H"
+            },
+            {
+                "alg": "r U' r2' D' r U' r' D r2 U r'",
+                "category": "H"
+            },
+            {
+                "alg": "R U2 R2 F R F' U2 R' F R F'",
+                "category": "H"
+            },
+            {
+                "alg": "R U R' F' R U R' U' R' F R2 U' R'",
+                "category": "O"
+            },
+            {
+                "alg": "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+                "category": "O"
+            }
+        ]
+    },
+    {
+        "set": "PLL",
+        "categories": [
+            "Adjacent Corner Swap",
+            "Diagonal Corner Swap",
+            "Edge Swap"
+        ],
+        "algs": [
+            {
+                "alg": "R' F R' B2 R F' R' B2 R2",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R2 B2 R F R' B2 R F' R",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R2 U R' U R' U' R U' R2 U' D R' U R D'",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R' U' R U D' R2 U R' U R U' R U' R2 D",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R2 U' R U' R U R' U R2 U D' R U' R' D",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R U R' U' D R2 U' R U' R' U R' U R2 D'",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "x R2 F R F' R U2 r' U r U2",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R U R' F' R U R' U' R' F R2 U' R'",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R U' R' U' R U R D R' U' R D' R' U2 R'",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R2 F R U R U' R' F' R U2 R' U2 R",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "R U R' U' R' F R2 U' R' U' R U R' F'",
+                "category": "Adjacent Corner Swap"
+            },
+            {
+                "alg": "x' R U' R' D R U R' D' R U R' D R U' R' D'",
+                "category": "Diagonal Corner Swap"
+            },
+            {
+                "alg": "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
+                "category": "Diagonal Corner Swap"
+            },
+            {
+                "alg": "R' U R U' R' F' U' F R U R' F R' F' R U' R",
+                "category": "Diagonal Corner Swap"
+            },
+            {
+                "alg": "R' U R' U' y R' F' R2 U' R' U R' F R F",
+                "category": "Diagonal Corner Swap"
+            },
+            {
+                "alg": "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+                "category": "Diagonal Corner Swap"
+            },
+            {
+                "alg": "M2 U M2 U2 M2 U M2",
+                "category": "Edge Swap"
+            },
+            {
+                "alg": "M2 U M U2 M' U M2",
+                "category": "Edge Swap"
+            },
+            {
+                "alg": "M2 U' M U2 M' U' M2",
+                "category": "Edge Swap"
+            },
+            {
+                "alg": "M' U M2 U M2 U M' U2 M2",
+                "category": "Edge Swap"
+            }
+        ]
+    }
+]
