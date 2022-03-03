@@ -76,11 +76,40 @@ export function main() {
 
     let selectedAlgs = [];
 
+    function generateRandAUF() {
+        const n = Math.floor(Math.random() * 4);
+        if (n == 0) {
+            return "";
+        } else if (n == 1) {
+            return "U";
+        } else if (n == 2) {
+            return "U2";
+        } else {
+            return "U'";
+        }
+    }
+
     let currAlg = 0;
+    let preAUF;
+    let postAUF;
     function loadCurrAlg() {
         let alg = selectedAlgs[currAlg];
+        let algText = alg.alg;
+
+        if (randomAUF.checked) {
+            preAUF = generateRandAUF();
+            postAUF = generateRandAUF();
+            if (preAUF !== "") {
+                algText = preAUF + " " + algText;
+            }
+            if (postAUF !== "") {
+                algText += " " + postAUF;
+            }
+        }
+        console.log(algText);
+
         scene.cube.new();
-        scene.cube.execAlgReverse(alg.alg);
+        scene.cube.execAlgReverse(algText);
         scene.cube.setStickers();
         scene.render();
     }
@@ -102,7 +131,13 @@ export function main() {
     showSolutionButton.addEventListener("click", handleShowSolution);
     function handleShowSolution() {
         let alg = selectedAlgs[currAlg];
-        solutionText.textContent = "Solution: " + alg.alg;
+        let algText = alg.alg;
+
+        if (randomAUF.checked && preAUF !== "") {
+            algText = preAUF + " " + algText;
+        }
+
+        solutionText.textContent = `Solution: ${algText}`;
         solutionText.style.display = "block";
         showSolutionButton.style.display = "none";
     }
@@ -124,13 +159,7 @@ export function main() {
             const category = categories[i];
 
             const input = document.createElement("input");
-            input.type = "checkbox";
-            inputs.push(input);
-
-            const categoryDiv = document.createElement("div");
-            categoryDiv.addEventListener("click", event => {
-                input.checked = !input.checked;
-
+            input.addEventListener("change", () => {
                 // Update selectedAlgs
                 currAlg = 0;
                 selectedAlgs = [];
@@ -145,21 +174,47 @@ export function main() {
                     }
                 }
             });
+            input.id = category;
+            input.type = "checkbox";
+            inputs.push(input);
+
+            const categoryDiv = document.createElement("div");
+            // categoryDiv.addEventListener("click", event => {
+            //     input.checked = !input.checked;
+
+            //     // Update selectedAlgs
+            //     currAlg = 0;
+            //     selectedAlgs = [];
+            //     for (let j = 0; j < categories.length; j++) {
+            //         // Iterate through the checked inputs
+            //         if (inputs[j].checked) {
+            //             for (let k = 0; k < algs.length; k++) {
+            //                 if (algs[k].category == categories[j]) {
+            //                     selectedAlgs.push(algs[k]);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // });
             categoryDiv.style.display = "flex";
             categoryDiv.style.flexDirection = "row";
             categoryDiv.style.alignItems = "center";
 
-            const p = document.createElement("p");
-            p.textContent = category;
-            p.style.paddingLeft = "8px";
-            p.style.color = "white";
+            const label = document.createElement("label");
+            // for attribute of the label should match the id of the input
+            label.htmlFor = category;
+            label.textContent = category;
+            label.style.paddingLeft = "8px";
+            label.style.color = "white";
 
             categoryDiv.appendChild(input);
-            categoryDiv.appendChild(p);
+            categoryDiv.appendChild(label);
 
             categoriesDiv.appendChild(categoryDiv);
         };
     }
+
+    const randomAUF: HTMLInputElement = document.querySelector("#random-auf-check");
     
     // Initial render
     handleHideSolution();
