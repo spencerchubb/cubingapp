@@ -219,7 +219,7 @@
                 "category": "Adjacent Corner Swap"
             },
             {
-                "alg": "x R2 F R F' R U2 r' U r U2",
+                "alg": "x R2 F R F' R U2 r' U r U2 x'",
                 "category": "Adjacent Corner Swap"
             },
             {
@@ -239,7 +239,7 @@
                 "category": "Adjacent Corner Swap"
             },
             {
-                "alg": "x' R U' R' D R U R' D' R U R' D R U' R' D'",
+                "alg": "x' R U' R' D R U R' D' R U R' D R U' R' D' x",
                 "category": "Diagonal Corner Swap"
             },
             {

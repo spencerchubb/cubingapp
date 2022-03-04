@@ -49,6 +49,7 @@ export function main() {
         const set = (event.target as HTMLInputElement).value;
         findAlgSet(set);
         renderCategories();
+        renderAlgs();
     });
     algData.forEach(algSet => {
         const option = document.createElement("option");
@@ -74,8 +75,6 @@ export function main() {
         }
     }
 
-    let selectedAlgs = [];
-
     function generateRandAUF() {
         const n = Math.floor(Math.random() * 4);
         if (n == 0) {
@@ -93,20 +92,17 @@ export function main() {
     let preAUF;
     let postAUF;
     function loadCurrAlg() {
-        let alg = selectedAlgs[currAlg];
+        let alg = selectedAlgSet.algs[currAlg];
         let algText = alg.alg;
 
-        if (randomAUF.checked) {
-            preAUF = generateRandAUF();
-            postAUF = generateRandAUF();
-            if (preAUF !== "") {
-                algText = preAUF + " " + algText;
-            }
-            if (postAUF !== "") {
-                algText += " " + postAUF;
-            }
+        preAUF = generateRandAUF();
+        postAUF = generateRandAUF();
+        if (preAUF !== "") {
+            algText = preAUF + " " + algText;
         }
-        console.log(algText);
+        if (postAUF !== "") {
+            algText += " " + postAUF;
+        }
 
         scene.cube.new();
         scene.cube.execAlgReverse(algText);
@@ -114,28 +110,31 @@ export function main() {
         scene.render();
     }
 
-    // To start off, load alg 0
-    // loadCurrAlg();
-
     function nextAlg() {
-        currAlg += 1;
-        if (currAlg >= selectedAlgs.length) {
-            currAlg = 0;
+        let newCurrAlg = currAlg + 1;
+        while (newCurrAlg != currAlg) {
+            if (newCurrAlg < isSelected.length) {
+                if (isSelected[newCurrAlg]) {
+                    currAlg = newCurrAlg;
+                    handleHideSolution();
+                    loadCurrAlg();
+                    break;
+                }
+                newCurrAlg += 1;
+            } else {
+                newCurrAlg = 0;
+            }
         }
-        handleHideSolution();
-        loadCurrAlg();
     }
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
     const showSolutionButton: HTMLElement = document.querySelector("#show-solution-button");
     showSolutionButton.addEventListener("click", handleShowSolution);
     function handleShowSolution() {
-        let alg = selectedAlgs[currAlg];
+        let alg = selectedAlgSet.algs[currAlg];
         let algText = alg.alg;
 
-        if (randomAUF.checked && preAUF !== "") {
-            algText = preAUF + " " + algText;
-        }
+        algText = preAUF + " " + algText;
 
         solutionText.textContent = `Solution: ${algText}`;
         solutionText.style.display = "block";
@@ -153,49 +152,38 @@ export function main() {
 
         let categories = selectedAlgSet.categories;
         let algs = selectedAlgSet.algs;
-        
+
         let inputs = [];
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i];
 
             const input = document.createElement("input");
             input.addEventListener("change", () => {
-                // Update selectedAlgs
-                currAlg = 0;
-                selectedAlgs = [];
-                for (let j = 0; j < categories.length; j++) {
-                    // Iterate through the checked inputs
-                    if (inputs[j].checked) {
-                        for (let k = 0; k < algs.length; k++) {
-                            if (algs[k].category == categories[j]) {
-                                selectedAlgs.push(algs[k]);
-                            }
+                let categoriesToFilter = categories.filter((_, j) => inputs[j].checked);
+                console.log(categoriesToFilter);
+
+                if (categoriesToFilter.length !== 0) {
+                    // If there are some, filter down to those categories
+                    algs.forEach((alg, j) => {
+                        if (categoriesToFilter.includes(alg.category)) {
+                            selectAlg(j);
+                        } else {
+                            deselectAlg(j);
                         }
-                    }
+                    });
+                } else {
+                    // If there are no filters, display all
+                    algs.forEach((_, j) => {
+                        selectAlg(j);
+                    });
                 }
+
             });
             input.id = category;
             input.type = "checkbox";
             inputs.push(input);
 
             const categoryDiv = document.createElement("div");
-            // categoryDiv.addEventListener("click", event => {
-            //     input.checked = !input.checked;
-
-            //     // Update selectedAlgs
-            //     currAlg = 0;
-            //     selectedAlgs = [];
-            //     for (let j = 0; j < categories.length; j++) {
-            //         // Iterate through the checked inputs
-            //         if (inputs[j].checked) {
-            //             for (let k = 0; k < algs.length; k++) {
-            //                 if (algs[k].category == categories[j]) {
-            //                     selectedAlgs.push(algs[k]);
-            //                 }
-            //             }
-            //         }
-            //     }
-            // });
             categoryDiv.style.display = "flex";
             categoryDiv.style.flexDirection = "row";
             categoryDiv.style.alignItems = "center";
@@ -211,14 +199,66 @@ export function main() {
             categoryDiv.appendChild(label);
 
             categoriesDiv.appendChild(categoryDiv);
-        };
+        }
     }
 
-    const randomAUF: HTMLInputElement = document.querySelector("#random-auf-check");
-    
+    const algsTableBody = document.querySelector("#algs-table-body");
+
+    // Array of td elements that indicate whether an algorithm is selected
+    let selectedTdArray = [];
+
+    // Booleans that indicate which algs are selected
+    let isSelected = [];
+
+    function renderAlgs() {
+        algsTableBody.innerHTML = "";
+
+        let algs = selectedAlgSet.algs;
+
+        selectedTdArray = [];
+        isSelected = [];
+
+        for (let i = 0; i < algs.length; i++) {
+            isSelected.push(true);
+
+            const selectedTd = document.createElement("td");
+            selectedTd.textContent = "Yes";
+            selectedTd.style.color = "#c7ffc7";
+            selectedTdArray.push(selectedTd);
+
+            const algTd = document.createElement("td");
+            algTd.textContent = algs[i].alg;
+
+            const categoryTd = document.createElement("td");
+            categoryTd.textContent = algs[i].category;
+
+            const tr = document.createElement("tr");
+            tr.appendChild(selectedTd);
+            tr.appendChild(algTd);
+            tr.appendChild(categoryTd);
+
+            algsTableBody.appendChild(tr);
+        }
+    }
+
+    function selectAlg(n: number) {
+        isSelected[n] = true;
+        const selectedTd = selectedTdArray[n];
+        selectedTd.textContent = "Yes";
+        selectedTd.style.color = "#c7ffc7";
+    }
+
+    function deselectAlg(n: number) {
+        isSelected[n] = false;
+        const selectedTd = selectedTdArray[n];
+        selectedTd.textContent = "No";
+        selectedTd.style.color = "white";
+    }
+
     // Initial render
     handleHideSolution();
     renderCategories();
+    renderAlgs();
 }
 
 main();

@@ -29,11 +29,17 @@
         <p id="solution-text" style="color: white; display: none;"></p>
         <button id="show-solution-button" title="Press space to show solution">Show solution</button>
         <select id="alg-set-select"></select>
+        <h2 style="color: white; padding-top: 32px; font-size: 24px;">Customize Practice List</h2>
         <div id="categories-div"></div>
-        <div style="display: flex; flex-direction: row; align-items: center;">
-            <input type="checkbox" id="random-auf-check" checked />
-            <label for="random-auf-check" style="color: white; padding-left: 8px;">Random AUF</label>
-        </div>
+        <table id="algs-table">
+            <thead>
+                <th>Selected</th>
+                <th>Algorithm</th>
+                <th>Category</th>
+            </thead>
+            <tbody id="algs-table-body">
+            </tbody>
+        </table>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">

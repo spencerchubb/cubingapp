@@ -7,6 +7,26 @@ p, h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 
+th, td {
+    border: solid 1px #ddd;
+    padding: 8px 16px 8px 8px;
+    color: white;
+}
+
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .lessonNavButton {
     background: pink;
 }
@@ -132,12 +152,6 @@ p, h1, h2, h3, h4, h5, h6 {
 #settings-page h3 {
     font-size: 1.25em;
     color: rgb(87, 87, 87);
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }
 
 .lesson-p:hover {
