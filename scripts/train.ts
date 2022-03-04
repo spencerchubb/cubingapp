@@ -1,5 +1,6 @@
 import * as scene from "./scene";
 import { initCanvas, listenToNavButtons } from "./ui";
+import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
 function newSolvedCube(numOfLayers: string) {
@@ -36,6 +37,9 @@ export function main() {
 
     document.addEventListener('keydown', (event) => {
         if (event.key === " ") {
+            // Prevent space from scrolling down
+            event.preventDefault();
+
             handleShowSolution();
         } else if (event.key == "Enter") {
             nextAlg();
@@ -88,11 +92,15 @@ export function main() {
         }
     }
 
-    let currAlg = 0;
+    let selectedAlgs;
+
+    let currAlg = -1;
     let preAUF;
     let postAUF;
     function loadCurrAlg() {
-        let alg = selectedAlgSet.algs[currAlg];
+        handleHideSolution();
+
+        let alg = selectedAlgs[currAlg];
         let algText = alg.alg;
 
         preAUF = generateRandAUF();
@@ -111,27 +119,20 @@ export function main() {
     }
 
     function nextAlg() {
-        let newCurrAlg = currAlg + 1;
-        while (newCurrAlg != currAlg) {
-            if (newCurrAlg < isSelected.length) {
-                if (isSelected[newCurrAlg]) {
-                    currAlg = newCurrAlg;
-                    handleHideSolution();
-                    loadCurrAlg();
-                    break;
-                }
-                newCurrAlg += 1;
-            } else {
-                newCurrAlg = 0;
-            }
+        currAlg += 1;
+        if (currAlg >= selectedAlgs.length) {
+            currAlg = 0;
+            selectedAlgs = shuffle(selectedAlgs);
         }
+
+        loadCurrAlg();
     }
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
     const showSolutionButton: HTMLElement = document.querySelector("#show-solution-button");
     showSolutionButton.addEventListener("click", handleShowSolution);
     function handleShowSolution() {
-        let alg = selectedAlgSet.algs[currAlg];
+        let alg = selectedAlgs[currAlg];
         let algText = alg.alg;
 
         algText = preAUF + " " + algText;
@@ -153,6 +154,8 @@ export function main() {
         let categories = selectedAlgSet.categories;
         let algs = selectedAlgSet.algs;
 
+        selectedAlgs = shuffle(algs);
+
         let inputs = [];
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i];
@@ -164,20 +167,25 @@ export function main() {
 
                 if (categoriesToFilter.length !== 0) {
                     // If there are some, filter down to those categories
+                    selectedAlgs = [];
                     algs.forEach((alg, j) => {
                         if (categoriesToFilter.includes(alg.category)) {
                             selectAlg(j);
+                            selectedAlgs.push(alg);
                         } else {
                             deselectAlg(j);
                         }
                     });
                 } else {
-                    // If there are no filters, display all
+                    // If there are no filters, use all algs
                     algs.forEach((_, j) => {
                         selectAlg(j);
                     });
+                    selectedAlgs = algs;
                 }
-
+                
+                currAlg = -1;
+                selectedAlgs = shuffle(selectedAlgs);
             });
             input.id = category;
             input.type = "checkbox";
