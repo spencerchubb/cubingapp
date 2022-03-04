@@ -79,17 +79,9 @@ export function main() {
         }
     }
 
+    const aufOptions = ["", "U", "U2", "U'"];
     function generateRandAUF() {
-        const n = Math.floor(Math.random() * 4);
-        if (n == 0) {
-            return "";
-        } else if (n == 1) {
-            return "U";
-        } else if (n == 2) {
-            return "U2";
-        } else {
-            return "U'";
-        }
+        return aufOptions[Math.floor(Math.random() * 4)];
     }
 
     let selectedAlgs;
@@ -135,7 +127,17 @@ export function main() {
         let alg = selectedAlgs[currAlg];
         let algText = alg.alg;
 
-        algText = preAUF + " " + algText;
+        if (alg.symmetry == "2") {
+            if (preAUF != "" && preAUF != "U2") {
+                algText = preAUF + " " + algText;
+            }
+        } else if (alg.symmetry == "4") {
+            // Do nothing
+        } else {
+            if (preAUF != "") {
+                algText = preAUF + " " + algText;
+            }
+        }
 
         solutionText.textContent = `Solution: ${algText}`;
         solutionText.style.display = "block";

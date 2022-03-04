@@ -564,6 +564,12 @@ export class CubeLogic {
                 this.turn(0, 2, forward);
                 this.turn(0, 2, forward);
                 break;
+            case "l":
+                this.wideTurn(0, 2, !forward);
+                break;
+            case "l'":
+                this.wideTurn(0, 2, forward);
+                break;
             case "R":
                 this.turn(0, 0, forward);
                 break;

@@ -158,11 +158,13 @@
             },
             {
                 "alg": "R U R' U R U' R' U R U2 R'",
-                "category": "H"
+                "category": "H",
+                "symmetry": "2"
             },
             {
                 "alg": "F R U R' U' R U R' U' R U R' U' F'",
-                "category": "H"
+                "category": "H",
+                "symmetry": "2"
             },
             {
                 "alg": "r U' r2' D' r U' r' D r2 U r'",
@@ -178,7 +180,263 @@
             },
             {
                 "alg": "F R U' R' U' R U R' F' R U R' U' R' F R F'",
-                "category": "O"
+                "category": "O",
+                "symmetry": "4"
+            }
+        ]
+    },
+    {
+        "set": "OLL",
+        "categories": [
+            "Cross",
+            "Awkward Shape",
+            "Dot",
+            "Square",
+            "Small Lightning Bolt",
+            "Big Lightning Bolt",
+            "C Shape",
+            "P Shape",
+            "L Shape",
+            "W Shape",
+            "Corners Oriented",
+            "Fish Shape",
+            "Bar",
+            "Knight Shape"
+        ],
+        "algs": [
+            {
+                "alg": "R U2 R2 F R F' U2 R' F R F'",
+                "category": "Dot",
+                "symmetry": "2"
+            },
+            {
+                "alg": "r U r' U2 r U2 R' U2 R U' r'",
+                "category": "Dot"
+            },
+            {
+                "alg": "r' R2 U R' U r U2 r' U M'",
+                "category": "Dot"
+            },
+            {
+                "alg": "M U' r U2 r' U' R U' R' M'",
+                "category": "Dot"
+            },
+            {
+                "alg": "l' U2 L U L' U l",
+                "category": "Square"
+            },
+            {
+                "alg": "r U2 R' U' R U' r'",
+                "category": "Square"
+            },
+            {
+                "alg": "r U R' U R U2 r'",
+                "category": "Small Lightning Bolt"
+            },
+            {
+                "alg": "l' U' L U' L' U2 l",
+                "category": "Small Lightning Bolt"
+            },
+            {
+                "alg": "R U R' U' R' F R2 U R' U' F'",
+                "category": "Fish Shape"
+            },
+            {
+                "alg": "R U R' U R' F R F' R U2 R'",
+                "category": "Fish Shape"
+            },
+            {
+                "alg": "r U R' U R' F R F' R U2 r'",
+                "category": "Small Lightning Bolt"
+            },
+            {
+                "alg": "M' R' U' R U' R' U2 R U' R r'",
+                "category": "Small Lightning Bolt"
+            },
+            {
+                "alg": "F U R U' R2 F' R U R U' R'",
+                "category": "Knight Shape"
+            },
+            {
+                "alg": "R' F R U R' F' R F U' F'",
+                "category": "Knight Shape"
+            },
+            {
+                "alg": "l' U' l L' U' L U l' U l",
+                "category": "Knight Shape"
+            },
+            {
+                "alg": "r U r' R U R' U' r U' r'",
+                "category": "Knight Shape"
+            },
+            {
+                "alg": "F R' F' R2 r' U R U' R' U' M'",
+                "category": "Dot"
+            },
+            {
+                "alg": "r U R' U R U2 r2 U' R U' R' U2 r",
+                "category": "Dot"
+            },
+            {
+                "alg": "r' R U R U R' U' M' R' F R F'",
+                "category": "Dot"
+            },
+            {
+                "alg": "r U R' U' M2 U R U' R' U' M'",
+                "category": "Dot",
+                "symmetry": "4"
+            },
+            {
+                "alg": "R U2 R' U' R U R' U' R U' R'",
+                "category": "Cross",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R U2 R2 U' R2 U' R2 U2 R",
+                "category": "Cross"
+            },
+            {
+                "alg": "R2 D' R U2 R' D R U2 R",
+                "category": "Cross"
+            },
+            {
+                "alg": "r U R' U' r' F R F'",
+                "category": "Cross"
+            },
+            {
+                "alg": "F' r U R' U' r' F R",
+                "category": "Cross"
+            },
+            {
+                "alg": "R U2 R' U' R U' R'",
+                "category": "Cross"
+            },
+            {
+                "alg": "R U R' U R U2 R'",
+                "category": "Cross"
+            },
+            {
+                "alg": "r U R' U' r' R U R U' R'",
+                "category": "Corners Oriented"
+            },
+            {
+                "alg": "R U R' U' R U' R' F' U' F R U R'",
+                "category": "Awkward Shape"
+            },
+            {
+                "alg": "F R' F R2 U' R' U' R U R' F2",
+                "category": "Awkward Shape"
+            },
+            {
+                "alg": "R' U' F U R U' R' F' R",
+                "category": "P Shape"
+            },
+            {
+                "alg": "L U F' U' L' U L F L'",
+                "category": "P Shape"
+            },
+            {
+                "alg": "R U R' U' R' F R F'",
+                "category": "T Shape"
+            },
+            {
+                "alg": "R U R2 U' R' F R U R U' F'",
+                "category": "C Shape"
+            },
+            {
+                "alg": "R U2 R2 F R F' R U2 R'",
+                "category": "Fish Shape"
+            },
+            {
+                "alg": "L' U' L U' L' U L U L F' L' F",
+                "category": "W Shape"
+            },
+            {
+                "alg": "F R' F' R U R U' R'",
+                "category": "Fish Shape"
+            },
+            {
+                "alg": "R U R' U R U' R' U' R' F R F'",
+                "category": "W Shape"
+            },
+            {
+                "alg": "L F' L' U' L U F U' L'",
+                "category": "Big Lightning Bolt"
+            },
+            {
+                "alg": "R' F R U R' U' F' U R",
+                "category": "Big Lightning Bolt"
+            },
+            {
+                "alg": "R U R' U R U2 R' F R U R' U' F'",
+                "category": "Awkward Shape"
+            },
+            {
+                "alg": "R' U' R U' R' U2 R F R U R' U' F'",
+                "category": "Awkward Shape"
+            },
+            {
+                "alg": "F' U' L' U L F",
+                "category": "P Shape"
+            },
+            {
+                "alg": "F U R U' R' F'",
+                "category": "P Shape"
+            },
+            {
+                "alg": "F R U R' U' F'",
+                "category": "T Shape"
+            },
+            {
+                "alg": "R' U' R' F R F' U R",
+                "category": "C Shape"
+            },
+            {
+                "alg": "R' U' R' F R F' R' F R F' U R",
+                "category": "L Shape"
+            },
+            {
+                "alg": "F R U R' U' R U R' U' F'",
+                "category": "L Shape"
+            },
+            {
+                "alg": "r U' r2 U r2 U r2 U' r",
+                "category": "L Shape"
+            },
+            {
+                "alg": "r' U r2 U' r2 U' r2 U r'",
+                "category": "L Shape"
+            },
+            {
+                "alg": "F U R U' R' U R U' R' F'",
+                "category": "Bar"
+            },
+            {
+                "alg": "R U R' U R U' B U' B' R'",
+                "category": "Bar"
+            },
+            {
+                "alg": "l' U2 L U L' U' L U L' U l",
+                "category": "L Shape"
+            },
+            {
+                "alg": "r U2 R' U' R U R' U' R U' r'",
+                "category": "L Shape"
+            },
+            {
+                "alg": "R' F R U R U' R2 F' R2 U' R' U R U R'",
+                "category": "Bar",
+                "symmetry": "2"
+            },
+            {
+                "alg": "r' U' r U' R' U R U' R' U R r' U r",
+                "category": "Bar",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R U R' U' M' U R U' r'",
+                "category": "Corners Oriented",
+                "symmetry": "2"
             }
         ]
     },
@@ -240,15 +498,18 @@
             },
             {
                 "alg": "x' R U' R' D R U R' D' R U R' D R U' R' D' x",
-                "category": "Diagonal Corner Swap"
+                "category": "Diagonal Corner Swap",
+                "symmetry": "2"
             },
             {
                 "alg": "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
-                "category": "Diagonal Corner Swap"
+                "category": "Diagonal Corner Swap",
+                "symmetry": "4"
             },
             {
                 "alg": "R' U R U' R' F' U' F R U R' F R' F' R U' R",
-                "category": "Diagonal Corner Swap"
+                "category": "Diagonal Corner Swap",
+                "symmetry": "4"
             },
             {
                 "alg": "R' U R' U' y R' F' R2 U' R' U R' F R F",
@@ -260,7 +521,8 @@
             },
             {
                 "alg": "M2 U M2 U2 M2 U M2",
-                "category": "Edge Swap"
+                "category": "Edge Swap",
+                "symmetry": "4"
             },
             {
                 "alg": "M2 U M U2 M' U M2",
@@ -272,7 +534,8 @@
             },
             {
                 "alg": "M' U M2 U M2 U M' U2 M2",
-                "category": "Edge Swap"
+                "category": "Edge Swap",
+                "symmetry": "2"
             }
         ]
     }
