@@ -114,7 +114,7 @@ export function main() {
         currAlg += 1;
         if (currAlg >= selectedAlgs.length) {
             currAlg = 0;
-            selectedAlgs = shuffle(selectedAlgs);
+            selectedAlgs = shuffle([...selectedAlgs]);
         }
 
         loadCurrAlg();
@@ -156,7 +156,7 @@ export function main() {
         let categories = selectedAlgSet.categories;
         let algs = selectedAlgSet.algs;
 
-        selectedAlgs = shuffle(algs);
+        selectedAlgs = shuffle([...algs]);
 
         let inputs = [];
         for (let i = 0; i < categories.length; i++) {
@@ -187,7 +187,7 @@ export function main() {
                 }
                 
                 currAlg = -1;
-                selectedAlgs = shuffle(selectedAlgs);
+                selectedAlgs = shuffle([...selectedAlgs]);
             });
             input.id = category;
             input.type = "checkbox";
