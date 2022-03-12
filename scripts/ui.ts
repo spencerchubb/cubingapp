@@ -11,6 +11,9 @@ export function listenToNavButtons() {
     document.querySelector("#trainButton").addEventListener("click", () => {
         document.location = "train.html";
     });
+    document.querySelector("#cubleButton").addEventListener("click", () => {
+        document.location = "cuble.html";
+    });
     document.querySelector("#settingsButton").addEventListener("click", () => {
         document.location = "settings.html";
     });

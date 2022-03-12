@@ -15,31 +15,12 @@
             <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
-
-            <!-- Default value is 3 for a 3x3 Rubik's Cube -->
-            <input id="layerInput" type="number" min="1" value="3">
-
-            <button id="solve" class="btn btn-primary">Solve</button>
-            <button id="scramble" class="btn btn-primary">Scramble</button>
         </div>
     </nav>
 
     <div id="main-container">
+        <h2 style="color: white;">Cuble coming soon!</h2>
         <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
-        <p id="solution-text" style="color: white; display: none;"></p>
-        <button id="show-solution-button" title="Press space to show solution">Show solution</button>
-        <select id="alg-set-select"></select>
-        <h2 style="color: white; padding-top: 32px; font-size: 24px;">Customize Practice List</h2>
-        <div id="categories-div"></div>
-        <table id="algs-table">
-            <thead>
-                <th>Selected</th>
-                <th>Algorithm</th>
-                <th>Category</th>
-            </thead>
-            <tbody id="algs-table-body">
-            </tbody>
-        </table>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -73,7 +54,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="./dist/train.js"></script>
+    <script src="./dist/play.js"></script>
 </body>
 
 </html>

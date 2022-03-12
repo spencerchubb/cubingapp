@@ -20,14 +20,14 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./scripts/play.ts":
-/*!*************************!*\
-  !*** ./scripts/play.ts ***!
-  \*************************/
+/***/ "./scripts/cuble.ts":
+/*!**************************!*\
+  !*** ./scripts/cuble.ts ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"main\": () => (/* binding */ main)\n/* harmony export */ });\n/* harmony import */ var _scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scene */ \"./scripts/scene.ts\");\n/* harmony import */ var _timer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timer.js */ \"./scripts/timer.js\");\n/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui */ \"./scripts/ui.ts\");\n\r\n\r\n\r\nfunction newSolvedCube(numOfLayers) {\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.activateAllStickers();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.setNumOfLayers(numOfLayers);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"]();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.buffers.initBufferData(_scene__WEBPACK_IMPORTED_MODULE_0__.cube);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.render();\r\n}\r\nfunction main() {\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_2__.listenToNavButtons)();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.setNumOfLayers(3);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.activateAllStickers();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"]();\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_2__.initCanvas)();\r\n    var timer = new _timer_js__WEBPACK_IMPORTED_MODULE_1__.Timer();\r\n    var layerInput = document.querySelector(\"#layerInput\");\r\n    layerInput.addEventListener(\"change\", function (event) {\r\n        var target = event.target;\r\n        newSolvedCube(target.value);\r\n    });\r\n    document.querySelector(\"#solve\").addEventListener(\"click\", function (event) {\r\n        newSolvedCube(layerInput.value);\r\n    });\r\n    document.querySelector(\"#scramble\").addEventListener(\"click\", function (event) {\r\n        _scene__WEBPACK_IMPORTED_MODULE_0__.cube.naiveScramble();\r\n        _scene__WEBPACK_IMPORTED_MODULE_0__.render();\r\n    });\r\n    document.addEventListener('keydown', function (event) {\r\n        if (event.key == \" \") {\r\n            // Prevent extra click if spacebar is pressed while a button is focused.\r\n            event.preventDefault();\r\n            timer.startStop();\r\n        }\r\n        else if (_scene__WEBPACK_IMPORTED_MODULE_0__.cube.matchKeyToTurn(event.key)) {\r\n            _scene__WEBPACK_IMPORTED_MODULE_0__.animateTurn(null);\r\n        }\r\n    });\r\n}\r\nmain();\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/play.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"main\": () => (/* binding */ main)\n/* harmony export */ });\n/* harmony import */ var _scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scene */ \"./scripts/scene.ts\");\n/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ \"./scripts/ui.ts\");\n\r\n\r\nfunction newSolvedCube(numOfLayers) {\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.activateAllStickers();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.setNumOfLayers(numOfLayers);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"]();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.buffers.initBufferData(_scene__WEBPACK_IMPORTED_MODULE_0__.cube);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.render();\r\n}\r\nfunction main() {\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_1__.listenToNavButtons)();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.setNumOfLayers(3);\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube.activateAllStickers();\r\n    _scene__WEBPACK_IMPORTED_MODULE_0__.cube[\"new\"]();\r\n    (0,_ui__WEBPACK_IMPORTED_MODULE_1__.initCanvas)();\r\n    document.addEventListener('keydown', function (event) {\r\n        if (_scene__WEBPACK_IMPORTED_MODULE_0__.cube.matchKeyToTurn(event.key)) {\r\n            _scene__WEBPACK_IMPORTED_MODULE_0__.animateTurn(null);\r\n        }\r\n    });\r\n}\r\nmain();\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/cuble.ts?");
 
 /***/ }),
 
@@ -105,17 +105,6 @@ eval("\r\n/*!\r\n@fileoverview gl-matrix - High performance matrix and vector op
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"colorFromId\": () => (/* binding */ colorFromId),\n/* harmony export */   \"idFromColor\": () => (/* binding */ idFromColor)\n/* harmony export */ });\nfunction colorFromId(id) {\r\n    if (id >= 4294967295) {\r\n        // Max id allowed 256^4 - 2.\r\n        // 255, 255, 255, 255 is the id for the background which would correspond to id 256^4 - 1.\r\n        console.error(\"Id is too large for rgba!\");\r\n        return;\r\n    }\r\n    const x = 256;\r\n    const y = 256 * 256;\r\n    const z = 256 * 256 * 256;\r\n    let aremainder = id % z;\r\n    let alpha = (id - aremainder) / z;\r\n    let bremainder = aremainder % y;\r\n    let blue = (aremainder - bremainder) / y;\r\n    let gremainder = bremainder % x;\r\n    let green = (bremainder - gremainder) / x;\r\n    let red = gremainder;\r\n    return [red / 255.0, green / 255.0, blue / 255.0, alpha / 255.0];\r\n}\r\n\r\nfunction idFromColor(rgba) {\r\n    return rgba[0]\r\n        + rgba[1] * 256\r\n        + rgba[2] * 256 * 256\r\n        + rgba[3] * 256 * 256 * 256;\r\n}\n\n//# sourceURL=webpack://rubiks-cube/./scripts/pickId.js?");
 
-/***/ }),
-
-/***/ "./scripts/timer.js":
-/*!**************************!*\
-  !*** ./scripts/timer.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Timer\": () => (/* binding */ Timer)\n/* harmony export */ });\nclass Timer {\r\n    constructor() {\r\n        this.isRunning = false;\r\n        this.time = 0.0;\r\n        \r\n        this._updateTimeDisplay();\r\n        this._updateStartStopButton();\r\n\r\n        document.querySelector(\"#startStop\").addEventListener(\"click\", (event) => {\r\n            this.startStop();\r\n        });\r\n    }\r\n\r\n    _updateTimeDisplay() {\r\n        document.querySelector(\"#time\").textContent = this.time.toFixed(2);\r\n    }\r\n\r\n    _updateStartStopButton() {\r\n        document.querySelector(\"#startStop\").textContent = this.isRunning ? \"Stop\" : \"Start\";\r\n    }\r\n\r\n    startStop() {\r\n        if (this.isRunning) {\r\n            clearInterval(this.interval);\r\n        } else {\r\n            const start = Date.now();\r\n            this.interval = setInterval(\r\n                () => {\r\n                    this.time = (Date.now() - start) / 1000;\r\n                    this._updateTimeDisplay();\r\n                },\r\n                1, // Repeat every 1 ms\r\n            );\r\n        }\r\n        this.isRunning = !this.isRunning;\r\n        this._updateStartStopButton();\r\n    }\r\n}\n\n//# sourceURL=webpack://rubiks-cube/./scripts/timer.js?");
-
 /***/ })
 
 /******/ 	});
@@ -178,7 +167,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/play.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/cuble.ts");
 /******/ 	
 /******/ })()
 ;
