@@ -16,21 +16,18 @@
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
 
-            <!-- Default value is 3 for a 3x3 Rubik's Cube -->
-            <input id="layerInput" type="number" min="1" value="3">
+            <select id="alg-set-select"></select>
 
-            <button id="solve" class="btn btn-primary">Solve</button>
-            <button id="scramble" class="btn btn-primary">Scramble</button>
+            <button id="try-again" class="btn btn-primary" title="Press backspace to try again">Try Again</button>
+            <button id="next" class="btn btn-primary" title="Press enter for next algorithm">Next</button>
         </div>
     </nav>
 
     <div id="main-container">
         <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
-        <p id="solution-text" style="color: white; display: none;"></p>
-        <button id="show-solution-button" title="Press space to show solution">Show solution</button>
-        <select id="alg-set-select"></select>
-        <h2 style="color: white; padding-top: 32px; font-size: 24px;">Customize Practice List</h2>
-        <div id="categories-div"></div>
+        <p id="solution-text" class="show-solution show-solution-clickable" title="Press space to show solution">Show solution</p>
+        <h2 style="color: white; padding-top: 24px; font-size: 24px;">Customize Practice List</h2>
+        <div id="categories-div" style="display: flex; justify-content: center; flex-wrap: wrap; width: 400px; padding: 8px 0 16px 0;"></div>
         <table id="algs-table">
             <thead>
                 <th>Selected</th>

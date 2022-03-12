@@ -20,19 +20,12 @@ export function main() {
 
     initCanvas();
 
-    const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
-    layerInput.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-        newSolvedCube(target.value);
+    document.querySelector("#try-again").addEventListener("click", (event) => {
+        loadCurrAlg();
     });
 
-    document.querySelector("#solve").addEventListener("click", (event) => {
-        newSolvedCube(layerInput.value);
-    });
-
-    document.querySelector("#scramble").addEventListener("click", (event) => {
-        scene.cube.naiveScramble();
-        scene.render();
+    document.querySelector("#next").addEventListener("click", (event) => {
+        nextAlg();
     });
 
     document.addEventListener('keydown', (event) => {
@@ -41,6 +34,8 @@ export function main() {
             event.preventDefault();
 
             handleShowSolution();
+        } else if (event.key == "Backspace") {
+            loadCurrAlg();
         } else if (event.key == "Enter") {
             nextAlg();
         } else if (scene.cube.matchKeyToTurn(event.key)) {
@@ -121,8 +116,7 @@ export function main() {
     }
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
-    const showSolutionButton: HTMLElement = document.querySelector("#show-solution-button");
-    showSolutionButton.addEventListener("click", handleShowSolution);
+    solutionText.addEventListener("click", handleShowSolution);
     function handleShowSolution() {
         let alg = selectedAlgs[currAlg];
         let algText = alg.alg;
@@ -139,13 +133,13 @@ export function main() {
             }
         }
 
-        solutionText.textContent = `Solution: ${algText}`;
-        solutionText.style.display = "block";
-        showSolutionButton.style.display = "none";
+        solutionText.textContent = algText;
+        console.log(solutionText.classList);
+        solutionText.classList.remove("show-solution-clickable");
     }
     function handleHideSolution() {
-        solutionText.style.display = "none";
-        showSolutionButton.style.display = "block";
+        solutionText.textContent = "Show solution";
+        solutionText.classList.add("show-solution-clickable");
     }
 
     const categoriesDiv = document.querySelector("#categories-div");
@@ -185,7 +179,7 @@ export function main() {
                     });
                     selectedAlgs = algs;
                 }
-                
+
                 currAlg = -1;
                 selectedAlgs = shuffle([...selectedAlgs]);
             });
@@ -197,6 +191,7 @@ export function main() {
             categoryDiv.style.display = "flex";
             categoryDiv.style.flexDirection = "row";
             categoryDiv.style.alignItems = "center";
+            categoryDiv.style.padding = "0 8px";
 
             const label = document.createElement("label");
             // for attribute of the label should match the id of the input
