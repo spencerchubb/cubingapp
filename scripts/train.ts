@@ -134,7 +134,6 @@ export function main() {
         }
 
         solutionText.textContent = algText;
-        console.log(solutionText.classList);
         solutionText.classList.remove("show-solution-clickable");
     }
     function handleHideSolution() {

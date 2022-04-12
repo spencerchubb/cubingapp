@@ -18,6 +18,16 @@ export function main() {
 
     initCanvas();
 
+    document.querySelector("#solve").addEventListener("click", (event) => {
+        newSolvedCube("3");
+    });
+
+    document.querySelector("#scramble").addEventListener("click", (event) => {
+        scene.cube.naiveScramble();
+        scene.cube.cubleScramble();
+        scene.render();
+    });
+
     document.addEventListener('keydown', (event) => {
         if (scene.cube.matchKeyToTurn(event.key)) {
             scene.animateTurn(null);

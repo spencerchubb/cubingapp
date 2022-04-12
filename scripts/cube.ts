@@ -1,4 +1,5 @@
 import { DEFAULT_SPEED } from "./constants.js";
+import * as pieceIndices from "./pieceIndices";
 
 const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
 const gl = canvas.getContext('webgl');
@@ -98,6 +99,7 @@ export class CubeLogic {
         pushN(this, BLUE, 27);
         pushN(this, ORANGE, 36);
         pushN(this, RED, 45);
+
         this.resetAffectedStickers();
         this.setStickers();
     }
@@ -112,6 +114,15 @@ export class CubeLogic {
         }
 
         this.setStickers();
+    }
+
+    cubleScramble() {
+        for (let i = 0; i < 56; i++) {
+            if (!pieceIndices.CENTERS.includes(i)) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i]);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
+            }
+        }
     }
 
     setNumOfLayers(num) {
