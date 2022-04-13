@@ -289,7 +289,7 @@ function drawScene() {
             const object = buffers.objects[i];
             return {
                 position: object.positionBuffer,
-                color: stickers[i],
+                color: stickers[i].buffer,
             };
         },
     );

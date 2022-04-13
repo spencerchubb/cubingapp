@@ -36,7 +36,7 @@ const turnTypes = {
 
 function repeatColorFor4Vertices(color, activeStickers, sticker) {
     let rgba = activeStickers.includes(sticker) ? color.active : color.inactive;
-    
+
     let arr = [];
     for (let i = 0; i < 4; i++) {
         arr.push(rgba[0], rgba[1], rgba[2], rgba[3]);
@@ -46,7 +46,11 @@ function repeatColorFor4Vertices(color, activeStickers, sticker) {
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
 
-    return buffer;
+    return {
+        color: color,
+        arr: arr,
+        buffer: buffer,
+    };
 }
 
 function pushN(cube, color, face) {
@@ -72,7 +76,7 @@ export class CubeLogic {
     disableTurn: any;
     clockwise: any;
     turnType: number;
-    
+
     constructor() {
         const keyboardSpeed: number = +localStorage.getItem("#keyboardSpeed") || +DEFAULT_SPEED;
         const dragSpeed = +localStorage.getItem("#dragSpeed") || +DEFAULT_SPEED;
@@ -117,10 +121,29 @@ export class CubeLogic {
     }
 
     cubleScramble() {
-        for (let i = 0; i < 56; i++) {
+        for (let i = 0; i < 54; i++) {
             if (!pieceIndices.CENTERS.includes(i)) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i]);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
+                const arr = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
+            }
+        }
+    }
+
+    /**
+     * This method is used for the Cuble mini-game. This method should be called
+     * after each turn. When a sticker is turned to its correct face, its color is revealed.
+     */
+    revealCorrectStickers() {
+        for (let i = 0; i < 54; i++) {
+            if ((0 <= i && i <= 8 && this.stickers[i].color == this.stickers[4].color)
+                || (9 <= i && i <= 17 && this.stickers[i].color == this.stickers[13].color)
+                || (18 <= i && i <= 26 && this.stickers[i].color == this.stickers[22].color)
+                || (27 <= i && i <= 35 && this.stickers[i].color == this.stickers[31].color)
+                || (36 <= i && i <= 44 && this.stickers[i].color == this.stickers[40].color)
+                || (45 <= i && i <= 53 && this.stickers[i].color == this.stickers[49].color)) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.stickers[i].arr), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
             }
         }
     }
@@ -172,7 +195,7 @@ export class CubeLogic {
     turn(axis, layer, clockwise) {
         this.axis = axis;
         this.clockwise = clockwise;
-        
+
         this.resetAffectedStickers();
 
         this._matchTurn(axis, layer, clockwise);
@@ -340,89 +363,91 @@ export class CubeLogic {
         switch (key) {
             case "n": // x
                 this.cubeRotate(0, true);
-                return true;
+                return { rotate: true };
             case "b": // x'
                 this.cubeRotate(0, false);
-                return true;
+                return { rotate: true };
             case ";": // y
                 this.cubeRotate(1, true);
-                return true;
+                return { rotate: true };
             case "a": // y'
                 this.cubeRotate(1, false);
-                return true;
+                return { rotate: true };
             case "p": // z
                 this.cubeRotate(2, true);
-                return true;
+                return { rotate: true };
             case "q": // z'
                 this.cubeRotate(2, false);
-                return true;
+                return { rotate: true };
             case "j": // U
                 this.turn(1, 0, true);
-                return true;
+                return { turn: true };
             case "f": // U'
                 this.turn(1, 0, false);
-                return true;
+                return { turn: true };
             case "s": // D
                 this.turn(1, this.numOfLayers - 1, false);
-                return true;
+                return { turn: true };
             case "l": // D'
                 this.turn(1, this.numOfLayers - 1, true);
-                return true;
+                return { turn: true };
             case "h": // F
                 this.turn(2, 0, true);
-                return true;
+                return { turn: true };
             case "g": // F'
                 this.turn(2, 0, false);
-                return true;
+                return { turn: true };
             case "w": // B
                 this.turn(2, this.numOfLayers - 1, false);
-                return true;
+                return { turn: true };
             case "o": // B'
                 this.turn(2, this.numOfLayers - 1, true);
-                return true;
+                return { turn: true };
             case "d": // L
                 this.turn(0, this.numOfLayers - 1, false);
-                return true;
+                return { turn: true };
             case "e": // L'
                 this.turn(0, this.numOfLayers - 1, true);
-                return true;
+                return { turn: true };
             case "i": // R
                 this.turn(0, 0, true);
-                return true;
+                return { turn: true };
             case "k": // R'
                 this.turn(0, 0, false);
-                return true;
+                return { turn: true };
             case "[": // M
                 this.sliceTurn(0, false);
-                return true;
+                return { turn: true };
             case "'": // M'
                 this.sliceTurn(0, true);
-                return true;
+                return { turn: true };
             case "c": // E
                 this.sliceTurn(1, false);
-                return true;
+                return { turn: true };
             case ",": // E'
                 this.sliceTurn(1, true);
-                return true;
+                return { turn: true };
             case "y": // S
                 this.sliceTurn(2, true);
-                return true;
+                return { turn: true };
             case "t": // S'
                 this.sliceTurn(2, false);
-                return true;
+                return { turn: true };
             case "u": // r
                 this.wideTurn(0, 0, true);
-                return true;
+                return { turn: true };
             case "m": // r'
                 this.wideTurn(0, 0, false);
-                return true;
+                return { turn: true };
             case "v": // l
                 this.wideTurn(0, this.numOfLayers - 1, false);
-                return true;
+                return { turn: true };
             case "r": // l'
                 this.wideTurn(0, this.numOfLayers - 1, true);
-                return true;
+                return { turn: true };
         }
+
+        return {};
     }
 
     doTurnFromMouseDrag(id, dx, dy) {
@@ -450,7 +475,7 @@ export class CubeLogic {
 
     doCubeRotateFromMouseDrag(x, y, dx, dy) {
         if (this.disableTurn) return;
-        
+
         this.turnType = turnTypes.DRAG;
         this.factor = this.dragSpeedFactor;
 
