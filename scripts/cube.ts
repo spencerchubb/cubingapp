@@ -25,8 +25,12 @@ const ORANGE = {
     inactive: [0.5, 0.25, 0.0, 1.0],
 }
 const RED = {
-    active: [1.0, 0.0, 0.0, 0.5],
+    active: [1.0, 0.0, 0.0, 1.0],
     inactive: [0.5, 0.0, 0.0, 1.0],
+}
+const BLACK = {
+    active: [0.0, 0.0, 0.0, 1.0],
+    inactive: [0.0, 0.0, 0.0, 1.0],
 }
 
 const turnTypes = {
@@ -34,9 +38,7 @@ const turnTypes = {
     DRAG: 1,
 }
 
-function repeatColorFor4Vertices(color, activeStickers, sticker) {
-    let rgba = activeStickers.includes(sticker) ? color.active : color.inactive;
-
+function repeatColorFor4Vertices(color, rgba) {
     let arr = [];
     for (let i = 0; i < 4; i++) {
         arr.push(rgba[0], rgba[1], rgba[2], rgba[3]);
@@ -53,12 +55,6 @@ function repeatColorFor4Vertices(color, activeStickers, sticker) {
     };
 }
 
-function pushN(cube, color, face) {
-    for (let i = 0; i < cube.layersSq; i++) {
-        cube.stickers.push(repeatColorFor4Vertices(color, cube.activeStickers, face + i));
-    }
-}
-
 export class CubeLogic {
     keyboardSpeedFactor: number;
     dragSpeedFactor: number;
@@ -66,6 +62,7 @@ export class CubeLogic {
     axis: number;
     activeStickers: any;
     stickers: any[];
+    underStickers: any[];
     numOfLayers: any;
     layersSq: number;
     layersHalf: number;
@@ -97,12 +94,23 @@ export class CubeLogic {
         }
 
         this.stickers = [];
-        pushN(this, WHITE, 0);
-        pushN(this, GREEN, 9);
-        pushN(this, YELLOW, 18);
-        pushN(this, BLUE, 27);
-        pushN(this, ORANGE, 36);
-        pushN(this, RED, 45);
+        const pushSeveral = (color, face) => {
+            for (let i = 0; i < this.layersSq; i++) {
+                let rgba = this.activeStickers.includes(face + i) ? color.active : color.inactive;
+                this.stickers.push(repeatColorFor4Vertices(color, rgba));
+            }
+        }
+        pushSeveral(WHITE, 0);
+        pushSeveral(GREEN, 9);
+        pushSeveral(YELLOW, 18);
+        pushSeveral(BLUE, 27);
+        pushSeveral(ORANGE, 36);
+        pushSeveral(RED, 45);
+
+        this.underStickers = [];
+        for (let i = 0; i < this.layersSq * 6; i++) {
+            this.underStickers.push(repeatColorFor4Vertices(BLACK, BLACK.active));
+        }
 
         this.resetAffectedStickers();
         this.setStickers();
@@ -124,7 +132,7 @@ export class CubeLogic {
         for (let i = 0; i < 54; i++) {
             if (!pieceIndices.CENTERS.includes(i)) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-                const arr = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
+                const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
             }
         }
@@ -162,6 +170,10 @@ export class CubeLogic {
 
     setStickers() {
         this.currentStickers = [...this.stickers];
+    }
+
+    getUnderStickers() {
+        return this.underStickers;
     }
 
     getAffectedStickers() {

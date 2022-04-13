@@ -10,11 +10,11 @@ export class Buffers {
 
         // Vertex positions with gap.
         this.gap = 0.03;
-        let allPositions = this._concatPositions();
+        let allPositions = this._concatPositions(1.0);
 
         // Vertex positions with no gap so user can drag between the gaps.
         this.gap = 0.0;
-        let allNoGapPositions = this._concatPositions();
+        let allNoGapPositions = this._concatPositions(0.99);
 
         let allPickingColors = [];
         for (let i = 0; i < this.cube.numOfStickers; i++) {
@@ -71,20 +71,20 @@ export class Buffers {
         }
     }
 
-    _concatPositions() {
+    _concatPositions(radius) {
         let positions = [];
         // Top face
-        positions = positions.concat(this._topFace(1, 1.0));
+        positions = positions.concat(this._topFace(1, radius));
         // Front face
-        positions = positions.concat(this._frontFace(0, 1.0));
+        positions = positions.concat(this._frontFace(0, radius));
         // Bottom face
-        positions = positions.concat(this._bottomFace(1, -1.0));
+        positions = positions.concat(this._bottomFace(1, -radius));
         // Back face
-        positions = positions.concat(this._backFace(0, -1.0));
+        positions = positions.concat(this._backFace(0, -radius));
         // Left face
-        positions = positions.concat(this._leftFace(2, -1.0));
+        positions = positions.concat(this._leftFace(2, -radius));
         // Right face
-        positions = positions.concat(this._rightFace(2, 1.0));
+        positions = positions.concat(this._rightFace(2, radius));
         return positions;
     }
 

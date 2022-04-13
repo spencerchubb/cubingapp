@@ -232,6 +232,7 @@ function drawScene() {
         projectionMatrix);
 
     const stickers = cube.getStickers();
+    const underStickers = cube.getUnderStickers();
     const affectedStickers = cube.getAffectedStickers();
 
     function drawObjects(range, selectBuffers) {
@@ -282,6 +283,17 @@ function drawScene() {
 
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    drawObjects(
+        cube.numOfStickers,
+        (i) => {
+            const object = buffers.objects[i];
+            return {
+                position: object.noGapPositionBuffer,
+                color: underStickers[i].buffer,
+            }
+        },
+    );
 
     drawObjects(
         cube.numOfStickers,
