@@ -46,6 +46,16 @@ export function initCanvas() {
     function pointerMove(x: number, y: number) {
         const pos = posRelativeToCanvas(x, y);
         scene.dragDetector.onPointerMove(pos.x, pos.y);
+
+        // If the pointer down event started on a gap between the stickers, then the picking 
+        // color will not be a valid picking color. In this case, we want to keep updating
+        // pixelX and pixelY until we read a valid picking color.
+        let pixels = scene.dragDetector.pixels;
+        if (pixels[1] !== 0 || pixels[2] !== 0 || pixels[3] !== 0) {
+            scene.dragDetector.onPointerDown(pos.x, pos.y);
+
+            scene.render();
+        }
     }
 
     function pointerUp() {
@@ -67,6 +77,7 @@ export function initCanvas() {
         }
     }
 
+    // touch events are for mobile, pointer events are for desktop
     gl.canvas.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
         pointerDown(touch.pageX, touch.pageY);
@@ -78,6 +89,18 @@ export function initCanvas() {
     });
 
     gl.canvas.addEventListener('touchend', () => {
+        pointerUp();
+    });
+
+    gl.canvas.addEventListener('pointerdown', (event) => {
+        pointerDown(event.pageX, event.pageY);
+    });
+
+    gl.canvas.addEventListener('pointermove', (event) => {
+        pointerMove(event.pageX, event.pageY);
+    });
+
+    gl.canvas.addEventListener('pointerup', () => {
         pointerUp();
     });
 }

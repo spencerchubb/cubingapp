@@ -208,14 +208,10 @@ function drawScene() {
     // the center of the scene.
     const modelViewMatrix = mat4.create();
 
-    // Now move the drawing position a bit to where we want to
-    // start drawing the square.
-
     mat4.translate(modelViewMatrix,     // destination matrix
         modelViewMatrix,     // matrix to translate
         [-0.0, 0.0, -5.5]);  // amount to translate
 
-    // Rotate to the starting position such that 3 faces are visible.
     mat4.rotate(
         modelViewMatrix,
         modelViewMatrix,
@@ -273,7 +269,7 @@ function drawScene() {
         (i) => {
             const object = buffers.objects[i];
             return {
-                position: object.noGapPositionBuffer,
+                position: object.positionBuffer,
                 color: object.pickingColorBuffer,
             };
         },

@@ -22,7 +22,7 @@ export class DragDetector {
         this.mouseXOnDown = x;
         this.mouseYOnDown = y;
         this.pixelX = x * gl.canvas.width / gl.canvas.clientWidth;
-        this.pixelY = gl.canvas.height - y * gl.canvas.height / gl.canvas.clientHeight - 1;
+        this.pixelY = gl.canvas.height - y * gl.canvas.height / gl.canvas.clientHeight - 1; // why -1?
 
         this.numOfMouseMoves = 0;
     }

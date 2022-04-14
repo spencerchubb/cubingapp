@@ -470,13 +470,17 @@ export class CubeLogic {
 
         const ratio = dy / dx;
         const ratioThreshold = 0.55;
+
+        // The range from 0-layersSq is the top face.
+        // The range from layersSq-2*layersSq is the front face.
+        // We only want to check for a drag on these two faces.
         if (id < this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
                 this.turn(0, this.numOfLayers - 1 - Math.floor(id / 3), dy < 0);
             } else {
                 this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
             }
-        } else if (id >= this.layersSq) {
+        } else if (this.layersSq <= id && id < 2 * this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
                 this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / 3), dy < 0);
             } else {

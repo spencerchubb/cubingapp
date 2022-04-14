@@ -9,7 +9,7 @@ export class Buffers {
         this.cube = cube;
 
         // Vertex positions with gap.
-        this.gap = 0.03;
+        this.gap = 0.02;
         let allPositions = this._concatPositions(1.0);
 
         // Vertex positions with no gap so user can drag between the gaps.
