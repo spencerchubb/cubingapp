@@ -48,22 +48,16 @@ export function main() {
     });
 
     const helpButton: HTMLElement = document.querySelector("#helpButton");
-    const helpModalBackground: HTMLElement = document.querySelector("#helpModalBackground");
+    const helpModal: HTMLElement = document.querySelector("#helpModal");
     const closeHelpModal: HTMLElement = document.querySelector("#closeHelpModal");
     function showModal() {
-        helpModalBackground.style.display = "flex";
+        helpModal.style.display = "flex";
     }
     function hideModal() {
-        helpModalBackground.style.display = "none";
+        helpModal.style.display = "none";
     }
     helpButton.addEventListener("click", () => {
         showModal();
-    });
-    helpModalBackground.addEventListener("click", (event) => {
-        // Do nothing if child element was clicked.
-        if(event.target !== event.currentTarget) return;
-
-        hideModal();
     });
     closeHelpModal.addEventListener("click", (event) => {
         hideModal();

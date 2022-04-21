@@ -495,41 +495,33 @@ export class CubeLogic {
         this.turnType = turnTypes.DRAG;
         this.factor = this.dragSpeedFactor;
 
-        // console.log(x, y, dx, dy);
-
         // top center
         if (y < 62 && x > 88 && x < 226) {
-            console.log("top center");
             this.cubeRotate(0, dy < 0);
         }
 
         // bottom center
         else if (y > 260 && x > 88 && x < 226) {
-            console.log("bottom center");
             this.cubeRotate(0, dy < 0);
         }
 
         // top left
         else if (x < 88 && y > 62 && y < 145) {
-            console.log("top left");
             this.cubeRotate(2, dx > 0);
         }
 
         // top right
         else if (x > 226 && y > 62 && y < 145) {
-            console.log("top right");
             this.cubeRotate(2, dx > 0);
         }
 
         // bottom left
         else if (x < 88 && y > 145 && y < 260) {
-            console.log("bottom left");
             this.cubeRotate(1, dx < 0);
         }
 
         // bottom right
         else if (x > 226 && y > 145 && y < 260) {
-            console.log("bottom right");
             this.cubeRotate(1, dx < 0);
         }
     }

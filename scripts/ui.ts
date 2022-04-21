@@ -52,7 +52,8 @@ export function initCanvas() {
         // pixelX and pixelY until we read a valid picking color.
         let pixels = scene.dragDetector.pixels;
         if (pixels[1] !== 0 || pixels[2] !== 0 || pixels[3] !== 0) {
-            scene.dragDetector.onPointerDown(pos.x, pos.y);
+            scene.dragDetector.pixelX = pos.x * gl.canvas.width / gl.canvas.clientWidth;
+            scene.dragDetector.pixelY = gl.canvas.height - pos.y * gl.canvas.height / gl.canvas.clientHeight - 1; // why -1?
 
             scene.render();
         }

@@ -16,19 +16,111 @@
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
 
+            <div style="flex-grow: 1;"></div>
+
             <!-- Default value is 3 for a 3x3 Rubik's Cube -->
             <input id="layerInput" type="number" min="1" value="3">
-
+            <div style="width: 24px;"></div>
             <button id="solve" class="btn btn-primary">Solve</button>
+            <div style="width: 24px;"></div>
             <button id="scramble" class="btn btn-primary">Scramble</button>
+
+            <div style="flex-grow: 1;"></div>
+
+            <button id="helpButton" class="btn btn-primary">Tips</button>
         </div>
     </nav>
 
-    <div id="main-container">
-        <p id="time"></p>
-        <button id="startStop" class="btn btn-primary"></button>
-        <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
-        <button id="helpButton" class="btn btn-primary">Tips</button>
+    <div class="row" style="min-height: 0; height: 100%;">
+        <div id="main-container">
+            <p id="time"></p>
+            <button id="startStop" class="btn btn-primary"></button>
+            <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
+        </div>
+        <div id="helpModal" style="display: none; flex-direction: column; background-color: white; width: 450px; height: 100%;">
+            <div class="row" style="justify-content: space-between; padding: 16px;">
+                <p style="font-weight: bold;">Tips</p>
+                <svg id="closeHelpModal" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                </svg>
+            </div>
+            <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+                <p>There are two ways to interact with the cube</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;1. Keyboard - Each action corresponds to a different key. The key mappings are listed below.</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;2. Dragging - Click and drag a piece in the direction you want to turn. Or, click outside the cube and drag to rotate the entire cube.</p>
+                <div class="col">
+                    <table id="tips-table" style="margin-top: 12px;">
+                        <thead>
+                            <th>Key</th>
+                            <th>Notation</th>
+                            <th>Description</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>j</td>
+                                <td>U</td>
+                                <td>Up face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>f</td>
+                                <td>U'</td>
+                                <td>Up face counterclockwise</td>
+                            </tr>
+                            <tr>
+                                <td>s</td>
+                                <td>D</td>
+                                <td>Down face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>l</td>
+                                <td>D'</td>
+                                <td>Down face counterclockwise</td>
+                            </tr>
+                            <tr>
+                                <td>h</td>
+                                <td>F</td>
+                                <td>Front face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>g</td>
+                                <td>F'</td>
+                                <td>Front face counterclockwise</td>
+                            </tr>
+                            <tr>
+                                <td>w</td>
+                                <td>B</td>
+                                <td>Back face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>o</td>
+                                <td>B'</td>
+                                <td>Back face counterclockwise</td>
+                            </tr>
+                            <tr>
+                                <td>d</td>
+                                <td>L</td>
+                                <td>Left face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>e</td>
+                                <td>L'</td>
+                                <td>Left face counterclockwise</td>
+                            </tr>
+                            <tr>
+                                <td>i</td>
+                                <td>R</td>
+                                <td>Right face clockwise</td>
+                            </tr>
+                            <tr>
+                                <td>k</td>
+                                <td>R'</td>
+                                <td>Right face counterclockwise</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -59,44 +151,6 @@
         </div>
     </div>
 
-    <div id="helpModalBackground" class="col"
-        style="z-index: 1; width: 100vw; height: 100vh; position: fixed; justify-content: center; display: none;">
-        <div id="helpModal" style="background-color: white; width: 400px; height: 450px; padding: 16px; overflow-y: scroll;">
-            <div class="row" style="justify-content: space-between;">
-                <p style="font-weight: bold;">Tips</p>
-                <svg id="closeHelpModal" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-                </svg>
-            </div>
-            <p style="padding-top: 16px;">There are two ways to interact with the cube</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;1. Keyboard - Each action corresponds to a different key. This method takes a bit of time to get used to, but you will develop the muscle memory with practice. The key mappings are listed below.</p>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;2. Dragging - This method is slower, but easier to understand at first. Simply drag in the direction you want a face to turn. You can also do cube rotations by dragging just outside the cube.</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-            <p>a</p>
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
