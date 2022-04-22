@@ -49,9 +49,8 @@ th, td {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: space-evenly; */
     width: 100%;
-    padding: 12px 24px;
+    padding: 12px 0;
 }
 
 .navbar-h {
@@ -84,7 +83,7 @@ th, td {
     color: white;
     text-align: left;
     padding: 0 24px;
-    max-width: 100%;
+    max-width: 500px;
     overflow-wrap: break-word;
 }
 
