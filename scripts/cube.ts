@@ -101,11 +101,11 @@ export class CubeLogic {
             }
         }
         pushSeveral(WHITE, 0);
-        pushSeveral(GREEN, 9);
-        pushSeveral(YELLOW, 18);
-        pushSeveral(BLUE, 27);
-        pushSeveral(ORANGE, 36);
-        pushSeveral(RED, 45);
+        pushSeveral(GREEN, 1 * this.layersSq);
+        pushSeveral(YELLOW, 2 * this.layersSq);
+        pushSeveral(BLUE, 3 * this.layersSq);
+        pushSeveral(ORANGE, 4 * this.layersSq);
+        pushSeveral(RED, 5 * this.layersSq);
 
         this.underStickers = [];
         for (let i = 0; i < this.layersSq * 6; i++) {
@@ -476,15 +476,19 @@ export class CubeLogic {
         // We only want to check for a drag on these two faces.
         if (id < this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - Math.floor(id / 3), dy < 0);
+                // this.turn(0, this.numOfLayers - 1 - Math.floor(id / 3), dy < 0);
+                this.turn(0, this.numOfLayers - 1 - Math.floor(id / this.numOfLayers), dy < 0);
             } else {
-                this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
+                // this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
+                this.turn(2, this.numOfLayers - 1 - (id % this.numOfLayers), dx > 0);
             }
         } else if (this.layersSq <= id && id < 2 * this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / 3), dy < 0);
+                // this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / 3), dy < 0);
+                this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / this.numOfLayers), dy < 0);
             } else {
-                this.turn(1, (id - this.layersSq) % 3, dx < 0);
+                // this.turn(1, (id - this.layersSq) % 3, dx < 0);
+                this.turn(1, (id - this.layersSq) % this.numOfLayers, dx < 0);
             }
         }
     }

@@ -3,8 +3,11 @@ import { Timer } from "./timer.js";
 import { initCanvas, listenToNavButtons } from "./ui";
 
 function newSolvedCube(numOfLayers: string) {
-    scene.cube.activateAllStickers();
     scene.cube.setNumOfLayers(numOfLayers);
+
+    // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
+    scene.cube.activateAllStickers();
+
     scene.cube.new();
     scene.buffers.initBufferData(scene.cube);
     scene.render();
