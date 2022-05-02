@@ -3,14 +3,6 @@ import { initCanvas, listenToNavButtons } from "./ui";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
-function newSolvedCube(numOfLayers: string) {
-    scene.cube.activateAllStickers();
-    scene.cube.setNumOfLayers(numOfLayers);
-    scene.cube.new();
-    scene.buffers.initBufferData(scene.cube);
-    scene.render();
-}
-
 export function main() {
     listenToNavButtons();
 
@@ -45,10 +37,17 @@ export function main() {
 
     const algSetSelect = document.querySelector("#alg-set-select");
     algSetSelect.addEventListener("change", (event) => {
-        const set = (event.target as HTMLInputElement).value;
-        findAlgSet(set);
-        renderCategories();
-        renderAlgs();
+        const setName = (event.target as HTMLInputElement).value;
+        const set = findAlgSet(setName);
+        
+        if (set.cube == "2x2") {
+            scene.newSolvedCube(2);
+        } else if (set.cube == "3x3") {
+            scene.newSolvedCube(3);
+        }
+
+        renderCategories(set);
+        renderAlgs(set);
     });
     algData.forEach(algSet => {
         const option = document.createElement("option");
@@ -57,19 +56,15 @@ export function main() {
         algSetSelect.appendChild(option);
     });
 
-    // The initial 'selectedAlgSet' should just be the first alg set.
-    let selectedAlgSet = algData[0];
 
     // Iterate 'algData' and find the desired set. 
-    // Assign this alg set to the global variable 'selectedAlgSet'
     function findAlgSet(set: string) {
         console.log("Displaying alg set:", set);
 
         for (let i = 0; i < algData.length; i++) {
             const algSet = algData[i];
             if (algSet.set === set) {
-                selectedAlgSet = algSet;
-                break;
+                return algSet;
             }
         }
     }
@@ -143,11 +138,11 @@ export function main() {
 
     const categoriesDiv = document.querySelector("#categories-div");
 
-    function renderCategories() {
+    function renderCategories(set: any) {
         categoriesDiv.innerHTML = "";
 
-        let categories = selectedAlgSet.categories;
-        let algs = selectedAlgSet.algs;
+        let categories = set.categories;
+        let algs = set.algs;
 
         selectedAlgs = shuffle([...algs]);
 
@@ -214,10 +209,10 @@ export function main() {
     // Booleans that indicate which algs are selected
     let isSelected = [];
 
-    function renderAlgs() {
+    function renderAlgs(set: any) {
         algsTableBody.innerHTML = "";
 
-        let algs = selectedAlgSet.algs;
+        let algs = set.algs;
 
         selectedTdArray = [];
         isSelected = [];
@@ -261,8 +256,8 @@ export function main() {
 
     // Initial render
     handleHideSolution();
-    renderCategories();
-    renderAlgs();
+    renderCategories(algData[0]);
+    renderAlgs(algData[0]);
 }
 
 main();

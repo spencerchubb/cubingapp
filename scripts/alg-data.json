@@ -1,5 +1,6 @@
 [
     {
+        "cube": "3x3",
         "set": "CMLL",
         "categories": [
             "S",
@@ -186,6 +187,7 @@
         ]
     },
     {
+        "cube": "3x3",
         "set": "OLL",
         "categories": [
             "Cross",
@@ -441,6 +443,7 @@
         ]
     },
     {
+        "cube": "3x3",
         "set": "PLL",
         "categories": [
             "Adjacent Corner Swap",
@@ -536,6 +539,567 @@
                 "alg": "M' U M2 U M2 U M' U2 M2",
                 "category": "Edge Swap",
                 "symmetry": "2"
+            }
+        ]
+    },
+    {
+        "cube": "2x2",
+        "set": "2x2 CLL",
+        "categories": [
+            "S",
+            "AS",
+            "Pi",
+            "U",
+            "L",
+            "T",
+            "H",
+            "O"
+        ],
+        "algs": [
+            {
+                "alg": "R U R' U R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "R U R' U R' F R F' R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "F R' F' R U2 R U2 R'",
+                "category": "S"
+            },
+            {
+                "alg": "R U' L' U R' U' L",
+                "category": "S"
+            },
+            {
+                "alg": "R U' R U' R' U R' U' F R' F'",
+                "category": "S"
+            },
+            {
+                "alg": "L' U2 L U2 L F' L' F",
+                "category": "S"
+            },
+            {
+                "alg": "L' U' L U' L' U2 L",
+                "category": "AS"
+            },
+            {
+                "alg": "R' U' R U' R' U R' F R F' U R",
+                "category": "AS"
+            },
+            {
+                "alg": "F' L F L' U2 L' U2 L",
+                "category": "AS"
+            },
+            {
+                "alg": "L' U R U' L U R'",
+                "category": "AS"
+            },
+            {
+                "alg": "R2 F R U2 R U' R' U2 F' R",
+                "category": "AS"
+            },
+            {
+                "alg": "R U2 R' U2 R' F R F'",
+                "category": "AS"
+            },
+            {
+                "alg": "F R U R' U' R U R' U' F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' U' R' F R F' R U' R' U2 R",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' F R F' R U' R' U' R U' R'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R2 U' R2 U R2 U R2 F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R U2 R' U' R U R' U2 R' F R F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R' F' R U2 R U' R' U R U2 R'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R U R' U' F'",
+                "category": "U"
+            },
+            {
+                "alg": "R U R2' U' R U2 R' U2' R U' R",
+                "category": "U"
+            },
+            {
+                "alg": "F R U R' U2 F' R U' R' F",
+                "category": "U"
+            },
+            {
+                "alg": "x R U' R U' R' U R' F' R x2",
+                "category": "U"
+            },
+            {
+                "alg": "R U' R2 F R F' R U R' U' R U R'",
+                "category": "U"
+            },
+            {
+                "alg": "R' U R' F R F' R U2 R' U R",
+                "category": "U"
+            },
+            {
+                "alg": "F' L F L' U' L' U L",
+                "category": "L"
+            },
+            {
+                "alg": "F R' F' R U R U' R'",
+                "category": "L"
+            },
+            {
+                "alg": "R U2 R2' F R F' R U2 R'",
+                "category": "L"
+            },
+            {
+                "alg": "R' U R' U2 R U' R' U R U' R2",
+                "category": "L"
+            },
+            {
+                "alg": "R U' R' U R U' R' F R' F' R2 U R'",
+                "category": "L"
+            },
+            {
+                "alg": "R' F' R U R' U' R' F R2 U' R' U2 R",
+                "category": "L"
+            },
+            {
+                "alg": "R U R' U' R' F R F'",
+                "category": "T"
+            },
+            {
+                "alg": "L' U' L U L F' L' F",
+                "category": "T"
+            },
+            {
+                "alg": "F U' R U2 R' U' F2 R U R'",
+                "category": "T"
+            },
+            {
+                "alg": "R' U R' U2 R U2 R' U R2 U' R'",
+                "category": "T"
+            },
+            {
+                "alg": "R' U2 R' F2 R F2 R' F2 R2",
+                "category": "T"
+            },
+            {
+                "alg": "R' U R U2 R2 F R F' R",
+                "category": "T"
+            },
+            {
+                "alg": "R2 U2 R U2' R2'",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "x' U2 R U2 R2 F2 R U2 x",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R U R' U R U R' F R' F' R",
+                "category": "H"
+            },
+            {
+                "alg": "F R2 U' R2' U' R2 U R2' F'",
+                "category": "H"
+            },
+            {
+                "alg": "R U R' F' R U R' U' R' F R2 U' R'",
+                "category": "O"
+            },
+            {
+                "alg": "R' U R' F2 R F' U R' F2 R F' R",
+                "category": "O",
+                "symmetry": "4"
+            }
+        ]
+    },
+    {
+        "cube": "2x2",
+        "set": "2x2 EG1",
+        "categories": [
+            "S",
+            "AS",
+            "Pi",
+            "U",
+            "L",
+            "T",
+            "H",
+            "O"
+        ],
+        "algs": [
+            {
+                "alg": "R' F R2 F' R2 U2 R",
+                "category": "S"
+            },
+            {
+                "alg": "R U R' F2 U F R U R'",
+                "category": "S"
+            },
+            {
+                "alg": "F R' F' R U R' F' R2 U R'",
+                "category": "S"
+            },
+            {
+                "alg": "F' U R U' R' U F R U R'",
+                "category": "S"
+            },
+            {
+                "alg": "R U' R' U R U' R' U F R U' R'",
+                "category": "S"
+            },
+            {
+                "alg": "L' U L2 F' L' U L F' L' F",
+                "category": "S"
+            },
+            {
+                "alg": "B U' R2 F2 U' F",
+                "category": "AS"
+            },
+            {
+                "alg": "R U' R' F' U' F2 R U' R'",
+                "category": "AS"
+            },
+            {
+                "alg": "F' L F L' U' L F L2 U' L",
+                "category": "AS"
+            },
+            {
+                "alg": "R U' R' F' U' R U R' U' F",
+                "category": "AS"
+            },
+            {
+                "alg": "R U R' F' U' R U R' U' R U R'",
+                "category": "AS"
+            },
+            {
+                "alg": "R U' R2 F R U' R' F R F'",
+                "category": "AS"
+            },
+            {
+                "alg": "F2 R U R' U2 R U R' U' F",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' F R2 U' R2 F R",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R' F U' F2 R U R",
+                "category": "Pi"
+            },
+            {
+                "alg": "R U' R' U R U' R' F R U' R'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F U' R U2 R' F' R U R' F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "F R U' R' F R U2 R' U F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R2 U' R' U' R U' R' U R'",
+                "category": "U"
+            },
+            {
+                "alg": "x U' R' U R U' F R U R U' x'",
+                "category": "U"
+            },
+            {
+                "alg": "F' U2 R U2 R' U2 F",
+                "category": "U"
+            },
+            {
+                "alg": "R' F R F' R' F R2 U' R'",
+                "category": "U"
+            },
+            {
+                "alg": "R U' R' U R U' R' U R' F' R F",
+                "category": "U"
+            },
+            {
+                "alg": "L' U L U' L U L U' L F L' F'",
+                "category": "U"
+            },
+            {
+                "alg": "R U' R' U R U' R2 F' R F",
+                "category": "L"
+            },
+            {
+                "alg": "L' U L U' L' U L2 F L' F'",
+                "category": "L"
+            },
+            {
+                "alg": "R' U R2 U' R2 U' F R2 U' R'",
+                "category": "L"
+            },
+            {
+                "alg": "R' F2 R F' R' F R2 U R'",
+                "category": "L"
+            },
+            {
+                "alg": "F' R' F R U' R U R' U' R U R'",
+                "category": "L"
+            },
+            {
+                "alg": "F L F' L' U L' U' L U L' U' L",
+                "category": "L"
+            },
+            {
+                "alg": "F L F' L2 U' L U L' U' L",
+                "category": "T"
+            },
+            {
+                "alg": "F' R' F R2 U R' U' R U R'",
+                "category": "T"
+            },
+            {
+                "alg": "R U' R2 F R U R U2 R'",
+                "category": "T"
+            },
+            {
+                "alg": "R U' R' F' U' x U R' U' R U x'",
+                "category": "T"
+            },
+            {
+                "alg": "R U R2' F' R F R' F' R",
+                "category": "T"
+            },
+            {
+                "alg": "R U' R' U2 F R U2 R' F",
+                "category": "T"
+            },
+            {
+                "alg": "R' F R2 U' R2 U' F U R",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "F' U R U' R2 F2 R U' F",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R' U' R' F2 U F' R F'",
+                "category": "H"
+            },
+            {
+                "alg": "R U R' F' R U R' U' R U R' U'",
+                "category": "H"
+            },
+            {
+                "alg": "R2 U F2 U2 R2 U R2",
+                "category": "O"
+            },
+            {
+                "alg": "R' D R' F2 R D' R",
+                "category": "O",
+                "symmetry": "4"
+            }
+        ]
+    },
+    {
+        "cube": "2x2",
+        "set": "2x2 EG2",
+        "categories": [
+            "S",
+            "AS",
+            "Pi",
+            "U",
+            "L",
+            "T",
+            "H",
+            "O"
+        ],
+        "algs": [
+            {
+                "alg": "F U' R2 U' R' U2 R U' R2 F'",
+                "category": "S"
+            },
+            {
+                "alg": "R U R' U R U2 R B2 R2",
+                "category": "S"
+            }
+            ,{
+                "alg": "R U' R' F2 R2 F' L' U' L",
+                "category": "S"
+            },
+            {
+                "alg": "F R2 F' R2 F' R U' R",
+                "category": "S"
+            },
+            {
+                "alg": "F' R' U R' U2 F R' U R'",
+                "category": "S"
+            },
+            {
+                "alg": "R2 B2 R' U' L' U  R' U' L",
+                "category": "S"
+            },
+            {
+                "alg": "x U' R2 F R2 F' U R' U2 R' U x'",
+                "category": "AS"
+            },
+            {
+                "alg": "R' U' R U' R' U2 R' F2 R2",
+                "category": "AS"
+            },
+            {
+                "alg": "L' U L F' R U R B2 R2",
+                "category": "AS"
+            },
+            {
+                "alg": "R' U R' F R2 F R2 F'",
+                "category": "AS"
+            },
+            {
+                "alg": "R' U' R U' R' U' R' F2 R F' R",
+                "category": "AS"
+            },
+            {
+                "alg": "R2 F2 R F R F' R U R'",
+                "category": "AS"
+            },
+            {
+                "alg": "F U' R U2 R U' R' U R' F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' U2 R2 U' R' F2 R2 F'",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' F' U R' F R2 U2’ R' U R",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' F U' R U R' F2 U2 R",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' U' R' F2 R2 U R' F2 R",
+                "category": "Pi"
+            },
+            {
+                "alg": "R' U2 R U' R2 F2 R F R",
+                "category": "Pi"
+            },
+            {
+                "alg": "F U' R U2 R U' R' U2 R' U' F'",
+                "category": "U"
+            },
+            {
+                "alg": "F U R U' R' F R2 F2",
+                "category": "U"
+            },
+            {
+                "alg": "R U R' U' R B2 R' U R U' R'",
+                "category": "U"
+            },
+            {
+                "alg": "R2 F2 R U R U2 R2 F R F' R",
+                "category": "U"
+            },
+            {
+                "alg": "R U' R' U2 L U L' U2 R U' R'",
+                "category": "U"
+            },
+            {
+                "alg": "L' U L U2 R' U' R U2 L' U L",
+                "category": "U"
+            },
+            {
+                "alg": "R2 B2 R2 F R' F' R U R U' R'",
+                "category": "L"
+            },
+            {
+                "alg": "F2 R2' F R U R' U' R' F R",
+                "category": "L"
+            },
+            {
+                "alg": "R' U' F2 R U2 R' U2 F R",
+                "category": "L"
+            },
+            {
+                "alg": "R' U' R U R' F' R U R' U' R' F' R2",
+                "category": "L"
+            },
+            {
+                "alg": "F R' F' R U R U' R B2 R2",
+                "category": "L"
+            },
+            {
+                "alg": "F' R U R' U' R' F R' F2 R2",
+                "category": "L"
+            },
+            {
+                "alg": "F R F' R U R' U' R B2 R2'",
+                "category": "T"
+            },
+            {
+                "alg": "F R' U2 R' U' R U2 F'",
+                "category": "T"
+            },
+            {
+                "alg": "R' U R' F R2 U2' R' U' R",
+                "category": "T"
+            },
+            {
+                "alg": "F2 R2 F U' R' F R F",
+                "category": "T"
+            },
+            {
+                "alg": "R F2 R U R U R F R U R",
+                "category": "T"
+            },
+            {
+                "alg": "R' U2 R' F2 R F2 R ",
+                "category": "T"
+            },
+            {
+                "alg": "R2 F U2 F2 R2 F' R2",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R2 U2 R U2 B2 R2",
+                "category": "H",
+                "symmetry": "2"
+            },
+            {
+                "alg": "R' U' R U2 R2 F' R U' F R",
+                "category": "H"
+            },
+            {
+                "alg": "R U' R' F U2 R2 F' R F' R",
+                "category": "H"
+            },
+            {
+                "alg": "R' U R' F2 R F' R",
+                "category": "O"
+            },
+            {
+                "alg": "R2 F2 R2",
+                "category": "O",
+                "symmetry": "4"
             }
         ]
     }

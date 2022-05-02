@@ -2,16 +2,16 @@ import * as scene from "./scene";
 import { Timer } from "./timer.js";
 import { initCanvas, listenToNavButtons } from "./ui";
 
-function newSolvedCube(numOfLayers: string) {
-    scene.cube.setNumOfLayers(numOfLayers);
+// function newSolvedCube(numOfLayers: string) {
+//     scene.cube.setNumOfLayers(parseInt(numOfLayers));
 
-    // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
-    scene.cube.activateAllStickers();
+//     // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
+//     scene.cube.activateAllStickers();
 
-    scene.cube.new();
-    scene.buffers.initBufferData(scene.cube);
-    scene.render();
-}
+//     scene.cube.new();
+//     scene.buffers.initBufferData(scene.cube);
+//     scene.render();
+// }
 
 export function main() {
     listenToNavButtons();
@@ -27,11 +27,11 @@ export function main() {
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
-        newSolvedCube(target.value);
+        scene.newSolvedCube(parseInt(target.value));
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        newSolvedCube(layerInput.value);
+        scene.newSolvedCube(parseInt(layerInput.value));
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {

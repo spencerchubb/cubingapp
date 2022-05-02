@@ -1,14 +1,6 @@
 import * as scene from "./scene";
 import { initCanvas, listenToNavButtons } from "./ui";
 
-function newSolvedCube(numOfLayers: string) {
-    scene.cube.activateAllStickers();
-    scene.cube.setNumOfLayers(numOfLayers);
-    scene.cube.new();
-    scene.buffers.initBufferData(scene.cube);
-    scene.render();
-}
-
 export function main() {
     listenToNavButtons();
 
@@ -33,7 +25,7 @@ export function main() {
     resetMoveCount();
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        newSolvedCube("3");
+        scene.newSolvedCube(3);
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {

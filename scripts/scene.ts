@@ -19,6 +19,17 @@ let time = Date.now();
 let rotationAxis = [1, 0, 0];
 let onTurnFinish = () => { }
 
+export function newSolvedCube(numOfLayers: number) {
+    cube.setNumOfLayers(numOfLayers);
+
+    // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
+    cube.activateAllStickers();
+
+    cube.new();
+    buffers.initBufferData(cube);
+    render();
+}
+
 function setRotationAxis(axis, clockwise) {
     let x = clockwise ? -1 : 1;
     if (axis == 0) {
@@ -252,9 +263,6 @@ function drawScene() {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
             const selected = selectBuffers(i);
-            if (selected.color == undefined) {
-                console.log(selected);
-            }
             bindPosition(selected.position);
             bindColor(selected.color);
             drawElements();

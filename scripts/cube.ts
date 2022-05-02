@@ -156,8 +156,8 @@ export class CubeLogic {
         }
     }
 
-    setNumOfLayers(num) {
-        this.numOfLayers = parseInt(num);
+    setNumOfLayers(num: number) {
+        this.numOfLayers = num;
         this.layersSq = this.numOfLayers * this.numOfLayers;
         this.layersHalf = Math.floor(this.numOfLayers / 2);
         this.layersEven = this.numOfLayers % 2 == 0;
@@ -569,18 +569,19 @@ export class CubeLogic {
                 this.turn(1, 0, !forward);
                 break;
             case "U2":
+            case "U2'":
                 this.turn(1, 0, forward);
                 this.turn(1, 0, forward);
                 break;
             case "D":
-                this.turn(1, 2, !forward);
+                this.turn(1, this.numOfLayers - 1, !forward);
                 break;
             case "D'":
-                this.turn(1, 2, forward);
+                this.turn(1, this.numOfLayers - 1, forward);
                 break;
             case "D2":
-                this.turn(1, 2, forward);
-                this.turn(1, 2, forward);
+                this.turn(1, this.numOfLayers - 1, forward);
+                this.turn(1, this.numOfLayers - 1, forward);
                 break;
             case "F":
                 this.turn(2, 0, forward);
@@ -593,30 +594,30 @@ export class CubeLogic {
                 this.turn(2, 0, forward);
                 break;
             case "B":
-                this.turn(2, 2, !forward);
+                this.turn(2, this.numOfLayers - 1, !forward);
                 break;
             case "B'":
-                this.turn(2, 2, forward);
+                this.turn(2, this.numOfLayers - 1, forward);
                 break
             case "B2":
-                this.turn(2, 2, forward);
-                this.turn(2, 2, forward);
+                this.turn(2, this.numOfLayers - 1, forward);
+                this.turn(2, this.numOfLayers - 1, forward);
                 break
             case "L":
-                this.turn(0, 2, !forward);
+                this.turn(0, this.numOfLayers - 1, !forward);
                 break;
             case "L'":
-                this.turn(0, 2, forward);
+                this.turn(0, this.numOfLayers - 1, forward);
                 break;
             case "L2":
-                this.turn(0, 2, forward);
-                this.turn(0, 2, forward);
+                this.turn(0, this.numOfLayers - 1, forward);
+                this.turn(0, this.numOfLayers - 1, forward);
                 break;
             case "l":
-                this.wideTurn(0, 2, !forward);
+                this.wideTurn(0, this.numOfLayers - 1, !forward);
                 break;
             case "l'":
-                this.wideTurn(0, 2, forward);
+                this.wideTurn(0, this.numOfLayers - 1, forward);
                 break;
             case "R":
                 this.turn(0, 0, forward);
@@ -647,8 +648,8 @@ export class CubeLogic {
                 this.turn(0, 1, forward);
                 break;
             case "M2":
-                this.turn(0, 1, forward);
-                this.turn(0, 1, forward);
+                this.sliceTurn(0, forward);
+                this.sliceTurn(0, forward);
                 break;
             default:
                 throw new Error("Invalid turn in algorithm: " + move);
