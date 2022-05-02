@@ -176,3 +176,13 @@ th, td {
 #tips-table * {
     color: black;
 }
+
+.pointer-hover:hover {
+    cursor: pointer;
+}
+
+.rotateSettingsKey {
+    width: 40px;
+    border: none;
+    margin: 2px;
+}

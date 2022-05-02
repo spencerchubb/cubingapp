@@ -12,15 +12,65 @@ export function main() {
 
     initCanvas();
 
-    document.querySelector("#try-again").addEventListener("click", (event) => {
+    document.querySelector("#try-again").addEventListener("click", () => {
         loadCurrAlg();
     });
 
-    document.querySelector("#next").addEventListener("click", (event) => {
+    document.querySelector("#next").addEventListener("click", () => {
         nextAlg();
     });
 
+    let showSettings = false;
+    const settingsBackground: HTMLElement = document.querySelector("#settingsBackground");
+    const settingsBody: HTMLElement = document.querySelector("#settingsBody");
+    document.querySelector("#trainSettingsButton").addEventListener("click", () => {
+        settingsBackground.style.display = "flex";
+        showSettings = true;
+    });
+    settingsBackground.addEventListener("click", (event) => {
+        if (event.target !== settingsBackground) return;
+
+        settingsBackground.style.display = "none";
+        showSettings = false;
+    });
+
+    function isXYZ(c) {
+        return c === "x" || c === "y" || c === "z";
+    }
+
+    const cubeRotationInput: HTMLInputElement = document.querySelector("#cubeRotationInput");
+    let cubeRotations = [];
+    cubeRotationInput.addEventListener("keydown", (event) => {
+        const data = event.key;
+        if (isXYZ(data)) {
+            cubeRotations.push(data);
+        } else if (data === "'" || data === "2") {
+            if (isXYZ(cubeRotations[cubeRotations.length - 1])) {
+                cubeRotations[cubeRotations.length - 1] += data;
+            }
+        } else if (data === "Backspace") {
+            cubeRotations.pop();
+        }
+
+        cubeRotationInput.value = cubeRotations.join(" ");
+    });
+    const rotateSettingsKeys = document.querySelectorAll(".rotateSettingsKey");
+    rotateSettingsKeys.forEach(key => {
+        key.addEventListener("click", () => {
+            const value = key.getAttribute("value");
+            if (value === "Backspace") {
+                cubeRotations.pop();
+            } else {
+                cubeRotations.push(value);
+            }
+
+            cubeRotationInput.value = cubeRotations.join(" ");
+        });
+    });
+
     document.addEventListener('keydown', (event) => {
+        if (showSettings) return;
+
         if (event.key === " ") {
             // Prevent space from scrolling down
             event.preventDefault();
@@ -95,6 +145,10 @@ export function main() {
         }
 
         scene.cube.new();
+
+        // Perform the rotation that the user specified in settings.
+        scene.cube.execAlg(cubeRotationInput.value);
+        
         scene.cube.execAlgReverse(algText);
         scene.cube.setStickers();
         scene.render();

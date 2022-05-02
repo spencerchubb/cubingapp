@@ -23,16 +23,23 @@
             <button id="try-again" class="btn btn-primary" title="Press backspace to try again">Try Again</button>
             <div style="width: 24px;"></div>
             <button id="next" class="btn btn-primary" title="Press enter for next algorithm">Next</button>
-            
+
             <div style="flex-grow: 1;"></div>
+            <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
+                <circle cx="10" cy="12" r="2" stroke="white" fill="white" fill="white" />
+                <circle cx="20" cy="12" r="2" stroke="white" fill="white" />
+                <circle cx="30" cy="12" r="2" stroke="white" fill="white" />
+            </svg>
         </div>
     </nav>
 
     <div id="main-container">
         <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
-        <p id="solution-text" class="show-solution show-solution-clickable" title="Press space to show solution">Show solution</p>
+        <p id="solution-text" class="show-solution show-solution-clickable" title="Press space to show solution">Show
+            solution</p>
         <h2 style="color: white; padding-top: 24px; font-size: 24px;">Customize Practice List</h2>
-        <div id="categories-div" style="display: flex; justify-content: center; flex-wrap: wrap; width: 400px; padding: 8px 0 16px 0;"></div>
+        <div id="categories-div"
+            style="display: flex; justify-content: center; flex-wrap: wrap; width: 400px; padding: 8px 0 16px 0;"></div>
         <table id="algs-table">
             <thead>
                 <th>Selected</th>
@@ -69,6 +76,32 @@
             <button id="settingsButton" class="btn btn-primary">
                 Settings
             </button>
+        </div>
+    </div>
+
+    <div id="settingsBackground" 
+        style="position: absolute; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 1; width: 100vw; height: 100vh;">
+        <div style="display: flex; flex-direction: column; align-items: center; background-color: white; width: 75%; height: 75%;">
+            <p>Cube Rotation</p>
+            <div><input type="text" id="cubeRotationInput" readonly /></div>
+            <div class="row">
+                <button class="rotateSettingsKey" value="x">x</button>
+                <button class="rotateSettingsKey" value="x'">x'</button>
+                <button class="rotateSettingsKey" value="x2">x2</button>
+            </div>
+            <div class="row">
+                <button class="rotateSettingsKey" value="y">y</button>
+                <button class="rotateSettingsKey" value="y'">y'</button>
+                <button class="rotateSettingsKey" value="y2">y2</button>
+            </div>
+            <div class="row">
+                <button class="rotateSettingsKey" value="z">z</button>
+                <button class="rotateSettingsKey" value="z'">z'</button>
+                <button class="rotateSettingsKey" value="z2">z2</button>
+            </div>
+            <div class="row">
+                <button class="rotateSettingsKey" style="width: auto;" value="Backspace">Backspace</button>
+            </div>
         </div>
     </div>
 
