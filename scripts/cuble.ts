@@ -50,7 +50,7 @@ export function main() {
                 incrementMoveCount();
             }
 
-            scene.animateTurn(null);
+            scene.animateTurn();
         }
     });
 }

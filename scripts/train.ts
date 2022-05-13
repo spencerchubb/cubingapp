@@ -81,7 +81,7 @@ export function main() {
         } else if (event.key == "Enter") {
             nextAlg();
         } else if (scene.cube.matchKeyToTurn(event.key)) {
-            scene.animateTurn(null);
+            scene.animateTurn();
         }
     });
 

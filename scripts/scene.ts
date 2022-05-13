@@ -1,5 +1,5 @@
 import { Buffers } from "./buffers.js";
-import { CubeLogic } from "./cube";
+import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector.js";
 const glMatrix = require("./gl-matrix.js");
 
@@ -13,11 +13,12 @@ export const dragDetector = new DragDetector();
 let programInfo;
 
 let angle = 0.0;
+let yAxisOffset = 0.0;
+let yAxisNumber = 0;
+let velocity = 1 / cube.factor;
 let isTurning = false;
-let numTurnsQueued = 0;
 let time = Date.now();
-let rotationAxis = [1, 0, 0];
-let onTurnFinish = () => { }
+let animation: AnimationData;
 
 export function newSolvedCube(numOfLayers: number) {
     cube.setNumOfLayers(numOfLayers);
@@ -30,30 +31,31 @@ export function newSolvedCube(numOfLayers: number) {
     render();
 }
 
-function setRotationAxis(axis, clockwise) {
-    let x = clockwise ? -1 : 1;
-    if (axis == 0) {
-        rotationAxis = [x, 0, 0];
-    } else if (axis == 1) {
-        rotationAxis = [0, x, 0];
-    } else if (axis == 2) {
-        rotationAxis = [0, 0, x];
-    } else {
-        console.error(`Invalid axis '${axis}'`);
+export function animateTurn() {
+    if (!isTurning) {
+        animation = cube.shiftAnimation();
+
+        // If the cube's animationQueue is empty, the shift will return null.
+        // Therefore, only render if there is an animation to do.
+        if (animation) {
+            isTurning = true;
+            angle = 0.0;
+            time = Date.now();
+            render();
+        }
     }
 }
 
-export function animateTurn(newOnTurnFinish) {
-    setRotationAxis(cube.axis, cube.clockwise);
-
-    angle = 0.0;
-    time = Date.now();
-    isTurning = true;
-    onTurnFinish = newOnTurnFinish;
-
-    numTurnsQueued += 1;
-
-    render();
+export function changeYAxisOffset(key) {
+    if (key === 'z' && yAxisNumber !== -1) {
+        yAxisNumber -= 1;
+        yAxisOffset = yAxisNumber * Math.PI / 6;
+        render();
+    } else if (key === '/' && yAxisNumber !== 1) {
+        yAxisNumber += 1;
+        yAxisOffset = yAxisNumber * Math.PI / 6;
+        render();
+    }
 }
 
 export function render() {
@@ -66,15 +68,18 @@ export function render() {
 function updateScene() {
     if (isTurning) {
         const newTime = Date.now();
-        angle += (newTime - time) / cube.factor;
+
+        const equilibriumVelocity = Math.pow((cube.animationQueue.length + 1), 2) / cube.factor;
+        velocity += (newTime - time) * (equilibriumVelocity - velocity) / 100;
+
+        angle += (newTime - time) * velocity;
+
         time = newTime;
-        if (angle >= Math.PI / 2 || numTurnsQueued > 1) {
-            angle = 0.0;
-            isTurning = false;
-            numTurnsQueued = 0;
+        if (angle >= Math.PI / 2) {
             cube.resetAffectedStickers();
             cube.setStickers();
-            if (onTurnFinish) onTurnFinish();
+            isTurning = false;
+            animateTurn();
         }
 
         render();
@@ -200,15 +205,13 @@ function drawScene() {
     // and we only want to see objects between 0.1 units
     // and 100 units away from the camera.
 
-    const fieldOfView = 45 * Math.PI / 180;   // in radians
+    const fieldOfView = 60 * Math.PI / 180;   // in radians
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const zNear = 0.1;
     const zFar = 100.0;
     const mat4 = glMatrix.mat4;
     const projectionMatrix = mat4.create();
 
-    // note: glmatrix.js always has the first argument
-    // as the destination to receive the result.
     mat4.perspective(projectionMatrix,
         fieldOfView,
         aspect,
@@ -221,13 +224,19 @@ function drawScene() {
 
     mat4.translate(modelViewMatrix,     // destination matrix
         modelViewMatrix,     // matrix to translate
-        [-0.0, 0.0, -5.5]);  // amount to translate
+        [0.0, 0.0, -5.0]);  // amount to translate
 
     mat4.rotate(
         modelViewMatrix,
         modelViewMatrix,
-        Math.PI / 4.5,
+        Math.PI / 5,
         [1, 0, 0],
+    );
+    mat4.rotate(
+        modelViewMatrix,
+        modelViewMatrix,
+        yAxisOffset,
+        [0, -1, 0],
     );
 
     gl.useProgram(programInfo.program);
@@ -238,9 +247,7 @@ function drawScene() {
         false,
         projectionMatrix);
 
-    const stickers = cube.getStickers();
     const underStickers = cube.getUnderStickers();
-    const affectedStickers = cube.getAffectedStickers();
 
     function drawObjects(range, selectBuffers) {
         for (let i = 0; i < range; i++) {
@@ -251,8 +258,10 @@ function drawScene() {
             mat4.rotate(
                 m,
                 modelViewMatrix,
-                affectedStickers[i] ? angle : 0,
-                rotationAxis,
+                // affectedStickers[i] ? angle : 0,
+                // rotationAxis,
+                animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
+                animation ? animation.axis : [1, 0, 0]
             );
 
             gl.uniformMatrix4fv(
@@ -305,7 +314,7 @@ function drawScene() {
             const object = buffers.objects[i];
             return {
                 position: object.positionBuffer,
-                color: stickers[i].buffer,
+                color: isTurning ? animation.stickers[i].buffer : cube.currentStickers[i].buffer,
             };
         },
     );

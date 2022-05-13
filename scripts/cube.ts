@@ -55,6 +55,15 @@ function repeatColorFor4Vertices(color, rgba) {
     };
 }
 
+export type AnimationData = {
+    // List with a length of 3. One of the numbers must be -1 or 1, with the 
+    // sign indication clockwise or counterclockwise. The other two numbers are zero.
+    axis: number[];
+
+    stickers: any[];
+    stickersToAnimate: number[];
+}
+
 export class CubeLogic {
     keyboardSpeedFactor: number;
     dragSpeedFactor: number;
@@ -73,6 +82,7 @@ export class CubeLogic {
     disableTurn: any;
     clockwise: any;
     turnType: number;
+    animationQueue: AnimationData[];
 
     constructor() {
         const keyboardSpeed: number = +localStorage.getItem("#keyboardSpeed") || +DEFAULT_SPEED;
@@ -84,6 +94,8 @@ export class CubeLogic {
         // The factor should be set each time you start a new turn type, whether it be keyboard or drag.
         // This is because the different turn types may be a different speed.
         this.factor = this.keyboardSpeedFactor;
+
+        this.animationQueue = [];
     }
 
     new() {
@@ -204,13 +216,37 @@ export class CubeLogic {
         }
     }
 
-    turn(axis, layer, clockwise) {
-        this.axis = axis;
-        this.clockwise = clockwise;
+    shiftAnimation() {
+        return this.animationQueue.shift();
+    }
 
+    pushAnimation(axis, clockwise, prevStickers) {
+        let x = clockwise ? -1 : 1;
+        let rotationAxis;
+        if (axis == 0) {
+            rotationAxis = [x, 0, 0];
+        } else if (axis == 1) {
+            rotationAxis = [0, x, 0];
+        } else if (axis == 2) {
+            rotationAxis = [0, 0, x];
+        } else {
+            console.error(`Invalid axis '${axis}'`);
+        }
+
+        this.animationQueue.push({
+            axis: rotationAxis,
+            stickers: prevStickers,
+            stickersToAnimate: this.affectedStickers,
+        });
+    }
+
+    turn(axis, layer, clockwise) {
         this.resetAffectedStickers();
 
+        this.pushAnimation(axis, clockwise, [...this.stickers]);
+
         this._matchTurn(axis, layer, clockwise);
+
     }
 
     sliceTurn(axis, clockwise) {
@@ -218,6 +254,8 @@ export class CubeLogic {
         this.clockwise = clockwise;
 
         this.resetAffectedStickers();
+
+        this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         for (let i = 1; i < this.numOfLayers - 1; i++) {
             this._matchTurn(axis, i, clockwise);
@@ -229,6 +267,8 @@ export class CubeLogic {
         this.clockwise = clockwise;
 
         this.resetAffectedStickers();
+
+        this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         this._matchTurn(axis, layer, clockwise);
         for (let i = 1; i < this.numOfLayers - 1; i++) {
@@ -242,6 +282,8 @@ export class CubeLogic {
         this.clockwise = clockwise;
 
         this.resetAffectedStickers();
+
+        this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         for (let i = 0; i < this.numOfLayers; i++) {
             this._matchTurn(axis, i, clockwise);
@@ -459,7 +501,7 @@ export class CubeLogic {
                 return { turn: true };
         }
 
-        return {};
+        return;
     }
 
     doTurnFromMouseDrag(id, dx, dy) {
@@ -476,18 +518,14 @@ export class CubeLogic {
         // We only want to check for a drag on these two faces.
         if (id < this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                // this.turn(0, this.numOfLayers - 1 - Math.floor(id / 3), dy < 0);
                 this.turn(0, this.numOfLayers - 1 - Math.floor(id / this.numOfLayers), dy < 0);
             } else {
-                // this.turn(2, this.numOfLayers - 1 - (id % 3), dx > 0);
                 this.turn(2, this.numOfLayers - 1 - (id % this.numOfLayers), dx > 0);
             }
         } else if (this.layersSq <= id && id < 2 * this.layersSq) {
             if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                // this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / 3), dy < 0);
                 this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / this.numOfLayers), dy < 0);
             } else {
-                // this.turn(1, (id - this.layersSq) % 3, dx < 0);
                 this.turn(1, (id - this.layersSq) % this.numOfLayers, dx < 0);
             }
         }

@@ -2,17 +2,6 @@ import * as scene from "./scene";
 import { Timer } from "./timer.js";
 import { initCanvas, listenToNavButtons } from "./ui";
 
-// function newSolvedCube(numOfLayers: string) {
-//     scene.cube.setNumOfLayers(parseInt(numOfLayers));
-
-//     // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
-//     scene.cube.activateAllStickers();
-
-//     scene.cube.new();
-//     scene.buffers.initBufferData(scene.cube);
-//     scene.render();
-// }
-
 export function main() {
     listenToNavButtons();
 
@@ -46,7 +35,9 @@ export function main() {
 
             timer.startStop();
         } else if (scene.cube.matchKeyToTurn(event.key)) {
-            scene.animateTurn(null);
+            scene.animateTurn();
+        } else {
+            scene.changeYAxisOffset(event.key);
         }
     });
 

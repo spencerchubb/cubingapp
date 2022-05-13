@@ -83,7 +83,7 @@ export function main() {
 
     document.addEventListener("keydown", (event) => {
         if (scene.cube.matchKeyToTurn(event.key)) {
-            scene.animateTurn(null);
+            scene.animateTurn();
         }
     });
 
@@ -596,9 +596,8 @@ export function main() {
      */
     function loadLesson(i0: number, i1: number) {
         sublessonElements[i0][i1].style.background = "lightblue";
-        console.log(selectedLessonIndex, selectedSublessonIndex);
         if (selectedLessonIndex != undefined && selectedSublessonIndex != undefined) {
-            sublessonElements[selectedLessonIndex][selectedSublessonIndex].style.background = "transparent";
+            sublessonElements[selectedLessonIndex][selectedSublessonIndex].style.background = "";
         }
         selectedLessonIndex = i0;
         selectedSublessonIndex = i1;
@@ -630,6 +629,8 @@ export function main() {
         setupMoves.forEach(move => {
             scene.cube.stepAlgorithm(move, true);
         });
+        // Clear animationQueue so that all the moves we just performed don't get animated.
+        scene.cube.animationQueue = [];
         scene.cube.setStickers();
 
         scene.render();
@@ -639,7 +640,7 @@ export function main() {
         if (moveIndex > 0) {
             moveIndex--;
             scene.cube.stepAlgorithm(currentMoves[moveIndex], false);
-            scene.animateTurn(null);
+            scene.animateTurn();
 
             updateMoveCounter(moveIndex);
         }
@@ -647,7 +648,7 @@ export function main() {
     document.querySelector("#rightButton").addEventListener("click", (event) => {
         if (moveIndex < currentMoves.length) {
             scene.cube.stepAlgorithm(currentMoves[moveIndex], true);
-            scene.animateTurn(null);
+            scene.animateTurn();
             moveIndex++;
 
             updateMoveCounter(moveIndex);

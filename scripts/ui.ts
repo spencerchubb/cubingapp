@@ -68,12 +68,12 @@ export function initCanvas() {
                     scene.dragDetector.mouseYOnDown,
                     scene.dragDetector.getDx(),
                     scene.dragDetector.getDy());
-                scene.animateTurn(null);
+                scene.animateTurn();
             } else {
                 const dx = scene.dragDetector.getDx();
                 const dy = scene.dragDetector.getDy();
                 scene.cube.doTurnFromMouseDrag(id, dx, dy);
-                scene.animateTurn(null);
+                scene.animateTurn();
             }
         }
     }
