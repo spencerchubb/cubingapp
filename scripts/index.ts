@@ -1,5 +1,5 @@
 import * as scene from "./scene";
-import { initCanvas, listenToNavButtons } from "./ui";
+import { addDragEvents, listenToNavButtons } from "./ui";
 import { DEFAULT_SPEED } from "./constants.js";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
@@ -62,10 +62,6 @@ const allPieces = [
     ...lastLayerPieces,
 ];
 
-const speed: number = parseFloat(localStorage.getItem("#keyboardSpeed") || DEFAULT_SPEED) * 1000;
-// +200 for latency
-const timePerTurn = speed + 200;
-
 function parseMovesFromAlg(alg?: string): string[] {
     if (!alg || alg === "") {
         return [];
@@ -74,19 +70,18 @@ function parseMovesFromAlg(alg?: string): string[] {
 }
 
 export function main() {
-    listenToNavButtons();
+    // Initial canvas render
+    scene.renderCanvas();
 
-    scene.cube.setNumOfLayers(3);
-    scene.cube.new();
-    scene.cube.setDisableTurn(true);
-    initCanvas();
+    addDragEvents(scene);
+
+    listenToNavButtons();
 
     document.addEventListener("keydown", (event) => {
         if (scene.cube.matchKeyToTurn(event.key)) {
             scene.animateTurn();
         }
     });
-
 
     interface Lesson {
         title: string,
@@ -625,12 +620,13 @@ export function main() {
         scene.buffers.initBufferData(scene.cube);
 
         const setup = currentLesson.setup;
-        const setupMoves = parseMovesFromAlg(setup);
-        setupMoves.forEach(move => {
-            scene.cube.stepAlgorithm(move, true);
-        });
-        // Clear animationQueue so that all the moves we just performed don't get animated.
-        scene.cube.animationQueue = [];
+        // const setupMoves = parseMovesFromAlg(setup);
+        // setupMoves.forEach(move => {
+        //     scene.cube.stepAlgorithm(move, true);
+        // });
+        // // Clear animationQueue so that all the moves we just performed don't get animated.
+        // scene.cube.animationQueue = [];
+        scene.cube.execAlg(setup);
         scene.cube.setStickers();
 
         scene.render();

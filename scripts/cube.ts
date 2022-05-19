@@ -1,8 +1,9 @@
 import { DEFAULT_SPEED } from "./constants.js";
 import * as pieceIndices from "./pieceIndices";
 
-const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
-const gl = canvas.getContext('webgl');
+// const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
+// const gl = canvas.getContext('webgl');
+let gl;
 
 const WHITE = {
     active: [1.0, 1.0, 1.0, 1.0],
@@ -84,7 +85,9 @@ export class CubeLogic {
     turnType: number;
     animationQueue: AnimationData[];
 
-    constructor() {
+    constructor(_gl) {
+        gl = _gl;
+
         const keyboardSpeed: number = +localStorage.getItem("#keyboardSpeed") || +DEFAULT_SPEED;
         const dragSpeed = +localStorage.getItem("#dragSpeed") || +DEFAULT_SPEED;
 
@@ -695,16 +698,26 @@ export class CubeLogic {
     }
 
     execAlg(alg: string) {
+        if (!alg) return;
+
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
             this.stepAlgorithm(moves[i], true);
         }
+
+        // Clear the animation queue so that all the turns don't get animated
+        this.animationQueue = [];
     }
 
     execAlgReverse(alg: string) {
+        if (!alg) return;
+
         let moves = alg.split(" ");
         for (let i = moves.length - 1; i >= 0; i--) {
             this.stepAlgorithm(moves[i], false);
         }
+
+        // Clear the animation queue so that all the turns don't get animated
+        this.animationQueue = [];
     }
 }

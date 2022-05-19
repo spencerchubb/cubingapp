@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./styles/bootstrap.css">
     <link rel="stylesheet" href="./styles/main.css">
     <title>Rubik's Cube</title>
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
 <body id="indexPage">
@@ -34,151 +35,13 @@
         <div id="main-container">
             <p id="time"></p>
             <button id="startStop" class="btn btn-primary"></button>
-            <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
+            <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                <img id="settingsIcon" src="./images/settings.svg" alt="Settings">
+                <div id="glDiv"></div>
+            </div>
         </div>
-        <div id="helpModal" style="display: none; flex-direction: column; background-color: white; width: 450px; height: 100%;">
-            <div class="row" style="justify-content: space-between; padding: 16px;">
-                <p style="font-weight: bold;">Tips</p>
-                <svg id="closeHelpModal" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-                </svg>
-            </div>
-            <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
-                <p>There are two ways to interact with the cube</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;1. Keyboard - Each action corresponds to a different key. The key mappings are listed below.</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;2. Dragging - Click and drag a piece in the direction you want to turn. Or, click outside the cube and drag to rotate the entire cube.</p>
-                <div class="col">
-                    <table id="tips-table" style="margin-top: 12px;">
-                        <thead>
-                            <th>Key</th>
-                            <th>Notation</th>
-                            <th>Description</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>j</td>
-                                <td>U</td>
-                                <td>Up face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>f</td>
-                                <td>U'</td>
-                                <td>Up face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>s</td>
-                                <td>D</td>
-                                <td>Down face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>l</td>
-                                <td>D'</td>
-                                <td>Down face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>h</td>
-                                <td>F</td>
-                                <td>Front face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>g</td>
-                                <td>F'</td>
-                                <td>Front face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>w</td>
-                                <td>B</td>
-                                <td>Back face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>o</td>
-                                <td>B'</td>
-                                <td>Back face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>d</td>
-                                <td>L</td>
-                                <td>Left face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>e</td>
-                                <td>L'</td>
-                                <td>Left face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>i</td>
-                                <td>R</td>
-                                <td>Right face clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>k</td>
-                                <td>R'</td>
-                                <td>Right face counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>n</td>
-                                <td>x</td>
-                                <td>x axis clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>b</td>
-                                <td>x'</td>
-                                <td>x axis counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>;</td>
-                                <td>y</td>
-                                <td>y axis clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>a</td>
-                                <td>y'</td>
-                                <td>y axis counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>p</td>
-                                <td>z</td>
-                                <td>z axis clockwise</td>
-                            </tr>
-                            <tr>
-                                <td>q</td>
-                                <td>z'</td>
-                                <td>z axis counterclockwise</td>
-                            </tr>
-                            <tr>
-                                <td>[</td>
-                                <td>M</td>
-                                <td>Middle slice</td>
-                            </tr>
-                            <tr>
-                                <td>'</td>
-                                <td>M'</td>
-                                <td>Middle slice</td>
-                            </tr>
-                            <tr>
-                                <td>c</td>
-                                <td>E</td>
-                                <td>Equatorial slice</td>
-                            </tr>
-                            <tr>
-                                <td>,</td>
-                                <td>E'</td>
-                                <td>Equatorial slice</td>
-                            </tr>
-                            <tr>
-                                <td>y</td>
-                                <td>S</td>
-                                <td>Standing slice</td>
-                            </tr>
-                            <tr>
-                                <td>t</td>
-                                <td>S'</td>
-                                <td>Standing slice</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div id="rightDrawer"
+            style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
         </div>
     </div>
 

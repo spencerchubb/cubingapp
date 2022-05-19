@@ -3,19 +3,24 @@ import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector.js";
 const glMatrix = require("./gl-matrix.js");
 
-const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
-const gl = canvas.getContext('webgl');
+// const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
+// const gl = canvas.getContext('webgl');
+export let canvas;
+export let gl;
 
-export const buffers = new Buffers();
-export const cube = new CubeLogic();
-export const dragDetector = new DragDetector();
+// export const buffers = new Buffers(gl);
+// export const cube = new CubeLogic(gl);
+// export const dragDetector = new DragDetector(gl);
+export let buffers;
+export let cube;
+export let dragDetector;
 
 let programInfo;
 
 let angle = 0.0;
 let yAxisOffset = 0.0;
-let yAxisNumber = 0;
-let velocity = 1 / cube.factor;
+let velocity = 0.005;
+let isRendering = false;
 let isTurning = false;
 let time = Date.now();
 let animation: AnimationData;
@@ -28,6 +33,14 @@ export function newSolvedCube(numOfLayers: number) {
 
     cube.new();
     buffers.initBufferData(cube);
+    render();
+}
+
+/**
+ * @param offset units are degrees
+ */
+export function setYAxisOffset(offset: number) {
+    yAxisOffset = offset * Math.PI / 180;
     render();
 }
 
@@ -46,33 +59,22 @@ export function animateTurn() {
     }
 }
 
-export function changeYAxisOffset(key) {
-    if (key === 'z' && yAxisNumber !== -1) {
-        yAxisNumber -= 1;
-        yAxisOffset = yAxisNumber * Math.PI / 6;
-        render();
-    } else if (key === '/' && yAxisNumber !== 1) {
-        yAxisNumber += 1;
-        yAxisOffset = yAxisNumber * Math.PI / 6;
-        render();
-    }
-}
-
 export function render() {
-    drawScene();
+    if (isRendering) return;
     requestAnimationFrame(() => {
         updateScene();
+        drawScene();
     });
 }
 
 function updateScene() {
     if (isTurning) {
         const newTime = Date.now();
+        const dt = newTime - time;
 
         const equilibriumVelocity = Math.pow((cube.animationQueue.length + 1), 2) / cube.factor;
-        velocity += (newTime - time) * (equilibriumVelocity - velocity) / 100;
-
-        angle += (newTime - time) * velocity;
+        velocity += dt * (equilibriumVelocity - velocity) / 100;
+        angle += dt * velocity;
 
         time = newTime;
         if (angle >= Math.PI / 2) {
@@ -82,15 +84,56 @@ function updateScene() {
             animateTurn();
         }
 
+        isRendering = false;
         render();
     }
 }
 
-export function initScene() {
+// Canvas state
+let numLayers: number = 3;
+let sizeMultiplier: number = 1;
+
+export function setNumLayers(val: number) {
+    numLayers = val;
+}
+export function setSizeMultiplier(val: number) {
+    sizeMultiplier = val;
+}
+
+export function renderCanvas() {
+    canvas = document.createElement("canvas");
+    canvas.id = "glCanvas";
+
+    const baseSize = 320;
+    const size = baseSize * sizeMultiplier;
+    canvas.width = size;
+    canvas.height = size;
+
+    const glDiv = document.querySelector("#glDiv");
+    glDiv.innerHTML = "";
+    glDiv.appendChild(canvas);
+
+    gl = canvas.getContext('webgl');
+
     if (!gl) {
         alert('Unable to initialize WebGL. Your browser or machine may not support it.');
         return;
     }
+
+    buffers = new Buffers(gl);
+    cube = new CubeLogic(gl);
+    dragDetector = new DragDetector(gl);
+
+    cube.setNumOfLayers(numLayers);
+    cube.activateAllStickers();
+    cube.new();
+
+    buffers.initBufferData(cube);
+    initPrograms();
+    render();
+}
+
+export function initPrograms() {
 
     // Vertex shader program
     const vsSource = `
@@ -205,7 +248,7 @@ function drawScene() {
     // and we only want to see objects between 0.1 units
     // and 100 units away from the camera.
 
-    const fieldOfView = 60 * Math.PI / 180;   // in radians
+    const fieldOfView = 45 * Math.PI / 180;   // in radians
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const zNear = 0.1;
     const zFar = 100.0;
@@ -229,7 +272,7 @@ function drawScene() {
     mat4.rotate(
         modelViewMatrix,
         modelViewMatrix,
-        Math.PI / 5,
+        Math.PI / 4.5,
         [1, 0, 0],
     );
     mat4.rotate(
@@ -258,8 +301,6 @@ function drawScene() {
             mat4.rotate(
                 m,
                 modelViewMatrix,
-                // affectedStickers[i] ? angle : 0,
-                // rotationAxis,
                 animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
                 animation ? animation.axis : [1, 0, 0]
             );

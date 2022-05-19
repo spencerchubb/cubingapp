@@ -1,9 +1,9 @@
 import { colorFromId } from "./pickId.js";
 
-const canvas = document.querySelector('#glCanvas');
-const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-
 export class Buffers {
+    constructor(gl) {
+        this.gl = gl;
+    }
 
     initBufferData(cube) {
         this.cube = cube;
@@ -36,22 +36,22 @@ export class Buffers {
                 noGapPositions.push(allNoGapPositions[index]);
             }
 
-            object.positionBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, object.positionBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+            object.positionBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.positionBuffer);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
 
-            object.noGapPositionBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, object.noGapPositionBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(noGapPositions), gl.STATIC_DRAW);
+            object.noGapPositionBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.noGapPositionBuffer);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPositions), this.gl.STATIC_DRAW);
 
             // Define each face as two triangles.
             // Given vertices A, B, C, and D, we define triangles ABC and ACD.
             let indices = [];
             indices.push(0, 1, 2, 0, 2, 3);
 
-            object.indexBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+            object.indexBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+            this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), this.gl.STATIC_DRAW);
 
             this.objects.push(object);
         }
@@ -65,9 +65,9 @@ export class Buffers {
                 pickingColors.push(allPickingColors[index]);
             }
 
-            object.pickingColorBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, object.pickingColorBuffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pickingColors), gl.STATIC_DRAW);
+            object.pickingColorBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.pickingColorBuffer);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(pickingColors), this.gl.STATIC_DRAW);
         }
     }
 

@@ -1,8 +1,9 @@
-const canvas = document.querySelector('#glCanvas');
-const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+let gl;
 
 export class DragDetector {
-    constructor() {
+    constructor(_gl) {
+        gl = _gl;
+
         this.mouseX = -1;
         this.mouseY = -1;
         this.mouseXOnDown = -1;

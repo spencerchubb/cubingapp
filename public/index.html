@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./styles/bootstrap.css">
     <link rel="stylesheet" href="./styles/main.css">
     <title>Rubik's Cube</title>
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
 <body id="indexPage">
@@ -18,7 +19,9 @@
     </nav>
 
     <div id="main-container">
-        <canvas id="glCanvas" width="320" height="320" style="border: 1px solid black;"></canvas>
+        <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+            <div id="glDiv"></div>
+        </div>
         <div style="padding: 16px 0 0 0"></div>
         <p id="moveCounter"></p>
         <div style="padding: 8px 0 0 0"></div>

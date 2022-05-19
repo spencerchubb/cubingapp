@@ -1,16 +1,15 @@
 import * as scene from "./scene";
-import { initCanvas, listenToNavButtons } from "./ui";
+import { addDragEvents, listenToNavButtons } from "./ui";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
 export function main() {
+    // Initial canvas render
+    scene.renderCanvas();
+
+    addDragEvents(scene);
+
     listenToNavButtons();
-
-    scene.cube.setNumOfLayers(3);
-    scene.cube.activateAllStickers();
-    scene.cube.new();
-
-    initCanvas();
 
     document.querySelector("#try-again").addEventListener("click", () => {
         loadCurrAlg();

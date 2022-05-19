@@ -1,4 +1,4 @@
-import * as scene from "./scene";
+// import * as scene from "./scene";
 import { idFromColor } from "./pickId.js";
 
 export function listenToNavButtons() {
@@ -19,10 +19,7 @@ export function listenToNavButtons() {
     });
 }
 
-const canvas: HTMLCanvasElement = document.querySelector('#glCanvas');
-const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-
-function posRelativeToCanvas(x: number, y: number) {
+function posRelativeToCanvas(x: number, y: number, canvas) {
     const rect = canvas.getBoundingClientRect();
     return {
         x: x - rect.left,
@@ -30,12 +27,10 @@ function posRelativeToCanvas(x: number, y: number) {
     };
 }
 
-export function initCanvas() {
-    scene.buffers.initBufferData(scene.cube);
-    scene.initScene();
+export function addDragEvents(scene) {
 
     function pointerDown(x: number, y: number) {
-        const pos = posRelativeToCanvas(x, y);
+        const pos = posRelativeToCanvas(x, y, scene.canvas);
         scene.dragDetector.onPointerDown(pos.x, pos.y);
 
         // Redraw in order to read the pixels under the pointer coordinates
@@ -44,7 +39,7 @@ export function initCanvas() {
     }
 
     function pointerMove(x: number, y: number) {
-        const pos = posRelativeToCanvas(x, y);
+        const pos = posRelativeToCanvas(x, y, scene.canvas);
         scene.dragDetector.onPointerMove(pos.x, pos.y);
 
         // If the pointer down event started on a gap between the stickers, then the picking 
@@ -52,8 +47,8 @@ export function initCanvas() {
         // pixelX and pixelY until we read a valid picking color.
         let pixels = scene.dragDetector.pixels;
         if (pixels[1] !== 0 || pixels[2] !== 0 || pixels[3] !== 0) {
-            scene.dragDetector.pixelX = pos.x * gl.canvas.width / gl.canvas.clientWidth;
-            scene.dragDetector.pixelY = gl.canvas.height - pos.y * gl.canvas.height / gl.canvas.clientHeight - 1; // why -1?
+            scene.dragDetector.pixelX = pos.x * scene.gl.canvas.width / scene.gl.canvas.clientWidth;
+            scene.dragDetector.pixelY = scene.gl.canvas.height - pos.y * scene.gl.canvas.height / scene.gl.canvas.clientHeight - 1; // why -1?
 
             scene.render();
         }
@@ -79,29 +74,29 @@ export function initCanvas() {
     }
 
     // touch events are for mobile, pointer events are for desktop
-    gl.canvas.addEventListener('touchstart', (event) => {
+    scene.gl.canvas.addEventListener('touchstart', (event) => {
         const touch = event.touches[0];
         pointerDown(touch.pageX, touch.pageY);
     });
 
-    gl.canvas.addEventListener('touchmove', (event) => {
+    scene.gl.canvas.addEventListener('touchmove', (event) => {
         const touch = event.touches[0];
         pointerMove(touch.pageX, touch.pageY);
     });
 
-    gl.canvas.addEventListener('touchend', () => {
+    scene.gl.canvas.addEventListener('touchend', () => {
         pointerUp();
     });
 
-    gl.canvas.addEventListener('pointerdown', (event) => {
+    scene.gl.canvas.addEventListener('pointerdown', (event) => {
         pointerDown(event.pageX, event.pageY);
     });
 
-    gl.canvas.addEventListener('pointermove', (event) => {
+    scene.gl.canvas.addEventListener('pointermove', (event) => {
         pointerMove(event.pageX, event.pageY);
     });
 
-    gl.canvas.addEventListener('pointerup', () => {
+    scene.gl.canvas.addEventListener('pointerup', () => {
         pointerUp();
     });
 }

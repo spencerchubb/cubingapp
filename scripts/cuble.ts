@@ -1,14 +1,13 @@
 import * as scene from "./scene";
-import { initCanvas, listenToNavButtons } from "./ui";
+import { addDragEvents, listenToNavButtons } from "./ui";
 
 export function main() {
+    // Initial canvas render
+    scene.renderCanvas();
+
+    addDragEvents(scene);
+
     listenToNavButtons();
-
-    scene.cube.setNumOfLayers(3);
-    scene.cube.activateAllStickers();
-    scene.cube.new();
-
-    initCanvas();
 
     const moveCountEle = document.querySelector("#moveCount");
     let moveCount = 0;
