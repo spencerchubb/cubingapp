@@ -227,6 +227,9 @@ function renderDrawer(index: number) {
                 <option value="1.75">1.75x</option>
                 <option value="2">2x</option>
             </select>
+            <div style="height: 1.5rem;"></div>
+            <p>Show body</p>
+            <input id="showBodyCheckbox" type="checkbox" checked />
         </div>
         `;
 
@@ -249,6 +252,13 @@ function renderDrawer(index: number) {
             scene.setSizeMultiplier(parseFloat(target.value));
             scene.renderCanvas();
             addDragEvents(scene);
+        });
+
+        const showBodyCheckbox = document.querySelector("#showBodyCheckbox");
+        showBodyCheckbox.addEventListener("change", (event) => {
+            const target = event.target as HTMLInputElement;
+
+            scene.setShowBody(target.checked);
         });
     }
 

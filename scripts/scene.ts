@@ -17,9 +17,11 @@ export let dragDetector;
 
 let programInfo;
 
-let angle = 0.0;
 let yAxisOffset = 0.0;
+let showBody = true;
 let velocity = 0.005;
+
+let angle = 0.0;
 let isRendering = false;
 let isTurning = false;
 let time = Date.now();
@@ -41,6 +43,11 @@ export function newSolvedCube(numOfLayers: number) {
  */
 export function setYAxisOffset(offset: number) {
     yAxisOffset = offset * Math.PI / 180;
+    render();
+}
+
+export function setShowBody(val: boolean) {
+    showBody = val;
     render();
 }
 
@@ -338,16 +345,18 @@ function drawScene() {
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    drawObjects(
-        cube.numOfStickers,
-        (i) => {
-            const object = buffers.objects[i];
-            return {
-                position: object.noGapPositionBuffer,
-                color: underStickers[i].buffer,
-            }
-        },
-    );
+    if (showBody) {
+        drawObjects(
+            cube.numOfStickers,
+            (i) => {
+                const object = buffers.objects[i];
+                return {
+                    position: object.noGapPositionBuffer,
+                    color: underStickers[i].buffer,
+                }
+            },
+        );
+    }
 
     drawObjects(
         cube.numOfStickers,
