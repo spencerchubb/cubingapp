@@ -16,6 +16,11 @@ export function main() {
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
+        if (target.value == "0") {
+            renderZeroEasterEgg();
+            return;
+        }
+
         // Update state and re-render
         scene.setNumLayers(parseInt(target.value));
         scene.renderCanvas();
@@ -266,6 +271,15 @@ function renderDrawer(index: number) {
         renderDrawer(-1);
     });
     drawerEle.style.display = "flex";
+}
+
+function renderZeroEasterEgg() {
+    const glDiv = document.querySelector("#glDiv");
+    glDiv.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
+        <p style="color: white; text-align: center;">You can try to solve a 0x0, but that's kinda boring...</p>
+    </div>
+    `;
 }
 
 main();
