@@ -617,7 +617,7 @@ export function main() {
         scene.cube.setActiveStickers(currentLesson.activeStickers);
         scene.cube.setNumOfLayers(3);
         scene.cube.new();
-        scene.buffers.initBufferData(scene.cube);
+        scene.buffers.initBufferData(scene.cube, scene.showBody);
 
         const setup = currentLesson.setup;
         // const setupMoves = parseMovesFromAlg(setup);

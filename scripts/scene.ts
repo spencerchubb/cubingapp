@@ -1,25 +1,23 @@
-import { Buffers } from "./buffers.js";
+import { Buffers } from "./buffers";
 import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector.js";
+import * as store from "./store";
 const glMatrix = require("./gl-matrix.js");
 
-// const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
-// const gl = canvas.getContext('webgl');
 export let canvas;
 export let gl;
 
-// export const buffers = new Buffers(gl);
-// export const cube = new CubeLogic(gl);
-// export const dragDetector = new DragDetector(gl);
 export let buffers;
 export let cube;
 export let dragDetector;
 
 let programInfo;
 
-let yAxisOffset = 0.0;
-let showBody = true;
-let velocity = 0.005;
+let numLayers: number = 3;
+let sizeMultiplier: number = store.getSize();
+export let yAxisOffset = store.getYAxisOffset() * Math.PI / 180;
+export let showBody = store.getShowBody();
+export let velocity = 0.005;
 
 let angle = 0.0;
 let isRendering = false;
@@ -34,8 +32,16 @@ export function newSolvedCube(numOfLayers: number) {
     cube.activateAllStickers();
 
     cube.new();
-    buffers.initBufferData(cube);
+    buffers.initBufferData(cube, showBody);
     render();
+}
+
+export function setNumLayers(val: number) {
+    numLayers = val;
+}
+
+export function setSizeMultiplier(val: number) {
+    sizeMultiplier = val;
 }
 
 /**
@@ -48,6 +54,7 @@ export function setYAxisOffset(offset: number) {
 
 export function setShowBody(val: boolean) {
     showBody = val;
+    buffers.initBufferData(cube, showBody);
     render();
 }
 
@@ -96,17 +103,6 @@ function updateScene() {
     }
 }
 
-// Canvas state
-let numLayers: number = 3;
-let sizeMultiplier: number = 1;
-
-export function setNumLayers(val: number) {
-    numLayers = val;
-}
-export function setSizeMultiplier(val: number) {
-    sizeMultiplier = val;
-}
-
 export function renderCanvas() {
     canvas = document.createElement("canvas");
     canvas.id = "glCanvas";
@@ -135,7 +131,7 @@ export function renderCanvas() {
     cube.activateAllStickers();
     cube.new();
 
-    buffers.initBufferData(cube);
+    buffers.initBufferData(cube, showBody);
     initPrograms();
     render();
 }
@@ -279,7 +275,7 @@ function drawScene() {
     mat4.rotate(
         modelViewMatrix,
         modelViewMatrix,
-        Math.PI / 4.5,
+        Math.PI / 4,
         [1, 0, 0],
     );
     mat4.rotate(

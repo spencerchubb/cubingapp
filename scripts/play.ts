@@ -1,6 +1,7 @@
 import * as scene from "./scene";
 import { Timer } from "./timer.js";
 import { addDragEvents, listenToNavButtons } from "./ui";
+import * as store from "./store";
 
 export function main() {
     // Initial canvas render
@@ -213,6 +214,7 @@ function renderDrawer(index: number) {
         </div>
         `;
     } else if (index == 1) {
+        const storedSize = store.getSize();
         drawerEle.innerHTML = `
         <div class="row" style="justify-content: space-between; padding: 16px;">
             <p style="font-weight: bold;">Settings</p>
@@ -222,19 +224,19 @@ function renderDrawer(index: number) {
         </div>
         <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
             <p>Angle</p>
-            <input id="angleInput" type="number" value="0" />
+            <input id="angleInput" type="number" value="${store.getYAxisOffset()}" />
             <div style="height: 1.5rem;"></div>
             <p>Size</p>
             <select id="sizeSelect">
-                <option value="1">1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="1.75">1.75x</option>
-                <option value="2">2x</option>
+                <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
+                <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
+                <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
+                <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
+                <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
             </select>
             <div style="height: 1.5rem;"></div>
             <p>Show body</p>
-            <input id="showBodyCheckbox" type="checkbox" checked />
+            <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
         </div>
         `;
 
@@ -247,6 +249,7 @@ function renderDrawer(index: number) {
             if (!target.value) return;
 
             scene.setYAxisOffset(parseInt(target.value));
+            store.setYAxisOffset(target.value);
         });
 
         const sizeSelect = document.querySelector("#sizeSelect");
@@ -257,6 +260,7 @@ function renderDrawer(index: number) {
             scene.setSizeMultiplier(parseFloat(target.value));
             scene.renderCanvas();
             addDragEvents(scene);
+            store.setSize(target.value);
         });
 
         const showBodyCheckbox = document.querySelector("#showBodyCheckbox");
@@ -264,6 +268,7 @@ function renderDrawer(index: number) {
             const target = event.target as HTMLInputElement;
 
             scene.setShowBody(target.checked);
+            store.setShowBody(target.checked);
         });
     }
 
@@ -277,7 +282,7 @@ function renderZeroEasterEgg() {
     const glDiv = document.querySelector("#glDiv");
     glDiv.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">You can try to solve a 0x0, but that's kinda boring...</p>
+        <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
     </div>
     `;
 }
