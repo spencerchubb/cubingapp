@@ -127,7 +127,7 @@ export class CubeLogic {
             this.underStickers.push(repeatColorFor4Vertices(BLACK, BLACK.active));
         }
 
-        this.resetAffectedStickers();
+        this.setAllAffectedStickers(false);
         this.setStickers();
     }
 
@@ -195,12 +195,21 @@ export class CubeLogic {
         return this.affectedStickers;
     }
 
-    resetAffectedStickers() {
+    /**
+     * Set all elements of `affectedStickers` to be `value`.
+     */
+    setAllAffectedStickers(value: boolean) {
         let numOfStickers = this.numOfLayers * this.numOfLayers * 6;
         this.affectedStickers = [];
         for (let i = 0; i < numOfStickers; i++) {
-            this.affectedStickers.push(false);
+            this.affectedStickers.push(value);
         }
+    }
+
+    resetAffectedStickers() {
+        // If numOfLayers === 1, make all stickers true, because everything
+        // should be affected for 1x1.
+        this.setAllAffectedStickers(this.numOfLayers === 1);
     }
 
     setActiveStickers(arr) {
@@ -249,14 +258,13 @@ export class CubeLogic {
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         this._matchTurn(axis, layer, clockwise);
-
     }
 
     sliceTurn(axis, clockwise) {
-        this.axis = axis;
-        this.clockwise = clockwise;
+        // this.axis = axis;
+        // this.clockwise = clockwise;
 
-        this.resetAffectedStickers();
+        this.setAllAffectedStickers(false);
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
@@ -266,8 +274,8 @@ export class CubeLogic {
     }
 
     wideTurn(axis, layer, clockwise) {
-        this.axis = axis;
-        this.clockwise = clockwise;
+        // this.axis = axis;
+        // this.clockwise = clockwise;
 
         this.resetAffectedStickers();
 
@@ -281,10 +289,13 @@ export class CubeLogic {
     }
 
     cubeRotate(axis, clockwise) {
-        this.axis = axis;
-        this.clockwise = clockwise;
+        // TODO remove all these if working
+        // this.axis = axis;
+        // this.clockwise = clockwise;
 
         this.resetAffectedStickers();
+        // setAllAffectedStickers() is needed in turn(), sliceTurn(), and wideTurn(), 
+        // but not needed here because all stickers will be affected.
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 

@@ -92,7 +92,7 @@ function updateScene() {
 
         time = newTime;
         if (angle >= Math.PI / 2) {
-            cube.resetAffectedStickers();
+            cube.setAllAffectedStickers(false);
             cube.setStickers();
             isTurning = false;
             animateTurn();
