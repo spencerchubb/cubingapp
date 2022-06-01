@@ -3,6 +3,7 @@ import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector.js";
 import * as store from "./store";
 const glMatrix = require("./gl-matrix.js");
+const mat4 = glMatrix.mat4;
 
 export let canvas;
 export let gl;
@@ -107,10 +108,23 @@ export function renderCanvas() {
     canvas = document.createElement("canvas");
     canvas.id = "glCanvas";
 
+    // Fixes weird formatting issue where there would be extra space under
+    // canvas inside glDiv.
+    canvas.style.display = "block";
+
     const baseSize = 320;
     const size = baseSize * sizeMultiplier;
     canvas.width = size;
     canvas.height = size;
+
+    canvas.addEventListener("mousedown", event => {
+        // console.log(event);
+        const x = event.clientX;
+        const y = event.clientY;
+        console.log(x, y);
+
+        console.log(modelViewMatrix);
+    });
 
     const glDiv = document.querySelector("#glDiv");
     glDiv.innerHTML = "";
@@ -123,7 +137,41 @@ export function renderCanvas() {
         return;
     }
 
-    buffers = new Buffers(gl);
+    // MODEL VIEW MATRIX SHIT
+
+    // Set the drawing position to the "identity" point, which is
+    // the center of the scene.
+    // const modelViewMatrix = mat4.create();
+    modelViewMatrix = mat4.create();
+
+    // perspectiveNO
+    mat4.perspective(modelViewMatrix,
+        45 * Math.PI / 180, // field of view
+        gl.canvas.clientWidth / gl.canvas.clientHeight, // aspect
+        0.1, // zNear
+        100); // zFar
+
+    // translate$2
+    mat4.translate(modelViewMatrix,
+        modelViewMatrix,
+        [0.0, 0.0, -5.0]);
+
+    // rotate$3
+    // TODO consider using rotateX, rotateY, rotateZ for performance boost
+    mat4.rotate(modelViewMatrix,
+        modelViewMatrix,
+        Math.PI / 4,
+        [1, 0, 0],
+    );
+    mat4.rotate(modelViewMatrix,
+        modelViewMatrix,
+        yAxisOffset,
+        [0, -1, 0],
+    );
+
+
+
+    buffers = new Buffers(gl, modelViewMatrix);
     cube = new CubeLogic(gl);
     dragDetector = new DragDetector(gl);
 
@@ -139,14 +187,25 @@ export function renderCanvas() {
 export function initPrograms() {
 
     // Vertex shader program
+    // const vsSource = `
+    // attribute vec4 aVertexPosition;
+    // attribute vec4 aVertexColor;
+    // uniform mat4 uModelViewMatrix;
+    // uniform mat4 uProjectionMatrix;
+    // varying lowp vec4 vColor;
+    // void main(void) {
+    //     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    //     vColor = aVertexColor;
+    // }
+    // `;
+
     const vsSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uModelViewMatrix;
-    uniform mat4 uProjectionMatrix;
     varying lowp vec4 vColor;
     void main(void) {
-        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        gl_Position = aVertexPosition;
         vColor = aVertexColor;
     }
     `;
@@ -174,7 +233,6 @@ export function initPrograms() {
             vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
         },
         uniformLocations: {
-            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
             modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
         }
     };
@@ -183,37 +241,28 @@ export function initPrograms() {
 }
 
 function bindPosition(positionBuffer) {
-    const numComponents = 3;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+        // 3, // size
+        4, // size
+        gl.FLOAT, // type
+        false, // normalize
+        0, // stride
+        0); // offset
     gl.enableVertexAttribArray(
         programInfo.attribLocations.vertexPosition);
 }
 
 function bindColor(colorBuffer) {
-    const numComponents = 4;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexColor,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
+        4, // size
+        gl.FLOAT, // type
+        false, // normalize
+        0, // stride
+        0); // offset
     gl.enableVertexAttribArray(
         programInfo.attribLocations.vertexColor);
 }
@@ -239,59 +288,58 @@ function drawElements() {
     );
 }
 
+export let modelViewMatrix;
+
 function drawScene() {
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
-    // Create a perspective matrix, a special matrix that is
-    // used to simulate the distortion of perspective in a camera.
-    // Our field of view is 45 degrees, with a width/height
-    // ratio that matches the display size of the canvas
-    // and we only want to see objects between 0.1 units
-    // and 100 units away from the camera.
+    // // Apply a perspective transformation to simulate the 
+    // // distortion of perspective in a camera. Our field of 
+    // // view is 45 degrees, with a width/height ratio that 
+    // // matches the display size of the canvas and we only 
+    // // want to see objects between 0.1 units and 100 units 
+    // // away from the camera.
 
-    const fieldOfView = 45 * Math.PI / 180;   // in radians
-    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    const zNear = 0.1;
-    const zFar = 100.0;
-    const mat4 = glMatrix.mat4;
-    const projectionMatrix = mat4.create();
+    // const fieldOfView = 45 * Math.PI / 180;   // in radians
+    // const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+    // const zNear = 0.1;
+    // const zFar = 100.0;
 
-    mat4.perspective(projectionMatrix,
-        fieldOfView,
-        aspect,
-        zNear,
-        zFar);
+    // // Set the drawing position to the "identity" point, which is
+    // // the center of the scene.
+    // // const modelViewMatrix = mat4.create();
+    // modelViewMatrix = mat4.create();
 
-    // Set the drawing position to the "identity" point, which is
-    // the center of the scene.
-    const modelViewMatrix = mat4.create();
+    // // perspectiveNO
+    // mat4.perspective(modelViewMatrix,
+    //     fieldOfView,
+    //     aspect,
+    //     zNear,
+    //     zFar);
 
-    mat4.translate(modelViewMatrix,     // destination matrix
-        modelViewMatrix,     // matrix to translate
-        [0.0, 0.0, -5.0]);  // amount to translate
+    // // translate$2
+    // mat4.translate(modelViewMatrix,     // destination matrix
+    //     modelViewMatrix,     // matrix to translate
+    //     [0.0, 0.0, -5.0]);  // amount to translate
 
-    mat4.rotate(
-        modelViewMatrix,
-        modelViewMatrix,
-        Math.PI / 4,
-        [1, 0, 0],
-    );
-    mat4.rotate(
-        modelViewMatrix,
-        modelViewMatrix,
-        yAxisOffset,
-        [0, -1, 0],
-    );
+    // // rotate$3
+    // // TODO consider using rotateX, rotateY, rotateZ for performance boost
+    // mat4.rotate(
+    //     modelViewMatrix,
+    //     modelViewMatrix,
+    //     Math.PI / 4,
+    //     [1, 0, 0],
+    // );
+    // mat4.rotate(
+    //     modelViewMatrix,
+    //     modelViewMatrix,
+    //     yAxisOffset,
+    //     [0, -1, 0],
+    // );
 
     gl.useProgram(programInfo.program);
-
-    // Set the shader uniforms
-    gl.uniformMatrix4fv(
-        programInfo.uniformLocations.projectionMatrix,
-        false,
-        projectionMatrix);
 
     const underStickers = cube.getUnderStickers();
 
@@ -322,21 +370,21 @@ function drawScene() {
         }
     }
 
-    gl.clearColor(1.0, 1.0, 1.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    drawObjects(
-        cube.layersSq * 2,
-        (i) => {
-            const object = buffers.objects[i];
-            return {
-                position: object.positionBuffer,
-                color: object.pickingColorBuffer,
-            };
-        },
-    );
+    // drawObjects(
+    //     cube.layersSq * 2,
+    //     (i) => {
+    //         const object = buffers.objects[i];
+    //         return {
+    //             position: object.positionBuffer,
+    //             color: object.pickingColorBuffer,
+    //         };
+    //     },
+    // );
 
-    readPixels();
+    // readPixels();
 
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
