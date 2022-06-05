@@ -1,5 +1,25 @@
-import { colorFromId } from "./pickId.js";
 import { CubeLogic } from "./cube.js";
+
+/**
+ * Multiply a 4x4 matrix with a 4x1 matrix, outputting in a 4x1 matrix.
+ * Adapted from multiply$3 in gl-matrix.js
+ *
+ * @param {mat4} out the destination, 4x1 matrix
+ * @param a the first operand, 4x4 matrix
+ * @param b the second operand, 4x1 matrix
+ * @returns {mat4} out
+ */
+function multiply(out, a, b) {
+    let b0 = b[0],
+        b1 = b[1],
+        b2 = b[2],
+        b3 = b[3];
+    out[0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    out[1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    out[2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    out[3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+    return out;
+}
 
 export class Buffers {
     gl: WebGLRenderingContext;
@@ -10,38 +30,27 @@ export class Buffers {
         this.gl = gl;
     }
 
-    /**
-     * Gap will be 0.02 when showing body, and 0.04 when not showing body.
-     */
-    initBufferData(cube, showBody: boolean) {
+    initBufferData(cube, showBody: boolean, transformMatrix) {
         this.cube = cube;
 
         // Vertex positions with gap.
         let allPositions = showBody
-            ? this._concatPositions(1.0, 0.02)
+            ? this._concatPositions(1.01, 0.02)
             : this._concatPositions(1.02, 0.04);
 
         // Vertex positions with no gap so user can drag between the gaps.
-        let allNoGapPositions = this._concatPositions(0.99, 0.0);
-
-        let allPickingColors = [];
-        for (let i = 0; i < this.cube.numOfStickers; i++) {
-            const c = colorFromId(i);
-            for (let j = 0; j < 4; j++) {
-                allPickingColors.push(c[0], c[1], c[2], c[3]);
-            }
-        }
+        let allNoGapPositions = this._concatPositions(1.0, 0.0);
 
         this.objects = [];
         for (let i = 0; i < this.cube.numOfStickers; i++) {
             let object: any = {};
 
             let positions = [];
-            let noGapPositions = [];
+            let noGapPos = [];
             for (let j = 0; j < 12; j++) {
                 let index = i * 12 + j;
                 positions.push(allPositions[index]);
-                noGapPositions.push(allNoGapPositions[index]);
+                noGapPos.push(allNoGapPositions[index]);
             }
 
             object.positionBuffer = this.gl.createBuffer();
@@ -50,32 +59,44 @@ export class Buffers {
 
             object.noGapPositionBuffer = this.gl.createBuffer();
             this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.noGapPositionBuffer);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPositions), this.gl.STATIC_DRAW);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPos), this.gl.STATIC_DRAW);
+
+            if (transformMatrix) {
+                // Represent as homogeneous coordinates
+                const homo = [
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[0], noGapPos[1], noGapPos[2], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[3], noGapPos[4], noGapPos[5], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[6], noGapPos[7], noGapPos[8], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[9], noGapPos[10], noGapPos[11], 1]),
+                ];
+
+                // Represent as 2D cartesian coordinates by dividing x and y by w
+                const cart2d = [
+                    homo[0] / homo[3], homo[1] / homo[3],
+                    homo[4] / homo[7], homo[5] / homo[7],
+                    homo[8] / homo[11], homo[9] / homo[11],
+                    homo[12] / homo[15], homo[13] / homo[15],
+                ];
+                object.cart2d = cart2d;
+            }
 
             // Define each face as two triangles.
             // Given vertices A, B, C, and D, we define triangles ABC and ACD.
-            let indices = [];
-            indices.push(0, 1, 2, 0, 2, 3);
+            const indices = [0, 1, 2, 0, 2, 3];
 
             object.indexBuffer = this.gl.createBuffer();
             this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
             this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), this.gl.STATIC_DRAW);
 
             this.objects.push(object);
-        }
-
-        for (let i = 0; i < this.cube.layersSq * 2; i++) {
-            let object = this.objects[i];
-
-            let pickingColors = [];
-            for (let j = 0; j < 16; j++) {
-                let index = i * 16 + j;
-                pickingColors.push(allPickingColors[index]);
-            }
-
-            object.pickingColorBuffer = this.gl.createBuffer();
-            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.pickingColorBuffer);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(pickingColors), this.gl.STATIC_DRAW);
         }
     }
 

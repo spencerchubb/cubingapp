@@ -1,13 +1,11 @@
 import * as scene from "./scene";
 import { Timer } from "./timer.js";
-import { addDragEvents, listenToNavButtons } from "./ui";
+import { listenToNavButtons } from "./ui";
 import * as store from "./store";
 
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
-
-    addDragEvents(scene);
 
     listenToNavButtons();
 
@@ -25,7 +23,6 @@ export function main() {
         // Update state and re-render
         scene.setNumLayers(parseInt(target.value));
         scene.renderCanvas();
-        addDragEvents(scene);
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
@@ -214,17 +211,22 @@ function renderDrawer(index: number) {
         </div>
         `;
     } else if (index == 1) {
+        const storedAngle = store.getAngle();
         const storedSize = store.getSize();
         drawerEle.innerHTML = `
         <div class="row" style="justify-content: space-between; padding: 16px;">
-            <p style="font-weight: bold;">Settings</p>
+            <p style="font-weight: bold; padding-right: 2rem;">Settings</p>
             <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
                 <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
             </svg>
         </div>
         <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
             <p>Angle</p>
-            <input id="angleInput" type="number" value="${store.getYAxisOffset()}" />
+            <select id="angleInput">
+                <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
+                <option value="1" ${storedAngle === 1 ? "selected" : ""}>0&#176;</option>
+                <option value="2" ${storedAngle === 2 ? "selected" : ""}>45&#176;</option>
+            </select>
             <div style="height: 1.5rem;"></div>
             <p>Size</p>
             <select id="sizeSelect">
@@ -248,8 +250,8 @@ function renderDrawer(index: number) {
             // it will break the cube.
             if (!target.value) return;
 
-            scene.setYAxisOffset(parseInt(target.value));
-            store.setYAxisOffset(target.value);
+            scene.setAngleOffset(parseInt(target.value));
+            store.setAngle(target.value);
         });
 
         const sizeSelect = document.querySelector("#sizeSelect");
@@ -259,7 +261,6 @@ function renderDrawer(index: number) {
             // Update state and re-render
             scene.setSizeMultiplier(parseFloat(target.value));
             scene.renderCanvas();
-            addDragEvents(scene);
             store.setSize(target.value);
         });
 

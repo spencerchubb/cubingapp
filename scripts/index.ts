@@ -1,6 +1,5 @@
 import * as scene from "./scene";
-import { addDragEvents, listenToNavButtons } from "./ui";
-import { DEFAULT_SPEED } from "./constants.js";
+import { listenToNavButtons } from "./ui";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
 const UBL = [0, 29, 36];
@@ -72,8 +71,6 @@ function parseMovesFromAlg(alg?: string): string[] {
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
-
-    addDragEvents(scene);
 
     listenToNavButtons();
 
@@ -617,15 +614,9 @@ export function main() {
         scene.cube.setActiveStickers(currentLesson.activeStickers);
         scene.cube.setNumOfLayers(3);
         scene.cube.new();
-        scene.buffers.initBufferData(scene.cube, scene.showBody);
+        scene.buffers.initBufferData(scene.cube, scene.showBody, undefined);
 
         const setup = currentLesson.setup;
-        // const setupMoves = parseMovesFromAlg(setup);
-        // setupMoves.forEach(move => {
-        //     scene.cube.stepAlgorithm(move, true);
-        // });
-        // // Clear animationQueue so that all the moves we just performed don't get animated.
-        // scene.cube.animationQueue = [];
         scene.cube.execAlg(setup);
         scene.cube.setStickers();
 
