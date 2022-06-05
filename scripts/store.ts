@@ -2,20 +2,20 @@
  * LocalStorage functions
  */
 
-const yAxisOffset = "yAxisOffset";
+const angle = "angle";
 const size = "size";
 const showBody = "showBody";
 
-export function getYAxisOffset() {
-    return getInt(yAxisOffset) || 0;
+export function getAngle() {
+    return getInt(angle) ?? 1;
 }
 
-export function setYAxisOffset(value) {
-    localStorage.setItem(yAxisOffset, value);
+export function setAngle(value) {
+    localStorage.setItem(angle, value);
 }
 
 export function getSize() {
-    return getFloat(size) || 1.0;
+    return getFloat(size) ?? 1.0;
 }
 
 export function setSize(value) {

@@ -1,8 +1,7 @@
-import { colorFromId } from "./pickId.js";
 import { CubeLogic } from "./cube.js";
 
 /**
- * Multiplies two matrices
+ * Multiply a 4x4 matrix with a 4x1 matrix, outputting in a 4x1 matrix.
  * Adapted from multiply$3 in gl-matrix.js
  *
  * @param {mat4} out the destination, 4x1 matrix
@@ -11,157 +10,83 @@ import { CubeLogic } from "./cube.js";
  * @returns {mat4} out
  */
 function multiply(out, a, b) {
-    var a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3];
-    var a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
-    var a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
-    var a30 = a[12],
-        a31 = a[13],
-        a32 = a[14],
-        a33 = a[15]; // Cache only the current line of the second matrix
-
-    var b0 = b[0],
+    let b0 = b[0],
         b1 = b[1],
         b2 = b[2],
         b3 = b[3];
-    out[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-    out[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-    out[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-    out[3] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
-    // b0 = b[4];
-    // b1 = b[5];
-    // b2 = b[6];
-    // b3 = b[7];
-    // out[4] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-    // out[5] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-    // out[6] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-    // out[7] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
-    // b0 = b[8];
-    // b1 = b[9];
-    // b2 = b[10];
-    // b3 = b[11];
-    // out[8] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-    // out[9] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-    // out[10] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-    // out[11] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
-    // b0 = b[12];
-    // b1 = b[13];
-    // b2 = b[14];
-    // b3 = b[15];
-    // out[12] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
-    // out[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
-    // out[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
-    // out[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+    out[0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    out[1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    out[2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    out[3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
     return out;
 }
 
 export class Buffers {
     gl: WebGLRenderingContext;
-    mat: any; // mat4
     cube: CubeLogic;
     objects: any[];
 
-    constructor(gl, mat) {
+    constructor(gl) {
         this.gl = gl;
-        this.mat = mat
     }
 
-    initBufferData(cube, showBody: boolean) {
+    initBufferData(cube, showBody: boolean, transformMatrix) {
         this.cube = cube;
 
         // Vertex positions with gap.
         let allPositions = showBody
-            ? this._concatPositions(1.0, 0.02)
+            ? this._concatPositions(1.01, 0.02)
             : this._concatPositions(1.02, 0.04);
 
         // Vertex positions with no gap so user can drag between the gaps.
-        let allNoGapPositions = this._concatPositions(0.99, 0.0);
-
-        let allPickingColors = [];
-        for (let i = 0; i < this.cube.numOfStickers; i++) {
-            const c = colorFromId(i);
-            for (let j = 0; j < 4; j++) {
-                allPickingColors.push(c[0], c[1], c[2], c[3]);
-            }
-        }
+        let allNoGapPositions = this._concatPositions(1.0, 0.0);
 
         this.objects = [];
         for (let i = 0; i < this.cube.numOfStickers; i++) {
             let object: any = {};
 
             let positions = [];
-            let noGapPositions = [];
+            let noGapPos = [];
             for (let j = 0; j < 12; j++) {
                 let index = i * 12 + j;
                 positions.push(allPositions[index]);
-                noGapPositions.push(allNoGapPositions[index]);
+                noGapPos.push(allNoGapPositions[index]);
             }
 
             object.positionBuffer = this.gl.createBuffer();
             this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.positionBuffer);
-            // this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
-            // console.log(positions);
-            let transformed = [
-                ...multiply(Array(4),
-                    this.mat,
-                    [positions[0], positions[1], positions[2], 1]),
-                ...multiply(Array(4),
-                    this.mat,
-                    [positions[3], positions[4], positions[5], 1]),
-                ...multiply(Array(4),
-                    this.mat,
-                    [positions[6], positions[7], positions[8], 1]),
-                ...multiply(Array(4),
-                    this.mat,
-                    [positions[9], positions[10], positions[11], 1]),
-            ];
-            console.log(transformed);
-            // transformed = [
-            //     transformed[0], transformed[1], transformed[2],
-            //     transformed[4], transformed[5], transformed[6],
-            //     transformed[8], transformed[9], transformed[10],
-            //     transformed[12], transformed[13], transformed[14],
-            // ];
-            // console.log(transformed);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(transformed), this.gl.STATIC_DRAW);
-            
-            // let transformed = Array(4);
-            // let a = positions.slice(0, 3);
-            // a.push(1.0);
-            // multiply(transformed,
-            //     this.mat,
-            //     a);
-            // console.log(transformed);
-            // a = positions.slice(3, 6);
-            // a.push(1.0);
-            // multiply(transformed,
-            //     this.mat,
-            //     a);
-            // console.log(transformed);
-            // a = positions.slice(6, 9);
-            // a.push(1.0);
-            // multiply(transformed,
-            //     this.mat,
-            //     a);
-            // console.log(transformed);
-            // a = positions.slice(9, 12);
-            // a.push(1.0);
-            // multiply(transformed,
-            //     this.mat,
-            //     a);
-            // console.log(transformed);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
 
             object.noGapPositionBuffer = this.gl.createBuffer();
             this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.noGapPositionBuffer);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPositions), this.gl.STATIC_DRAW);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPos), this.gl.STATIC_DRAW);
+
+            if (transformMatrix) {
+                // Represent as homogeneous coordinates
+                const homo = [
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[0], noGapPos[1], noGapPos[2], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[3], noGapPos[4], noGapPos[5], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[6], noGapPos[7], noGapPos[8], 1]),
+                    ...multiply(Array(4),
+                        transformMatrix,
+                        [noGapPos[9], noGapPos[10], noGapPos[11], 1]),
+                ];
+
+                // Represent as 2D cartesian coordinates by dividing x and y by w
+                const cart2d = [
+                    homo[0] / homo[3], homo[1] / homo[3],
+                    homo[4] / homo[7], homo[5] / homo[7],
+                    homo[8] / homo[11], homo[9] / homo[11],
+                    homo[12] / homo[15], homo[13] / homo[15],
+                ];
+                object.cart2d = cart2d;
+            }
 
             // Define each face as two triangles.
             // Given vertices A, B, C, and D, we define triangles ABC and ACD.
@@ -172,20 +97,6 @@ export class Buffers {
             this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), this.gl.STATIC_DRAW);
 
             this.objects.push(object);
-        }
-
-        for (let i = 0; i < this.cube.layersSq * 2; i++) {
-            let object = this.objects[i];
-
-            let pickingColors = [];
-            for (let j = 0; j < 16; j++) {
-                let index = i * 16 + j;
-                pickingColors.push(allPickingColors[index]);
-            }
-
-            object.pickingColorBuffer = this.gl.createBuffer();
-            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.pickingColorBuffer);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(pickingColors), this.gl.STATIC_DRAW);
         }
     }
 

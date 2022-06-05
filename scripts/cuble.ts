@@ -1,11 +1,9 @@
 import * as scene from "./scene";
-import { addDragEvents, listenToNavButtons } from "./ui";
+import { listenToNavButtons } from "./ui";
 
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
-
-    addDragEvents(scene);
 
     listenToNavButtons();
 

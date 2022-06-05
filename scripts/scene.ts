@@ -1,26 +1,30 @@
 import { Buffers } from "./buffers";
 import { AnimationData, CubeLogic } from "./cube";
-import { DragDetector } from "./dragDetector.js";
+import { DragDetector } from "./dragDetector";
 import * as store from "./store";
 const glMatrix = require("./gl-matrix.js");
 const mat4 = glMatrix.mat4;
 
-export let canvas;
-export let gl;
+export let canvas: HTMLCanvasElement;
+export let gl: WebGLRenderingContext;
 
-export let buffers;
-export let cube;
-export let dragDetector;
+export let buffers: Buffers;
+export let cube: CubeLogic;
+export let dragDetector: DragDetector;
 
 let programInfo;
+let transformMatrix;
 
 let numLayers: number = 3;
 let sizeMultiplier: number = store.getSize();
-export let yAxisOffset = store.getYAxisOffset() * Math.PI / 180;
+let offsetSelection;
+export let xAxisOffset;
+export let yAxisOffset;
+setAngleOffset(store.getAngle());
 export let showBody = store.getShowBody();
-export let velocity = 0.005;
 
 let angle = 0.0;
+let velocity = 0.005
 let isRendering = false;
 let isTurning = false;
 let time = Date.now();
@@ -33,7 +37,7 @@ export function newSolvedCube(numOfLayers: number) {
     cube.activateAllStickers();
 
     cube.new();
-    buffers.initBufferData(cube, showBody);
+    buffers.initBufferData(cube, showBody, transformMatrix);
     render();
 }
 
@@ -46,16 +50,28 @@ export function setSizeMultiplier(val: number) {
 }
 
 /**
- * @param offset units are degrees
+ * value = 0 --> left
+ * value = 1 --> head-on
+ * value = 2 --> right
  */
-export function setYAxisOffset(offset: number) {
-    yAxisOffset = offset * Math.PI / 180;
-    render();
+export function setAngleOffset(value: number) {
+    offsetSelection = value;
+    if (value === 0) {
+        xAxisOffset = 35 * Math.PI / 180;
+        yAxisOffset = -45 * Math.PI / 180;
+    } else if (value === 1) {
+        xAxisOffset = 45 * Math.PI / 180;
+        yAxisOffset = 0;
+    } else { // storedAngle === 2
+        xAxisOffset = 35 * Math.PI / 180;
+        yAxisOffset = 45 * Math.PI / 180;
+    }
+    renderCanvas();
 }
 
 export function setShowBody(val: boolean) {
     showBody = val;
-    buffers.initBufferData(cube, showBody);
+    buffers.initBufferData(cube, showBody, transformMatrix);
     render();
 }
 
@@ -87,9 +103,10 @@ function updateScene() {
         const newTime = Date.now();
         const dt = newTime - time;
 
-        const equilibriumVelocity = Math.pow((cube.animationQueue.length + 1), 2) / cube.factor;
+        // (cube.animationQueue.length + 1)^2
+        const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
         velocity += dt * (equilibriumVelocity - velocity) / 100;
-        angle += dt * velocity;
+        angle += dt * velocity / 150;
 
         time = newTime;
         if (angle >= Math.PI / 2) {
@@ -117,15 +134,6 @@ export function renderCanvas() {
     canvas.width = size;
     canvas.height = size;
 
-    canvas.addEventListener("mousedown", event => {
-        // console.log(event);
-        const x = event.clientX;
-        const y = event.clientY;
-        console.log(x, y);
-
-        console.log(modelViewMatrix);
-    });
-
     const glDiv = document.querySelector("#glDiv");
     glDiv.innerHTML = "";
     glDiv.appendChild(canvas);
@@ -137,75 +145,70 @@ export function renderCanvas() {
         return;
     }
 
-    // MODEL VIEW MATRIX SHIT
+    transformMatrix = mat4.create();
 
-    // Set the drawing position to the "identity" point, which is
-    // the center of the scene.
-    // const modelViewMatrix = mat4.create();
-    modelViewMatrix = mat4.create();
-
-    // perspectiveNO
-    mat4.perspective(modelViewMatrix,
+    mat4.perspective(transformMatrix,
         45 * Math.PI / 180, // field of view
         gl.canvas.clientWidth / gl.canvas.clientHeight, // aspect
-        0.1, // zNear
-        100); // zFar
+        0.1, // z near
+        100.0); // z far
 
-    // translate$2
-    mat4.translate(modelViewMatrix,
-        modelViewMatrix,
+    mat4.translate(transformMatrix,
+        transformMatrix,
         [0.0, 0.0, -5.0]);
 
-    // rotate$3
-    // TODO consider using rotateX, rotateY, rotateZ for performance boost
-    mat4.rotate(modelViewMatrix,
-        modelViewMatrix,
-        Math.PI / 4,
+    mat4.rotate(transformMatrix,
+        transformMatrix,
+        xAxisOffset,
         [1, 0, 0],
     );
-    mat4.rotate(modelViewMatrix,
-        modelViewMatrix,
+
+    mat4.rotate(transformMatrix,
+        transformMatrix,
         yAxisOffset,
         [0, -1, 0],
     );
 
-
-
-    buffers = new Buffers(gl, modelViewMatrix);
+    buffers = new Buffers(gl);
     cube = new CubeLogic(gl);
-    dragDetector = new DragDetector(gl);
+    dragDetector = new DragDetector();
 
     cube.setNumOfLayers(numLayers);
     cube.activateAllStickers();
     cube.new();
 
-    buffers.initBufferData(cube, showBody);
+    buffers.initBufferData(cube, showBody, transformMatrix);
+
+    const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
+
+    canvas.addEventListener("mousedown", event => {
+        const x = event.offsetX;
+        const y = event.offsetY;
+        dragDetector.onPointerDown(x, y, sceneArgs);
+    });
+
+    canvas.addEventListener("mousemove", event => {
+        dragDetector.onPointerMove();
+    });
+
+    canvas.addEventListener("mouseup", event => {
+        const x = event.offsetX;
+        const y = event.offsetY;
+        dragDetector.onPointerUp(x, y, sceneArgs);
+    });
+
     initPrograms();
     render();
 }
 
 export function initPrograms() {
-
-    // Vertex shader program
-    // const vsSource = `
-    // attribute vec4 aVertexPosition;
-    // attribute vec4 aVertexColor;
-    // uniform mat4 uModelViewMatrix;
-    // uniform mat4 uProjectionMatrix;
-    // varying lowp vec4 vColor;
-    // void main(void) {
-    //     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    //     vColor = aVertexColor;
-    // }
-    // `;
-
     const vsSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
-    uniform mat4 uModelViewMatrix;
+    uniform mat4 uTransformMatrix;
     varying lowp vec4 vColor;
     void main(void) {
-        gl_Position = aVertexPosition;
+        gl_Position = uTransformMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
     `;
@@ -222,30 +225,28 @@ export function initPrograms() {
     // for the vertices and so forth is established.
     const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 
+    gl.useProgram(shaderProgram);
+
     // Collect all the info needed to use the shader program.
     // Look up which attributes our shader program is using
     // for aVertexPosition, aVertexColor and also
     // look up uniform locations.
     programInfo = {
-        program: shaderProgram,
         attribLocations: {
             vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
             vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
         },
         uniformLocations: {
-            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix'),
         }
     };
-
-    render();
 }
 
 function bindPosition(positionBuffer) {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
-        // 3, // size
-        4, // size
+        3, // size
         gl.FLOAT, // type
         false, // normalize
         0, // stride
@@ -267,18 +268,6 @@ function bindColor(colorBuffer) {
         programInfo.attribLocations.vertexColor);
 }
 
-function readPixels() {
-    gl.readPixels(
-        dragDetector.pixelX, // x
-        dragDetector.pixelY, // y
-        1, // width
-        1, // height
-        gl.RGBA, // format
-        gl.UNSIGNED_BYTE, // type
-        dragDetector.pixels, // array to hold result
-    );
-}
-
 function drawElements() {
     gl.drawElements(
         gl.TRIANGLES,
@@ -288,58 +277,10 @@ function drawElements() {
     );
 }
 
-export let modelViewMatrix;
-
 function drawScene() {
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
-
-    // // Apply a perspective transformation to simulate the 
-    // // distortion of perspective in a camera. Our field of 
-    // // view is 45 degrees, with a width/height ratio that 
-    // // matches the display size of the canvas and we only 
-    // // want to see objects between 0.1 units and 100 units 
-    // // away from the camera.
-
-    // const fieldOfView = 45 * Math.PI / 180;   // in radians
-    // const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-    // const zNear = 0.1;
-    // const zFar = 100.0;
-
-    // // Set the drawing position to the "identity" point, which is
-    // // the center of the scene.
-    // // const modelViewMatrix = mat4.create();
-    // modelViewMatrix = mat4.create();
-
-    // // perspectiveNO
-    // mat4.perspective(modelViewMatrix,
-    //     fieldOfView,
-    //     aspect,
-    //     zNear,
-    //     zFar);
-
-    // // translate$2
-    // mat4.translate(modelViewMatrix,     // destination matrix
-    //     modelViewMatrix,     // matrix to translate
-    //     [0.0, 0.0, -5.0]);  // amount to translate
-
-    // // rotate$3
-    // // TODO consider using rotateX, rotateY, rotateZ for performance boost
-    // mat4.rotate(
-    //     modelViewMatrix,
-    //     modelViewMatrix,
-    //     Math.PI / 4,
-    //     [1, 0, 0],
-    // );
-    // mat4.rotate(
-    //     modelViewMatrix,
-    //     modelViewMatrix,
-    //     yAxisOffset,
-    //     [0, -1, 0],
-    // );
-
-    gl.useProgram(programInfo.program);
 
     const underStickers = cube.getUnderStickers();
 
@@ -351,13 +292,13 @@ function drawScene() {
             const m = mat4.create();
             mat4.rotate(
                 m,
-                modelViewMatrix,
+                transformMatrix,
                 animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
                 animation ? animation.axis : [1, 0, 0]
             );
 
             gl.uniformMatrix4fv(
-                programInfo.uniformLocations.modelViewMatrix,
+                programInfo.uniformLocations.transformMatrix,
                 false,
                 m,
             );
@@ -369,22 +310,6 @@ function drawScene() {
             drawElements();
         }
     }
-
-    // gl.clearColor(1.0, 1.0, 1.0, 1.0);
-    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    // drawObjects(
-    //     cube.layersSq * 2,
-    //     (i) => {
-    //         const object = buffers.objects[i];
-    //         return {
-    //             position: object.positionBuffer,
-    //             color: object.pickingColorBuffer,
-    //         };
-    //     },
-    // );
-
-    // readPixels();
 
     gl.clearColor(0.0, 0.0, 0.0, 0.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

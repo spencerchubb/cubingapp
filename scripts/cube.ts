@@ -34,11 +34,6 @@ const BLACK = {
     inactive: [0.0, 0.0, 0.0, 1.0],
 }
 
-const turnTypes = {
-    KEYBOARD: 0,
-    DRAG: 1,
-}
-
 function repeatColorFor4Vertices(color, rgba) {
     let arr = [];
     for (let i = 0; i < 4; i++) {
@@ -66,9 +61,6 @@ export type AnimationData = {
 }
 
 export class CubeLogic {
-    keyboardSpeedFactor: number;
-    dragSpeedFactor: number;
-    factor: number;
     axis: number;
     activeStickers: any;
     stickers: any[];
@@ -82,21 +74,10 @@ export class CubeLogic {
     affectedStickers: any;
     disableTurn: any;
     clockwise: any;
-    turnType: number;
     animationQueue: AnimationData[];
 
     constructor(_gl) {
         gl = _gl;
-
-        const keyboardSpeed: number = +localStorage.getItem("#keyboardSpeed") || +DEFAULT_SPEED;
-        const dragSpeed = +localStorage.getItem("#dragSpeed") || +DEFAULT_SPEED;
-
-        this.keyboardSpeedFactor = keyboardSpeed * 1000 / (Math.PI / 2);
-        this.dragSpeedFactor = dragSpeed * 1000 / (Math.PI / 2);
-
-        // The factor should be set each time you start a new turn type, whether it be keyboard or drag.
-        // This is because the different turn types may be a different speed.
-        this.factor = this.keyboardSpeedFactor;
 
         this.animationQueue = [];
     }
@@ -261,9 +242,6 @@ export class CubeLogic {
     }
 
     sliceTurn(axis, clockwise) {
-        // this.axis = axis;
-        // this.clockwise = clockwise;
-
         this.setAllAffectedStickers(false);
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
@@ -274,9 +252,6 @@ export class CubeLogic {
     }
 
     wideTurn(axis, layer, clockwise) {
-        // this.axis = axis;
-        // this.clockwise = clockwise;
-
         this.resetAffectedStickers();
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
@@ -289,13 +264,7 @@ export class CubeLogic {
     }
 
     cubeRotate(axis, clockwise) {
-        // TODO remove all these if working
-        // this.axis = axis;
-        // this.clockwise = clockwise;
-
         this.resetAffectedStickers();
-        // setAllAffectedStickers() is needed in turn(), sliceTurn(), and wideTurn(), 
-        // but not needed here because all stickers will be affected.
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
@@ -332,40 +301,37 @@ export class CubeLogic {
     }
 
     _turnXAxis(layer, clockwise) {
-        let layersSq = this.numOfLayers * this.numOfLayers;
         for (let i = 1; i <= this.numOfLayers; i++) {
             this._cycle(
                 clockwise,
-                0 * layersSq + layersSq - i - layer * this.numOfLayers,
-                3 * layersSq + layersSq - i - layer * this.numOfLayers,
-                2 * layersSq + layersSq - i - layer * this.numOfLayers,
-                1 * layersSq + layersSq - i - layer * this.numOfLayers,
+                0 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
+                3 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
+                2 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
+                1 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
             );
         }
     }
 
     _turnYAxis(layer, clockwise) {
-        let layersSq = this.numOfLayers * this.numOfLayers;
         for (let i = 0; i < this.numOfLayers; i++) {
             this._cycle(
                 clockwise,
-                1 * layersSq + i * this.numOfLayers + layer,
-                4 * layersSq + i * this.numOfLayers + layer,
-                3 * layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + (this.numOfLayers - 1) - layer,
-                5 * layersSq + i * this.numOfLayers + layer,
+                1 * this.layersSq + i * this.numOfLayers + layer,
+                4 * this.layersSq + i * this.numOfLayers + layer,
+                3 * this.layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + (this.numOfLayers - 1) - layer,
+                5 * this.layersSq + i * this.numOfLayers + layer,
             );
         }
     }
 
     _turnZAxis(layer, clockwise) {
-        let layersSq = this.numOfLayers * this.numOfLayers;
         for (let i = 0; i < this.numOfLayers; i++) {
             this._cycle(
                 clockwise,
-                0 * layersSq + (i + 1) * this.numOfLayers - 1 - layer,
-                5 * layersSq + i + this.numOfLayers * layer,
-                2 * layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + layer,
-                4 * layersSq + layersSq - (i + 1) - layer * this.numOfLayers,
+                0 * this.layersSq + (i + 1) * this.numOfLayers - 1 - layer,
+                5 * this.layersSq + i + this.numOfLayers * layer,
+                2 * this.layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + layer,
+                4 * this.layersSq + this.layersSq - (i + 1) - layer * this.numOfLayers,
             );
         }
     }
@@ -424,9 +390,6 @@ export class CubeLogic {
 
     matchKeyToTurn(key) {
         if (this.disableTurn) return;
-
-        this.turnType = turnTypes.KEYBOARD;
-        this.factor = this.keyboardSpeedFactor;
 
         switch (key) {
             case "n": // x
@@ -516,70 +479,6 @@ export class CubeLogic {
         }
 
         return;
-    }
-
-    doTurnFromMouseDrag(id, dx, dy) {
-        if (this.disableTurn) return;
-
-        this.turnType = turnTypes.DRAG;
-        this.factor = this.dragSpeedFactor;
-
-        const ratio = dy / dx;
-        const ratioThreshold = 0.55;
-
-        // The range from 0-layersSq is the top face.
-        // The range from layersSq-2*layersSq is the front face.
-        // We only want to check for a drag on these two faces.
-        if (id < this.layersSq) {
-            if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - Math.floor(id / this.numOfLayers), dy < 0);
-            } else {
-                this.turn(2, this.numOfLayers - 1 - (id % this.numOfLayers), dx > 0);
-            }
-        } else if (this.layersSq <= id && id < 2 * this.layersSq) {
-            if (ratio < -ratioThreshold || ratio > ratioThreshold) {
-                this.turn(0, this.numOfLayers - 1 - Math.floor((id - this.layersSq) / this.numOfLayers), dy < 0);
-            } else {
-                this.turn(1, (id - this.layersSq) % this.numOfLayers, dx < 0);
-            }
-        }
-    }
-
-    doCubeRotateFromMouseDrag(x, y, dx, dy) {
-        if (this.disableTurn) return;
-
-        this.turnType = turnTypes.DRAG;
-        this.factor = this.dragSpeedFactor;
-
-        // top center
-        if (y < 62 && x > 88 && x < 226) {
-            this.cubeRotate(0, dy < 0);
-        }
-
-        // bottom center
-        else if (y > 260 && x > 88 && x < 226) {
-            this.cubeRotate(0, dy < 0);
-        }
-
-        // top left
-        else if (x < 88 && y > 62 && y < 145) {
-            this.cubeRotate(2, dx > 0);
-        }
-
-        // top right
-        else if (x > 226 && y > 62 && y < 145) {
-            this.cubeRotate(2, dx > 0);
-        }
-
-        // bottom left
-        else if (x < 88 && y > 145 && y < 260) {
-            this.cubeRotate(1, dx < 0);
-        }
-
-        // bottom right
-        else if (x > 226 && y > 145 && y < 260) {
-            this.cubeRotate(1, dx < 0);
-        }
     }
 
     stepAlgorithm(move: string, forward: boolean) {
@@ -730,5 +629,9 @@ export class CubeLogic {
 
         // Clear the animation queue so that all the turns don't get animated
         this.animationQueue = [];
+    }
+
+    stickerIsOnFace(sticker: number, face: number) {
+        return face * this.layersSq <= sticker && sticker < (face + 1) * this.layersSq;
     }
 }

@@ -1,13 +1,11 @@
 import * as scene from "./scene";
-import { addDragEvents, listenToNavButtons } from "./ui";
+import { listenToNavButtons } from "./ui";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
-
-    addDragEvents(scene);
 
     listenToNavButtons();
 
