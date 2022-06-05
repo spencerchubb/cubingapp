@@ -1,8 +1,6 @@
 import { DEFAULT_SPEED } from "./constants.js";
 import * as pieceIndices from "./pieceIndices";
 
-// const canvas = document.querySelector('#glCanvas') as HTMLCanvasElement;
-// const gl = canvas.getContext('webgl');
 let gl;
 
 const WHITE = {
@@ -72,14 +70,16 @@ export class CubeLogic {
     numOfStickers: number;
     currentStickers: any;
     affectedStickers: any;
-    disableTurn: any;
-    clockwise: any;
+    disableTurn: boolean;
+    clockwise: boolean;
     animationQueue: AnimationData[];
+    animateTurns: boolean;
 
-    constructor(_gl) {
+    constructor(_gl, animateTurns: boolean) {
         gl = _gl;
 
         this.animationQueue = [];
+        this.animateTurns = animateTurns;
     }
 
     new() {
@@ -214,6 +214,8 @@ export class CubeLogic {
     }
 
     pushAnimation(axis, clockwise, prevStickers) {
+        if (!this.animateTurns) return;
+
         let x = clockwise ? -1 : 1;
         let rotationAxis;
         if (axis == 0) {

@@ -22,6 +22,7 @@ export let xAxisOffset;
 export let yAxisOffset;
 setAngleOffset(store.getAngle());
 export let showBody = store.getShowBody();
+export let animateTurns = store.getAnimateTurns();
 
 let angle = 0.0;
 let velocity = 0.005
@@ -75,7 +76,20 @@ export function setShowBody(val: boolean) {
     render();
 }
 
+export function setAnimateTurns(val: boolean) {
+    animateTurns = val;
+    cube.animateTurns = val;
+}
+
 export function animateTurn() {
+    // If the user has chosen not to animate turns, then just apply the turn
+    // instantly and redraw.
+    if (!animateTurns) {
+        cube.setStickers();
+        drawScene();
+        return;
+    }
+
     if (!isTurning) {
         animation = cube.shiftAnimation();
 
@@ -170,7 +184,7 @@ export function renderCanvas() {
     );
 
     buffers = new Buffers(gl);
-    cube = new CubeLogic(gl);
+    cube = new CubeLogic(gl, animateTurns);
     dragDetector = new DragDetector();
 
     cube.setNumOfLayers(numLayers);

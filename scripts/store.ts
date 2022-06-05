@@ -5,6 +5,7 @@
 const angle = "angle";
 const size = "size";
 const showBody = "showBody";
+const animateTurns = "animateTurns";
 
 export function getAngle() {
     return getInt(angle) ?? 1;
@@ -28,6 +29,14 @@ export function getShowBody() {
 
 export function setShowBody(value) {
     setBool(showBody, value);
+}
+
+export function getAnimateTurns() {
+    return getBool(animateTurns, true);
+}
+
+export function setAnimateTurns(value) {
+    setBool(animateTurns, value);
 }
 
 /**

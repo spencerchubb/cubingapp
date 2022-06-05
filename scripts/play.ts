@@ -239,6 +239,9 @@ function renderDrawer(index: number) {
             <div style="height: 1.5rem;"></div>
             <p>Show body</p>
             <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
+            <div style="height: 1.5rem;"></div>
+            <p>Animate turns</p>
+            <input id="animateTurnsCheckbox" type="checkbox" ${scene.animateTurns ? "checked" : ""} />
         </div>
         `;
 
@@ -270,6 +273,14 @@ function renderDrawer(index: number) {
 
             scene.setShowBody(target.checked);
             store.setShowBody(target.checked);
+        });
+
+        const animateTurnsCheckbox = document.querySelector("#animateTurnsCheckbox");
+        animateTurnsCheckbox.addEventListener("change", (event) => {
+            const target = event.target as HTMLInputElement;
+
+            scene.setAnimateTurns(target.checked);
+            store.setAnimateTurns(target.checked);
         });
     }
 
