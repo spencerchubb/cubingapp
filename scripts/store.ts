@@ -16,7 +16,7 @@ export function setAngle(value) {
 }
 
 export function getSize() {
-    return getFloat(size) ?? 1.0;
+    return getFloat(size) ?? 1;
 }
 
 export function setSize(value) {
@@ -24,7 +24,7 @@ export function setSize(value) {
 }
 
 export function getShowBody() {
-    return getBool(showBody, true);
+    return getBool(showBody) ?? true;
 }
 
 export function setShowBody(value) {
@@ -32,7 +32,7 @@ export function setShowBody(value) {
 }
 
 export function getAnimateTurns() {
-    return getBool(animateTurns, true);
+    return getBool(animateTurns) ?? true;
 }
 
 export function setAnimateTurns(value) {
@@ -42,9 +42,9 @@ export function setAnimateTurns(value) {
 /**
  * Returns the current boolean associated with the given key, or defaultValue if the given key does not exist.
  */
-function getBool(key: string, defaultValue: boolean): boolean {
+function getBool(key: string): boolean {
     const value = localStorage.getItem(key);
-    if (value === null) return defaultValue;
+    if (value === null) return null;
     return value == "1";
 }
 
@@ -56,12 +56,16 @@ function setBool(key: string, value: boolean) {
  * Returns the current integer associated with the given key, or null if the given key does not exist.
  */
 function getInt(key: string) {
-    return parseInt(localStorage.getItem(key));
+    const value = localStorage.getItem(key);
+    if (value === null) return null;
+    return parseInt(value);
 }
 
 /**
  * Returns the current float associated with the given key, or null if the given key does not exist.
  */
 function getFloat(key: string) {
-    return parseFloat(localStorage.getItem(key));
+    const value = localStorage.getItem(key);
+    if (value === null) return null;
+    return parseFloat(value);
 }

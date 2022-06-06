@@ -63,7 +63,7 @@ export function setAngleOffset(value: number) {
     } else if (value === 1) {
         xAxisOffset = 45 * Math.PI / 180;
         yAxisOffset = 0;
-    } else { // storedAngle === 2
+    } else { // value === 2
         xAxisOffset = 35 * Math.PI / 180;
         yAxisOffset = 45 * Math.PI / 180;
     }
