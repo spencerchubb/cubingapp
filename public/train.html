@@ -10,31 +10,29 @@
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
-<body id="indexPage">
-    <nav>
-        <div class="navbar">
-            <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"
-                style="position: fixed; left: 24px;">
-                <img id="menu" src="./images/menu.svg" alt="Menu">
-            </a>
-            <div style="flex-grow: 1;"></div>
+<body class="col">
+    <nav class="navbar">
+        <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"
+            style="position: fixed; left: 24px;">
+            <img id="menu" src="./images/menu.svg" alt="Menu">
+        </a>
+        <div style="flex-grow: 1;"></div>
 
-            <select id="alg-set-select"></select>
-            <div style="width: 24px;"></div>
-            <button id="try-again" class="btn btn-primary" title="Press backspace to try again">Try Again</button>
-            <div style="width: 24px;"></div>
-            <button id="next" class="btn btn-primary" title="Press enter for next algorithm">Next</button>
+        <select id="alg-set-select"></select>
+        <div style="width: 24px;"></div>
+        <button id="try-again" class="btn btn-primary" title="Press backspace to try again">Try Again</button>
+        <div style="width: 24px;"></div>
+        <button id="next" class="btn btn-primary" title="Press enter for next algorithm">Next</button>
 
-            <div style="flex-grow: 1;"></div>
-            <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
-                <circle cx="10" cy="12" r="2" stroke="white" fill="white" fill="white" />
-                <circle cx="20" cy="12" r="2" stroke="white" fill="white" />
-                <circle cx="30" cy="12" r="2" stroke="white" fill="white" />
-            </svg>
-        </div>
+        <div style="flex-grow: 1;"></div>
+        <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
+            <circle cx="10" cy="12" r="2" stroke="white" fill="white" fill="white" />
+            <circle cx="20" cy="12" r="2" stroke="white" fill="white" />
+            <circle cx="30" cy="12" r="2" stroke="white" fill="white" />
+        </svg>
     </nav>
 
-    <div id="main-container">
+    <div id="main-container" style="width: 100%;">
         <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
             <div id="glDiv"></div>
         </div>

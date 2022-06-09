@@ -13,6 +13,19 @@ th, td {
     color: white;
 }
 
+body {
+    margin: 0;
+    background: #595959;
+
+    /* Prevent scrolling and refresh on mobile */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
 .row {
     display: flex;
     flex-direction: row;
@@ -27,21 +40,6 @@ th, td {
 
 .lessonNavButton {
     background: pink;
-}
-
-#indexPage {
-    margin: 0;
-    background: #595959;
-    display: flex;
-    flex-direction: column;
-
-    /* Prevent scrolling and refresh on mobile */
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    bottom: 0;
 }
 
 .navbar {
@@ -64,7 +62,6 @@ th, td {
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
-    /* width: 100%; */
     flex-grow: 1;
     height: 100%;
 }
@@ -187,14 +184,32 @@ th, td {
     margin: 2px;
 }
 
-#settingsIcon {
-    position: absolute;
-    right: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+.icon {
+    width: 48px;
+    height: 48px;
+    padding: 8px;
 }
-#settingsIcon:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.icon:hover {
+    background-color: rgba(255, 255, 255, 0.3);
     cursor: pointer;
+}
+
+.label {
+    background: white; 
+    padding: 4px; 
+    border-radius: 4px; 
+    box-shadow: 0 0 8px 2px black;
+}
+.labelTriangle {
+    width: 0; 
+    height: 0; 
+    border: solid 8px; 
+    border-color: transparent transparent transparent white;
+}
+
+#timesList td {
+    border: none;
+    color: black;
+    padding: 0 8px 0 0;
+    text-align: right;
 }

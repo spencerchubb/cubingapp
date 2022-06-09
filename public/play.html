@@ -10,38 +10,63 @@
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
-<body id="indexPage">
-    <nav>
-        <div class="navbar">
+<body style="display: flex; flex-direction: row;">
+    <div class="col" style="flex-grow: 1;">
+        <nav class="navbar">
             <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"
                 style="position: fixed; left: 24px;">
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
             <div style="flex-grow: 1;"></div>
-
             <!-- Default value is 3 for a 3x3 Rubik's Cube -->
             <input id="layerInput" type="number" min="0" value="3">
             <div style="width: 24px;"></div>
             <button id="solve" class="btn btn-primary">Solve</button>
             <div style="width: 24px;"></div>
             <button id="scramble" class="btn btn-primary">Scramble</button>
-
             <div style="flex-grow: 1;"></div>
-            <button id="helpButton" class="btn btn-primary" style="position: fixed; right: 24px;">Tips</button>
-        </div>
-    </nav>
-
-    <div class="row" style="min-height: 0; height: 100%;">
-        <div id="main-container">
-            <p id="time"></p>
-            <button id="startStop" class="btn btn-primary"></button>
-            <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
-                <img id="settingsIcon" src="./images/settings.svg" alt="Settings">
-                <div id="glDiv"></div>
+        </nav>
+        <div class="row" style="min-height: 0; width: 100%; height: 100%;">
+            <div id="main-container">
+                <p id="time"></p>
+                <button id="startStop" class="btn btn-primary"></button>
+                <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                    <div id="glDiv"></div>
+                </div>
+            </div>
+            <div id="rightDrawer"
+                style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
             </div>
         </div>
-        <div id="rightDrawer"
-            style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
+    </div>
+
+    <div class="col" style="align-items: end; width: 48px; height: 100%; background: black;">
+        <div class="row">
+            <div id="right0Label" class="row" style="display: none;">
+                <div class="label">
+                    <p>Times</p>
+                </div>
+                <div class="labelTriangle"></div>
+            </div>
+            <img id="right0" class="icon" src="./images/times.svg" alt="Times">
+        </div>
+        <div class="row">
+            <div id="right1Label" class="row" style="display: none;">
+                <div class="label">
+                    <p>Settings</p>
+                </div>
+                <div class="labelTriangle"></div>
+            </div>
+            <img id="right1" class="icon" src="./images/settings.svg" alt="Settings">
+        </div>
+        <div class="row">
+            <div id="right2Label" class="row" style="display: none;">
+                <div class="label">
+                    <p>Tips</p>
+                </div>
+                <div class="labelTriangle"></div>
+            </div>
+            <img id="right2" class="icon" src="./images/i.svg" alt="Tips">
         </div>
     </div>
 
