@@ -1,0 +1,9 @@
+install git
+sudo yum update
+sudo yum install git
+git version
+
+install go
+sudo yum update
+sudo yum install go
+go version
