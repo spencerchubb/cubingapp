@@ -1,4 +1,3 @@
-import { DEFAULT_SPEED } from "./constants.js";
 import * as pieceIndices from "./pieceIndices";
 
 let gl;
@@ -32,23 +31,6 @@ const BLACK = {
     inactive: [0.0, 0.0, 0.0, 1.0],
 }
 
-function repeatColorFor4Vertices(color, rgba) {
-    let arr = [];
-    for (let i = 0; i < 4; i++) {
-        arr.push(rgba[0], rgba[1], rgba[2], rgba[3]);
-    }
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
-
-    return {
-        color: color,
-        arr: arr,
-        buffer: buffer,
-    };
-}
-
 export type AnimationData = {
     // List with a length of 3. One of the numbers must be -1 or 1, with the 
     // sign indication clockwise or counterclockwise. The other two numbers are zero.
@@ -68,7 +50,7 @@ export class CubeLogic {
     layersHalf: number;
     layersEven: boolean;
     numOfStickers: number;
-    currentStickers: any;
+    currentStickers: any[];
     affectedStickers: any;
     disableTurn: boolean;
     clockwise: boolean;
@@ -84,28 +66,49 @@ export class CubeLogic {
 
     new() {
         this.axis = 0;
+        this.stickers = [];
 
         if (!this.activeStickers) {
             this.activeStickers = [];
         }
 
-        this.stickers = [];
+        const repeatColorFor4Vertices = (rgba, color, face) => {
+            let arr = [
+                rgba[0], rgba[1], rgba[2], rgba[3],
+                rgba[0], rgba[1], rgba[2], rgba[3],
+                rgba[0], rgba[1], rgba[2], rgba[3],
+                rgba[0], rgba[1], rgba[2], rgba[3],
+            ];
+        
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+        
+            return {
+                color,
+                face,
+                arr,
+                buffer,
+            };
+        }
+
         const pushSeveral = (color, face) => {
             for (let i = 0; i < this.layersSq; i++) {
-                let rgba = this.activeStickers.includes(face + i) ? color.active : color.inactive;
-                this.stickers.push(repeatColorFor4Vertices(color, rgba));
+                const rgba = this.activeStickers.includes(face * this.layersSq + i) ? color.active : color.inactive;
+                this.stickers.push(repeatColorFor4Vertices(rgba, color, face));
             }
         }
         pushSeveral(WHITE, 0);
-        pushSeveral(GREEN, 1 * this.layersSq);
-        pushSeveral(YELLOW, 2 * this.layersSq);
-        pushSeveral(BLUE, 3 * this.layersSq);
-        pushSeveral(ORANGE, 4 * this.layersSq);
-        pushSeveral(RED, 5 * this.layersSq);
+        pushSeveral(GREEN, 1);
+        pushSeveral(YELLOW, 2);
+        pushSeveral(BLUE, 3);
+        pushSeveral(ORANGE, 4);
+        pushSeveral(RED, 5);
 
         this.underStickers = [];
         for (let i = 0; i < this.layersSq * 6; i++) {
-            this.underStickers.push(repeatColorFor4Vertices(BLACK, BLACK.active));
+            // Pass in -1 for face because it shouldn't matter for the under stickers.
+            this.underStickers.push(repeatColorFor4Vertices(BLACK, BLACK.active, -1));
         }
 
         this.setAllAffectedStickers(false);
@@ -158,6 +161,20 @@ export class CubeLogic {
         this.layersHalf = Math.floor(this.numOfLayers / 2);
         this.layersEven = this.numOfLayers % 2 == 0;
         this.numOfStickers = this.layersSq * 6;
+    }
+
+    /**
+     * Return a list of numbers representing the cube state. The list will 
+     * contain integers 0-6, with each integer corresponding to a face's color.
+     * 0 -> top
+     * 1 -> front
+     * 2 -> bottom
+     * 3 -> back
+     * 4 -> left
+     * 5 -> right
+     */
+    getCubeState(): number[] {
+        return this.currentStickers.map(sticker => sticker.face);
     }
 
     getStickers() {
@@ -394,90 +411,90 @@ export class CubeLogic {
         if (this.disableTurn) return;
 
         switch (key) {
-            case "n": // x
+            case "n":
                 this.cubeRotate(0, true);
-                return { rotate: true };
-            case "b": // x'
+                return { notation: "x", rotate: true };
+            case "b":
                 this.cubeRotate(0, false);
-                return { rotate: true };
-            case ";": // y
+                return { notation: "x'", rotate: true };
+            case ";":
                 this.cubeRotate(1, true);
-                return { rotate: true };
-            case "a": // y'
+                return { notation: "y", rotate: true };
+            case "a":
                 this.cubeRotate(1, false);
-                return { rotate: true };
-            case "p": // z
+                return { notation: "y'", rotate: true };
+            case "p":
                 this.cubeRotate(2, true);
-                return { rotate: true };
-            case "q": // z'
+                return { notation: "z", rotate: true };
+            case "q":
                 this.cubeRotate(2, false);
-                return { rotate: true };
-            case "j": // U
+                return { notation: "z'", rotate: true };
+            case "j":
                 this.turn(1, 0, true);
-                return { turn: true };
-            case "f": // U'
+                return { notation: "U", turn: true };
+            case "f": //
                 this.turn(1, 0, false);
-                return { turn: true };
-            case "s": // D
+                return { notation: "U'", turn: true };
+            case "s":
                 this.turn(1, this.numOfLayers - 1, false);
-                return { turn: true };
-            case "l": // D'
+                return { notation: "D", turn: true };
+            case "l":
                 this.turn(1, this.numOfLayers - 1, true);
-                return { turn: true };
-            case "h": // F
+                return { notation: "D'", turn: true };
+            case "h":
                 this.turn(2, 0, true);
-                return { turn: true };
-            case "g": // F'
+                return { notation: "F", turn: true };
+            case "g":
                 this.turn(2, 0, false);
-                return { turn: true };
-            case "w": // B
+                return { notation: "F'", turn: true };
+            case "w":
                 this.turn(2, this.numOfLayers - 1, false);
-                return { turn: true };
-            case "o": // B'
+                return { notation: "B", turn: true };
+            case "o":
                 this.turn(2, this.numOfLayers - 1, true);
-                return { turn: true };
-            case "d": // L
+                return { notation: "B'", turn: true };
+            case "d":
                 this.turn(0, this.numOfLayers - 1, false);
-                return { turn: true };
-            case "e": // L'
+                return { notation: "L", turn: true };
+            case "e":
                 this.turn(0, this.numOfLayers - 1, true);
-                return { turn: true };
-            case "i": // R
+                return { notation: "L'", turn: true };
+            case "i":
                 this.turn(0, 0, true);
-                return { turn: true };
-            case "k": // R'
+                return { notation: "R", turn: true };
+            case "k":
                 this.turn(0, 0, false);
-                return { turn: true };
-            case "[": // M
+                return { notation: "R'", turn: true };
+            case "[":
                 this.sliceTurn(0, false);
-                return { turn: true };
-            case "'": // M'
+                return { notation: "M", turn: true };
+            case "'":
                 this.sliceTurn(0, true);
-                return { turn: true };
-            case "c": // E
+                return { notation: "M'", turn: true };
+            case "c":
                 this.sliceTurn(1, false);
-                return { turn: true };
-            case ",": // E'
+                return { notation: "E", turn: true };
+            case ",":
                 this.sliceTurn(1, true);
-                return { turn: true };
-            case "y": // S
+                return { notation: "E'", turn: true };
+            case "y":
                 this.sliceTurn(2, true);
-                return { turn: true };
-            case "t": // S'
+                return { notation: "y", turn: true };
+            case "t":
                 this.sliceTurn(2, false);
-                return { turn: true };
-            case "u": // r
+                return { notation: "y'", turn: true };
+            case "u":
                 this.wideTurn(0, 0, true);
-                return { turn: true };
-            case "m": // r'
+                return { notation: "r", turn: true };
+            case "m":
                 this.wideTurn(0, 0, false);
-                return { turn: true };
-            case "v": // l
+                return { notation: "r'", turn: true };
+            case "v":
                 this.wideTurn(0, this.numOfLayers - 1, false);
-                return { turn: true };
-            case "r": // l'
+                return { notation: "l", turn: true };
+            case "r":
                 this.wideTurn(0, this.numOfLayers - 1, true);
-                return { turn: true };
+                return { notation: "l'", turn: true };
         }
 
         return;

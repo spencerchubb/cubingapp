@@ -3,6 +3,7 @@ import { Timer } from "./timer";
 import { listenToNavButtons } from "./ui";
 import * as store from "./store";
 import * as db from "./db";
+import { Recorder } from "./recorder";
 
 let drawerIndex;
 let times = [];
@@ -10,13 +11,14 @@ db.getTimes(results => {
     times = results;
 });
 
+const timer = new Timer();
+const recorder = new Recorder();
+
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
 
     listenToNavButtons();
-
-    const timer = new Timer();
 
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
     layerInput.addEventListener("change", (event) => {
@@ -42,19 +44,25 @@ export function main() {
     });
 
     document.querySelector("#startStop").addEventListener("click", (event) => {
-        const time = timer.startStop();
-        handleTime(time);
+        handleStartStop();
     });
 
     document.addEventListener("keydown", (event) => {
+        // Immediately save the time for precision.
+        const time = Date.now();
+
         if (event.key === " ") {
             // Prevent extra click if spacebar is pressed while a button is focused.
             event.preventDefault();
 
-            const time = timer.startStop();
-            handleTime(time);
-        } else if (scene.cube.matchKeyToTurn(event.key)) {
+            handleStartStop();
+        }
+
+        const result = scene.cube.matchKeyToTurn(event.key);
+        if (result) {
+            recorder.addMove(result.notation, time);
             scene.animateTurn();
+            return;
         }
     });
 
@@ -83,9 +91,19 @@ function addRightButtonListeners(index: number) {
     });
 }
 
-function handleTime(time: number | null) {
-    if (!time) return;
-    const timeObj = { solveTime: time };
+function handleStartStop() {
+    const time = timer.startStop();
+
+    if (!time) {
+        recorder.start(scene.cube.getCubeState());
+        return;
+    }
+
+    const timeObj = { 
+        solveTime: time, 
+        initialCubeState: recorder.cubeState,
+        moves: recorder.moves,
+    };
     db.addTime(timeObj);
     times.push(timeObj);
     if (drawerIndex === 0) { // 0 is the index associated with Times
@@ -104,7 +122,7 @@ function renderDrawer(index: number) {
         drawerEle.style.display = "none";
         return;
     }
-    
+
     if (index === 0) {
         renderTimes(drawerEle);
     } else if (index === 1) {
@@ -134,10 +152,20 @@ function renderTimes(drawerEle: HTMLElement) {
     const timesList = document.querySelector("#timesList");
     for (let i = times.length - 1; i >= 0; i--) {
         const time = times[i];
-        timesList.innerHTML += `<tr>
-            <td>${i + 1})</td>
-            <td>${time.solveTime}</td>
-        </tr>`;
+        const tr = document.createElement("tr");
+        const td1 = document.createElement("td");
+        const td2 = document.createElement("td");
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        td1.textContent = `${i + 1})`;
+        td2.className = "solveTime";
+        td2.textContent = `${time.solveTime}`;
+        td2.addEventListener("click", () => {
+            console.log(time);
+        });
+
+        timesList.appendChild(tr);
     }
 }
 

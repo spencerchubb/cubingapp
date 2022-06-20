@@ -53,4 +53,12 @@ export class Timer {
         this._updateStartStopButton(true);
         return null;
     }
+
+    /**
+     * This method gets the current time in relation to the start time
+     * of a solve.
+     */
+    getTime() {
+        return Date.now() - this.start;
+    }
 }

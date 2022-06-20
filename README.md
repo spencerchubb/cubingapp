@@ -28,6 +28,9 @@ npm run build
 Serve
 ```
 firebase serve
+
+// Another option
+serve public
 ```
 
 Serve to another device on network

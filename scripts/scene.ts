@@ -341,13 +341,14 @@ function drawScene() {
         );
     }
 
+    let listToShow = isTurning ? animation.stickers : cube.currentStickers;
     drawObjects(
         cube.numOfStickers,
         (i) => {
             const object = buffers.objects[i];
             return {
                 position: object.positionBuffer,
-                color: isTurning ? animation.stickers[i].buffer : cube.currentStickers[i].buffer,
+                color: listToShow[i].buffer,
             };
         },
     );

@@ -213,3 +213,8 @@ body {
     padding: 0 8px 0 0;
     text-align: right;
 }
+
+.solveTime:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
