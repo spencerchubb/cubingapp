@@ -38,10 +38,6 @@ body {
     align-items: center;
 }
 
-.lessonNavButton {
-    background: pink;
-}
-
 .navbar {
     background-color: rgb(61, 75, 116);
     display: flex;
@@ -49,12 +45,6 @@ body {
     align-items: center;
     width: 100%;
     padding: 12px;
-}
-
-.navbar-h {
-    font-size: 1.5em;
-    color: white;
-    margin-bottom: 0;
 }
 
 #main-container {
@@ -129,26 +119,6 @@ body {
 
 .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.0);
-}
-
-#settings-page {
-    background-color: white;
-}
-
-.settings-container {
-    background-color: rgb(171, 244, 255);
-    width: 100%;
-    border-radius: 20px;
-    padding: 10px;
-}
-
-#settings-page h2 {
-    font-size: 1.5em;
-}
-
-#settings-page h3 {
-    font-size: 1.25em;
-    color: rgb(87, 87, 87);
 }
 
 .lesson-p:hover {

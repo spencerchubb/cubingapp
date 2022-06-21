@@ -4,7 +4,6 @@ module.exports = {
 	entry: {
 		index: "./scripts/index.ts",
 		play: "./scripts/play.ts",
-		settings: "./scripts/settings.ts",
 		train: "./scripts/train.ts",
 		cuble: "./scripts/cuble.ts"
 	},
