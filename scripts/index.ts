@@ -1,5 +1,5 @@
 import * as scene from "./scene";
-import { listenToNavButtons } from "./ui";
+import { addListenersForLeftModal } from "./ui";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
 const UBL = [0, 29, 36];
@@ -72,7 +72,7 @@ export function main() {
     // Initial canvas render
     scene.renderCanvas();
 
-    listenToNavButtons();
+    addListenersForLeftModal();
 
     document.addEventListener("keydown", (event) => {
         if (scene.cube.matchKeyToTurn(event.key)) {

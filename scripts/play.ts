@@ -1,6 +1,6 @@
 import * as scene from "./scene";
 import { Timer } from "./timer";
-import { listenToNavButtons } from "./ui";
+import { addListenersForLeftModal } from "./ui";
 import * as store from "./store";
 import * as db from "./db";
 import { Recorder } from "./recorder";
@@ -18,7 +18,7 @@ export function main() {
     // Initial canvas render
     scene.renderCanvas();
 
-    listenToNavButtons();
+    addListenersForLeftModal();
 
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
     layerInput.addEventListener("change", (event) => {

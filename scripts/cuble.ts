@@ -1,11 +1,11 @@
 import * as scene from "./scene";
-import { listenToNavButtons } from "./ui";
+import { addListenersForLeftModal } from "./ui";
 
 export function main() {
     // Initial canvas render
     scene.renderCanvas();
 
-    listenToNavButtons();
+    addListenersForLeftModal();
 
     const moveCountEle = document.querySelector("#moveCount");
     let moveCount = 0;

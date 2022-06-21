@@ -1,5 +1,5 @@
 import * as scene from "./scene";
-import { listenToNavButtons } from "./ui";
+import { addListenersForLeftModal } from "./ui";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
@@ -7,7 +7,7 @@ export function main() {
     // Initial canvas render
     scene.renderCanvas();
 
-    listenToNavButtons();
+    addListenersForLeftModal();
 
     document.querySelector("#try-again").addEventListener("click", () => {
         loadCurrAlg();

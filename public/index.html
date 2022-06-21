@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/bootstrap.css">
     <link rel="stylesheet" href="./styles/main.css">
     <title>Rubik's Cube</title>
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
@@ -12,8 +11,7 @@
 
 <body class="col">
     <nav class="navbar">
-        <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"
-            style="padding-left: 24px;">
+        <a class="pointer-hover" style="padding-left: 24px;">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
     </nav>
@@ -38,12 +36,17 @@
         <div style="padding: 48px 0 0 0"></div>
     </div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="slideRight">
+        <div class="row" style="justify-content: space-between;">
+            <h5 style="font-size: 1.2rem;">Menu</h5>
+            <button id="closeMenu" class="xButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                </svg>
+            </button>
         </div>
-        <div class="offcanvas-body" style="display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: column;">
+            <div style="height: 16px;"></div>
             <button id="learnButton" class="btn btn-primary">
                 Learn
             </button>
@@ -65,8 +68,7 @@
     <div id="lessonNavigator" class="slideUp">
         <div id="lessonNavigatorInner"
             style="width: 100%; height: 100%; overflow-y: auto; padding: 24px 16px 16px 16px; position: relative">
-            <button id="closeLessonNavigator"
-                style="padding: 2px; border-radius: 4px; background: #eee; border: none; outline: none; position: absolute; top: 16px; right: 16px;">
+            <button id="closeLessonNavigator" class="xButton" style="position: absolute; top: 16px; right: 16px;">
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
                     <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
                 </svg>
@@ -82,9 +84,6 @@
         <button id="nextLesson" class="btn btn-primary">Next</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
     <script src="./dist/index.js"></script>
 </body>
 

@@ -8,9 +8,6 @@
 		"start": "webpack-dev-server"
 	},
 	"author": "Spencer Chubb <spencerchubb@gmail.com>",
-	"dependencies": {
-		"bootstrap": "^5.0.2"
-	},
 	"devDependencies": {
 		"copy-webpack-plugin": "^5.0.0",
 		"ts-loader": "^9.2.5",
