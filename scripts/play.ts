@@ -1,6 +1,7 @@
 import * as scene from "./scene";
-import { Timer } from "./timer";
 import { addListenersForLeftModal } from "./ui";
+import { AE, addAnalyticsEvent } from "./analytics";
+import { Timer } from "./timer";
 import * as store from "./store";
 import * as db from "./db";
 import { Recorder } from "./recorder";
@@ -15,6 +16,8 @@ const timer = new Timer();
 const recorder = new Recorder();
 
 export function main() {
+    addAnalyticsEvent(AE.ViewPlay);
+
     // Initial canvas render
     scene.renderCanvas();
 

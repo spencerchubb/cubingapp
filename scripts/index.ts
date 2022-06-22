@@ -1,5 +1,6 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
+import { AE, addAnalyticsEvent } from "./analytics";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
 const UBL = [0, 29, 36];
@@ -69,6 +70,8 @@ function parseMovesFromAlg(alg?: string): string[] {
 }
 
 export function main() {
+    addAnalyticsEvent(AE.ViewIndex);
+    
     // Initial canvas render
     scene.renderCanvas();
 

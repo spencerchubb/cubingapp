@@ -1,7 +1,10 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
+import { AE, addAnalyticsEvent } from "./analytics";
 
 export function main() {
+    addAnalyticsEvent(AE.ViewCuble);
+    
     // Initial canvas render
     scene.renderCanvas();
 

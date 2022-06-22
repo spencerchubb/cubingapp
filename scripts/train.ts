@@ -1,9 +1,12 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
+import { AE, addAnalyticsEvent } from "./analytics";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
 export function main() {
+    addAnalyticsEvent(AE.ViewTrain);
+
     // Initial canvas render
     scene.renderCanvas();
 

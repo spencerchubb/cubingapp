@@ -37,3 +37,8 @@ Serve to another device on network
 ```
 firebase serve -o IP_ADDRESS
 ```
+
+Deploy
+```
+firebase deploy
+```
