@@ -41,4 +41,6 @@ firebase serve -o IP_ADDRESS
 Deploy
 ```
 firebase deploy
+firebase deploy --only hosting
+firebase deploy --only functions
 ```

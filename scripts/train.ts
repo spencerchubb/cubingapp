@@ -109,8 +109,6 @@ export function main() {
 
     // Iterate 'algData' and find the desired set. 
     function findAlgSet(set: string) {
-        console.log("Displaying alg set:", set);
-
         for (let i = 0; i < algData.length; i++) {
             const algSet = algData[i];
             if (algSet.set === set) {
@@ -207,8 +205,6 @@ export function main() {
             const input = document.createElement("input");
             input.addEventListener("change", () => {
                 let categoriesToFilter = categories.filter((_, j) => inputs[j].checked);
-                console.log(categoriesToFilter);
-
                 if (categoriesToFilter.length !== 0) {
                     // If there are some, filter down to those categories
                     selectedAlgs = [];

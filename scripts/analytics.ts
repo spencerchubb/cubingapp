@@ -1,6 +1,5 @@
 import { getUserID, setUserID } from "./store";
-
-const url = "http://54.209.248.96:3000"
+import { vars } from "./vars/vars";
 
 /**
  * Return the userID from localStorage.
@@ -13,7 +12,7 @@ function userID() {
     }
 
     // 2^63 - 1 = 9,223,372,036,854,775,807
-    // This is the maximum integer in sqlite3
+    // This is the maximum integer in firestore
     _userID = Math.floor(Math.random() * 9_223_372_036_854_775_807);
     setUserID(_userID);
     return _userID;
@@ -31,14 +30,10 @@ export function addAnalyticsEvent(type: AE) {
     const body = {
         userID: userID(),
         type: type,
+        date: Date.now(),
     };
-    // console.log(body);
-    fetch(`${url}/addAnalyticsEvent`, {
+    fetch(`${vars.url}/addAnalyticsEvent`, {
         method: "POST",
         body: JSON.stringify(body),
-    })
-        .then(res => res.json())
-        .then(data => {
-            // console.log(data);
-        });
+    });
 }

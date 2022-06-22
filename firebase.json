@@ -6,5 +6,12 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "functions": {
+    "source": "functions"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

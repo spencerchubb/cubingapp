@@ -16,7 +16,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AE\": () => (/* binding */ AE),\n/* harmony export */   \"addAnalyticsEvent\": () => (/* binding */ addAnalyticsEvent)\n/* harmony export */ });\n/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ \"./scripts/store.ts\");\n\r\nvar url = \"https://54.209.248.96:3000\";\r\n/**\r\n * Return the userID from localStorage.\r\n * If it's not there, then generate an ID, store it in localStorage, and return it.\r\n */\r\nfunction userID() {\r\n    var _userID = (0,_store__WEBPACK_IMPORTED_MODULE_0__.getUserID)();\r\n    if (_userID) {\r\n        return _userID;\r\n    }\r\n    // 2^63 - 1 = 9,223,372,036,854,775,807\r\n    // This is the maximum integer in sqlite3\r\n    _userID = Math.floor(Math.random() * 9223372036854776000);\r\n    (0,_store__WEBPACK_IMPORTED_MODULE_0__.setUserID)(_userID);\r\n    return _userID;\r\n}\r\n/** Types of analytics events (AE) */\r\nvar AE;\r\n(function (AE) {\r\n    AE[\"ViewCuble\"] = \"ViewCuble\";\r\n    AE[\"ViewIndex\"] = \"ViewIndex\";\r\n    AE[\"ViewPlay\"] = \"ViewPlay\";\r\n    AE[\"ViewTrain\"] = \"ViewTrain\";\r\n})(AE || (AE = {}));\r\nfunction addAnalyticsEvent(type) {\r\n    var body = {\r\n        userID: userID(),\r\n        type: type,\r\n    };\r\n    // console.log(body);\r\n    fetch(url + \"/addAnalyticsEvent\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(body),\r\n    })\r\n        .then(function (res) { return res.json(); })\r\n        .then(function (data) {\r\n        // console.log(data);\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/analytics.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"AE\": () => (/* binding */ AE),\n/* harmony export */   \"addAnalyticsEvent\": () => (/* binding */ addAnalyticsEvent)\n/* harmony export */ });\n/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ \"./scripts/store.ts\");\n/* harmony import */ var _vars_vars__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vars/vars */ \"./scripts/vars/vars.ts\");\n\r\n\r\n/**\r\n * Return the userID from localStorage.\r\n * If it's not there, then generate an ID, store it in localStorage, and return it.\r\n */\r\nfunction userID() {\r\n    var _userID = (0,_store__WEBPACK_IMPORTED_MODULE_0__.getUserID)();\r\n    if (_userID) {\r\n        return _userID;\r\n    }\r\n    // 2^63 - 1 = 9,223,372,036,854,775,807\r\n    // This is the maximum integer in firestore\r\n    _userID = Math.floor(Math.random() * 9223372036854776000);\r\n    (0,_store__WEBPACK_IMPORTED_MODULE_0__.setUserID)(_userID);\r\n    return _userID;\r\n}\r\n/** Types of analytics events (AE) */\r\nvar AE;\r\n(function (AE) {\r\n    AE[\"ViewCuble\"] = \"ViewCuble\";\r\n    AE[\"ViewIndex\"] = \"ViewIndex\";\r\n    AE[\"ViewPlay\"] = \"ViewPlay\";\r\n    AE[\"ViewTrain\"] = \"ViewTrain\";\r\n})(AE || (AE = {}));\r\nfunction addAnalyticsEvent(type) {\r\n    var body = {\r\n        userID: userID(),\r\n        type: type,\r\n        date: Date.now(),\r\n    };\r\n    fetch(_vars_vars__WEBPACK_IMPORTED_MODULE_1__.vars.url + \"/addAnalyticsEvent\", {\r\n        method: \"POST\",\r\n        body: JSON.stringify(body),\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/analytics.ts?");
 
 /***/ }),
 
@@ -105,6 +105,28 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addListenersForLeftModal\": () => (/* binding */ addListenersForLeftModal)\n/* harmony export */ });\nfunction addListenersForLeftModal() {\r\n    var drawer = document.querySelector(\".slideRight\");\r\n    var isOpen = false;\r\n    function updateDrawer(open) {\r\n        isOpen = open;\r\n        if (isOpen) {\r\n            drawer.classList.add(\"slideRightOpen\");\r\n            return;\r\n        }\r\n        drawer.classList.remove(\"slideRightOpen\");\r\n    }\r\n    document.addEventListener(\"click\", function (event) {\r\n        var ele = event.target;\r\n        if (ele === document.querySelector(\"#menu\")) {\r\n            updateDrawer(true);\r\n            return;\r\n        }\r\n        // Close if click outside of the drawer.\r\n        if (isOpen && !ele.closest(\".slideRight\")) {\r\n            updateDrawer(false);\r\n        }\r\n    });\r\n    document.querySelector(\"#closeMenu\").addEventListener(\"click\", function () {\r\n        updateDrawer(false);\r\n    });\r\n    document.querySelector(\"#learnButton\").addEventListener(\"click\", function () {\r\n        document.location = \"index.html\";\r\n    });\r\n    document.querySelector(\"#playButton\").addEventListener(\"click\", function () {\r\n        document.location = \"play.html\";\r\n    });\r\n    document.querySelector(\"#trainButton\").addEventListener(\"click\", function () {\r\n        document.location = \"train.html\";\r\n    });\r\n    document.querySelector(\"#cubleButton\").addEventListener(\"click\", function () {\r\n        document.location = \"cuble.html\";\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/ui.ts?");
+
+/***/ }),
+
+/***/ "./scripts/vars/prodVars.ts":
+/*!**********************************!*\
+  !*** ./scripts/vars/prodVars.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"vars\": () => (/* binding */ vars)\n/* harmony export */ });\nvar vars = {\r\n    url: \"https://us-central1-virtual-cube.cloudfunctions.net\",\r\n};\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/vars/prodVars.ts?");
+
+/***/ }),
+
+/***/ "./scripts/vars/vars.ts":
+/*!******************************!*\
+  !*** ./scripts/vars/vars.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"vars\": () => (/* binding */ vars)\n/* harmony export */ });\n/* harmony import */ var _prodVars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prodVars */ \"./scripts/vars/prodVars.ts\");\n\r\nvar vars = _prodVars__WEBPACK_IMPORTED_MODULE_0__.vars;\r\n\n\n//# sourceURL=webpack://rubiks-cube/./scripts/vars/vars.ts?");
 
 /***/ }),
 
