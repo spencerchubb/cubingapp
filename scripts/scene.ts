@@ -31,19 +31,9 @@ let isTurning = false;
 let time = Date.now();
 let animation: AnimationData;
 
-export function newSolvedCube(numOfLayers: number) {
-    cube.setNumOfLayers(numOfLayers);
-
-    // activateAllStickers must come after setNumOfLayers because it depends on numOfLayers.
-    cube.activateAllStickers();
-
-    cube.new();
-    buffers.initBufferData(cube, showBody, transformMatrix);
-    render();
-}
-
 export function setNumLayers(val: number) {
     numLayers = val;
+    renderCanvas();
 }
 
 export function setSizeMultiplier(val: number) {
@@ -85,7 +75,7 @@ export function animateTurn() {
     // If the user has chosen not to animate turns, then just apply the turn
     // instantly and redraw.
     if (!animateTurns) {
-        cube.setStickers();
+        cube.commitStickers();
         drawScene();
         return;
     }
@@ -125,7 +115,7 @@ function updateScene() {
         time = newTime;
         if (angle >= Math.PI / 2) {
             cube.setAllAffectedStickers(false);
-            cube.setStickers();
+            cube.commitStickers();
             isTurning = false;
             animateTurn();
         }

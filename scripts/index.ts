@@ -621,7 +621,7 @@ function main() {
 
         const setup = currentLesson.setup;
         scene.cube.execAlg(setup);
-        scene.cube.setStickers();
+        scene.cube.commitStickers();
 
         scene.render();
     }

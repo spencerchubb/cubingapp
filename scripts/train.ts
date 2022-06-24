@@ -91,9 +91,9 @@ function main() {
         const set = findAlgSet(setName);
         
         if (set.cube == "2x2") {
-            scene.newSolvedCube(2);
+            scene.setNumLayers(2);
         } else if (set.cube == "3x3") {
-            scene.newSolvedCube(3);
+            scene.setNumLayers(3);
         }
 
         renderCategories(set);
@@ -148,7 +148,7 @@ function main() {
         scene.cube.execAlg(cubeRotationInput.value);
         
         scene.cube.execAlgReverse(algText);
-        scene.cube.setStickers();
+        scene.cube.commitStickers();
         scene.render();
     }
 

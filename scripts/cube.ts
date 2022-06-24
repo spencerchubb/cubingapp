@@ -43,7 +43,7 @@ export type AnimationData = {
 }
 
 const repeatColorFor4Vertices = (rgba, color, face) => {
-    let arr = [
+    const arr = [
         rgba[0], rgba[1], rgba[2], rgba[3],
         rgba[0], rgba[1], rgba[2], rgba[3],
         rgba[0], rgba[1], rgba[2], rgba[3],
@@ -88,33 +88,26 @@ export class CubeLogic {
 
     new() {
         this.axis = 0;
-        this.stickers = [];
 
         if (!this.activeStickers) {
             this.activeStickers = [];
         }
 
-        const pushSeveral = (color, face) => {
-            for (let i = 0; i < this.layersSq; i++) {
-                const rgba = this.activeStickers.includes(face * this.layersSq + i) ? color.active : color.inactive;
-                this.stickers.push(repeatColorFor4Vertices(rgba, color, face));
-            }
-        }
-        pushSeveral(WHITE, 0);
-        pushSeveral(GREEN, 1);
-        pushSeveral(YELLOW, 2);
-        pushSeveral(BLUE, 3);
-        pushSeveral(ORANGE, 4);
-        pushSeveral(RED, 5);
+        this.stickers = Array(this.numOfStickers);
+        this.underStickers = Array(this.numOfStickers);
+        for (let face = 0; face < 6; face++) {
+            for (let faceSticker = 0; faceSticker < this.layersSq; faceSticker++) {
+                const sticker = face * this.layersSq + faceSticker;
+                const rgba = this.activeStickers.includes(sticker) ? COLORS[face].active : COLORS[face].inactive;
+                this.stickers[sticker] = repeatColorFor4Vertices(rgba, COLORS[face], face);
 
-        this.underStickers = [];
-        for (let i = 0; i < this.layersSq * 6; i++) {
-            // Pass in -1 for face because it shouldn't matter for the under stickers.
-            this.underStickers.push(repeatColorFor4Vertices(BLACK.active, BLACK, -1));
+                // Pass in -1 for face because it shouldn't matter for the under stickers.
+                this.underStickers[sticker] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
+            }
         }
 
         this.setAllAffectedStickers(false);
-        this.setStickers();
+        this.commitStickers();
     }
 
     naiveScramble() {
@@ -126,7 +119,7 @@ export class CubeLogic {
             this._matchTurn(axis, layer, clockwise);
         }
 
-        this.setStickers();
+        this.commitStickers();
     }
 
     cubleScramble() {
@@ -179,22 +172,23 @@ export class CubeLogic {
         return this.currentStickers.map(sticker => sticker.face);
     }
 
-    /**
-     * Mutates currentStickers by default
-     */
     setCubeState(state: number[]) {
-        this.currentStickers = Array(54); // TODO generalize for sizes
+        this.stickers = Array(54); // TODO generalize for sizes
         for (let i = 0; i < 54; i++) {
             const color = COLORS[state[i]];
-            this.currentStickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
+            this.stickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
         }
+        this.currentStickers = [...this.stickers];
     }
 
     getStickers() {
         return this.currentStickers;
     }
 
-    setStickers() {
+    /** 
+     * Take the stickers that have been modified and transfer them to currentStickers 
+    */
+    commitStickers() {
         this.currentStickers = [...this.stickers];
     }
 
@@ -210,10 +204,9 @@ export class CubeLogic {
      * Set all elements of `affectedStickers` to be `value`.
      */
     setAllAffectedStickers(value: boolean) {
-        let numOfStickers = this.numOfLayers * this.numOfLayers * 6;
-        this.affectedStickers = [];
-        for (let i = 0; i < numOfStickers; i++) {
-            this.affectedStickers.push(value);
+        this.affectedStickers = Array(this.numOfStickers);
+        for (let i = 0; i < this.numOfStickers; i++) {
+            this.affectedStickers[i] = value;
         }
     }
 

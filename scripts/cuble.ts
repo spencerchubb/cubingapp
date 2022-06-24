@@ -25,7 +25,7 @@ function main() {
     resetMoveCount();
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        scene.newSolvedCube(3);
+        scene.setNumLayers(3);
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {

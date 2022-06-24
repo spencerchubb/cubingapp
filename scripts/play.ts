@@ -7,9 +7,9 @@ import * as db from "./db";
 import { Recorder } from "./recorder";
 
 let drawerIndex;
-let times = [];
-db.getTimes(results => {
-    times = results;
+let solves = [];
+db.getSolves(results => {
+    solves = results;
 });
 
 const timer = new Timer();
@@ -34,11 +34,10 @@ function main() {
 
         // Update state and re-render
         scene.setNumLayers(parseInt(target.value));
-        scene.renderCanvas();
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        scene.newSolvedCube(parseInt(layerInput.value));
+        scene.setNumLayers(parseInt(layerInput.value));
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
@@ -102,15 +101,15 @@ function handleStartStop() {
         return;
     }
 
-    const timeObj = { 
-        solveTime: time, 
+    const solve = { 
+        time: time, 
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
     };
-    db.addTime(timeObj);
-    times.push(timeObj);
-    if (drawerIndex === 0) { // 0 is the index associated with Times
-        renderTimes(document.querySelector("#rightDrawer"));
+    db.addSolve(solve);
+    solves.push(solve);
+    if (drawerIndex === 0) { // 0 is the index associated with Solves
+        renderSolves(document.querySelector("#rightDrawer"));
     }
 }
 
@@ -127,7 +126,7 @@ function renderDrawer(index: number) {
     }
 
     if (index === 0) {
-        renderTimes(drawerEle);
+        renderSolves(drawerEle);
     } else if (index === 1) {
         renderSettings(drawerEle);
     } if (index === 2) {
@@ -140,21 +139,21 @@ function renderDrawer(index: number) {
     drawerEle.style.display = "flex";
 }
 
-function renderTimes(drawerEle: HTMLElement) {
+function renderSolves(drawerEle: HTMLElement) {
     drawerEle.innerHTML = `
     <div class="row" style="justify-content: space-between; padding: 16px;">
-        <p style="font-weight: bold; padding-right: 2rem;">Times</p>
+        <p style="font-weight: bold; padding-right: 2rem;">Solves</p>
         <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
             <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>
     </div>
     <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
-        <table id="timesList"></table>
+        <table id="solvesList"></table>
     </div>
     `;
-    const timesList = document.querySelector("#timesList");
-    for (let i = times.length - 1; i >= 0; i--) {
-        const time = times[i];
+    const solvesList = document.querySelector("#solvesList");
+    for (let i = solves.length - 1; i >= 0; i--) {
+        const solve = solves[i];
         const tr = document.createElement("tr");
         const td1 = document.createElement("td");
         const td2 = document.createElement("td");
@@ -163,15 +162,13 @@ function renderTimes(drawerEle: HTMLElement) {
         tr.appendChild(td2);
         td1.textContent = `${i + 1})`;
         td2.className = "solveTime";
-        td2.textContent = `${time.solveTime}`;
+        td2.textContent = `${solve.time}`;
         td2.addEventListener("click", () => {
-            console.log(time);
-            console.log(i);
             // i + 1 becaused IndexedDB keys are one-indexed (1, 2, 3...)
             window.open(`replay.html?solveID=${i + 1}`);
         });
 
-        timesList.appendChild(tr);
+        solvesList.appendChild(tr);
     }
 }
 

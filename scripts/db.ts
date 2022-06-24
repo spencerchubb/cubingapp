@@ -14,7 +14,7 @@ function open(callback: Function) {
         return;
     }
 
-    request = indexedDB.open("SolveTimes", 1);
+    request = indexedDB.open("Solves", 1);
 
     request.onerror = event => {
         console.log("Why didn't you allow my web app to use IndexedDB?!");
@@ -35,22 +35,22 @@ function open(callback: Function) {
 
     request.onupgradeneeded = (event: any) => {
         const db = event.target.result;
-        const objectStore = db.createObjectStore("times", { autoIncrement: true });
+        const objectStore = db.createObjectStore("solves", { autoIncrement: true });
     };
 }
 
-type Time = {
+type Solve = {
     /**
      * seconds
      */
-    solveTime: number,
+    time: number,
     initialCubeState: number[],
     moves: Move[],
 }
 
-export function addTime(time: Time) {
+export function addSolve(solve: Solve) {
     open(() => {
-        const transaction = db.transaction(["times"], "readwrite");
+        const transaction = db.transaction(["solves"], "readwrite");
 
         transaction.oncomplete = event => {
             console.log("Transaction complete");
@@ -60,14 +60,14 @@ export function addTime(time: Time) {
             console.log("Transaction error");
         };
 
-        const objectStore = transaction.objectStore("times");
-        objectStore.add(time);
+        const objectStore = transaction.objectStore("solves");
+        objectStore.add(solve);
     });
 }
 
-export function getTime(solveID: number, callback: (time: Time) => void) {
+export function getSolve(solveID: number, callback: (solve: Solve) => void) {
     open(() => {
-        const transaction = db.transaction(["times"]);
+        const transaction = db.transaction(["solves"]);
 
         transaction.onsuccess = event => {
             console.log("Transaction success");
@@ -77,16 +77,16 @@ export function getTime(solveID: number, callback: (time: Time) => void) {
             console.log("Transaction error");
         };
     
-        const objectStore = transaction.objectStore("times");
+        const objectStore = transaction.objectStore("solves");
         objectStore.get(solveID).onsuccess = event => {
             callback(event.target.result);
         }
     });
 }
 
-export function getTimes(callback: (times: Time[]) => void) {
+export function getSolves(callback: (solves: Solve[]) => void) {
     open(() => {
-        const transaction = db.transaction(["times"]);
+        const transaction = db.transaction(["solves"]);
 
         transaction.onsuccess = event => {
             console.log("Transaction success");
@@ -95,20 +95,10 @@ export function getTimes(callback: (times: Time[]) => void) {
         transaction.onerror = event => {
             console.log("Transaction error");
         };
-    
-        const results = [];
 
-        const objectStore = transaction.objectStore("times");
-        objectStore.openCursor().onsuccess = event => {
-    
-            const cursor = event.target.result;
-            if (cursor) {
-                results.push(cursor.value);
-                cursor.continue();
-            } else {
-                console.log("No more entries!");
-                callback(results);
-            }
-        };
+        const objectStore = transaction.objectStore("solves");
+        objectStore.getAll().onsuccess = event => {
+            callback(event.target.result);
+        }
     });
 }
