@@ -79,7 +79,7 @@ export function getTime(solveID: number, callback: (time: Time) => void) {
     
         const objectStore = transaction.objectStore("times");
         objectStore.get(solveID).onsuccess = event => {
-            console.log(event.target.result);
+            callback(event.target.result);
         }
     });
 }

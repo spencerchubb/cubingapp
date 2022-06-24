@@ -15,6 +15,8 @@ function main() {
     const solveID = parseInt(searchParams.get("solveID"));
     db.getTime(solveID, time => {
         console.log(time);
+        scene.cube.setCubeState(time.initialCubeState);
+        scene.render();
     });
 }
 

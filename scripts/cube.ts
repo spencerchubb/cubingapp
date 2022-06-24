@@ -31,6 +31,8 @@ const BLACK = {
     inactive: [0.0, 0.0, 0.0, 1.0],
 }
 
+const COLORS = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+
 export type AnimationData = {
     // List with a length of 3. One of the numbers must be -1 or 1, with the 
     // sign indication clockwise or counterclockwise. The other two numbers are zero.
@@ -38,6 +40,26 @@ export type AnimationData = {
 
     stickers: any[];
     stickersToAnimate: number[];
+}
+
+const repeatColorFor4Vertices = (rgba, color, face) => {
+    let arr = [
+        rgba[0], rgba[1], rgba[2], rgba[3],
+        rgba[0], rgba[1], rgba[2], rgba[3],
+        rgba[0], rgba[1], rgba[2], rgba[3],
+        rgba[0], rgba[1], rgba[2], rgba[3],
+    ];
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+
+    return {
+        color,
+        face,
+        arr,
+        buffer,
+    };
 }
 
 export class CubeLogic {
@@ -72,26 +94,6 @@ export class CubeLogic {
             this.activeStickers = [];
         }
 
-        const repeatColorFor4Vertices = (rgba, color, face) => {
-            let arr = [
-                rgba[0], rgba[1], rgba[2], rgba[3],
-                rgba[0], rgba[1], rgba[2], rgba[3],
-                rgba[0], rgba[1], rgba[2], rgba[3],
-                rgba[0], rgba[1], rgba[2], rgba[3],
-            ];
-        
-            const buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
-        
-            return {
-                color,
-                face,
-                arr,
-                buffer,
-            };
-        }
-
         const pushSeveral = (color, face) => {
             for (let i = 0; i < this.layersSq; i++) {
                 const rgba = this.activeStickers.includes(face * this.layersSq + i) ? color.active : color.inactive;
@@ -108,7 +110,7 @@ export class CubeLogic {
         this.underStickers = [];
         for (let i = 0; i < this.layersSq * 6; i++) {
             // Pass in -1 for face because it shouldn't matter for the under stickers.
-            this.underStickers.push(repeatColorFor4Vertices(BLACK.active, BLACK, 0));
+            this.underStickers.push(repeatColorFor4Vertices(BLACK.active, BLACK, -1));
         }
 
         this.setAllAffectedStickers(false);
@@ -175,6 +177,17 @@ export class CubeLogic {
      */
     getCubeState(): number[] {
         return this.currentStickers.map(sticker => sticker.face);
+    }
+
+    /**
+     * Mutates currentStickers by default
+     */
+    setCubeState(state: number[]) {
+        this.currentStickers = Array(54); // TODO generalize for sizes
+        for (let i = 0; i < 54; i++) {
+            const color = COLORS[state[i]];
+            this.currentStickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
+        }
     }
 
     getStickers() {
