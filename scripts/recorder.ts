@@ -1,10 +1,12 @@
+import { Move } from "./common/types";
+
 /**
  * This class records solves. It has methods for recording moves, recording the 
  * times of moves, and adding notes to solves.
  */
 export class Recorder {
     _isRecording: boolean;
-    cubeState: number[]
+    cubeState: number[];
     moves: Move[];
 
     constructor() {
@@ -26,9 +28,4 @@ export class Recorder {
             this.moves.push({ move, time });
         }
     }
-}
-
-type Move = {
-    move: string,
-    time: number,
 }

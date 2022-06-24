@@ -2,6 +2,8 @@
  * IndexedDB functions
  */
 
+import { Move } from "./common/types";
+
 let db;
 let request;
 
@@ -32,8 +34,8 @@ function open(callback: Function) {
     };
 
     request.onupgradeneeded = (event: any) => {
-        let db = event.target.result;
-        let objectStore = db.createObjectStore("times", { autoIncrement: true });
+        const db = event.target.result;
+        const objectStore = db.createObjectStore("times", { autoIncrement: true });
     };
 }
 
@@ -42,11 +44,13 @@ type Time = {
      * seconds
      */
     solveTime: number,
+    initialCubeState: number[],
+    moves: Move[],
 }
 
 export function addTime(time: Time) {
     open(() => {
-        let transaction = db.transaction(["times"], "readwrite");
+        const transaction = db.transaction(["times"], "readwrite");
 
         transaction.oncomplete = event => {
             console.log("Transaction complete");
@@ -56,14 +60,14 @@ export function addTime(time: Time) {
             console.log("Transaction error");
         };
 
-        let objectStore = transaction.objectStore("times");
+        const objectStore = transaction.objectStore("times");
         objectStore.add(time);
     });
 }
 
-export function getTimes(callback) {
+export function getTime(solveID: number, callback: (time: Time) => void) {
     open(() => {
-        let transaction = db.transaction(["times"]);
+        const transaction = db.transaction(["times"]);
 
         transaction.onsuccess = event => {
             console.log("Transaction success");
@@ -73,12 +77,31 @@ export function getTimes(callback) {
             console.log("Transaction error");
         };
     
-        let results = [];
+        const objectStore = transaction.objectStore("times");
+        objectStore.get(solveID).onsuccess = event => {
+            console.log(event.target.result);
+        }
+    });
+}
 
-        let objectStore = transaction.objectStore("times");
+export function getTimes(callback: (times: Time[]) => void) {
+    open(() => {
+        const transaction = db.transaction(["times"]);
+
+        transaction.onsuccess = event => {
+            console.log("Transaction success");
+        };
+    
+        transaction.onerror = event => {
+            console.log("Transaction error");
+        };
+    
+        const results = [];
+
+        const objectStore = transaction.objectStore("times");
         objectStore.openCursor().onsuccess = event => {
     
-            let cursor = event.target.result;
+            const cursor = event.target.result;
             if (cursor) {
                 results.push(cursor.value);
                 cursor.continue();

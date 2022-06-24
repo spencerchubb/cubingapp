@@ -2,10 +2,11 @@ const path = require('path');
 
 module.exports = {
 	entry: {
+		cuble: "./scripts/cuble.ts",
 		index: "./scripts/index.ts",
 		play: "./scripts/play.ts",
+		replay: "./scripts/replay.ts",
 		train: "./scripts/train.ts",
-		cuble: "./scripts/cuble.ts"
 	},
 	output: {
 		path: path.resolve(__dirname, "public/dist"),
@@ -23,5 +24,6 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.js'],
 	},
+	watch: true,
 	mode: "development",
 };

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/main.css">
+    <title>Rubik's Cube</title>
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
+</head>
+
+<body style="display: flex; flex-direction: row;">
+    <div class="col" style="flex-grow: 1;">
+        <nav class="navbar">
+            <a class="pointer-hover" style="padding-left: 24px;">
+                <img id="menu" src="./images/menu.svg" alt="Menu">
+            </a>
+        </nav>
+        <div class="row" style="min-height: 0; width: 100%; height: 100%;">
+            <div id="main-container">
+                <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                    <div id="glDiv"></div>
+                </div>
+            </div>
+            <div id="rightDrawer"
+                style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <div class="slideRight">
+        <div class="row" style="justify-content: space-between;">
+            <h5 style="font-size: 1.2rem;">Menu</h5>
+            <button id="closeMenu" class="xButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                </svg>
+            </button>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <div style="height: 16px;"></div>
+            <button id="learnButton" class="btn btn-primary">
+                Learn
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="playButton" class="btn btn-primary">
+                Play
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="trainButton" class="btn btn-primary">
+                Train
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="cubleButton" class="btn btn-primary">
+                Cuble
+            </button>
+        </div>
+    </div>
+
+    <script src="./dist/replay.js"></script>
+</body>
+
+</html>

@@ -108,7 +108,7 @@ export class CubeLogic {
         this.underStickers = [];
         for (let i = 0; i < this.layersSq * 6; i++) {
             // Pass in -1 for face because it shouldn't matter for the under stickers.
-            this.underStickers.push(repeatColorFor4Vertices(BLACK, BLACK.active, -1));
+            this.underStickers.push(repeatColorFor4Vertices(BLACK.active, BLACK, 0));
         }
 
         this.setAllAffectedStickers(false);

@@ -4,7 +4,7 @@ import { AE, addAnalyticsEvent } from "./analytics";
 import { shuffle } from "./util";
 const algData: any[] = require("./alg-data.json");
 
-export function main() {
+function main() {
     addAnalyticsEvent(AE.ViewTrain);
 
     // Initial canvas render

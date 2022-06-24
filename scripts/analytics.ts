@@ -23,6 +23,7 @@ export enum AE {
     ViewCuble = "ViewCuble",
     ViewIndex = "ViewIndex",
     ViewPlay = "ViewPlay",
+    ViewReplay = "ViewReplay",
     ViewTrain = "ViewTrain",
 }
 

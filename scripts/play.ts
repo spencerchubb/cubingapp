@@ -15,7 +15,7 @@ db.getTimes(results => {
 const timer = new Timer();
 const recorder = new Recorder();
 
-export function main() {
+function main() {
     addAnalyticsEvent(AE.ViewPlay);
 
     // Initial canvas render
@@ -166,6 +166,9 @@ function renderTimes(drawerEle: HTMLElement) {
         td2.textContent = `${time.solveTime}`;
         td2.addEventListener("click", () => {
             console.log(time);
+            console.log(i);
+            // i + 1 becaused IndexedDB keys are one-indexed (1, 2, 3...)
+            window.open(`replay.html?solveID=${i + 1}`);
         });
 
         timesList.appendChild(tr);

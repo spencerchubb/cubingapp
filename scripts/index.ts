@@ -69,7 +69,7 @@ function parseMovesFromAlg(alg?: string): string[] {
     return alg.split(" ");
 }
 
-export function main() {
+function main() {
     addAnalyticsEvent(AE.ViewIndex);
     
     // Initial canvas render

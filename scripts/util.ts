@@ -5,19 +5,20 @@
  * @returns shuffled array
  */
 export function shuffle(array: any[]) {
-    let currentIndex = array.length, randomIndex;
+    let i = array.length;
 
     // While there remain elements to shuffle...
-    while (currentIndex != 0) {
+    while (i != 0) {
 
         // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
+        let r = Math.floor(Math.random() * i);
+        i--;
 
         // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
+        let temp = array[r];
+        array[r] = array[i];
+        array[i] = temp;
     }
-
+    
     return array;
 }
