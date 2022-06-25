@@ -9,29 +9,30 @@
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
-<body style="display: flex; flex-direction: row;">
-    <div class="col" style="flex-grow: 1;">
-        <nav class="navbar">
-            <a class="pointer-hover" style="padding-left: 24px;">
-                <img id="menu" src="./images/menu.svg" alt="Menu">
-            </a>
-        </nav>
-        <div class="row" style="min-height: 0; width: 100%; height: 100%;">
-            <div id="main-container">
-                <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
-                    <div id="glDiv"></div>
-                </div>
-                <p id="moveCounter"></p>
-                <div style="display: flex; flex-direction: row;">
-                    <!-- &lt is less than -->
-                    <button id="leftButton" class="btn btn-primary">&lt;</button>
-                    <div style="width: 8px;"></div>
-                    <button id="rightButton" class="btn btn-primary">></button>
-                </div>
+<body class="col">
+    <nav class="navbar">
+        <a class="pointer-hover" style="padding-left: 24px;">
+            <img id="menu" src="./images/menu.svg" alt="Menu">
+        </a>
+    </nav>
+    <div class="row" style="align-items: start; min-height: 0; width: 100%; height: 100%;">
+        <div class="col" style="flex-grow: 1;">
+            <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                <div id="glDiv"></div>
             </div>
-            <div id="rightDrawer"
-                style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
+            <p id="moveCounter"></p>
+            <div style="display: flex; flex-direction: row;">
+                <!-- &lt is less than -->
+                <button id="leftButton" class="btn btn-primary">&lt;</button>
+                <div style="width: 8px;"></div>
+                <button id="rightButton" class="btn btn-primary">></button>
             </div>
+        </div>
+        <div style="height: 100%; overflow-y: scroll;">
+            <table>
+                <tbody id="solveData" style="flex-direction: column; background-color: rgb(70, 70, 70); height: 100%; padding: 12px;">
+                </tbody>
+            </table>
         </div>
     </div>
 

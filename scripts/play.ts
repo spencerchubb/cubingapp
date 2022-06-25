@@ -46,7 +46,9 @@ function main() {
     });
 
     document.querySelector("#startStop").addEventListener("click", (event) => {
-        handleStartStop();
+        // Immediately save the time for precision.
+        const time = Date.now();
+        handleStartStop(time);
     });
 
     document.addEventListener("keydown", (event) => {
@@ -57,12 +59,12 @@ function main() {
             // Prevent extra click if spacebar is pressed while a button is focused.
             event.preventDefault();
 
-            handleStartStop();
+            handleStartStop(time);
         }
 
         const result = scene.cube.matchKeyToTurn(event.key);
         if (result) {
-            recorder.addMove(result.notation, time);
+            recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
             scene.animateTurn();
             return;
         }
@@ -93,16 +95,16 @@ function addRightButtonListeners(index: number) {
     });
 }
 
-function handleStartStop() {
-    const time = timer.startStop();
-
-    if (!time) {
+function handleStartStop(time: number) {
+    if (!timer.isRunning) {
+        timer.start(time);
         recorder.start(scene.cube.getCubeState());
         return;
     }
+    timer.stop(time);
 
     const solve = { 
-        time: time, 
+        time: timer.secondsSinceStart,
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
     };

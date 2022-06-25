@@ -245,3 +245,11 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
+
+#solveData p {
+    color: white;
+}
+#solveData tr:hover {
+    cursor: pointer;
+    background: rgb(100, 100, 100);
+}
