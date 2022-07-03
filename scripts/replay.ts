@@ -44,6 +44,46 @@ function main() {
             }
         });
 
+        let paused = true;
+        const playPauseButton = document.querySelector("#playPause")
+        playPauseButton.addEventListener("click", () => {
+            if (!paused) {
+                pause();
+                return;
+            }
+            paused = false;
+            playPauseButton.innerHTML = `
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
+                viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve">
+                <rect x="12" y="8" width="10" height="38" />
+                <rect x="32" y="8" width="10" height="38" />
+            </svg>
+            `;
+            const step = () => {
+                if (paused) return;
+                scene.cube.stepAlgorithm(solve.moves[moveIndex].move, true);
+                scene.animateTurn();
+                moveIndex++;
+                updateMoveCounter();
+                if (moveIndex === solve.moves.length) {
+                    pause();
+                }
+
+                setTimeout(step, (solve.moves[moveIndex].time - solve.moves[moveIndex - 1].time) * 1000);
+            }
+            setTimeout(step, (solve.moves[moveIndex + 1].time - solve.moves[moveIndex].time) * 1000);
+        });
+
+        function pause() {
+            paused = true;
+            playPauseButton.innerHTML = `
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
+                viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve">
+                <polygon points="12,8 42,27 12,46" />
+            </svg>
+            `;
+        }
+
         const solveData = document.querySelector("#solveData");
 
         function buildRow(rowIndex: number, s1: string, s2: string) {
