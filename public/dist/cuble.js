@@ -130,6 +130,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./test/cuble.ts":
+/*!***********************!*\
+  !*** ./test/cuble.ts ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scripts_cuble__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scripts/cuble */ \"./scripts/cuble.ts\");\n\r\n\n\n//# sourceURL=webpack://rubiks-cube/./test/cuble.ts?");
+
+/***/ }),
+
 /***/ "./scripts/gl-matrix.js":
 /*!******************************!*\
   !*** ./scripts/gl-matrix.js ***!
@@ -200,7 +211,7 @@ eval("\r\n/*!\r\n@fileoverview gl-matrix - High performance matrix and vector op
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/cuble.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./test/cuble.ts");
 /******/ 	
 /******/ })()
 ;

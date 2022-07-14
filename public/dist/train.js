@@ -141,6 +141,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./test/train.ts":
+/*!***********************!*\
+  !*** ./test/train.ts ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scripts_train__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scripts/train */ \"./scripts/train.ts\");\n\r\n\n\n//# sourceURL=webpack://rubiks-cube/./test/train.ts?");
+
+/***/ }),
+
 /***/ "./scripts/gl-matrix.js":
 /*!******************************!*\
   !*** ./scripts/gl-matrix.js ***!
@@ -222,7 +233,7 @@ eval("module.exports = JSON.parse('[{\"cube\":\"3x3\",\"set\":\"CMLL\",\"categor
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./scripts/train.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./test/train.ts");
 /******/ 	
 /******/ })()
 ;

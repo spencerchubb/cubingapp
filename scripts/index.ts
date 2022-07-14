@@ -526,7 +526,6 @@ function main() {
     }
 
     const lessonNavigator = document.querySelector("#lessonNavigator");
-    const lessonNavigatorInner = document.querySelector("#lessonNavigatorInner");
 
     let sublessonElements: HTMLElement[][] = [];
     let selectedLessonIndex: number;
@@ -536,7 +535,7 @@ function main() {
         const p = document.createElement("p");
         p.textContent = l0.title;
         p.style.fontWeight = "bold";
-        lessonNavigatorInner.appendChild(p);
+        lessonNavigator.appendChild(p);
         sublessonElements.push([]);
 
         l0.lessons.forEach((l1, i1) => {
@@ -558,7 +557,7 @@ function main() {
                 toggleLessonNavigator();
             });
             sublessonElements[i0].push(p);
-            lessonNavigatorInner.appendChild(p);
+            lessonNavigator.appendChild(p);
 
             lessonIndices.push({
                 i0: i0,
@@ -646,12 +645,9 @@ function main() {
     });
 
     function toggleLessonNavigator() {
-        lessonNavigator.classList.toggle("slideUpOpen");
+        lessonNavigator.classList.toggle("slideLeftOpen");
     }
     document.querySelector("#openClose").addEventListener("click", (event) => {
-        toggleLessonNavigator();
-    });
-    document.querySelector("#closeLessonNavigator").addEventListener("click", (event) => {
         toggleLessonNavigator();
     });
     document.querySelector("#prevLesson").addEventListener("click", () => {
@@ -661,6 +657,35 @@ function main() {
         updateLessonIndex(flattenedLessonIndex + 1);
     });
 
+    renderBasedOnWidth();
+}
+
+window.addEventListener("resize", () => {
+    renderBasedOnWidth();
+});
+
+function determineLayoutType() {
+    const clientWidth = document.documentElement.clientWidth;
+
+    // 725 was chosen because 425 is the width of the main content and 300 is the width of the right panel.
+    // 425 + 300 = 725
+    return clientWidth < 725 ? "narrow" : "wide";
+}
+
+function renderBasedOnWidth() {
+    const layoutType = determineLayoutType();
+
+    const openClose: HTMLElement = document.querySelector("#openClose");
+    const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");
+
+    if (layoutType === "narrow") {
+        openClose.style.display = "inline-block";
+        lessonNavigator.classList.add("slideLeftClosed");
+        return;
+    }
+    openClose.style.display = "none";
+    lessonNavigator.classList.remove("slideLeftClosed");
+    lessonNavigator.classList.remove("slideLeftOpen");
 }
 
 main();
