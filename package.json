@@ -12,5 +12,8 @@
 		"copy-webpack-plugin": "^5.0.0",
 		"ts-loader": "^9.2.5",
 		"webpack-cli": "^3.1.0"
+	},
+	"dependencies": {
+		"firebase-admin": "^11.0.0"
 	}
 }
