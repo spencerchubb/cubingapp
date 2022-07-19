@@ -1,4 +1,5 @@
 import "../scripts/index";
+import { register } from "./testUtil";
 
 const prevLesson: HTMLElement = document.querySelector("#prevLesson");
 const openClose: HTMLElement = document.querySelector("#openClose");
@@ -82,17 +83,5 @@ const desktopTests = [
     },
 ];
 
-// const tests = mobileTests;
-const tests = desktopTests;
-
-let testIndex = 0;
-document.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-        if (testIndex >= tests.length) {
-            console.log("Tests done!");
-            return;
-        }
-        tests[testIndex]();
-        testIndex++;
-    }
-});
+// register(mobileTests);
+register(desktopTests);
