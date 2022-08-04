@@ -3,9 +3,10 @@
  */
 
 const angle = "angle";
-const size = "size";
-const showBody = "showBody";
 const animateTurns = "animateTurns";
+const showBody = "showBody";
+const size = "size";
+const user = "user";
 const userID = "userID";
 
 export function getAngle() {
@@ -46,6 +47,18 @@ export function getUserID() {
 
 export function setUserID(value) {
     localStorage.setItem(userID, value);
+}
+
+export function getUser() {
+    return localStorage.getItem(user);
+}
+
+export function removeUser() {
+    localStorage.removeItem(user);
+}
+
+export function setUser(value) {
+    localStorage.setItem(user, value);
 }
 
 /**

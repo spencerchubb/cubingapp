@@ -3,14 +3,13 @@ import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
 import { Timer } from "./timer";
 import * as store from "./store";
-import * as db from "./db";
 import { Recorder } from "./recorder";
+import { url } from "./vars/vars";
+import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
+import { renderModal } from "./modal"
 
 let drawerIndex;
 let solves = [];
-db.getSolves(results => {
-    solves = results;
-});
 
 const timer = new Timer();
 const recorder = new Recorder();
@@ -51,6 +50,10 @@ function main() {
         handleStartStop(time);
     });
 
+    document.querySelector("#signIn").addEventListener("click", () => {
+        renderSignIn();
+    });
+
     document.addEventListener("keydown", (event) => {
         // Immediately save the time for precision.
         const time = Date.now();
@@ -75,6 +78,13 @@ function main() {
     addRightButtonListeners(0);
     addRightButtonListeners(1);
     addRightButtonListeners(2);
+
+    setAuthListener(() => {
+        renderProfile();
+        renderDrawer(drawerIndex);
+    });
+
+    initialAuthCheck();
 }
 
 function addRightButtonListeners(index: number) {
@@ -103,16 +113,68 @@ function handleStartStop(time: number) {
     }
     timer.stop(time);
 
-    const solve = { 
+    // Cannot save the solve to the database if the user is not signed in
+    if (!user) return;
+
+    const solve = {
+        uid: user.uid,
         time: timer.secondsSinceStart,
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
     };
-    db.addSolve(solve);
+    fetch(`${url}/addSolve`, {
+        method: "POST",
+        body: JSON.stringify(solve),
+    });
     solves.push(solve);
     if (drawerIndex === 0) { // 0 is the index associated with Solves
         renderSolves(document.querySelector("#rightDrawer"));
     }
+}
+
+function renderProfile() {
+    const signInDiv = document.querySelector("#signInDiv");
+
+    if (!user) {
+        const signInButton = document.createElement("button");
+        signInButton.className = "btn-primary";
+        signInButton.textContent = "Sign In";
+        signInButton.addEventListener("click", () => {
+            renderSignIn();
+        });
+
+        signInDiv.innerHTML = "";
+        signInDiv.appendChild(signInButton);
+        return;
+    }
+
+    const email = document.createElement("p");
+    email.className = "link";
+    email.style.color = "white";
+    email.textContent = user.email;
+    email.addEventListener("click", () => {
+        const [modal, removeModal] = renderModal();
+
+        const email = document.createElement("p");
+        const signOutButton = document.createElement("button");
+
+        email.textContent = user.email;
+        email.style.marginTop = "1rem";
+
+        signOutButton.className = "btn-primary";
+        signOutButton.style.marginTop = "1rem";
+        signOutButton.textContent = "Sign Out";
+        signOutButton.addEventListener("click", () => {
+            signOut();
+            removeModal();
+        });
+
+        modal.appendChild(email);
+        modal.appendChild(signOutButton);
+    });
+
+    signInDiv.innerHTML = "";
+    signInDiv.appendChild(email);
 }
 
 /**
@@ -141,7 +203,25 @@ function renderDrawer(index: number) {
     drawerEle.style.display = "flex";
 }
 
-function renderSolves(drawerEle: HTMLElement) {
+async function renderSolves(drawerEle: HTMLElement) {
+    if (!user) {
+        drawerEle.innerHTML = `
+        <div class="row" style="justify-content: space-between; padding: 16px;">
+            <p style="font-weight: bold; padding-right: 2rem;">Solves</p>
+            <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+            </svg>
+        </div>
+        <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+            <button id="signInToSave" class="btn-primary">Sign in to save and analyze your solves</button>
+        </div>
+        `;
+        document.querySelector("#signInToSave").addEventListener("click", () => {
+            renderSignIn();
+        });
+        return;
+    }
+
     drawerEle.innerHTML = `
     <div class="row" style="justify-content: space-between; padding: 16px;">
         <p style="font-weight: bold; padding-right: 2rem;">Solves</p>
@@ -153,6 +233,14 @@ function renderSolves(drawerEle: HTMLElement) {
         <table id="solvesList"></table>
     </div>
     `;
+
+    const res = await fetch(`${url}/getSolves`, {
+        method: "POST",
+        body: JSON.stringify({ uid: user.uid }), // TODO fill in userID
+    });
+    solves = await res.json();
+    console.log(solves);
+    
     const solvesList = document.querySelector("#solvesList");
     for (let i = solves.length - 1; i >= 0; i--) {
         const solve = solves[i];
@@ -166,8 +254,7 @@ function renderSolves(drawerEle: HTMLElement) {
         td2.className = "solveTime";
         td2.textContent = `${solve.time}`;
         td2.addEventListener("click", () => {
-            // i + 1 becaused IndexedDB keys are one-indexed (1, 2, 3...)
-            window.open(`replay.html?solveID=${i + 1}`);
+            window.open(`replay.html?solve=${solve.id}`);
         });
 
         solvesList.appendChild(tr);

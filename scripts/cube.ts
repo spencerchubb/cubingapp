@@ -485,10 +485,10 @@ export class CubeLogic {
                 return { notation: "E'", turn: true };
             case "y":
                 this.sliceTurn(2, true);
-                return { notation: "y", turn: true };
+                return { notation: "S", turn: true };
             case "t":
                 this.sliceTurn(2, false);
-                return { notation: "y'", turn: true };
+                return { notation: "S'", turn: true };
             case "u":
                 this.wideTurn(0, 0, true);
                 return { notation: "r", turn: true };
@@ -626,6 +626,18 @@ export class CubeLogic {
             case "M2":
                 this.sliceTurn(0, forward);
                 this.sliceTurn(0, forward);
+                break;
+            case "E":
+                this.sliceTurn(1, !forward);
+                break;
+            case "E'":
+                this.sliceTurn(1, forward);
+                break;
+            case "S":
+                this.sliceTurn(2, forward);
+                break;
+            case "S'":
+                this.sliceTurn(2, !forward);
                 break;
             default:
                 throw new Error("Invalid turn in algorithm: " + move);

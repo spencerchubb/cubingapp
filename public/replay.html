@@ -10,12 +10,13 @@
 </head>
 
 <body class="col">
-    <nav class="navbar">
-        <a class="pointer-hover" style="padding-left: 24px;">
+    <nav class="navbar" style="justify-content: space-between;">
+        <a class="pointer-hover">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
+        <button id="share" class="btn-primary">Share</button>
     </nav>
-    <div class="row" style="align-items: start; min-height: 0; width: 100%; height: 100%;">
+    <div class="row" style="flex-wrap: wrap; align-items: start; min-height: 0; width: 100%; height: 100%;">
         <div class="col" style="flex-grow: 1;">
             <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
                 <div id="glDiv"></div>
@@ -54,19 +55,19 @@
         </div>
         <div style="display: flex; flex-direction: column;">
             <div style="height: 16px;"></div>
-            <button id="learnButton" class="btn btn-primary">
+            <button id="learnButton" class="btn-primary">
                 Learn
             </button>
             <div style="height: 8px;"></div>
-            <button id="playButton" class="btn btn-primary">
+            <button id="playButton" class="btn-primary">
                 Play
             </button>
             <div style="height: 8px;"></div>
-            <button id="trainButton" class="btn btn-primary">
+            <button id="trainButton" class="btn-primary">
                 Train
             </button>
             <div style="height: 8px;"></div>
-            <button id="cubleButton" class="btn btn-primary">
+            <button id="cubleButton" class="btn-primary">
                 Cuble
             </button>
         </div>

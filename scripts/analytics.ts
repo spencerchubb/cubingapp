@@ -1,5 +1,5 @@
 import { getUserID, setUserID } from "./store";
-import { vars } from "./vars/vars";
+import { url } from "./vars/vars";
 
 /**
  * Return the userID from localStorage.
@@ -33,8 +33,12 @@ export function addAnalyticsEvent(type: AE) {
         type: type,
         date: Date.now(),
     };
-    fetch(`${vars.url}/addAnalyticsEvent`, {
+    fetch(`${url}/addAnalyticsEvent`, {
         method: "POST",
+        // mode: "no-cors",
+        // headers: {
+        //     'Access-Control-Allow-Origin': '*',
+        // },
         body: JSON.stringify(body),
     });
 }
