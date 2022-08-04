@@ -24,6 +24,9 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.js'],
 	},
+	// https://webpack.js.org/configuration/devtool/
+	// Fixes warning: DevTools failed to load source map
+	devtool: "eval-cheap-source-map",
 	watch: true,
 	mode: "development",
 };
