@@ -73,7 +73,7 @@ body {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding: 12px 24px;
+    padding-left: 12px;
 }
 
 #main-container {
@@ -127,7 +127,6 @@ body {
 
 .slideLeft {
     border-radius: 8px 0 0 8px;
-    padding: 24px 16px 16px 16px;
     overflow-y: auto;
     z-index: 1;
     min-width: 300px;
@@ -244,6 +243,7 @@ body {
     width: 48px;
     height: 48px;
     padding: 8px;
+    touch-action: none;
 }
 .icon:hover {
     background-color: rgba(255, 255, 255, 0.3);
@@ -255,12 +255,10 @@ body {
     padding: 4px; 
     border-radius: 4px; 
     box-shadow: 0 0 8px 2px black;
-}
-.labelTriangle {
-    width: 0; 
-    height: 0; 
-    border: solid 8px; 
-    border-color: transparent transparent transparent white;
+    z-index: 2;
+    display: none;
+    /* Prevent text from wrapping */
+    white-space: nowrap;
 }
 
 #solvesList td {

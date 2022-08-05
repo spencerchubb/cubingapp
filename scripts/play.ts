@@ -6,7 +6,10 @@ import * as store from "./store";
 import { Recorder } from "./recorder";
 import { url } from "./vars/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
-import { renderModal } from "./modal"
+import { renderModal } from "./modal";
+
+// const tap = "ontouchstart" in document.documentElement;
+// console.log(tap);
 
 let drawerIndex;
 let solves = [];
@@ -50,10 +53,6 @@ function main() {
         handleStartStop(time);
     });
 
-    document.querySelector("#signIn").addEventListener("click", () => {
-        renderSignIn();
-    });
-
     document.addEventListener("keydown", (event) => {
         // Immediately save the time for precision.
         const time = Date.now();
@@ -75,32 +74,37 @@ function main() {
 
     renderDrawer(-1);
 
-    addRightButtonListeners(0);
-    addRightButtonListeners(1);
-    addRightButtonListeners(2);
+    addIconListeners(0);
+    addIconListeners(1);
+    addIconListeners(2);
+    addIconListeners(3);
 
     setAuthListener(() => {
-        renderProfile();
+        // renderProfile();
         renderDrawer(drawerIndex);
     });
 
     initialAuthCheck();
 }
 
-function addRightButtonListeners(index: number) {
-    const button = document.querySelector(`#right${index}`);
+function addIconListeners(index: number) {
+    const button = document.querySelector(`#icon${index}`);
 
     button.addEventListener("click", () => {
         renderDrawer(index);
     });
 
     button.addEventListener("mouseenter", event => {
-        const label: HTMLElement = document.querySelector(`#right${index}Label`);
-        label.style.display = "flex";
+        const canTouch = "ontouchstart" in document.documentElement;
+        // Don't show the label if the user has a touchscreen
+        if (canTouch) return;
+
+        const label: HTMLElement = document.querySelector(`#label${index}`);
+        label.style.display = "block";
     });
 
     button.addEventListener("mouseleave", event => {
-        const label: HTMLElement = document.querySelector(`#right${index}Label`);
+        const label: HTMLElement = document.querySelector(`#label${index}`);
         label.style.display = "none";
     });
 }
@@ -132,89 +136,107 @@ function handleStartStop(time: number) {
     }
 }
 
-function renderProfile() {
-    const signInDiv = document.querySelector("#signInDiv");
-
-    if (!user) {
-        const signInButton = document.createElement("button");
-        signInButton.className = "btn-primary";
-        signInButton.textContent = "Sign In";
-        signInButton.addEventListener("click", () => {
-            renderSignIn();
-        });
-
-        signInDiv.innerHTML = "";
-        signInDiv.appendChild(signInButton);
-        return;
-    }
-
-    const email = document.createElement("p");
-    email.className = "link";
-    email.style.color = "white";
-    email.textContent = user.email;
-    email.addEventListener("click", () => {
-        const [modal, removeModal] = renderModal();
-
-        const email = document.createElement("p");
-        const signOutButton = document.createElement("button");
-
-        email.textContent = user.email;
-        email.style.marginTop = "1rem";
-
-        signOutButton.className = "btn-primary";
-        signOutButton.style.marginTop = "1rem";
-        signOutButton.textContent = "Sign Out";
-        signOutButton.addEventListener("click", () => {
-            signOut();
-            removeModal();
-        });
-
-        modal.appendChild(email);
-        modal.appendChild(signOutButton);
-    });
-
-    signInDiv.innerHTML = "";
-    signInDiv.appendChild(email);
-}
-
 /**
  * 
- * @param index Pass in -1 to close drawer, 0 to show Tips, 1 to show Settings
+ * @param index Pass in -1 to close drawer, 0 to show Solves, 1 to show Settings, 2 to show Tips
  */
 function renderDrawer(index: number) {
     drawerIndex = index;
-    const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
-    if (index == -1) {
-        drawerEle.style.display = "none";
+
+    if (index == 0) {
+        renderProfile();
         return;
     }
 
-    if (index === 0) {
+    const layout = determineLayoutType();
+    const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
+    if (index == -1) {
+        if (layout === "narrow") {
+            drawerEle.classList.add("slideLeftClosed");
+            drawerEle.classList.remove("slideLeftOpen");
+            drawerEle.style.display = "flex";
+        } else {
+            drawerEle.style.display = "none";
+        }
+        return;
+    }
+
+    if (index === 1) {
         renderSolves(drawerEle);
-    } else if (index === 1) {
+    } else if (index === 2) {
         renderSettings(drawerEle);
-    } if (index === 2) {
+    } if (index === 3) {
         renderTips(drawerEle);
     }
 
     document.querySelector("#closeDrawer").addEventListener("click", () => {
         renderDrawer(-1);
     });
+
     drawerEle.style.display = "flex";
+    drawerEle.classList.add("slideLeftOpen");
+    if (layout === "narrow") {
+        drawerEle.classList.add("slideLeftClosed");
+    }
+    if (layout === "wide") {
+        drawerEle.classList.remove("slideLeftClosed");
+    }
+}
+
+function drawerHeaderHtml(title: string) {
+    return `
+    <div class="row" style="justify-content: space-between; width: 100%; padding: 16px;">
+        <p style="font-weight: bold; padding-right: 2rem;">${title}</p>
+        <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+            <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+        </svg>
+    </div>
+    `
+}
+
+function drawerBodyHtml(bodyHtml: string) {
+    return `
+    <div style="overflow-y: auto; width: 100%; height: 100%; padding: 16px; border-top: 1px solid gray;">
+        ${bodyHtml}
+    </div>
+    `
+}
+
+function renderProfile() {
+    if (!user) {
+        renderSignIn();
+        return;
+    }
+
+    const [modal, removeModal] = renderModal();
+
+    const email = document.createElement("p");
+    const signOutButton = document.createElement("button");
+
+    email.textContent = `Signed in as ${user.email}`;
+    email.style.marginTop = "1rem";
+    email.style.textAlign = "center";
+    email.style.wordBreak = "break-word";
+
+    signOutButton.className = "btn-primary";
+    signOutButton.style.marginTop = "1rem";
+    signOutButton.textContent = "Sign Out";
+    signOutButton.addEventListener("click", () => {
+        signOut();
+        removeModal();
+    });
+
+    modal.appendChild(email);
+    modal.appendChild(signOutButton);
 }
 
 async function renderSolves(drawerEle: HTMLElement) {
     if (!user) {
         drawerEle.innerHTML = `
-        <div class="row" style="justify-content: space-between; padding: 16px;">
-            <p style="font-weight: bold; padding-right: 2rem;">Solves</p>
-            <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-                <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-            </svg>
-        </div>
-        <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+        ${drawerHeaderHtml("Solves")}
+        ${drawerBodyHtml(`
             <button id="signInToSave" class="btn-primary">Sign in to save and analyze your solves</button>
-        </div>
+        `)}
         `;
         document.querySelector("#signInToSave").addEventListener("click", () => {
             renderSignIn();
@@ -223,15 +245,10 @@ async function renderSolves(drawerEle: HTMLElement) {
     }
 
     drawerEle.innerHTML = `
-    <div class="row" style="justify-content: space-between; padding: 16px;">
-        <p style="font-weight: bold; padding-right: 2rem;">Solves</p>
-        <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-        </svg>
-    </div>
-    <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+    ${drawerHeaderHtml("Solves")}
+    ${drawerBodyHtml(`
         <table id="solvesList"></table>
-    </div>
+    `)}
     `;
 
     const res = await fetch(`${url}/getSolves`, {
@@ -240,7 +257,7 @@ async function renderSolves(drawerEle: HTMLElement) {
     });
     solves = await res.json();
     console.log(solves);
-    
+
     const solvesList = document.querySelector("#solvesList");
     for (let i = solves.length - 1; i >= 0; i--) {
         const solve = solves[i];
@@ -265,13 +282,8 @@ function renderSettings(drawerEle: HTMLElement) {
     const storedAngle = store.getAngle();
     const storedSize = store.getSize();
     drawerEle.innerHTML = `
-    <div class="row" style="justify-content: space-between; padding: 16px;">
-        <p style="font-weight: bold; padding-right: 2rem;">Settings</p>
-        <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-        </svg>
-    </div>
-    <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+    ${drawerHeaderHtml("Settings")}
+    ${drawerBodyHtml(`
         <p>Angle</p>
         <select id="angleInput">
             <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
@@ -293,7 +305,7 @@ function renderSettings(drawerEle: HTMLElement) {
         <div style="height: 1.5rem;"></div>
         <p>Animate turns</p>
         <input id="animateTurnsCheckbox" type="checkbox" ${scene.animateTurns ? "checked" : ""} />
-    </div>
+    `)}
     `;
 
     const angleInput: HTMLElement = document.querySelector("#angleInput");
@@ -337,148 +349,118 @@ function renderSettings(drawerEle: HTMLElement) {
 
 function renderTips(drawerEle: HTMLElement) {
     drawerEle.innerHTML = `
-    <div class="row" style="justify-content: space-between; padding: 16px;">
-        <p style="font-weight: bold;">Tips</p>
-        <svg id="closeDrawer" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-        </svg>
-    </div>
-    <div style="overflow-y: auto; height: 100%; padding: 16px; border-top: 1px solid gray;">
+    ${drawerHeaderHtml("Tips")}
+    ${drawerBodyHtml(`
         <p>There are two ways to interact with the cube</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;1. Keyboard - Each action corresponds to a different key. The key mappings are listed below.</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;2. Dragging - Click and drag a piece in the direction you want to turn. Or, click outside the cube and drag to rotate the entire cube.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;2. Dragging - Click and drag a piece in the direction you want to turn. Or, click outside the cube to rotate the entire cube.</p>
         <div class="col">
             <table id="tips-table" style="margin-top: 12px;">
                 <thead>
                     <th>Key</th>
                     <th>Notation</th>
-                    <th>Description</th>
                 </thead>
                 <tbody>
                     <tr>
                         <td>j</td>
                         <td>U</td>
-                        <td>Up face clockwise</td>
                     </tr>
                     <tr>
                         <td>f</td>
                         <td>U'</td>
-                        <td>Up face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>s</td>
                         <td>D</td>
-                        <td>Down face clockwise</td>
                     </tr>
                     <tr>
                         <td>l</td>
                         <td>D'</td>
-                        <td>Down face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>h</td>
                         <td>F</td>
-                        <td>Front face clockwise</td>
                     </tr>
                     <tr>
                         <td>g</td>
                         <td>F'</td>
-                        <td>Front face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>w</td>
                         <td>B</td>
-                        <td>Back face clockwise</td>
                     </tr>
                     <tr>
                         <td>o</td>
                         <td>B'</td>
-                        <td>Back face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>d</td>
                         <td>L</td>
-                        <td>Left face clockwise</td>
                     </tr>
                     <tr>
                         <td>e</td>
                         <td>L'</td>
-                        <td>Left face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>i</td>
                         <td>R</td>
-                        <td>Right face clockwise</td>
                     </tr>
                     <tr>
                         <td>k</td>
                         <td>R'</td>
-                        <td>Right face counterclockwise</td>
                     </tr>
                     <tr>
                         <td>n</td>
                         <td>x</td>
-                        <td>x axis clockwise</td>
                     </tr>
                     <tr>
                         <td>b</td>
                         <td>x'</td>
-                        <td>x axis counterclockwise</td>
                     </tr>
                     <tr>
                         <td>;</td>
                         <td>y</td>
-                        <td>y axis clockwise</td>
                     </tr>
                     <tr>
                         <td>a</td>
                         <td>y'</td>
-                        <td>y axis counterclockwise</td>
                     </tr>
                     <tr>
                         <td>p</td>
                         <td>z</td>
-                        <td>z axis clockwise</td>
                     </tr>
                     <tr>
                         <td>q</td>
                         <td>z'</td>
-                        <td>z axis counterclockwise</td>
                     </tr>
                     <tr>
                         <td>[</td>
                         <td>M</td>
-                        <td>Middle slice</td>
                     </tr>
                     <tr>
                         <td>'</td>
                         <td>M'</td>
-                        <td>Middle slice</td>
                     </tr>
                     <tr>
                         <td>c</td>
                         <td>E</td>
-                        <td>Equatorial slice</td>
                     </tr>
                     <tr>
                         <td>,</td>
                         <td>E'</td>
-                        <td>Equatorial slice</td>
                     </tr>
                     <tr>
                         <td>y</td>
                         <td>S</td>
-                        <td>Standing slice</td>
                     </tr>
                     <tr>
                         <td>t</td>
                         <td>S'</td>
-                        <td>Standing slice</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    `)}
     `;
 }
 
@@ -489,6 +471,18 @@ function renderZeroEasterEgg() {
         <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
     </div>
     `;
+}
+
+window.addEventListener("resize", () => {
+    renderDrawer(drawerIndex);
+});
+
+function determineLayoutType() {
+    const clientWidth = document.documentElement.clientWidth;
+
+    // 725 was chosen because 425 is the width of the main content and 300 is the width of the right panel.
+    // 425 + 300 = 725
+    return clientWidth < 725 ? "narrow" : "wide";
 }
 
 main();

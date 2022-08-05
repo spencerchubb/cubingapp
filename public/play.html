@@ -15,11 +15,34 @@
             <a class="pointer-hover">
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
-            <div id="signInDiv">
-                <button id="signIn" class="btn-primary">Sign In</button>
+            <div class="row" style="height: 48px; align-items: start;">
+                <div class="col" style="width: 48px;">
+                    <img id="icon0" class="icon" src="./images/profile.svg" alt="Times">
+                    <div id="label0" class="label">
+                        <p>Profile</p>
+                    </div>
+                </div>
+                <div class="col" style="width: 48px;">
+                    <img id="icon1" class="icon" src="./images/times.svg" alt="Times">
+                    <div id="label1" class="label">
+                        <p>Solves</p>
+                    </div>
+                </div>
+                <div class="col" style="width: 48px;">
+                    <img id="icon2" class="icon" src="./images/settings.svg" alt="Settings">
+                    <div id="label2" class="label">
+                        <p>Settings</p>
+                    </div>
+                </div>
+                <div class="col" style="width: 48px;">
+                    <img id="icon3" class="icon" src="./images/i.svg" alt="Tips">
+                    <div id="label3" class="label">
+                        <p>Tips</p>
+                    </div>
+                </div>
             </div>
         </nav>
-        <div class="row" style="min-height: 0; width: 100%; height: 100%;">
+        <div class="row" style="width: 100%; height: 100%; min-height: 0; position: relative;">
             <div id="main-container">
                 <div class="row" style="margin-top: 1rem;">
                     <!-- Default value is 3 for a 3x3 Rubik's Cube -->
@@ -29,45 +52,17 @@
                     <div style="width: 24px;"></div>
                     <button id="scramble" class="btn-primary">Scramble</button>
                 </div>
-                <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px; margin-top: 1rem;">
+                <div
+                    style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px; margin-top: 1rem;">
                     <div id="glDiv"></div>
                 </div>
                 <p id="time" style="margin-top: 1rem;"></p>
                 <button id="startStop" class="btn-primary" style="margin-top: 0.5rem;"></button>
             </div>
-            <div id="rightDrawer"
+            <!-- <div id="rightDrawer"
                 style="display: none; flex-direction: column; background-color: white; max-width: 450px; height: 100%;">
-            </div>
-        </div>
-    </div>
-
-    <div class="col" style="align-items: end; width: 48px; height: 100%; background: black;">
-        <div class="row">
-            <div id="right0Label" class="row" style="display: none;">
-                <div class="label">
-                    <p>Solves</p>
-                </div>
-                <div class="labelTriangle"></div>
-            </div>
-            <img id="right0" class="icon" src="./images/times.svg" alt="Times">
-        </div>
-        <div class="row">
-            <div id="right1Label" class="row" style="display: none;">
-                <div class="label">
-                    <p>Settings</p>
-                </div>
-                <div class="labelTriangle"></div>
-            </div>
-            <img id="right1" class="icon" src="./images/settings.svg" alt="Settings">
-        </div>
-        <div class="row">
-            <div id="right2Label" class="row" style="display: none;">
-                <div class="label">
-                    <p>Tips</p>
-                </div>
-                <div class="labelTriangle"></div>
-            </div>
-            <img id="right2" class="icon" src="./images/i.svg" alt="Tips">
+            </div> -->
+            <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
         </div>
     </div>
 
