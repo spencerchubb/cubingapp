@@ -121,6 +121,7 @@ function handleStartStop(time: number) {
         time: timer.secondsSinceStart,
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
+        puzzle: scene.cube.numOfLayers,
     };
     fetch(`${url}/addSolve`, {
         method: "POST",

@@ -39,6 +39,11 @@ async function main() {
 }
 
 function renderSolve(solve) {
+    if (solve.puzzle !== 3) {
+        renderOnly3x3(solve);
+        return;
+    }
+
     scene.cube.setCubeState(solve.initialCubeState);
     scene.render();
 
@@ -201,6 +206,15 @@ function renderBasedOnWidth() {
     solveData.parentElement.parentElement.style.width = "";
     solveData.parentElement.parentElement.style.overflowY = "scroll";
     solveData.parentElement.style.width = "";
+}
+
+function renderOnly3x3(solve) {
+    const glDiv = document.querySelector("#glDiv");
+    glDiv.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
+        <p style="color: white; text-align: center;">At this time, we can only do 3x3 replays, but this is a ${solve.puzzle}x${solve.puzzle} replay! More coming soon...</p>
+    </div>
+    `;
 }
 
 main();
