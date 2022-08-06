@@ -129,9 +129,12 @@ export function renderCanvas() {
     canvas = document.createElement("canvas");
     canvas.id = "glCanvas";
 
-    // Fixes weird formatting issue where there would be extra space under
-    // canvas inside glDiv.
+    // Fixes formatting bug where there was extra space under canvas inside glDiv.
     canvas.style.display = "block";
+
+    // We do not want the browser to cancel the pointer during pointermove events on the canvas.
+    // See here: https://developer.mozilla.org/en-US/docs/Web/API/Element/pointermove_event
+    canvas.style.touchAction = "none";
 
     const baseSize = 320;
     const size = baseSize * sizeMultiplier;
@@ -185,17 +188,17 @@ export function renderCanvas() {
 
     const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
 
-    canvas.addEventListener("mousedown", event => {
+    canvas.addEventListener("pointerdown", event => {
         const x = event.offsetX;
         const y = event.offsetY;
         dragDetector.onPointerDown(x, y, sceneArgs);
     });
 
-    canvas.addEventListener("mousemove", event => {
+    canvas.addEventListener("pointermove", event => {
         dragDetector.onPointerMove();
     });
 
-    canvas.addEventListener("mouseup", event => {
+    canvas.addEventListener("pointerup", event => {
         const x = event.offsetX;
         const y = event.offsetY;
         dragDetector.onPointerUp(x, y, sceneArgs);
