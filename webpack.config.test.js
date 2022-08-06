@@ -1,13 +1,18 @@
 const config = require('./webpack.config');
 
-// Change the script files to their corresponding test files.
-// This configuration is mostly the same as webpack.config.js
-config.entry = {
-    cuble: "./test/cuble.ts",
-    index: "./test/index.ts",
-    play: "./test/play.ts",
-    replay: "./test/replay.ts",
-    train: "./test/train.ts",
-};
+const testConfig = Object.assign({}, config, {
+    entry: {
+        cuble: "./test/cuble.ts",
+        index: "./test/index.ts",
+        play: "./test/play.ts",
+        replay: "./test/replay.ts",
+        train: "./test/train.ts",
+    },
+    // https://webpack.js.org/configuration/devtool/
+	// Fixes warning: DevTools failed to load source map
+	devtool: "eval-cheap-source-map",
+	watch: true,
+	mode: "development",
+});
 
-module.exports = config;
+module.exports = testConfig;
