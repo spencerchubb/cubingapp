@@ -73,6 +73,7 @@ body {
     flex-direction: row;
     align-items: center;
     width: 100%;
+    min-height: 48px;
     padding-left: 12px;
 }
 

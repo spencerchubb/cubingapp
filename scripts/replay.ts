@@ -2,11 +2,7 @@ import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
 import { url } from "./vars/vars";
-
-// TODO when click share, have a modal pop up
-// Link copied! (bold text)
-// Give the link to a friend (plain text)
-// <link> (styled somehow, maybe in a box)
+import { renderModal } from "./modal";
 
 async function main() {
     addAnalyticsEvent(AE.ViewReplay);
@@ -17,7 +13,15 @@ async function main() {
     addListenersForLeftModal();
 
     document.querySelector("#share").addEventListener("click", () => {
-        console.log("Sharing!!!");
+        const url = document.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            const [modal, removeModal] = renderModal();
+            modal.innerHTML = `
+            <p style="font-weight: bold; padding-top: 1rem;">Link copied!</p>
+            <p style="padding-top: 0.5rem;">Give the link to a friend</p>
+            <p style="padding-top: 1rem; text-align: center;">${document.location}</p>
+            `;
+        });
     });
 
     const searchParams = new URLSearchParams(window.location.search);

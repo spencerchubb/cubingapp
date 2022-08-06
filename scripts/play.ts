@@ -8,9 +8,6 @@ import { url } from "./vars/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
 import { renderModal } from "./modal";
 
-// const tap = "ontouchstart" in document.documentElement;
-// console.log(tap);
-
 let drawerIndex;
 let solves = [];
 
@@ -80,7 +77,6 @@ function main() {
     addIconListeners(3);
 
     setAuthListener(() => {
-        // renderProfile();
         renderDrawer(drawerIndex);
     });
 
@@ -141,12 +137,12 @@ function handleStartStop(time: number) {
  * @param index Pass in -1 to close drawer, 0 to show Solves, 1 to show Settings, 2 to show Tips
  */
 function renderDrawer(index: number) {
-    drawerIndex = index;
-
     if (index == 0) {
         renderProfile();
         return;
     }
+
+    drawerIndex = index;
 
     const layout = determineLayoutType();
     const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
@@ -253,7 +249,7 @@ async function renderSolves(drawerEle: HTMLElement) {
 
     const res = await fetch(`${url}/getSolves`, {
         method: "POST",
-        body: JSON.stringify({ uid: user.uid }), // TODO fill in userID
+        body: JSON.stringify({ uid: user.uid }),
     });
     solves = await res.json();
     console.log(solves);
