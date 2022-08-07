@@ -27,10 +27,10 @@ function main() {
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        if (target.value == "0") {
-            renderZeroEasterEgg();
-            return;
-        }
+        // if (target.value == "0") {
+        //     renderZeroEasterEgg();
+        //     return;
+        // }
 
         // Update state and re-render
         scene.setNumLayers(parseInt(target.value));
@@ -466,14 +466,14 @@ function renderTips(drawerEle: HTMLElement) {
     `;
 }
 
-function renderZeroEasterEgg() {
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
-    </div>
-    `;
-}
+// function renderZeroEasterEgg() {
+//     const glDiv = document.querySelector("#glDiv");
+//     glDiv.innerHTML = `
+//     <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
+//         <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
+//     </div>
+//     `;
+// }
 
 window.addEventListener("resize", () => {
     renderDrawer(drawerIndex);

@@ -100,6 +100,11 @@ export function animateTurn() {
 }
 
 export function render() {
+    if (numLayers === 0) {
+        renderZeroEasterEgg();
+        return;
+    }
+
     if (isRendering) return;
     requestAnimationFrame(() => {
         updateScene();
@@ -388,4 +393,13 @@ function loadShader(gl, type, source) {
     }
 
     return shader;
+}
+
+function renderZeroEasterEgg() {
+    const glDiv = document.querySelector("#glDiv");
+    glDiv.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
+        <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
+    </div>
+    `;
 }
