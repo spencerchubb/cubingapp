@@ -30,6 +30,7 @@ async function getSolves(req, res) {
         .firestore()
         .collection('solves')
         .where('uid', '==', uid)
+        .orderBy('timestamp')
         .get();
     const output = querySnapshot.docs.map(doc => ({
         id: doc.id,

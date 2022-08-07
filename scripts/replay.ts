@@ -87,7 +87,6 @@ function renderSolve(solve) {
             pause();
             return;
         }
-        // timeOnStart = solve.moves[moveIndex].time;
         absoluteStartTime = Date.now();
         relativeStartTime = solve.moves[moveIndex].time;
         paused = false;

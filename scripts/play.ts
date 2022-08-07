@@ -10,6 +10,7 @@ import { renderModal } from "./modal";
 
 let drawerIndex;
 let solves = [];
+let solvesFetched: boolean = false;
 
 const timer = new Timer();
 const recorder = new Recorder();
@@ -122,13 +123,14 @@ function handleStartStop(time: number) {
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
         puzzle: scene.cube.numOfLayers,
+        timestamp: Date.now(),
     };
     fetch(`${url}/addSolve`, {
         method: "POST",
         body: JSON.stringify(solve),
     });
     solves.push(solve);
-    if (drawerIndex === 0) { // 0 is the index associated with Solves
+    if (drawerIndex === 1) { // 1 is the index associated with Solves
         renderSolves(document.querySelector("#rightDrawer"));
     }
 }
@@ -248,11 +250,14 @@ async function renderSolves(drawerEle: HTMLElement) {
     `)}
     `;
 
-    const res = await fetch(`${url}/getSolves`, {
-        method: "POST",
-        body: JSON.stringify({ uid: user.uid }),
-    });
-    solves = await res.json();
+    if (!solvesFetched) {
+        solvesFetched = true;
+        const res = await fetch(`${url}/getSolves`, {
+            method: "POST",
+            body: JSON.stringify({ uid: user.uid }),
+        });
+        solves = await res.json();
+    }
     console.log(solves);
 
     const solvesList = document.querySelector("#solvesList");
