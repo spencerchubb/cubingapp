@@ -23,9 +23,10 @@ export let yAxisOffset;
 setAngleOffset(store.getAngle());
 export let showBody = store.getShowBody();
 export let animateTurns = store.getAnimateTurns();
+let dragEnabled = true;
 
 let angle = 0.0;
-let velocity = 0.005
+let velocity = 0.005;
 let isRendering = false;
 let isTurning = false;
 let time = Date.now();
@@ -69,6 +70,10 @@ export function setShowBody(val: boolean) {
 export function setAnimateTurns(val: boolean) {
     animateTurns = val;
     cube.animateTurns = val;
+}
+
+export function setDragEnabled(val: boolean) {
+    dragEnabled = val;
 }
 
 export function animateTurn() {
@@ -189,16 +194,19 @@ export function renderCanvas() {
     const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
 
     canvas.addEventListener("pointerdown", event => {
+        if (!dragEnabled) return;
         const x = event.offsetX;
         const y = event.offsetY;
         dragDetector.onPointerDown(x, y, sceneArgs);
     });
 
     canvas.addEventListener("pointermove", event => {
+        if (!dragEnabled) return;
         dragDetector.onPointerMove();
     });
 
     canvas.addEventListener("pointerup", event => {
+        if (!dragEnabled) return;
         const x = event.offsetX;
         const y = event.offsetY;
         dragDetector.onPointerUp(x, y, sceneArgs);

@@ -7,6 +7,8 @@ import { renderModal } from "./modal";
 async function main() {
     addAnalyticsEvent(AE.ViewReplay);
 
+    scene.setDragEnabled(false);
+
     // Initial canvas render
     scene.renderCanvas();
 
