@@ -42,6 +42,7 @@ async function getSolves(req, res) {
 function onRequest(handler) {
     return functions.https.onRequest((req, res) => {
         cors(req, res, () => {
+            res.setHeader("Access-Control-Allow-Origin", "https://cubingapp.com")
             handler(req, res);
         });
     });
