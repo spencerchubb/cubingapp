@@ -2,8 +2,7 @@ import { Buffers } from "./buffers";
 import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as store from "./store";
-const glMatrix = require("./gl-matrix.js");
-const mat4 = glMatrix.mat4;
+import * as glMat from "./glMatrix";
 
 export let canvas: HTMLCanvasElement;
 export let gl: WebGLRenderingContext;
@@ -162,25 +161,24 @@ export function renderCanvas() {
         return;
     }
 
-    transformMatrix = mat4.create();
+    transformMatrix = glMat.create();
 
-    mat4.perspective(transformMatrix,
+    glMat.perspective(transformMatrix,
         45 * Math.PI / 180, // field of view
         gl.canvas.clientWidth / gl.canvas.clientHeight, // aspect
         0.1, // z near
         100.0); // z far
 
-    mat4.translate(transformMatrix,
-        transformMatrix,
+    glMat.translate(transformMatrix,
         [0.0, 0.0, -5.0]);
 
-    mat4.rotate(transformMatrix,
+    glMat.rotate(transformMatrix,
         transformMatrix,
         xAxisOffset,
         [1, 0, 0],
     );
 
-    mat4.rotate(transformMatrix,
+    glMat.rotate(transformMatrix,
         transformMatrix,
         yAxisOffset,
         [0, -1, 0],
@@ -309,8 +307,8 @@ function drawScene() {
             let object = buffers.objects[i];
 
             // Matrix specific to this object
-            const m = mat4.create();
-            mat4.rotate(
+            const m = glMat.create();
+            glMat.rotate(
                 m,
                 transformMatrix,
                 animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,

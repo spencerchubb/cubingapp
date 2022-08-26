@@ -1,15 +1,14 @@
 import { CubeLogic } from "./cube.js";
 
 /**
- * Multiply a 4x4 matrix with a 4x1 matrix, outputting in a 4x1 matrix.
- * Adapted from multiply$3 in gl-matrix.js
+ * Multiply a 4x4 matrix with a 4x1 matrix, resulting in a 4x1 matrix.
  *
- * @param {mat4} out the destination, 4x1 matrix
- * @param a the first operand, 4x4 matrix
- * @param b the second operand, 4x1 matrix
- * @returns {mat4} out
+ * @param a first operand, 4x4 matrix
+ * @param b second operand, 4x1 matrix
+ * @returns out
  */
-function multiply(out, a, b) {
+function multiply(a, b) {
+    const out = Array(4);
     let b0 = b[0],
         b1 = b[1],
         b2 = b[2],
@@ -64,17 +63,13 @@ export class Buffers {
             if (transformMatrix) {
                 // Represent as homogeneous coordinates
                 const homo = [
-                    ...multiply(Array(4),
-                        transformMatrix,
+                    ...multiply(transformMatrix,
                         [noGapPos[0], noGapPos[1], noGapPos[2], 1]),
-                    ...multiply(Array(4),
-                        transformMatrix,
+                    ...multiply(transformMatrix,
                         [noGapPos[3], noGapPos[4], noGapPos[5], 1]),
-                    ...multiply(Array(4),
-                        transformMatrix,
+                    ...multiply(transformMatrix,
                         [noGapPos[6], noGapPos[7], noGapPos[8], 1]),
-                    ...multiply(Array(4),
-                        transformMatrix,
+                    ...multiply(transformMatrix,
                         [noGapPos[9], noGapPos[10], noGapPos[11], 1]),
                 ];
 

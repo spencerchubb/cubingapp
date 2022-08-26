@@ -43,6 +43,7 @@ export function scramble3x3(cube: CubeLogic): number[] {
         cp = permutation(8);
     }
 
+
     const stickers = Array(54);
 
     for (let i = 0; i < 6; i++) {
@@ -73,12 +74,12 @@ export function scramble3x3(cube: CubeLogic): number[] {
     fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
     fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
 
-    let uEdges = cube.edges(0, 0);
-    let fEdges = cube.edges(1, 0);
-    let dEdges = cube.edges(2, 0);
-    let bEdges = cube.edges(3, 0);
-    let lEdges = cube.edges(4, 0);
-    let rEdges = cube.edges(5, 0);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
 
     const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
         /** ei is edge index, o is edge orientation */
@@ -143,13 +144,20 @@ function permutation(pieces: number) {
 function permutationParity(pieces: number[]) {
     const cpy = [...pieces];
     let parity = false;
-    for (let i = 0; i < pieces.length; i++) {
-        while (cpy[i] !== i) {
-            const temp = cpy[i];
-            cpy[i] = cpy[temp];
+    while (true) {
+        if (cpy[0] === 0) {
+            const misplaced = cpy.findIndex((value, index) => value !== index);
+            if (misplaced === -1) {
+                return parity;
+            }
+            cpy[0] = cpy[misplaced];
+            cpy[misplaced] = 0;
+            parity = !parity;
+        } else {
+            const temp = cpy[0];
+            cpy[0] = cpy[temp];
             cpy[temp] = temp;
-            parity != parity;
+            parity = !parity;
         }
     }
-    return parity;
 }

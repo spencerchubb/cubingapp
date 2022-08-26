@@ -97,8 +97,8 @@ export class CubeLogic {
         this.stickers = Array(this.numOfStickers);
         this.underStickers = Array(this.numOfStickers);
         for (let face = 0; face < 6; face++) {
-            for (let faceSticker = 0; faceSticker < this.layersSq; faceSticker++) {
-                const sticker = face * this.layersSq + faceSticker;
+            for (let facelet = 0; facelet < this.layersSq; facelet++) {
+                const sticker = face * this.layersSq + facelet;
                 const rgba = this.activeStickers.includes(sticker) ? COLORS[face].active : COLORS[face].inactive;
                 this.stickers[sticker] = repeatColorFor4Vertices(rgba, COLORS[face], face);
 
@@ -122,6 +122,7 @@ export class CubeLogic {
     scramble3x3() {
         const colors = scramble3x3(this);
 
+        // TODO refactor and dry
         for (let face = 0; face < 6; face++) {
             for (let facelet = 0; facelet < this.layersSq; facelet++) {
                 const stickerIndex = face * this.layersSq + facelet;
@@ -393,8 +394,6 @@ export class CubeLogic {
     }
 
     _turnOuter(face, clockwise) {
-        let offset = face * this.layersSq;
-
         if (this.layers % 2 != 0) {
             let center = this.center(face);
             this.affectedStickers[center] = true;
@@ -405,9 +404,9 @@ export class CubeLogic {
 
             this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
 
-            let numOfEdges = this.layers - 2 * (i + 1);
-            for (let j = 0; j < numOfEdges; j++) {
-                const { top, left, bottom, right } = this.edges(face, j);
+            let numEdges = this.layers - 2 * (i + 1);
+            for (let j = 0; j < numEdges; j++) {
+                const { top, left, bottom, right } = this.edges(face, i, j);
                 this._cycle(clockwise, top, right, bottom, left);
             }
         }
@@ -707,14 +706,14 @@ export class CubeLogic {
         };
     }
 
-    edges(face: number, layer: number) {
-        const corners = this.corners(face, 0);
-        let numOfEdges = this.layers - 2 * (layer + 1);
+    edges(face: number, corner: number, edge: number) {
+        const corners = this.corners(face, corner);
+        let numEdges = this.layers - 2 * (corner + 1);
         return {
-            top: corners.topLeft + this.layers * (layer + 1),
-            left: corners.topLeft + numOfEdges - layer,
-            right: corners.topRight + layer + 1,
-            bottom: corners.bottomLeft + this.layers * (numOfEdges - layer),
+            top: corners.topLeft + this.layers * (edge + 1),
+            left: corners.topLeft + (numEdges - edge),
+            right: corners.topRight + edge + 1,
+            bottom: corners.bottomLeft + this.layers * (numEdges - edge),
         };
     }
 }
