@@ -27,11 +27,6 @@ function main() {
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        // if (target.value == "0") {
-        //     renderZeroEasterEgg();
-        //     return;
-        // }
-
         // Update state and re-render
         scene.setNumLayers(parseInt(target.value));
     });
@@ -41,7 +36,7 @@ function main() {
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
-        scene.cube.naiveScramble();
+        scene.cube.scramble();
         scene.render();
     });
 
@@ -122,7 +117,7 @@ function handleStartStop(time: number) {
         time: timer.secondsSinceStart,
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
-        puzzle: scene.cube.numOfLayers,
+        puzzle: scene.cube.layers,
         timestamp: Date.now(),
     };
     fetch(`${url}/addSolve`, {

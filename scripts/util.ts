@@ -1,6 +1,8 @@
 /**
  * Fisher-Yates shuffle: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
  * 
+ * Mutates original array and returns the shuffled array
+ * 
  * @param array 
  * @returns shuffled array
  */

@@ -27,35 +27,35 @@ function areaTriangle(x1: number, y1: number, x2: number, y2: number, x3: number
 }
 
 function topRow(cube: CubeLogic, sticker: number) {
-    return cube.numOfLayers - 1 - sticker % cube.numOfLayers;
+    return cube.layers - 1 - sticker % cube.layers;
 }
 
 function topColumn(cube: CubeLogic, sticker: number) {
-    return cube.numOfLayers - 1 - Math.floor(sticker / cube.numOfLayers);
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
 }
 
 function frontRow(cube: CubeLogic, sticker: number) {
-    return sticker % cube.numOfLayers;
+    return sticker % cube.layers;
 }
 
 function frontColumn(cube: CubeLogic, sticker: number) {
-    return cube.numOfLayers - 1 - Math.floor((sticker - cube.layersSq) / cube.numOfLayers);
+    return cube.layers - 1 - Math.floor((sticker - cube.layersSq) / cube.layers);
 }
 
 function leftRow(cube: CubeLogic, sticker: number) {
-    return sticker % cube.numOfLayers;
+    return sticker % cube.layers;
 }
 
 function leftColumn(cube: CubeLogic, sticker: number) {
-    return cube.numOfLayers - 1 - Math.floor((sticker - 4 * cube.layersSq) / cube.numOfLayers);
+    return cube.layers - 1 - Math.floor((sticker - 4 * cube.layersSq) / cube.layers);
 }
 
 function rightRow(cube: CubeLogic, sticker: number) {
-    return sticker % cube.numOfLayers;
+    return sticker % cube.layers;
 }
 
 function rightColumn(cube: CubeLogic, sticker: number) {
-    return Math.floor((sticker - 5 * cube.layersSq) / cube.numOfLayers);
+    return Math.floor((sticker - 5 * cube.layersSq) / cube.layers);
 }
 
 type SceneArgsType = { canvas: any, cube: any, buffers: any, offsetSelection: any, animateTurn: any };
@@ -90,9 +90,9 @@ export class DragDetector {
 
         if (this.stickerOnDown === -1) {
             if (offsetSelection === 0) {
-                const top = getXY(cube.numOfLayers * (cube.numOfLayers - 1), 6, 7);
+                const top = getXY(cube.layers * (cube.layers - 1), 6, 7);
                 const topLeft = getXY(0, 0, 1);
-                const bottomLeft = getXY(cube.numOfLayers * (2 * cube.numOfLayers + 1), 0, 1);
+                const bottomLeft = getXY(cube.layers * (2 * cube.layers + 1), 0, 1);
                 if (clipY > topLeft.y) {
                     if (clipX < top.x) {
                         cube.cubeRotate(0, true);
@@ -115,10 +115,10 @@ export class DragDetector {
                 }
             } else if (offsetSelection === 1) {
                 const topLeft = getXY(0, 0, 1);
-                const topRight = getXY(cube.numOfLayers * (cube.numOfLayers - 1), 6, 7);
-                const left = getXY(cube.numOfLayers - 1, 2, 3);
+                const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+                const left = getXY(cube.layers - 1, 2, 3);
                 const right = getXY(cube.layersSq - 1, 4, 5);
-                const bottomLeft = getXY(cube.numOfLayers * (cube.numOfLayers + 1) - 1, 0, 1);
+                const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
                 const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
                 if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
                     cube.cubeRotate(0, true);
@@ -141,8 +141,8 @@ export class DragDetector {
                 }
             } else if (offsetSelection === 2) {
                 const top = getXY(0, 0, 1);
-                const topLeft = getXY(cube.numOfLayers - 1, 2, 3);
-                const bottomLeft = getXY(cube.numOfLayers * (cube.numOfLayers + 1) - 1, 0, 1);
+                const topLeft = getXY(cube.layers - 1, 2, 3);
+                const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
                 if (clipY > topLeft.y) {
                     if (clipX < top.x) {
                         cube.cubeRotate(2, false);

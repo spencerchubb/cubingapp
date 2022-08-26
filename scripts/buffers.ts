@@ -124,17 +124,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = 0; i < this.cube.numOfLayers; i++) {
-                for (let j = 0; j < this.cube.numOfLayers; j++) {
-                    const a = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
+            for (let i = 0; i < this.cube.layers; i++) {
+                for (let j = 0; j < this.cube.layers; j++) {
+                    const a = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
                 for (let j = -this.cube.layersHalf; j <= this.cube.layersHalf; j++) {
-                    coords.push([2.0 * j / this.cube.numOfLayers, 2.0 * i / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * j / this.cube.layers, 2.0 * i / this.cube.layers, n]);
                 }
             }
         }
@@ -146,17 +146,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = 0; i < this.cube.numOfLayers; i++) {
-                for (let j = this.cube.numOfLayers - 1; j >= 0; j--) {
-                    const a = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
+            for (let i = 0; i < this.cube.layers; i++) {
+                for (let j = this.cube.layers - 1; j >= 0; j--) {
+                    const a = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
                 for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-                    coords.push([2.0 * i / this.cube.numOfLayers, 2.0 * j / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * i / this.cube.layers, 2.0 * j / this.cube.layers, n]);
                 }
             }
         }
@@ -168,17 +168,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = 0; i < this.cube.numOfLayers; i++) {
-                for (let j = this.cube.numOfLayers - 1; j >= 0; j--) {
-                    const a = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
+            for (let i = 0; i < this.cube.layers; i++) {
+                for (let j = this.cube.layers - 1; j >= 0; j--) {
+                    const a = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
                 for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-                    coords.push([2.0 * j / this.cube.numOfLayers, 2.0 * i / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * j / this.cube.layers, 2.0 * i / this.cube.layers, n]);
                 }
             }
         }
@@ -190,17 +190,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = 0; i < this.cube.numOfLayers; i++) {
-                for (let j = 0; j < this.cube.numOfLayers; j++) {
-                    const a = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
+            for (let i = 0; i < this.cube.layers; i++) {
+                for (let j = 0; j < this.cube.layers; j++) {
+                    const a = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
                 for (let j = -this.cube.layersHalf; j <= this.cube.layersHalf; j++) {
-                    coords.push([2.0 * i / this.cube.numOfLayers, 2.0 * j / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * i / this.cube.layers, 2.0 * j / this.cube.layers, n]);
                 }
             }
         }
@@ -212,17 +212,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = 0; i < this.cube.numOfLayers; i++) {
-                for (let j = this.cube.numOfLayers - 1; j >= 0; j--) {
-                    const a = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
+            for (let i = 0; i < this.cube.layers; i++) {
+                for (let j = this.cube.layers - 1; j >= 0; j--) {
+                    const a = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
                 for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-                    coords.push([2.0 * j / this.cube.numOfLayers, 2.0 * i / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * j / this.cube.layers, 2.0 * i / this.cube.layers, n]);
                 }
             }
         }
@@ -234,17 +234,17 @@ export class Buffers {
         let coords = [];
 
         if (this.cube.layersEven) {
-            for (let i = this.cube.numOfLayers - 1; i >= 0; i--) {
-                for (let j = this.cube.numOfLayers - 1; j >= 0; j--) {
-                    const a = -1 + 1 / this.cube.numOfLayers + j * 2 / this.cube.numOfLayers;
-                    const b = -1 + 1 / this.cube.numOfLayers + i * 2 / this.cube.numOfLayers;
+            for (let i = this.cube.layers - 1; i >= 0; i--) {
+                for (let j = this.cube.layers - 1; j >= 0; j--) {
+                    const a = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
+                    const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
                     coords.push([a, b, n]);
                 }
             }
         } else {
             for (let i = this.cube.layersHalf; i >= -this.cube.layersHalf; i--) {
                 for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-                    coords.push([2.0 * j / this.cube.numOfLayers, 2.0 * i / this.cube.numOfLayers, n]);
+                    coords.push([2.0 * j / this.cube.layers, 2.0 * i / this.cube.layers, n]);
                 }
             }
         }
@@ -263,7 +263,7 @@ export class Buffers {
 
     _sticker(a, x, y, n, gap) {
         // size
-        const s = (1.0 / this.cube.numOfLayers) - gap;
+        const s = (1.0 / this.cube.layers) - gap;
 
         const coords = [
             [x - s, y - s, n],

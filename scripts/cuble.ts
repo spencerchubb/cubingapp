@@ -29,7 +29,7 @@ function main() {
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
-        scene.cube.naiveScramble();
+        scene.cube.scramble();
         scene.cube.cubleScramble();
 
         // We want to reveal correct stickers right after scrambling.

@@ -1,4 +1,5 @@
 import * as pieceIndices from "./pieceIndices";
+import { scramble3x3 } from "./scramble";
 
 let gl;
 
@@ -67,7 +68,7 @@ export class CubeLogic {
     activeStickers: any;
     stickers: any[];
     underStickers: any[];
-    numOfLayers: any;
+    layers: number;
     layersSq: number;
     layersHalf: number;
     layersEven: boolean;
@@ -110,11 +111,41 @@ export class CubeLogic {
         this.commitStickers();
     }
 
+    scramble() {
+        if (this.layers !== 3) {
+            this.naiveScramble();
+            return;
+        }
+        this.scramble3x3();
+    }
+
+    scramble3x3() {
+        const colors = scramble3x3(this);
+
+        for (let face = 0; face < 6; face++) {
+            for (let facelet = 0; facelet < this.layersSq; facelet++) {
+                const stickerIndex = face * this.layersSq + facelet;
+                const color = colors[stickerIndex];
+                const rgba = this.activeStickers.includes(stickerIndex) ? COLORS[color].active : COLORS[color].inactive;
+                this.stickers[stickerIndex] = repeatColorFor4Vertices(rgba, COLORS[color], face);
+
+                // Pass in -1 for face because it shouldn't matter for the under stickers.
+                this.underStickers[stickerIndex] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
+            }
+        }
+
+        this.commitStickers();
+    }
+
+    /**
+     * Perform an imperfect scramble.
+     * I will eventually deprecate this, but this was easier to implement.
+     */
     naiveScramble() {
-        let numTurns = this.numOfLayers * this.numOfLayers * 10;
+        let numTurns = this.layersSq * 10;
         for (let i = 0; i < numTurns; i++) {
             let axis = Math.floor(Math.random() * 3);
-            let layer = Math.floor(Math.random() * this.numOfLayers);
+            let layer = Math.floor(Math.random() * this.layers);
             let clockwise = Math.floor(Math.random() * 1) == 0.0;
             this._matchTurn(axis, layer, clockwise);
         }
@@ -151,10 +182,10 @@ export class CubeLogic {
     }
 
     setNumOfLayers(num: number) {
-        this.numOfLayers = num;
-        this.layersSq = this.numOfLayers * this.numOfLayers;
-        this.layersHalf = Math.floor(this.numOfLayers / 2);
-        this.layersEven = this.numOfLayers % 2 == 0;
+        this.layers = num;
+        this.layersSq = num * num;
+        this.layersHalf = Math.floor(this.layers / 2);
+        this.layersEven = this.layers % 2 == 0;
         this.numOfStickers = this.layersSq * 6;
     }
 
@@ -213,7 +244,7 @@ export class CubeLogic {
     resetAffectedStickers() {
         // If numOfLayers === 1, make all stickers true, because everything
         // should be affected for 1x1.
-        this.setAllAffectedStickers(this.numOfLayers === 1);
+        this.setAllAffectedStickers(this.layers === 1);
     }
 
     setActiveStickers(arr) {
@@ -271,7 +302,7 @@ export class CubeLogic {
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        for (let i = 1; i < this.numOfLayers - 1; i++) {
+        for (let i = 1; i < this.layers - 1; i++) {
             this._matchTurn(axis, i, clockwise);
         }
     }
@@ -282,7 +313,7 @@ export class CubeLogic {
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         this._matchTurn(axis, layer, clockwise);
-        for (let i = 1; i < this.numOfLayers - 1; i++) {
+        for (let i = 1; i < this.layers - 1; i++) {
             this._matchTurn(axis, i, clockwise);
         }
 
@@ -293,7 +324,7 @@ export class CubeLogic {
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        for (let i = 0; i < this.numOfLayers; i++) {
+        for (let i = 0; i < this.layers; i++) {
             this._matchTurn(axis, i, clockwise);
         }
     }
@@ -303,21 +334,21 @@ export class CubeLogic {
             this._turnXAxis(layer, clockwise);
             if (layer == 0) {
                 this._turnOuter(5, clockwise);
-            } else if (layer == this.numOfLayers - 1) {
+            } else if (layer == this.layers - 1) {
                 this._turnOuter(4, !clockwise);
             }
         } else if (axis == 1) {
             this._turnYAxis(layer, clockwise);
             if (layer == 0) {
                 this._turnOuter(0, clockwise);
-            } else if (layer == this.numOfLayers - 1) {
+            } else if (layer == this.layers - 1) {
                 this._turnOuter(2, !clockwise);
             }
         } else if (axis == 2) {
             this._turnZAxis(layer, clockwise);
             if (layer == 0) {
                 this._turnOuter(1, clockwise);
-            } else if (layer == this.numOfLayers - 1) {
+            } else if (layer == this.layers - 1) {
                 this._turnOuter(3, !clockwise);
             }
         } else {
@@ -326,68 +357,58 @@ export class CubeLogic {
     }
 
     _turnXAxis(layer, clockwise) {
-        for (let i = 1; i <= this.numOfLayers; i++) {
+        for (let i = 1; i <= this.layers; i++) {
             this._cycle(
                 clockwise,
-                0 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
-                3 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
-                2 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
-                1 * this.layersSq + this.layersSq - i - layer * this.numOfLayers,
+                0 * this.layersSq + this.layersSq - i - layer * this.layers,
+                3 * this.layersSq + this.layersSq - i - layer * this.layers,
+                2 * this.layersSq + this.layersSq - i - layer * this.layers,
+                1 * this.layersSq + this.layersSq - i - layer * this.layers,
             );
         }
     }
 
     _turnYAxis(layer, clockwise) {
-        for (let i = 0; i < this.numOfLayers; i++) {
+        for (let i = 0; i < this.layers; i++) {
             this._cycle(
                 clockwise,
-                1 * this.layersSq + i * this.numOfLayers + layer,
-                4 * this.layersSq + i * this.numOfLayers + layer,
-                3 * this.layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + (this.numOfLayers - 1) - layer,
-                5 * this.layersSq + i * this.numOfLayers + layer,
+                1 * this.layersSq + i * this.layers + layer,
+                4 * this.layersSq + i * this.layers + layer,
+                3 * this.layersSq + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+                5 * this.layersSq + i * this.layers + layer,
             );
         }
     }
 
     _turnZAxis(layer, clockwise) {
-        for (let i = 0; i < this.numOfLayers; i++) {
+        for (let i = 0; i < this.layers; i++) {
             this._cycle(
                 clockwise,
-                0 * this.layersSq + (i + 1) * this.numOfLayers - 1 - layer,
-                5 * this.layersSq + i + this.numOfLayers * layer,
-                2 * this.layersSq + (this.numOfLayers - i - 1) * this.numOfLayers + layer,
-                4 * this.layersSq + this.layersSq - (i + 1) - layer * this.numOfLayers,
+                0 * this.layersSq + (i + 1) * this.layers - 1 - layer,
+                5 * this.layersSq + i + this.layers * layer,
+                2 * this.layersSq + (this.layers - i - 1) * this.layers + layer,
+                4 * this.layersSq + this.layersSq - (i + 1) - layer * this.layers,
             );
         }
     }
 
     _turnOuter(face, clockwise) {
-        let offset = face * this.numOfLayers * this.numOfLayers;
+        let offset = face * this.layersSq;
 
-        if (this.numOfLayers % 2 != 0) {
-            let center = offset + Math.floor(this.numOfLayers * this.numOfLayers / 2);
+        if (this.layers % 2 != 0) {
+            let center = this.center(face);
             this.affectedStickers[center] = true;
         }
 
-        for (let i = 0; i < Math.floor(this.numOfLayers / 2); i++) {
-            // corners
-            let top_l = offset + (this.numOfLayers + 1) * i;
-            let top_r = offset + (this.numOfLayers - 1) * (this.numOfLayers - i);
-            let bot_r = offset + (this.numOfLayers + 1) * (this.numOfLayers - i - 1);
-            let bot_l = offset + (this.numOfLayers - 1) * (i + 1);
+        for (let i = 0; i < Math.floor(this.layers / 2); i++) {
+            const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
 
-            this._cycle(clockwise, top_l, top_r, bot_r, bot_l);
+            this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
 
-            // edges
-            let numOfEdges = this.numOfLayers - 2 * (i + 1);
+            let numOfEdges = this.layers - 2 * (i + 1);
             for (let j = 0; j < numOfEdges; j++) {
-                this._cycle(
-                    clockwise,
-                    top_l + this.numOfLayers * (j + 1),
-                    top_r + j + 1,
-                    bot_l + this.numOfLayers * (numOfEdges - j),
-                    top_l + (numOfEdges - j),
-                );
+                const { top, left, bottom, right } = this.edges(face, j);
+                this._cycle(clockwise, top, right, bottom, left);
             }
         }
     }
@@ -442,10 +463,10 @@ export class CubeLogic {
                 this.turn(1, 0, false);
                 return { notation: "U'", turn: true };
             case "s":
-                this.turn(1, this.numOfLayers - 1, false);
+                this.turn(1, this.layers - 1, false);
                 return { notation: "D", turn: true };
             case "l":
-                this.turn(1, this.numOfLayers - 1, true);
+                this.turn(1, this.layers - 1, true);
                 return { notation: "D'", turn: true };
             case "h":
                 this.turn(2, 0, true);
@@ -454,16 +475,16 @@ export class CubeLogic {
                 this.turn(2, 0, false);
                 return { notation: "F'", turn: true };
             case "w":
-                this.turn(2, this.numOfLayers - 1, false);
+                this.turn(2, this.layers - 1, false);
                 return { notation: "B", turn: true };
             case "o":
-                this.turn(2, this.numOfLayers - 1, true);
+                this.turn(2, this.layers - 1, true);
                 return { notation: "B'", turn: true };
             case "d":
-                this.turn(0, this.numOfLayers - 1, false);
+                this.turn(0, this.layers - 1, false);
                 return { notation: "L", turn: true };
             case "e":
-                this.turn(0, this.numOfLayers - 1, true);
+                this.turn(0, this.layers - 1, true);
                 return { notation: "L'", turn: true };
             case "i":
                 this.turn(0, 0, true);
@@ -496,10 +517,10 @@ export class CubeLogic {
                 this.wideTurn(0, 0, false);
                 return { notation: "r'", turn: true };
             case "v":
-                this.wideTurn(0, this.numOfLayers - 1, false);
+                this.wideTurn(0, this.layers - 1, false);
                 return { notation: "l", turn: true };
             case "r":
-                this.wideTurn(0, this.numOfLayers - 1, true);
+                this.wideTurn(0, this.layers - 1, true);
                 return { notation: "l'", turn: true };
         }
 
@@ -550,14 +571,14 @@ export class CubeLogic {
                 this.turn(1, 0, forward);
                 break;
             case "D":
-                this.turn(1, this.numOfLayers - 1, !forward);
+                this.turn(1, this.layers - 1, !forward);
                 break;
             case "D'":
-                this.turn(1, this.numOfLayers - 1, forward);
+                this.turn(1, this.layers - 1, forward);
                 break;
             case "D2":
-                this.turn(1, this.numOfLayers - 1, forward);
-                this.turn(1, this.numOfLayers - 1, forward);
+                this.turn(1, this.layers - 1, forward);
+                this.turn(1, this.layers - 1, forward);
                 break;
             case "F":
                 this.turn(2, 0, forward);
@@ -570,30 +591,30 @@ export class CubeLogic {
                 this.turn(2, 0, forward);
                 break;
             case "B":
-                this.turn(2, this.numOfLayers - 1, !forward);
+                this.turn(2, this.layers - 1, !forward);
                 break;
             case "B'":
-                this.turn(2, this.numOfLayers - 1, forward);
+                this.turn(2, this.layers - 1, forward);
                 break
             case "B2":
-                this.turn(2, this.numOfLayers - 1, forward);
-                this.turn(2, this.numOfLayers - 1, forward);
+                this.turn(2, this.layers - 1, forward);
+                this.turn(2, this.layers - 1, forward);
                 break
             case "L":
-                this.turn(0, this.numOfLayers - 1, !forward);
+                this.turn(0, this.layers - 1, !forward);
                 break;
             case "L'":
-                this.turn(0, this.numOfLayers - 1, forward);
+                this.turn(0, this.layers - 1, forward);
                 break;
             case "L2":
-                this.turn(0, this.numOfLayers - 1, forward);
-                this.turn(0, this.numOfLayers - 1, forward);
+                this.turn(0, this.layers - 1, forward);
+                this.turn(0, this.layers - 1, forward);
                 break;
             case "l":
-                this.wideTurn(0, this.numOfLayers - 1, !forward);
+                this.wideTurn(0, this.layers - 1, !forward);
                 break;
             case "l'":
-                this.wideTurn(0, this.numOfLayers - 1, forward);
+                this.wideTurn(0, this.layers - 1, forward);
                 break;
             case "R":
                 this.turn(0, 0, forward);
@@ -670,5 +691,30 @@ export class CubeLogic {
 
     stickerIsOnFace(sticker: number, face: number) {
         return face * this.layersSq <= sticker && sticker < (face + 1) * this.layersSq;
+    }
+
+    center(face: number) {
+        return face * this.layersSq + Math.floor(this.layersSq / 2);
+    }
+
+    corners(face: number, layer: number) {
+        const offset = face * this.layersSq;
+        return {
+            topLeft: offset + (this.layers + 1) * layer,
+            topRight: offset + (this.layers - 1) * (this.layers - layer),
+            bottomRight: offset + (this.layers + 1) * (this.layers - layer - 1),
+            bottomLeft: offset + (this.layers - 1) * (layer + 1),
+        };
+    }
+
+    edges(face: number, layer: number) {
+        const corners = this.corners(face, 0);
+        let numOfEdges = this.layers - 2 * (layer + 1);
+        return {
+            top: corners.topLeft + this.layers * (layer + 1),
+            left: corners.topLeft + numOfEdges - layer,
+            right: corners.topRight + layer + 1,
+            bottom: corners.bottomLeft + this.layers * (numOfEdges - layer),
+        };
     }
 }
