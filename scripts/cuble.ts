@@ -41,7 +41,7 @@ function main() {
     });
 
     document.addEventListener('keydown', (event) => {
-        const match = scene.cube.matchKeyToTurn(event.key);
+        const match = scene.cube.matchKeyToTurn(event);
         if (match) {
             // As long as the type of turn is not a cube rotation, we want to
             // check for correct stickers and increment move count.

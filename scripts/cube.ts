@@ -421,92 +421,103 @@ export class CubeLogic {
         this.stickers[i1] = temp;
     }
 
-    matchKeyToTurn(key) {
+    /**
+     * TODO switch to code  
+     * Why use KeyboardEvent.code instead of KeyboardEvent.key?
+     * 1) `key` is dependent on "the state of modifier keys such as Shift as well as the keyboard locale and layout."
+     * 2) `code` is useful when you want to handle keys based on their physical positions. This is common for games.
+     * 
+     * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+     * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+     */
+    matchKeyToTurn(event: KeyboardEvent) {
         if (this.disableTurn) return;
 
-        switch (key) {
-            case "n":
+        const code = event.code;
+
+        switch (code) {
+            case "KeyN":
                 this.cubeRotate(0, true);
                 return { notation: "x", rotate: true };
-            case "b":
+            case "KeyB":
                 this.cubeRotate(0, false);
                 return { notation: "x'", rotate: true };
-            case ";":
+            case "Semicolon":
                 this.cubeRotate(1, true);
                 return { notation: "y", rotate: true };
-            case "a":
+            case "KeyA":
                 this.cubeRotate(1, false);
                 return { notation: "y'", rotate: true };
-            case "p":
+            case "KeyP":
                 this.cubeRotate(2, true);
                 return { notation: "z", rotate: true };
-            case "q":
+            case "KeyQ":
                 this.cubeRotate(2, false);
                 return { notation: "z'", rotate: true };
-            case "j":
+            case "KeyJ":
                 this.turn(1, 0, true);
                 return { notation: "U", turn: true };
-            case "f": //
+            case "KeyF":
                 this.turn(1, 0, false);
                 return { notation: "U'", turn: true };
-            case "s":
+            case "KeyS":
                 this.turn(1, this.layers - 1, false);
                 return { notation: "D", turn: true };
-            case "l":
+            case "KeyL":
                 this.turn(1, this.layers - 1, true);
                 return { notation: "D'", turn: true };
-            case "h":
+            case "KeyH":
                 this.turn(2, 0, true);
                 return { notation: "F", turn: true };
-            case "g":
+            case "KeyG":
                 this.turn(2, 0, false);
                 return { notation: "F'", turn: true };
-            case "w":
+            case "KeyW":
                 this.turn(2, this.layers - 1, false);
                 return { notation: "B", turn: true };
-            case "o":
+            case "KeyO":
                 this.turn(2, this.layers - 1, true);
                 return { notation: "B'", turn: true };
-            case "d":
+            case "KeyD":
                 this.turn(0, this.layers - 1, false);
                 return { notation: "L", turn: true };
-            case "e":
+            case "KeyE":
                 this.turn(0, this.layers - 1, true);
                 return { notation: "L'", turn: true };
-            case "i":
+            case "KeyI":
                 this.turn(0, 0, true);
                 return { notation: "R", turn: true };
-            case "k":
+            case "KeyK":
                 this.turn(0, 0, false);
                 return { notation: "R'", turn: true };
-            case "[":
+            case "BracketLeft":
                 this.sliceTurn(0, false);
                 return { notation: "M", turn: true };
-            case "'":
+            case "Quote":
                 this.sliceTurn(0, true);
                 return { notation: "M'", turn: true };
-            case "c":
+            case "KeyC":
                 this.sliceTurn(1, false);
                 return { notation: "E", turn: true };
-            case ",":
+            case "Comma":
                 this.sliceTurn(1, true);
                 return { notation: "E'", turn: true };
-            case "y":
+            case "KeyY":
                 this.sliceTurn(2, true);
                 return { notation: "S", turn: true };
-            case "t":
+            case "KeyT":
                 this.sliceTurn(2, false);
                 return { notation: "S'", turn: true };
-            case "u":
+            case "KeyU":
                 this.wideTurn(0, 0, true);
                 return { notation: "r", turn: true };
-            case "m":
+            case "KeyM":
                 this.wideTurn(0, 0, false);
                 return { notation: "r'", turn: true };
-            case "v":
+            case "KeyV":
                 this.wideTurn(0, this.layers - 1, false);
                 return { notation: "l", turn: true };
-            case "r":
+            case "KeyR":
                 this.wideTurn(0, this.layers - 1, true);
                 return { notation: "l'", turn: true };
         }

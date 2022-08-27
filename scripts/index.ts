@@ -78,7 +78,7 @@ function main() {
     addListenersForLeftModal();
 
     document.addEventListener("keydown", (event) => {
-        if (scene.cube.matchKeyToTurn(event.key)) {
+        if (scene.cube.matchKeyToTurn(event)) {
             scene.animateTurn();
         }
     });

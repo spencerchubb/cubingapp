@@ -80,7 +80,7 @@ function main() {
             loadCurrAlg();
         } else if (event.key == "Enter") {
             nextAlg();
-        } else if (scene.cube.matchKeyToTurn(event.key)) {
+        } else if (scene.cube.matchKeyToTurn(event)) {
             scene.animateTurn();
         }
     });

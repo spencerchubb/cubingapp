@@ -50,14 +50,15 @@ function main() {
         // Immediately save the time for precision.
         const time = Date.now();
 
-        if (event.key === " ") {
+        if (event.code === "Space") {
             // Prevent extra click if spacebar is pressed while a button is focused.
             event.preventDefault();
 
             handleStartStop(time);
+            return;
         }
 
-        const result = scene.cube.matchKeyToTurn(event.key);
+        const result = scene.cube.matchKeyToTurn(event);
         if (result) {
             recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
             scene.animateTurn();

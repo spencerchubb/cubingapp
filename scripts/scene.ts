@@ -348,13 +348,14 @@ function drawScene() {
         );
     }
 
+    if (!hintStickers) return;
+    
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.transformMatrix,
         false,
         transformMatrix,
     );
 
-    if (!hintStickers) return;
 
     const drawHints = (starti, endi) => {
         for (let i = starti; i < endi; i++) {
