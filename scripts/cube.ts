@@ -3,6 +3,9 @@ import { scramble3x3 } from "./scramble";
 
 let gl;
 
+// TODO consider renaming
+// primary, secondary
+// bright, dull
 const WHITE = {
     active: [1.0, 1.0, 1.0, 1.0],
     inactive: [0.5, 0.5, 0.5, 1.0],
@@ -68,6 +71,7 @@ export class CubeLogic {
     activeStickers: any;
     stickers: any[];
     underStickers: any[];
+    hintStickers: any[];
     layers: number;
     layersSq: number;
     layersHalf: number;
@@ -94,48 +98,32 @@ export class CubeLogic {
             this.activeStickers = [];
         }
 
-        this.stickers = Array(this.numOfStickers);
+        const state = Array(this.numOfStickers);
         this.underStickers = Array(this.numOfStickers);
-        for (let face = 0; face < 6; face++) {
-            for (let facelet = 0; facelet < this.layersSq; facelet++) {
-                const sticker = face * this.layersSq + facelet;
-                const rgba = this.activeStickers.includes(sticker) ? COLORS[face].active : COLORS[face].inactive;
-                this.stickers[sticker] = repeatColorFor4Vertices(rgba, COLORS[face], face);
+        this.hintStickers = Array(this.numOfStickers);
+        for (let i = 0; i < this.numOfStickers; i++) {
+            state[i] = Math.floor(i / this.layersSq);
 
-                // Pass in -1 for face because it shouldn't matter for the under stickers.
-                this.underStickers[sticker] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
-            }
+            // Pass in -1 for face because it shouldn't matter for the under stickers.
+            this.underStickers[i] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
         }
 
+        this.setCubeState(state);
+
         this.setAllAffectedStickers(false);
-        this.commitStickers();
     }
 
     scramble() {
-        if (this.layers !== 3) {
-            this.naiveScramble();
+        if (this.layers === 3) {
+            this.scramble3x3();
             return;
         }
-        this.scramble3x3();
+        this.naiveScramble();
     }
 
     scramble3x3() {
         const colors = scramble3x3(this);
-
-        // TODO refactor and dry
-        for (let face = 0; face < 6; face++) {
-            for (let facelet = 0; facelet < this.layersSq; facelet++) {
-                const stickerIndex = face * this.layersSq + facelet;
-                const color = colors[stickerIndex];
-                const rgba = this.activeStickers.includes(stickerIndex) ? COLORS[color].active : COLORS[color].inactive;
-                this.stickers[stickerIndex] = repeatColorFor4Vertices(rgba, COLORS[color], face);
-
-                // Pass in -1 for face because it shouldn't matter for the under stickers.
-                this.underStickers[stickerIndex] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
-            }
-        }
-
-        this.commitStickers();
+        this.setCubeState(colors);
     }
 
     /**
@@ -205,12 +193,12 @@ export class CubeLogic {
     }
 
     setCubeState(state: number[]) {
-        this.stickers = Array(54); // TODO generalize for sizes
-        for (let i = 0; i < 54; i++) {
+        this.stickers = Array(this.numOfStickers);
+        for (let i = 0; i < this.numOfStickers; i++) {
             const color = COLORS[state[i]];
             this.stickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
         }
-        this.currentStickers = [...this.stickers];
+        this.commitStickers();
     }
 
     getStickers() {

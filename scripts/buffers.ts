@@ -32,24 +32,31 @@ export class Buffers {
     initBufferData(cube, showBody: boolean, transformMatrix) {
         this.cube = cube;
 
-        // Vertex positions with gap.
+        // Vertex positions with gap between stickers
         let allPositions = showBody
             ? this._concatPositions(1.01, 0.02)
             : this._concatPositions(1.02, 0.04);
 
-        // Vertex positions with no gap so user can drag between the gaps.
+        // Vertex positions with no gap so user can drag between stickers
         let allNoGapPositions = this._concatPositions(1.0, 0.0);
+
+        // Vertex positions of hint stickers
+        let allHintPositions = this._concatPositions(1.5, 0.02);
 
         this.objects = [];
         for (let i = 0; i < this.cube.numOfStickers; i++) {
             let object: any = {};
 
+            // TODO improve performance by pre-allocating array memory
+            // Maybe refactor to be more readable too
             let positions = [];
             let noGapPos = [];
+            let hintPos = [];
             for (let j = 0; j < 12; j++) {
                 let index = i * 12 + j;
                 positions.push(allPositions[index]);
                 noGapPos.push(allNoGapPositions[index]);
+                hintPos.push(allHintPositions[index]);
             }
 
             object.positionBuffer = this.gl.createBuffer();
@@ -59,6 +66,10 @@ export class Buffers {
             object.noGapPositionBuffer = this.gl.createBuffer();
             this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.noGapPositionBuffer);
             this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPos), this.gl.STATIC_DRAW);
+
+            object.hintPositionBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.hintPositionBuffer);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(hintPos), this.gl.STATIC_DRAW);
 
             if (transformMatrix) {
                 // Represent as homogeneous coordinates

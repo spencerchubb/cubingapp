@@ -164,7 +164,7 @@ export function renderCanvas() {
     transformMatrix = glMat.create();
 
     glMat.perspective(transformMatrix,
-        45 * Math.PI / 180, // field of view
+        50 * Math.PI / 180, // field of view
         gl.canvas.clientWidth / gl.canvas.clientHeight, // aspect
         0.1, // z near
         100.0); // z far
@@ -299,63 +299,73 @@ function drawScene() {
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const underStickers = cube.getUnderStickers();
+    let listToShow = isTurning ? animation.stickers : cube.currentStickers;
 
-    function drawObjects(range, selectBuffers) {
-        for (let i = 0; i < range; i++) {
+    for (let i = 0; i < cube.numOfStickers; i++) {
+        let object = buffers.objects[i];
+
+        // Matrix specific to this object
+        const m = glMat.create();
+        glMat.rotate(
+            m,
+            transformMatrix,
+            animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
+            animation ? animation.axis : [1, 0, 0]
+        );
+
+        gl.uniformMatrix4fv(
+            programInfo.uniformLocations.transformMatrix,
+            false,
+            m,
+        );
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+
+        if (showBody) {
+            bindPosition(object.noGapPositionBuffer);
+            bindColor(underStickers[i].buffer);
+            drawElements();
+        }
+
+        bindPosition(object.positionBuffer);
+        bindColor(listToShow[i].buffer);
+        drawElements();
+
+        gl.uniformMatrix4fv(
+            programInfo.uniformLocations.transformMatrix,
+            false,
+            transformMatrix,
+        );
+    }
+
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.transformMatrix,
+        false,
+        transformMatrix,
+    );
+
+    const drawHints = (starti, endi) => {
+        for (let i = starti; i < endi; i++) {
             let object = buffers.objects[i];
-
-            // Matrix specific to this object
-            const m = glMat.create();
-            glMat.rotate(
-                m,
-                transformMatrix,
-                animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
-                animation ? animation.axis : [1, 0, 0]
-            );
-
-            gl.uniformMatrix4fv(
-                programInfo.uniformLocations.transformMatrix,
-                false,
-                m,
-            );
-
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-            const selected = selectBuffers(i);
-            bindPosition(selected.position);
-            bindColor(selected.color);
+    
+            bindPosition(object.hintPositionBuffer);
+            bindColor(listToShow[i].buffer);
             drawElements();
         }
     }
 
-    gl.clearColor(0.0, 0.0, 0.0, 0.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    if (showBody) {
-        drawObjects(
-            cube.numOfStickers,
-            (i) => {
-                const object = buffers.objects[i];
-                return {
-                    position: object.noGapPositionBuffer,
-                    color: underStickers[i].buffer,
-                }
-            },
-        );
+    if (offsetSelection === 0) {
+        drawHints(2 * cube.layersSq, 4 * cube.layersSq);
+        drawHints(5 * cube.layersSq, cube.numOfStickers);
+    } else if (offsetSelection === 1) {
+        drawHints(2 * cube.layersSq, cube.numOfStickers);
+    } else if (offsetSelection === 2) {
+        drawHints(2 * cube.layersSq, 5 * cube.layersSq);
     }
-
-    let listToShow = isTurning ? animation.stickers : cube.currentStickers;
-    drawObjects(
-        cube.numOfStickers,
-        (i) => {
-            const object = buffers.objects[i];
-            return {
-                position: object.positionBuffer,
-                color: listToShow[i].buffer,
-            };
-        },
-    );
 }
 
 // Initialize a shader program, so WebGL knows how to draw our data
