@@ -20,6 +20,7 @@ let offsetSelection;
 export let xAxisOffset;
 export let yAxisOffset;
 setAngleOffset(store.getAngle());
+export let hintStickers = store.getHintStickers();
 export let showBody = store.getShowBody();
 export let animateTurns = store.getAnimateTurns();
 let dragEnabled = true;
@@ -58,6 +59,11 @@ export function setAngleOffset(value: number) {
         yAxisOffset = 45 * Math.PI / 180;
     }
     renderCanvas();
+}
+
+export function setHintStickers(val: boolean) {
+    hintStickers = val;
+    render();
 }
 
 export function setShowBody(val: boolean) {
@@ -347,6 +353,8 @@ function drawScene() {
         false,
         transformMatrix,
     );
+
+    if (!hintStickers) return;
 
     const drawHints = (starti, endi) => {
         for (let i = starti; i < endi; i++) {

@@ -297,6 +297,9 @@ function renderSettings(drawerEle: HTMLElement) {
             <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
         </select>
         <div style="height: 1.5rem;"></div>
+        <p>Hint stickers</p>
+        <input id="hintStickersCheckbox" type="checkbox" ${scene.hintStickers ? "checked" : ""} />
+        <div style="height: 1.5rem;"></div>
         <p>Show body</p>
         <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
         <div style="height: 1.5rem;"></div>
@@ -325,6 +328,14 @@ function renderSettings(drawerEle: HTMLElement) {
         scene.setSizeMultiplier(parseFloat(target.value));
         scene.renderCanvas();
         store.setSize(target.value);
+    });
+
+    const hintStickersCheckbox = document.querySelector("#hintStickersCheckbox");
+    hintStickersCheckbox.addEventListener("change", (event) => {
+        const target = event.target as HTMLInputElement;
+
+        scene.setHintStickers(target.checked);
+        store.setHintStickers(target.checked);
     });
 
     const showBodyCheckbox = document.querySelector("#showBodyCheckbox");

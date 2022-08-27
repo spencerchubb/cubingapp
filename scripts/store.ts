@@ -4,6 +4,7 @@
 
 const angle = "angle";
 const animateTurns = "animateTurns";
+const hintStickers = "hintStickers";
 const showBody = "showBody";
 const size = "size";
 const user = "user";
@@ -23,6 +24,14 @@ export function getSize() {
 
 export function setSize(value) {
     localStorage.setItem(size, value);
+}
+
+export function getHintStickers() {
+    return getBool(hintStickers) ?? true;
+}
+
+export function setHintStickers(value) {
+    setBool(hintStickers, value);
 }
 
 export function getShowBody() {
