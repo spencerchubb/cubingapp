@@ -16,10 +16,7 @@ let transformMatrix;
 
 let numLayers: number = 3;
 let sizeMultiplier: number = store.getSize();
-let offsetSelection;
-export let xAxisOffset;
-export let yAxisOffset;
-setAngleOffset(store.getAngle());
+let offsetSelection = store.getAngle();
 export let hintStickers = store.getHintStickers();
 export let showBody = store.getShowBody();
 export let animateTurns = store.getAnimateTurns();
@@ -41,6 +38,7 @@ export function setSizeMultiplier(val: number) {
     sizeMultiplier = val;
 }
 
+
 /**
  * value = 0 --> left
  * value = 1 --> head-on
@@ -48,16 +46,6 @@ export function setSizeMultiplier(val: number) {
  */
 export function setAngleOffset(value: number) {
     offsetSelection = value;
-    if (value === 0) {
-        xAxisOffset = 35 * Math.PI / 180;
-        yAxisOffset = -45 * Math.PI / 180;
-    } else if (value === 1) {
-        xAxisOffset = 45 * Math.PI / 180;
-        yAxisOffset = 0;
-    } else { // value === 2
-        xAxisOffset = 35 * Math.PI / 180;
-        yAxisOffset = 45 * Math.PI / 180;
-    }
     renderCanvas();
 }
 
@@ -167,6 +155,20 @@ export function renderCanvas() {
         return;
     }
 
+    let xAxis, yAxis;
+    if (offsetSelection === 0) {
+        xAxis = 35 * Math.PI / 180;
+        yAxis = -45 * Math.PI / 180;
+    } else if (offsetSelection === 1) {
+        xAxis = 45 * Math.PI / 180;
+        yAxis = 0;
+    } else if (offsetSelection === 2) {
+        xAxis = 35 * Math.PI / 180;
+        yAxis = 45 * Math.PI / 180;
+    } else {
+        console.error("Invalid offsetSelection:", offsetSelection);
+    }
+
     transformMatrix = glMat.create();
 
     glMat.perspective(transformMatrix,
@@ -180,13 +182,13 @@ export function renderCanvas() {
 
     glMat.rotate(transformMatrix,
         transformMatrix,
-        xAxisOffset,
+        xAxis,
         [1, 0, 0],
     );
 
     glMat.rotate(transformMatrix,
         transformMatrix,
-        yAxisOffset,
+        yAxis,
         [0, -1, 0],
     );
 
@@ -202,24 +204,53 @@ export function renderCanvas() {
 
     const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
 
-    canvas.addEventListener("pointerdown", event => {
+    const pointerdown = (offsetX, offsetY) => {
         if (!dragEnabled) return;
-        const x = event.offsetX;
-        const y = event.offsetY;
-        dragDetector.onPointerDown(x, y, sceneArgs);
-    });
+        dragDetector.onPointerDown(offsetX, offsetY, sceneArgs);
+    }
 
-    canvas.addEventListener("pointermove", event => {
+    const pointermove = (offsetX, offsetY) => {
         if (!dragEnabled) return;
-        dragDetector.onPointerMove();
-    });
+        dragDetector.onPointerMove(offsetX, offsetY);
+    }
 
-    canvas.addEventListener("pointerup", event => {
+    const pointerup = () => {
         if (!dragEnabled) return;
-        const x = event.offsetX;
-        const y = event.offsetY;
-        dragDetector.onPointerUp(x, y, sceneArgs);
-    });
+        dragDetector.onPointerUp(sceneArgs);
+    }
+
+    const calcOffset = (event) => {
+        const rect = event.target.getBoundingClientRect();
+        const x = event.touches[0].pageX - rect.left;
+        const y = event.touches[0].pageY - rect.top;
+        return { x, y };
+    }
+
+    const addPointerListeners = () => {
+        canvas.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
+        canvas.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
+        canvas.addEventListener("pointerup", event => pointerup());
+    }
+
+    const addTouchListeners = () => {
+        canvas.addEventListener("touchstart", event => {
+            const { x, y } = calcOffset(event);
+            pointerdown(x, y);
+        });
+        canvas.addEventListener("touchmove", event => {
+            const { x, y } = calcOffset(event);
+            pointermove(x, y);
+        });
+        canvas.addEventListener("touchend", event => {
+            pointerup();
+        });
+    }
+
+    if (window.PointerEvent) {
+        addPointerListeners();
+    } else {
+        addTouchListeners();
+    }
 
     initPrograms();
     render();

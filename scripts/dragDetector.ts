@@ -64,6 +64,8 @@ export class DragDetector {
     numOfPointerMoves: number;
     xOnDown: number;
     yOnDown: number;
+    xOnMove: number;
+    yOnMove: number;
     stickerOnDown: number;
     cart2dOnDown: number[];
 
@@ -170,11 +172,13 @@ export class DragDetector {
     /**
      * x and y are pixel values.
      */
-    onPointerMove() {
+    onPointerMove(x: number, y: number) {
         this.numOfPointerMoves++;
+        this.xOnMove = x;
+        this.yOnMove = y;
     }
 
-    onPointerUp(x: number, y: number, sceneArgs: SceneArgsType) {
+    onPointerUp(sceneArgs: SceneArgsType) {
         // Do nothing if the pointer movement was tiny.
         if (this.numOfPointerMoves < 2) return;
 
@@ -191,8 +195,8 @@ export class DragDetector {
             }
         }
 
-        const xClip = xPixelToClip(x, canvas.width);
-        const yClip = yPixelToClip(y, canvas.width);
+        const xClip = xPixelToClip(this.xOnMove, canvas.width);
+        const yClip = yPixelToClip(this.yOnMove, canvas.width);
 
         const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
 
