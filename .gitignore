@@ -1,6 +1,9 @@
 # Admin data
 admin/raw.json
 
+target/
+public/dist/
+
 # Logs
 logs
 *.log

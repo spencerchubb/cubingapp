@@ -1,19 +1,129 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
-import { shuffle } from "./util";
-const algData: any[] = require("./alg-data.json");
+import { CubeLogic } from "./cube";
+// import { addAlg, getAlgs } from "./db";
+import { getAlgs, setAlgs } from "./store";
+import { randInt } from "./common/rand";
 
-function main() {
+const algData: any[] = require("./alg-data.json");
+type AlgSet = { cube: string, name: string, categories: string[], algs: any[] };
+
+type State =  {
+    solutionShown: boolean,
+    retried: boolean,
+    solved: boolean,
+}
+
+let state: State = {
+    solutionShown: false,
+    retried: false,
+    solved: false,
+};
+
+/**
+ * Series produces 2, 5, 9, 14, 20, 27, 35, 44, 54, 65, 77, 80...
+ */
+export function series(n: number) {
+    if (n <= 0) {
+        return 2;
+    }
+    return series(n - 1) + n + 2;
+}
+
+type TrainingElement = {
+    alg: any
+    score: number,
+}
+
+/** Move the first element of arr to position n. Mutate arr in place */
+function move(arr: Array<any>, n: number) {
+    const temp = arr[0];
+    for (let i = 0; i < n; i++) {
+        arr[i] = arr[i + 1];
+    }
+    arr[n] = temp;
+}
+
+export function demoteAlg(algs: Array<TrainingElement>) {
+    algs[0].score = 0;
+    move(algs, series(0));
+}
+
+/** Mutate algs in place */
+export function promoteAlg(algs: Array<TrainingElement>) {
+    algs[0].score++;
+    let position = series(algs[0].score);
+    const threeFourths = Math.ceil(algs.length * 3 / 4);
+    if (position > threeFourths) {
+        position = threeFourths + randInt(algs.length - threeFourths);
+    }
+    move(algs, position);
+}
+
+function matching(stickers: any[], shouldMatch: number[][]): boolean {
+    for (let i = 0; i < shouldMatch.length; i++) {
+        const first = stickers[shouldMatch[i][0]].face;
+        for (let j = 1; j < shouldMatch[i].length; j++) {
+            if (first !== stickers[shouldMatch[i][j]].face) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function solved(stickers: any[], algSet: AlgSet): boolean {
+    switch (algSet.name) {
+        case "CMLL":
+            return matching(stickers, [
+                [0, 2, 6, 8],
+                [9, 15],
+                [29, 35],
+                [36, 42],
+                [45, 51],
+            ]);
+        case "OLL":
+            return matching(stickers, [
+                [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                [10, 11, 13, 14, 16, 17],
+                [18, 19, 20, 21, 22, 23, 24, 25, 26],
+                [27, 28, 30, 31, 33, 34],
+                [37, 38, 40, 41, 43, 44],
+                [46, 47, 489, 50, 52, 53],
+            ]);
+        case "PLL":
+            return matching(stickers, [
+                [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                [9, 12, 15],
+                [29, 32, 35],
+                [36, 39, 42],
+                [45, 48, 51],
+                [10, 11, 13, 14, 16, 17],
+                [18, 19, 20, 21, 22, 23, 24, 25, 26],
+                [27, 28, 30, 31, 33, 34],
+                [37, 38, 40, 41, 43, 44],
+                [46, 47, 49, 50, 52, 53],
+            ]);
+        // case "2x2 CLL":
+        // case "2x2 EG1":
+        // case "2x2 EG2":
+        default: 
+            console.error("Not implemented yet:", algSet.name);
+    }
+}
+
+export function main() {
     addAnalyticsEvent(AE.ViewTrain);
 
     // Initial canvas render
+    scene.loadPrefs();
     scene.renderCanvas();
 
     addListenersForLeftModal();
 
     document.querySelector("#try-again").addEventListener("click", () => {
-        loadCurrAlg();
+        retry();
     });
 
     document.querySelector("#next").addEventListener("click", () => {
@@ -22,7 +132,6 @@ function main() {
 
     let showSettings = false;
     const settingsBackground: HTMLElement = document.querySelector("#settingsBackground");
-    const settingsBody: HTMLElement = document.querySelector("#settingsBody");
     document.querySelector("#trainSettingsButton").addEventListener("click", () => {
         settingsBackground.style.display = "flex";
         showSettings = true;
@@ -75,46 +184,46 @@ function main() {
             // Prevent space from scrolling down
             event.preventDefault();
 
-            handleShowSolution();
+            showSolution();
         } else if (event.key == "Backspace") {
-            loadCurrAlg();
+            retry();
         } else if (event.key == "Enter") {
             nextAlg();
         } else if (scene.cube.matchKeyToTurn(event)) {
             scene.animateTurn();
+            
+            if (solved(scene.cube.stickers, algSet)) {
+                showSolved();
+
+                state.solved = true;
+            }
         }
     });
 
     const algSetSelect = document.querySelector("#alg-set-select");
     algSetSelect.addEventListener("change", (event) => {
         const setName = (event.target as HTMLInputElement).value;
-        const set = findAlgSet(setName);
+        algSet = findAlgSet(setName);
         
-        if (set.cube == "2x2") {
+        if (algSet.cube == "2x2") {
             scene.setNumLayers(2);
-        } else if (set.cube == "3x3") {
+        } else if (algSet.cube == "3x3") {
             scene.setNumLayers(3);
         }
 
-        renderCategories(set);
-        renderAlgs(set);
+        renderAlgs(algSet);
     });
     algData.forEach(algSet => {
         const option = document.createElement("option");
-        option.textContent = algSet.set;
-        option.value = algSet.set;
+        option.textContent = algSet.name;
+        option.value = algSet.name;
         algSetSelect.appendChild(option);
     });
 
 
     // Iterate 'algData' and find the desired set. 
     function findAlgSet(set: string) {
-        for (let i = 0; i < algData.length; i++) {
-            const algSet = algData[i];
-            if (algSet.set === set) {
-                return algSet;
-            }
-        }
+        return algData.find(algSet => algSet.name === set);
     }
 
     const aufOptions = ["", "U", "U2", "U'"];
@@ -122,15 +231,15 @@ function main() {
         return aufOptions[Math.floor(Math.random() * 4)];
     }
 
-    let selectedAlgs;
+    let algs: { score: number, alg: string, category: string, symmetry: string }[];
+    let algSet: AlgSet;
 
-    let currAlg = -1;
     let preAUF;
     let postAUF;
     function loadCurrAlg() {
-        handleHideSolution();
+        hideSolution();
 
-        let alg = selectedAlgs[currAlg];
+        let alg = algs[0];
         let algText = alg.alg;
 
         preAUF = generateRandAUF();
@@ -149,23 +258,29 @@ function main() {
         
         scene.cube.execAlgReverse(algText);
         scene.cube.commitStickers();
+
         scene.render();
     }
 
     function nextAlg() {
-        currAlg += 1;
-        if (currAlg >= selectedAlgs.length) {
-            currAlg = 0;
-            selectedAlgs = shuffle([...selectedAlgs]);
+        if (state.solutionShown || state.retried || !state.solved) {
+            demoteAlg(algs);
+        } else {
+            promoteAlg(algs);
         }
-
+        setAlgs(algSet.name, algs);
+        state.solutionShown = false;
+        state.retried = false;
+        state.solved = false;
         loadCurrAlg();
     }
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
-    solutionText.addEventListener("click", handleShowSolution);
-    function handleShowSolution() {
-        let alg = selectedAlgs[currAlg];
+    solutionText.addEventListener("click", showSolution);
+    function showSolution() {
+        state.solutionShown = true;
+
+        let alg = algs[0];
         let algText = alg.alg;
 
         if (alg.symmetry == "2") {
@@ -183,131 +298,54 @@ function main() {
         solutionText.textContent = algText;
         solutionText.classList.remove("show-solution-clickable");
     }
-    function handleHideSolution() {
+    function hideSolution() {
         solutionText.textContent = "Show solution";
         solutionText.classList.add("show-solution-clickable");
     }
+    function showSolved() {
+        solutionText.textContent = "Solved!";
+        solutionText.classList.remove("show-solution-clickable");
+    }
 
-    const categoriesDiv = document.querySelector("#categories-div");
-
-    function renderCategories(set: any) {
-        categoriesDiv.innerHTML = "";
-
-        let categories = set.categories;
-        let algs = set.algs;
-
-        selectedAlgs = shuffle([...algs]);
-
-        let inputs = [];
-        for (let i = 0; i < categories.length; i++) {
-            const category = categories[i];
-
-            const input = document.createElement("input");
-            input.addEventListener("change", () => {
-                let categoriesToFilter = categories.filter((_, j) => inputs[j].checked);
-                if (categoriesToFilter.length !== 0) {
-                    // If there are some, filter down to those categories
-                    selectedAlgs = [];
-                    algs.forEach((alg, j) => {
-                        if (categoriesToFilter.includes(alg.category)) {
-                            selectAlg(j);
-                            selectedAlgs.push(alg);
-                        } else {
-                            deselectAlg(j);
-                        }
-                    });
-                } else {
-                    // If there are no filters, use all algs
-                    algs.forEach((_, j) => {
-                        selectAlg(j);
-                    });
-                    selectedAlgs = algs;
-                }
-
-                currAlg = -1;
-                selectedAlgs = shuffle([...selectedAlgs]);
-            });
-            input.id = category;
-            input.type = "checkbox";
-            inputs.push(input);
-
-            const categoryDiv = document.createElement("div");
-            categoryDiv.style.display = "flex";
-            categoryDiv.style.flexDirection = "row";
-            categoryDiv.style.alignItems = "center";
-            categoryDiv.style.padding = "0 8px";
-
-            const label = document.createElement("label");
-            // for attribute of the label should match the id of the input
-            label.htmlFor = category;
-            label.textContent = category;
-            label.style.paddingLeft = "8px";
-            label.style.color = "white";
-
-            categoryDiv.appendChild(input);
-            categoryDiv.appendChild(label);
-
-            categoriesDiv.appendChild(categoryDiv);
-        }
+    function retry() {
+        state.retried = true;
+        loadCurrAlg();
     }
 
     const algsTableBody = document.querySelector("#algs-table-body");
 
-    // Array of td elements that indicate whether an algorithm is selected
-    let selectedTdArray = [];
+    function renderAlgs(set: AlgSet) {
+        algSet = set;
 
-    // Booleans that indicate which algs are selected
-    let isSelected = [];
+        // Remove elements from storedAlgs that are in storedAlgs but not in algs
+        // Add elements to storedAlgs that are in algs but not in storedAlgs
+        let storedAlgs: any[] = getAlgs(set.name);
+        const algsEqual = (a, b) => a.alg === b.alg && a.set === b.set;
+        storedAlgs = storedAlgs.filter(storedAlg => {
+            return set.algs.find(alg => algsEqual(storedAlg, alg));
+        });
+        set.algs.forEach(alg => {
+            const found = storedAlgs.find(storedAlg => algsEqual(storedAlg, alg));
+            if (!found) {
+                storedAlgs.push({ score: 0, ...alg });
+            }
+        });
+        algs = storedAlgs;
 
-    function renderAlgs(set: any) {
-        algsTableBody.innerHTML = "";
+        let html = "";
+        
+        algs.forEach(alg => {
+            html += `<tr>
+                <td>${alg.alg}</td>
+                <td>${alg.category}</td>
+            </tr>`;
+        });
 
-        let algs = set.algs;
-
-        selectedTdArray = [];
-        isSelected = [];
-
-        for (let i = 0; i < algs.length; i++) {
-            isSelected.push(true);
-
-            const selectedTd = document.createElement("td");
-            selectedTd.textContent = "Yes";
-            selectedTd.style.color = "#c7ffc7";
-            selectedTdArray.push(selectedTd);
-
-            const algTd = document.createElement("td");
-            algTd.textContent = algs[i].alg;
-
-            const categoryTd = document.createElement("td");
-            categoryTd.textContent = algs[i].category;
-
-            const tr = document.createElement("tr");
-            tr.appendChild(selectedTd);
-            tr.appendChild(algTd);
-            tr.appendChild(categoryTd);
-
-            algsTableBody.appendChild(tr);
-        }
-    }
-
-    function selectAlg(n: number) {
-        isSelected[n] = true;
-        const selectedTd = selectedTdArray[n];
-        selectedTd.textContent = "Yes";
-        selectedTd.style.color = "#c7ffc7";
-    }
-
-    function deselectAlg(n: number) {
-        isSelected[n] = false;
-        const selectedTd = selectedTdArray[n];
-        selectedTd.textContent = "No";
-        selectedTd.style.color = "white";
+        algsTableBody.innerHTML = html;
     }
 
     // Initial render
-    handleHideSolution();
-    renderCategories(algData[0]);
+    hideSolution();
     renderAlgs(algData[0]);
+    loadCurrAlg();
 }
-
-main();

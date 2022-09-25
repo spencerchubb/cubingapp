@@ -14,15 +14,6 @@
         <a class="pointer-hover">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
-        <div style="flex-grow: 1;"></div>
-
-        <select id="alg-set-select"></select>
-        <div style="width: 24px;"></div>
-        <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
-        <div style="width: 24px;"></div>
-        <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
-
-        <div style="flex-grow: 1;"></div>
         <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
             <circle cx="10" cy="12" r="2" stroke="white" fill="white" fill="white" />
             <circle cx="20" cy="12" r="2" stroke="white" fill="white" />
@@ -31,17 +22,24 @@
     </nav>
 
     <div id="main-container" style="width: 100%;">
-        <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+        <div style="position: relative; margin-top: 1rem; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
             <div id="glDiv"></div>
         </div>
-        <p id="solution-text" class="show-solution show-solution-clickable" title="Press space to show solution">Show
-            solution</p>
-        <h2 style="color: white; padding-top: 24px; font-size: 24px;">Customize Practice List</h2>
-        <div id="categories-div"
-            style="display: flex; justify-content: center; flex-wrap: wrap; width: 400px; padding: 8px 0 16px 0;"></div>
-        <table id="algs-table">
+        <p id="solution-text" 
+            class="show-solution-clickable" 
+            title="Press space to show solution"
+            style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; background: #444; border-radius: 8px;">
+            Show solution
+        </p>
+        <div class="row" style="margin-top: 1rem;">
+            <select id="alg-set-select"></select>
+            <div style="width: 24px;"></div>
+            <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
+            <div style="width: 24px;"></div>
+            <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
+        </div>
+        <table id="algs-table" style="margin-top: 2rem;">
             <thead>
-                <th>Selected</th>
                 <th>Algorithm</th>
                 <th>Category</th>
             </thead>
@@ -105,7 +103,7 @@
         </div>
     </div>
 
-    <script src="./dist/train.js"></script>
+    <script src="./dist/train.js">main()</script>
 </body>
 
 </html>

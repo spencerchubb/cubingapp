@@ -2,6 +2,7 @@
  * LocalStorage functions
  */
 
+const algs = "algs";
 const angle = "angle";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
@@ -9,6 +10,18 @@ const showBody = "showBody";
 const size = "size";
 const user = "user";
 const userID = "userID";
+
+export function getAlgs(setName: string) {
+    const item = localStorage.getItem(algs + setName);
+    if (item) {
+        return JSON.parse(item);
+    }
+    return [];
+}
+
+export function setAlgs(setName: string, value: any[]) {
+    localStorage.setItem(algs + setName, JSON.stringify(value));
+}
 
 export function getAngle() {
     return getInt(angle) ?? 1;

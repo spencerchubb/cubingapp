@@ -1,1 +1,2 @@
-import "../scripts/cuble";
+import { main } from "../scripts/cuble";
+main();

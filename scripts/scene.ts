@@ -15,12 +15,22 @@ let programInfo;
 let transformMatrix;
 
 let numLayers: number = 3;
-let sizeMultiplier: number = store.getSize();
-let offsetSelection = store.getAngle();
-export let hintStickers = store.getHintStickers();
-export let showBody = store.getShowBody();
-export let animateTurns = store.getAnimateTurns();
 let dragEnabled = true;
+
+// Preferences stored locally
+let sizeMultiplier: number;
+let offsetSelection;
+export let hintStickers;
+export let showBody;
+export let animateTurns;
+
+export function loadPrefs() {
+    sizeMultiplier = store.getSize();
+    offsetSelection = store.getAngle();
+    hintStickers = store.getHintStickers();
+    showBody = store.getShowBody();
+    animateTurns = store.getAnimateTurns();
+}
 
 let angle = 0.0;
 let velocity = 0.005;
@@ -37,7 +47,6 @@ export function setNumLayers(val: number) {
 export function setSizeMultiplier(val: number) {
     sizeMultiplier = val;
 }
-
 
 /**
  * value = 0 --> left

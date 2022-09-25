@@ -113,6 +113,20 @@ export class CubeLogic {
         this.setAllAffectedStickers(false);
     }
 
+    isSolved() {
+        let firstOnFace;
+        for (let i = 0; i < this.numOfStickers; i++) {
+            if (i % this.layersSq === 0) {
+                firstOnFace = this.stickers[i].face;
+                continue;
+            }
+            if (firstOnFace !== this.stickers[i].face) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     scramble() {
         if (this.layers === 3) {
             this.scramble3x3();
@@ -422,7 +436,6 @@ export class CubeLogic {
     }
 
     /**
-     * TODO switch to code  
      * Why use KeyboardEvent.code instead of KeyboardEvent.key?
      * 1) `key` is dependent on "the state of modifier keys such as Shift as well as the keyboard locale and layout."
      * 2) `code` is useful when you want to handle keys based on their physical positions. This is common for games.

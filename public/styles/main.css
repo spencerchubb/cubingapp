@@ -211,15 +211,6 @@ body {
     background: #ddd;
 }
 
-.show-solution {
-    color: white; 
-    font-size: 18px; 
-    margin-top: 16px; 
-    padding: 8px; 
-    background: #444; 
-    border-radius: 8px;
-}
-
 .show-solution-clickable:hover {
     background: #333;
     cursor: pointer;
