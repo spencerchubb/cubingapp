@@ -14,8 +14,15 @@ export let dragDetector: DragDetector;
 let programInfo;
 let transformMatrix;
 
+let prefsLoaded = false;
 let numLayers: number = 3;
 let dragEnabled = true;
+let angle = 0.0;
+let velocity = 0.005;
+let isRendering = false;
+let isTurning = false;
+let time = Date.now();
+let animation: AnimationData;
 
 // Preferences stored locally
 let sizeMultiplier: number;
@@ -24,20 +31,15 @@ export let hintStickers;
 export let showBody;
 export let animateTurns;
 
-export function loadPrefs() {
+function loadPrefs() {
+    if (prefsLoaded) return;
+    prefsLoaded = true;
     sizeMultiplier = store.getSize();
     offsetSelection = store.getAngle();
     hintStickers = store.getHintStickers();
     showBody = store.getShowBody();
     animateTurns = store.getAnimateTurns();
 }
-
-let angle = 0.0;
-let velocity = 0.005;
-let isRendering = false;
-let isTurning = false;
-let time = Date.now();
-let animation: AnimationData;
 
 export function setNumLayers(val: number) {
     numLayers = val;
@@ -138,6 +140,8 @@ function updateScene() {
 }
 
 export function renderCanvas() {
+    loadPrefs();
+
     canvas = document.createElement("canvas");
     canvas.id = "glCanvas";
 

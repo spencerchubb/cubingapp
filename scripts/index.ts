@@ -1,6 +1,7 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
+import * as slide from "./slide";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
 const UBL = [0, 29, 36];
@@ -71,7 +72,7 @@ function parseMovesFromAlg(alg?: string): string[] {
 
 function main() {
     addAnalyticsEvent(AE.ViewIndex);
-    
+
     // Initial canvas render
     scene.renderCanvas();
 
@@ -505,98 +506,21 @@ function main() {
         },
     ];
 
-    // Array of index pairs for convenience when clicking prev or next.
-    let lessonIndices: any[] = [];
-
-    // The index of the selected sublesson with all of the sublessons combined. Kind of like you "flatten" the 2d array and index that.
-    let flattenedLessonIndex = 0;
-
     let currentLesson: Sublesson;
+    let currLessonIndex: number;
     let currentMoves: string[] = [];
-    function updateLessonIndex(i: number) {
-        if (i < 0) {
+
+    let lessons: number = 0;
+    lessonsData.forEach(lesson => lessons += lesson.lessons.length);
+
+    function renderLesson(i: number) {
+        if (i < 0 || i >= lessons || i === currLessonIndex) {
             return;
-        } else if (i > lessonIndices.length - 1) {
-            return;
         }
 
-        flattenedLessonIndex = i;
-        const pair = lessonIndices[i];
-        loadLesson(pair.i0, pair.i1);
-    }
+        currLessonIndex = i;
 
-    const lessonNavigator = document.querySelector("#lessonNavigator");
-
-    let sublessonElements: HTMLElement[][] = [];
-    let selectedLessonIndex: number;
-    let selectedSublessonIndex: number;
-
-    lessonsData.forEach((l0, i0) => {
-        const p = document.createElement("p");
-        p.textContent = l0.title;
-        p.style.fontWeight = "bold";
-        lessonNavigator.appendChild(p);
-        sublessonElements.push([]);
-
-        l0.lessons.forEach((l1, i1) => {
-            const p = document.createElement("p");
-            p.className = "lesson-p";
-            p.textContent = l1.title;
-            p.style.padding = "4px";
-            p.style.margin = "4px 4px 4px 8px";
-            p.style.borderRadius = "4px";
-            p.addEventListener("click", (event) => {
-                for (let i = 0; i < lessonIndices.length; i++) {
-                    const pair = lessonIndices[i];
-                    if (pair.i0 === i0 && pair.i1 === i1) {
-                        flattenedLessonIndex = i;
-                        break;
-                    }
-                }
-                loadLesson(i0, i1);
-                toggleLessonNavigator();
-            });
-            sublessonElements[i0].push(p);
-            lessonNavigator.appendChild(p);
-
-            lessonIndices.push({
-                i0: i0,
-                i1: i1,
-            });
-        });
-    });
-
-    let moveIndex = 0;
-
-    const moveCounter = document.querySelector("#moveCounter");
-    const lessonText = document.querySelector("#lessonText");
-    function updateMoveCounter(i: number) {
-        moveCounter.textContent = `${i} / ${currentMoves.length}`;
-        if (currentLesson.textualInstructions) {
-            updateTextualInstruction(moveIndex);
-        }
-    }
-    function updateTextualInstruction(instructionIndex: number) {
-        lessonText.textContent = currentLesson.textualInstructions[instructionIndex];
-    }
-
-    // Load the 0th index by default.
-    updateLessonIndex(0);
-
-    /**
-     * 
-     * @param i0 Index of the lesson (eg, Cross)
-     * @param i1 Index of the sublesson
-     */
-    function loadLesson(i0: number, i1: number) {
-        sublessonElements[i0][i1].style.background = "lightblue";
-        if (selectedLessonIndex != undefined && selectedSublessonIndex != undefined) {
-            sublessonElements[selectedLessonIndex][selectedSublessonIndex].style.background = "";
-        }
-        selectedLessonIndex = i0;
-        selectedSublessonIndex = i1;
-
-        currentLesson = lessonsData[i0].lessons[i1];
+        renderTableOfContents();
 
         const lessonHeader = document.querySelector("#lessonHeader");
         lessonHeader.textContent = currentLesson.title;
@@ -625,6 +549,66 @@ function main() {
         scene.render();
     }
 
+    const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");
+
+    function renderTableOfContents() {
+        let lessonHTML = "";
+        let toRender = -1;
+        lessonsData.forEach(l0 => {
+            lessonHTML += `<p style="font-weight: bold;">${l0.title}</p>`;
+
+            l0.lessons.forEach(l1 => {
+                toRender++;
+                let color = "";
+                if (toRender === currLessonIndex) {
+                    color = "background-color: lightblue;";
+                    currentLesson = l1;
+                }
+                lessonHTML += `
+                <div style="padding: 4px 0 4px 8px;">
+                    <p
+                        class="lesson-p" 
+                        style="padding: 4px; border-radius: 4px; width: 100%; ${color}"
+                        lesson-index=${toRender}>
+                        ${l1.title}
+                    </p>
+                </div>
+                `;
+            });
+        });
+        lessonNavigator.innerHTML = `<div>
+            ${lessonHTML}
+        </div>`;
+    }
+
+    lessonNavigator.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        if (target.className === "lesson-p") {
+            const lessonIndex = parseInt(target.getAttribute("lesson-index"));
+            renderLesson(lessonIndex);
+            if (document.documentElement.clientWidth < slide.NARROW) {
+                slide.close(lessonNavigator);
+            }
+        }
+    });
+
+    let moveIndex = 0;
+
+    const moveCounter = document.querySelector("#moveCounter");
+    const lessonText = document.querySelector("#lessonText");
+    function updateMoveCounter(i: number) {
+        moveCounter.textContent = `${i} / ${currentMoves.length}`;
+        if (currentLesson.textualInstructions) {
+            updateTextualInstruction(moveIndex);
+        }
+    }
+    function updateTextualInstruction(instructionIndex: number) {
+        lessonText.textContent = currentLesson.textualInstructions[instructionIndex];
+    }
+
+    // Load the 0th index by default.
+    renderLesson(0);
+
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
             moveIndex--;
@@ -644,17 +628,14 @@ function main() {
         }
     });
 
-    function toggleLessonNavigator() {
-        lessonNavigator.classList.toggle("slideLeftOpen");
-    }
     document.querySelector("#openClose").addEventListener("click", (event) => {
-        toggleLessonNavigator();
+        slide.toggle(lessonNavigator);
     });
     document.querySelector("#prevLesson").addEventListener("click", () => {
-        updateLessonIndex(flattenedLessonIndex - 1);
+        renderLesson(currLessonIndex - 1);
     });
     document.querySelector("#nextLesson").addEventListener("click", () => {
-        updateLessonIndex(flattenedLessonIndex + 1);
+        renderLesson(currLessonIndex + 1);
     });
 
     renderBasedOnWidth();
@@ -664,28 +645,17 @@ window.addEventListener("resize", () => {
     renderBasedOnWidth();
 });
 
-function determineLayoutType() {
-    const clientWidth = document.documentElement.clientWidth;
-
-    // 725 was chosen because 425 is the width of the main content and 300 is the width of the right panel.
-    // 425 + 300 = 725
-    return clientWidth < 725 ? "narrow" : "wide";
-}
-
 function renderBasedOnWidth() {
-    const layoutType = determineLayoutType();
-
     const openClose: HTMLElement = document.querySelector("#openClose");
-    const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");
+    const drawerEle: HTMLElement = document.querySelector("#lessonNavigator");
 
-    if (layoutType === "narrow") {
+    if (document.documentElement.clientWidth < slide.NARROW) {
         openClose.style.display = "inline-block";
-        lessonNavigator.classList.add("slideLeftClosed");
+        slide.close(drawerEle);
         return;
     }
     openClose.style.display = "none";
-    lessonNavigator.classList.remove("slideLeftClosed");
-    lessonNavigator.classList.remove("slideLeftOpen");
+    slide.open(drawerEle);
 }
 
 main();

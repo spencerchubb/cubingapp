@@ -1,10 +1,9 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
-import { CubeLogic } from "./cube";
-// import { addAlg, getAlgs } from "./db";
-import { getAlgs, setAlgs } from "./store";
+import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
 import { randInt } from "./common/rand";
+import * as slide from "./slide";
 
 const algData: any[] = require("./alg-data.json");
 type AlgSet = { cube: string, name: string, categories: string[], algs: any[] };
@@ -13,12 +12,16 @@ type State =  {
     solutionShown: boolean,
     retried: boolean,
     solved: boolean,
+    settingsOpen: boolean,
+    preRotation: string,
 }
 
 let state: State = {
     solutionShown: false,
     retried: false,
     solved: false,
+    settingsOpen: false,
+    preRotation: "",
 };
 
 /**
@@ -113,73 +116,63 @@ function solved(stickers: any[], algSet: AlgSet): boolean {
     }
 }
 
+function renderDrawer() {
+    const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
+    if (state.settingsOpen) {
+        const optionsData = [
+            { value: "", text: "White Green" },
+            { value: "y'", text: "White Orange" },
+            { value: "y2", text: "White Blue" },
+            { value: "y", text: "White Red" },
+            { value: "z2", text: "Yellow Green" },
+            { value: "z2 y", text: "Yellow Orange" },
+            { value: "x2", text: "Yellow Blue" },
+            { value: "z2 y'", text: "Yellow Red" },
+            { value: "x y2", text: "Green White" },
+            { value: "x y", text: "Green Red" },
+            { value: "x", text: "Green Yellow" },
+            { value: "x y'", text: "Green Orange" },
+            { value: "x'", text: "Blue White" },
+            { value: "x' y", text: "Blue Red" },
+            { value: "x' y2", text: "Blue Yellow" },
+            { value: "x' y'", text: "Blue Orange" },
+            { value: "z y", text: "Orange White" },
+            { value: "z", text: "Orange Green" },
+            { value: "z y'", text: "Orange Yellow" },
+            { value: "z y2", text: "Orange Blue" },
+            { value: "z' y'", text: "Red White" },
+            { value: "z'", text: "Red Green" },
+            { value: "z' y", text: "Red Yellow" },
+            { value: "z' y2", text: "Red Blue" },
+        ];
+        let optionsHTML = "";
+        optionsData.forEach(option => {
+            const selected = option.value === state.preRotation ? "selected" : "";
+            optionsHTML += `<option value="${option.value}" ${selected}>${option.text}</option>`;
+        });
+        drawerEle.innerHTML = `
+        ${slide.renderHeader("Settings")}
+        <p>Cube Orientation</p>
+        <select id="orientationSelect">
+            ${optionsHTML}
+        </select>
+        `
+        ;
+        slide.open(drawerEle);
+    } else {
+        slide.close(drawerEle);
+    }
+}
+
 export function main() {
     addAnalyticsEvent(AE.ViewTrain);
 
     // Initial canvas render
-    scene.loadPrefs();
     scene.renderCanvas();
 
     addListenersForLeftModal();
 
-    document.querySelector("#try-again").addEventListener("click", () => {
-        retry();
-    });
-
-    document.querySelector("#next").addEventListener("click", () => {
-        nextAlg();
-    });
-
-    let showSettings = false;
-    const settingsBackground: HTMLElement = document.querySelector("#settingsBackground");
-    document.querySelector("#trainSettingsButton").addEventListener("click", () => {
-        settingsBackground.style.display = "flex";
-        showSettings = true;
-    });
-    settingsBackground.addEventListener("click", (event) => {
-        if (event.target !== settingsBackground) return;
-
-        settingsBackground.style.display = "none";
-        showSettings = false;
-    });
-
-    function isXYZ(c) {
-        return c === "x" || c === "y" || c === "z";
-    }
-
-    const cubeRotationInput: HTMLInputElement = document.querySelector("#cubeRotationInput");
-    let cubeRotations = [];
-    cubeRotationInput.addEventListener("keydown", (event) => {
-        const data = event.key;
-        if (isXYZ(data)) {
-            cubeRotations.push(data);
-        } else if (data === "'" || data === "2") {
-            if (isXYZ(cubeRotations[cubeRotations.length - 1])) {
-                cubeRotations[cubeRotations.length - 1] += data;
-            }
-        } else if (data === "Backspace") {
-            cubeRotations.pop();
-        }
-
-        cubeRotationInput.value = cubeRotations.join(" ");
-    });
-    const rotateSettingsKeys = document.querySelectorAll(".rotateSettingsKey");
-    rotateSettingsKeys.forEach(key => {
-        key.addEventListener("click", () => {
-            const value = key.getAttribute("value");
-            if (value === "Backspace") {
-                cubeRotations.pop();
-            } else {
-                cubeRotations.push(value);
-            }
-
-            cubeRotationInput.value = cubeRotations.join(" ");
-        });
-    });
-
     document.addEventListener('keydown', (event) => {
-        if (showSettings) return;
-
         if (event.key === " ") {
             // Prevent space from scrolling down
             event.preventDefault();
@@ -253,8 +246,7 @@ export function main() {
 
         scene.cube.new();
 
-        // Perform the rotation that the user specified in settings.
-        scene.cube.execAlg(cubeRotationInput.value);
+        scene.cube.execAlg(state.preRotation);
         
         scene.cube.execAlgReverse(algText);
         scene.cube.commitStickers();
@@ -312,8 +304,6 @@ export function main() {
         loadCurrAlg();
     }
 
-    const algsTableBody = document.querySelector("#algs-table-body");
-
     function renderAlgs(set: AlgSet) {
         algSet = set;
 
@@ -331,21 +321,38 @@ export function main() {
             }
         });
         algs = storedAlgs;
-
-        let html = "";
-        
-        algs.forEach(alg => {
-            html += `<tr>
-                <td>${alg.alg}</td>
-                <td>${alg.category}</td>
-            </tr>`;
-        });
-
-        algsTableBody.innerHTML = html;
     }
 
     // Initial render
     hideSolution();
     renderAlgs(algData[0]);
+    state.preRotation = getOrientation();
     loadCurrAlg();
+
+    window.addEventListener("resize", () => {
+        renderDrawer();
+    });
+
+    document.addEventListener("click", (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains("closeDrawer")) {
+            slide.close(document.querySelector("#rightDrawer"));
+        } else if (target.id === "next") {
+            nextAlg();
+        } else if (target.id === "trainSettingsButton") {
+            state.settingsOpen = true;
+            renderDrawer();
+        } else if (target.id === "try-again") {
+            retry();
+        }
+    });
+
+    document.addEventListener("change", (event) => {
+        const target = event.target as HTMLOptionElement;
+        if (target.id === "orientationSelect") {
+            state.preRotation = target.value;
+            loadCurrAlg();
+            setOrientation(target.value);
+        }
+    });
 }

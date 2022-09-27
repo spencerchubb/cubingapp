@@ -6,6 +6,7 @@ const algs = "algs";
 const angle = "angle";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
+const orientation = "orientation";
 const showBody = "showBody";
 const size = "size";
 const user = "user";
@@ -31,14 +32,6 @@ export function setAngle(value) {
     localStorage.setItem(angle, value);
 }
 
-export function getSize() {
-    return getFloat(size) ?? 1;
-}
-
-export function setSize(value) {
-    localStorage.setItem(size, value);
-}
-
 export function getHintStickers() {
     return getBool(hintStickers) ?? true;
 }
@@ -47,12 +40,28 @@ export function setHintStickers(value) {
     setBool(hintStickers, value);
 }
 
+export function getOrientation() {
+    return localStorage.getItem(orientation) ?? "White Green";
+}
+
+export function setOrientation(value: string) {
+    localStorage.setItem(orientation, value);
+}
+
 export function getShowBody() {
     return getBool(showBody) ?? true;
 }
 
 export function setShowBody(value) {
     setBool(showBody, value);
+}
+
+export function getSize() {
+    return getFloat(size) ?? 1;
+}
+
+export function setSize(value) {
+    localStorage.setItem(size, value);
 }
 
 export function getAnimateTurns() {

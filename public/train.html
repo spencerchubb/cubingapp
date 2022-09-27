@@ -9,43 +9,41 @@
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
-<body class="col">
-    <nav class="navbar">
+<body class="col" style="height: 100%;">
+    <nav class="navbar" style="justify-content: space-between;">
         <a class="pointer-hover">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
-        <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
+        <!-- <svg id="trainSettingsButton" width="40" height="24" style="position: fixed; right: 24px;" class="pointer-hover">
             <circle cx="10" cy="12" r="2" stroke="white" fill="white" fill="white" />
             <circle cx="20" cy="12" r="2" stroke="white" fill="white" />
             <circle cx="30" cy="12" r="2" stroke="white" fill="white" />
-        </svg>
+        </svg> -->
+        <img id="trainSettingsButton" class="icon" src="./images/settings.svg" alt="Settings">
     </nav>
 
-    <div id="main-container" style="width: 100%;">
-        <div style="position: relative; margin-top: 1rem; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
-            <div id="glDiv"></div>
+    <div class="row slideWrapper">
+        <div id="main-container" style="width: 100%;">
+            <div style="position: relative; margin-top: 1rem; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                <div id="glDiv"></div>
+            </div>
+            <p id="solution-text"
+                class="show-solution-clickable"
+                title="Press space to show solution"
+                style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; background: #444; border-radius: 8px;">
+                Show solution
+            </p>
+            <div class="row" style="margin-top: 1rem;">
+                <select id="alg-set-select"></select>
+                <div style="width: 24px;"></div>
+                <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
+                <div style="width: 24px;"></div>
+                <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
+            </div>
         </div>
-        <p id="solution-text" 
-            class="show-solution-clickable" 
-            title="Press space to show solution"
-            style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; background: #444; border-radius: 8px;">
-            Show solution
-        </p>
-        <div class="row" style="margin-top: 1rem;">
-            <select id="alg-set-select"></select>
-            <div style="width: 24px;"></div>
-            <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
-            <div style="width: 24px;"></div>
-            <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
+        <div id="rightDrawer" class="slideLeft slideLeftClosed col">
+            Hi
         </div>
-        <table id="algs-table" style="margin-top: 2rem;">
-            <thead>
-                <th>Algorithm</th>
-                <th>Category</th>
-            </thead>
-            <tbody id="algs-table-body">
-            </tbody>
-        </table>
     </div>
 
     <div class="slideRight">
@@ -74,32 +72,6 @@
             <button id="cubleButton" class="btn-primary">
                 Cuble
             </button>
-        </div>
-    </div>
-
-    <div id="settingsBackground" 
-        style="position: absolute; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 1; width: 100vw; height: 100vh;">
-        <div style="display: flex; flex-direction: column; align-items: center; background-color: white; width: 75%; height: 75%;">
-            <p>Cube Rotation</p>
-            <div><input type="text" id="cubeRotationInput" readonly /></div>
-            <div class="row">
-                <button class="rotateSettingsKey" value="x">x</button>
-                <button class="rotateSettingsKey" value="x'">x'</button>
-                <button class="rotateSettingsKey" value="x2">x2</button>
-            </div>
-            <div class="row">
-                <button class="rotateSettingsKey" value="y">y</button>
-                <button class="rotateSettingsKey" value="y'">y'</button>
-                <button class="rotateSettingsKey" value="y2">y2</button>
-            </div>
-            <div class="row">
-                <button class="rotateSettingsKey" value="z">z</button>
-                <button class="rotateSettingsKey" value="z'">z'</button>
-                <button class="rotateSettingsKey" value="z2">z2</button>
-            </div>
-            <div class="row">
-                <button class="rotateSettingsKey" style="width: auto;" value="Backspace">Backspace</button>
-            </div>
         </div>
     </div>
 
