@@ -12,5 +12,5 @@ RUN go mod download
 
 COPY *.go ./
 
-COPY entry.sh entry.sh
+COPY --chmod=777 entry.sh entry.sh
 ENTRYPOINT ["./entry.sh"]

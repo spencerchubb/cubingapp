@@ -15,7 +15,7 @@ services:
     ports:
       - 5432:5432
   server:
-    build: /server
+    build: ./server
     ports:
       - 3000:3000
     env_file:

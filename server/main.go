@@ -105,7 +105,7 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	sql := `
 	select * from solves 
 	where uid = $1
-	order by time asc;
+	order by timestamp asc;
 	`
 	rows, err := conn.Query(context.Background(), sql, req.Uid)
 	if err != nil {
