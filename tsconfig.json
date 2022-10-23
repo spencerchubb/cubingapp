@@ -7,5 +7,12 @@
         "allowJs": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-    }
+    },
+    "files": [
+        "scripts/cuble.ts",
+        "scripts/index.ts",
+        "scripts/play.ts",
+        "scripts/replay.ts",
+        "scripts/train.ts",
+    ],
 }

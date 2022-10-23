@@ -19,7 +19,6 @@ let numLayers: number = 3;
 let dragEnabled = true;
 let angle = 0.0;
 let velocity = 0.005;
-let isRendering = false;
 let isTurning = false;
 let time = Date.now();
 let animation: AnimationData;
@@ -89,17 +88,16 @@ export function animateTurn() {
         return;
     }
 
-    if (!isTurning) {
-        animation = cube.shiftAnimation();
+    if (isTurning) {
+        return;
+    }
 
-        // If the cube's animationQueue is empty, the shift will return null.
-        // Therefore, only render if there is an animation to do.
-        if (animation) {
-            isTurning = true;
-            angle = 0.0;
-            time = Date.now();
-            render();
-        }
+    animation = cube.shiftAnimation();
+    if (animation) {
+        isTurning = true;
+        angle = 0.0;
+        time = Date.now();
+        render();
     }
 }
 
@@ -109,7 +107,6 @@ export function render() {
         return;
     }
 
-    if (isRendering) return;
     requestAnimationFrame(() => {
         updateScene();
         drawScene();
@@ -117,26 +114,26 @@ export function render() {
 }
 
 function updateScene() {
-    if (isTurning) {
-        const newTime = Date.now();
-        const dt = newTime - time;
-
-        // (cube.animationQueue.length + 1)^2
-        const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
-        velocity += dt * (equilibriumVelocity - velocity) / 100;
-        angle += dt * velocity / 150;
-
-        time = newTime;
-        if (angle >= Math.PI / 2) {
-            cube.setAllAffectedStickers(false);
-            cube.commitStickers();
-            isTurning = false;
-            animateTurn();
-        }
-
-        isRendering = false;
-        render();
+    if (!isTurning) {
+        return
     }
+    
+    const newTime = Date.now();
+    const dt = newTime - time;
+    time = newTime;
+
+    const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
+    velocity += dt * (equilibriumVelocity - velocity) / 100;
+    angle += dt * velocity / 150;
+
+    if (angle >= Math.PI / 2) {
+        cube.setAllAffectedStickers(false);
+        cube.commitStickers();
+        isTurning = false;
+        animateTurn();
+    }
+
+    render();
 }
 
 export function renderCanvas() {
@@ -168,25 +165,16 @@ export function renderCanvas() {
         return;
     }
 
-    let xAxis, yAxis;
-    if (offsetSelection === 0) {
-        xAxis = 35 * Math.PI / 180;
-        yAxis = -45 * Math.PI / 180;
-    } else if (offsetSelection === 1) {
-        xAxis = 45 * Math.PI / 180;
-        yAxis = 0;
-    } else if (offsetSelection === 2) {
-        xAxis = 35 * Math.PI / 180;
-        yAxis = 45 * Math.PI / 180;
-    } else {
-        console.error("Invalid offsetSelection:", offsetSelection);
-    }
+    const xOpts = [35, 45, 35];
+    const yOpts = [-45, 0, 45];
+    let xAxis = xOpts[offsetSelection] * Math.PI / 180;
+    let yAxis = yOpts[offsetSelection] * Math.PI / 180;
 
     transformMatrix = glMat.create();
 
     glMat.perspective(transformMatrix,
         50 * Math.PI / 180, // field of view
-        gl.canvas.clientWidth / gl.canvas.clientHeight, // aspect
+        canvas.clientWidth / canvas.clientHeight, // aspect
         0.1, // z near
         100.0); // z far
 

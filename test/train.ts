@@ -1,2 +1,1 @@
-import { main } from "../scripts/train";
-main();
+import "../scripts/train";

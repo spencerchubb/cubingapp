@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+  server:
+    build: /server
+    ports:
+      - 3000:3000
+    env_file:
+      - ./server/.env
+    depends_on:
+      - db

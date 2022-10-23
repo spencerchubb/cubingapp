@@ -2,11 +2,14 @@ import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { AE, addAnalyticsEvent } from "./analytics";
 import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
-import { randInt } from "./common/rand";
 import * as slide from "./slide";
+import { promoteAlg, demoteAlg } from "./util";
 
-const algData: any[] = require("./alg-data.json");
-type AlgSet = { cube: string, name: string, categories: string[], algs: any[] };
+type TrainingAlg = { score: number, alg: string }
+type AlgSet = { cube: string, name: string, algs: string[] };
+
+const algData: AlgSet[] = require("./alg-data.json");
+
 
 type State =  {
     solutionShown: boolean,
@@ -14,6 +17,10 @@ type State =  {
     solved: boolean,
     settingsOpen: boolean,
     preRotation: string,
+    algSet: AlgSet,
+    algs: TrainingAlg[],
+    preAUF: string,
+    postAUF: string,
 }
 
 let state: State = {
@@ -22,46 +29,24 @@ let state: State = {
     solved: false,
     settingsOpen: false,
     preRotation: "",
+    algSet: null,
+    algs: [],
+    preAUF: "",
+    postAUF: "",
 };
 
-/**
- * Series produces 2, 5, 9, 14, 20, 27, 35, 44, 54, 65, 77, 80...
- */
-export function series(n: number) {
-    if (n <= 0) {
-        return 2;
+function applyPre(alg: string, auf: string): string {
+    if (auf) {
+        return `${auf} ${alg}`;
     }
-    return series(n - 1) + n + 2;
+    return alg;
 }
 
-type TrainingElement = {
-    alg: any
-    score: number,
-}
-
-/** Move the first element of arr to position n. Mutate arr in place */
-function move(arr: Array<any>, n: number) {
-    const temp = arr[0];
-    for (let i = 0; i < n; i++) {
-        arr[i] = arr[i + 1];
+function applyPost(alg: string, auf: string): string {
+    if (auf) {
+        return `${alg} ${auf}`;
     }
-    arr[n] = temp;
-}
-
-export function demoteAlg(algs: Array<TrainingElement>) {
-    algs[0].score = 0;
-    move(algs, series(0));
-}
-
-/** Mutate algs in place */
-export function promoteAlg(algs: Array<TrainingElement>) {
-    algs[0].score++;
-    let position = series(algs[0].score);
-    const threeFourths = Math.ceil(algs.length * 3 / 4);
-    if (position > threeFourths) {
-        position = threeFourths + randInt(algs.length - threeFourths);
-    }
-    move(algs, position);
+    return alg
 }
 
 function matching(stickers: any[], shouldMatch: number[][]): boolean {
@@ -95,7 +80,9 @@ function solved(stickers: any[], algSet: AlgSet): boolean {
                 [37, 38, 40, 41, 43, 44],
                 [46, 47, 489, 50, 52, 53],
             ]);
+        // PLL and ZBLL have same logic
         case "PLL":
+        case "ZBLL":
             return matching(stickers, [
                 [0, 1, 2, 3, 4, 5, 6, 7, 8],
                 [9, 12, 15],
@@ -185,7 +172,7 @@ export function main() {
         } else if (scene.cube.matchKeyToTurn(event)) {
             scene.animateTurn();
             
-            if (solved(scene.cube.stickers, algSet)) {
+            if (solved(scene.cube.stickers, state.algSet)) {
                 showSolved();
 
                 state.solved = true;
@@ -196,15 +183,8 @@ export function main() {
     const algSetSelect = document.querySelector("#alg-set-select");
     algSetSelect.addEventListener("change", (event) => {
         const setName = (event.target as HTMLInputElement).value;
-        algSet = findAlgSet(setName);
-        
-        if (algSet.cube == "2x2") {
-            scene.setNumLayers(2);
-        } else if (algSet.cube == "3x3") {
-            scene.setNumLayers(3);
-        }
-
-        renderAlgs(algSet);
+        const algSet = findAlgSet(setName);
+        renderAlgSet(algSet);
     });
     algData.forEach(algSet => {
         const option = document.createElement("option");
@@ -219,36 +199,27 @@ export function main() {
         return algData.find(algSet => algSet.name === set);
     }
 
-    const aufOptions = ["", "U", "U2", "U'"];
     function generateRandAUF() {
-        return aufOptions[Math.floor(Math.random() * 4)];
+        const options = ["", "U", "U2", "U'"];
+        return options[Math.floor(Math.random() * 4)];
     }
 
-    let algs: { score: number, alg: string, category: string, symmetry: string }[];
-    let algSet: AlgSet;
-
-    let preAUF;
-    let postAUF;
     function loadCurrAlg() {
         hideSolution();
 
-        let alg = algs[0];
-        let algText = alg.alg;
+        let alg = state.algs[0].alg;
 
-        preAUF = generateRandAUF();
-        postAUF = generateRandAUF();
-        if (preAUF !== "") {
-            algText = preAUF + " " + algText;
-        }
-        if (postAUF !== "") {
-            algText += " " + postAUF;
-        }
+        state.preAUF = generateRandAUF();
+        alg = applyPre(alg, state.preAUF);
+
+        state.postAUF = generateRandAUF();
+        alg = applyPost(alg, state.postAUF);
 
         scene.cube.new();
 
         scene.cube.execAlg(state.preRotation);
         
-        scene.cube.execAlgReverse(algText);
+        scene.cube.execAlgReverse(alg);
         scene.cube.commitStickers();
 
         scene.render();
@@ -256,11 +227,11 @@ export function main() {
 
     function nextAlg() {
         if (state.solutionShown || state.retried || !state.solved) {
-            demoteAlg(algs);
+            demoteAlg(state.algs);
         } else {
-            promoteAlg(algs);
+            promoteAlg(state.algs);
         }
-        setAlgs(algSet.name, algs);
+        setAlgs(state.algSet.name, state.algs);
         state.solutionShown = false;
         state.retried = false;
         state.solved = false;
@@ -272,22 +243,11 @@ export function main() {
     function showSolution() {
         state.solutionShown = true;
 
-        let alg = algs[0];
-        let algText = alg.alg;
+        let alg = state.algs[0].alg;
 
-        if (alg.symmetry == "2") {
-            if (preAUF != "" && preAUF != "U2") {
-                algText = preAUF + " " + algText;
-            }
-        } else if (alg.symmetry == "4") {
-            // Do nothing
-        } else {
-            if (preAUF != "") {
-                algText = preAUF + " " + algText;
-            }
-        }
+        alg = applyPre(alg, state.preAUF);
 
-        solutionText.textContent = algText;
+        solutionText.textContent = alg;
         solutionText.classList.remove("show-solution-clickable");
     }
     function hideSolution() {
@@ -304,30 +264,38 @@ export function main() {
         loadCurrAlg();
     }
 
-    function renderAlgs(set: AlgSet) {
-        algSet = set;
+    function renderAlgSet(algSet: AlgSet) {
+        state.algSet = algSet;
 
-        // Remove elements from storedAlgs that are in storedAlgs but not in algs
-        // Add elements to storedAlgs that are in algs but not in storedAlgs
-        let storedAlgs: any[] = getAlgs(set.name);
-        const algsEqual = (a, b) => a.alg === b.alg && a.set === b.set;
+        if (algSet.cube == "2x2") {
+            scene.setNumLayers(2);
+        } else if (algSet.cube == "3x3") {
+            scene.setNumLayers(3);
+        }
+
+        // Remove elements from storedAlgs that are in storedAlgs but not in algs.
+        // Add elements to storedAlgs that are in algs but not in storedAlgs.
+        let storedAlgs: TrainingAlg[] = getAlgs(algSet.name);
+
         storedAlgs = storedAlgs.filter(storedAlg => {
-            return set.algs.find(alg => algsEqual(storedAlg, alg));
+            return algSet.algs.find(alg => storedAlg.alg === alg);
         });
-        set.algs.forEach(alg => {
-            const found = storedAlgs.find(storedAlg => algsEqual(storedAlg, alg));
+        algSet.algs.forEach(alg => {
+            const found = storedAlgs.find(storedAlg => storedAlg.alg === alg);
             if (!found) {
-                storedAlgs.push({ score: 0, ...alg });
+                storedAlgs.push({ score: 0, alg });
             }
         });
-        algs = storedAlgs;
+        state.algs = storedAlgs;
+
+        // When rendering an alg set, load the first alg automatically.
+        loadCurrAlg();
     }
 
     // Initial render
-    hideSolution();
-    renderAlgs(algData[0]);
     state.preRotation = getOrientation();
-    loadCurrAlg();
+    hideSolution();
+    renderAlgSet(algData[0]);
 
     window.addEventListener("resize", () => {
         renderDrawer();
@@ -356,3 +324,5 @@ export function main() {
         }
     });
 }
+
+main();

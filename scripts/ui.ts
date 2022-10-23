@@ -30,15 +30,15 @@ export function addListenersForLeftModal() {
     });
 
     document.querySelector("#learnButton").addEventListener("click", () => {
-        document.location = "index.html";
+        document.location.href = "index.html";
     });
     document.querySelector("#playButton").addEventListener("click", () => {
-        document.location = "play.html";
+        document.location.href = "play.html";
     });
     document.querySelector("#trainButton").addEventListener("click", () => {
-        document.location = "train.html";
+        document.location.href = "train.html";
     });
     document.querySelector("#cubleButton").addEventListener("click", () => {
-        document.location = "cuble.html";
+        document.location.href = "cuble.html";
     });
 }

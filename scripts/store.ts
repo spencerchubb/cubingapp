@@ -41,7 +41,7 @@ export function setHintStickers(value) {
 }
 
 export function getOrientation() {
-    return localStorage.getItem(orientation) ?? "White Green";
+    return localStorage.getItem(orientation) ?? "";
 }
 
 export function setOrientation(value: string) {

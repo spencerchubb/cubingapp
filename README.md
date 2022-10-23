@@ -10,7 +10,6 @@ Deploy
 ```
 firebase deploy
 firebase deploy --only hosting
-firebase deploy --only functions
 ```
 
 Kill port (must run in powershell)
@@ -22,7 +21,6 @@ taskkill /pid PID /f
 ## Directories
 
 - admin - Scripts for admins (such as myself) to run. Currently, the the scripts are mainly meant for analytics.
-- functions - Firebase Cloud Functions
 - public - HTML, CSS, Javascript, and images for frontend
 - scripts - The js and ts code before being compiled for the frontend
 - test - Integration tests

@@ -266,6 +266,9 @@ export class CubeLogic {
         }
     }
 
+    /**
+     * Returns the next animation queued, or undefined if there are no animations queued.
+     */
     shiftAnimation() {
         return this.animationQueue.shift();
     }
