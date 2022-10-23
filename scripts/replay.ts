@@ -1,12 +1,9 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
-import { AE, addAnalyticsEvent } from "./analytics";
 import { url } from "./vars/vars";
 import { renderModal } from "./modal";
 
 async function main() {
-    addAnalyticsEvent(AE.ViewReplay);
-
     scene.setDragEnabled(false);
 
     // Initial canvas render

@@ -1,6 +1,5 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
-import { AE, addAnalyticsEvent } from "./analytics";
 import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
 import * as slide from "./slide";
 import { promoteAlg, demoteAlg } from "./util";
@@ -152,8 +151,6 @@ function renderDrawer() {
 }
 
 export function main() {
-    addAnalyticsEvent(AE.ViewTrain);
-
     // Initial canvas render
     scene.renderCanvas();
 

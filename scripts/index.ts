@@ -1,6 +1,5 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
-import { AE, addAnalyticsEvent } from "./analytics";
 import * as slide from "./slide";
 
 const CENTERS = [4, 13, 22, 31, 40, 49];
@@ -71,8 +70,6 @@ function parseMovesFromAlg(alg?: string): string[] {
 }
 
 function main() {
-    addAnalyticsEvent(AE.ViewIndex);
-
     // Initial canvas render
     scene.renderCanvas();
 
