@@ -4,10 +4,8 @@
 	"description": "Rubik's Cube",
 	"main": "index.js",
 	"scripts": {
-		"build": "webpack --config webpack.config.js",
 		"emulate": "firebase emulators:start",
 		"jest": "jest",
-		"test": "webpack --config webpack.testconfig.js"
 	},
 	"author": "Spencer Chubb <spencerchubb@gmail.com>",
 	"devDependencies": {
