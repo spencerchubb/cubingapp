@@ -32,32 +32,22 @@ func addSolve(w http.ResponseWriter, r *http.Request) {
 	err := unmarshal(r.Body, &solve)
 	if err != nil {
 		fmt.Println("addSolve:", err)
-		writeJson(w, AddSolveResponse{false, 0})
+		writeJson(w, GenericResponse{false})
 		return
 	}
 
 	sql := `
 	insert into solves (uid, time, initial_cube_state, moves)
-	values ($1, $2, $3, $4)
-	returning id;
+	values ($1, $2, $3, $4);
 	`
-	rows, err := conn.Query(context.Background(), sql, solve.Uid, solve.Time, solve.InitialCubeState, solve.Moves)
+	_, err = conn.Exec(context.Background(), sql, solve.Uid, solve.Time, solve.InitialCubeState, solve.Moves)
 	if err != nil {
-		fmt.Printf("Query failed: %v\n", err)
-		writeJson(w, AddSolveResponse{false, 0})
+		fmt.Println("conn.Exec:", err)
+		writeJson(w, GenericResponse{false})
 		return
 	}
-	for rows.Next() {
-		var solve Solve
-		err := rows.Scan(&solve.Id)
-		if err != nil {
-			fmt.Printf("Scan failed: %v\n", err)
-			io.WriteString(w, `{ "success": false }`)
-			return
-		}
-		writeJson(w, AddSolveResponse{true, solve.Id})
-		return
-	}
+
+	writeJson(w, GenericResponse{true})
 }
 
 func getSolve(w http.ResponseWriter, r *http.Request) {

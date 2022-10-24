@@ -4,25 +4,13 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"os"
 	"testing"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
 )
-
-func arrayEq[T comparable](arr1 []T, arr2 []T) bool {
-	if len(arr1) != len(arr2) {
-		return false
-	}
-	for i := 0; i < len(arr1); i++ {
-		if arr1[i] != arr2[i] {
-			return false
-		}
-	}
-	return true
-}
 
 func readJson(v any) (*bytes.Reader, error) {
 	byteSlice, err := json.Marshal(v)
@@ -32,11 +20,16 @@ func readJson(v any) (*bytes.Reader, error) {
 	return bytes.NewReader(byteSlice), nil
 }
 
-type Response struct {
-	Success bool
-}
+func TestAddSolve(t *testing.T) {
+	conn, err := pgx.Connect(context.Background(), pgUrl())
+	if err != nil {
+		t.Errorf("Unable to connect to database: %v\n", err)
+		return
+	}
+	defer conn.Close(context.Background())
 
-func TestAddAndGetSolve(t *testing.T) {
+	conn.Exec(context.Background(), "delete from solves;")
+
 	mockSolve := Solve{
 		0, // id doesn't matter, but this is needed to compile
 		2,
@@ -56,17 +49,60 @@ func TestAddAndGetSolve(t *testing.T) {
 		return
 	}
 
-	var response AddSolveResponse
+	var response GenericResponse
 	unmarshal(res.Body, &response)
+	assert.True(t, response.Success)
+
+	rows, err := conn.Query(context.Background(), "select * from solves;")
+	if rows.Next() {
+		var solve Solve
+		var timestamp any
+		err := rows.Scan(&solve.Id, &solve.Uid, &timestamp, &solve.Time, &solve.InitialCubeState, &solve.Moves)
+		if err != nil {
+			fmt.Printf("Scan failed: %v\n", err)
+			return
+		}
+
+		solve.Id = 0
+
+		assert.Equal(t, solve, mockSolve)
+	}
+}
+
+func TestGetSolve(t *testing.T) {
+	conn, err := pgx.Connect(context.Background(), pgUrl())
 	if err != nil {
-		t.Errorf("Decode failed\n")
+		t.Errorf("Unable to connect to database: %v\n", err)
+		return
+	}
+	defer conn.Close(context.Background())
+
+	conn.Exec(context.Background(), "delete from solves;")
+
+	mockSolve := Solve{
+		0,
+		2,
+		2.0,
+		[]int{0, 0, 1, 1, 2, 2, 3, 3, 4, 4},
+		[]Move{
+			{"R", 0.5},
+			{"U", 1.0},
+			{"R'", 1.5},
+			{"U'", 2.0},
+		},
+	}
+
+	sql := `
+	insert into solves (id, uid, time, initial_cube_state, moves)
+	values ($1, $2, $3, $4, $5);
+	`
+	_, err = conn.Exec(context.Background(), sql, mockSolve.Id, mockSolve.Uid, mockSolve.Time, mockSolve.InitialCubeState, mockSolve.Moves)
+	if err != nil {
 		return
 	}
 
-	assert.True(t, response.Success)
-
-	reader, err = readJson(GetSolveRequest{response.Id})
-	res, err = http.Post("http://127.0.0.1:3000/getSolve", "", reader)
+	reader, err := readJson(GetSolveRequest{0})
+	res, err := http.Post("http://127.0.0.1:3000/getSolve", "", reader)
 	if err != nil {
 		t.Errorf("POST failed\n")
 		return
@@ -74,22 +110,18 @@ func TestAddAndGetSolve(t *testing.T) {
 
 	var solve Solve
 	unmarshal(res.Body, &solve)
-
-	// Set the id to 0 so we can compare the rest of the solve
-	solve.Id = 0
-
-	assert.Equal(t, mockSolve, solve)
+	assert.Equal(t, solve, mockSolve)
 }
 
 func TestGetSolves(t *testing.T) {
 	conn, err := pgx.Connect(context.Background(), pgUrl())
 	if err != nil {
 		t.Errorf("Unable to connect to database: %v\n", err)
-		os.Exit(1)
+		return
 	}
 	defer conn.Close(context.Background())
 
-	conn.Query(context.Background(), "delete from solves;")
+	conn.Exec(context.Background(), "delete from solves;")
 
 	mockSolve := Solve{
 		0, // id doesn't matter, but this is needed to compile
@@ -106,11 +138,15 @@ func TestGetSolves(t *testing.T) {
 
 	for i := 0; i < 3; i++ {
 		reader, err := readJson(mockSolve)
-		_, err = http.Post("http://127.0.0.1:3000/addSolve", "", reader)
+		res, err := http.Post("http://127.0.0.1:3000/addSolve", "", reader)
 		if err != nil {
 			t.Errorf("POST failed\n")
 			return
 		}
+
+		var response GenericResponse
+		unmarshal(res.Body, &response)
+		assert.True(t, response.Success)
 	}
 
 	reader, err := readJson(GetSolvesRequest{2})
@@ -128,28 +164,28 @@ func TestGetSolves(t *testing.T) {
 	assert.Equal(t, solves, getSolvesResponse.Solves)
 }
 
-func TestWriteAndGetTrainingAlgs(t *testing.T) {
-	mockTrainingAlgs := []TrainingAlg{
-		{0, "F R U R' U' F'"},
-		{1, "R U R' U R U2 R'"},
-		{2, "R U' L' U R' U' L"},
-	}
+// func TestWriteAndGetTrainingAlgs(t *testing.T) {
+// 	mockTrainingAlgs := []TrainingAlg{
+// 		{0, "F R U R' U' F'"},
+// 		{1, "R U R' U R U2 R'"},
+// 		{2, "R U' L' U R' U' L"},
+// 	}
 
-	reader, err := readJson(WriteTrainingAlgsRequest{0, "CMLL", mockTrainingAlgs})
-	_, err = http.Post("http://localhost:3000/writeTrainingAlgs", "", reader)
-	if err != nil {
-		t.Errorf("POST failed\n")
-		return
-	}
+// 	reader, err := readJson(WriteTrainingAlgsRequest{0, "CMLL", mockTrainingAlgs})
+// 	_, err = http.Post("http://localhost:3000/writeTrainingAlgs", "", reader)
+// 	if err != nil {
+// 		t.Errorf("POST failed\n")
+// 		return
+// 	}
 
-	reader, err = readJson(GetTrainingAlgsRequest{0, "CMLL"})
-	res, err := http.Post("http://localhost:3000/getTrainingAlgs", "", reader)
-	if err != nil {
-		t.Errorf("POST failed\n")
-		return
-	}
+// 	reader, err = readJson(GetTrainingAlgsRequest{0, "CMLL"})
+// 	res, err := http.Post("http://localhost:3000/getTrainingAlgs", "", reader)
+// 	if err != nil {
+// 		t.Errorf("POST failed\n")
+// 		return
+// 	}
 
-	var getTrainingAlgsResponse GetTrainingAlgsResponse
-	unmarshal(res.Body, &getTrainingAlgsResponse)
-	assert.Equal(t, mockTrainingAlgs, getTrainingAlgsResponse.TrainingAlgs)
-}
+// 	var getTrainingAlgsResponse GetTrainingAlgsResponse
+// 	unmarshal(res.Body, &getTrainingAlgsResponse)
+// 	assert.Equal(t, mockTrainingAlgs, getTrainingAlgsResponse.TrainingAlgs)
+// }
