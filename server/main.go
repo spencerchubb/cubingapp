@@ -55,7 +55,7 @@ func getSolve(w http.ResponseWriter, r *http.Request) {
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		fmt.Println("getSolve:", err)
-		writeJson(w, GetSolveResponse{false, Solve{}})
+		writeJson(w, GetSolveResponse{false, SolveRecord{}})
 		return
 	}
 
@@ -66,21 +66,28 @@ func getSolve(w http.ResponseWriter, r *http.Request) {
 	rows, err := conn.Query(context.Background(), sql, req.Id)
 	if err != nil {
 		fmt.Printf("Query failed: %v\n", err)
-		writeJson(w, GetSolveResponse{false, Solve{}})
+		writeJson(w, GetSolveResponse{false, SolveRecord{}})
 		return
 	}
-	for rows.Next() {
+
+	if rows.Next() {
+		var response GetSolveResponse
 		var solve Solve
 		var timestamp any
-		err := rows.Scan(&solve.Id, &solve.Uid, &timestamp, &solve.Time, &solve.InitialCubeState, &solve.Moves)
+		err := rows.Scan(&response.SolveRecord.Id, &solve.Uid, &timestamp, &solve.Time, &solve.InitialCubeState, &solve.Moves)
 		if err != nil {
 			fmt.Printf("Scan failed: %v\n", err)
-			io.WriteString(w, `{ "success": false }`)
+			writeJson(w, GetSolveResponse{false, SolveRecord{}})
 			return
 		}
-		writeJson(w, solve)
+
+		response.Success = true
+		response.SolveRecord.Solve = solve
+		writeJson(w, response)
 		return
 	}
+
+	writeJson(w, GetSolveResponse{false, SolveRecord{}})
 }
 
 func getSolves(w http.ResponseWriter, r *http.Request) {
@@ -88,7 +95,7 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		fmt.Println("getSolves:", err)
-		writeJson(w, GetSolvesResponse{false, []Solve{}})
+		writeJson(w, GetSolvesResponse{false, []SolveRecord{}})
 		return
 	}
 
@@ -100,28 +107,31 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	rows, err := conn.Query(context.Background(), sql, req.Uid)
 	if err != nil {
 		fmt.Printf("Query failed: %v\n", err)
-		io.WriteString(w, `{ "success": false, "solves": [] }`)
+		writeJson(w, GetSolvesResponse{false, []SolveRecord{}})
 		return
 	}
 
-	var arr []Solve
+	var arr []SolveRecord
 	for rows.Next() {
+		var solveRecord SolveRecord
 		var solve Solve
 		var timestamp any
-		err := rows.Scan(&solve.Id, &solve.Uid, &timestamp, &solve.Time, &solve.InitialCubeState, &solve.Moves)
+		err := rows.Scan(&solveRecord.Id, &solve.Uid, &timestamp, &solve.Time, &solve.InitialCubeState, &solve.Moves)
 		if err != nil {
 			fmt.Printf("Scan failed: %v\n", err)
-			io.WriteString(w, `{ "success": false, "solves": [] }`)
+			writeJson(w, GetSolvesResponse{false, []SolveRecord{}})
 			return
 		}
-		arr = append(arr, solve)
+
+		solveRecord.Solve = solve
+		arr = append(arr, solveRecord)
 	}
 
 	writeJson(w, GetSolvesResponse{true, arr})
 }
 
 func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
-	var req WriteTrainingAlgsRequest
+	var req TrainingAlgsRecord
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		fmt.Println("writeTrainingAlgs:", err)
@@ -135,23 +145,14 @@ func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	on conflict (uid, set) do update
 	set training_algs = $3;
 	`
-	rows, err := conn.Query(context.Background(), sql, req.Uid, req.Set, req.TrainingAlgs)
+	_, err = conn.Query(context.Background(), sql, req.Uid, req.Set, req.TrainingAlgs)
 	if err != nil {
 		fmt.Printf("Query failed: %v\n", err)
 		writeJson(w, GenericResponse{false})
 		return
 	}
-	for rows.Next() {
-		var id int
-		err := rows.Scan(&id)
-		if err != nil {
-			fmt.Printf("Scan failed: %v\n", err)
-			writeJson(w, GenericResponse{false})
-			return
-		}
-		writeJson(w, WriteTrainingAlgsResponse{true, id})
-		return
-	}
+
+	writeJson(w, GenericResponse{true})
 }
 
 func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
@@ -159,7 +160,7 @@ func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		fmt.Println("getTrainingAlgs:", err)
-		writeJson(w, GenericResponse{false})
+		writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
 		return
 	}
 
@@ -167,22 +168,24 @@ func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	rows, err := conn.Query(context.Background(), sql, req.Uid, req.Set)
 	if err != nil {
 		fmt.Printf("Query failed: %v\n", err)
-		writeJson(w, GenericResponse{false})
+		writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
 		return
 	}
 
-	for rows.Next() {
+	if rows.Next() {
 		var res GetTrainingAlgsResponse
-		err := rows.Scan(&res.Id, &res.Uid, &res.Set, &res.TrainingAlgs)
+		err := rows.Scan(&res.Id, &res.TrainingAlgsRecord.Uid, &res.TrainingAlgsRecord.Set, &res.TrainingAlgsRecord.TrainingAlgs)
 		if err != nil {
 			fmt.Printf("Scan failed: %v\n", err)
-			writeJson(w, res)
+			writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
 			return
 		}
 		res.Success = true
 		writeJson(w, res)
 		return
 	}
+
+	writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
 }
 
 func main() {

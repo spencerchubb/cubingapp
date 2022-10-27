@@ -9,19 +9,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-type Move struct {
-	Move string
-	Time float32
-}
-
-type Solve struct {
-	Id               int
-	Uid              int
-	Time             float32
-	InitialCubeState []int
-	Moves            []Move
-}
-
 func unmarshal(r io.Reader, v any) error {
 	body, err := io.ReadAll(r)
 	if err != nil {

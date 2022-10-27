@@ -1,12 +1,24 @@
 package main
 
+type Move struct {
+	Move string
+	Time float32
+}
+
+type Solve struct {
+	Uid              int
+	Time             float32
+	InitialCubeState []int
+	Moves            []Move
+}
+
 type GenericResponse struct {
 	Success bool
 }
 
-type AddSolveResponse struct {
-	Success bool
-	Id      int
+type SolveRecord struct {
+	Id    int
+	Solve Solve
 }
 
 type GetSolveRequest struct {
@@ -14,8 +26,8 @@ type GetSolveRequest struct {
 }
 
 type GetSolveResponse struct {
-	Success bool
-	Solve   Solve
+	Success     bool
+	SolveRecord SolveRecord
 }
 
 type GetSolvesRequest struct {
@@ -23,8 +35,8 @@ type GetSolvesRequest struct {
 }
 
 type GetSolvesResponse struct {
-	Success bool
-	Solves  []Solve
+	Success      bool
+	SolveRecords []SolveRecord
 }
 
 type TrainingAlg struct {
@@ -32,15 +44,10 @@ type TrainingAlg struct {
 	Alg   string
 }
 
-type WriteTrainingAlgsRequest struct {
+type TrainingAlgsRecord struct {
 	Uid          int
 	Set          string
 	TrainingAlgs []TrainingAlg
-}
-
-type WriteTrainingAlgsResponse struct {
-	Success bool
-	Id      int
 }
 
 type GetTrainingAlgsRequest struct {
@@ -49,9 +56,7 @@ type GetTrainingAlgsRequest struct {
 }
 
 type GetTrainingAlgsResponse struct {
-	Success      bool
-	Id           int
-	Uid          int
-	Set          string
-	TrainingAlgs []TrainingAlg
+	Success            bool
+	Id                 int
+	TrainingAlgsRecord TrainingAlgsRecord
 }
