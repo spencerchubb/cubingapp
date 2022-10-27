@@ -60,3 +60,12 @@ type GetTrainingAlgsResponse struct {
 	Id                 int
 	TrainingAlgsRecord TrainingAlgsRecord
 }
+
+type UserRequest struct {
+	Email string
+}
+
+type UserResponse struct {
+	Success bool
+	Uid     int
+}

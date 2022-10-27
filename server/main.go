@@ -164,7 +164,7 @@ func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sql := "select * from training_algs where uid = $1 and set = $2"
+	sql := "select * from training_algs where uid = $1 and set = $2;"
 	rows, err := conn.Query(context.Background(), sql, req.Uid, req.Set)
 	if err != nil {
 		fmt.Printf("Query failed: %v\n", err)
@@ -188,6 +188,63 @@ func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
 }
 
+func user(w http.ResponseWriter, r *http.Request) {
+	var req UserRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		fmt.Println("user:", err)
+		writeJson(w, UserResponse{false, 0})
+		return
+	}
+
+	sql := "select * from users where email = $1;"
+	rows, err := conn.Query(context.Background(), sql, req.Email)
+	if err != nil {
+		fmt.Printf("Query failed: %v", err)
+		writeJson(w, UserResponse{false, 0})
+		return
+	}
+
+	// user exists
+	if rows.Next() {
+		var uid int
+		var email string
+		err := rows.Scan(&uid, &email)
+		if err != nil {
+			fmt.Printf("Scan failed: %v", err)
+			writeJson(w, UserResponse{false, 0})
+			return
+		}
+		writeJson(w, UserResponse{true, uid})
+		rows.Close()
+		return
+	}
+
+	// user does not exist
+	sql = "insert into users (email) values ($1) returning uid;"
+	rows, err = conn.Query(context.Background(), sql, req.Email)
+	if err != nil {
+		fmt.Printf("Query failed: %v", err)
+		writeJson(w, UserResponse{false, 0})
+		return
+	}
+
+	if rows.Next() {
+		var uid int
+		err := rows.Scan(&uid)
+		if err != nil {
+			fmt.Printf("Scan failed: %v", err)
+			writeJson(w, UserResponse{false, 0})
+			return
+		}
+		writeJson(w, UserResponse{true, uid})
+		rows.Close()
+		return
+	}
+
+	writeJson(w, UserResponse{false, 0})
+}
+
 func main() {
 	fmt.Printf("Attempting to connect to postgres...\n")
 	var err error
@@ -206,6 +263,7 @@ func main() {
 	http.HandleFunc("/getSolves", getSolves)
 	http.HandleFunc("/writeTrainingAlgs", writeTrainingAlgs)
 	http.HandleFunc("/getTrainingAlgs", getTrainingAlgs)
+	http.HandleFunc("/user", user)
 
 	err = http.ListenAndServe(":3000", nil)
 	if errors.Is(err, http.ErrServerClosed) {

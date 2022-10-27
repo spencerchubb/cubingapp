@@ -163,3 +163,32 @@ func TestTrainingAlgs(t *testing.T) {
 	assert.True(t, getTrainingAlgsResponse.Success)
 	assert.Equal(t, mockTrainingAlgsRecord, getTrainingAlgsResponse.TrainingAlgsRecord)
 }
+
+func TestUser(t *testing.T) {
+	conn, err := connect(t)
+	if err != nil {
+		return
+	}
+	defer conn.Close(context.Background())
+
+	conn.Exec(context.Background(), "delete from users;")
+
+	res, err := post(t, "http://127.0.0.1:3000/user", UserRequest{"example@gmail.com"})
+	if err != nil {
+		return 
+	}
+
+	var response UserResponse
+	unmarshal(res.Body, &response)
+	assert.True(t, response.Success)
+
+	res, err = post(t, "http://127.0.0.1:3000/user", UserRequest{"example@gmail.com"})
+	if err != nil {
+		return
+	}
+
+	var response1 UserResponse
+	unmarshal(res.Body, &response1)
+	assert.True(t, response1.Success)
+	assert.Equal(t, response.Uid, response1.Uid)
+}
