@@ -245,6 +245,14 @@ func user(w http.ResponseWriter, r *http.Request) {
 	writeJson(w, UserResponse{false, 0})
 }
 
+// Set up endpoint and enable CORS
+func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
+	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		handler(w, r)
+	})
+}
+
 func main() {
 	fmt.Printf("Attempting to connect to postgres...\n")
 	var err error
@@ -257,13 +265,13 @@ func main() {
 	defer conn.Close()
 
 	fmt.Printf("Starting server\n")
-	http.HandleFunc("/", hello)
-	http.HandleFunc("/addSolve", addSolve)
-	http.HandleFunc("/getSolve", getSolve)
-	http.HandleFunc("/getSolves", getSolves)
-	http.HandleFunc("/writeTrainingAlgs", writeTrainingAlgs)
-	http.HandleFunc("/getTrainingAlgs", getTrainingAlgs)
-	http.HandleFunc("/user", user)
+	handleFunc("/", hello)
+	handleFunc("/addSolve", addSolve)
+	handleFunc("/getSolve", getSolve)
+	handleFunc("/getSolves", getSolves)
+	handleFunc("/writeTrainingAlgs", writeTrainingAlgs)
+	handleFunc("/getTrainingAlgs", getTrainingAlgs)
+	handleFunc("/user", user)
 
 	err = http.ListenAndServe(":3000", nil)
 	if errors.Is(err, http.ErrServerClosed) {
