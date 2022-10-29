@@ -6,7 +6,7 @@ export {
     auth,
 };
 
-const url = "http://localhost:5001/virtual-cube/us-central1";
+const url = "http://52.203.56.212:3000";
 
 // Use singleton pattern because connectAuthEmulator can only be called once
 let authSingleton;

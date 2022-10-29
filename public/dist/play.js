@@ -1840,7 +1840,6 @@
   var showBody = "showBody";
   var size = "size";
   var user = "user";
-  var userID = "userID";
   function getAngle() {
     var _a;
     return (_a = getInt(angle)) != null ? _a : 1;
@@ -1875,12 +1874,6 @@
   }
   function setAnimateTurns(value) {
     setBool(animateTurns, value);
-  }
-  function getUserID() {
-    return getInt(userID);
-  }
-  function setUserID(value) {
-    localStorage.setItem(userID, value);
   }
   function getUser() {
     return localStorage.getItem(user);
@@ -2391,6 +2384,68 @@
       document.location.href = "cuble.html";
     });
   }
+
+  // scripts/timer.ts
+  var Timer = class {
+    constructor() {
+      this.isRunning = false;
+      this._timeEle = document.querySelector("#time");
+      this._updateTimeDisplay(0);
+      this._updateStartStopButton(false);
+    }
+    _updateTimeDisplay(secondsSinceStart) {
+      this.secondsSinceStart = secondsSinceStart;
+      this._timeEle.textContent = this.secondsSinceStart.toFixed(2);
+    }
+    _updateStartStopButton(val) {
+      this.isRunning = val;
+      const button = document.querySelector("#startStop");
+      if (val) {
+        button.textContent = "Stop";
+        button.title = "Press space to stop timer";
+      } else {
+        button.textContent = "Start";
+        button.title = "Press space to start timer";
+      }
+    }
+    start(time2) {
+      this.startTime = time2;
+      this._interval = setInterval(
+        () => {
+          const secondsSinceStart = this.calcSecondsSinceStart(Date.now());
+          this._updateTimeDisplay(secondsSinceStart);
+        },
+        1
+      );
+      this._updateStartStopButton(true);
+    }
+    stop(time2) {
+      clearInterval(this._interval);
+      this._updateStartStopButton(false);
+      const secondsSinceStart = this.calcSecondsSinceStart(time2);
+      this._updateTimeDisplay(secondsSinceStart);
+    }
+    calcSecondsSinceStart(time2) {
+      return (time2 - this.startTime) / 1e3;
+    }
+  };
+
+  // scripts/recorder.ts
+  var Recorder = class {
+    constructor() {
+      this._isRecording = false;
+    }
+    start(cubeState) {
+      this._isRecording = true;
+      this.cubeState = cubeState;
+      this.moves = [];
+    }
+    addMove(move, time2) {
+      if (this._isRecording) {
+        this.moves.push({ move, time: time2 });
+      }
+    }
+  };
 
   // node_modules/@firebase/util/dist/index.esm2017.js
   var stringToByteArray$1 = function(str) {
@@ -5309,6 +5364,85 @@
       return this.observer.next.bind(this.observer);
     }
   };
+  function connectAuthEmulator(auth3, url2, options) {
+    const authInternal = _castAuth(auth3);
+    _assert(authInternal._canInitEmulator, authInternal, "emulator-config-failed");
+    _assert(/^https?:\/\//.test(url2), authInternal, "invalid-emulator-scheme");
+    const disableWarnings = !!(options === null || options === void 0 ? void 0 : options.disableWarnings);
+    const protocol = extractProtocol(url2);
+    const { host, port } = extractHostAndPort(url2);
+    const portStr = port === null ? "" : `:${port}`;
+    authInternal.config.emulator = { url: `${protocol}//${host}${portStr}/` };
+    authInternal.settings.appVerificationDisabledForTesting = true;
+    authInternal.emulatorConfig = Object.freeze({
+      host,
+      port,
+      protocol: protocol.replace(":", ""),
+      options: Object.freeze({ disableWarnings })
+    });
+    if (!disableWarnings) {
+      emitEmulatorWarning();
+    }
+  }
+  function extractProtocol(url2) {
+    const protocolEnd = url2.indexOf(":");
+    return protocolEnd < 0 ? "" : url2.substr(0, protocolEnd + 1);
+  }
+  function extractHostAndPort(url2) {
+    const protocol = extractProtocol(url2);
+    const authority = /(\/\/)?([^?#/]+)/.exec(url2.substr(protocol.length));
+    if (!authority) {
+      return { host: "", port: null };
+    }
+    const hostAndPort = authority[2].split("@").pop() || "";
+    const bracketedIPv6 = /^(\[[^\]]+\])(:|$)/.exec(hostAndPort);
+    if (bracketedIPv6) {
+      const host = bracketedIPv6[1];
+      return { host, port: parsePort(hostAndPort.substr(host.length + 1)) };
+    } else {
+      const [host, port] = hostAndPort.split(":");
+      return { host, port: parsePort(port) };
+    }
+  }
+  function parsePort(portStr) {
+    if (!portStr) {
+      return null;
+    }
+    const port = Number(portStr);
+    if (isNaN(port)) {
+      return null;
+    }
+    return port;
+  }
+  function emitEmulatorWarning() {
+    function attachBanner() {
+      const el = document.createElement("p");
+      const sty = el.style;
+      el.innerText = "Running in emulator mode. Do not use with production credentials.";
+      sty.position = "fixed";
+      sty.width = "100%";
+      sty.backgroundColor = "#ffffff";
+      sty.border = ".1em solid #000000";
+      sty.color = "#b50000";
+      sty.bottom = "0px";
+      sty.left = "0px";
+      sty.margin = "0px";
+      sty.zIndex = "10000";
+      sty.textAlign = "center";
+      el.classList.add("firebase-emulator-warning");
+      document.body.appendChild(el);
+    }
+    if (typeof console !== "undefined" && typeof console.info === "function") {
+      console.info("WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.");
+    }
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      if (document.readyState === "loading") {
+        window.addEventListener("DOMContentLoaded", attachBanner);
+      } else {
+        attachBanner();
+      }
+    }
+  }
   var AuthCredential = class {
     constructor(providerId, signInMethod) {
       this.providerId = providerId;
@@ -7591,92 +7725,15 @@
   };
   var app = initializeApp(firebaseConfig);
 
-  // scripts/vars/prodVars.ts
-  var url = "https://us-central1-virtual-cube.cloudfunctions.net";
-  var auth = () => getAuth(app);
-
-  // scripts/analytics.ts
-  function userID2() {
-    let _userID = getUserID();
-    if (_userID) {
-      return _userID;
-    }
-    _userID = Math.floor(Math.random() * 9223372036854776e3);
-    setUserID(_userID);
-    return _userID;
-  }
-  function addAnalyticsEvent(type) {
-    const body = {
-      userID: userID2(),
-      type,
-      date: Date.now()
-    };
-    fetch(`${url}/addAnalyticsEvent`, {
-      method: "POST",
-      body: JSON.stringify(body)
-    });
-  }
-
-  // scripts/timer.ts
-  var Timer = class {
-    constructor() {
-      this.isRunning = false;
-      this._timeEle = document.querySelector("#time");
-      this._updateTimeDisplay(0);
-      this._updateStartStopButton(false);
-    }
-    _updateTimeDisplay(secondsSinceStart) {
-      this.secondsSinceStart = secondsSinceStart;
-      this._timeEle.textContent = this.secondsSinceStart.toFixed(2);
-    }
-    _updateStartStopButton(val) {
-      this.isRunning = val;
-      const button = document.querySelector("#startStop");
-      if (val) {
-        button.textContent = "Stop";
-        button.title = "Press space to stop timer";
-      } else {
-        button.textContent = "Start";
-        button.title = "Press space to start timer";
-      }
-    }
-    start(time2) {
-      this.startTime = time2;
-      this._interval = setInterval(
-        () => {
-          const secondsSinceStart = this.calcSecondsSinceStart(Date.now());
-          this._updateTimeDisplay(secondsSinceStart);
-        },
-        1
-      );
-      this._updateStartStopButton(true);
-    }
-    stop(time2) {
-      clearInterval(this._interval);
-      this._updateStartStopButton(false);
-      const secondsSinceStart = this.calcSecondsSinceStart(time2);
-      this._updateTimeDisplay(secondsSinceStart);
-    }
-    calcSecondsSinceStart(time2) {
-      return (time2 - this.startTime) / 1e3;
-    }
-  };
-
-  // scripts/recorder.ts
-  var Recorder = class {
-    constructor() {
-      this._isRecording = false;
-    }
-    start(cubeState) {
-      this._isRecording = true;
-      this.cubeState = cubeState;
-      this.moves = [];
-    }
-    addMove(move, time2) {
-      if (this._isRecording) {
-        this.moves.push({ move, time: time2 });
-      }
-    }
+  // scripts/vars/devVars.ts
+  var url = "http://52.203.56.212:3000";
+  var authSingleton;
+  var auth = () => {
+    if (authSingleton)
+      return authSingleton;
+    authSingleton = getAuth(app);
+    connectAuthEmulator(authSingleton, "http://localhost:9099");
+    return authSingleton;
   };
 
   // scripts/modal.ts
@@ -7702,10 +7759,6 @@
   // scripts/auth.ts
   var CubingAppUser = class {
     constructor() {
-    }
-    fromFirebaseUser(fbUser) {
-      this.email = fbUser.email;
-      this.uid = fbUser.uid;
     }
     toJsonString() {
       return JSON.stringify({
@@ -7795,11 +7848,18 @@
   }
   function successfulSignIn(userCredential) {
     user2 = new CubingAppUser();
-    user2.fromFirebaseUser(userCredential.user);
-    console.log(user2);
-    setUser(user2.toJsonString());
-    authListener();
-    removeModal();
+    user2.email = userCredential.user.email;
+    fetch(`${url}/user`, {
+      method: "POST",
+      body: JSON.stringify({ email: user2.email })
+    }).then((res) => res.json()).then((data) => {
+      console.log(data);
+      user2.uid = data.Uid;
+      console.log(user2);
+      setUser(user2.toJsonString());
+      authListener();
+      removeModal();
+    });
   }
   function _signInWithPopup() {
     const provider = new GoogleAuthProvider();
@@ -7869,7 +7929,6 @@
   var timer = new Timer();
   var recorder = new Recorder();
   function main() {
-    addAnalyticsEvent("ViewPlay" /* ViewPlay */);
     renderCanvas();
     addListenersForLeftModal();
     const layerInput = document.querySelector("#layerInput");
@@ -7942,18 +8001,23 @@
       uid: user2.uid,
       time: timer.secondsSinceStart,
       initialCubeState: recorder.cubeState,
-      moves: recorder.moves,
-      puzzle: cube.layers,
-      timestamp: Date.now()
+      moves: recorder.moves
     };
     fetch(`${url}/addSolve`, {
       method: "POST",
       body: JSON.stringify(solve)
+    }).then((res) => res.json()).then((data) => {
+      console.log(data);
+      if (!data.Success)
+        return;
+      solves.push({
+        id: data.Id,
+        time: timer.secondsSinceStart
+      });
+      if (drawerIndex === 1) {
+        renderSolves(document.querySelector("#rightDrawer"));
+      }
     });
-    solves.push(solve);
-    if (drawerIndex === 1) {
-      renderSolves(document.querySelector("#rightDrawer"));
-    }
   }
   function renderDrawer(index) {
     if (index == 0) {
@@ -8022,7 +8086,14 @@
         method: "POST",
         body: JSON.stringify({ uid: user2.uid })
       });
-      solves = await res.json();
+      const json = await res.json();
+      console.log(json);
+      solves = json.SolveRecords.map((record) => {
+        return {
+          id: record.Id,
+          time: record.Solve.Time
+        };
+      });
     }
     console.log(solves);
     const solvesList = document.querySelector("#solvesList");

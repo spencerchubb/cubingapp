@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"emulate": "firebase emulators:start",
-		"jest": "jest",
+		"jest": "jest"
 	},
 	"author": "Spencer Chubb <spencerchubb@gmail.com>",
 	"devDependencies": {

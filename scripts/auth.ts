@@ -4,10 +4,10 @@ import {
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
-    User,
+    UserCredential,
 } from "firebase/auth";
 import { renderModal } from "./modal";
-import { auth as _auth } from "./vars/vars";
+import { auth as _auth, url } from "./vars/vars";
 import { getUser, removeUser, setUser } from "./store";
 
 export {
@@ -20,14 +20,9 @@ export {
 
 class CubingAppUser {
     email: string;
-    uid: string;
+    uid: number;
 
     constructor() {}
-
-    fromFirebaseUser(fbUser: User) {
-        this.email = fbUser.email;
-        this.uid = fbUser.uid;
-    }
 
     /** Return data as a JSON string */
     toJsonString() {
@@ -139,15 +134,22 @@ function initialAuthCheck() {
     }
 }
 
-function successfulSignIn(userCredential) {
+function successfulSignIn(userCredential: UserCredential) {
     user = new CubingAppUser();
-    user.fromFirebaseUser(userCredential.user);
-    console.log(user);
-
-    setUser(user.toJsonString());
-    
-    authListener();
-    removeModal();
+    user.email = userCredential.user.email;
+    fetch(`${url}/user`, {
+        method: "POST",
+        body: JSON.stringify({ email: user.email }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            user.uid = data.Uid;
+            console.log(user)
+            setUser(user.toJsonString());
+            authListener();
+            removeModal();
+        });
 }
 
 function _signInWithPopup() {

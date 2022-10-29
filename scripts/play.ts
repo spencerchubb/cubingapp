@@ -9,7 +9,7 @@ import { renderModal } from "./modal";
 import * as slide from "./slide";
 
 let drawerIndex;
-let solves = [];
+let solves: { id: number, time: number }[] = [];
 let solvesFetched: boolean = false;
 
 const timer = new Timer();
@@ -116,17 +116,24 @@ function handleStartStop(time: number) {
         time: timer.secondsSinceStart,
         initialCubeState: recorder.cubeState,
         moves: recorder.moves,
-        puzzle: scene.cube.layers,
-        timestamp: Date.now(),
     };
     fetch(`${url}/addSolve`, {
         method: "POST",
         body: JSON.stringify(solve),
-    });
-    solves.push(solve);
-    if (drawerIndex === 1) { // 1 is the index associated with Solves
-        renderSolves(document.querySelector("#rightDrawer"));
-    }
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if (!data.Success) return;
+            solves.push({
+                id: data.Id,
+                time: timer.secondsSinceStart,
+            });
+
+            if (drawerIndex === 1) { // 1 is the index associated with Solves
+                renderSolves(document.querySelector("#rightDrawer"));
+            }
+        });
 }
 
 /**
@@ -213,7 +220,14 @@ async function renderSolves(drawerEle: HTMLElement) {
             method: "POST",
             body: JSON.stringify({ uid: user.uid }),
         });
-        solves = await res.json();
+        const json = await res.json();
+        console.log(json);
+        solves = json.SolveRecords.map((record: any) => {
+            return {
+                id: record.Id,
+                time: record.Solve.Time,
+            };
+        });
     }
     console.log(solves);
 

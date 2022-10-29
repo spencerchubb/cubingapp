@@ -1839,7 +1839,6 @@
   var hintStickers = "hintStickers";
   var showBody = "showBody";
   var size = "size";
-  var userID = "userID";
   function getAngle() {
     var _a;
     return (_a = getInt(angle)) != null ? _a : 1;
@@ -1859,12 +1858,6 @@
   function getAnimateTurns() {
     var _a;
     return (_a = getBool(animateTurns)) != null ? _a : true;
-  }
-  function getUserID() {
-    return getInt(userID);
-  }
-  function setUserID(value) {
-    localStorage.setItem(userID, value);
   }
   function getBool(key) {
     const value = localStorage.getItem(key);
@@ -6907,30 +6900,8 @@
   };
   var app = initializeApp(firebaseConfig);
 
-  // scripts/vars/prodVars.ts
-  var url = "https://us-central1-virtual-cube.cloudfunctions.net";
-
-  // scripts/analytics.ts
-  function userID2() {
-    let _userID = getUserID();
-    if (_userID) {
-      return _userID;
-    }
-    _userID = Math.floor(Math.random() * 9223372036854776e3);
-    setUserID(_userID);
-    return _userID;
-  }
-  function addAnalyticsEvent(type) {
-    const body = {
-      userID: userID2(),
-      type,
-      date: Date.now()
-    };
-    fetch(`${url}/addAnalyticsEvent`, {
-      method: "POST",
-      body: JSON.stringify(body)
-    });
-  }
+  // scripts/vars/devVars.ts
+  var url = "http://52.203.56.212:3000";
 
   // scripts/modal.ts
   function renderModal() {
@@ -6954,7 +6925,6 @@
 
   // scripts/replay.ts
   async function main() {
-    addAnalyticsEvent("ViewReplay" /* ViewReplay */);
     setDragEnabled(false);
     renderCanvas();
     addListenersForLeftModal();
@@ -6970,22 +6940,19 @@
       });
     });
     const searchParams = new URLSearchParams(window.location.search);
-    const solveID = searchParams.get("solve");
+    const solveID = parseInt(searchParams.get("solve"));
     const res = await fetch(`${url}/getSolve`, {
       method: "POST",
-      body: JSON.stringify({ solveID })
+      body: JSON.stringify({ Id: solveID })
     });
     const solve = await res.json();
     console.log(solve);
     renderSolve(solve);
     renderBasedOnWidth();
   }
-  function renderSolve(solve) {
-    if (solve.puzzle !== 3) {
-      renderOnly3x3(solve);
-      return;
-    }
-    cube.setCubeState(solve.initialCubeState);
+  function renderSolve(solveResponse) {
+    const solve = solveResponse.SolveRecord.Solve;
+    cube.setCubeState(solve.InitialCubeState);
     render();
     let moveIndex = 0;
     let moveElements;
@@ -6993,19 +6960,19 @@
     function updateMoveCounter(newMoveIndex) {
       moveElements[moveIndex].style.background = "";
       moveIndex = newMoveIndex;
-      moveCounter.textContent = `${moveIndex} / ${solve.moves.length}`;
+      moveCounter.textContent = `${moveIndex} / ${solve.Moves.length}`;
       moveElements[moveIndex].style.background = "green";
     }
     document.querySelector("#leftButton").addEventListener("click", (event) => {
       if (moveIndex > 0) {
-        cube.stepAlgorithm(solve.moves[moveIndex - 1].move, false);
+        cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
         animateTurn();
         updateMoveCounter(moveIndex - 1);
       }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
-      if (moveIndex < solve.moves.length) {
-        cube.stepAlgorithm(solve.moves[moveIndex].move, true);
+      if (moveIndex < solve.Moves.length) {
+        cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
         animateTurn();
         updateMoveCounter(moveIndex + 1);
       }
@@ -7020,7 +6987,7 @@
         return;
       }
       absoluteStartTime = Date.now();
-      relativeStartTime = solve.moves[moveIndex].time;
+      relativeStartTime = solve.Moves[moveIndex].Time;
       paused = false;
       playPauseButton.innerHTML = `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
@@ -7031,16 +6998,16 @@
         </svg>
         `;
       function _setTimeout() {
-        const ms = (solve.moves[moveIndex].time - relativeStartTime) * 1e3 - (Date.now() - absoluteStartTime);
+        const ms = (solve.Moves[moveIndex].Time - relativeStartTime) * 1e3 - (Date.now() - absoluteStartTime);
         setTimeout(step, ms);
       }
       function step() {
         if (paused)
           return;
-        cube.stepAlgorithm(solve.moves[moveIndex].move, true);
+        cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
         animateTurn();
         updateMoveCounter(moveIndex + 1);
-        if (moveIndex === solve.moves.length) {
+        if (moveIndex === solve.Moves.length) {
           pause();
           return;
         }
@@ -7072,12 +7039,12 @@
           return;
         let newMoveIndex = moveIndex;
         while (newMoveIndex < rowIndex) {
-          cube.stepAlgorithm(solve.moves[newMoveIndex].move, true);
+          cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
           newMoveIndex++;
         }
         while (newMoveIndex > rowIndex) {
           newMoveIndex--;
-          cube.stepAlgorithm(solve.moves[newMoveIndex].move, false);
+          cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
         }
         cube.animationQueue = [];
         cube.commitStickers();
@@ -7086,11 +7053,11 @@
       });
       return tr2;
     }
-    moveElements = Array(solve.moves.length);
+    moveElements = Array(solve.Moves.length);
     const tr = buildRow(0, "0.00", "Start");
     moveElements[0] = tr;
-    solve.moves.forEach((move, i) => {
-      const tr2 = buildRow(i + 1, move.time.toFixed(2), move.move);
+    solve.Moves.forEach((move, i) => {
+      const tr2 = buildRow(i + 1, move.Time.toFixed(2), move.Move);
       moveElements[i + 1] = tr2;
     });
     const fragment = document.createDocumentFragment();
@@ -7119,14 +7086,6 @@
     solveData.parentElement.parentElement.style.width = "";
     solveData.parentElement.parentElement.style.overflowY = "scroll";
     solveData.parentElement.style.width = "";
-  }
-  function renderOnly3x3(solve) {
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">At this time, we can only do 3x3 replays, but this is a ${solve.puzzle}x${solve.puzzle} replay! More coming soon...</p>
-    </div>
-    `;
   }
   main();
 })();

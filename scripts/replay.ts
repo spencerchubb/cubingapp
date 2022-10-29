@@ -3,6 +3,20 @@ import { addListenersForLeftModal } from "./ui";
 import { url } from "./vars/vars";
 import { renderModal } from "./modal";
 
+type Solve = {
+    Uid: number,
+    Time: number,
+    InitialCubeState: number[],
+    Moves: { Move: string, Time: number }[],
+}
+type GetSolveResponse = {
+    Success: boolean,
+    SolveRecord: {
+        Id: number,
+        Solve: Solve,
+    },
+}
+
 async function main() {
     scene.setDragEnabled(false);
 
@@ -25,25 +39,22 @@ async function main() {
 
     const searchParams = new URLSearchParams(window.location.search);
 
-    const solveID = searchParams.get("solve");
+    const solveID: number = parseInt(searchParams.get("solve"));
     const res = await fetch(`${url}/getSolve`, {
         method: "POST",
-        body: JSON.stringify({ solveID: solveID }),
+        body: JSON.stringify({ Id: solveID }),
     });
-    const solve = await res.json();
+    const solve: GetSolveResponse = await res.json();
     console.log(solve);
     renderSolve(solve);
 
     renderBasedOnWidth();
 }
 
-function renderSolve(solve) {
-    if (solve.puzzle !== 3) {
-        renderOnly3x3(solve);
-        return;
-    }
+function renderSolve(solveResponse: GetSolveResponse) {
+    const solve = solveResponse.SolveRecord.Solve;
 
-    scene.cube.setCubeState(solve.initialCubeState);
+    scene.cube.setCubeState(solve.InitialCubeState);
     scene.render();
 
     let moveIndex = 0;
@@ -54,7 +65,7 @@ function renderSolve(solve) {
         moveElements[moveIndex].style.background = '';
 
         moveIndex = newMoveIndex;
-        moveCounter.textContent = `${moveIndex} / ${solve.moves.length}`;
+        moveCounter.textContent = `${moveIndex} / ${solve.Moves.length}`;
 
         // Highlight current one
         moveElements[moveIndex].style.background = 'green';
@@ -62,15 +73,15 @@ function renderSolve(solve) {
 
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
-            scene.cube.stepAlgorithm(solve.moves[moveIndex - 1].move, false);
+            scene.cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
             scene.animateTurn();
 
             updateMoveCounter(moveIndex - 1);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
-        if (moveIndex < solve.moves.length) {
-            scene.cube.stepAlgorithm(solve.moves[moveIndex].move, true);
+        if (moveIndex < solve.Moves.length) {
+            scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
             scene.animateTurn();
 
             updateMoveCounter(moveIndex + 1);
@@ -87,7 +98,7 @@ function renderSolve(solve) {
             return;
         }
         absoluteStartTime = Date.now();
-        relativeStartTime = solve.moves[moveIndex].time;
+        relativeStartTime = solve.Moves[moveIndex].Time;
         paused = false;
         playPauseButton.innerHTML = `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
@@ -98,15 +109,15 @@ function renderSolve(solve) {
         </svg>
         `;
         function _setTimeout() {
-            const ms = (solve.moves[moveIndex].time - relativeStartTime) * 1000 - (Date.now() - absoluteStartTime);
+            const ms = (solve.Moves[moveIndex].Time - relativeStartTime) * 1000 - (Date.now() - absoluteStartTime);
             setTimeout(step, ms);
         }
         function step() {
             if (paused) return;
-            scene.cube.stepAlgorithm(solve.moves[moveIndex].move, true);
+            scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
             scene.animateTurn();
             updateMoveCounter(moveIndex + 1);
-            if (moveIndex === solve.moves.length) {
+            if (moveIndex === solve.Moves.length) {
                 pause();
                 return;
             }
@@ -143,12 +154,12 @@ function renderSolve(solve) {
             if (rowIndex === moveIndex) return;
             let newMoveIndex = moveIndex;
             while (newMoveIndex < rowIndex) {
-                scene.cube.stepAlgorithm(solve.moves[newMoveIndex].move, true);
+                scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
                 newMoveIndex++;
             }
             while (newMoveIndex > rowIndex) {
                 newMoveIndex--;
-                scene.cube.stepAlgorithm(solve.moves[newMoveIndex].move, false);
+                scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
             }
             scene.cube.animationQueue = [];
             scene.cube.commitStickers();
@@ -159,13 +170,13 @@ function renderSolve(solve) {
         return tr;
     }
 
-    moveElements = Array(solve.moves.length);
+    moveElements = Array(solve.Moves.length);
 
     const tr = buildRow(0, "0.00", "Start");
     moveElements[0] = tr;
 
-    solve.moves.forEach((move, i) => {
-        const tr = buildRow(i + 1, move.time.toFixed(2), move.move);
+    solve.Moves.forEach((move, i) => {
+        const tr = buildRow(i + 1, move.Time.toFixed(2), move.Move);
         moveElements[i + 1] = tr;
     });
 
