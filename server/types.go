@@ -21,6 +21,11 @@ type SolveRecord struct {
 	Solve Solve
 }
 
+type AddSolveResponse struct {
+	Success bool
+	Id      int
+}
+
 type GetSolveRequest struct {
 	Id int
 }

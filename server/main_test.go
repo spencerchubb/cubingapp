@@ -108,9 +108,10 @@ func TestAddAndGetSolves(t *testing.T) {
 			return
 		}
 
-		var response GenericResponse
+		var response AddSolveResponse
 		unmarshal(res.Body, &response)
 		assert.True(t, response.Success)
+		assert.NotZero(t, response.Id)
 	}
 
 	res, err := post(t, "http://127.0.0.1:3000/getSolves", GetSolvesRequest{2})
