@@ -1,7 +1,7 @@
 require('esbuild').buildSync({
     entryPoints: [
         './ui/src/scripts/cuble.ts',
-        './ui/src/scripts/index.ts',
+        './ui/src/scripts/learn.ts',
         './ui/src/scripts/play.ts',
         './ui/src/scripts/replay.ts',
         './ui/src/scripts/train.ts',

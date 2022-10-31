@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/main.css">
+    <title>Cubing | Learn</title>
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
+</head>
+
+<body class="col">
+    <nav class="navbar" style="justify-content: space-between;">
+        <a class="hover:cursor-pointer">
+            <img id="menu" src="./images/menu.svg" alt="Menu">
+        </a>
+        <div>
+            <button id="prevLesson" class="btn-primary"><</button>
+            <button id="openClose" class="btn-primary">Lessons</button>
+            <button id="nextLesson" class="btn-primary">></button>
+        </div>
+    </nav>
+
+    <div class="row slideWrapper">
+        <div class="col w-full h-full">
+            <div style="padding: 16px 0 0 0"></div>
+            <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
+                <div id="glDiv"></div>
+            </div>
+            <div style="padding: 16px 0 0 0"></div>
+            <div class="row">
+                <button id="leftButton" class="btn-primary"><</button>
+                <div style="width: 16px;"></div>
+                <p id="moveCounter" class="text-2xl text-white"></p>
+                <div style="width: 16px;"></div>
+                <button id="rightButton" class="btn-primary">></button>
+            </div>
+            <div style="padding: 16px 0 0 0"></div>
+            <p id="lessonHeader" class="text-white text-lg font-bold"></p>
+            <div style="padding: 8px 0 0 0"></div>
+            <p id="lessonText" class="text-white text-left px-6 max-w-lg break-words"></p>
+            <div style="padding: 16px 0 0 0"></div>
+        </div>
+
+        <div id="lessonNavigator" class="slideLeft slideLeftClosed col"></div>
+    </div>
+
+    <div class="slideRight">
+        <div class="row" style="justify-content: space-between;">
+            <h5 style="font-size: 1.2rem;">Menu</h5>
+            <button id="closeMenu" class="xButton">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                </svg>
+            </button>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <div style="height: 16px;"></div>
+            <button id="learnButton" class="btn-primary">
+                Learn
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="playButton" class="btn-primary">
+                Play
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="trainButton" class="btn-primary">
+                Train
+            </button>
+            <div style="height: 8px;"></div>
+            <button id="cubleButton" class="btn-primary">
+                Cuble
+            </button>
+        </div>
+    </div>
+
+    <script src="./scripts/index.js"></script>
+</body>
+
+</html>

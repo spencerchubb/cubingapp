@@ -1,4 +1,143 @@
-/* @tailwind components; */
+*, ::before, ::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+}
+
+::-webkit-backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+}
+
+::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+}
 
 .fixed {
   position: fixed;
@@ -20,6 +159,10 @@
   margin-top: 1rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -34,6 +177,10 @@
 
 .table {
   display: table;
+}
+
+.grid {
+  display: grid;
 }
 
 .contents {
@@ -68,6 +215,10 @@
   width: 83.333333%;
 }
 
+.max-w-5xl {
+  max-width: 64rem;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -78,6 +229,10 @@
 
 .resize {
   resize: both;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flex-wrap {
@@ -92,8 +247,16 @@
   justify-content: space-between;
 }
 
+.gap-6 {
+  gap: 1.5rem;
+}
+
 .break-words {
   overflow-wrap: break-word;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
 }
 
 .rounded-lg {
@@ -136,6 +299,14 @@
   --tw-bg-opacity: 0.5;
 }
 
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -163,6 +334,10 @@
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
 }
 
 .text-left {
@@ -197,14 +372,32 @@
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-slate-400 {
+  --tw-shadow-color: #94a3b8;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 * {
@@ -217,12 +410,23 @@ html {
   font-family: Verdana, sans-serif;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
 }
 
-input, select {
+a {
+  text-decoration: inherit;
+}
+
+input,
+select {
   margin: 0;
   font-size: 1rem;
 }
@@ -231,7 +435,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: solid 1px #ddd;
   padding: 8px 16px 8px 8px;
   color: white;
@@ -275,6 +480,38 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.blue-to-purple {
+  background-image: linear-gradient(135deg,
+            hsl(240deg 47% 23%) 0%,
+            hsl(266deg 42% 27%) 50%,
+            hsl(286deg 36% 30%) 100%);
+}
+
+/* .gradient1 {
+    background-image:
+        linear-gradient(rgba(211, 211, 211, 0.2), rgba(211, 211, 211, 0.2)),
+        linear-gradient(135deg,
+            hsl(240deg 47% 23%) 0%,
+            hsl(266deg 42% 27%) 50%,
+            hsl(286deg 36% 30%) 100%);
+} */
+
+.red-to-orange {
+  background-image: linear-gradient(135deg,
+            hsl(0deg 64% 31%) 0%,
+            hsl(15deg 76% 32%) 50%,
+            hsl(27deg 94% 31%) 100%);
+}
+
+/* .gradient2:hover {
+    background-image: 
+        linear-gradient(rgba(211, 211, 211, 0.2), rgba(211, 211, 211, 0.2)),
+        linear-gradient(135deg,
+            hsl(0deg 64% 31%) 0%,
+            hsl(15deg 76% 32%) 50%,
+            hsl(27deg 94% 31%) 100%);
+} */
 
 .navbar {
   background-color: rgb(61, 75, 116);
@@ -406,8 +643,19 @@ body {
   background: rgb(100, 100, 100);
 }
 
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:cursor-pointer:hover {
   cursor: pointer;
+}
+
+.hover\:bg-white:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-slate-500:hover {
@@ -423,6 +671,10 @@ body {
 .hover\:bg-neutral-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(38 38 38 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-opacity-10:hover {
+  --tw-bg-opacity: 0.1;
 }
 
 .hover\:bg-opacity-75:hover {

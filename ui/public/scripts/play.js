@@ -2374,7 +2374,7 @@
       updateDrawer(false);
     });
     document.querySelector("#learnButton").addEventListener("click", () => {
-      document.location.href = "index.html";
+      document.location.href = "learn.html";
     });
     document.querySelector("#playButton").addEventListener("click", () => {
       document.location.href = "play.html";
