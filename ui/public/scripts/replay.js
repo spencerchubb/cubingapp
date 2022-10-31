@@ -478,7 +478,7 @@
     }
   });
 
-  // scripts/buffers.ts
+  // ui/src/scripts/buffers.ts
   function multiply(a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -711,7 +711,7 @@
     }
   };
 
-  // scripts/pieceIndices.ts
+  // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
   var URB = [6, 35, 51];
@@ -772,12 +772,12 @@
     ...lastLayerPieces
   ];
 
-  // scripts/common/rand.ts
+  // ui/src/scripts/common/rand.ts
   function randInt(int) {
     return Math.floor(Math.random() * int);
   }
 
-  // scripts/util.ts
+  // ui/src/scripts/util.ts
   function shuffle(array) {
     let i = array.length;
     while (i != 0) {
@@ -790,7 +790,7 @@
     return array;
   }
 
-  // scripts/scramble.ts
+  // ui/src/scripts/scramble.ts
   var U = 0;
   var F = 1;
   var D = 2;
@@ -921,7 +921,7 @@
     }
   }
 
-  // scripts/cube.ts
+  // ui/src/scripts/cube.ts
   var gl;
   var WHITE = {
     active: [1, 1, 1, 1],
@@ -1249,6 +1249,8 @@
     matchKeyToTurn(event) {
       if (this.disableTurn)
         return;
+      if (event.ctrlKey)
+        return;
       const code = event.code;
       switch (code) {
         case "KeyN":
@@ -1520,7 +1522,7 @@
     }
   };
 
-  // scripts/dragDetector.ts
+  // ui/src/scripts/dragDetector.ts
   function xPixelToClip(val, canvasSize) {
     return val / canvasSize * 2 - 1;
   }
@@ -1833,7 +1835,7 @@
     }
   };
 
-  // scripts/store.ts
+  // ui/src/scripts/store.ts
   var angle = "angle";
   var animateTurns = "animateTurns";
   var hintStickers = "hintStickers";
@@ -1878,7 +1880,7 @@
     return parseFloat(value);
   }
 
-  // scripts/glMatrix.ts
+  // ui/src/scripts/glMatrix.ts
   function create() {
     return [
       1,
@@ -1958,7 +1960,7 @@
     m[15] += m[3] * x + m[6] * y + m[10] * z;
   }
 
-  // scripts/scene.ts
+  // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
   var buffers;
@@ -2297,7 +2299,7 @@
     `;
   }
 
-  // scripts/ui.ts
+  // ui/src/scripts/ui.ts
   function addListenersForLeftModal() {
     const drawer = document.querySelector(".slideRight");
     let isOpen = false;
@@ -6888,7 +6890,7 @@
   var version3 = "9.9.0";
   registerVersion(name3, version3, "app");
 
-  // scripts/vars/common.ts
+  // ui/src/scripts/vars/common.ts
   var firebaseConfig = {
     apiKey: "AIzaSyCnwuoBqAR6cx7uqzxf7iEC99sZf36sZZA",
     authDomain: "virtual-cube.firebaseapp.com",
@@ -6900,18 +6902,18 @@
   };
   var app = initializeApp(firebaseConfig);
 
-  // scripts/vars/devVars.ts
+  // ui/src/scripts/vars/devVars.ts
   var url = "http://52.203.56.212:3000";
 
-  // scripts/modal.ts
+  // ui/src/scripts/modal.ts
   function renderModal() {
     const background = document.createElement("div");
     const modal = document.createElement("div");
-    background.className = "modal-bg";
+    background.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
     background.addEventListener("click", () => {
       background.remove();
     });
-    modal.className = "col modal";
+    modal.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
     modal.addEventListener("click", (event) => {
       event.stopPropagation();
     });
@@ -6923,7 +6925,7 @@
     ];
   }
 
-  // scripts/replay.ts
+  // ui/src/scripts/replay.ts
   async function main() {
     setDragEnabled(false);
     renderCanvas();

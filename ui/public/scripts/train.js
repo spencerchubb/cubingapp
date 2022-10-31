@@ -4,9 +4,9 @@
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
-  // scripts/alg-data.json
+  // ui/src/scripts/alg-data.json
   var require_alg_data = __commonJS({
-    "scripts/alg-data.json"(exports, module) {
+    "ui/src/scripts/alg-data.json"(exports, module) {
       module.exports = [
         {
           cube: "3x3",
@@ -772,7 +772,7 @@
     }
   });
 
-  // scripts/buffers.ts
+  // ui/src/scripts/buffers.ts
   function multiply(a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -1005,7 +1005,7 @@
     }
   };
 
-  // scripts/pieceIndices.ts
+  // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
   var URB = [6, 35, 51];
@@ -1066,12 +1066,12 @@
     ...lastLayerPieces
   ];
 
-  // scripts/common/rand.ts
+  // ui/src/scripts/common/rand.ts
   function randInt(int) {
     return Math.floor(Math.random() * int);
   }
 
-  // scripts/util.ts
+  // ui/src/scripts/util.ts
   function shuffle(array) {
     let i = array.length;
     while (i != 0) {
@@ -1110,7 +1110,7 @@
     arr[n] = temp;
   }
 
-  // scripts/scramble.ts
+  // ui/src/scripts/scramble.ts
   var U = 0;
   var F = 1;
   var D = 2;
@@ -1241,7 +1241,7 @@
     }
   }
 
-  // scripts/cube.ts
+  // ui/src/scripts/cube.ts
   var gl;
   var WHITE = {
     active: [1, 1, 1, 1],
@@ -1569,6 +1569,8 @@
     matchKeyToTurn(event) {
       if (this.disableTurn)
         return;
+      if (event.ctrlKey)
+        return;
       const code = event.code;
       switch (code) {
         case "KeyN":
@@ -1840,7 +1842,7 @@
     }
   };
 
-  // scripts/dragDetector.ts
+  // ui/src/scripts/dragDetector.ts
   function xPixelToClip(val, canvasSize) {
     return val / canvasSize * 2 - 1;
   }
@@ -2153,7 +2155,7 @@
     }
   };
 
-  // scripts/store.ts
+  // ui/src/scripts/store.ts
   var algs = "algs";
   var angle = "angle";
   var animateTurns = "animateTurns";
@@ -2217,7 +2219,7 @@
     return parseFloat(value);
   }
 
-  // scripts/glMatrix.ts
+  // ui/src/scripts/glMatrix.ts
   function create() {
     return [
       1,
@@ -2297,7 +2299,7 @@
     m[15] += m[3] * x + m[6] * y + m[10] * z;
   }
 
-  // scripts/scene.ts
+  // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
   var buffers;
@@ -2637,7 +2639,7 @@
     `;
   }
 
-  // scripts/ui.ts
+  // ui/src/scripts/ui.ts
   function addListenersForLeftModal() {
     const drawer = document.querySelector(".slideRight");
     let isOpen = false;
@@ -2676,7 +2678,7 @@
     });
   }
 
-  // scripts/slide.ts
+  // ui/src/scripts/slide.ts
   var NARROW = 725;
   var opened = false;
   function open(ele) {
@@ -2703,14 +2705,14 @@
     return `
     <div class="row" style="justify-content: space-between; width: 100%; padding-bottom: 16px;">
         <p style="font-weight: bold; padding-right: 2rem;">${title}</p>
-        <svg id="closeDrawer" class="closeDrawer" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path class="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+        <svg id="closeDrawer" class="xButton" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+            <path id="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>
     </div>
     `;
   }
 
-  // scripts/train.ts
+  // ui/src/scripts/train.ts
   var algData = require_alg_data();
   var state = {
     solutionShown: false,
@@ -2894,20 +2896,21 @@
     }
     const solutionText = document.querySelector("#solution-text");
     solutionText.addEventListener("click", showSolution);
+    const toggleStyles = ["hover:cursor-pointer", "hover:bg-neutral-800", "hover:bg-opacity-75"];
     function showSolution() {
       state.solutionShown = true;
       let alg = state.algs[0].alg;
       alg = applyPre(alg, state.preAUF);
       solutionText.textContent = alg;
-      solutionText.classList.remove("show-solution-clickable");
+      solutionText.classList.remove(...toggleStyles);
     }
     function hideSolution() {
       solutionText.textContent = "Show solution";
-      solutionText.classList.add("show-solution-clickable");
+      solutionText.classList.add(...toggleStyles);
     }
     function showSolved() {
       solutionText.textContent = "Solved!";
-      solutionText.classList.remove("show-solution-clickable");
+      solutionText.classList.remove(...toggleStyles);
     }
     function retry() {
       state.retried = true;
@@ -2941,7 +2944,7 @@
     });
     document.addEventListener("click", (event) => {
       const target = event.target;
-      if (target.classList.contains("closeDrawer")) {
+      if (target.id === "closeDrawer") {
         close(document.querySelector("#rightDrawer"));
       } else if (target.id === "next") {
         nextAlg();

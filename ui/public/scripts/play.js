@@ -478,7 +478,7 @@
     }
   });
 
-  // scripts/buffers.ts
+  // ui/src/scripts/buffers.ts
   function multiply(a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -711,7 +711,7 @@
     }
   };
 
-  // scripts/pieceIndices.ts
+  // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
   var URB = [6, 35, 51];
@@ -772,12 +772,12 @@
     ...lastLayerPieces
   ];
 
-  // scripts/common/rand.ts
+  // ui/src/scripts/common/rand.ts
   function randInt(int) {
     return Math.floor(Math.random() * int);
   }
 
-  // scripts/util.ts
+  // ui/src/scripts/util.ts
   function shuffle(array) {
     let i = array.length;
     while (i != 0) {
@@ -790,7 +790,7 @@
     return array;
   }
 
-  // scripts/scramble.ts
+  // ui/src/scripts/scramble.ts
   var U = 0;
   var F = 1;
   var D = 2;
@@ -921,7 +921,7 @@
     }
   }
 
-  // scripts/cube.ts
+  // ui/src/scripts/cube.ts
   var gl;
   var WHITE = {
     active: [1, 1, 1, 1],
@@ -1249,6 +1249,8 @@
     matchKeyToTurn(event) {
       if (this.disableTurn)
         return;
+      if (event.ctrlKey)
+        return;
       const code = event.code;
       switch (code) {
         case "KeyN":
@@ -1520,7 +1522,7 @@
     }
   };
 
-  // scripts/dragDetector.ts
+  // ui/src/scripts/dragDetector.ts
   function xPixelToClip(val, canvasSize) {
     return val / canvasSize * 2 - 1;
   }
@@ -1833,7 +1835,7 @@
     }
   };
 
-  // scripts/store.ts
+  // ui/src/scripts/store.ts
   var angle = "angle";
   var animateTurns = "animateTurns";
   var hintStickers = "hintStickers";
@@ -1906,7 +1908,7 @@
     return parseFloat(value);
   }
 
-  // scripts/glMatrix.ts
+  // ui/src/scripts/glMatrix.ts
   function create() {
     return [
       1,
@@ -1986,7 +1988,7 @@
     m[15] += m[3] * x + m[6] * y + m[10] * z;
   }
 
-  // scripts/scene.ts
+  // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
   var buffers;
@@ -2346,7 +2348,7 @@
     `;
   }
 
-  // scripts/ui.ts
+  // ui/src/scripts/ui.ts
   function addListenersForLeftModal() {
     const drawer = document.querySelector(".slideRight");
     let isOpen = false;
@@ -2385,7 +2387,7 @@
     });
   }
 
-  // scripts/timer.ts
+  // ui/src/scripts/timer.ts
   var Timer = class {
     constructor() {
       this.isRunning = false;
@@ -2430,7 +2432,7 @@
     }
   };
 
-  // scripts/recorder.ts
+  // ui/src/scripts/recorder.ts
   var Recorder = class {
     constructor() {
       this._isRecording = false;
@@ -7713,7 +7715,7 @@
   var version3 = "9.9.0";
   registerVersion(name3, version3, "app");
 
-  // scripts/vars/common.ts
+  // ui/src/scripts/vars/common.ts
   var firebaseConfig = {
     apiKey: "AIzaSyCnwuoBqAR6cx7uqzxf7iEC99sZf36sZZA",
     authDomain: "virtual-cube.firebaseapp.com",
@@ -7725,7 +7727,7 @@
   };
   var app = initializeApp(firebaseConfig);
 
-  // scripts/vars/devVars.ts
+  // ui/src/scripts/vars/devVars.ts
   var url = "http://52.203.56.212:3000";
   var authSingleton;
   var auth = () => {
@@ -7736,15 +7738,15 @@
     return authSingleton;
   };
 
-  // scripts/modal.ts
+  // ui/src/scripts/modal.ts
   function renderModal() {
     const background = document.createElement("div");
     const modal2 = document.createElement("div");
-    background.className = "modal-bg";
+    background.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
     background.addEventListener("click", () => {
       background.remove();
     });
-    modal2.className = "col modal";
+    modal2.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
     modal2.addEventListener("click", (event) => {
       event.stopPropagation();
     });
@@ -7756,7 +7758,7 @@
     ];
   }
 
-  // scripts/auth.ts
+  // ui/src/scripts/auth.ts
   var CubingAppUser = class {
     constructor() {
     }
@@ -7798,7 +7800,7 @@
         <p style="font-size: 1rem;">Sign in with Google</p>
     </div>
     `;
-    googleSignInButton.className = "googleSignInButton";
+    googleSignInButton.className = "mt-4 p-2 bg-white rounded-md shadow-lg border-solid border-gray-400 hover:cursor-pointer hover:bg-gray-200";
     googleSignInButton.addEventListener("click", () => {
       _signInWithPopup();
     });
@@ -7888,7 +7890,7 @@
     authListener();
   }
 
-  // scripts/slide.ts
+  // ui/src/scripts/slide.ts
   var NARROW = 725;
   var opened = false;
   function open(ele) {
@@ -7915,14 +7917,14 @@
     return `
     <div class="row" style="justify-content: space-between; width: 100%; padding-bottom: 16px;">
         <p style="font-weight: bold; padding-right: 2rem;">${title}</p>
-        <svg id="closeDrawer" class="closeDrawer" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path class="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+        <svg id="closeDrawer" class="xButton" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+            <path id="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>
     </div>
     `;
   }
 
-  // scripts/play.ts
+  // ui/src/scripts/play.ts
   var drawerIndex;
   var solves = [];
   var solvesFetched = false;

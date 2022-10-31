@@ -40,8 +40,8 @@ export function renderHeader(title: string) {
     return `
     <div class="row" style="justify-content: space-between; width: 100%; padding-bottom: 16px;">
         <p style="font-weight: bold; padding-right: 2rem;">${title}</p>
-        <svg id="closeDrawer" class="closeDrawer" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-            <path class="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+        <svg id="closeDrawer" class="xButton" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+            <path id="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>
     </div>
     `;

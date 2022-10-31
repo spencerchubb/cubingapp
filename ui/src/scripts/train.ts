@@ -237,6 +237,7 @@ export function main() {
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
     solutionText.addEventListener("click", showSolution);
+    const toggleStyles = ["hover:cursor-pointer", "hover:bg-neutral-800", "hover:bg-opacity-75"]
     function showSolution() {
         state.solutionShown = true;
 
@@ -245,15 +246,15 @@ export function main() {
         alg = applyPre(alg, state.preAUF);
 
         solutionText.textContent = alg;
-        solutionText.classList.remove("show-solution-clickable");
+        solutionText.classList.remove(...toggleStyles);
     }
     function hideSolution() {
         solutionText.textContent = "Show solution";
-        solutionText.classList.add("show-solution-clickable");
+        solutionText.classList.add(...toggleStyles);
     }
     function showSolved() {
         solutionText.textContent = "Solved!";
-        solutionText.classList.remove("show-solution-clickable");
+        solutionText.classList.remove(...toggleStyles);
     }
 
     function retry() {
@@ -300,7 +301,7 @@ export function main() {
 
     document.addEventListener("click", (event: MouseEvent) => {
         const target = event.target as HTMLElement;
-        if (target.classList.contains("closeDrawer")) {
+        if (target.id === "closeDrawer") {
             slide.close(document.querySelector("#rightDrawer"));
         } else if (target.id === "next") {
             nextAlg();

@@ -5,44 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/main.css">
-    <title>Cubing | Learn</title>
+    <title>Cubing | Replay</title>
     <link rel="icon" href="./images/favicon.png" type="image/x-icon">
 </head>
 
 <body class="col">
     <nav class="navbar" style="justify-content: space-between;">
-        <a class="pointer-hover">
+        <a class="hover:cursor-pointer">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
-        <div>
-            <button id="prevLesson" class="btn-primary"><</button>
-            <button id="openClose" class="btn-primary">Lessons</button>
-            <button id="nextLesson" class="btn-primary">></button>
-        </div>
+        <button id="share" class="btn-primary" style="margin-right: 12px;">Share</button>
     </nav>
-
-    <div class="row slideWrapper">
-        <div id="main-container" style="width: 100%;">
-            <div style="padding: 16px 0 0 0"></div>
+    <div class="row" style="flex-wrap: wrap; align-items: start; min-height: 0; width: 100%; height: 100%;">
+        <div class="col" style="flex-grow: 1;">
             <div style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;">
                 <div id="glDiv"></div>
             </div>
-            <div style="padding: 16px 0 0 0"></div>
-            <div class="row">
-                <button id="leftButton" class="btn-primary"><</button>
-                <div style="width: 16px;"></div>
-                <p id="moveCounter"></p>
-                <div style="width: 16px;"></div>
+            <button id="playPause" class="btn-primary" style="padding: 0; border-radius: 0 0 50% 50%">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
+                    viewBox="0 0 54 54" xml:space="preserve"
+                    style="width: 40px; height: 40px; margin: 4px 8px;">
+                    <polygon points="15,8 45,27 15,46" />
+                </svg>
+            </button>
+            <p id="moveCounter" class="text-2xl text-white py-2"></p>
+            <div style="display: flex; flex-direction: row;">
+                <!-- &lt is less than -->
+                <button id="leftButton" class="btn-primary">&lt;</button>
+                <div style="width: 8px;"></div>
                 <button id="rightButton" class="btn-primary">></button>
             </div>
-            <div style="padding: 16px 0 0 0"></div>
-            <p id="lessonHeader"></p>
-            <div style="padding: 8px 0 0 0"></div>
-            <p id="lessonText"></p>
-            <div style="padding: 16px 0 0 0"></div>
         </div>
-
-        <div id="lessonNavigator" class="slideLeft slideLeftClosed col"></div>
+        <div style="height: 100%; overflow-y: scroll;">
+            <table>
+                <tbody id="solveData" style="flex-direction: column; background-color: rgb(70, 70, 70); height: 100%; padding: 12px;">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="slideRight">
@@ -74,7 +73,7 @@
         </div>
     </div>
 
-    <script src="./dist/index.js"></script>
+    <script src="./scripts/replay.js"></script>
 </body>
 
 </html>

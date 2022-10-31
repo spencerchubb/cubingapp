@@ -1,5 +1,5 @@
 (() => {
-  // scripts/buffers.ts
+  // ui/src/scripts/buffers.ts
   function multiply(a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -232,7 +232,7 @@
     }
   };
 
-  // scripts/pieceIndices.ts
+  // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
   var URB = [6, 35, 51];
@@ -293,12 +293,12 @@
     ...lastLayerPieces
   ];
 
-  // scripts/common/rand.ts
+  // ui/src/scripts/common/rand.ts
   function randInt(int) {
     return Math.floor(Math.random() * int);
   }
 
-  // scripts/util.ts
+  // ui/src/scripts/util.ts
   function shuffle(array) {
     let i = array.length;
     while (i != 0) {
@@ -311,7 +311,7 @@
     return array;
   }
 
-  // scripts/scramble.ts
+  // ui/src/scripts/scramble.ts
   var U = 0;
   var F = 1;
   var D = 2;
@@ -442,7 +442,7 @@
     }
   }
 
-  // scripts/cube.ts
+  // ui/src/scripts/cube.ts
   var gl;
   var WHITE = {
     active: [1, 1, 1, 1],
@@ -770,6 +770,8 @@
     matchKeyToTurn(event) {
       if (this.disableTurn)
         return;
+      if (event.ctrlKey)
+        return;
       const code = event.code;
       switch (code) {
         case "KeyN":
@@ -1041,7 +1043,7 @@
     }
   };
 
-  // scripts/dragDetector.ts
+  // ui/src/scripts/dragDetector.ts
   function xPixelToClip(val, canvasSize) {
     return val / canvasSize * 2 - 1;
   }
@@ -1354,7 +1356,7 @@
     }
   };
 
-  // scripts/store.ts
+  // ui/src/scripts/store.ts
   var angle = "angle";
   var animateTurns = "animateTurns";
   var hintStickers = "hintStickers";
@@ -1399,7 +1401,7 @@
     return parseFloat(value);
   }
 
-  // scripts/glMatrix.ts
+  // ui/src/scripts/glMatrix.ts
   function create() {
     return [
       1,
@@ -1479,7 +1481,7 @@
     m[15] += m[3] * x + m[6] * y + m[10] * z;
   }
 
-  // scripts/scene.ts
+  // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
   var buffers;
@@ -1509,10 +1511,6 @@
     hintStickers2 = getHintStickers();
     showBody2 = getShowBody();
     animateTurns2 = getAnimateTurns();
-  }
-  function setNumLayers(val) {
-    numLayers = val;
-    renderCanvas();
   }
   function animateTurn() {
     if (!animateTurns2) {
@@ -1819,12 +1817,12 @@
     `;
   }
 
-  // scripts/ui.ts
+  // ui/src/scripts/ui.ts
   function addListenersForLeftModal() {
     const drawer = document.querySelector(".slideRight");
     let isOpen = false;
-    function updateDrawer(open) {
-      isOpen = open;
+    function updateDrawer(open2) {
+      isOpen = open2;
       if (isOpen) {
         drawer.classList.add("slideRightOpen");
         return;
@@ -1858,41 +1856,643 @@
     });
   }
 
-  // scripts/cuble.ts
+  // ui/src/scripts/slide.ts
+  var NARROW = 725;
+  var opened = false;
+  function open(ele) {
+    opened = true;
+    ele.style.display = "flex";
+    ele.classList.add("slideLeftOpen");
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+    } else {
+      ele.classList.remove("slideLeftClosed");
+    }
+  }
+  function close(ele) {
+    opened = false;
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+      ele.classList.remove("slideLeftOpen");
+      ele.style.display = "flex";
+    } else {
+      ele.style.display = "none";
+    }
+  }
+  function toggle(ele) {
+    if (opened) {
+      close(ele);
+    } else {
+      open(ele);
+    }
+  }
+
+  // ui/src/scripts/index.ts
+  var CENTERS2 = [4, 13, 22, 31, 40, 49];
+  var UBL2 = [0, 29, 36];
+  var URB2 = [6, 35, 51];
+  var ULF2 = [2, 9, 42];
+  var UFR2 = [8, 15, 45];
+  var DFL2 = [18, 11, 44];
+  var DRF2 = [24, 47, 17];
+  var DLB2 = [20, 38, 27];
+  var DBR2 = [26, 33, 53];
+  var UB2 = [3, 32];
+  var UL2 = [1, 39];
+  var UR2 = [7, 48];
+  var UF2 = [5, 12];
+  var FL2 = [10, 43];
+  var FR2 = [16, 46];
+  var DF2 = [21, 14];
+  var DL2 = [19, 41];
+  var DR2 = [25, 50];
+  var DB2 = [23, 30];
+  var BL2 = [28, 37];
+  var BR2 = [34, 52];
+  var crossPieces2 = [
+    ...UB2,
+    ...UL2,
+    ...UR2,
+    ...UF2,
+    ...CENTERS2
+  ];
+  var firstLayerPieces2 = [
+    ...crossPieces2,
+    ...UBL2,
+    ...URB2,
+    ...ULF2,
+    ...UFR2
+  ];
+  var f2lPieces2 = [
+    ...firstLayerPieces2,
+    ...FL2,
+    ...FR2,
+    ...BL2,
+    ...BR2
+  ];
+  var lastLayerEdges2 = [
+    ...DF2,
+    ...DL2,
+    ...DR2,
+    ...DB2
+  ];
+  var lastLayerPieces2 = [
+    ...lastLayerEdges2,
+    ...DFL2,
+    ...DRF2,
+    ...DLB2,
+    ...DBR2
+  ];
+  var allPieces2 = [
+    ...f2lPieces2,
+    ...lastLayerPieces2
+  ];
+  function parseMovesFromAlg(alg) {
+    if (!alg || alg === "") {
+      return [];
+    }
+    return alg.split(" ");
+  }
   function main() {
     renderCanvas();
     addListenersForLeftModal();
-    const moveCountEle = document.querySelector("#moveCount");
-    let moveCount = 0;
-    function resetMoveCount() {
-      moveCount = 0;
-      moveCountEle.textContent = `Moves: ${moveCount}`;
-    }
-    function incrementMoveCount() {
-      moveCount += 1;
-      moveCountEle.textContent = `Moves: ${moveCount}`;
-    }
-    resetMoveCount();
-    document.querySelector("#solve").addEventListener("click", (event) => {
-      setNumLayers(3);
-    });
-    document.querySelector("#scramble").addEventListener("click", (event) => {
-      cube.scramble();
-      cube.cubleScramble();
-      cube.revealCorrectStickers();
-      render();
-      resetMoveCount();
-    });
     document.addEventListener("keydown", (event) => {
-      const match = cube.matchKeyToTurn(event);
-      if (match) {
-        if (match.turn) {
-          cube.revealCorrectStickers();
-          incrementMoveCount();
-        }
+      if (cube.matchKeyToTurn(event)) {
         animateTurn();
       }
     });
+    const lessonsData = [
+      {
+        "title": "Intro",
+        "lessons": [
+          {
+            "title": "About this tutorial",
+            "setup": "",
+            "algorithm": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L",
+            "text": `
+                    This section simply explains how the tutorial works. Each section will come with an animation
+                    so you can understand what the step looks like. Use the arrow buttons above to try
+                    the animation! We gave you a dummy example of some moves.
+                    `,
+            "activeStickers": []
+          },
+          {
+            "title": "Centers",
+            "setup": "",
+            "algorithm": "x x x x y y y y",
+            "text": `
+                    In this tutorial, we will refer to different types of pieces. One of these types is
+                    the centers, which are highlighted in the animation.
+                    `,
+            "activeStickers": [...CENTERS2]
+          },
+          {
+            "title": "Corners",
+            "setup": "",
+            "algorithm": "x x x x y y y y",
+            "text": `
+                    Now in the animation, the corners and the centers are highlighted.
+                    `,
+            "activeStickers": [
+              ...UBL2,
+              ...URB2,
+              ...ULF2,
+              ...UFR2,
+              ...DFL2,
+              ...DRF2,
+              ...DLB2,
+              ...DBR2,
+              ...CENTERS2
+            ]
+          },
+          {
+            "title": "Edges",
+            "setup": "",
+            "algorithm": "x x x x y y y y",
+            "text": `
+                    The edges and centers are highlighted. This is the last category of piece that
+                    you need to know for the tutorial.
+                    `,
+            "activeStickers": [
+              ...UB2,
+              ...UL2,
+              ...UR2,
+              ...UF2,
+              ...FL2,
+              ...FR2,
+              ...DF2,
+              ...DL2,
+              ...DR2,
+              ...DB2,
+              ...BL2,
+              ...BR2,
+              ...CENTERS2
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Cross",
+        "lessons": [
+          {
+            "title": "About the cross",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F'",
+            "algorithm": "y y y y",
+            "text": `
+                    Once you solve the cross, it should look like the animation.
+                    You should be able to see how it forms a white cross, hence the name of the step.
+                    Try the arrow buttons so you can see how it looks from all angles.
+                    `,
+            "activeStickers": crossPieces2
+          },
+          {
+            "title": "Case 1",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F D y x",
+            "algorithm": "x' y' D' F F",
+            "textualInstructions": [
+              "We want to solve the white-green piece.",
+              "We want to solve the white-green piece.",
+              "As you saw, the green-white piece is on the bottom. First we need to line it up by moving the bottom layer.",
+              "Now we simply solve it by moving the front layer.",
+              "Now we simply solve it by moving the front layer.",
+              "Done"
+            ],
+            "activeStickers": crossPieces2
+          },
+          {
+            "title": "Case 2",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F'",
+            "algorithm": "R' D' R F F",
+            "textualInstructions": [
+              "Now the white-green piece is in the middle layer, on the right. We are going to move it to the bottom.",
+              "Then move the bottom layer to get the white-green out of the way.",
+              "Then fix the white-red which we previously moved.",
+              "Just like in Case 1, we can now move the front layer to solve it.",
+              "Just like in Case 1, we can now move the front layer to solve it.",
+              "Done"
+            ],
+            "activeStickers": crossPieces2
+          },
+          {
+            "title": "Case 3",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F' F'",
+            "algorithm": "F",
+            "textualInstructions": [
+              "The white-green piece is on the top and in its correct position. However, it is flipped incorrectly! We just need to do one move to bring us to a case that we have already learned.",
+              "Now it's in the middle layer, which is the same as Case 2."
+            ],
+            "activeStickers": crossPieces2
+          },
+          {
+            "title": "Case 4",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R",
+            "algorithm": "F'",
+            "textualInstructions": [
+              "The white-green is on the bottom, but flipped incorrectly. Again, we can use the concept of turning the case into another case that we already know.",
+              "Now it's in the middle layer, which is the same as Case 2."
+            ],
+            "activeStickers": crossPieces2
+          },
+          {
+            "title": "Cross recap",
+            "setup": "",
+            "algorithm": "",
+            "text": "Hopefully the cases we provide here are enough to show the concepts. Each scramble will be different and you just need to break it down and approach each cross piece one by one.",
+            "activeStickers": crossPieces2
+          }
+        ]
+      },
+      {
+        "title": "First layer corners",
+        "lessons": [
+          {
+            "title": "Prepare corner to insert",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z",
+            "algorithm": "U'",
+            "textualInstructions": [
+              "Since the cross is solved, we will hold it on the bottom from here on out. Here we are interested in the white-orange-green corner, which is currently in the top left and needs to go in the bottom right. We need to prepare it to be inserted by moving it above the position where it needs to go.",
+              "With a simple move of the top layer, now the white-orange-green is above where it needs to go."
+            ],
+            "activeStickers": [
+              ...crossPieces2,
+              ...ULF2
+            ]
+          },
+          {
+            "title": "Inserting a corner",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z L' U U L",
+            "algorithm": "R U R' U'",
+            "text": "The white-orange-green is above where it needs to go. We only need a 4-move algorithm to insert it.",
+            "activeStickers": [
+              ...crossPieces2,
+              ...ULF2
+            ]
+          },
+          {
+            "title": "Example 2",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U'",
+            "algorithm": "R U R' U' R U R' U' R U R' U' R U R' U' R U R' U'",
+            "textualInstructions": [
+              "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+              "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+              "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+              "We will use the same 4-move algorithm, but we have to repeat it multiple times. In fact, whenever the corner is above its solved position, you can repeat the 4-move algorithm until the corner is solved.",
+              "2nd repetition",
+              "2nd repetition",
+              "2nd repetition",
+              "2nd repetition",
+              "3rd repetition",
+              "3rd repetition",
+              "3rd repetition",
+              "3rd repetition",
+              "4th repetition",
+              "4th repetition",
+              "4th repetition",
+              "4th repetition",
+              "5th repetition",
+              "5th repetition",
+              "5th repetition",
+              "5th repetition",
+              "Done"
+            ],
+            "activeStickers": [
+              ...crossPieces2,
+              ...ULF2
+            ]
+          },
+          {
+            "title": "Example 3",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U' R U R' U' R U R' U' R U R' U'",
+            "algorithm": "R U R' U' R U R' U' R U R' U' R U R' U' R U R' U'",
+            "textualInstructions": [
+              "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+              "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+              "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+              "The white-orange-green is in its position and flipped incorrectly. We can still use the 4-move algorithm.",
+              "2nd repetition",
+              "2nd repetition",
+              "2nd repetition",
+              "2nd repetition",
+              "Done"
+            ],
+            "activeStickers": [
+              ...crossPieces2,
+              ...ULF2
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Second layer edges",
+        "lessons": [
+          {
+            "title": "Prepare edge to insert",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L",
+            "algorithm": "U",
+            "text": "We are interested in the red-green. Move the top layer so that the green matches the center.",
+            "activeStickers": [
+              ...firstLayerPieces2,
+              ...FR2
+            ]
+          },
+          {
+            "title": "Insert edge to the left",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L U",
+            "algorithm": "U' L' U L y' U R U' R'",
+            "text": "Notice the red-green is ready because the green matches the center. To insert it to the left, we use this algorithm.",
+            "activeStickers": [
+              ...firstLayerPieces2,
+              ...FR2
+            ]
+          },
+          {
+            "title": "Insert edge to the right",
+            "setup": "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B F U' F' U F U' F'",
+            "algorithm": "U R U' R' y U' L' U L",
+            "text": 'We want to insert the orange-green to the right. This is a mirror of the "left insert" algorithm.',
+            "activeStickers": [
+              ...firstLayerPieces2,
+              ...FL2
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Orient edges of last layer",
+        "lessons": [
+          {
+            "title": "Bar case",
+            "setup": "z z R' L L F F L L F' L L F' L L F' R U F R U' R' F'",
+            "algorithm": "F R U R' U' F'",
+            "text": "This algorithm turns the Bar into a cross. It looks similar to the L case algorithm.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerEdges2
+            ]
+          },
+          {
+            "title": "L case",
+            "setup": "z z L L F D D B' R R B D D B' F' U U R' U R U B U L L U",
+            "algorithm": "F U R U' R' F'",
+            "text": "This algorithm turns the L into a cross. It looks similar to the Bar case algorithm.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerEdges2
+            ]
+          },
+          {
+            "title": "Dot case",
+            "setup": "z z B' L L F' D F' D R F' D D L L B' R R U U L L D D F F L L",
+            "algorithm": "F R U R' U' F' U U F U R U' R' F'",
+            "text": "To turn the dot into a cross, we combine the Bar algorithm and the L algorithm.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerEdges2
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Orient corners of last layer",
+        "lessons": [
+          {
+            "title": "Sune Algorithm",
+            "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U U R' U' R U' R'",
+            "algorithm": "R U R' U R U U R'",
+            "text": "This is the algorithm to get all the yellows on top. Lots of cubers give algorithms special names, and this one is called Sune. See the other lessons for an explanation on how to apply the algorithm.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerPieces2
+            ]
+          },
+          {
+            "title": "Example 1",
+            "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U U R' U' R U' R'",
+            "algorithm": "R U R' U R U U R'",
+            "text": "This is the simplest application of Sune. When you have one yellow corner facing correctly and a yellow corner on the front, you just have to do Sune once.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerPieces2
+            ]
+          },
+          {
+            "title": "Example 2",
+            "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' R U R' U R U U R' U U",
+            "algorithm": "R U R' U R U U R' U U R U R' U R U U R'",
+            "text": "There is one yellow corner facing correctly and another facing to the right. Perform Sune twice to solve.",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerPieces2
+            ]
+          },
+          {
+            "title": "Example 3",
+            "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' F R' F' L F R F' L'",
+            "algorithm": "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
+            "text": "Here is an example that uses Sune 3 times. If you get a case that isn't covered here, just use the Sune and a bit of trial and error until you get to a case that you do know!",
+            "activeStickers": [
+              ...f2lPieces2,
+              ...lastLayerPieces2
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Permute corners of last layer",
+        "lessons": [
+          {
+            "title": "Headlights",
+            "setup": "z z R U R' U' D R R U' R U' R' U R' U R R D' U'",
+            "algorithm": "U R U R' F' R U R' U' R' F R R U' R'",
+            "text": 'Notice the two red corners form a "headlight" pattern. Use this algorithm for headlights.',
+            "activeStickers": allPieces2
+          },
+          {
+            "title": "No headlights",
+            "setup": "z z F R U' R' U' R U R' F' R U R' U' R' F R F'",
+            "algorithm": "R U R' F' R U R' U' R' F R R U' R'",
+            "text": "When there are no headlights, you can perform the same headlights algorithm and then proceed with the headlights case.",
+            "activeStickers": allPieces2
+          }
+        ]
+      },
+      {
+        "title": "Permute edges of last layer",
+        "lessons": [
+          {
+            "title": "Solved bar",
+            "setup": "z z M M U' M' U U M U' M M",
+            "algorithm": "U U U U M' M' U M' U U M U M' M'",
+            "textualInstructions": [
+              "Notice how there is a solved green bar and the other three edges need swapped.",
+              "Notice how there is a solved green bar and the other three edges need swapped.",
+              "Notice how there is a solved green bar and the other three edges need swapped.",
+              "Notice how there is a solved green bar and the other three edges need swapped.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Use this algorithm when there is a solved bar.",
+              "Done"
+            ],
+            "activeStickers": allPieces2
+          },
+          {
+            "title": "No solved bar",
+            "setup": "z z M M U M M U U M M U M M",
+            "algorithm": "U U U U M' M' U M' U U M U M' M'",
+            "text": "Noticed how all four edges need swapped. Use the same algorithm to produce a solved bar and then proceed from there.",
+            "textualInstructions": [
+              "Noticed how all four edges need swapped.",
+              "Noticed how all four edges need swapped.",
+              "Noticed how all four edges need swapped.",
+              "Noticed how all four edges need swapped.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Use the same algorithm to produce a solved bar.",
+              "Now there is a solved bar and you can proceed from here."
+            ],
+            "activeStickers": allPieces2
+          }
+        ]
+      }
+    ];
+    let currentLesson;
+    let currLessonIndex;
+    let currentMoves = [];
+    let lessons = 0;
+    lessonsData.forEach((lesson) => lessons += lesson.lessons.length);
+    function renderLesson(i) {
+      if (i < 0 || i >= lessons || i === currLessonIndex) {
+        return;
+      }
+      currLessonIndex = i;
+      renderTableOfContents();
+      const lessonHeader = document.querySelector("#lessonHeader");
+      lessonHeader.textContent = currentLesson.title;
+      if (currentLesson.text) {
+        lessonText.textContent = currentLesson.text;
+      } else if (currentLesson.textualInstructions) {
+        updateTextualInstruction(0);
+      }
+      let alg = currentLesson.algorithm;
+      currentMoves = parseMovesFromAlg(alg);
+      moveIndex = 0;
+      updateMoveCounter(0);
+      cube.setActiveStickers(currentLesson.activeStickers);
+      cube.setNumOfLayers(3);
+      cube.new();
+      buffers.initBufferData(cube, showBody2, void 0);
+      const setup = currentLesson.setup;
+      cube.execAlg(setup);
+      cube.commitStickers();
+      render();
+    }
+    const lessonNavigator = document.querySelector("#lessonNavigator");
+    function renderTableOfContents() {
+      let lessonHTML = "";
+      let toRender = -1;
+      lessonsData.forEach((l0) => {
+        lessonHTML += `<p style="font-weight: bold;">${l0.title}</p>`;
+        l0.lessons.forEach((l1) => {
+          toRender++;
+          let color = "";
+          if (toRender === currLessonIndex) {
+            color = "background-color: lightblue;";
+            currentLesson = l1;
+          }
+          lessonHTML += `
+                <div style="padding: 4px 0 4px 8px;">
+                    <p
+                        class="lesson-p hover:cursor-pointer hover:bg-gray-200" 
+                        style="padding: 4px; border-radius: 4px; width: 100%; ${color}"
+                        lesson-index=${toRender}>
+                        ${l1.title}
+                    </p>
+                </div>
+                `;
+        });
+      });
+      lessonNavigator.innerHTML = `<div>
+            ${lessonHTML}
+        </div>`;
+    }
+    lessonNavigator.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.className === "lesson-p") {
+        const lessonIndex = parseInt(target.getAttribute("lesson-index"));
+        renderLesson(lessonIndex);
+        if (document.documentElement.clientWidth < NARROW) {
+          close(lessonNavigator);
+        }
+      }
+    });
+    let moveIndex = 0;
+    const moveCounter = document.querySelector("#moveCounter");
+    const lessonText = document.querySelector("#lessonText");
+    function updateMoveCounter(i) {
+      moveCounter.textContent = `${i} / ${currentMoves.length}`;
+      if (currentLesson.textualInstructions) {
+        updateTextualInstruction(moveIndex);
+      }
+    }
+    function updateTextualInstruction(instructionIndex) {
+      lessonText.textContent = currentLesson.textualInstructions[instructionIndex];
+    }
+    renderLesson(0);
+    document.querySelector("#leftButton").addEventListener("click", (event) => {
+      if (moveIndex > 0) {
+        moveIndex--;
+        cube.stepAlgorithm(currentMoves[moveIndex], false);
+        animateTurn();
+        updateMoveCounter(moveIndex);
+      }
+    });
+    document.querySelector("#rightButton").addEventListener("click", (event) => {
+      if (moveIndex < currentMoves.length) {
+        cube.stepAlgorithm(currentMoves[moveIndex], true);
+        animateTurn();
+        moveIndex++;
+        updateMoveCounter(moveIndex);
+      }
+    });
+    document.querySelector("#openClose").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
+    document.querySelector("#prevLesson").addEventListener("click", () => {
+      renderLesson(currLessonIndex - 1);
+    });
+    document.querySelector("#nextLesson").addEventListener("click", () => {
+      renderLesson(currLessonIndex + 1);
+    });
+    renderBasedOnWidth();
   }
+  window.addEventListener("resize", () => {
+    renderBasedOnWidth();
+  });
+  function renderBasedOnWidth() {
+    const openClose = document.querySelector("#openClose");
+    const drawerEle = document.querySelector("#lessonNavigator");
+    if (document.documentElement.clientWidth < NARROW) {
+      openClose.style.display = "inline-block";
+      close(drawerEle);
+      return;
+    }
+    openClose.style.display = "none";
+    open(drawerEle);
+  }
+  main();
 })();
-//# sourceMappingURL=cuble.js.map
+//# sourceMappingURL=index.js.map

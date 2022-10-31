@@ -449,6 +449,10 @@ export class CubeLogic {
     matchKeyToTurn(event: KeyboardEvent) {
         if (this.disableTurn) return;
 
+        // Don't turn if the user is holding down ctrl
+        // E.g., the user might be using Ctrl + Shift + R to refresh the page or Ctrl + Shift + I to open the dev tools
+        if (event.ctrlKey) return;
+
         const code = event.code;
 
         switch (code) {

@@ -564,7 +564,7 @@ function main() {
                 lessonHTML += `
                 <div style="padding: 4px 0 4px 8px;">
                     <p
-                        class="lesson-p" 
+                        class="lesson-p hover:cursor-pointer hover:bg-gray-200" 
                         style="padding: 4px; border-radius: 4px; width: 100%; ${color}"
                         lesson-index=${toRender}>
                         ${l1.title}

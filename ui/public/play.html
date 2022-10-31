@@ -10,9 +10,9 @@
 </head>
 
 <body style="display: flex; flex-direction: row;">
-    <div class="col" style="flex-grow: 1;">
-        <nav class="navbar" style="justify-content: space-between;">
-            <a class="pointer-hover">
+    <div class="w-full">
+        <nav class="navbar justify-between">
+            <a class="hover:cursor-pointer hover:bg-slate-500 rounded-lg">
                 <img id="menu" src="./images/menu.svg" alt="Menu">
             </a>
             <div class="row" style="height: 48px; align-items: start;">
@@ -44,10 +44,10 @@
         </nav>
         
         <div class="row slideWrapper">
-            <div id="main-container">
+            <div class="col w-full h-full">
                 <div class="row" style="margin-top: 1rem;">
                     <!-- Default value is 3 for a 3x3 Rubik's Cube -->
-                    <input id="layerInput" type="number" min="0" value="3">
+                    <input id="layerInput" class="w-16 py-0.5 px-1" type="number" min="0" value="3">
                     <div style="width: 24px;"></div>
                     <button id="solve" class="btn-primary">Solve</button>
                     <div style="width: 24px;"></div>
@@ -57,7 +57,7 @@
                     style="position: relative; border-radius: 8px; box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px; margin-top: 1rem;">
                     <div id="glDiv"></div>
                 </div>
-                <p id="time" style="margin-top: 1rem;"></p>
+                <p id="time" class="text-white text-4xl mt-4"></p>
                 <button id="startStop" class="btn-primary" style="margin-top: 0.5rem;"></button>
             </div>
             <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <script src="./dist/play.js"></script>
+    <script src="./scripts/play.js"></script>
 </body>
 
 </html>
