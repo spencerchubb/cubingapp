@@ -6,6 +6,6 @@ export {
     auth,
 };
 
-const url = "https://us-central1-virtual-cube.cloudfunctions.net";
+const url = "http://52.203.56.212:3000";
 
 const auth = () => getAuth(app);

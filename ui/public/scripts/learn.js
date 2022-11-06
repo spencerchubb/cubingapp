@@ -232,6 +232,26 @@
     }
   };
 
+  // ui/src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      dt /= 1e3;
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
   // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
@@ -1356,51 +1376,6 @@
     }
   };
 
-  // ui/src/scripts/store.ts
-  var angle = "angle";
-  var animateTurns = "animateTurns";
-  var hintStickers = "hintStickers";
-  var showBody = "showBody";
-  var size = "size";
-  function getAngle() {
-    var _a;
-    return (_a = getInt(angle)) != null ? _a : 1;
-  }
-  function getHintStickers() {
-    var _a;
-    return (_a = getBool(hintStickers)) != null ? _a : true;
-  }
-  function getShowBody() {
-    var _a;
-    return (_a = getBool(showBody)) != null ? _a : true;
-  }
-  function getSize() {
-    var _a;
-    return (_a = getFloat(size)) != null ? _a : 1;
-  }
-  function getAnimateTurns() {
-    var _a;
-    return (_a = getBool(animateTurns)) != null ? _a : true;
-  }
-  function getBool(key) {
-    const value = localStorage.getItem(key);
-    if (value === null)
-      return null;
-    return value == "1";
-  }
-  function getInt(key) {
-    const value = localStorage.getItem(key);
-    if (value === null)
-      return null;
-    return parseInt(value);
-  }
-  function getFloat(key) {
-    const value = localStorage.getItem(key);
-    if (value === null)
-      return null;
-    return parseFloat(value);
-  }
-
   // ui/src/scripts/glMatrix.ts
   function create() {
     return [
@@ -1423,13 +1398,13 @@
     ];
   }
   function perspective(out, fovy, aspect, near, far) {
-    const f = 1 / Math.tan(fovy / 2);
-    out[0] = f / aspect;
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
     out[1] = 0;
     out[2] = 0;
     out[3] = 0;
     out[4] = 0;
-    out[5] = f;
+    out[5] = f2;
     out[6] = 0;
     out[7] = 0;
     out[8] = 0;
@@ -1481,6 +1456,51 @@
     m[15] += m[3] * x + m[6] * y + m[10] * z;
   }
 
+  // ui/src/scripts/store.ts
+  var angle = "angle";
+  var animateTurns = "animateTurns";
+  var hintStickers = "hintStickers";
+  var showBody = "showBody";
+  var size = "size";
+  function getAngle() {
+    var _a;
+    return (_a = getInt(angle)) != null ? _a : 1;
+  }
+  function getHintStickers() {
+    var _a;
+    return (_a = getBool(hintStickers)) != null ? _a : true;
+  }
+  function getShowBody() {
+    var _a;
+    return (_a = getBool(showBody)) != null ? _a : true;
+  }
+  function getSize() {
+    var _a;
+    return (_a = getFloat(size)) != null ? _a : 1;
+  }
+  function getAnimateTurns() {
+    var _a;
+    return (_a = getBool(animateTurns)) != null ? _a : true;
+  }
+  function getBool(key) {
+    const value = localStorage.getItem(key);
+    if (value === null)
+      return null;
+    return value == "1";
+  }
+  function getInt(key) {
+    const value = localStorage.getItem(key);
+    if (value === null)
+      return null;
+    return parseInt(value);
+  }
+  function getFloat(key) {
+    const value = localStorage.getItem(key);
+    if (value === null)
+      return null;
+    return parseFloat(value);
+  }
+
   // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
@@ -1492,8 +1512,7 @@
   var prefsLoaded = false;
   var numLayers = 3;
   var dragEnabled = true;
-  var angle2 = 0;
-  var velocity = 5e-3;
+  var spring = new Spring();
   var isTurning = false;
   var time = Date.now();
   var animation;
@@ -1524,7 +1543,7 @@
     animation = cube.shiftAnimation();
     if (animation) {
       isTurning = true;
-      angle2 = 0;
+      spring.position = 0;
       time = Date.now();
       render();
     }
@@ -1546,10 +1565,9 @@
     const newTime = Date.now();
     const dt = newTime - time;
     time = newTime;
-    const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
-    velocity += dt * (equilibriumVelocity - velocity) / 100;
-    angle2 += dt * velocity / 150;
-    if (angle2 >= Math.PI / 2) {
+    spring.target = (cube.animationQueue.length + 1) * 90;
+    spring.update(dt);
+    if (spring.position >= 90) {
       cube.setAllAffectedStickers(false);
       cube.commitStickers();
       isTurning = false;
@@ -1737,7 +1755,7 @@
       rotate(
         m,
         transformMatrix,
-        animation ? animation.stickersToAnimate[i] ? angle2 : 0 : 0,
+        animation ? animation.stickersToAnimate[i] ? spring.position * Math.PI / 180 : 0 : 0,
         animation ? animation.axis : [1, 0, 0]
       );
       gl2.uniformMatrix4fv(

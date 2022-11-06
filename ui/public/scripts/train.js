@@ -1005,6 +1005,26 @@
     }
   };
 
+  // ui/src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      dt /= 1e3;
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
   // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
   var UBL = [0, 29, 36];
@@ -2155,6 +2175,86 @@
     }
   };
 
+  // ui/src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = Math.hypot(x, y, z);
+    len = 1 / len;
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+  }
+
   // ui/src/scripts/store.ts
   var algs = "algs";
   var angle = "angle";
@@ -2219,86 +2319,6 @@
     return parseFloat(value);
   }
 
-  // ui/src/scripts/glMatrix.ts
-  function create() {
-    return [
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1
-    ];
-  }
-  function perspective(out, fovy, aspect, near, far) {
-    const f = 1 / Math.tan(fovy / 2);
-    out[0] = f / aspect;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = f;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[11] = -1;
-    out[12] = 0;
-    out[13] = 0;
-    out[15] = 0;
-    if (far != null && far !== Infinity) {
-      const nf = 1 / (near - far);
-      out[10] = (far + near) * nf;
-      out[14] = 2 * far * near * nf;
-    } else {
-      out[10] = -1;
-      out[14] = -2 * near;
-    }
-  }
-  function rotate(out, a, rad, axis) {
-    let x = axis[0], y = axis[1], z = axis[2], len = Math.hypot(x, y, z);
-    len = 1 / len;
-    x *= len;
-    y *= len;
-    z *= len;
-    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
-    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
-    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
-    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
-    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
-    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
-    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
-    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
-    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
-    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
-    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
-    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
-    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
-    if (a !== out) {
-      out[12] = a[12];
-      out[13] = a[13];
-      out[14] = a[14];
-      out[15] = a[15];
-    }
-  }
-  function translate(m, v) {
-    let x = v[0], y = v[1], z = v[2];
-    m[12] += m[0] * x + m[4] * y + m[7] * z;
-    m[13] += m[1] * x + m[5] * y + m[8] * z;
-    m[14] += m[2] * x + m[5] * y + m[9] * z;
-    m[15] += m[3] * x + m[6] * y + m[10] * z;
-  }
-
   // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
@@ -2310,8 +2330,7 @@
   var prefsLoaded = false;
   var numLayers = 3;
   var dragEnabled = true;
-  var angle2 = 0;
-  var velocity = 5e-3;
+  var spring = new Spring();
   var isTurning = false;
   var time = Date.now();
   var animation;
@@ -2346,7 +2365,7 @@
     animation = cube.shiftAnimation();
     if (animation) {
       isTurning = true;
-      angle2 = 0;
+      spring.position = 0;
       time = Date.now();
       render();
     }
@@ -2368,10 +2387,9 @@
     const newTime = Date.now();
     const dt = newTime - time;
     time = newTime;
-    const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
-    velocity += dt * (equilibriumVelocity - velocity) / 100;
-    angle2 += dt * velocity / 150;
-    if (angle2 >= Math.PI / 2) {
+    spring.target = (cube.animationQueue.length + 1) * 90;
+    spring.update(dt);
+    if (spring.position >= 90) {
       cube.setAllAffectedStickers(false);
       cube.commitStickers();
       isTurning = false;
@@ -2559,7 +2577,7 @@
       rotate(
         m,
         transformMatrix,
-        animation ? animation.stickersToAnimate[i] ? angle2 : 0 : 0,
+        animation ? animation.stickersToAnimate[i] ? spring.position * Math.PI / 180 : 0 : 0,
         animation ? animation.axis : [1, 0, 0]
       );
       gl2.uniformMatrix4fv(

@@ -178,7 +178,7 @@
             if (t[0] & 1)
               throw t[1];
             return t[1];
-          }, trys: [], ops: [] }, f, y, t, g;
+          }, trys: [], ops: [] }, f2, y, t, g;
           return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
             return this;
           }), g;
@@ -188,11 +188,11 @@
             };
           }
           function step(op) {
-            if (f)
+            if (f2)
               throw new TypeError("Generator is already executing.");
             while (_)
               try {
-                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                if (f2 = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
                   return t;
                 if (y = 0, t)
                   op = [op[0] & 2, t.value];
@@ -242,7 +242,7 @@
                 op = [6, e];
                 y = 0;
               } finally {
-                f = t = 0;
+                f2 = t = 0;
               }
             if (op[0] & 5)
               throw op[1];
@@ -254,20 +254,20 @@
             if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p))
               __createBinding2(o, m, p);
         };
-        __createBinding2 = Object.create ? function(o, m, k, k2) {
-          if (k2 === void 0)
-            k2 = k;
-          var desc = Object.getOwnPropertyDescriptor(m, k);
+        __createBinding2 = Object.create ? function(o, m, k2, k22) {
+          if (k22 === void 0)
+            k22 = k2;
+          var desc = Object.getOwnPropertyDescriptor(m, k2);
           if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
             desc = { enumerable: true, get: function() {
-              return m[k];
+              return m[k2];
             } };
           }
-          Object.defineProperty(o, k2, desc);
-        } : function(o, m, k, k2) {
-          if (k2 === void 0)
-            k2 = k;
-          o[k2] = m[k];
+          Object.defineProperty(o, k22, desc);
+        } : function(o, m, k2, k22) {
+          if (k22 === void 0)
+            k22 = k2;
+          o[k22] = m[k2];
         };
         __values2 = function(o) {
           var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
@@ -312,9 +312,9 @@
         __spreadArrays2 = function() {
           for (var s = 0, i = 0, il = arguments.length; i < il; i++)
             s += arguments[i].length;
-          for (var r = Array(s), k = 0, i = 0; i < il; i++)
-            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-              r[k] = a[j];
+          for (var r = Array(s), k2 = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k2++)
+              r[k2] = a[j];
           return r;
         };
         __spreadArray2 = function(to, from, pack) {
@@ -362,8 +362,8 @@
           function reject(value) {
             resume("throw", value);
           }
-          function settle(f, v) {
-            if (f(v), q.shift(), q.length)
+          function settle(f2, v) {
+            if (f2(v), q.shift(), q.length)
               resume(q[0][0], q[0][1]);
           }
         };
@@ -374,10 +374,10 @@
           }), verb("return"), i[Symbol.iterator] = function() {
             return this;
           }, i;
-          function verb(n, f) {
+          function verb(n, f2) {
             i[n] = o[n] ? function(v) {
-              return (p = !p) ? { value: __await2(o[n](v)), done: n === "return" } : f ? f(v) : v;
-            } : f;
+              return (p = !p) ? { value: __await2(o[n](v)), done: n === "return" } : f2 ? f2(v) : v;
+            } : f2;
           }
         };
         __asyncValues2 = function(o) {
@@ -418,9 +418,9 @@
             return mod;
           var result = {};
           if (mod != null) {
-            for (var k in mod)
-              if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
-                __createBinding2(result, mod, k);
+            for (var k2 in mod)
+              if (k2 !== "default" && Object.prototype.hasOwnProperty.call(mod, k2))
+                __createBinding2(result, mod, k2);
           }
           __setModuleDefault(result, mod);
           return result;
@@ -428,21 +428,21 @@
         __importDefault2 = function(mod) {
           return mod && mod.__esModule ? mod : { "default": mod };
         };
-        __classPrivateFieldGet2 = function(receiver, state, kind, f) {
-          if (kind === "a" && !f)
+        __classPrivateFieldGet2 = function(receiver, state, kind, f2) {
+          if (kind === "a" && !f2)
             throw new TypeError("Private accessor was defined without a getter");
-          if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+          if (typeof state === "function" ? receiver !== state || !f2 : !state.has(receiver))
             throw new TypeError("Cannot read private member from an object whose class did not declare it");
-          return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+          return kind === "m" ? f2 : kind === "a" ? f2.call(receiver) : f2 ? f2.value : state.get(receiver);
         };
-        __classPrivateFieldSet2 = function(receiver, state, value, kind, f) {
+        __classPrivateFieldSet2 = function(receiver, state, value, kind, f2) {
           if (kind === "m")
             throw new TypeError("Private method is not writable");
-          if (kind === "a" && !f)
+          if (kind === "a" && !f2)
             throw new TypeError("Private accessor was defined without a setter");
-          if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+          if (typeof state === "function" ? receiver !== state || !f2 : !state.has(receiver))
             throw new TypeError("Cannot write private member to an object whose class did not declare it");
-          return kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value), value;
+          return kind === "a" ? f2.call(receiver, value) : f2 ? f2.value = value : state.set(receiver, value), value;
         };
         __classPrivateFieldIn2 = function(state, receiver) {
           if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function")
@@ -708,6 +708,26 @@
         out = out.concat(appendage);
       }
       return out;
+    }
+  };
+
+  // ui/src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      dt /= 1e3;
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
     }
   };
 
@@ -1835,6 +1855,86 @@
     }
   };
 
+  // ui/src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = Math.hypot(x, y, z);
+    len = 1 / len;
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+  }
+
   // ui/src/scripts/store.ts
   var angle = "angle";
   var animateTurns = "animateTurns";
@@ -1908,86 +2008,6 @@
     return parseFloat(value);
   }
 
-  // ui/src/scripts/glMatrix.ts
-  function create() {
-    return [
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      1
-    ];
-  }
-  function perspective(out, fovy, aspect, near, far) {
-    const f = 1 / Math.tan(fovy / 2);
-    out[0] = f / aspect;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = f;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[11] = -1;
-    out[12] = 0;
-    out[13] = 0;
-    out[15] = 0;
-    if (far != null && far !== Infinity) {
-      const nf = 1 / (near - far);
-      out[10] = (far + near) * nf;
-      out[14] = 2 * far * near * nf;
-    } else {
-      out[10] = -1;
-      out[14] = -2 * near;
-    }
-  }
-  function rotate(out, a, rad, axis) {
-    let x = axis[0], y = axis[1], z = axis[2], len = Math.hypot(x, y, z);
-    len = 1 / len;
-    x *= len;
-    y *= len;
-    z *= len;
-    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
-    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
-    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
-    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
-    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
-    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
-    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
-    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
-    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
-    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
-    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
-    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
-    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
-    if (a !== out) {
-      out[12] = a[12];
-      out[13] = a[13];
-      out[14] = a[14];
-      out[15] = a[15];
-    }
-  }
-  function translate(m, v) {
-    let x = v[0], y = v[1], z = v[2];
-    m[12] += m[0] * x + m[4] * y + m[7] * z;
-    m[13] += m[1] * x + m[5] * y + m[8] * z;
-    m[14] += m[2] * x + m[5] * y + m[9] * z;
-    m[15] += m[3] * x + m[6] * y + m[10] * z;
-  }
-
   // ui/src/scripts/scene.ts
   var canvas;
   var gl2;
@@ -1999,8 +2019,7 @@
   var prefsLoaded = false;
   var numLayers = 3;
   var dragEnabled = true;
-  var angle2 = 0;
-  var velocity = 5e-3;
+  var spring = new Spring();
   var isTurning = false;
   var time = Date.now();
   var animation;
@@ -2055,7 +2074,7 @@
     animation = cube.shiftAnimation();
     if (animation) {
       isTurning = true;
-      angle2 = 0;
+      spring.position = 0;
       time = Date.now();
       render();
     }
@@ -2077,10 +2096,9 @@
     const newTime = Date.now();
     const dt = newTime - time;
     time = newTime;
-    const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
-    velocity += dt * (equilibriumVelocity - velocity) / 100;
-    angle2 += dt * velocity / 150;
-    if (angle2 >= Math.PI / 2) {
+    spring.target = (cube.animationQueue.length + 1) * 90;
+    spring.update(dt);
+    if (spring.position >= 90) {
       cube.setAllAffectedStickers(false);
       cube.commitStickers();
       isTurning = false;
@@ -2268,7 +2286,7 @@
       rotate(
         m,
         transformMatrix,
-        animation ? animation.stickersToAnimate[i] ? angle2 : 0 : 0,
+        animation ? animation.stickersToAnimate[i] ? spring.position * Math.PI / 180 : 0 : 0,
         animation ? animation.axis : [1, 0, 0]
       );
       gl2.uniformMatrix4fv(
@@ -2745,12 +2763,12 @@
     }
     const aKeys = Object.keys(a);
     const bKeys = Object.keys(b);
-    for (const k of aKeys) {
-      if (!bKeys.includes(k)) {
+    for (const k2 of aKeys) {
+      if (!bKeys.includes(k2)) {
         return false;
       }
-      const aProp = a[k];
-      const bProp = b[k];
+      const aProp = a[k2];
+      const bProp = b[k2];
       if (isObject(aProp) && isObject(bProp)) {
         if (!deepEqual(aProp, bProp)) {
           return false;
@@ -2759,8 +2777,8 @@
         return false;
       }
     }
-    for (const k of bKeys) {
-      if (!aKeys.includes(k)) {
+    for (const k2 of bKeys) {
+      if (!aKeys.includes(k2)) {
         return false;
       }
     }
@@ -5366,85 +5384,6 @@
       return this.observer.next.bind(this.observer);
     }
   };
-  function connectAuthEmulator(auth3, url2, options) {
-    const authInternal = _castAuth(auth3);
-    _assert(authInternal._canInitEmulator, authInternal, "emulator-config-failed");
-    _assert(/^https?:\/\//.test(url2), authInternal, "invalid-emulator-scheme");
-    const disableWarnings = !!(options === null || options === void 0 ? void 0 : options.disableWarnings);
-    const protocol = extractProtocol(url2);
-    const { host, port } = extractHostAndPort(url2);
-    const portStr = port === null ? "" : `:${port}`;
-    authInternal.config.emulator = { url: `${protocol}//${host}${portStr}/` };
-    authInternal.settings.appVerificationDisabledForTesting = true;
-    authInternal.emulatorConfig = Object.freeze({
-      host,
-      port,
-      protocol: protocol.replace(":", ""),
-      options: Object.freeze({ disableWarnings })
-    });
-    if (!disableWarnings) {
-      emitEmulatorWarning();
-    }
-  }
-  function extractProtocol(url2) {
-    const protocolEnd = url2.indexOf(":");
-    return protocolEnd < 0 ? "" : url2.substr(0, protocolEnd + 1);
-  }
-  function extractHostAndPort(url2) {
-    const protocol = extractProtocol(url2);
-    const authority = /(\/\/)?([^?#/]+)/.exec(url2.substr(protocol.length));
-    if (!authority) {
-      return { host: "", port: null };
-    }
-    const hostAndPort = authority[2].split("@").pop() || "";
-    const bracketedIPv6 = /^(\[[^\]]+\])(:|$)/.exec(hostAndPort);
-    if (bracketedIPv6) {
-      const host = bracketedIPv6[1];
-      return { host, port: parsePort(hostAndPort.substr(host.length + 1)) };
-    } else {
-      const [host, port] = hostAndPort.split(":");
-      return { host, port: parsePort(port) };
-    }
-  }
-  function parsePort(portStr) {
-    if (!portStr) {
-      return null;
-    }
-    const port = Number(portStr);
-    if (isNaN(port)) {
-      return null;
-    }
-    return port;
-  }
-  function emitEmulatorWarning() {
-    function attachBanner() {
-      const el = document.createElement("p");
-      const sty = el.style;
-      el.innerText = "Running in emulator mode. Do not use with production credentials.";
-      sty.position = "fixed";
-      sty.width = "100%";
-      sty.backgroundColor = "#ffffff";
-      sty.border = ".1em solid #000000";
-      sty.color = "#b50000";
-      sty.bottom = "0px";
-      sty.left = "0px";
-      sty.margin = "0px";
-      sty.zIndex = "10000";
-      sty.textAlign = "center";
-      el.classList.add("firebase-emulator-warning");
-      document.body.appendChild(el);
-    }
-    if (typeof console !== "undefined" && typeof console.info === "function") {
-      console.info("WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.");
-    }
-    if (typeof window !== "undefined" && typeof document !== "undefined") {
-      if (document.readyState === "loading") {
-        window.addEventListener("DOMContentLoaded", attachBanner);
-      } else {
-        attachBanner();
-      }
-    }
-  }
   var AuthCredential = class {
     constructor(providerId, signInMethod) {
       this.providerId = providerId;
@@ -7727,16 +7666,9 @@
   };
   var app = initializeApp(firebaseConfig);
 
-  // ui/src/scripts/vars/devVars.ts
+  // ui/src/scripts/vars/prodVars.ts
   var url = "http://52.203.56.212:3000";
-  var authSingleton;
-  var auth = () => {
-    if (authSingleton)
-      return authSingleton;
-    authSingleton = getAuth(app);
-    connectAuthEmulator(authSingleton, "http://localhost:9099");
-    return authSingleton;
-  };
+  var auth = () => getAuth(app);
 
   // ui/src/scripts/modal.ts
   function renderModal() {

@@ -1,8 +1,9 @@
 import { Buffers } from "./buffers";
+import { Spring } from "./common/spring";
 import { AnimationData, CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector";
-import * as store from "./store";
 import * as glMat from "./glMatrix";
+import * as store from "./store";
 
 export let canvas: HTMLCanvasElement;
 export let gl: WebGLRenderingContext;
@@ -17,8 +18,7 @@ let transformMatrix;
 let prefsLoaded = false;
 let numLayers: number = 3;
 let dragEnabled = true;
-let angle = 0.0;
-let velocity = 0.005;
+let spring = new Spring();
 let isTurning = false;
 let time = Date.now();
 let animation: AnimationData;
@@ -95,7 +95,7 @@ export function animateTurn() {
     animation = cube.shiftAnimation();
     if (animation) {
         isTurning = true;
-        angle = 0.0;
+        spring.position = 0;
         time = Date.now();
         render();
     }
@@ -122,11 +122,11 @@ function updateScene() {
     const dt = newTime - time;
     time = newTime;
 
-    const equilibriumVelocity = (cube.animationQueue.length + 1) * (cube.animationQueue.length + 1);
-    velocity += dt * (equilibriumVelocity - velocity) / 100;
-    angle += dt * velocity / 150;
+    // target is measured in degrees
+    spring.target = (cube.animationQueue.length + 1) * 90;
+    spring.update(dt);
 
-    if (angle >= Math.PI / 2) {
+    if (spring.position >= 90) {
         cube.setAllAffectedStickers(false);
         cube.commitStickers();
         isTurning = false;
@@ -351,7 +351,7 @@ function drawScene() {
         glMat.rotate(
             m,
             transformMatrix,
-            animation ? animation.stickersToAnimate[i] ? angle : 0 : 0,
+            animation ? animation.stickersToAnimate[i] ? (spring.position * Math.PI / 180) : 0 : 0,
             animation ? animation.axis : [1, 0, 0]
         );
 
