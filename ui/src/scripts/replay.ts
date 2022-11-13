@@ -21,7 +21,7 @@ async function main() {
     scene.setDragEnabled(false);
 
     // Initial canvas render
-    scene.renderCanvas();
+    // scene.renderCanvas(); TODO
 
     addListenersForLeftModal();
 
@@ -54,8 +54,9 @@ async function main() {
 function renderSolve(solveResponse: GetSolveResponse) {
     const solve = solveResponse.SolveRecord.Solve;
 
-    scene.cube.setCubeState(solve.InitialCubeState);
-    scene.render();
+    // TODO
+    // scene.cube.setCubeState(solve.InitialCubeState);
+    // scene.render();
 
     let moveIndex = 0;
     let moveElements: HTMLElement[];
@@ -73,16 +74,18 @@ function renderSolve(solveResponse: GetSolveResponse) {
 
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
-            scene.cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
-            scene.animateTurn();
+            // TODO
+            // scene.cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
+            // scene.animateTurn();
 
             updateMoveCounter(moveIndex - 1);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
         if (moveIndex < solve.Moves.length) {
-            scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
-            scene.animateTurn();
+            // TODO
+            // scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
+            // scene.animateTurn();
 
             updateMoveCounter(moveIndex + 1);
         }
@@ -114,8 +117,9 @@ function renderSolve(solveResponse: GetSolveResponse) {
         }
         function step() {
             if (paused) return;
-            scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
-            scene.animateTurn();
+            // TODO
+            // scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
+            // scene.animateTurn();
             updateMoveCounter(moveIndex + 1);
             if (moveIndex === solve.Moves.length) {
                 pause();
@@ -154,16 +158,19 @@ function renderSolve(solveResponse: GetSolveResponse) {
             if (rowIndex === moveIndex) return;
             let newMoveIndex = moveIndex;
             while (newMoveIndex < rowIndex) {
-                scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
+                // TODO
+                // scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
                 newMoveIndex++;
             }
             while (newMoveIndex > rowIndex) {
                 newMoveIndex--;
-                scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
+                // TODO
+                // scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
             }
-            scene.cube.animationQueue = [];
-            scene.cube.commitStickers();
-            scene.render();
+            // TODO
+            // scene.cube.animationQueue = [];
+            // scene.cube.commitStickers();
+            // scene.render();
             updateMoveCounter(newMoveIndex);
         });
 

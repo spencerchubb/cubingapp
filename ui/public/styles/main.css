@@ -155,12 +155,29 @@
   z-index: 20;
 }
 
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
 }
 
 .block {
@@ -199,6 +216,26 @@
   height: 50%;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
+.h-1 {
+  height: 0.25rem;
+}
+
+.h-0\.5 {
+  height: 0.125rem;
+}
+
+.h-0 {
+  height: 0px;
+}
+
+.min-h-0 {
+  min-height: 0px;
+}
+
 .w-full {
   width: 100%;
 }
@@ -215,6 +252,32 @@
   width: 83.333333%;
 }
 
+.w-3\/4 {
+  width: 75%;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.w-max {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.min-w-max {
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+
+.min-w-fit {
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
 .max-w-5xl {
   max-width: 64rem;
 }
@@ -223,8 +286,16 @@
   max-width: 32rem;
 }
 
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
 .flex-grow {
   flex-grow: 1;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .resize {
@@ -251,6 +322,10 @@
   gap: 1.5rem;
 }
 
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
 .break-words {
   overflow-wrap: break-word;
 }
@@ -267,6 +342,10 @@
   border-radius: 0.375rem;
 }
 
+.border-r-4 {
+  border-right-width: 4px;
+}
+
 .border-solid {
   border-style: solid;
 }
@@ -274,6 +353,15 @@
 .border-gray-400 {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
+}
+
+.border-t-white {
+  --tw-border-opacity: 1;
+  border-top-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
+.border-b-transparent {
+  border-bottom-color: transparent;
 }
 
 .bg-neutral-700 {
@@ -289,6 +377,16 @@
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-75 {
@@ -340,6 +438,14 @@
   padding-bottom: 2rem;
 }
 
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -375,6 +481,11 @@
 .text-gray-300 {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .shadow-lg {
@@ -469,6 +580,21 @@ body {
   bottom: 0;
 }
 
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  /* 
+    We do not want the browser to cancel the pointer during pointermove events on the canvas.
+    See here: https://developer.mozilla.org/en-US/docs/Web/API/Element/pointermove_event 
+    */
+  touch-action: none;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -488,15 +614,6 @@ body {
             hsl(286deg 36% 30%) 100%);
 }
 
-/* .gradient1 {
-    background-image:
-        linear-gradient(rgba(211, 211, 211, 0.2), rgba(211, 211, 211, 0.2)),
-        linear-gradient(135deg,
-            hsl(240deg 47% 23%) 0%,
-            hsl(266deg 42% 27%) 50%,
-            hsl(286deg 36% 30%) 100%);
-} */
-
 .red-to-orange {
   background-image: linear-gradient(135deg,
             hsl(0deg 64% 31%) 0%,
@@ -504,14 +621,15 @@ body {
             hsl(27deg 94% 31%) 100%);
 }
 
-/* .gradient2:hover {
-    background-image: 
-        linear-gradient(rgba(211, 211, 211, 0.2), rgba(211, 211, 211, 0.2)),
-        linear-gradient(135deg,
-            hsl(0deg 64% 31%) 0%,
-            hsl(15deg 76% 32%) 50%,
-            hsl(27deg 94% 31%) 100%);
-} */
+.glDiv {
+  position: relative;
+  border-radius: 8px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 4px 12px;
+  width: 320px;
+  height: 320px;
+  min-width: 320px;
+  min-height: 320px;
+}
 
 .navbar {
   background-color: rgb(61, 75, 116);
@@ -546,7 +664,6 @@ body {
 
 .slideLeft {
   align-items: start;
-  border-radius: 8px 0 0 8px;
   overflow-y: auto;
   z-index: 1;
   min-width: 300px;
@@ -679,6 +796,10 @@ body {
 
 .hover\:bg-opacity-75:hover {
   --tw-bg-opacity: 0.75;
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
 }
 
 @media (min-width: 640px) {

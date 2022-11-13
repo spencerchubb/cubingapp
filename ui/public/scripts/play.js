@@ -479,6 +479,73 @@
   });
 
   // ui/src/scripts/buffers.ts
+  function createBuffers(gl4, cube, showBody3, transformMatrix) {
+    let allPositions = showBody3 ? _concatPositions(cube, 1.01, 0.02) : _concatPositions(cube, 1.02, 0.04);
+    let allNoGapPositions = _concatPositions(cube, 1, 0);
+    let allHintPositions = _concatPositions(cube, 1.5, 0.02);
+    const objects = Array(cube.numOfStickers);
+    for (let i = 0; i < cube.numOfStickers; i++) {
+      let object = {
+        positionBuffer: gl4.createBuffer(),
+        noGapPositionBuffer: gl4.createBuffer(),
+        hintPositionBuffer: gl4.createBuffer(),
+        indexBuffer: gl4.createBuffer(),
+        cart2d: [],
+        positions: null
+      };
+      let positions = Array(12);
+      let noGapPos = Array(12);
+      let hintPos = Array(12);
+      for (let j = 0; j < 12; j++) {
+        let index = i * 12 + j;
+        positions[j] = allPositions[index];
+        noGapPos[j] = allNoGapPositions[index];
+        hintPos[j] = allHintPositions[index];
+      }
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.positionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, new Float32Array(positions), gl4.STATIC_DRAW);
+      object.positions = positions;
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.noGapPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, new Float32Array(noGapPos), gl4.STATIC_DRAW);
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.hintPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, new Float32Array(hintPos), gl4.STATIC_DRAW);
+      if (transformMatrix) {
+        const homo = [
+          ...multiply(
+            transformMatrix,
+            [noGapPos[0], noGapPos[1], noGapPos[2], 1]
+          ),
+          ...multiply(
+            transformMatrix,
+            [noGapPos[3], noGapPos[4], noGapPos[5], 1]
+          ),
+          ...multiply(
+            transformMatrix,
+            [noGapPos[6], noGapPos[7], noGapPos[8], 1]
+          ),
+          ...multiply(
+            transformMatrix,
+            [noGapPos[9], noGapPos[10], noGapPos[11], 1]
+          )
+        ];
+        object.cart2d = [
+          homo[0] / homo[3],
+          homo[1] / homo[3],
+          homo[4] / homo[7],
+          homo[5] / homo[7],
+          homo[8] / homo[11],
+          homo[9] / homo[11],
+          homo[12] / homo[15],
+          homo[13] / homo[15]
+        ];
+      }
+      const indices = [0, 1, 2, 0, 2, 3];
+      gl4.bindBuffer(gl4.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+      gl4.bufferData(gl4.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl4.STATIC_DRAW);
+      objects[i] = object;
+    }
+    return objects;
+  }
   function multiply(a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -488,228 +555,159 @@
     out[3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
     return out;
   }
-  var Buffers = class {
-    constructor(gl3) {
-      this.gl = gl3;
-    }
-    initBufferData(cube2, showBody3, transformMatrix2) {
-      this.cube = cube2;
-      let allPositions = showBody3 ? this._concatPositions(1.01, 0.02) : this._concatPositions(1.02, 0.04);
-      let allNoGapPositions = this._concatPositions(1, 0);
-      let allHintPositions = this._concatPositions(1.5, 0.02);
-      this.objects = [];
-      for (let i = 0; i < this.cube.numOfStickers; i++) {
-        let object = {};
-        let positions = [];
-        let noGapPos = [];
-        let hintPos = [];
-        for (let j = 0; j < 12; j++) {
-          let index = i * 12 + j;
-          positions.push(allPositions[index]);
-          noGapPos.push(allNoGapPositions[index]);
-          hintPos.push(allHintPositions[index]);
-        }
-        object.positionBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.positionBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
-        object.noGapPositionBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.noGapPositionBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(noGapPos), this.gl.STATIC_DRAW);
-        object.hintPositionBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, object.hintPositionBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(hintPos), this.gl.STATIC_DRAW);
-        if (transformMatrix2) {
-          const homo = [
-            ...multiply(
-              transformMatrix2,
-              [noGapPos[0], noGapPos[1], noGapPos[2], 1]
-            ),
-            ...multiply(
-              transformMatrix2,
-              [noGapPos[3], noGapPos[4], noGapPos[5], 1]
-            ),
-            ...multiply(
-              transformMatrix2,
-              [noGapPos[6], noGapPos[7], noGapPos[8], 1]
-            ),
-            ...multiply(
-              transformMatrix2,
-              [noGapPos[9], noGapPos[10], noGapPos[11], 1]
-            )
-          ];
-          const cart2d = [
-            homo[0] / homo[3],
-            homo[1] / homo[3],
-            homo[4] / homo[7],
-            homo[5] / homo[7],
-            homo[8] / homo[11],
-            homo[9] / homo[11],
-            homo[12] / homo[15],
-            homo[13] / homo[15]
-          ];
-          object.cart2d = cart2d;
-        }
-        const indices = [0, 1, 2, 0, 2, 3];
-        object.indexBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), this.gl.STATIC_DRAW);
-        this.objects.push(object);
-      }
-    }
-    _concatPositions(radius, gap) {
-      return [
-        ...this._topFace(1, radius, gap),
-        ...this._frontFace(0, radius, gap),
-        ...this._bottomFace(1, -radius, gap),
-        ...this._backFace(0, -radius, gap),
-        ...this._leftFace(2, -radius, gap),
-        ...this._rightFace(2, radius, gap)
-      ];
-    }
-    _topFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = 0; i < this.cube.layers; i++) {
-          for (let j = 0; j < this.cube.layers; j++) {
-            const a2 = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
-          for (let j = -this.cube.layersHalf; j <= this.cube.layersHalf; j++) {
-            coords.push([2 * j / this.cube.layers, 2 * i / this.cube.layers, n]);
-          }
+  function _concatPositions(cube, radius, gap) {
+    return [
+      ..._topFace(cube, 1, radius, gap),
+      ..._frontFace(cube, 0, radius, gap),
+      ..._bottomFace(cube, 1, -radius, gap),
+      ..._backFace(cube, 0, -radius, gap),
+      ..._leftFace(cube, 2, -radius, gap),
+      ..._rightFace(cube, 2, radius, gap)
+    ];
+  }
+  function _topFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords.push([a2, b, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
-    }
-    _frontFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = 0; i < this.cube.layers; i++) {
-          for (let j = this.cube.layers - 1; j >= 0; j--) {
-            const a2 = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
-          for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-            coords.push([2 * i / this.cube.layers, 2 * j / this.cube.layers, n]);
-          }
+    } else {
+      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
     }
-    _bottomFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = 0; i < this.cube.layers; i++) {
-          for (let j = this.cube.layers - 1; j >= 0; j--) {
-            const a2 = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
-          for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-            coords.push([2 * j / this.cube.layers, 2 * i / this.cube.layers, n]);
-          }
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _frontFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const a2 = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords.push([a2, b, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
-    }
-    _backFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = 0; i < this.cube.layers; i++) {
-          for (let j = 0; j < this.cube.layers; j++) {
-            const a2 = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
-          for (let j = -this.cube.layersHalf; j <= this.cube.layersHalf; j++) {
-            coords.push([2 * i / this.cube.layers, 2 * j / this.cube.layers, n]);
-          }
+    } else {
+      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+          coords.push([2 * i / cube.layers, 2 * j / cube.layers, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
     }
-    _leftFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = 0; i < this.cube.layers; i++) {
-          for (let j = this.cube.layers - 1; j >= 0; j--) {
-            const a2 = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = -this.cube.layersHalf; i <= this.cube.layersHalf; i++) {
-          for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-            coords.push([2 * j / this.cube.layers, 2 * i / this.cube.layers, n]);
-          }
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _bottomFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords.push([a2, b, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
-    }
-    _rightFace(a, n, gap) {
-      let coords = [];
-      if (this.cube.layersEven) {
-        for (let i = this.cube.layers - 1; i >= 0; i--) {
-          for (let j = this.cube.layers - 1; j >= 0; j--) {
-            const a2 = -1 + 1 / this.cube.layers + j * 2 / this.cube.layers;
-            const b = -1 + 1 / this.cube.layers + i * 2 / this.cube.layers;
-            coords.push([a2, b, n]);
-          }
-        }
-      } else {
-        for (let i = this.cube.layersHalf; i >= -this.cube.layersHalf; i--) {
-          for (let j = this.cube.layersHalf; j >= -this.cube.layersHalf; j--) {
-            coords.push([2 * j / this.cube.layers, 2 * i / this.cube.layers, n]);
-          }
+    } else {
+      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
         }
       }
-      return this._concatStickers(coords, a, gap);
     }
-    _concatStickers(coords, a, gap) {
-      let out = [];
-      for (let i = 0; i < this.cube.layersSq; i++) {
-        const temp = coords[i];
-        out = out.concat(this._sticker(a, temp[0], temp[1], temp[2], gap));
-      }
-      return out;
-    }
-    _sticker(a, x, y, n, gap) {
-      const s = 1 / this.cube.layers - gap;
-      const coords = [
-        [x - s, y - s, n],
-        [x + s, y - s, n],
-        [x + s, y + s, n],
-        [x - s, y + s, n]
-      ];
-      let out = [];
-      const numOfVerticesInSquare = 4;
-      const numOfDimensions = 3;
-      for (let i = 0; i < numOfVerticesInSquare; i++) {
-        const temp = coords[i];
-        let appendage = [];
-        for (let i2 = 0; i2 < numOfDimensions; i2++) {
-          appendage.push(temp[(a + i2) % 3]);
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _backFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const a2 = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords.push([a2, b, n]);
         }
-        out = out.concat(appendage);
       }
-      return out;
+    } else {
+      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+          coords.push([2 * i / cube.layers, 2 * j / cube.layers, n]);
+        }
+      }
     }
-  };
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _leftFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords.push([a2, b, n]);
+        }
+      }
+    } else {
+      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
+        }
+      }
+    }
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _rightFace(cube, a, n, gap) {
+    let coords = [];
+    if (cube.layersEven) {
+      for (let i = cube.layers - 1; i >= 0; i--) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords.push([a2, b, n]);
+        }
+      }
+    } else {
+      for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
+        }
+      }
+    }
+    return _concatStickers(cube, coords, a, gap);
+  }
+  function _concatStickers(cube, coords, a, gap) {
+    let out = [];
+    for (let i = 0; i < cube.layersSq; i++) {
+      const temp = coords[i];
+      out = out.concat(_sticker(cube, a, temp[0], temp[1], temp[2], gap));
+    }
+    return out;
+  }
+  function _sticker(cube, a, x, y, n, gap) {
+    const s = 1 / cube.layers - gap;
+    const coords = [
+      [x - s, y - s, n],
+      [x + s, y - s, n],
+      [x + s, y + s, n],
+      [x - s, y + s, n]
+    ];
+    let out = [];
+    const numOfVerticesInSquare = 4;
+    const numOfDimensions = 3;
+    for (let i = 0; i < numOfVerticesInSquare; i++) {
+      const temp = coords[i];
+      let appendage = [];
+      for (let i2 = 0; i2 < numOfDimensions; i2++) {
+        appendage.push(temp[(a + i2) % 3]);
+      }
+      out = out.concat(appendage);
+    }
+    return out;
+  }
 
   // ui/src/scripts/common/spring.ts
   var k = 100;
@@ -722,7 +720,6 @@
       this.target = 0;
     }
     update(dt) {
-      dt /= 1e3;
       const springF = -k * (this.position - this.target);
       const dampingF = -f * this._velocity;
       this._acceleration = springF + dampingF;
@@ -730,6 +727,15 @@
       this.position += this._velocity * dt;
     }
   };
+
+  // ui/src/scripts/colors.ts
+  var WHITE = [1, 1, 1, 1];
+  var YELLOW = [1, 1, 0, 1];
+  var GREEN = [0, 1, 0, 1];
+  var BLUE = [0, 0, 1, 1];
+  var ORANGE = [1, 0.5, 0, 1];
+  var RED = [1, 0, 0, 1];
+  var BLACK = [0, 0, 0, 1];
 
   // ui/src/scripts/pieceIndices.ts
   var CENTERS = [4, 13, 22, 31, 40, 49];
@@ -753,44 +759,16 @@
   var DB = [23, 30];
   var BL = [28, 37];
   var BR = [34, 52];
-  var crossPieces = [
-    ...UB,
-    ...UL,
-    ...UR,
-    ...UF,
-    ...CENTERS
-  ];
-  var firstLayerPieces = [
-    ...crossPieces,
-    ...UBL,
-    ...URB,
-    ...ULF,
-    ...UFR
-  ];
-  var f2lPieces = [
-    ...firstLayerPieces,
-    ...FL,
-    ...FR,
-    ...BL,
-    ...BR
-  ];
-  var lastLayerEdges = [
-    ...DF,
-    ...DL,
-    ...DR,
-    ...DB
-  ];
-  var lastLayerPieces = [
-    ...lastLayerEdges,
-    ...DFL,
-    ...DRF,
-    ...DLB,
-    ...DBR
-  ];
-  var allPieces = [
-    ...f2lPieces,
-    ...lastLayerPieces
-  ];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
 
   // ui/src/scripts/common/rand.ts
   function randInt(int) {
@@ -841,7 +819,7 @@
     [B, L],
     [B, R]
   ];
-  function scramble3x3(cube2) {
+  function scramble3x3(cube) {
     let eo = orientation(12, 2);
     let co = orientation(8, 3);
     let cp = permutation(8);
@@ -851,15 +829,15 @@
     }
     const stickers = Array(54);
     for (let i = 0; i < 6; i++) {
-      const center = cube2.center(i);
+      const center = cube.center(i);
       stickers[center] = i;
     }
-    let uCorners = cube2.corners(0, 0);
-    let fCorners = cube2.corners(1, 0);
-    let dCorners = cube2.corners(2, 0);
-    let bCorners = cube2.corners(3, 0);
-    let lCorners = cube2.corners(4, 0);
-    let rCorners = cube2.corners(5, 0);
+    let uCorners = cube.corners(0, 0);
+    let fCorners = cube.corners(1, 0);
+    let dCorners = cube.corners(2, 0);
+    let bCorners = cube.corners(3, 0);
+    let lCorners = cube.corners(4, 0);
+    let rCorners = cube.corners(5, 0);
     const fill4C = (cIndices, c1, c2, c3, c4, co1, co2, co3, co4) => {
       const corner = (ci, o) => corners[cp[ci]][(co[ci] + o) % 3];
       stickers[cIndices.topLeft] = corner(c1, co1);
@@ -873,12 +851,12 @@
     fill4C(bCorners, 6, 7, 0, 1, 2, 1, 1, 2);
     fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
     fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
-    let uEdges = cube2.edges(0, 0, 0);
-    let fEdges = cube2.edges(1, 0, 0);
-    let dEdges = cube2.edges(2, 0, 0);
-    let bEdges = cube2.edges(3, 0, 0);
-    let lEdges = cube2.edges(4, 0, 0);
-    let rEdges = cube2.edges(5, 0, 0);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
     const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
       const edge = (ei, o) => edges[ep[ei]][(eo[ei] + o) % 2];
       stickers[eIndices.top] = edge(e1, eo1);
@@ -943,53 +921,25 @@
 
   // ui/src/scripts/cube.ts
   var gl;
-  var WHITE = {
-    active: [1, 1, 1, 1],
-    inactive: [0.5, 0.5, 0.5, 1]
-  };
-  var YELLOW = {
-    active: [1, 1, 0, 1],
-    inactive: [0.5, 0.5, 0, 1]
-  };
-  var GREEN = {
-    active: [0, 1, 0, 1],
-    inactive: [0, 0.5, 0, 1]
-  };
-  var BLUE = {
-    active: [0, 0, 1, 1],
-    inactive: [0, 0, 0.5, 1]
-  };
-  var ORANGE = {
-    active: [1, 0.5, 0, 1],
-    inactive: [0.5, 0.25, 0, 1]
-  };
-  var RED = {
-    active: [1, 0, 0, 1],
-    inactive: [0.5, 0, 0, 1]
-  };
-  var BLACK = {
-    active: [0, 0, 0, 1],
-    inactive: [0, 0, 0, 1]
-  };
   var COLORS = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
-  var repeatColorFor4Vertices = (rgba, color, face) => {
+  function makeSticker(color, face) {
     const arr = [
-      rgba[0],
-      rgba[1],
-      rgba[2],
-      rgba[3],
-      rgba[0],
-      rgba[1],
-      rgba[2],
-      rgba[3],
-      rgba[0],
-      rgba[1],
-      rgba[2],
-      rgba[3],
-      rgba[0],
-      rgba[1],
-      rgba[2],
-      rgba[3]
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3]
     ];
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -1000,27 +950,23 @@
       arr,
       buffer
     };
-  };
+  }
   var CubeLogic = class {
-    constructor(_gl, animateTurns3) {
+    constructor(_gl, animateTurns2) {
       gl = _gl;
       this.animationQueue = [];
-      this.animateTurns = animateTurns3;
+      this.animateTurns = animateTurns2;
     }
     new() {
       this.axis = 0;
-      if (!this.activeStickers) {
-        this.activeStickers = [];
-      }
       const state = Array(this.numOfStickers);
       this.underStickers = Array(this.numOfStickers);
       this.hintStickers = Array(this.numOfStickers);
       for (let i = 0; i < this.numOfStickers; i++) {
         state[i] = Math.floor(i / this.layersSq);
-        this.underStickers[i] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
+        this.underStickers[i] = makeSticker(BLACK, -1);
       }
-      this.setCubeState(state);
-      this.setAllAffectedStickers(false);
+      this.affectedStickers = Array(this.numOfStickers).fill(false);
     }
     isSolved() {
       let firstOnFace;
@@ -1034,6 +980,16 @@
         }
       }
       return true;
+    }
+    setColors(colors) {
+      this.stickers = [];
+      for (let i = 0; i < this.numOfStickers; i++) {
+        this.setColor(colors[i], i);
+      }
+    }
+    setColor(color, stickerIndex) {
+      const sticker = makeSticker(color, Math.floor(stickerIndex / this.layersSq));
+      this.stickers[stickerIndex] = sticker;
     }
     scramble() {
       if (this.layers === 3) {
@@ -1087,7 +1043,7 @@
       this.stickers = Array(this.numOfStickers);
       for (let i = 0; i < this.numOfStickers; i++) {
         const color = COLORS[state[i]];
-        this.stickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
+        this.stickers[i] = makeSticker(color, state[i]);
       }
       this.commitStickers();
     }
@@ -1097,50 +1053,15 @@
     commitStickers() {
       this.currentStickers = [...this.stickers];
     }
-    getUnderStickers() {
-      return this.underStickers;
-    }
-    getAffectedStickers() {
-      return this.affectedStickers;
-    }
-    setAllAffectedStickers(value) {
-      this.affectedStickers = Array(this.numOfStickers);
-      for (let i = 0; i < this.numOfStickers; i++) {
-        this.affectedStickers[i] = value;
-      }
-    }
     resetAffectedStickers() {
-      this.setAllAffectedStickers(this.layers === 1);
-    }
-    setActiveStickers(arr) {
-      this.activeStickers = arr;
-    }
-    setDisableTurn(val) {
-      this.disableTurn = val;
-    }
-    activateAllStickers() {
-      this.activeStickers = [];
-      for (let i = 0; i < this.numOfStickers; i++) {
-        this.activeStickers.push(i);
-      }
-    }
-    shiftAnimation() {
-      return this.animationQueue.shift();
+      this.affectedStickers = Array(this.numOfStickers).fill(this.layers === 1);
     }
     pushAnimation(axis, clockwise, prevStickers) {
       if (!this.animateTurns)
         return;
       let x = clockwise ? -1 : 1;
-      let rotationAxis;
-      if (axis == 0) {
-        rotationAxis = [x, 0, 0];
-      } else if (axis == 1) {
-        rotationAxis = [0, x, 0];
-      } else if (axis == 2) {
-        rotationAxis = [0, 0, x];
-      } else {
-        console.error(`Invalid axis '${axis}'`);
-      }
+      let rotationAxis = [0, 0, 0];
+      rotationAxis[axis] = x;
       this.animationQueue.push({
         axis: rotationAxis,
         stickers: prevStickers,
@@ -1153,7 +1074,7 @@
       this._matchTurn(axis, layer, clockwise);
     }
     sliceTurn(axis, clockwise) {
-      this.setAllAffectedStickers(false);
+      this.affectedStickers = Array(this.numOfStickers).fill(false);
       this.pushAnimation(axis, clockwise, [...this.stickers]);
       for (let i = 1; i < this.layers - 1; i++) {
         this._matchTurn(axis, i, clockwise);
@@ -1541,6 +1462,14 @@
       };
     }
   };
+  function solvedColors(cube) {
+    const colors = Array(54);
+    let brights = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+    for (let i = 0; i < cube.numOfStickers; i++) {
+      colors[i] = brights[Math.floor(i / cube.layersSq)];
+    }
+    return colors;
+  }
 
   // ui/src/scripts/dragDetector.ts
   function xPixelToClip(val, canvasSize) {
@@ -1558,117 +1487,117 @@
   function areaTriangle(x1, y1, x2, y2, x3, y3) {
     return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
   }
-  function topRow(cube2, sticker) {
-    return cube2.layers - 1 - sticker % cube2.layers;
+  function topRow(cube, sticker) {
+    return cube.layers - 1 - sticker % cube.layers;
   }
-  function topColumn(cube2, sticker) {
-    return cube2.layers - 1 - Math.floor(sticker / cube2.layers);
+  function topColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
   }
-  function frontRow(cube2, sticker) {
-    return sticker % cube2.layers;
+  function frontRow(cube, sticker) {
+    return sticker % cube.layers;
   }
-  function frontColumn(cube2, sticker) {
-    return cube2.layers - 1 - Math.floor((sticker - cube2.layersSq) / cube2.layers);
+  function frontColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - cube.layersSq) / cube.layers);
   }
-  function leftRow(cube2, sticker) {
-    return sticker % cube2.layers;
+  function leftRow(cube, sticker) {
+    return sticker % cube.layers;
   }
-  function leftColumn(cube2, sticker) {
-    return cube2.layers - 1 - Math.floor((sticker - 4 * cube2.layersSq) / cube2.layers);
+  function leftColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - 4 * cube.layersSq) / cube.layers);
   }
-  function rightRow(cube2, sticker) {
-    return sticker % cube2.layers;
+  function rightRow(cube, sticker) {
+    return sticker % cube.layers;
   }
-  function rightColumn(cube2, sticker) {
-    return Math.floor((sticker - 5 * cube2.layersSq) / cube2.layers);
+  function rightColumn(cube, sticker) {
+    return Math.floor((sticker - 5 * cube.layersSq) / cube.layers);
   }
   var DragDetector = class {
     onPointerDown(x, y, sceneArgs) {
-      const { canvas: canvas2, cube: cube2, buffers: buffers2, offsetSelection: offsetSelection2, animateTurn: animateTurn2 } = sceneArgs;
+      const { canvas: canvas3, cube, buffers, offsetSelection: offsetSelection2, animateTurn } = sceneArgs;
       this.numOfPointerMoves = 0;
-      const clipX = xPixelToClip(x, canvas2.width);
-      const clipY = yPixelToClip(y, canvas2.width);
+      const clipX = xPixelToClip(x, canvas3.width);
+      const clipY = yPixelToClip(y, canvas3.width);
       this.xOnDown = clipX;
       this.yOnDown = clipY;
-      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube2, buffers2, offsetSelection2);
-      const objects = buffers2.objects;
+      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers, offsetSelection2);
+      const objects = buffers.objects;
       const getXY = (objectIndex, xIndex, yIndex) => ({
         x: objects[objectIndex].cart2d[xIndex],
         y: objects[objectIndex].cart2d[yIndex]
       });
       if (this.stickerOnDown === -1) {
         if (offsetSelection2 === 0) {
-          const top = getXY(cube2.layers * (cube2.layers - 1), 6, 7);
+          const top = getXY(cube.layers * (cube.layers - 1), 6, 7);
           const topLeft = getXY(0, 0, 1);
-          const bottomLeft = getXY(cube2.layers * (2 * cube2.layers + 1), 0, 1);
+          const bottomLeft = getXY(cube.layers * (2 * cube.layers + 1), 0, 1);
           if (clipY > topLeft.y) {
             if (clipX < top.x) {
-              cube2.cubeRotate(0, true);
-              animateTurn2();
+              cube.cubeRotate(0, true);
+              animateTurn();
             } else if (clipX > top.x) {
-              cube2.cubeRotate(2, true);
-              animateTurn2();
+              cube.cubeRotate(2, true);
+              animateTurn();
             }
           } else if (clipY > bottomLeft.y) {
-            cube2.cubeRotate(1, clipX < bottomLeft.x);
-            animateTurn2();
+            cube.cubeRotate(1, clipX < bottomLeft.x);
+            animateTurn();
           } else {
             if (clipX < top.x) {
-              cube2.cubeRotate(2, false);
-              animateTurn2();
+              cube.cubeRotate(2, false);
+              animateTurn();
             } else if (clipX > top.x) {
-              cube2.cubeRotate(0, false);
-              animateTurn2();
+              cube.cubeRotate(0, false);
+              animateTurn();
             }
           }
         } else if (offsetSelection2 === 1) {
           const topLeft = getXY(0, 0, 1);
-          const topRight = getXY(cube2.layers * (cube2.layers - 1), 6, 7);
-          const left = getXY(cube2.layers - 1, 2, 3);
-          const right = getXY(cube2.layersSq - 1, 4, 5);
-          const bottomLeft = getXY(cube2.layers * (cube2.layers + 1) - 1, 0, 1);
-          const bottomRight = getXY(cube2.layersSq * 2 - 1, 2, 3);
+          const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+          const left = getXY(cube.layers - 1, 2, 3);
+          const right = getXY(cube.layersSq - 1, 4, 5);
+          const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+          const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
           if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
-            cube2.cubeRotate(0, true);
-            animateTurn2();
+            cube.cubeRotate(0, true);
+            animateTurn();
           } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
-            cube2.cubeRotate(2, false);
-            animateTurn2();
+            cube.cubeRotate(2, false);
+            animateTurn();
           } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
-            cube2.cubeRotate(2, true);
-            animateTurn2();
+            cube.cubeRotate(2, true);
+            animateTurn();
           } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
-            cube2.cubeRotate(1, true);
-            animateTurn2();
+            cube.cubeRotate(1, true);
+            animateTurn();
           } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
-            cube2.cubeRotate(1, false);
-            animateTurn2();
+            cube.cubeRotate(1, false);
+            animateTurn();
           } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
-            cube2.cubeRotate(0, false);
-            animateTurn2();
+            cube.cubeRotate(0, false);
+            animateTurn();
           }
         } else if (offsetSelection2 === 2) {
           const top = getXY(0, 0, 1);
-          const topLeft = getXY(cube2.layers - 1, 2, 3);
-          const bottomLeft = getXY(cube2.layers * (cube2.layers + 1) - 1, 0, 1);
+          const topLeft = getXY(cube.layers - 1, 2, 3);
+          const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
           if (clipY > topLeft.y) {
             if (clipX < top.x) {
-              cube2.cubeRotate(2, false);
-              animateTurn2();
+              cube.cubeRotate(2, false);
+              animateTurn();
             } else if (clipX > top.x) {
-              cube2.cubeRotate(0, true);
-              animateTurn2();
+              cube.cubeRotate(0, true);
+              animateTurn();
             }
           } else if (clipY > bottomLeft.y) {
-            cube2.cubeRotate(1, clipX < bottomLeft.x);
-            animateTurn2();
+            cube.cubeRotate(1, clipX < bottomLeft.x);
+            animateTurn();
           } else {
             if (clipX < top.x) {
-              cube2.cubeRotate(0, false);
-              animateTurn2();
+              cube.cubeRotate(0, false);
+              animateTurn();
             } else if (clipX > top.x) {
-              cube2.cubeRotate(2, true);
-              animateTurn2();
+              cube.cubeRotate(2, true);
+              animateTurn();
             }
           }
         }
@@ -1682,7 +1611,7 @@
     onPointerUp(sceneArgs) {
       if (this.numOfPointerMoves < 2)
         return;
-      const { canvas: canvas2, cube: cube2, buffers: buffers2, offsetSelection: offsetSelection2, animateTurn: animateTurn2 } = sceneArgs;
+      const { canvas: canvas3, cube, buffers, offsetSelection: offsetSelection2, animateTurn } = sceneArgs;
       let posSlope, negSlope;
       if (this.stickerOnDown !== -1) {
         posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
@@ -1693,132 +1622,132 @@
           negSlope = temp;
         }
       }
-      const xClip = xPixelToClip(this.xOnMove, canvas2.width);
-      const yClip = yPixelToClip(this.yOnMove, canvas2.width);
+      const xClip = xPixelToClip(this.xOnMove, canvas3.width);
+      const yClip = yPixelToClip(this.yOnMove, canvas3.width);
       const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
-      const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube2, buffers2, offsetSelection2);
+      const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube, buffers, offsetSelection2);
       if (offsetSelection2 === 0) {
-        if (cube2.stickerIsOnFace(this.stickerOnDown, 0)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 1)) {
-            cube2.turn(0, topColumn(cube2, this.stickerOnDown), false);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 4)) {
-            cube2.turn(2, topRow(cube2, this.stickerOnDown), false);
+        if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 1)) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), false);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 4)) {
+            cube.turn(2, topRow(cube, this.stickerOnDown), false);
           } else if (slope < 0) {
-            cube2.turn(0, topColumn(cube2, this.stickerOnDown), this.xOnDown > xClip);
+            cube.turn(0, topColumn(cube, this.stickerOnDown), this.xOnDown > xClip);
           } else {
-            cube2.turn(2, topRow(cube2, this.stickerOnDown), this.xOnDown < xClip);
+            cube.turn(2, topRow(cube, this.stickerOnDown), this.xOnDown < xClip);
           }
-        } else if (cube2.stickerIsOnFace(this.stickerOnDown, 1)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 0)) {
-            cube2.turn(0, frontColumn(cube2, this.stickerOnDown), true);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 4)) {
-            cube2.turn(1, frontRow(cube2, this.stickerOnDown), true);
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 0)) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), true);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 4)) {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), true);
           } else if (xClip === this.xOnDown) {
-            cube2.turn(0, frontColumn(cube2, this.stickerOnDown), yClip > this.yOnDown);
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else {
-              cube2.turn(1, frontRow(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
             }
           }
-        } else if (cube2.stickerIsOnFace(this.stickerOnDown, 4)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 0)) {
-            cube2.turn(2, leftColumn(cube2, this.stickerOnDown), true);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 1)) {
-            cube2.turn(1, leftRow(cube2, this.stickerOnDown), false);
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 4)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 0)) {
+            cube.turn(2, leftColumn(cube, this.stickerOnDown), true);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 1)) {
+            cube.turn(1, leftRow(cube, this.stickerOnDown), false);
           } else if (xClip === this.xOnDown) {
-            cube2.turn(2, leftColumn(cube2, this.stickerOnDown), yClip > this.yOnDown);
+            cube.turn(2, leftColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(2, leftColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(2, leftColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(2, leftColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(2, leftColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else {
-              cube2.turn(1, leftRow(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(1, leftRow(cube, this.stickerOnDown), xClip < this.xOnDown);
             }
           }
         }
       } else if (offsetSelection2 === 1) {
-        if (cube2.stickerIsOnFace(this.stickerOnDown, 0)) {
+        if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
           if (xClip === this.xOnDown) {
-            cube2.turn(0, topColumn(cube2, this.stickerOnDown), yClip > this.yOnDown);
+            cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(0, topColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(0, topColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else {
-              cube2.turn(2, topRow(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
             }
           }
-        } else if (cube2.stickerIsOnFace(this.stickerOnDown, 1)) {
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
           if (xClip === this.xOnDown) {
-            cube2.turn(0, frontColumn(cube2, this.stickerOnDown), yClip > this.yOnDown);
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else {
-              cube2.turn(1, frontRow(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
             }
           }
         }
       } else if (offsetSelection2 === 2) {
-        if (cube2.stickerIsOnFace(this.stickerOnDown, 0)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 1)) {
-            cube2.turn(0, topColumn(cube2, this.stickerOnDown), false);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 5)) {
-            cube2.turn(2, topRow(cube2, this.stickerOnDown), true);
+        if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 1)) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), false);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 5)) {
+            cube.turn(2, topRow(cube, this.stickerOnDown), true);
           } else if (slope < 0) {
-            cube2.turn(2, topRow(cube2, this.stickerOnDown), this.xOnDown < xClip);
+            cube.turn(2, topRow(cube, this.stickerOnDown), this.xOnDown < xClip);
           } else {
-            cube2.turn(0, topColumn(cube2, this.stickerOnDown), this.xOnDown < xClip);
+            cube.turn(0, topColumn(cube, this.stickerOnDown), this.xOnDown < xClip);
           }
-        } else if (cube2.stickerIsOnFace(this.stickerOnDown, 1)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 0)) {
-            cube2.turn(0, frontColumn(cube2, this.stickerOnDown), true);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 5)) {
-            cube2.turn(1, frontRow(cube2, this.stickerOnDown), false);
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 0)) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), true);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 5)) {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), false);
           } else if (xClip === this.xOnDown) {
-            cube2.turn(0, frontColumn(cube2, this.stickerOnDown), yClip > this.yOnDown);
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(0, frontColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else {
-              cube2.turn(1, frontRow(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
             }
           }
-        } else if (cube2.stickerIsOnFace(this.stickerOnDown, 5)) {
-          if (cube2.stickerIsOnFace(stickerOnUp, 0)) {
-            cube2.turn(2, rightColumn(cube2, this.stickerOnDown), false);
-          } else if (cube2.stickerIsOnFace(stickerOnUp, 1)) {
-            cube2.turn(1, rightRow(cube2, this.stickerOnDown), true);
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 5)) {
+          if (cube.stickerIsOnFace(stickerOnUp, 0)) {
+            cube.turn(2, rightColumn(cube, this.stickerOnDown), false);
+          } else if (cube.stickerIsOnFace(stickerOnUp, 1)) {
+            cube.turn(1, rightRow(cube, this.stickerOnDown), true);
           } else if (xClip === this.xOnDown) {
-            cube2.turn(2, rightColumn(cube2, this.stickerOnDown), yClip < this.yOnDown);
+            cube.turn(2, rightColumn(cube, this.stickerOnDown), yClip < this.yOnDown);
           } else {
             if (slope > posSlope) {
-              cube2.turn(2, rightColumn(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(2, rightColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
             } else if (slope < negSlope) {
-              cube2.turn(2, rightColumn(cube2, this.stickerOnDown), xClip > this.xOnDown);
+              cube.turn(2, rightColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
             } else {
-              cube2.turn(1, rightRow(cube2, this.stickerOnDown), xClip < this.xOnDown);
+              cube.turn(1, rightRow(cube, this.stickerOnDown), xClip < this.xOnDown);
             }
           }
         }
       }
-      animateTurn2();
+      animateTurn();
     }
-    _coordinatesToSticker(x, y, cube2, buffers2, offsetSelection2) {
+    _coordinatesToSticker(x, y, cube, buffers, offsetSelection2) {
       const coordinateIsInSticker = (i) => {
-        if (!buffers2.objects[i].cart2d)
+        if (!buffers[i].cart2d)
           return;
-        const cart2d = buffers2.objects[i].cart2d;
+        const cart2d = buffers[i].cart2d;
         const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
         const sumAreaTriangles = areaTriangle(x, y, cart2d[0], cart2d[1], cart2d[2], cart2d[3]) + areaTriangle(x, y, cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(x, y, cart2d[4], cart2d[5], cart2d[6], cart2d[7]) + areaTriangle(x, y, cart2d[6], cart2d[7], cart2d[0], cart2d[1]);
         const EPSILON = 1e-5;
@@ -1830,7 +1759,7 @@
         }
         return void 0;
       };
-      for (let i = 0; i < 2 * cube2.layersSq; i++) {
+      for (let i = 0; i < 2 * cube.layersSq; i++) {
         const output = coordinateIsInSticker(i);
         if (output)
           return output;
@@ -1838,14 +1767,14 @@
       if (offsetSelection2 === 1)
         return [-1, void 0];
       if (offsetSelection2 === 0) {
-        for (let i = 4 * cube2.layersSq; i < 5 * cube2.layersSq; i++) {
+        for (let i = 4 * cube.layersSq; i < 5 * cube.layersSq; i++) {
           const output = coordinateIsInSticker(i);
           if (output)
             return output;
         }
       }
       if (offsetSelection2 === 2) {
-        for (let i = 5 * cube2.layersSq; i < 6 * cube2.layersSq; i++) {
+        for (let i = 5 * cube.layersSq; i < 6 * cube.layersSq; i++) {
           const output = coordinateIsInSticker(i);
           if (output)
             return output;
@@ -1900,10 +1829,10 @@
       out[10] = -1;
       out[14] = -2 * near;
     }
+    return out;
   }
   function rotate(out, a, rad, axis) {
-    let x = axis[0], y = axis[1], z = axis[2], len = Math.hypot(x, y, z);
-    len = 1 / len;
+    let x = axis[0], y = axis[1], z = axis[2], len = 1 / Math.hypot(x, y, z);
     x *= len;
     y *= len;
     z *= len;
@@ -1926,6 +1855,7 @@
       out[14] = a[14];
       out[15] = a[15];
     }
+    return out;
   }
   function translate(m, v) {
     let x = v[0], y = v[1], z = v[2];
@@ -1933,6 +1863,7 @@
     m[13] += m[1] * x + m[5] * y + m[8] * z;
     m[14] += m[2] * x + m[5] * y + m[9] * z;
     m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
   }
 
   // ui/src/scripts/store.ts
@@ -1949,16 +1880,8 @@
   function setAngle(value) {
     localStorage.setItem(angle, value);
   }
-  function getHintStickers() {
-    var _a;
-    return (_a = getBool(hintStickers)) != null ? _a : true;
-  }
   function setHintStickers(value) {
     setBool(hintStickers, value);
-  }
-  function getShowBody() {
-    var _a;
-    return (_a = getBool(showBody)) != null ? _a : true;
   }
   function setShowBody(value) {
     setBool(showBody, value);
@@ -1969,10 +1892,6 @@
   }
   function setSize(value) {
     localStorage.setItem(size, value);
-  }
-  function getAnimateTurns() {
-    var _a;
-    return (_a = getBool(animateTurns)) != null ? _a : true;
   }
   function setAnimateTurns(value) {
     setBool(animateTurns, value);
@@ -1985,12 +1904,6 @@
   }
   function setUser(value) {
     localStorage.setItem(user, value);
-  }
-  function getBool(key) {
-    const value = localStorage.getItem(key);
-    if (value === null)
-      return null;
-    return value == "1";
   }
   function setBool(key, value) {
     localStorage.setItem(key, value ? "1" : "0");
@@ -2009,130 +1922,84 @@
   }
 
   // ui/src/scripts/scene.ts
-  var canvas;
-  var gl2;
-  var buffers;
-  var cube;
-  var dragDetector;
-  var programInfo;
-  var transformMatrix;
-  var prefsLoaded = false;
+  var canvas = document.querySelector("canvas");
+  var gl2 = canvas.getContext("webgl");
+  var programInfo = initPrograms();
+  var scenes = [];
+  var time = Date.now() * 1e-3;
   var numLayers = 3;
-  var dragEnabled = true;
-  var spring = new Spring();
-  var isTurning = false;
-  var time = Date.now();
-  var animation;
-  var sizeMultiplier;
-  var offsetSelection;
-  var hintStickers2;
-  var showBody2;
-  var animateTurns2;
-  function loadPrefs() {
-    if (prefsLoaded)
+  var offsetSelection = 1;
+  var hintStickers2 = true;
+  var showBody2 = true;
+  var loopStarted = false;
+  function startLoop() {
+    if (loopStarted)
       return;
-    prefsLoaded = true;
-    sizeMultiplier = getSize();
-    offsetSelection = getAngle();
-    hintStickers2 = getHintStickers();
-    showBody2 = getShowBody();
-    animateTurns2 = getAnimateTurns();
+    loopStarted = true;
+    requestAnimationFrame(render);
   }
   function setNumLayers(val) {
     numLayers = val;
-    renderCanvas();
   }
-  function setSizeMultiplier(val) {
-    sizeMultiplier = val;
+  function newScene(selector) {
+    let div = document.querySelector(selector);
+    let cube = new CubeLogic(gl2, true);
+    let spring = new Spring();
+    let transformMatrix = initTransform(div);
+    let dragDetector = new DragDetector();
+    cube.setNumOfLayers(numLayers);
+    cube.new();
+    let buffers = createBuffers(gl2, cube, true, transformMatrix);
+    let sceneObj = {
+      div,
+      cube,
+      spring,
+      buffers,
+      transformMatrix,
+      dragDetector
+    };
+    scenes.push(sceneObj);
+    return sceneObj;
   }
-  function setAngleOffset(value) {
-    offsetSelection = value;
-    renderCanvas();
-  }
-  function setHintStickers2(val) {
-    hintStickers2 = val;
-    render();
-  }
-  function setShowBody2(val) {
-    showBody2 = val;
-    buffers.initBufferData(cube, showBody2, transformMatrix);
-    render();
-  }
-  function setAnimateTurns2(val) {
-    animateTurns2 = val;
-    cube.animateTurns = val;
-  }
-  function animateTurn() {
-    if (!animateTurns2) {
-      cube.commitStickers();
-      drawScene();
-      return;
+  function initPrograms() {
+    const vertexShaderSource = `
+    attribute vec4 aVertexPosition;
+    attribute vec4 aVertexColor;
+    uniform mat4 uTransformMatrix;
+    varying lowp vec4 vColor;
+    void main(void) {
+        gl_Position = uTransformMatrix * aVertexPosition;
+        vColor = aVertexColor;
     }
-    if (isTurning) {
-      return;
+    `;
+    const fragmentShaderSource = `
+    varying lowp vec4 vColor;
+    void main(void) {
+        gl_FragColor = vColor;
     }
-    animation = cube.shiftAnimation();
-    if (animation) {
-      isTurning = true;
-      spring.position = 0;
-      time = Date.now();
-      render();
-    }
+    `;
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
+    return {
+      attribLocations: {
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
+      },
+      uniformLocations: {
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix")
+      }
+    };
   }
-  function render() {
-    if (numLayers === 0) {
-      renderZeroEasterEgg();
-      return;
-    }
-    requestAnimationFrame(() => {
-      updateScene();
-      drawScene();
-    });
-  }
-  function updateScene() {
-    if (!isTurning) {
-      return;
-    }
-    const newTime = Date.now();
-    const dt = newTime - time;
-    time = newTime;
-    spring.target = (cube.animationQueue.length + 1) * 90;
-    spring.update(dt);
-    if (spring.position >= 90) {
-      cube.setAllAffectedStickers(false);
-      cube.commitStickers();
-      isTurning = false;
-      animateTurn();
-    }
-    render();
-  }
-  function renderCanvas() {
-    loadPrefs();
-    canvas = document.createElement("canvas");
-    canvas.id = "glCanvas";
-    canvas.style.display = "block";
-    canvas.style.touchAction = "none";
-    const baseSize = 320;
-    const size2 = baseSize * sizeMultiplier;
-    canvas.width = size2;
-    canvas.height = size2;
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = "";
-    glDiv.appendChild(canvas);
-    gl2 = canvas.getContext("webgl");
-    if (!gl2) {
-      alert("Unable to initialize WebGL. Your browser or machine may not support it.");
-      return;
-    }
+  function initTransform(element) {
     const xOpts = [35, 45, 35];
     const yOpts = [-45, 0, 45];
     let xAxis = xOpts[offsetSelection] * Math.PI / 180;
     let yAxis = yOpts[offsetSelection] * Math.PI / 180;
-    transformMatrix = create();
+    let transformMatrix = create();
     perspective(
       transformMatrix,
       50 * Math.PI / 180,
-      canvas.clientWidth / canvas.clientHeight,
+      element.clientWidth / element.clientHeight,
       0.1,
       100
     );
@@ -2152,218 +2019,161 @@
       yAxis,
       [0, -1, 0]
     );
-    buffers = new Buffers(gl2);
-    cube = new CubeLogic(gl2, animateTurns2);
-    dragDetector = new DragDetector();
-    cube.setNumOfLayers(numLayers);
-    cube.activateAllStickers();
-    cube.new();
-    buffers.initBufferData(cube, showBody2, transformMatrix);
-    const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
-    const pointerdown = (offsetX, offsetY) => {
-      if (!dragEnabled)
-        return;
-      dragDetector.onPointerDown(offsetX, offsetY, sceneArgs);
-    };
-    const pointermove = (offsetX, offsetY) => {
-      if (!dragEnabled)
-        return;
-      dragDetector.onPointerMove(offsetX, offsetY);
-    };
-    const pointerup = () => {
-      if (!dragEnabled)
-        return;
-      dragDetector.onPointerUp(sceneArgs);
-    };
-    const calcOffset = (event) => {
-      const rect = event.target.getBoundingClientRect();
-      const x = event.touches[0].pageX - rect.left;
-      const y = event.touches[0].pageY - rect.top;
-      return { x, y };
-    };
-    const addPointerListeners = () => {
-      canvas.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
-      canvas.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
-      canvas.addEventListener("pointerup", (event) => pointerup());
-    };
-    const addTouchListeners = () => {
-      canvas.addEventListener("touchstart", (event) => {
-        const { x, y } = calcOffset(event);
-        pointerdown(x, y);
-      });
-      canvas.addEventListener("touchmove", (event) => {
-        const { x, y } = calcOffset(event);
-        pointermove(x, y);
-      });
-      canvas.addEventListener("touchend", (event) => {
-        pointerup();
-      });
-    };
-    if (window.PointerEvent) {
-      addPointerListeners();
-    } else {
-      addTouchListeners();
-    }
-    initPrograms();
-    render();
+    return transformMatrix;
   }
-  function initPrograms() {
-    const vsSource = `
-    attribute vec4 aVertexPosition;
-    attribute vec4 aVertexColor;
-    uniform mat4 uTransformMatrix;
-    varying lowp vec4 vColor;
-    void main(void) {
-        gl_Position = uTransformMatrix * aVertexPosition;
-        vColor = aVertexColor;
-    }
-    `;
-    const fsSource = `
-    varying lowp vec4 vColor;
-    void main(void) {
-        gl_FragColor = vColor;
-    }
-    `;
-    const shaderProgram = initShaderProgram(gl2, vsSource, fsSource);
-    gl2.useProgram(shaderProgram);
-    programInfo = {
-      attribLocations: {
-        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
-        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
-      },
-      uniformLocations: {
-        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix")
-      }
-    };
-  }
-  function bindPosition(positionBuffer) {
-    gl2.bindBuffer(gl2.ARRAY_BUFFER, positionBuffer);
-    gl2.vertexAttribPointer(
-      programInfo.attribLocations.vertexPosition,
+  function bindPosition(positionBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, positionBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexPosition,
       3,
-      gl2.FLOAT,
+      gl4.FLOAT,
       false,
       0,
       0
     );
-    gl2.enableVertexAttribArray(
-      programInfo.attribLocations.vertexPosition
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexPosition
     );
   }
-  function bindColor(colorBuffer) {
-    gl2.bindBuffer(gl2.ARRAY_BUFFER, colorBuffer);
-    gl2.vertexAttribPointer(
-      programInfo.attribLocations.vertexColor,
+  function bindColor(colorBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, colorBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexColor,
       4,
-      gl2.FLOAT,
+      gl4.FLOAT,
       false,
       0,
       0
     );
-    gl2.enableVertexAttribArray(
-      programInfo.attribLocations.vertexColor
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexColor
     );
   }
-  function drawElements() {
-    gl2.drawElements(
-      gl2.TRIANGLES,
+  function drawElements(gl4) {
+    gl4.drawElements(
+      gl4.TRIANGLES,
       6,
-      gl2.UNSIGNED_SHORT,
+      gl4.UNSIGNED_SHORT,
       0
     );
   }
-  function drawScene() {
-    gl2.clearDepth(1);
-    gl2.enable(gl2.DEPTH_TEST);
-    gl2.depthFunc(gl2.LEQUAL);
-    gl2.clearColor(0, 0, 0, 0);
-    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
-    const underStickers = cube.getUnderStickers();
-    let listToShow = isTurning ? animation.stickers : cube.currentStickers;
-    for (let i = 0; i < cube.numOfStickers; i++) {
-      let object = buffers.objects[i];
-      const m = create();
-      rotate(
-        m,
-        transformMatrix,
-        animation ? animation.stickersToAnimate[i] ? spring.position * Math.PI / 180 : 0 : 0,
-        animation ? animation.axis : [1, 0, 0]
-      );
-      gl2.uniformMatrix4fv(
-        programInfo.uniformLocations.transformMatrix,
-        false,
-        m
-      );
-      gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-      if (showBody2) {
-        bindPosition(object.noGapPositionBuffer);
-        bindColor(underStickers[i].buffer);
-        drawElements();
-      }
-      bindPosition(object.positionBuffer);
-      bindColor(listToShow[i].buffer);
-      drawElements();
-      gl2.uniformMatrix4fv(
-        programInfo.uniformLocations.transformMatrix,
-        false,
-        transformMatrix
-      );
-    }
-    if (!hintStickers2)
-      return;
-    gl2.uniformMatrix4fv(
-      programInfo.uniformLocations.transformMatrix,
-      false,
-      transformMatrix
-    );
-    const drawHints = (starti, endi) => {
-      for (let i = starti; i < endi; i++) {
-        let object = buffers.objects[i];
-        bindPosition(object.hintPositionBuffer);
-        bindColor(listToShow[i].buffer);
-        drawElements();
-      }
-    };
-    if (offsetSelection === 0) {
-      drawHints(2 * cube.layersSq, 4 * cube.layersSq);
-      drawHints(5 * cube.layersSq, cube.numOfStickers);
-    } else if (offsetSelection === 1) {
-      drawHints(2 * cube.layersSq, cube.numOfStickers);
-    } else if (offsetSelection === 2) {
-      drawHints(2 * cube.layersSq, 5 * cube.layersSq);
-    }
-  }
-  function initShaderProgram(gl3, vsSource, fsSource) {
-    const vertexShader = loadShader(gl3, gl3.VERTEX_SHADER, vsSource);
-    const fragmentShader = loadShader(gl3, gl3.FRAGMENT_SHADER, fsSource);
-    const shaderProgram = gl3.createProgram();
-    gl3.attachShader(shaderProgram, vertexShader);
-    gl3.attachShader(shaderProgram, fragmentShader);
-    gl3.linkProgram(shaderProgram);
-    if (!gl3.getProgramParameter(shaderProgram, gl3.LINK_STATUS)) {
-      alert("Unable to initialize the shader program: " + gl3.getProgramInfoLog(shaderProgram));
+  function initShaderProgram(gl4, vsSource, fsSource) {
+    const vertexShader = loadShader(gl4, gl4.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl4, gl4.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl4.createProgram();
+    gl4.attachShader(shaderProgram, vertexShader);
+    gl4.attachShader(shaderProgram, fragmentShader);
+    gl4.linkProgram(shaderProgram);
+    if (!gl4.getProgramParameter(shaderProgram, gl4.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl4.getProgramInfoLog(shaderProgram));
       return null;
     }
     return shaderProgram;
   }
-  function loadShader(gl3, type, source) {
-    const shader = gl3.createShader(type);
-    gl3.shaderSource(shader, source);
-    gl3.compileShader(shader);
-    if (!gl3.getShaderParameter(shader, gl3.COMPILE_STATUS)) {
-      alert("An error occurred compiling the shaders: " + gl3.getShaderInfoLog(shader));
-      gl3.deleteShader(shader);
+  function loadShader(gl4, type, source) {
+    const shader = gl4.createShader(type);
+    gl4.shaderSource(shader, source);
+    gl4.compileShader(shader);
+    if (!gl4.getShaderParameter(shader, gl4.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl4.getShaderInfoLog(shader));
+      gl4.deleteShader(shader);
       return null;
     }
     return shader;
   }
-  function renderZeroEasterEgg() {
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
-    </div>
-    `;
+  function resizeCanvasToDisplaySize() {
+    const displayWidth = canvas.clientWidth;
+    const displayHeight = canvas.clientHeight;
+    const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+    if (needResize) {
+      canvas.width = displayWidth;
+      canvas.height = displayHeight;
+    }
+    return needResize;
+  }
+  function render(newTime) {
+    newTime *= 1e-3;
+    const dt = newTime - time;
+    time = newTime;
+    resizeCanvasToDisplaySize();
+    gl2.enable(gl2.DEPTH_TEST);
+    gl2.enable(gl2.SCISSOR_TEST);
+    gl2.depthFunc(gl2.LEQUAL);
+    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
+    canvas.style.transform = `translateY(${window.scrollY}px)`;
+    for (let i = 0; i < scenes.length; i++) {
+      const { cube, div, spring, buffers, transformMatrix, dragDetector } = scenes[i];
+      const rect = div.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > canvas.clientHeight || rect.right < 0 || rect.left > canvas.clientWidth) {
+        continue;
+      }
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = canvas.clientHeight - rect.bottom;
+      gl2.viewport(left, bottom, width, height);
+      gl2.scissor(left, bottom, width, height);
+      if (cube.animationQueue[0]) {
+        spring.target = cube.animationQueue.length * 90;
+        spring.update(dt);
+        if (spring.position >= 90) {
+          cube.affectedStickers = Array(cube.numOfStickers).fill(false);
+          cube.commitStickers();
+          spring.position = 0;
+          cube.animationQueue.shift();
+        }
+      }
+      const animation = cube.animationQueue[0];
+      let listToShow = animation ? animation.stickers : cube.stickers;
+      const underStickers = cube.underStickers;
+      for (let i2 = 0; i2 < cube.numOfStickers; i2++) {
+        let object = buffers[i2];
+        const m = animation && animation.stickersToAnimate[i2] ? rotate(
+          create(),
+          transformMatrix,
+          spring.position * Math.PI / 180,
+          animation.axis
+        ) : transformMatrix;
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          m
+        );
+        gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+        if (showBody2) {
+          bindPosition(object.noGapPositionBuffer, programInfo, gl2);
+          bindColor(underStickers[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+        bindPosition(object.positionBuffer, programInfo, gl2);
+        bindColor(listToShow[i2].buffer, programInfo, gl2);
+        drawElements(gl2);
+      }
+      if (hintStickers2) {
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          transformMatrix
+        );
+        const drawHints = (starti, endi) => {
+          for (let j = starti; j < endi; j++) {
+            let object = buffers[j];
+            bindPosition(object.hintPositionBuffer, programInfo, gl2);
+            bindColor(listToShow[j].buffer, programInfo, gl2);
+            drawElements(gl2);
+          }
+        };
+        if (offsetSelection === 0) {
+          drawHints(2 * cube.layersSq, 4 * cube.layersSq);
+          drawHints(5 * cube.layersSq, cube.numOfStickers);
+        } else if (offsetSelection === 1) {
+          drawHints(2 * cube.layersSq, cube.numOfStickers);
+        } else if (offsetSelection === 2) {
+          drawHints(2 * cube.layersSq, 5 * cube.layersSq);
+        }
+      }
+    }
+    requestAnimationFrame(render);
   }
 
   // ui/src/scripts/ui.ts
@@ -7857,25 +7667,36 @@
   }
 
   // ui/src/scripts/play.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl3 = canvas2.getContext("webgl");
   var drawerIndex;
   var solves = [];
   var solvesFetched = false;
   var timer = new Timer();
   var recorder = new Recorder();
   function main() {
-    renderCanvas();
+    const scene = newScene("#scene");
+    const cube = scene.cube;
+    const colors = solvedColors(cube);
+    cube.setColors(colors);
+    startLoop();
     addListenersForLeftModal();
     const layerInput = document.querySelector("#layerInput");
     layerInput.addEventListener("change", (event) => {
       const target = event.target;
-      setNumLayers(parseInt(target.value));
+      const value = parseInt(target.value);
+      setNumLayers(value);
+      cube.setNumOfLayers(value);
+      scene.buffers = createBuffers(gl3, cube, true, scene.transformMatrix);
+      const colors2 = solvedColors(cube);
+      cube.setColors(colors2);
     });
     document.querySelector("#solve").addEventListener("click", (event) => {
-      setNumLayers(parseInt(layerInput.value));
+      const colors2 = solvedColors(cube);
+      cube.setColors(colors2);
     });
     document.querySelector("#scramble").addEventListener("click", (event) => {
       cube.scramble();
-      render();
     });
     document.querySelector("#startStop").addEventListener("click", (event) => {
       const time2 = Date.now();
@@ -7891,7 +7712,6 @@
       const result = cube.matchKeyToTurn(event);
       if (result) {
         recorder.addMove(result.notation, timer.calcSecondsSinceStart(time2));
-        animateTurn();
         return;
       }
     });
@@ -7925,7 +7745,6 @@
   function handleStartStop(time2) {
     if (!timer.isRunning) {
       timer.start(time2);
-      recorder.start(cube.getCubeState());
       return;
     }
     timer.stop(time2);
@@ -8050,64 +7869,31 @@
   function renderSettings(drawerEle) {
     const storedAngle = getAngle();
     const storedSize = getSize();
-    drawerEle.innerHTML = `
-    ${renderHeader("Settings")}
-    <p>Angle</p>
-    <select id="angleInput">
-        <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
-        <option value="1" ${storedAngle === 1 ? "selected" : ""}>0&#176;</option>
-        <option value="2" ${storedAngle === 2 ? "selected" : ""}>45&#176;</option>
-    </select>
-    <div style="height: 1.5rem;"></div>
-    <p>Size</p>
-    <select id="sizeSelect">
-        <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
-        <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
-        <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
-        <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
-        <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
-    </select>
-    <div style="height: 1.5rem;"></div>
-    <p>Hint stickers</p>
-    <input id="hintStickersCheckbox" type="checkbox" ${hintStickers2 ? "checked" : ""} />
-    <div style="height: 1.5rem;"></div>
-    <p>Show body</p>
-    <input id="showBodyCheckbox" type="checkbox" ${showBody2 ? "checked" : ""} />
-    <div style="height: 1.5rem;"></div>
-    <p>Animate turns</p>
-    <input id="animateTurnsCheckbox" type="checkbox" ${animateTurns2 ? "checked" : ""} />
-    `;
     const angleInput = document.querySelector("#angleInput");
     angleInput.addEventListener("change", (event) => {
       const target = event.target;
       if (!target.value)
         return;
-      setAngleOffset(parseInt(target.value));
       setAngle(target.value);
     });
     const sizeSelect = document.querySelector("#sizeSelect");
     sizeSelect.addEventListener("change", (event) => {
       const target = event.target;
-      setSizeMultiplier(parseFloat(target.value));
-      renderCanvas();
       setSize(target.value);
     });
     const hintStickersCheckbox = document.querySelector("#hintStickersCheckbox");
     hintStickersCheckbox.addEventListener("change", (event) => {
       const target = event.target;
-      setHintStickers2(target.checked);
       setHintStickers(target.checked);
     });
     const showBodyCheckbox = document.querySelector("#showBodyCheckbox");
     showBodyCheckbox.addEventListener("change", (event) => {
       const target = event.target;
-      setShowBody2(target.checked);
       setShowBody(target.checked);
     });
     const animateTurnsCheckbox = document.querySelector("#animateTurnsCheckbox");
     animateTurnsCheckbox.addEventListener("change", (event) => {
       const target = event.target;
-      setAnimateTurns2(target.checked);
       setAnimateTurns(target.checked);
     });
   }

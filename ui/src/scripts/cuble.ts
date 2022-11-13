@@ -3,7 +3,7 @@ import { addListenersForLeftModal } from "./ui";
 
 export function main() {
     // Initial canvas render
-    scene.renderCanvas();
+    // scene.renderCanvas(); TODO
 
     addListenersForLeftModal();
 
@@ -26,29 +26,31 @@ export function main() {
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
-        scene.cube.scramble();
-        scene.cube.cubleScramble();
+        // TODO
+        // scene.cube.scramble();
+        // scene.cube.cubleScramble();
 
-        // We want to reveal correct stickers right after scrambling.
-        scene.cube.revealCorrectStickers();
+        // // We want to reveal correct stickers right after scrambling.
+        // scene.cube.revealCorrectStickers();
 
-        scene.render();
+        // scene.render();
 
         resetMoveCount();
     });
 
     document.addEventListener('keydown', (event) => {
-        const match = scene.cube.matchKeyToTurn(event);
-        if (match) {
-            // As long as the type of turn is not a cube rotation, we want to
-            // check for correct stickers and increment move count.
-            if (match.turn) {
-                scene.cube.revealCorrectStickers();
-                incrementMoveCount();
-            }
+        // TODO
+        // const match = scene.cube.matchKeyToTurn(event);
+        // if (match) {
+        //     // As long as the type of turn is not a cube rotation, we want to
+        //     // check for correct stickers and increment move count.
+        //     if (match.turn) {
+        //         scene.cube.revealCorrectStickers();
+        //         incrementMoveCount();
+        //     }
 
-            scene.animateTurn();
-        }
+        //     scene.animateTurn();
+        // }
     });
 }
 

@@ -9,7 +9,6 @@ type AlgSet = { cube: string, name: string, algs: string[] };
 
 const algData: AlgSet[] = require("./alg-data.json");
 
-
 type State =  {
     solutionShown: boolean,
     retried: boolean,
@@ -152,7 +151,7 @@ function renderDrawer() {
 
 export function main() {
     // Initial canvas render
-    scene.renderCanvas();
+    // scene.renderCanvas(); TODO
 
     addListenersForLeftModal();
 
@@ -166,15 +165,17 @@ export function main() {
             retry();
         } else if (event.key == "Enter") {
             nextAlg();
-        } else if (scene.cube.matchKeyToTurn(event)) {
-            scene.animateTurn();
-            
-            if (solved(scene.cube.stickers, state.algSet)) {
-                showSolved();
-
-                state.solved = true;
-            }
         }
+        // TODO
+        // } else if (scene.cube.matchKeyToTurn(event)) {
+        //     scene.animateTurn();
+            
+        //     if (solved(scene.cube.stickers, state.algSet)) {
+        //         showSolved();
+
+        //         state.solved = true;
+        //     }
+        // }
     });
 
     const algSetSelect = document.querySelector("#alg-set-select");
@@ -212,14 +213,15 @@ export function main() {
         state.postAUF = generateRandAUF();
         alg = applyPost(alg, state.postAUF);
 
-        scene.cube.new();
+        // TODO
+        // scene.cube.new();
 
-        scene.cube.execAlg(state.preRotation);
+        // scene.cube.execAlg(state.preRotation);
         
-        scene.cube.execAlgReverse(alg);
-        scene.cube.commitStickers();
+        // scene.cube.execAlgReverse(alg);
+        // scene.cube.commitStickers();
 
-        scene.render();
+        // scene.render();
     }
 
     function nextAlg() {

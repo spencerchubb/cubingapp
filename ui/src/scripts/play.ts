@@ -1,4 +1,5 @@
-import * as scene from "./scene";
+import * as _colors from "./colors";
+import { newScene, setNumLayers, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
@@ -7,6 +8,11 @@ import { url } from "./vars/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
 import { renderModal } from "./modal";
 import * as slide from "./slide";
+import { solvedColors } from "./cube";
+import { createBuffers } from "./buffers";
+
+let canvas: HTMLCanvasElement = document.querySelector("canvas");
+let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
 let drawerIndex;
 let solves: { id: number, time: number }[] = [];
@@ -16,26 +22,36 @@ const timer = new Timer();
 const recorder = new Recorder();
 
 function main() {
-    // Initial canvas render
-    scene.renderCanvas();
+    const scene = newScene("#scene");
+    const cube = scene.cube;
 
+    const colors = solvedColors(cube);
+    cube.setColors(colors);
+
+    startLoop();
+    
     addListenersForLeftModal();
 
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
     layerInput.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
+        const value = parseInt(target.value);
 
-        // Update state and re-render
-        scene.setNumLayers(parseInt(target.value));
+        setNumLayers(value);
+        cube.setNumOfLayers(value);
+        scene.buffers = createBuffers(gl, cube, true, scene.transformMatrix);
+        
+        const colors = solvedColors(cube);
+        cube.setColors(colors);
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        scene.setNumLayers(parseInt(layerInput.value));
+        const colors = solvedColors(cube);
+        cube.setColors(colors);
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
-        scene.cube.scramble();
-        scene.render();
+        cube.scramble();
     });
 
     document.querySelector("#startStop").addEventListener("click", (event) => {
@@ -56,10 +72,10 @@ function main() {
             return;
         }
 
-        const result = scene.cube.matchKeyToTurn(event);
+        const result = cube.matchKeyToTurn(event);
         if (result) {
             recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
-            scene.animateTurn();
+            // scene.animateTurn();
             return;
         }
     });
@@ -103,7 +119,7 @@ function addIconListeners(index: number) {
 function handleStartStop(time: number) {
     if (!timer.isRunning) {
         timer.start(time);
-        recorder.start(scene.cube.getCubeState());
+        // recorder.start(scene.cube.getCubeState()); TODO 
         return;
     }
     timer.stop(time);
@@ -254,33 +270,34 @@ async function renderSolves(drawerEle: HTMLElement) {
 function renderSettings(drawerEle: HTMLElement) {
     const storedAngle = store.getAngle();
     const storedSize = store.getSize();
-    drawerEle.innerHTML = `
-    ${slide.renderHeader("Settings")}
-    <p>Angle</p>
-    <select id="angleInput">
-        <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
-        <option value="1" ${storedAngle === 1 ? "selected" : ""}>0&#176;</option>
-        <option value="2" ${storedAngle === 2 ? "selected" : ""}>45&#176;</option>
-    </select>
-    <div style="height: 1.5rem;"></div>
-    <p>Size</p>
-    <select id="sizeSelect">
-        <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
-        <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
-        <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
-        <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
-        <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
-    </select>
-    <div style="height: 1.5rem;"></div>
-    <p>Hint stickers</p>
-    <input id="hintStickersCheckbox" type="checkbox" ${scene.hintStickers ? "checked" : ""} />
-    <div style="height: 1.5rem;"></div>
-    <p>Show body</p>
-    <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
-    <div style="height: 1.5rem;"></div>
-    <p>Animate turns</p>
-    <input id="animateTurnsCheckbox" type="checkbox" ${scene.animateTurns ? "checked" : ""} />
-    `;
+    // TODO
+    // drawerEle.innerHTML = `
+    // ${slide.renderHeader("Settings")}
+    // <p>Angle</p>
+    // <select id="angleInput">
+    //     <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
+    //     <option value="1" ${storedAngle === 1 ? "selected" : ""}>0&#176;</option>
+    //     <option value="2" ${storedAngle === 2 ? "selected" : ""}>45&#176;</option>
+    // </select>
+    // <div style="height: 1.5rem;"></div>
+    // <p>Size</p>
+    // <select id="sizeSelect">
+    //     <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
+    //     <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
+    //     <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
+    //     <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
+    //     <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
+    // </select>
+    // <div style="height: 1.5rem;"></div>
+    // <p>Hint stickers</p>
+    // <input id="hintStickersCheckbox" type="checkbox" ${scene.hintStickers ? "checked" : ""} />
+    // <div style="height: 1.5rem;"></div>
+    // <p>Show body</p>
+    // <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
+    // <div style="height: 1.5rem;"></div>
+    // <p>Animate turns</p>
+    // <input id="animateTurnsCheckbox" type="checkbox" ${scene.animateTurns ? "checked" : ""} />
+    // `;
 
     const angleInput: HTMLElement = document.querySelector("#angleInput");
     angleInput.addEventListener("change", (event) => {
@@ -290,7 +307,7 @@ function renderSettings(drawerEle: HTMLElement) {
         // it will break the cube.
         if (!target.value) return;
 
-        scene.setAngleOffset(parseInt(target.value));
+        // scene.setAngleOffset(parseInt(target.value)); TODO
         store.setAngle(target.value);
     });
 
@@ -299,8 +316,9 @@ function renderSettings(drawerEle: HTMLElement) {
         const target = event.target as HTMLInputElement;
 
         // Update state and re-render
-        scene.setSizeMultiplier(parseFloat(target.value));
-        scene.renderCanvas();
+        // TODO
+        // scene.setSizeMultiplier(parseFloat(target.value));
+        // scene.renderCanvas();
         store.setSize(target.value);
     });
 
@@ -308,7 +326,7 @@ function renderSettings(drawerEle: HTMLElement) {
     hintStickersCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        scene.setHintStickers(target.checked);
+        // scene.setHintStickers(target.checked); TODO
         store.setHintStickers(target.checked);
     });
 
@@ -316,7 +334,7 @@ function renderSettings(drawerEle: HTMLElement) {
     showBodyCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        scene.setShowBody(target.checked);
+        // scene.setShowBody(target.checked); TODO
         store.setShowBody(target.checked);
     });
 
@@ -324,7 +342,7 @@ function renderSettings(drawerEle: HTMLElement) {
     animateTurnsCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        scene.setAnimateTurns(target.checked);
+        // scene.setAnimateTurns(target.checked); TODO
         store.setAnimateTurns(target.checked);
     });
 }

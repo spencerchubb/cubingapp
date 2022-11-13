@@ -1,57 +1,41 @@
+import * as _colors from "./colors";
 import * as pieceIndices from "./pieceIndices";
 import { scramble3x3 } from "./scramble";
 
 let gl;
 
-// TODO consider renaming
-// primary, secondary
-// bright, dull
-const WHITE = {
-    active: [1.0, 1.0, 1.0, 1.0],
-    inactive: [0.5, 0.5, 0.5, 1.0],
-}
-const YELLOW = {
-    active: [1.0, 1.0, 0.0, 1.0],
-    inactive: [0.5, 0.5, 0.0, 1.0],
-}
-const GREEN = {
-    active: [0.0, 1.0, 0.0, 1.0],
-    inactive: [0.0, 0.5, 0.0, 1.0],
-}
-const BLUE = {
-    active: [0.0, 0.0, 1.0, 1.0],
-    inactive: [0.0, 0.0, 0.5, 1.0],
-}
-const ORANGE = {
-    active: [1.0, 0.5, 0.0, 1.0],
-    inactive: [0.5, 0.25, 0.0, 1.0],
-}
-const RED = {
-    active: [1.0, 0.0, 0.0, 1.0],
-    inactive: [0.5, 0.0, 0.0, 1.0],
-}
-const BLACK = {
-    active: [0.0, 0.0, 0.0, 1.0],
-    inactive: [0.0, 0.0, 0.0, 1.0],
-}
-
-const COLORS = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+const COLORS = [_colors.WHITE, _colors.GREEN, _colors.YELLOW, _colors.BLUE, _colors.ORANGE, _colors.RED];
 
 export type AnimationData = {
-    // List with a length of 3. One of the numbers must be -1 or 1, with the 
-    // sign indication clockwise or counterclockwise. The other two numbers are zero.
+    /**
+     * List of length 3.
+     * One of the numbers must be -1 or 1, with the sign indicating clockwise or counterclockwise.
+     * The other two numbers are zero.
+     */
     axis: number[];
 
     stickers: any[];
-    stickersToAnimate: number[];
+    stickersToAnimate: boolean[];
 }
 
-const repeatColorFor4Vertices = (rgba, color, face) => {
+type Sticker = {
+    /** rgba */
+    color: number[],
+    /**
+     * 0, 1, 2, 3, 4, 5, or 6. Indicates which face sticker belongs to.
+     */
+    face: number,
+    /** [r, g, b, a, r, g, b, a, r, g, b, a, r, g, b, a] */
+    arr: number[],
+    buffer: WebGLBuffer,
+}
+
+function makeSticker(color: number[], face: number): Sticker {
     const arr = [
-        rgba[0], rgba[1], rgba[2], rgba[3],
-        rgba[0], rgba[1], rgba[2], rgba[3],
-        rgba[0], rgba[1], rgba[2], rgba[3],
-        rgba[0], rgba[1], rgba[2], rgba[3],
+        color[0], color[1], color[2], color[3],
+        color[0], color[1], color[2], color[3],
+        color[0], color[1], color[2], color[3],
+        color[0], color[1], color[2], color[3],
     ];
 
     const buffer = gl.createBuffer();
@@ -68,23 +52,22 @@ const repeatColorFor4Vertices = (rgba, color, face) => {
 
 export class CubeLogic {
     axis: number;
-    activeStickers: any;
     stickers: any[];
-    underStickers: any[];
-    hintStickers: any[];
+    underStickers: Sticker[];
+    hintStickers: Sticker[];
     layers: number;
     layersSq: number;
     layersHalf: number;
     layersEven: boolean;
     numOfStickers: number;
-    currentStickers: any[];
-    affectedStickers: any;
+    currentStickers: Sticker[];
+    affectedStickers: boolean[];
     disableTurn: boolean;
     clockwise: boolean;
     animationQueue: AnimationData[];
     animateTurns: boolean;
 
-    constructor(_gl, animateTurns: boolean) {
+    constructor(_gl: WebGLRenderingContext, animateTurns: boolean) {
         gl = _gl;
 
         this.animationQueue = [];
@@ -94,10 +77,6 @@ export class CubeLogic {
     new() {
         this.axis = 0;
 
-        if (!this.activeStickers) {
-            this.activeStickers = [];
-        }
-
         const state = Array(this.numOfStickers);
         this.underStickers = Array(this.numOfStickers);
         this.hintStickers = Array(this.numOfStickers);
@@ -105,12 +84,10 @@ export class CubeLogic {
             state[i] = Math.floor(i / this.layersSq);
 
             // Pass in -1 for face because it shouldn't matter for the under stickers.
-            this.underStickers[i] = repeatColorFor4Vertices(BLACK.active, BLACK, -1);
+            this.underStickers[i] = makeSticker(_colors.BLACK, -1);
         }
 
-        this.setCubeState(state);
-
-        this.setAllAffectedStickers(false);
+        this.affectedStickers = Array(this.numOfStickers).fill(false);
     }
 
     isSolved() {
@@ -125,6 +102,18 @@ export class CubeLogic {
             }
         }
         return true;
+    }
+
+    setColors(colors: number[][]) {
+        this.stickers = [];
+        for (let i = 0; i < this.numOfStickers; i++) {
+            this.setColor(colors[i], i);
+        }
+    }
+
+    setColor(color: number[], stickerIndex: number) {
+        const sticker = makeSticker(color, Math.floor(stickerIndex / this.layersSq));
+        this.stickers[stickerIndex] = sticker;
     }
 
     scramble() {
@@ -179,7 +168,7 @@ export class CubeLogic {
                 || (36 <= i && i <= 44 && this.stickers[i].color == this.stickers[40].color)
                 || (45 <= i && i <= 53 && this.stickers[i].color == this.stickers[49].color)) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.stickers[i].arr), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.stickers[i].arr), gl.STATIC_DRAW);
             }
         }
     }
@@ -210,7 +199,7 @@ export class CubeLogic {
         this.stickers = Array(this.numOfStickers);
         for (let i = 0; i < this.numOfStickers; i++) {
             const color = COLORS[state[i]];
-            this.stickers[i] = repeatColorFor4Vertices(color.active, color, state[i]);
+            this.stickers[i] = makeSticker(color, state[i]);
         }
         this.commitStickers();
     }
@@ -226,67 +215,18 @@ export class CubeLogic {
         this.currentStickers = [...this.stickers];
     }
 
-    getUnderStickers() {
-        return this.underStickers;
-    }
-
-    getAffectedStickers() {
-        return this.affectedStickers;
-    }
-
-    /**
-     * Set all elements of `affectedStickers` to be `value`.
-     */
-    setAllAffectedStickers(value: boolean) {
-        this.affectedStickers = Array(this.numOfStickers);
-        for (let i = 0; i < this.numOfStickers; i++) {
-            this.affectedStickers[i] = value;
-        }
-    }
-
     resetAffectedStickers() {
         // If numOfLayers === 1, make all stickers true, because everything
         // should be affected for 1x1.
-        this.setAllAffectedStickers(this.layers === 1);
-    }
-
-    setActiveStickers(arr) {
-        this.activeStickers = arr;
-    }
-
-    // Turning will be disabled on the "learn" page. There will be an animation instead of letting the user turn.
-    setDisableTurn(val) {
-        this.disableTurn = val;
-    }
-
-    activateAllStickers() {
-        this.activeStickers = [];
-        for (let i = 0; i < this.numOfStickers; i++) {
-            this.activeStickers.push(i);
-        }
-    }
-
-    /**
-     * Returns the next animation queued, or undefined if there are no animations queued.
-     */
-    shiftAnimation() {
-        return this.animationQueue.shift();
+        this.affectedStickers = Array(this.numOfStickers).fill(this.layers === 1);
     }
 
     pushAnimation(axis, clockwise, prevStickers) {
         if (!this.animateTurns) return;
 
         let x = clockwise ? -1 : 1;
-        let rotationAxis;
-        if (axis == 0) {
-            rotationAxis = [x, 0, 0];
-        } else if (axis == 1) {
-            rotationAxis = [0, x, 0];
-        } else if (axis == 2) {
-            rotationAxis = [0, 0, x];
-        } else {
-            console.error(`Invalid axis '${axis}'`);
-        }
+        let rotationAxis = [0, 0, 0];
+        rotationAxis[axis] = x;
 
         this.animationQueue.push({
             axis: rotationAxis,
@@ -304,7 +244,7 @@ export class CubeLogic {
     }
 
     sliceTurn(axis, clockwise) {
-        this.setAllAffectedStickers(false);
+        this.affectedStickers = Array(this.numOfStickers).fill(false);
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
@@ -735,4 +675,17 @@ export class CubeLogic {
             bottom: corners.bottomLeft + this.layers * (numEdges - edge),
         };
     }
+}
+
+/** Returns colors for a solved cube */
+export function solvedColors(cube: CubeLogic): number[][] {
+    const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
+
+    // Fill in the active stickers with bright colors
+    let brights = [_colors.WHITE, _colors.GREEN, _colors.YELLOW, _colors.BLUE, _colors.ORANGE, _colors.RED];
+    for (let i = 0; i < cube.numOfStickers; i++) {
+        colors[i] = brights[Math.floor(i / cube.layersSq)];
+    }
+
+    return colors;
 }

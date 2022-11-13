@@ -19,41 +19,13 @@ export const DR = [25, 50];
 export const DB = [23, 30];
 export const BL = [28, 37];
 export const BR = [34, 52];
-export const crossPieces = [
-    ...UB,
-    ...UL,
-    ...UR,
-    ...UF,
-    ...CENTERS,
-];
-export const firstLayerPieces = [
-    ...crossPieces,
-    ...UBL,
-    ...URB,
-    ...ULF,
-    ...UFR,
-];
-export const f2lPieces = [
-    ...firstLayerPieces,
-    ...FL,
-    ...FR,
-    ...BL,
-    ...BR,
-];
-export const lastLayerEdges = [
-    ...DF,
-    ...DL,
-    ...DR,
-    ...DB,
-];
-export const lastLayerPieces = [
-    ...lastLayerEdges,
-    ...DFL,
-    ...DRF,
-    ...DLB,
-    ...DBR,
-];
-export const allPieces = [
-    ...f2lPieces,
-    ...lastLayerPieces,
-];
+export const layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+export const layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+export const layer1Edges = [...UB, ...UL, ...UR, ...UF];
+export const layer2Edges = [...FL, ...FR, ...BL, ...BR];
+export const layer3Edges = [...DF, ...DL, ...DR, ...DB];
+export const cross = [...CENTERS, ...layer1Edges];
+export const firstLayer = [...cross, ...layer1Corners];
+export const f2l = [...firstLayer, ...layer2Edges];
+export const lastLayer = [...layer3Edges, ...layer2Corners];
+export const allPieces = [...f2l, ...lastLayer];

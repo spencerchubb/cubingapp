@@ -12,6 +12,27 @@ export function create() {
     ];
 }
 
+/** Copy contents of `a` into `b` */
+export function copy(a, b) {
+    b[0] = a[0];
+    b[1] = a[1];
+    b[2] = a[2];
+    b[3] = a[3];
+    b[4] = a[4];
+    b[5] = a[5];
+    b[6] = a[6];
+    b[7] = a[7];
+    b[8] = a[8];
+    b[9] = a[9];
+    b[10] = a[10];
+    b[11] = a[11];
+    b[12] = a[12];
+    b[13] = a[13];
+    b[14] = a[14];
+    b[15] = a[15];
+    return b;
+}
+
 /**
  * Generates a perspective projection matrix with the given bounds.
  * The near/far clip planes correspond to a normalized device coordinate Z range of [-1, 1],
@@ -49,6 +70,7 @@ export function perspective(out, fovy, aspect, near, far) {
         out[10] = -1;
         out[14] = -2 * near;
     }
+    return out;
 }
 
 /**
@@ -63,9 +85,8 @@ export function rotate(out, a, rad, axis) {
     let x = axis[0],
         y = axis[1],
         z = axis[2],
-        len = Math.hypot(x, y, z);
+        len = 1 / Math.hypot(x, y, z);
 
-    len = 1 / len;
     x *= len;
     y *= len;
     z *= len;
@@ -115,6 +136,7 @@ export function rotate(out, a, rad, axis) {
         out[14] = a[14];
         out[15] = a[15];
     }
+    return out;
 }
 
 /**
@@ -132,4 +154,5 @@ export function translate(m, v) {
     m[13] += m[1] * x + m[5] * y + m[8] * z;
     m[14] += m[2] * x + m[5] * y + m[9] * z;
     m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
 }

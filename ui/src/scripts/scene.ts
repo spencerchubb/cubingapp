@@ -1,34 +1,54 @@
-import { Buffers } from "./buffers";
+import { BufferObject, createBuffers } from "./buffers";
 import { Spring } from "./common/spring";
-import { AnimationData, CubeLogic } from "./cube";
+import { CubeLogic } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import * as store from "./store";
 
-export let canvas: HTMLCanvasElement;
-export let gl: WebGLRenderingContext;
+let canvas: HTMLCanvasElement = document.querySelector("canvas");
+let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
-export let buffers: Buffers;
-export let cube: CubeLogic;
-export let dragDetector: DragDetector;
+type ProgramInfo = {
+    attribLocations: {
+        vertexPosition: number,
+        vertexColor: number,
+    },
+    uniformLocations: {
+        transformMatrix: WebGLUniformLocation,
+    },
+};
 
-let programInfo;
-let transformMatrix;
+let programInfo: ProgramInfo = initPrograms();
+
+export type Scene = {
+    div: HTMLElement,
+    cube: CubeLogic,
+    spring: Spring,
+    buffers: BufferObject[],
+    transformMatrix: number[],
+    dragDetector: DragDetector,
+};
+let scenes: Scene[] = [];
+
+let time: number = Date.now() * 0.001;
 
 let prefsLoaded = false;
 let numLayers: number = 3;
 let dragEnabled = true;
-let spring = new Spring();
-let isTurning = false;
-let time = Date.now();
-let animation: AnimationData;
 
 // Preferences stored locally
 let sizeMultiplier: number;
-let offsetSelection;
-export let hintStickers;
-export let showBody;
-export let animateTurns;
+let offsetSelection = 1;
+export let hintStickers = true;
+export let showBody = true;
+export let animateTurns = true;
+
+let loopStarted = false;
+export function startLoop() {
+    if (loopStarted) return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+}
 
 function loadPrefs() {
     if (prefsLoaded) return;
@@ -42,7 +62,8 @@ function loadPrefs() {
 
 export function setNumLayers(val: number) {
     numLayers = val;
-    renderCanvas();
+    // renderCanvas();
+    // TODO
 }
 
 export function setSizeMultiplier(val: number) {
@@ -56,125 +77,155 @@ export function setSizeMultiplier(val: number) {
  */
 export function setAngleOffset(value: number) {
     offsetSelection = value;
-    renderCanvas();
+    // renderCanvas();
+    // TODO
 }
 
 export function setHintStickers(val: boolean) {
     hintStickers = val;
-    render();
+    // render(null, null); // TODO
 }
 
 export function setShowBody(val: boolean) {
     showBody = val;
-    buffers.initBufferData(cube, showBody, transformMatrix);
-    render();
+    // buffers.initBufferData(cube, showBody, transformMatrix);
+    // render(null); // TODO
 }
 
 export function setAnimateTurns(val: boolean) {
     animateTurns = val;
-    cube.animateTurns = val;
+    // cube.animateTurns = val;
 }
 
 export function setDragEnabled(val: boolean) {
     dragEnabled = val;
 }
 
-export function animateTurn() {
-    // If the user has chosen not to animate turns, then just apply the turn
-    // instantly and redraw.
-    if (!animateTurns) {
-        cube.commitStickers();
-        drawScene();
-        return;
-    }
-
-    if (isTurning) {
-        return;
-    }
-
-    animation = cube.shiftAnimation();
-    if (animation) {
-        isTurning = true;
-        spring.position = 0;
-        time = Date.now();
-        render();
-    }
-}
-
-export function render() {
-    if (numLayers === 0) {
-        renderZeroEasterEgg();
-        return;
-    }
-
-    requestAnimationFrame(() => {
-        updateScene();
-        drawScene();
-    });
-}
-
-function updateScene() {
-    if (!isTurning) {
-        return
-    }
+export function newScene(selector: string): Scene {
+    let div = document.querySelector(selector) as HTMLElement;
+    let cube = new CubeLogic(gl, true);
+    let spring = new Spring();
+    let transformMatrix = initTransform(div);
+    let dragDetector = new DragDetector();
     
-    const newTime = Date.now();
-    const dt = newTime - time;
-    time = newTime;
+    cube.setNumOfLayers(numLayers);
+    cube.new();
 
-    // target is measured in degrees
-    spring.target = (cube.animationQueue.length + 1) * 90;
-    spring.update(dt);
+    let buffers = createBuffers(gl, cube, true, transformMatrix);
 
-    if (spring.position >= 90) {
-        cube.setAllAffectedStickers(false);
-        cube.commitStickers();
-        isTurning = false;
-        animateTurn();
-    }
+    let sceneObj = {
+        div,
+        cube,
+        spring,
+        buffers,
+        transformMatrix,
+        dragDetector,
+    };
+    scenes.push(sceneObj);
+    return sceneObj;
 
-    render();
+    // const sceneArgs = {
+    //     canvas: this.div,
+    //     cube: this.cube,
+    //     buffers: this.buffers,
+    //     offsetSelection,
+    //     animateTurn: this.animateTurn,
+    // };
+
+    // const pointerdown = (offsetX, offsetY) => {
+    //     if (!dragEnabled) return;
+    //     this.dragDetector.onPointerDown(offsetX, offsetY, sceneArgs);
+    // }
+
+    // const pointermove = (offsetX, offsetY) => {
+    //     if (!dragEnabled) return;
+    //     this.dragDetector.onPointerMove(offsetX, offsetY);
+    // }
+
+    // const pointerup = () => {
+    //     if (!dragEnabled) return;
+    //     this.dragDetector.onPointerUp(sceneArgs);
+    // }
+
+    // const calcOffset = (event) => {
+    //     const rect = event.target.getBoundingClientRect();
+    //     const x = event.touches[0].pageX - rect.left;
+    //     const y = event.touches[0].pageY - rect.top;
+    //     return { x, y };
+    // }
+
+    // const addPointerListeners = () => {
+    //     this.div.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
+    //     this.div.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
+    //     this.div.addEventListener("pointerup", event => pointerup());
+    // }
+
+    // const addTouchListeners = () => {
+    //     this.div.addEventListener("touchstart", event => {
+    //         const { x, y } = calcOffset(event);
+    //         pointerdown(x, y);
+    //     });
+    //     this.div.addEventListener("touchmove", event => {
+    //         const { x, y } = calcOffset(event);
+    //         pointermove(x, y);
+    //     });
+    //     this.div.addEventListener("touchend", event => {
+    //         pointerup();
+    //     });
+    // }
+
+    // if (window.PointerEvent) {
+    //     addPointerListeners();
+    // } else {
+    //     addTouchListeners();
+    // }
 }
 
-export function renderCanvas() {
-    loadPrefs();
-
-    canvas = document.createElement("canvas");
-    canvas.id = "glCanvas";
-
-    // Fixes formatting bug where there was extra space under canvas inside glDiv.
-    canvas.style.display = "block";
-
-    // We do not want the browser to cancel the pointer during pointermove events on the canvas.
-    // See here: https://developer.mozilla.org/en-US/docs/Web/API/Element/pointermove_event
-    canvas.style.touchAction = "none";
-
-    const baseSize = 320;
-    const size = baseSize * sizeMultiplier;
-    canvas.width = size;
-    canvas.height = size;
-
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = "";
-    glDiv.appendChild(canvas);
-
-    gl = canvas.getContext('webgl');
-
-    if (!gl) {
-        alert('Unable to initialize WebGL. Your browser or machine may not support it.');
-        return;
+function initPrograms() {
+    const vertexShaderSource = `
+    attribute vec4 aVertexPosition;
+    attribute vec4 aVertexColor;
+    uniform mat4 uTransformMatrix;
+    varying lowp vec4 vColor;
+    void main(void) {
+        gl_Position = uTransformMatrix * aVertexPosition;
+        vColor = aVertexColor;
     }
+    `;
 
+    const fragmentShaderSource = `
+    varying lowp vec4 vColor;
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+    `;
+
+    const shaderProgram = initShaderProgram(gl, vertexShaderSource, fragmentShaderSource);
+
+    gl.useProgram(shaderProgram);
+
+    return {
+        attribLocations: {
+            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
+        },
+        uniformLocations: {
+            transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix'),
+        }
+    }
+}
+
+function initTransform(element: HTMLElement) {
     const xOpts = [35, 45, 35];
     const yOpts = [-45, 0, 45];
     let xAxis = xOpts[offsetSelection] * Math.PI / 180;
     let yAxis = yOpts[offsetSelection] * Math.PI / 180;
 
-    transformMatrix = glMat.create();
+    let transformMatrix = glMat.create();
 
     glMat.perspective(transformMatrix,
         50 * Math.PI / 180, // field of view
-        canvas.clientWidth / canvas.clientHeight, // aspect
+        element.clientWidth / element.clientHeight, // aspect
         0.1, // z near
         100.0); // z far
 
@@ -193,112 +244,10 @@ export function renderCanvas() {
         [0, -1, 0],
     );
 
-    buffers = new Buffers(gl);
-    cube = new CubeLogic(gl, animateTurns);
-    dragDetector = new DragDetector();
-
-    cube.setNumOfLayers(numLayers);
-    cube.activateAllStickers();
-    cube.new();
-
-    buffers.initBufferData(cube, showBody, transformMatrix);
-
-    const sceneArgs = { canvas, cube, buffers, offsetSelection, animateTurn };
-
-    const pointerdown = (offsetX, offsetY) => {
-        if (!dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, sceneArgs);
-    }
-
-    const pointermove = (offsetX, offsetY) => {
-        if (!dragEnabled) return;
-        dragDetector.onPointerMove(offsetX, offsetY);
-    }
-
-    const pointerup = () => {
-        if (!dragEnabled) return;
-        dragDetector.onPointerUp(sceneArgs);
-    }
-
-    const calcOffset = (event) => {
-        const rect = event.target.getBoundingClientRect();
-        const x = event.touches[0].pageX - rect.left;
-        const y = event.touches[0].pageY - rect.top;
-        return { x, y };
-    }
-
-    const addPointerListeners = () => {
-        canvas.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
-        canvas.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
-        canvas.addEventListener("pointerup", event => pointerup());
-    }
-
-    const addTouchListeners = () => {
-        canvas.addEventListener("touchstart", event => {
-            const { x, y } = calcOffset(event);
-            pointerdown(x, y);
-        });
-        canvas.addEventListener("touchmove", event => {
-            const { x, y } = calcOffset(event);
-            pointermove(x, y);
-        });
-        canvas.addEventListener("touchend", event => {
-            pointerup();
-        });
-    }
-
-    if (window.PointerEvent) {
-        addPointerListeners();
-    } else {
-        addTouchListeners();
-    }
-
-    initPrograms();
-    render();
+    return transformMatrix;
 }
 
-export function initPrograms() {
-    const vsSource = `
-    attribute vec4 aVertexPosition;
-    attribute vec4 aVertexColor;
-    uniform mat4 uTransformMatrix;
-    varying lowp vec4 vColor;
-    void main(void) {
-        gl_Position = uTransformMatrix * aVertexPosition;
-        vColor = aVertexColor;
-    }
-    `;
-
-    // Fragment shader program
-    const fsSource = `
-    varying lowp vec4 vColor;
-    void main(void) {
-        gl_FragColor = vColor;
-    }
-    `;
-
-    // Initialize a shader program; this is where all the lighting
-    // for the vertices and so forth is established.
-    const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
-
-    gl.useProgram(shaderProgram);
-
-    // Collect all the info needed to use the shader program.
-    // Look up which attributes our shader program is using
-    // for aVertexPosition, aVertexColor and also
-    // look up uniform locations.
-    programInfo = {
-        attribLocations: {
-            vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-            vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
-        },
-        uniformLocations: {
-            transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix'),
-        }
-    };
-}
-
-function bindPosition(positionBuffer) {
+function bindPosition(positionBuffer: WebGLBuffer, programInfo: ProgramInfo, gl: WebGLRenderingContext) {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexPosition,
@@ -311,7 +260,7 @@ function bindPosition(positionBuffer) {
         programInfo.attribLocations.vertexPosition);
 }
 
-function bindColor(colorBuffer) {
+function bindColor(colorBuffer: WebGLBuffer, programInfo: ProgramInfo, gl: WebGLRenderingContext) {
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.vertexAttribPointer(
         programInfo.attribLocations.vertexColor,
@@ -324,89 +273,13 @@ function bindColor(colorBuffer) {
         programInfo.attribLocations.vertexColor);
 }
 
-function drawElements() {
+function drawElements(gl: WebGLRenderingContext) {
     gl.drawElements(
         gl.TRIANGLES,
         6,
         gl.UNSIGNED_SHORT, // type
         0, // offset
     );
-}
-
-function drawScene() {
-    gl.clearDepth(1.0);                 // Clear everything
-    gl.enable(gl.DEPTH_TEST);           // Enable depth testing
-    gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
-    gl.clearColor(0.0, 0.0, 0.0, 0.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    const underStickers = cube.getUnderStickers();
-    let listToShow = isTurning ? animation.stickers : cube.currentStickers;
-
-    for (let i = 0; i < cube.numOfStickers; i++) {
-        let object = buffers.objects[i];
-
-        // Matrix specific to this object
-        const m = glMat.create();
-        glMat.rotate(
-            m,
-            transformMatrix,
-            animation ? animation.stickersToAnimate[i] ? (spring.position * Math.PI / 180) : 0 : 0,
-            animation ? animation.axis : [1, 0, 0]
-        );
-
-        gl.uniformMatrix4fv(
-            programInfo.uniformLocations.transformMatrix,
-            false,
-            m,
-        );
-
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-
-        if (showBody) {
-            bindPosition(object.noGapPositionBuffer);
-            bindColor(underStickers[i].buffer);
-            drawElements();
-        }
-
-        bindPosition(object.positionBuffer);
-        bindColor(listToShow[i].buffer);
-        drawElements();
-
-        gl.uniformMatrix4fv(
-            programInfo.uniformLocations.transformMatrix,
-            false,
-            transformMatrix,
-        );
-    }
-
-    if (!hintStickers) return;
-    
-    gl.uniformMatrix4fv(
-        programInfo.uniformLocations.transformMatrix,
-        false,
-        transformMatrix,
-    );
-
-
-    const drawHints = (starti, endi) => {
-        for (let i = starti; i < endi; i++) {
-            let object = buffers.objects[i];
-    
-            bindPosition(object.hintPositionBuffer);
-            bindColor(listToShow[i].buffer);
-            drawElements();
-        }
-    }
-
-    if (offsetSelection === 0) {
-        drawHints(2 * cube.layersSq, 4 * cube.layersSq);
-        drawHints(5 * cube.layersSq, cube.numOfStickers);
-    } else if (offsetSelection === 1) {
-        drawHints(2 * cube.layersSq, cube.numOfStickers);
-    } else if (offsetSelection === 2) {
-        drawHints(2 * cube.layersSq, 5 * cube.layersSq);
-    }
 }
 
 // Initialize a shader program, so WebGL knows how to draw our data
@@ -442,6 +315,137 @@ function loadShader(gl, type, source) {
     }
 
     return shader;
+}
+
+function resizeCanvasToDisplaySize() {
+    // Lookup the size the browser is displaying the canvas in CSS pixels.
+    const displayWidth = canvas.clientWidth;
+    const displayHeight = canvas.clientHeight;
+
+    // Check if the canvas is not the same size.
+    const needResize = canvas.width !== displayWidth ||
+        canvas.height !== displayHeight;
+
+    if (needResize) {
+        // Make the canvas the same size
+        canvas.width = displayWidth;
+        canvas.height = displayHeight;
+    }
+
+    return needResize;
+}
+
+function render(newTime: number) {
+    newTime *= 0.001; // convert to seconds
+    const dt = newTime - time;
+    time = newTime;
+
+    resizeCanvasToDisplaySize();
+
+    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.SCISSOR_TEST);
+    gl.depthFunc(gl.LEQUAL); // Near things obscure far things
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    // move the canvas to top of the current scroll position
+    canvas.style.transform = `translateY(${window.scrollY}px)`;
+
+    for (let i = 0; i < scenes.length; i++) {
+        const { cube, div, spring, buffers, transformMatrix, dragDetector } = scenes[i];
+
+        const rect = div.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
+            rect.right < 0 || rect.left > canvas.clientWidth) {
+            continue;  // it's off screen
+        }
+
+        const width = rect.right - rect.left;
+        const height = rect.bottom - rect.top;
+        const left = rect.left;
+        const bottom = canvas.clientHeight - rect.bottom;
+
+        gl.viewport(left, bottom, width, height);
+        gl.scissor(left, bottom, width, height);
+
+        if (cube.animationQueue[0]) {
+            // target is measured in degrees
+            spring.target = cube.animationQueue.length * 90;
+            spring.update(dt);
+
+            if (spring.position >= 90) {
+                cube.affectedStickers = Array(cube.numOfStickers).fill(false);
+
+                cube.commitStickers();
+                spring.position = 0;
+                cube.animationQueue.shift();
+            }
+        }
+
+        const animation = cube.animationQueue[0];
+        let listToShow = animation ? animation.stickers : cube.stickers;
+
+        const underStickers = cube.underStickers;
+
+        for (let i = 0; i < cube.numOfStickers; i++) {
+            let object = buffers[i];
+
+            const m = (animation && animation.stickersToAnimate[i])
+                ? glMat.rotate(
+                    glMat.create(),
+                    transformMatrix,
+                    spring.position * Math.PI / 180,
+                    animation.axis
+                )
+                : transformMatrix;
+
+            gl.uniformMatrix4fv(
+                programInfo.uniformLocations.transformMatrix,
+                false,
+                m,
+            );
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+
+            if (showBody) {
+                bindPosition(object.noGapPositionBuffer, programInfo, gl);
+                bindColor(underStickers[i].buffer, programInfo, gl);
+                drawElements(gl);
+            }
+
+            bindPosition(object.positionBuffer, programInfo, gl);
+            bindColor(listToShow[i].buffer, programInfo, gl);
+            drawElements(gl);
+        }
+
+        if (hintStickers) {
+            gl.uniformMatrix4fv(
+                programInfo.uniformLocations.transformMatrix,
+                false,
+                transformMatrix,
+            );
+
+            const drawHints = (starti, endi) => {
+                for (let j = starti; j < endi; j++) {
+                    let object = buffers[j];
+
+                    bindPosition(object.hintPositionBuffer, programInfo, gl);
+                    bindColor(listToShow[j].buffer, programInfo, gl);
+                    drawElements(gl);
+                }
+            }
+
+            if (offsetSelection === 0) {
+                drawHints(2 * cube.layersSq, 4 * cube.layersSq);
+                drawHints(5 * cube.layersSq, cube.numOfStickers);
+            } else if (offsetSelection === 1) {
+                drawHints(2 * cube.layersSq, cube.numOfStickers);
+            } else if (offsetSelection === 2) {
+                drawHints(2 * cube.layersSq, 5 * cube.layersSq);
+            }
+        }
+    }
+
+    requestAnimationFrame(render);
 }
 
 function renderZeroEasterEgg() {

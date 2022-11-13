@@ -25,9 +25,6 @@ export class Spring {
     }
 
     update(dt: number) {
-        // convert dt to seconds
-        dt /= 1000;
-
         const springF = -k * (this.position - this.target);
         const dampingF = -f * this._velocity;
 

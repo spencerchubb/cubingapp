@@ -1,4 +1,4 @@
-import { Buffers } from "./buffers";
+import { BufferObject } from "./buffers";
 import { CubeLogic } from "./cube";
 
 /**
@@ -325,10 +325,10 @@ export class DragDetector {
      * Find the sticker with cart2d that contains this coordinate.
      * Return -1 if it's not in any sticker.
      */
-    _coordinatesToSticker(x: number, y: number, cube: CubeLogic, buffers: Buffers, offsetSelection: number) {
+    _coordinatesToSticker(x: number, y: number, cube: CubeLogic, buffers: BufferObject[], offsetSelection: number) {
         const coordinateIsInSticker = i => {
-            if (!buffers.objects[i].cart2d) return;
-            const cart2d = buffers.objects[i].cart2d;
+            if (!buffers[i].cart2d) return;
+            const cart2d = buffers[i].cart2d;
             // Determine if coordinate is in convex quadrilateral
             const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5])
                 + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
