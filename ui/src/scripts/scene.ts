@@ -113,6 +113,61 @@ export function newScene(selector: string): Scene {
 
     let buffers = createBuffers(gl, cube, true, transformMatrix);
 
+    const sceneArgs = {
+        canvas: div,
+        cube: cube,
+        buffers: buffers,
+        offsetSelection,
+    };
+
+    const pointerdown = (offsetX, offsetY) => {
+        if (!dragEnabled) return;
+        dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers, offsetSelection);
+    }
+
+    const pointermove = (offsetX, offsetY) => {
+        if (!dragEnabled) return;
+        dragDetector.onPointerMove(offsetX, offsetY);
+    }
+
+    const pointerup = () => {
+        if (!dragEnabled) return;
+        dragDetector.onPointerUp(div, cube, buffers, offsetSelection);
+    }
+
+    const calcOffset = (event) => {
+        const rect = event.target.getBoundingClientRect();
+        const x = event.touches[0].pageX - rect.left;
+        const y = event.touches[0].pageY - rect.top;
+        return { x, y };
+    }
+
+    const addPointerListeners = () => {
+        div.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
+        div.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
+        div.addEventListener("pointerup", event => pointerup());
+    }
+
+    const addTouchListeners = () => {
+        div.addEventListener("touchstart", event => {
+            const { x, y } = calcOffset(event);
+            pointerdown(x, y);
+        });
+        div.addEventListener("touchmove", event => {
+            const { x, y } = calcOffset(event);
+            pointermove(x, y);
+        });
+        div.addEventListener("touchend", event => {
+            pointerup();
+        });
+    }
+
+    if (window.PointerEvent) {
+        addPointerListeners();
+    } else {
+        addTouchListeners();
+    }
+
     let sceneObj = {
         div,
         cube,
@@ -123,62 +178,6 @@ export function newScene(selector: string): Scene {
     };
     scenes.push(sceneObj);
     return sceneObj;
-
-    // const sceneArgs = {
-    //     canvas: this.div,
-    //     cube: this.cube,
-    //     buffers: this.buffers,
-    //     offsetSelection,
-    //     animateTurn: this.animateTurn,
-    // };
-
-    // const pointerdown = (offsetX, offsetY) => {
-    //     if (!dragEnabled) return;
-    //     this.dragDetector.onPointerDown(offsetX, offsetY, sceneArgs);
-    // }
-
-    // const pointermove = (offsetX, offsetY) => {
-    //     if (!dragEnabled) return;
-    //     this.dragDetector.onPointerMove(offsetX, offsetY);
-    // }
-
-    // const pointerup = () => {
-    //     if (!dragEnabled) return;
-    //     this.dragDetector.onPointerUp(sceneArgs);
-    // }
-
-    // const calcOffset = (event) => {
-    //     const rect = event.target.getBoundingClientRect();
-    //     const x = event.touches[0].pageX - rect.left;
-    //     const y = event.touches[0].pageY - rect.top;
-    //     return { x, y };
-    // }
-
-    // const addPointerListeners = () => {
-    //     this.div.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
-    //     this.div.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
-    //     this.div.addEventListener("pointerup", event => pointerup());
-    // }
-
-    // const addTouchListeners = () => {
-    //     this.div.addEventListener("touchstart", event => {
-    //         const { x, y } = calcOffset(event);
-    //         pointerdown(x, y);
-    //     });
-    //     this.div.addEventListener("touchmove", event => {
-    //         const { x, y } = calcOffset(event);
-    //         pointermove(x, y);
-    //     });
-    //     this.div.addEventListener("touchend", event => {
-    //         pointerup();
-    //     });
-    // }
-
-    // if (window.PointerEvent) {
-    //     addPointerListeners();
-    // } else {
-    //     addTouchListeners();
-    // }
 }
 
 function initPrograms() {

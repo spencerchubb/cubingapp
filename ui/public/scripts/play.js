@@ -1512,93 +1512,77 @@
     return Math.floor((sticker - 5 * cube.layersSq) / cube.layers);
   }
   var DragDetector = class {
-    onPointerDown(x, y, sceneArgs) {
-      const { canvas: canvas3, cube, buffers, offsetSelection: offsetSelection2, animateTurn } = sceneArgs;
+    onPointerDown(x, y, div, cube, buffers, offsetSelection2) {
       this.numOfPointerMoves = 0;
-      const clipX = xPixelToClip(x, canvas3.width);
-      const clipY = yPixelToClip(y, canvas3.width);
+      const clipX = xPixelToClip(x, div.clientWidth);
+      const clipY = yPixelToClip(y, div.clientHeight);
       this.xOnDown = clipX;
       this.yOnDown = clipY;
       [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers, offsetSelection2);
-      const objects = buffers.objects;
-      const getXY = (objectIndex, xIndex, yIndex) => ({
-        x: objects[objectIndex].cart2d[xIndex],
-        y: objects[objectIndex].cart2d[yIndex]
-      });
-      if (this.stickerOnDown === -1) {
-        if (offsetSelection2 === 0) {
-          const top = getXY(cube.layers * (cube.layers - 1), 6, 7);
-          const topLeft = getXY(0, 0, 1);
-          const bottomLeft = getXY(cube.layers * (2 * cube.layers + 1), 0, 1);
-          if (clipY > topLeft.y) {
-            if (clipX < top.x) {
-              cube.cubeRotate(0, true);
-              animateTurn();
-            } else if (clipX > top.x) {
-              cube.cubeRotate(2, true);
-              animateTurn();
-            }
-          } else if (clipY > bottomLeft.y) {
-            cube.cubeRotate(1, clipX < bottomLeft.x);
-            animateTurn();
-          } else {
-            if (clipX < top.x) {
-              cube.cubeRotate(2, false);
-              animateTurn();
-            } else if (clipX > top.x) {
-              cube.cubeRotate(0, false);
-              animateTurn();
-            }
-          }
-        } else if (offsetSelection2 === 1) {
-          const topLeft = getXY(0, 0, 1);
-          const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
-          const left = getXY(cube.layers - 1, 2, 3);
-          const right = getXY(cube.layersSq - 1, 4, 5);
-          const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
-          const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
-          if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+      function getXY(objectIndex, xIndex, yIndex) {
+        return {
+          x: buffers[objectIndex].cart2d[xIndex],
+          y: buffers[objectIndex].cart2d[yIndex]
+        };
+      }
+      if (this.stickerOnDown !== -1)
+        return;
+      if (offsetSelection2 === 0) {
+        const top = getXY(cube.layers * (cube.layers - 1), 6, 7);
+        const topLeft = getXY(0, 0, 1);
+        const bottomLeft = getXY(cube.layers * (2 * cube.layers + 1), 0, 1);
+        if (clipY > topLeft.y) {
+          if (clipX < top.x) {
             cube.cubeRotate(0, true);
-            animateTurn();
-          } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
-            cube.cubeRotate(2, false);
-            animateTurn();
-          } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+          } else if (clipX > top.x) {
             cube.cubeRotate(2, true);
-            animateTurn();
-          } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
-            cube.cubeRotate(1, true);
-            animateTurn();
-          } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
-            cube.cubeRotate(1, false);
-            animateTurn();
-          } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
-            cube.cubeRotate(0, false);
-            animateTurn();
           }
-        } else if (offsetSelection2 === 2) {
-          const top = getXY(0, 0, 1);
-          const topLeft = getXY(cube.layers - 1, 2, 3);
-          const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
-          if (clipY > topLeft.y) {
-            if (clipX < top.x) {
-              cube.cubeRotate(2, false);
-              animateTurn();
-            } else if (clipX > top.x) {
-              cube.cubeRotate(0, true);
-              animateTurn();
-            }
-          } else if (clipY > bottomLeft.y) {
-            cube.cubeRotate(1, clipX < bottomLeft.x);
-            animateTurn();
-          } else {
-            if (clipX < top.x) {
-              cube.cubeRotate(0, false);
-              animateTurn();
-            } else if (clipX > top.x) {
-              cube.cubeRotate(2, true);
-              animateTurn();
-            }
+        } else if (clipY > bottomLeft.y) {
+          cube.cubeRotate(1, clipX < bottomLeft.x);
+        } else {
+          if (clipX < top.x) {
+            cube.cubeRotate(2, false);
+          } else if (clipX > top.x) {
+            cube.cubeRotate(0, false);
+          }
+        }
+      } else if (offsetSelection2 === 1) {
+        const topLeft = getXY(0, 0, 1);
+        const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+        const left = getXY(cube.layers - 1, 2, 3);
+        const right = getXY(cube.layersSq - 1, 4, 5);
+        const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+        const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
+        if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+          cube.cubeRotate(0, true);
+        } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+          cube.cubeRotate(2, false);
+        } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+          cube.cubeRotate(2, true);
+        } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+          cube.cubeRotate(1, true);
+        } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+          cube.cubeRotate(1, false);
+        } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+          cube.cubeRotate(0, false);
+        }
+      } else if (offsetSelection2 === 2) {
+        const top = getXY(0, 0, 1);
+        const topLeft = getXY(cube.layers - 1, 2, 3);
+        const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+        if (clipY > topLeft.y) {
+          if (clipX < top.x) {
+            cube.cubeRotate(2, false);
+          } else if (clipX > top.x) {
+            cube.cubeRotate(0, true);
+          }
+        } else if (clipY > bottomLeft.y) {
+          cube.cubeRotate(1, clipX < bottomLeft.x);
+        } else {
+          if (clipX < top.x) {
+            cube.cubeRotate(0, false);
+          } else if (clipX > top.x) {
+            cube.cubeRotate(2, true);
           }
         }
       }
@@ -1608,10 +1592,9 @@
       this.xOnMove = x;
       this.yOnMove = y;
     }
-    onPointerUp(sceneArgs) {
+    onPointerUp(div, cube, buffers, offsetSelection2) {
       if (this.numOfPointerMoves < 2)
         return;
-      const { canvas: canvas3, cube, buffers, offsetSelection: offsetSelection2, animateTurn } = sceneArgs;
       let posSlope, negSlope;
       if (this.stickerOnDown !== -1) {
         posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
@@ -1622,8 +1605,8 @@
           negSlope = temp;
         }
       }
-      const xClip = xPixelToClip(this.xOnMove, canvas3.width);
-      const yClip = yPixelToClip(this.yOnMove, canvas3.width);
+      const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
+      const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
       const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
       const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube, buffers, offsetSelection2);
       if (offsetSelection2 === 0) {
@@ -1741,7 +1724,6 @@
           }
         }
       }
-      animateTurn();
     }
     _coordinatesToSticker(x, y, cube, buffers, offsetSelection2) {
       const coordinateIsInSticker = (i) => {
@@ -1928,6 +1910,7 @@
   var scenes = [];
   var time = Date.now() * 1e-3;
   var numLayers = 3;
+  var dragEnabled = true;
   var offsetSelection = 1;
   var hintStickers2 = true;
   var showBody2 = true;
@@ -1950,6 +1933,56 @@
     cube.setNumOfLayers(numLayers);
     cube.new();
     let buffers = createBuffers(gl2, cube, true, transformMatrix);
+    const sceneArgs = {
+      canvas: div,
+      cube,
+      buffers,
+      offsetSelection
+    };
+    const pointerdown = (offsetX, offsetY) => {
+      if (!dragEnabled)
+        return;
+      dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers, offsetSelection);
+    };
+    const pointermove = (offsetX, offsetY) => {
+      if (!dragEnabled)
+        return;
+      dragDetector.onPointerMove(offsetX, offsetY);
+    };
+    const pointerup = () => {
+      if (!dragEnabled)
+        return;
+      dragDetector.onPointerUp(div, cube, buffers, offsetSelection);
+    };
+    const calcOffset = (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.touches[0].pageX - rect.left;
+      const y = event.touches[0].pageY - rect.top;
+      return { x, y };
+    };
+    const addPointerListeners = () => {
+      div.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
+      div.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
+      div.addEventListener("pointerup", (event) => pointerup());
+    };
+    const addTouchListeners = () => {
+      div.addEventListener("touchstart", (event) => {
+        const { x, y } = calcOffset(event);
+        pointerdown(x, y);
+      });
+      div.addEventListener("touchmove", (event) => {
+        const { x, y } = calcOffset(event);
+        pointermove(x, y);
+      });
+      div.addEventListener("touchend", (event) => {
+        pointerup();
+      });
+    };
+    if (window.PointerEvent) {
+      addPointerListeners();
+    } else {
+      addTouchListeners();
+    }
     let sceneObj = {
       div,
       cube,
