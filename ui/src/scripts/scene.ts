@@ -26,9 +26,8 @@ export type Scene = {
     spring: Spring,
     buffers: BufferObject[],
     transformMatrix: number[],
-    dragDetector: DragDetector,
 };
-let scenes: Scene[] = [];
+export let scenes: Scene[] = [];
 
 let time: number = Date.now() * 0.001;
 
@@ -113,13 +112,6 @@ export function newScene(selector: string): Scene {
 
     let buffers = createBuffers(gl, cube, true, transformMatrix);
 
-    const sceneArgs = {
-        canvas: div,
-        cube: cube,
-        buffers: buffers,
-        offsetSelection,
-    };
-
     const pointerdown = (offsetX, offsetY) => {
         if (!dragEnabled) return;
         dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers, offsetSelection);
@@ -168,16 +160,13 @@ export function newScene(selector: string): Scene {
         addTouchListeners();
     }
 
-    let sceneObj = {
+    return {
         div,
         cube,
         spring,
         buffers,
         transformMatrix,
-        dragDetector,
     };
-    scenes.push(sceneObj);
-    return sceneObj;
 }
 
 function initPrograms() {
@@ -350,7 +339,7 @@ function render(newTime: number) {
     canvas.style.transform = `translateY(${window.scrollY}px)`;
 
     for (let i = 0; i < scenes.length; i++) {
-        const { cube, div, spring, buffers, transformMatrix, dragDetector } = scenes[i];
+        const { cube, div, spring, buffers, transformMatrix } = scenes[i];
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -383,8 +372,6 @@ function render(newTime: number) {
         const animation = cube.animationQueue[0];
         let listToShow = animation ? animation.stickers : cube.stickers;
 
-        const underStickers = cube.underStickers;
-
         for (let i = 0; i < cube.numOfStickers; i++) {
             let object = buffers[i];
 
@@ -407,7 +394,7 @@ function render(newTime: number) {
 
             if (showBody) {
                 bindPosition(object.noGapPositionBuffer, programInfo, gl);
-                bindColor(underStickers[i].buffer, programInfo, gl);
+                bindColor(cube.underStickers[i].buffer, programInfo, gl);
                 drawElements(gl);
             }
 

@@ -175,8 +175,7 @@ function main() {
 
     function renderLesson(i: number) {
         const scene = newScene(`#scene${i}`);
-        const cube = scene.cube;
-        lessons[i].cube = cube;
+        lessons[i].cube = scene.cube;
 
         const lesson = lessons[i];
 
@@ -195,13 +194,13 @@ function main() {
             colors[i] = dulls[Math.floor(i / 9)];
         }
 
-        cube.setColors(colors);
+        scene.cube.setColors(colors);
 
         updateMoveCounter(i);
 
         const setup = lesson.setup;
-        cube.execAlg(setup);
-        cube.commitStickers();
+        scene.cube.execAlg(setup);
+        scene.cube.commitStickers();
     }
 
     const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");

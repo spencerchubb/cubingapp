@@ -1393,12 +1393,6 @@
     cube.setNumOfLayers(numLayers);
     cube.new();
     let buffers = createBuffers(gl2, cube, true, transformMatrix);
-    const sceneArgs = {
-      canvas: div,
-      cube,
-      buffers,
-      offsetSelection
-    };
     const pointerdown = (offsetX, offsetY) => {
       if (!dragEnabled)
         return;
@@ -1443,16 +1437,13 @@
     } else {
       addTouchListeners();
     }
-    let sceneObj = {
+    return {
       div,
       cube,
       spring,
       buffers,
-      transformMatrix,
-      dragDetector
+      transformMatrix
     };
-    scenes.push(sceneObj);
-    return sceneObj;
   }
   function initPrograms() {
     const vertexShaderSource = `
@@ -1595,7 +1586,7 @@
     gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
     canvas.style.transform = `translateY(${window.scrollY}px)`;
     for (let i = 0; i < scenes.length; i++) {
-      const { cube, div, spring, buffers, transformMatrix, dragDetector } = scenes[i];
+      const { cube, div, spring, buffers, transformMatrix } = scenes[i];
       const rect = div.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > canvas.clientHeight || rect.right < 0 || rect.left > canvas.clientWidth) {
         continue;
@@ -1618,7 +1609,6 @@
       }
       const animation = cube.animationQueue[0];
       let listToShow = animation ? animation.stickers : cube.stickers;
-      const underStickers = cube.underStickers;
       for (let i2 = 0; i2 < cube.numOfStickers; i2++) {
         let object = buffers[i2];
         const m = animation && animation.stickersToAnimate[i2] ? rotate(
@@ -1635,7 +1625,7 @@
         gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
         if (showBody) {
           bindPosition(object.noGapPositionBuffer, programInfo, gl2);
-          bindColor(underStickers[i2].buffer, programInfo, gl2);
+          bindColor(cube.underStickers[i2].buffer, programInfo, gl2);
           drawElements(gl2);
         }
         bindPosition(object.positionBuffer, programInfo, gl2);
@@ -1899,8 +1889,7 @@
     ];
     function renderLesson(i) {
       const scene = newScene(`#scene${i}`);
-      const cube = scene.cube;
-      lessons[i].cube = cube;
+      lessons[i].cube = scene.cube;
       const lesson = lessons[i];
       const colors = Array(54);
       let brights = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
@@ -1913,11 +1902,11 @@
           continue;
         colors[i2] = dulls[Math.floor(i2 / 9)];
       }
-      cube.setColors(colors);
+      scene.cube.setColors(colors);
       updateMoveCounter(i);
       const setup = lesson.setup;
-      cube.execAlg(setup);
-      cube.commitStickers();
+      scene.cube.execAlg(setup);
+      scene.cube.commitStickers();
     }
     const lessonNavigator = document.querySelector("#lessonNavigator");
     lessonNavigator.addEventListener("click", (event) => {

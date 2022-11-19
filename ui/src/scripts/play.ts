@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { newScene, setNumLayers, startLoop } from "./scene";
+import { newScene, scenes, setNumLayers, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
@@ -22,11 +22,11 @@ const timer = new Timer();
 const recorder = new Recorder();
 
 function main() {
-    const scene = newScene("#scene");
-    const cube = scene.cube;
+    let scene = newScene("#scene");
+    scenes.push(scene);
 
-    const colors = solvedColors(cube);
-    cube.setColors(colors);
+    const colors = solvedColors(scene.cube);
+    scene.cube.setColors(colors);
 
     startLoop();
     
@@ -38,20 +38,20 @@ function main() {
         const value = parseInt(target.value);
 
         setNumLayers(value);
-        cube.setNumOfLayers(value);
-        scene.buffers = createBuffers(gl, cube, true, scene.transformMatrix);
-        
-        const colors = solvedColors(cube);
-        cube.setColors(colors);
+        scene = newScene("#scene");
+        scenes[0] = scene;
+
+        const colors = solvedColors(scene.cube);
+        scene.cube.setColors(colors);
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        const colors = solvedColors(cube);
-        cube.setColors(colors);
+        const colors = solvedColors(scene.cube);
+        scene.cube.setColors(colors);
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
-        cube.scramble();
+        scene.cube.scramble();
     });
 
     document.querySelector("#startStop").addEventListener("click", (event) => {
@@ -72,7 +72,7 @@ function main() {
             return;
         }
 
-        const result = cube.matchKeyToTurn(event);
+        const result = scene.cube.matchKeyToTurn(event);
         if (result) {
             recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
             // scene.animateTurn();
