@@ -29,18 +29,18 @@ export type Scene = {
 };
 export let scenes: Scene[] = [];
 
+export let settings = {
+    sizeMultiplier: 1,
+    hintStickers: true,
+    showBody: true,
+    animateTurns: true,
+}
+
 let time: number = Date.now() * 0.001;
 
 let prefsLoaded = false;
 let numLayers: number = 3;
 let dragEnabled = true;
-
-// Preferences stored locally
-let sizeMultiplier: number;
-let offsetSelection = 1;
-export let hintStickers = true;
-export let showBody = true;
-export let animateTurns = true;
 
 let loopStarted = false;
 export function startLoop() {
@@ -50,50 +50,16 @@ export function startLoop() {
 }
 
 function loadPrefs() {
-    if (prefsLoaded) return;
-    prefsLoaded = true;
-    sizeMultiplier = store.getSize();
-    offsetSelection = store.getAngle();
-    hintStickers = store.getHintStickers();
-    showBody = store.getShowBody();
-    animateTurns = store.getAnimateTurns();
+    // if (prefsLoaded) return;
+    // prefsLoaded = true;
+    // sizeMultiplier = store.getSize();
+    // hintStickers = store.getHintStickers();
+    // showBody = store.getShowBody();
+    // animateTurns = store.getAnimateTurns();
 }
 
 export function setNumLayers(val: number) {
     numLayers = val;
-    // renderCanvas();
-    // TODO
-}
-
-export function setSizeMultiplier(val: number) {
-    sizeMultiplier = val;
-}
-
-/**
- * value = 0 --> left
- * value = 1 --> head-on
- * value = 2 --> right
- */
-export function setAngleOffset(value: number) {
-    offsetSelection = value;
-    // renderCanvas();
-    // TODO
-}
-
-export function setHintStickers(val: boolean) {
-    hintStickers = val;
-    // render(null, null); // TODO
-}
-
-export function setShowBody(val: boolean) {
-    showBody = val;
-    // buffers.initBufferData(cube, showBody, transformMatrix);
-    // render(null); // TODO
-}
-
-export function setAnimateTurns(val: boolean) {
-    animateTurns = val;
-    // cube.animateTurns = val;
 }
 
 export function setDragEnabled(val: boolean) {
@@ -114,7 +80,7 @@ export function newScene(selector: string): Scene {
 
     const pointerdown = (offsetX, offsetY) => {
         if (!dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers, offsetSelection);
+        dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers);
     }
 
     const pointermove = (offsetX, offsetY) => {
@@ -124,7 +90,7 @@ export function newScene(selector: string): Scene {
 
     const pointerup = () => {
         if (!dragEnabled) return;
-        dragDetector.onPointerUp(div, cube, buffers, offsetSelection);
+        dragDetector.onPointerUp(div, cube, buffers);
     }
 
     const calcOffset = (event) => {
@@ -204,11 +170,6 @@ function initPrograms() {
 }
 
 function initTransform(element: HTMLElement) {
-    const xOpts = [35, 45, 35];
-    const yOpts = [-45, 0, 45];
-    let xAxis = xOpts[offsetSelection] * Math.PI / 180;
-    let yAxis = yOpts[offsetSelection] * Math.PI / 180;
-
     let transformMatrix = glMat.create();
 
     glMat.perspective(transformMatrix,
@@ -222,13 +183,13 @@ function initTransform(element: HTMLElement) {
 
     glMat.rotate(transformMatrix,
         transformMatrix,
-        xAxis,
+        45 * Math.PI / 180,
         [1, 0, 0],
     );
 
     glMat.rotate(transformMatrix,
         transformMatrix,
-        yAxis,
+        0,
         [0, -1, 0],
     );
 
@@ -392,7 +353,7 @@ function render(newTime: number) {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
 
-            if (showBody) {
+            if (settings.showBody) {
                 bindPosition(object.noGapPositionBuffer, programInfo, gl);
                 bindColor(cube.underStickers[i].buffer, programInfo, gl);
                 drawElements(gl);
@@ -403,35 +364,28 @@ function render(newTime: number) {
             drawElements(gl);
         }
 
-        if (hintStickers) {
-            gl.uniformMatrix4fv(
-                programInfo.uniformLocations.transformMatrix,
-                false,
-                transformMatrix,
-            );
-
-            const drawHints = (starti, endi) => {
-                for (let j = starti; j < endi; j++) {
-                    let object = buffers[j];
-
-                    bindPosition(object.hintPositionBuffer, programInfo, gl);
-                    bindColor(listToShow[j].buffer, programInfo, gl);
-                    drawElements(gl);
-                }
-            }
-
-            if (offsetSelection === 0) {
-                drawHints(2 * cube.layersSq, 4 * cube.layersSq);
-                drawHints(5 * cube.layersSq, cube.numOfStickers);
-            } else if (offsetSelection === 1) {
-                drawHints(2 * cube.layersSq, cube.numOfStickers);
-            } else if (offsetSelection === 2) {
-                drawHints(2 * cube.layersSq, 5 * cube.layersSq);
-            }
-        }
+        if (!settings.hintStickers) return;
+        
+        renderHintStickers(cube, buffers, transformMatrix, listToShow);
     }
 
     requestAnimationFrame(render);
+}
+
+function renderHintStickers(cube: CubeLogic, buffers: BufferObject[], transformMatrix: number[], listToShow: any[]) {
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.transformMatrix,
+        false,
+        transformMatrix,
+    );
+
+    for (let j = 2 * cube.layersSq; j < cube.numOfStickers; j++) {
+        let object = buffers[j];
+
+        bindPosition(object.hintPositionBuffer, programInfo, gl);
+        bindColor(listToShow[j].buffer, programInfo, gl);
+        drawElements(gl);
+    }
 }
 
 function renderZeroEasterEgg() {

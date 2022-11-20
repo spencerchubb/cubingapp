@@ -838,27 +838,6 @@
     arr[n] = temp;
   }
 
-  // ui/src/scripts/store.ts
-  var algs = "algs";
-  var orientation = "orientation";
-  function getAlgs(setName) {
-    const item = localStorage.getItem(algs + setName);
-    if (item) {
-      return JSON.parse(item);
-    }
-    return [];
-  }
-  function setAlgs(setName, value) {
-    localStorage.setItem(algs + setName, JSON.stringify(value));
-  }
-  function getOrientation() {
-    var _a;
-    return (_a = localStorage.getItem(orientation)) != null ? _a : "";
-  }
-  function setOrientation(value) {
-    localStorage.setItem(orientation, value);
-  }
-
   // ui/src/scripts/scene.ts
   var canvas = document.querySelector("canvas");
   var gl = canvas.getContext("webgl");
@@ -959,6 +938,27 @@
     document.querySelector("#cubleButton").addEventListener("click", () => {
       document.location.href = "cuble.html";
     });
+  }
+
+  // ui/src/scripts/store.ts
+  var algs = "algs";
+  var orientation = "orientation";
+  function getAlgs(setName) {
+    const item = localStorage.getItem(algs + setName);
+    if (item) {
+      return JSON.parse(item);
+    }
+    return [];
+  }
+  function setAlgs(setName, value) {
+    localStorage.setItem(algs + setName, JSON.stringify(value));
+  }
+  function getOrientation() {
+    var _a;
+    return (_a = localStorage.getItem(orientation)) != null ? _a : "";
+  }
+  function setOrientation(value) {
+    localStorage.setItem(orientation, value);
   }
 
   // ui/src/scripts/slide.ts

@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { newScene, startLoop } from "./scene";
+import { newScene, scenes, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import * as slide from "./slide";
 import { CubeLogic } from "./cube";
@@ -175,6 +175,7 @@ function main() {
 
     function renderLesson(i: number) {
         const scene = newScene(`#scene${i}`);
+        scenes.push(scene);
         lessons[i].cube = scene.cube;
 
         const lesson = lessons[i];

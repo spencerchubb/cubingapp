@@ -70,7 +70,7 @@ export class DragDetector {
     /**
      * x and y are pixel values.
      */
-    onPointerDown(x: number, y: number, div: HTMLElement, cube: CubeLogic, buffers: BufferObject[], offsetSelection: number) {
+    onPointerDown(x: number, y: number, div: HTMLElement, cube: CubeLogic, buffers: BufferObject[]) {
 
         this.numOfPointerMoves = 0;
 
@@ -79,7 +79,7 @@ export class DragDetector {
         this.xOnDown = clipX;
         this.yOnDown = clipY;
 
-        [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers, offsetSelection);
+        [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers);
 
         function getXY(objectIndex: number, xIndex: number, yIndex: number) {
             return {
@@ -90,64 +90,24 @@ export class DragDetector {
 
         if (this.stickerOnDown !== -1) return;
 
-        if (offsetSelection === 0) {
-            const top = getXY(cube.layers * (cube.layers - 1), 6, 7);
-            const topLeft = getXY(0, 0, 1);
-            const bottomLeft = getXY(cube.layers * (2 * cube.layers + 1), 0, 1);
-            if (clipY > topLeft.y) {
-                if (clipX < top.x) {
-                    cube.cubeRotate(0, true);
-                } else if (clipX > top.x) {
-                    cube.cubeRotate(2, true);
-                }
-            } else if (clipY > bottomLeft.y) {
-                cube.cubeRotate(1, clipX < bottomLeft.x);
-            } else {
-                if (clipX < top.x) {
-                    cube.cubeRotate(2, false);
-                } else if (clipX > top.x) {
-                    cube.cubeRotate(0, false);
-                }
-            }
-        } else if (offsetSelection === 1) {
-            const topLeft = getXY(0, 0, 1);
-            const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
-            const left = getXY(cube.layers - 1, 2, 3);
-            const right = getXY(cube.layersSq - 1, 4, 5);
-            const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
-            const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
-            if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
-                cube.cubeRotate(0, true);
-            } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
-                cube.cubeRotate(2, false);
-            } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
-                cube.cubeRotate(2, true);
-            } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
-                cube.cubeRotate(1, true);
-            } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
-                cube.cubeRotate(1, false);
-            } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
-                cube.cubeRotate(0, false);
-            }
-        } else if (offsetSelection === 2) {
-            const top = getXY(0, 0, 1);
-            const topLeft = getXY(cube.layers - 1, 2, 3);
-            const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
-            if (clipY > topLeft.y) {
-                if (clipX < top.x) {
-                    cube.cubeRotate(2, false);
-                } else if (clipX > top.x) {
-                    cube.cubeRotate(0, true);
-                }
-            } else if (clipY > bottomLeft.y) {
-                cube.cubeRotate(1, clipX < bottomLeft.x);
-            } else {
-                if (clipX < top.x) {
-                    cube.cubeRotate(0, false);
-                } else if (clipX > top.x) {
-                    cube.cubeRotate(2, true);
-                }
-            }
+        const topLeft = getXY(0, 0, 1);
+        const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+        const left = getXY(cube.layers - 1, 2, 3);
+        const right = getXY(cube.layersSq - 1, 4, 5);
+        const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+        const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
+        if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+            cube.cubeRotate(0, true);
+        } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+            cube.cubeRotate(2, false);
+        } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+            cube.cubeRotate(2, true);
+        } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+            cube.cubeRotate(1, true);
+        } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+            cube.cubeRotate(1, false);
+        } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+            cube.cubeRotate(0, false);
         }
     }
 
@@ -160,7 +120,7 @@ export class DragDetector {
         this.yOnMove = y;
     }
 
-    onPointerUp(div: HTMLElement, cube: CubeLogic, buffers: BufferObject[], offsetSelection: number) {
+    onPointerUp(div: HTMLElement, cube: CubeLogic, buffers: BufferObject[]) {
         // Do nothing if the pointer movement was tiny.
         if (this.numOfPointerMoves < 2) return;
 
@@ -180,120 +140,30 @@ export class DragDetector {
 
         const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
 
-        const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube, buffers, offsetSelection);
+        const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube, buffers);
 
-        if (offsetSelection === 0) {
-            if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 1)) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), false);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 4)) {
-                    cube.turn(2, topRow(cube, this.stickerOnDown), false);
-                } else if (slope < 0) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), this.xOnDown > xClip);
+        if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+            if (xClip === this.xOnDown) {
+                cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+            } else {
+                if (slope > posSlope) {
+                    cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+                } else if (slope < negSlope) {
+                    cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
                 } else {
-                    cube.turn(2, topRow(cube, this.stickerOnDown), this.xOnDown < xClip);
-                }
-            } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 0)) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), true);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 4)) {
-                    cube.turn(1, frontRow(cube, this.stickerOnDown), true);
-                } else if (xClip === this.xOnDown) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
-                } else {
-                    if (slope > posSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else {
-                        cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    }
-                }
-            } else if (cube.stickerIsOnFace(this.stickerOnDown, 4)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 0)) {
-                    cube.turn(2, leftColumn(cube, this.stickerOnDown), true);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 1)) {
-                    cube.turn(1, leftRow(cube, this.stickerOnDown), false);
-                } else if (xClip === this.xOnDown) {
-                    cube.turn(2, leftColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
-                } else {
-                    if (slope > posSlope) {
-                        cube.turn(2, leftColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(2, leftColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else {
-                        cube.turn(1, leftRow(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    }
+                    cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
                 }
             }
-        } else if (offsetSelection === 1) {
-            if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
-                if (xClip === this.xOnDown) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+            if (xClip === this.xOnDown) {
+                cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+            } else {
+                if (slope > posSlope) {
+                    cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+                } else if (slope < negSlope) {
+                    cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
                 } else {
-                    if (slope > posSlope) {
-                        cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else {
-                        cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    }
-                }
-            } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
-                if (xClip === this.xOnDown) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
-                } else {
-                    if (slope > posSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else {
-                        cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    }
-                }
-            }
-        } else if (offsetSelection === 2) {
-            if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 1)) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), false);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 5)) {
-                    cube.turn(2, topRow(cube, this.stickerOnDown), true);
-                } else if (slope < 0) {
-                    cube.turn(2, topRow(cube, this.stickerOnDown), this.xOnDown < xClip);
-                } else {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), this.xOnDown < xClip);
-                }
-            } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 0)) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), true);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 5)) {
-                    cube.turn(1, frontRow(cube, this.stickerOnDown), false);
-                } else if (xClip === this.xOnDown) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
-                } else {
-                    if (slope > posSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else {
-                        cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    }
-                }
-            } else if (cube.stickerIsOnFace(this.stickerOnDown, 5)) {
-                if (cube.stickerIsOnFace(stickerOnUp, 0)) {
-                    cube.turn(2, rightColumn(cube, this.stickerOnDown), false);
-                } else if (cube.stickerIsOnFace(stickerOnUp, 1)) {
-                    cube.turn(1, rightRow(cube, this.stickerOnDown), true);
-                } else if (xClip === this.xOnDown) {
-                    cube.turn(2, rightColumn(cube, this.stickerOnDown), yClip < this.yOnDown);
-                } else {
-                    if (slope > posSlope) {
-                        cube.turn(2, rightColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    } else if (slope < negSlope) {
-                        cube.turn(2, rightColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
-                    } else {
-                        cube.turn(1, rightRow(cube, this.stickerOnDown), xClip < this.xOnDown);
-                    }
+                    cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
                 }
             }
         }
@@ -303,7 +173,7 @@ export class DragDetector {
      * Find the sticker with cart2d that contains this coordinate.
      * Return -1 if it's not in any sticker.
      */
-    _coordinatesToSticker(x: number, y: number, cube: CubeLogic, buffers: BufferObject[], offsetSelection: number) {
+    _coordinatesToSticker(x: number, y: number, cube: CubeLogic, buffers: BufferObject[]) {
         const coordinateIsInSticker = i => {
             if (!buffers[i].cart2d) return;
             const cart2d = buffers[i].cart2d;
@@ -330,20 +200,9 @@ export class DragDetector {
             if (output) return output;
         }
 
-        if (offsetSelection === 1) return [-1, undefined];
-
-        if (offsetSelection === 0) {
-            for (let i = 4 * cube.layersSq; i < 5 * cube.layersSq; i++) {
-                const output = coordinateIsInSticker(i);
-                if (output) return output;
-            }
-        }
-
-        if (offsetSelection === 2) {
-            for (let i = 5 * cube.layersSq; i < 6 * cube.layersSq; i++) {
-                const output = coordinateIsInSticker(i);
-                if (output) return output;
-            }
+        for (let i = 4 * cube.layersSq; i < 5 * cube.layersSq; i++) {
+            const output = coordinateIsInSticker(i);
+            if (output) return output;
         }
 
         return [-1, undefined];

@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { newScene, scenes, setNumLayers, startLoop } from "./scene";
+import { newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
@@ -9,7 +9,6 @@ import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "
 import { renderModal } from "./modal";
 import * as slide from "./slide";
 import { solvedColors } from "./cube";
-import { createBuffers } from "./buffers";
 
 let canvas: HTMLCanvasElement = document.querySelector("canvas");
 let gl: WebGLRenderingContext = canvas.getContext("webgl");
@@ -268,48 +267,27 @@ async function renderSolves(drawerEle: HTMLElement) {
 }
 
 function renderSettings(drawerEle: HTMLElement) {
-    const storedAngle = store.getAngle();
     const storedSize = store.getSize();
-    // TODO
-    // drawerEle.innerHTML = `
-    // ${slide.renderHeader("Settings")}
-    // <p>Angle</p>
-    // <select id="angleInput">
-    //     <option value="0" ${storedAngle === 0 ? "selected" : ""}>-45&#176;</option>
-    //     <option value="1" ${storedAngle === 1 ? "selected" : ""}>0&#176;</option>
-    //     <option value="2" ${storedAngle === 2 ? "selected" : ""}>45&#176;</option>
-    // </select>
-    // <div style="height: 1.5rem;"></div>
-    // <p>Size</p>
-    // <select id="sizeSelect">
-    //     <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
-    //     <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
-    //     <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
-    //     <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
-    //     <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
-    // </select>
-    // <div style="height: 1.5rem;"></div>
-    // <p>Hint stickers</p>
-    // <input id="hintStickersCheckbox" type="checkbox" ${scene.hintStickers ? "checked" : ""} />
-    // <div style="height: 1.5rem;"></div>
-    // <p>Show body</p>
-    // <input id="showBodyCheckbox" type="checkbox" ${scene.showBody ? "checked" : ""} />
-    // <div style="height: 1.5rem;"></div>
-    // <p>Animate turns</p>
-    // <input id="animateTurnsCheckbox" type="checkbox" ${scene.animateTurns ? "checked" : ""} />
-    // `;
-
-    const angleInput: HTMLElement = document.querySelector("#angleInput");
-    angleInput.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-
-        // If user leaves the input blank, do not call setYAxisOffset because
-        // it will break the cube.
-        if (!target.value) return;
-
-        // scene.setAngleOffset(parseInt(target.value)); TODO
-        store.setAngle(target.value);
-    });
+    drawerEle.innerHTML = `
+    ${slide.renderHeader("Settings")}
+    <p>Size</p>
+    <select id="sizeSelect">
+        <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
+        <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
+        <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
+        <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
+        <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
+    </select>
+    <div style="height: 1.5rem;"></div>
+    <p>Hint stickers</p>
+    <input id="hintStickersCheckbox" type="checkbox" ${settings.hintStickers ? "checked" : ""} />
+    <div style="height: 1.5rem;"></div>
+    <p>Show body</p>
+    <input id="showBodyCheckbox" type="checkbox" ${settings.showBody ? "checked" : ""} />
+    <div style="height: 1.5rem;"></div>
+    <p>Animate turns</p>
+    <input id="animateTurnsCheckbox" type="checkbox" ${settings.animateTurns ? "checked" : ""} />
+    `;
 
     const sizeSelect = document.querySelector("#sizeSelect");
     sizeSelect.addEventListener("change", (event) => {

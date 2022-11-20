@@ -3,7 +3,6 @@
  */
 
 const algs = "algs";
-const angle = "angle";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
 const orientation = "orientation";
@@ -22,14 +21,6 @@ export function getAlgs(setName: string) {
 
 export function setAlgs(setName: string, value: any[]) {
     localStorage.setItem(algs + setName, JSON.stringify(value));
-}
-
-export function getAngle() {
-    return getInt(angle) ?? 1;
-}
-
-export function setAngle(value) {
-    localStorage.setItem(angle, value);
 }
 
 export function getHintStickers() {
