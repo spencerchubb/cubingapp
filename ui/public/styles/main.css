@@ -592,7 +592,6 @@ canvas {
 
 .slideLeft {
   align-items: start;
-  border-radius: 8px 0 0 8px;
   overflow-y: auto;
   z-index: 1;
   min-width: 300px;
