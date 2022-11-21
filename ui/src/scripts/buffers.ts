@@ -1,4 +1,4 @@
-import { CubeLogic } from "./cube.js";
+import { CubeLogic } from "./cube";
 
 export type BufferObject = {
     positionBuffer: WebGLBuffer,
@@ -8,20 +8,20 @@ export type BufferObject = {
     cart2d: number[],
 
     // For debugging purposes
-    positions: number[],
+    positions: Float32Array,
 }
 
-export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, showBody: boolean, transformMatrix: number[]): BufferObject[] {
+type Axis = 0 | 1 | 2;
+
+export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, transformMatrix: number[]): BufferObject[] {
     // Vertex positions with gap between stickers
-    let allPositions = showBody
-        ? _concatPositions(cube, 1.01, 0.02)
-        : _concatPositions(cube, 1.02, 0.04);
+    let allPositions = makePositions(cube, 1.01, 0.02)
 
     // Vertex positions with no gap so user can drag between stickers
-    let allNoGapPositions = _concatPositions(cube, 1.0, 0.0);
+    let allNoGapPositions = makePositions(cube, 1.0, 0.0);
 
     // Vertex positions of hint stickers
-    let allHintPositions = _concatPositions(cube, 1.5, 0.02);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
 
     const objects = Array(cube.numOfStickers);
     for (let i = 0; i < cube.numOfStickers; i++) {
@@ -34,9 +34,9 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, showBo
             positions: null,
         };
 
-        let positions = Array(12);
-        let noGapPos = Array(12);
-        let hintPos = Array(12);
+        let positions = new Float32Array(12);
+        let noGapPos = new Float32Array(12);
+        let hintPos = new Float32Array(12);
         for (let j = 0; j < 12; j++) {
             let index = i * 12 + j;
             positions[j] = allPositions[index];
@@ -45,27 +45,22 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, showBo
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, object.positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
         object.positions = positions;
 
         gl.bindBuffer(gl.ARRAY_BUFFER, object.noGapPositionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(noGapPos), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, noGapPos, gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, object.hintPositionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(hintPos), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, hintPos, gl.STATIC_DRAW);
 
         if (transformMatrix) {
             // Represent as homogeneous coordinates
-            const homo = [
-                ...multiply(transformMatrix,
-                    [noGapPos[0], noGapPos[1], noGapPos[2], 1]),
-                ...multiply(transformMatrix,
-                    [noGapPos[3], noGapPos[4], noGapPos[5], 1]),
-                ...multiply(transformMatrix,
-                    [noGapPos[6], noGapPos[7], noGapPos[8], 1]),
-                ...multiply(transformMatrix,
-                    [noGapPos[9], noGapPos[10], noGapPos[11], 1]),
-            ];
+            const homo = Array(16);
+            multiply(homo, 0, transformMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+            multiply(homo, 4, transformMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+            multiply(homo, 8, transformMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+            multiply(homo, 12, transformMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
 
             // Represent as 2D cartesian coordinates by dividing x and y by w
             object.cart2d = [
@@ -85,39 +80,45 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, showBo
 
         objects[i] = object;
     }
-    
+
     return objects;
 }
 
 /**
  * Multiply a 4x4 matrix with a 4x1 matrix, resulting in a 4x1 matrix.
  *
+ * @param arr destination, 4x1 matrix
+ * @param offset offset
  * @param a first operand, 4x4 matrix
  * @param b second operand, 4x1 matrix
- * @returns out
  */
- function multiply(a, b) {
+function multiply(arr: number[], offset: number, a: number[], b: number[]) {
     const out = Array(4);
     let b0 = b[0],
         b1 = b[1],
         b2 = b[2],
         b3 = b[3];
-    out[0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
-    out[1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
-    out[2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
-    out[3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
-    return out;
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
 }
 
-function _concatPositions(cube: CubeLogic, radius, gap) {
-    return [
-        ..._topFace(cube, 1, radius, gap),
-        ..._frontFace(cube, 0, radius, gap),
-        ..._bottomFace(cube, 1, -radius, gap),
-        ..._backFace(cube, 0, -radius, gap),
-        ..._leftFace(cube, 2, -radius, gap),
-        ..._rightFace(cube, 2, radius, gap),
-    ];
+const perSticker: number = 12;
+const verticesInSquare: number = 4;
+const dimensions: number = 3;
+
+/** Array of length 648 */
+function makePositions(cube: CubeLogic, radius: number, gap: number) {
+    const perFace = cube.layersSq * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
+    return out;
 }
 
 // Notes for face functions
@@ -125,174 +126,190 @@ function _concatPositions(cube: CubeLogic, radius, gap) {
 // 0 3 6
 // 1 4 7
 // 2 5 8
-//
-// a (axis): 0, 1, or 2
-// n (negative): -1.0 or 1.0
 
-function _topFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function topFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = 0; j < cube.layers; j++) {
-                const a = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-            for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
-                coords.push([2.0 * j / cube.layers, 2.0 * i / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+            coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _frontFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function frontFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
-                const a = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-            for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-                coords.push([2.0 * i / cube.layers, 2.0 * j / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+            coords[idx] = [2.0 * i / cube.layers, 2.0 * j / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _bottomFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function bottomFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
-                const a = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-            for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-                coords.push([2.0 * j / cube.layers, 2.0 * i / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+            coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _backFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function backFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = 0; j < cube.layers; j++) {
-                const a = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-            for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
-                coords.push([2.0 * i / cube.layers, 2.0 * j / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+            coords[idx] = [2.0 * i / cube.layers, 2.0 * j / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _leftFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function leftFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
-                const a = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-            for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-                coords.push([2.0 * j / cube.layers, 2.0 * i / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+            coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _rightFace(cube: CubeLogic, a, n, gap) {
-    let coords = [];
-
+function rightFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
     if (cube.layersEven) {
+        let coords = Array(cube.layersSq);
+        let idx = 0;
         for (let i = cube.layers - 1; i >= 0; i--) {
             for (let j = cube.layers - 1; j >= 0; j--) {
-                const a = -1 + 1 / cube.layers + j * 2 / cube.layers;
-                const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-                coords.push([a, b, n]);
+                const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+                const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+                coords[idx] = [x, y, r];
+                idx++;
             }
         }
-    } else {
-        for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
-            for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-                coords.push([2.0 * j / cube.layers, 2.0 * i / cube.layers, n]);
-            }
-        }
+        makeFace(arr, offset, cube, coords, a, gap);
+        return;
     }
 
-    return _concatStickers(cube, coords, a, gap);
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
+        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+            coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
+            idx++;
+        }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function _concatStickers(cube: CubeLogic, coords, a, gap) {
-    let out = [];
+function makeFace(arr: number[], offset: number, cube: CubeLogic, coords: number[], a: Axis, gap: number) {
     for (let i = 0; i < cube.layersSq; i++) {
         const temp = coords[i];
-        out = out.concat(_sticker(cube, a, temp[0], temp[1], temp[2], gap));
+        makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
     }
-    return out;
 }
 
-function _sticker(cube: CubeLogic, a, x, y, n, gap) {
-    // size
+function makeSticker(arr: number[], offset: number, cube: CubeLogic, x: number, y: number, r: number, a: Axis, gap: number) {
     const s = (1.0 / cube.layers) - gap;
 
     const coords = [
-        [x - s, y - s, n],
-        [x + s, y - s, n],
-        [x + s, y + s, n],
-        [x - s, y + s, n],
+        [x - s, y - s, r],
+        [x + s, y - s, r],
+        [x + s, y + s, r],
+        [x - s, y + s, r],
     ];
 
-    let out = [];
-
-    const numOfVerticesInSquare = 4;
-    const numOfDimensions = 3;
-
-    for (let i = 0; i < numOfVerticesInSquare; i++) {
+    for (let i = 0; i < verticesInSquare; i++) {
         const temp = coords[i];
-        let appendage = [];
-        for (let i = 0; i < numOfDimensions; i++) {
-            appendage.push(temp[(a + i) % 3]);
-        }
-        out = out.concat(appendage);
+        arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+        arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+        arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
     }
-    return out;
 }

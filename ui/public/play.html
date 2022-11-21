@@ -47,15 +47,15 @@
         
         <div class="row slideWrapper">
             <div class="col w-full h-full">
-                <div class="row" style="margin-top: 1rem;">
+                <div class="row mt-4">
                     <!-- Default value is 3 for a 3x3 Rubik's Cube -->
-                    <input id="layerInput" class="w-16 py-0.5 px-1" type="number" min="0" value="3">
+                    <input id="layerInput" class="w-16 py-0.5 px-1" type="number" value="3" min="1" max="9">
                     <div style="width: 24px;"></div>
                     <button id="solve" class="btn-primary">Solve</button>
                     <div style="width: 24px;"></div>
                     <button id="scramble" class="btn-primary">Scramble</button>
                 </div>
-                <div id="scene" class="glDiv"></div>
+                <div id="scene" class="glDiv mt-4"></div>
                 <p id="time" class="text-white text-4xl mt-4"></p>
                 <button id="startStop" class="btn-primary" style="margin-top: 0.5rem;"></button>
             </div>

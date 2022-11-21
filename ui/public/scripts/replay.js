@@ -478,48 +478,21 @@
     }
   });
 
-  // ui/src/scripts/pieceIndices.ts
-  var CENTERS = [4, 13, 22, 31, 40, 49];
-  var UBL = [0, 29, 36];
-  var URB = [6, 35, 51];
-  var ULF = [2, 9, 42];
-  var UFR = [8, 15, 45];
-  var DFL = [18, 11, 44];
-  var DRF = [24, 47, 17];
-  var DLB = [20, 38, 27];
-  var DBR = [26, 33, 53];
-  var UB = [3, 32];
-  var UL = [1, 39];
-  var UR = [7, 48];
-  var UF = [5, 12];
-  var FL = [10, 43];
-  var FR = [16, 46];
-  var DF = [21, 14];
-  var DL = [19, 41];
-  var DR = [25, 50];
-  var DB = [23, 30];
-  var BL = [28, 37];
-  var BR = [34, 52];
-  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
-  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
-  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
-  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
-  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
-  var cross = [...CENTERS, ...layer1Edges];
-  var firstLayer = [...cross, ...layer1Corners];
-  var f2l = [...firstLayer, ...layer2Edges];
-  var lastLayer = [...layer3Edges, ...layer2Corners];
-  var allPieces = [...f2l, ...lastLayer];
-
-  // ui/src/scripts/scene.ts
+  // ui/src/scripts/cube.ts
   var canvas = document.querySelector("canvas");
   var gl = canvas.getContext("webgl");
+
+  // ui/src/scripts/scene.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
   var programInfo = initPrograms();
+  var settings = {
+    animateTurns: true,
+    dragEnabled: true,
+    hintStickers: true,
+    showBody: true
+  };
   var time = Date.now() * 1e-3;
-  var dragEnabled = true;
-  function setDragEnabled(val) {
-    dragEnabled = val;
-  }
   function initPrograms() {
     const vertexShaderSource = `
     attribute vec4 aVertexPosition;
@@ -537,38 +510,38 @@
         gl_FragColor = vColor;
     }
     `;
-    const shaderProgram = initShaderProgram(gl, vertexShaderSource, fragmentShaderSource);
-    gl.useProgram(shaderProgram);
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
     return {
       attribLocations: {
-        vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
-        vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor")
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
       },
       uniformLocations: {
-        transformMatrix: gl.getUniformLocation(shaderProgram, "uTransformMatrix")
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix")
       }
     };
   }
-  function initShaderProgram(gl2, vsSource, fsSource) {
-    const vertexShader = loadShader(gl2, gl2.VERTEX_SHADER, vsSource);
-    const fragmentShader = loadShader(gl2, gl2.FRAGMENT_SHADER, fsSource);
-    const shaderProgram = gl2.createProgram();
-    gl2.attachShader(shaderProgram, vertexShader);
-    gl2.attachShader(shaderProgram, fragmentShader);
-    gl2.linkProgram(shaderProgram);
-    if (!gl2.getProgramParameter(shaderProgram, gl2.LINK_STATUS)) {
-      alert("Unable to initialize the shader program: " + gl2.getProgramInfoLog(shaderProgram));
+  function initShaderProgram(gl3, vsSource, fsSource) {
+    const vertexShader = loadShader(gl3, gl3.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl3, gl3.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl3.createProgram();
+    gl3.attachShader(shaderProgram, vertexShader);
+    gl3.attachShader(shaderProgram, fragmentShader);
+    gl3.linkProgram(shaderProgram);
+    if (!gl3.getProgramParameter(shaderProgram, gl3.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl3.getProgramInfoLog(shaderProgram));
       return null;
     }
     return shaderProgram;
   }
-  function loadShader(gl2, type, source) {
-    const shader = gl2.createShader(type);
-    gl2.shaderSource(shader, source);
-    gl2.compileShader(shader);
-    if (!gl2.getShaderParameter(shader, gl2.COMPILE_STATUS)) {
-      alert("An error occurred compiling the shaders: " + gl2.getShaderInfoLog(shader));
-      gl2.deleteShader(shader);
+  function loadShader(gl3, type, source) {
+    const shader = gl3.createShader(type);
+    gl3.shaderSource(shader, source);
+    gl3.compileShader(shader);
+    if (!gl3.getShaderParameter(shader, gl3.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl3.getShaderInfoLog(shader));
+      gl3.deleteShader(shader);
       return null;
     }
     return shader;
@@ -5202,7 +5175,7 @@
 
   // ui/src/scripts/replay.ts
   async function main() {
-    setDragEnabled(false);
+    settings.dragEnabled = false;
     addListenersForLeftModal();
     document.querySelector("#share").addEventListener("click", () => {
       const url2 = document.location.href;

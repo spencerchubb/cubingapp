@@ -18,7 +18,7 @@ type GetSolveResponse = {
 }
 
 async function main() {
-    scene.setDragEnabled(false);
+    scene.settings.dragEnabled = false;
 
     // Initial canvas render
     // scene.renderCanvas(); TODO

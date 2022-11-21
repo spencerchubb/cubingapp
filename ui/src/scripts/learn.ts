@@ -4,6 +4,7 @@ import { addListenersForLeftModal } from "./ui";
 import * as slide from "./slide";
 import { CubeLogic } from "./cube";
 import * as pieceIndices from "./pieceIndices";
+import { stickerToFace } from "./common/util";
 
 function parseMovesFromAlg(alg?: string): string[] {
     return (alg || "").split(" ");
@@ -183,16 +184,14 @@ function main() {
         const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
 
         // Fill in the active stickers with bright colors
-        let brights = [_colors.WHITE, _colors.GREEN, _colors.YELLOW, _colors.BLUE, _colors.ORANGE, _colors.RED];
         lesson.activeStickers.forEach(i => {
-            colors[i] = brights[Math.floor(i / 9)];
+            colors[i] = _colors.faceToColor(stickerToFace(i, scene.cube));
         });
 
         // Fill in the rest with dull colors
-        let dulls = [_colors.GRAY, _colors.DULL_GREEN, _colors.DULL_YELLOW, _colors.DULL_BLUE, _colors.DULL_ORANGE, _colors.DULL_ORANGE];
         for (let i = 0; i < 54; i++) {
             if (colors[i]) continue;
-            colors[i] = dulls[Math.floor(i / 9)];
+            colors[i] = _colors.faceToDullColor(stickerToFace(i, scene.cube));
         }
 
         scene.cube.setColors(colors);
@@ -201,7 +200,6 @@ function main() {
 
         const setup = lesson.setup;
         scene.cube.execAlg(setup);
-        scene.cube.commitStickers();
     }
 
     const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");

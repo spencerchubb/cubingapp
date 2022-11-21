@@ -7,7 +7,6 @@ const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
 const orientation = "orientation";
 const showBody = "showBody";
-const size = "size";
 const user = "user";
 const userID = "userID";
 
@@ -45,14 +44,6 @@ export function getShowBody() {
 
 export function setShowBody(value) {
     setBool(showBody, value);
-}
-
-export function getSize() {
-    return getFloat(size) ?? 1;
-}
-
-export function setSize(value) {
-    localStorage.setItem(size, value);
 }
 
 export function getAnimateTurns() {

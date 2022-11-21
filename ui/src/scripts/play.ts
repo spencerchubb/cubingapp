@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
+import { loadSavedSettings, newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
@@ -8,10 +8,6 @@ import { url } from "./vars/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
 import { renderModal } from "./modal";
 import * as slide from "./slide";
-import { solvedColors } from "./cube";
-
-let canvas: HTMLCanvasElement = document.querySelector("canvas");
-let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
 let drawerIndex;
 let solves: { id: number, time: number }[] = [];
@@ -23,10 +19,9 @@ const recorder = new Recorder();
 function main() {
     let scene = newScene("#scene");
     scenes.push(scene);
+    scene.cube.solve();
 
-    const colors = solvedColors(scene.cube);
-    scene.cube.setColors(colors);
-
+    loadSavedSettings();
     startLoop();
     
     addListenersForLeftModal();
@@ -36,17 +31,20 @@ function main() {
         const target = event.target as HTMLInputElement;
         const value = parseInt(target.value);
 
+        if (value < 1 || value > 9) {
+            alert("Smallest cube is 1x1 and larget cube is 9x9");
+            return;
+        };
+
         setNumLayers(value);
         scene = newScene("#scene");
         scenes[0] = scene;
 
-        const colors = solvedColors(scene.cube);
-        scene.cube.setColors(colors);
+        scene.cube.solve();
     });
 
     document.querySelector("#solve").addEventListener("click", (event) => {
-        const colors = solvedColors(scene.cube);
-        scene.cube.setColors(colors);
+        scene.cube.solve();
     });
 
     document.querySelector("#scramble").addEventListener("click", (event) => {
@@ -74,7 +72,6 @@ function main() {
         const result = scene.cube.matchKeyToTurn(event);
         if (result) {
             recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
-            // scene.animateTurn();
             return;
         }
     });
@@ -267,18 +264,8 @@ async function renderSolves(drawerEle: HTMLElement) {
 }
 
 function renderSettings(drawerEle: HTMLElement) {
-    const storedSize = store.getSize();
     drawerEle.innerHTML = `
     ${slide.renderHeader("Settings")}
-    <p>Size</p>
-    <select id="sizeSelect">
-        <option value="1" ${storedSize === 1 ? "selected" : ""}>1x</option>
-        <option value="1.25" ${storedSize === 1.25 ? "selected" : ""}>1.25x</option>
-        <option value="1.5" ${storedSize === 1.5 ? "selected" : ""}>1.5x</option>
-        <option value="1.75" ${storedSize === 1.75 ? "selected" : ""}>1.75x</option>
-        <option value="2" ${storedSize === 2 ? "selected" : ""}>2x</option>
-    </select>
-    <div style="height: 1.5rem;"></div>
     <p>Hint stickers</p>
     <input id="hintStickersCheckbox" type="checkbox" ${settings.hintStickers ? "checked" : ""} />
     <div style="height: 1.5rem;"></div>
@@ -289,22 +276,11 @@ function renderSettings(drawerEle: HTMLElement) {
     <input id="animateTurnsCheckbox" type="checkbox" ${settings.animateTurns ? "checked" : ""} />
     `;
 
-    const sizeSelect = document.querySelector("#sizeSelect");
-    sizeSelect.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
-
-        // Update state and re-render
-        // TODO
-        // scene.setSizeMultiplier(parseFloat(target.value));
-        // scene.renderCanvas();
-        store.setSize(target.value);
-    });
-
     const hintStickersCheckbox = document.querySelector("#hintStickersCheckbox");
     hintStickersCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        // scene.setHintStickers(target.checked); TODO
+        settings.hintStickers = target.checked;
         store.setHintStickers(target.checked);
     });
 
@@ -312,7 +288,7 @@ function renderSettings(drawerEle: HTMLElement) {
     showBodyCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        // scene.setShowBody(target.checked); TODO
+        settings.showBody = target.checked;
         store.setShowBody(target.checked);
     });
 
@@ -320,7 +296,7 @@ function renderSettings(drawerEle: HTMLElement) {
     animateTurnsCheckbox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
 
-        // scene.setAnimateTurns(target.checked); TODO
+        settings.animateTurns = target.checked;
         store.setAnimateTurns(target.checked);
     });
 }

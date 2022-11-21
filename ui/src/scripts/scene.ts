@@ -1,8 +1,9 @@
 import { BufferObject, createBuffers } from "./buffers";
 import { Spring } from "./common/spring";
-import { CubeLogic } from "./cube";
+import { CubeLogic, Sticker } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
+import { singleton } from "./common/singleton";
 import * as store from "./store";
 
 let canvas: HTMLCanvasElement = document.querySelector("canvas");
@@ -30,17 +31,21 @@ export type Scene = {
 export let scenes: Scene[] = [];
 
 export let settings = {
-    sizeMultiplier: 1,
+    animateTurns: true,
+    dragEnabled: true,
     hintStickers: true,
     showBody: true,
-    animateTurns: true,
+}
+
+export function loadSavedSettings() {
+    settings.animateTurns = store.getAnimateTurns();
+    settings.hintStickers = store.getHintStickers();
+    settings.showBody = store.getShowBody();
 }
 
 let time: number = Date.now() * 0.001;
 
-let prefsLoaded = false;
 let numLayers: number = 3;
-let dragEnabled = true;
 
 let loopStarted = false;
 export function startLoop() {
@@ -49,47 +54,34 @@ export function startLoop() {
     requestAnimationFrame(render);
 }
 
-function loadPrefs() {
-    // if (prefsLoaded) return;
-    // prefsLoaded = true;
-    // sizeMultiplier = store.getSize();
-    // hintStickers = store.getHintStickers();
-    // showBody = store.getShowBody();
-    // animateTurns = store.getAnimateTurns();
-}
-
 export function setNumLayers(val: number) {
     numLayers = val;
 }
 
-export function setDragEnabled(val: boolean) {
-    dragEnabled = val;
-}
-
 export function newScene(selector: string): Scene {
     let div = document.querySelector(selector) as HTMLElement;
-    let cube = new CubeLogic(gl, true);
+    let cube = new CubeLogic();
     let spring = new Spring();
     let transformMatrix = initTransform(div);
     let dragDetector = new DragDetector();
-    
+
     cube.setNumOfLayers(numLayers);
     cube.new();
 
-    let buffers = createBuffers(gl, cube, true, transformMatrix);
+    let buffers = createBuffers(gl, cube, transformMatrix);
 
     const pointerdown = (offsetX, offsetY) => {
-        if (!dragEnabled) return;
+        if (!settings.dragEnabled) return;
         dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers);
     }
 
     const pointermove = (offsetX, offsetY) => {
-        if (!dragEnabled) return;
+        if (!settings.dragEnabled) return;
         dragDetector.onPointerMove(offsetX, offsetY);
     }
 
     const pointerup = () => {
-        if (!dragEnabled) return;
+        if (!settings.dragEnabled) return;
         dragDetector.onPointerUp(div, cube, buffers);
     }
 
@@ -287,6 +279,8 @@ function resizeCanvasToDisplaySize() {
 function render(newTime: number) {
     newTime *= 0.001; // convert to seconds
     const dt = newTime - time;
+    // const fps = 1 / dt;
+    // console.log(fps);
     time = newTime;
 
     resizeCanvasToDisplaySize();
@@ -324,25 +318,35 @@ function render(newTime: number) {
             if (spring.position >= 90) {
                 cube.affectedStickers = Array(cube.numOfStickers).fill(false);
 
-                cube.commitStickers();
                 spring.position = 0;
                 cube.animationQueue.shift();
             }
         }
 
         const animation = cube.animationQueue[0];
-        let listToShow = animation ? animation.stickers : cube.stickers;
+        let stickers = chooseStickers(cube);
+
+        let _singleton = singleton<number[]>();
 
         for (let i = 0; i < cube.numOfStickers; i++) {
             let object = buffers[i];
 
-            const m = (animation && animation.stickersToAnimate[i])
-                ? glMat.rotate(
-                    glMat.create(),
-                    transformMatrix,
-                    spring.position * Math.PI / 180,
-                    animation.axis
-                )
+            // Rotate if the sticker is affected by the animation and if the user wants to animate
+            const m = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
+                // ? glMat.rotate(
+                //     glMat.create(),
+                //     transformMatrix,
+                //     spring.position * Math.PI / 180,
+                //     animation.axis
+                // )
+                ? _singleton(() => {
+                    return glMat.rotate(
+                        glMat.create(),
+                        transformMatrix,
+                        spring.position * Math.PI / 180,
+                        animation.axis
+                    );
+                })
                 : transformMatrix;
 
             gl.uniformMatrix4fv(
@@ -360,19 +364,33 @@ function render(newTime: number) {
             }
 
             bindPosition(object.positionBuffer, programInfo, gl);
-            bindColor(listToShow[i].buffer, programInfo, gl);
+            bindColor(stickers[i].buffer, programInfo, gl);
             drawElements(gl);
         }
 
-        if (!settings.hintStickers) return;
-        
-        renderHintStickers(cube, buffers, transformMatrix, listToShow);
+        renderHintStickers(cube, buffers, transformMatrix, stickers);
     }
 
     requestAnimationFrame(render);
 }
 
-function renderHintStickers(cube: CubeLogic, buffers: BufferObject[], transformMatrix: number[], listToShow: any[]) {
+function chooseStickers(cube: CubeLogic) {
+    // If user doesn't want animations, go straight to the current stickers
+    if (!settings.animateTurns) {
+        return cube.stickers;
+    }
+
+    // If there is an animation queued, animate the one at the front of the queue
+    if (cube.animationQueue[0]) {
+        return cube.animationQueue[0].stickers;
+    }
+
+    return cube.stickers;
+}
+
+function renderHintStickers(cube: CubeLogic, buffers: BufferObject[], transformMatrix: number[], stickers: Sticker[]) {
+    if (!settings.hintStickers) return;
+
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.transformMatrix,
         false,
@@ -383,16 +401,7 @@ function renderHintStickers(cube: CubeLogic, buffers: BufferObject[], transformM
         let object = buffers[j];
 
         bindPosition(object.hintPositionBuffer, programInfo, gl);
-        bindColor(listToShow[j].buffer, programInfo, gl);
+        bindColor(stickers[j].buffer, programInfo, gl);
         drawElements(gl);
     }
-}
-
-function renderZeroEasterEgg() {
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">You can try to solve a 0-layer cube, but that's kinda boring...</p>
-    </div>
-    `;
 }

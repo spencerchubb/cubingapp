@@ -11,13 +11,26 @@
   var ORANGE = [1, 0.5, 0, 1];
   var DULL_ORANGE = [0.5, 0.25, 0, 1];
   var RED = [1, 0, 0, 1];
+  var DULL_RED = [0.5, 0, 0, 1];
   var BLACK = [0, 0, 0, 1];
+  var colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+  function faceToColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return colors[face];
+  }
+  var dulls = [GRAY, DULL_GREEN, DULL_YELLOW, DULL_BLUE, DULL_ORANGE, DULL_RED];
+  function faceToDullColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return dulls[face];
+  }
 
   // ui/src/scripts/buffers.ts
-  function createBuffers(gl3, cube, showBody, transformMatrix) {
-    let allPositions = showBody ? _concatPositions(cube, 1.01, 0.02) : _concatPositions(cube, 1.02, 0.04);
-    let allNoGapPositions = _concatPositions(cube, 1, 0);
-    let allHintPositions = _concatPositions(cube, 1.5, 0.02);
+  function createBuffers(gl3, cube, transformMatrix) {
+    let allPositions = makePositions(cube, 1.01, 0.02);
+    let allNoGapPositions = makePositions(cube, 1, 0);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
     const objects = Array(cube.numOfStickers);
     for (let i = 0; i < cube.numOfStickers; i++) {
       let object = {
@@ -28,9 +41,9 @@
         cart2d: [],
         positions: null
       };
-      let positions = Array(12);
-      let noGapPos = Array(12);
-      let hintPos = Array(12);
+      let positions = new Float32Array(12);
+      let noGapPos = new Float32Array(12);
+      let hintPos = new Float32Array(12);
       for (let j = 0; j < 12; j++) {
         let index = i * 12 + j;
         positions[j] = allPositions[index];
@@ -38,31 +51,18 @@
         hintPos[j] = allHintPositions[index];
       }
       gl3.bindBuffer(gl3.ARRAY_BUFFER, object.positionBuffer);
-      gl3.bufferData(gl3.ARRAY_BUFFER, new Float32Array(positions), gl3.STATIC_DRAW);
+      gl3.bufferData(gl3.ARRAY_BUFFER, positions, gl3.STATIC_DRAW);
       object.positions = positions;
       gl3.bindBuffer(gl3.ARRAY_BUFFER, object.noGapPositionBuffer);
-      gl3.bufferData(gl3.ARRAY_BUFFER, new Float32Array(noGapPos), gl3.STATIC_DRAW);
+      gl3.bufferData(gl3.ARRAY_BUFFER, noGapPos, gl3.STATIC_DRAW);
       gl3.bindBuffer(gl3.ARRAY_BUFFER, object.hintPositionBuffer);
-      gl3.bufferData(gl3.ARRAY_BUFFER, new Float32Array(hintPos), gl3.STATIC_DRAW);
+      gl3.bufferData(gl3.ARRAY_BUFFER, hintPos, gl3.STATIC_DRAW);
       if (transformMatrix) {
-        const homo = [
-          ...multiply(
-            transformMatrix,
-            [noGapPos[0], noGapPos[1], noGapPos[2], 1]
-          ),
-          ...multiply(
-            transformMatrix,
-            [noGapPos[3], noGapPos[4], noGapPos[5], 1]
-          ),
-          ...multiply(
-            transformMatrix,
-            [noGapPos[6], noGapPos[7], noGapPos[8], 1]
-          ),
-          ...multiply(
-            transformMatrix,
-            [noGapPos[9], noGapPos[10], noGapPos[11], 1]
-          )
-        ];
+        const homo = Array(16);
+        multiply(homo, 0, transformMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+        multiply(homo, 4, transformMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+        multiply(homo, 8, transformMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+        multiply(homo, 12, transformMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
         object.cart2d = [
           homo[0] / homo[3],
           homo[1] / homo[3],
@@ -81,167 +81,198 @@
     }
     return objects;
   }
-  function multiply(a, b) {
+  function multiply(arr, offset, a, b) {
     const out = Array(4);
     let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
-    out[0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
-    out[1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
-    out[2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
-    out[3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+  }
+  var perSticker = 12;
+  var verticesInSquare = 4;
+  var dimensions = 3;
+  function makePositions(cube, radius, gap) {
+    const perFace = cube.layersSq * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
     return out;
   }
-  function _concatPositions(cube, radius, gap) {
-    return [
-      ..._topFace(cube, 1, radius, gap),
-      ..._frontFace(cube, 0, radius, gap),
-      ..._bottomFace(cube, 1, -radius, gap),
-      ..._backFace(cube, 0, -radius, gap),
-      ..._leftFace(cube, 2, -radius, gap),
-      ..._rightFace(cube, 2, radius, gap)
-    ];
-  }
-  function _topFace(cube, a, n, gap) {
-    let coords = [];
+  function topFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = 0; i < cube.layers; i++) {
         for (let j = 0; j < cube.layers; j++) {
-          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
-          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+      for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _frontFace(cube, a, n, gap) {
-    let coords = [];
+  function frontFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = 0; i < cube.layers; i++) {
         for (let j = cube.layers - 1; j >= 0; j--) {
-          const a2 = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-          coords.push([2 * i / cube.layers, 2 * j / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+      for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _bottomFace(cube, a, n, gap) {
-    let coords = [];
+  function bottomFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = 0; i < cube.layers; i++) {
         for (let j = cube.layers - 1; j >= 0; j--) {
-          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+      for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _backFace(cube, a, n, gap) {
-    let coords = [];
+  function backFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = 0; i < cube.layers; i++) {
         for (let j = 0; j < cube.layers; j++) {
-          const a2 = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
-          coords.push([2 * i / cube.layers, 2 * j / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+      for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _leftFace(cube, a, n, gap) {
-    let coords = [];
+  function leftFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = 0; i < cube.layers; i++) {
         for (let j = cube.layers - 1; j >= 0; j--) {
-          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
+      for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _rightFace(cube, a, n, gap) {
-    let coords = [];
+  function rightFace(arr, offset, cube, a, r, gap) {
     if (cube.layersEven) {
+      let coords2 = Array(cube.layersSq);
+      let idx2 = 0;
       for (let i = cube.layers - 1; i >= 0; i--) {
         for (let j = cube.layers - 1; j >= 0; j--) {
-          const a2 = -1 + 1 / cube.layers + j * 2 / cube.layers;
-          const b = -1 + 1 / cube.layers + i * 2 / cube.layers;
-          coords.push([a2, b, n]);
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
         }
       }
-    } else {
-      for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
-          coords.push([2 * j / cube.layers, 2 * i / cube.layers, n]);
-        }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(cube.layersSq);
+    let idx = 0;
+    for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
+      for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
       }
     }
-    return _concatStickers(cube, coords, a, gap);
+    makeFace(arr, offset, cube, coords, a, gap);
   }
-  function _concatStickers(cube, coords, a, gap) {
-    let out = [];
+  function makeFace(arr, offset, cube, coords, a, gap) {
     for (let i = 0; i < cube.layersSq; i++) {
       const temp = coords[i];
-      out = out.concat(_sticker(cube, a, temp[0], temp[1], temp[2], gap));
+      makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
     }
-    return out;
   }
-  function _sticker(cube, a, x, y, n, gap) {
+  function makeSticker(arr, offset, cube, x, y, r, a, gap) {
     const s = 1 / cube.layers - gap;
     const coords = [
-      [x - s, y - s, n],
-      [x + s, y - s, n],
-      [x + s, y + s, n],
-      [x - s, y + s, n]
+      [x - s, y - s, r],
+      [x + s, y - s, r],
+      [x + s, y + s, r],
+      [x - s, y + s, r]
     ];
-    let out = [];
-    const numOfVerticesInSquare = 4;
-    const numOfDimensions = 3;
-    for (let i = 0; i < numOfVerticesInSquare; i++) {
+    for (let i = 0; i < verticesInSquare; i++) {
       const temp = coords[i];
-      let appendage = [];
-      for (let i2 = 0; i2 < numOfDimensions; i2++) {
-        appendage.push(temp[(a + i2) % 3]);
-      }
-      out = out.concat(appendage);
+      arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+      arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+      arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
     }
-    return out;
   }
 
   // ui/src/scripts/common/spring.ts
@@ -263,38 +294,10 @@
     }
   };
 
-  // ui/src/scripts/pieceIndices.ts
-  var CENTERS = [4, 13, 22, 31, 40, 49];
-  var UBL = [0, 29, 36];
-  var URB = [6, 35, 51];
-  var ULF = [2, 9, 42];
-  var UFR = [8, 15, 45];
-  var DFL = [18, 11, 44];
-  var DRF = [24, 47, 17];
-  var DLB = [20, 38, 27];
-  var DBR = [26, 33, 53];
-  var UB = [3, 32];
-  var UL = [1, 39];
-  var UR = [7, 48];
-  var UF = [5, 12];
-  var FL = [10, 43];
-  var FR = [16, 46];
-  var DF = [21, 14];
-  var DL = [19, 41];
-  var DR = [25, 50];
-  var DB = [23, 30];
-  var BL = [28, 37];
-  var BR = [34, 52];
-  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
-  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
-  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
-  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
-  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
-  var cross = [...CENTERS, ...layer1Edges];
-  var firstLayer = [...cross, ...layer1Corners];
-  var f2l = [...firstLayer, ...layer2Edges];
-  var lastLayer = [...layer3Edges, ...layer2Corners];
-  var allPieces = [...f2l, ...lastLayer];
+  // ui/src/scripts/common/util.ts
+  function stickerToFace(sticker, cube) {
+    return Math.floor(sticker / cube.layersSq);
+  }
 
   // ui/src/scripts/common/rand.ts
   function randInt(int) {
@@ -446,9 +449,9 @@
   }
 
   // ui/src/scripts/cube.ts
-  var gl;
-  var COLORS = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
-  function makeSticker(color, face) {
+  var canvas = document.querySelector("canvas");
+  var gl = canvas.getContext("webgl");
+  function setStickerColor(sticker, color) {
     const arr = [
       color[0],
       color[1],
@@ -467,30 +470,28 @@
       color[2],
       color[3]
     ];
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
-    return {
-      color,
-      face,
-      arr,
-      buffer
-    };
   }
   var CubeLogic = class {
-    constructor(_gl, animateTurns) {
-      gl = _gl;
+    constructor() {
       this.animationQueue = [];
-      this.animateTurns = animateTurns;
     }
     new() {
       this.axis = 0;
-      const state = Array(this.numOfStickers);
+      this.stickers = Array(this.numOfStickers);
       this.underStickers = Array(this.numOfStickers);
-      this.hintStickers = Array(this.numOfStickers);
       for (let i = 0; i < this.numOfStickers; i++) {
-        state[i] = Math.floor(i / this.layersSq);
-        this.underStickers[i] = makeSticker(BLACK, -1);
+        const face = stickerToFace(i, this);
+        this.stickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        this.underStickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        setStickerColor(this.underStickers[i], BLACK);
       }
       this.affectedStickers = Array(this.numOfStickers).fill(false);
     }
@@ -507,15 +508,20 @@
       }
       return true;
     }
-    setColors(colors) {
-      this.stickers = [];
+    setColors(colors2) {
       for (let i = 0; i < this.numOfStickers; i++) {
-        this.setColor(colors[i], i);
+        this.setColor(colors2[i], i);
       }
     }
     setColor(color, stickerIndex) {
-      const sticker = makeSticker(color, Math.floor(stickerIndex / this.layersSq));
-      this.stickers[stickerIndex] = sticker;
+      setStickerColor(this.stickers[stickerIndex], color);
+    }
+    solve() {
+      const arr = Array(this.numOfStickers);
+      for (let i = 0; i < this.numOfStickers; i++) {
+        arr[i] = faceToColor(stickerToFace(i, this));
+      }
+      this.setColors(arr);
     }
     scramble() {
       if (this.layers === 3) {
@@ -525,8 +531,8 @@
       this.naiveScramble();
     }
     scramble3x3() {
-      const colors = scramble3x3(this);
-      this.setCubeState(colors);
+      const state = scramble3x3(this);
+      this.setCubeState(state);
     }
     naiveScramble() {
       let numTurns = this.layersSq * 10;
@@ -535,24 +541,6 @@
         let layer = Math.floor(Math.random() * this.layers);
         let clockwise = Math.floor(Math.random() * 1) == 0;
         this._matchTurn(axis, layer, clockwise);
-      }
-      this.commitStickers();
-    }
-    cubleScramble() {
-      for (let i = 0; i < 54; i++) {
-        if (!CENTERS.includes(i)) {
-          gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-          const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
-        }
-      }
-    }
-    revealCorrectStickers() {
-      for (let i = 0; i < 54; i++) {
-        if (0 <= i && i <= 8 && this.stickers[i].color == this.stickers[4].color || 9 <= i && i <= 17 && this.stickers[i].color == this.stickers[13].color || 18 <= i && i <= 26 && this.stickers[i].color == this.stickers[22].color || 27 <= i && i <= 35 && this.stickers[i].color == this.stickers[31].color || 36 <= i && i <= 44 && this.stickers[i].color == this.stickers[40].color || 45 <= i && i <= 53 && this.stickers[i].color == this.stickers[49].color) {
-          gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.stickers[i].arr), gl.STATIC_DRAW);
-        }
       }
     }
     setNumOfLayers(num) {
@@ -563,28 +551,19 @@
       this.numOfStickers = this.layersSq * 6;
     }
     getCubeState() {
-      return this.currentStickers.map((sticker) => sticker.face);
+      return this.stickers.map((sticker) => sticker.face);
     }
     setCubeState(state) {
-      this.stickers = Array(this.numOfStickers);
       for (let i = 0; i < this.numOfStickers; i++) {
-        const color = COLORS[state[i]];
-        this.stickers[i] = makeSticker(color, state[i]);
+        const color = faceToColor(state[i]);
+        this.stickers[i].face = state[i];
+        setStickerColor(this.stickers[i], color);
       }
-      this.commitStickers();
-    }
-    getStickers() {
-      return this.currentStickers;
-    }
-    commitStickers() {
-      this.currentStickers = [...this.stickers];
     }
     resetAffectedStickers() {
       this.affectedStickers = Array(this.numOfStickers).fill(this.layers === 1);
     }
     pushAnimation(axis, clockwise, prevStickers) {
-      if (!this.animateTurns)
-        return;
       let x = clockwise ? -1 : 1;
       let rotationAxis = [0, 0, 0];
       rotationAxis[axis] = x;
@@ -1213,20 +1192,30 @@
     return m;
   }
 
+  // ui/src/scripts/common/singleton.ts
+  function singleton() {
+    let instance;
+    return (constructor) => {
+      if (!instance) {
+        instance = constructor();
+      }
+      return instance;
+    };
+  }
+
   // ui/src/scripts/scene.ts
-  var canvas = document.querySelector("canvas");
-  var gl2 = canvas.getContext("webgl");
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
   var programInfo = initPrograms();
   var scenes = [];
   var settings = {
-    sizeMultiplier: 1,
+    animateTurns: true,
+    dragEnabled: true,
     hintStickers: true,
-    showBody: true,
-    animateTurns: true
+    showBody: true
   };
   var time = Date.now() * 1e-3;
   var numLayers = 3;
-  var dragEnabled = true;
   var loopStarted = false;
   function startLoop() {
     if (loopStarted)
@@ -1236,25 +1225,25 @@
   }
   function newScene(selector) {
     let div = document.querySelector(selector);
-    let cube = new CubeLogic(gl2, true);
+    let cube = new CubeLogic();
     let spring = new Spring();
     let transformMatrix = initTransform(div);
     let dragDetector = new DragDetector();
     cube.setNumOfLayers(numLayers);
     cube.new();
-    let buffers = createBuffers(gl2, cube, true, transformMatrix);
+    let buffers = createBuffers(gl2, cube, transformMatrix);
     const pointerdown = (offsetX, offsetY) => {
-      if (!dragEnabled)
+      if (!settings.dragEnabled)
         return;
       dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers);
     };
     const pointermove = (offsetX, offsetY) => {
-      if (!dragEnabled)
+      if (!settings.dragEnabled)
         return;
       dragDetector.onPointerMove(offsetX, offsetY);
     };
     const pointerup = () => {
-      if (!dragEnabled)
+      if (!settings.dragEnabled)
         return;
       dragDetector.onPointerUp(div, cube, buffers);
     };
@@ -1412,12 +1401,12 @@
     return shader;
   }
   function resizeCanvasToDisplaySize() {
-    const displayWidth = canvas.clientWidth;
-    const displayHeight = canvas.clientHeight;
-    const needResize = canvas.width !== displayWidth || canvas.height !== displayHeight;
+    const displayWidth = canvas2.clientWidth;
+    const displayHeight = canvas2.clientHeight;
+    const needResize = canvas2.width !== displayWidth || canvas2.height !== displayHeight;
     if (needResize) {
-      canvas.width = displayWidth;
-      canvas.height = displayHeight;
+      canvas2.width = displayWidth;
+      canvas2.height = displayHeight;
     }
     return needResize;
   }
@@ -1430,17 +1419,17 @@
     gl2.enable(gl2.SCISSOR_TEST);
     gl2.depthFunc(gl2.LEQUAL);
     gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
-    canvas.style.transform = `translateY(${window.scrollY}px)`;
+    canvas2.style.transform = `translateY(${window.scrollY}px)`;
     for (let i = 0; i < scenes.length; i++) {
       const { cube, div, spring, buffers, transformMatrix } = scenes[i];
       const rect = div.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > canvas.clientHeight || rect.right < 0 || rect.left > canvas.clientWidth) {
+      if (rect.bottom < 0 || rect.top > canvas2.clientHeight || rect.right < 0 || rect.left > canvas2.clientWidth) {
         continue;
       }
       const width = rect.right - rect.left;
       const height = rect.bottom - rect.top;
       const left = rect.left;
-      const bottom = canvas.clientHeight - rect.bottom;
+      const bottom = canvas2.clientHeight - rect.bottom;
       gl2.viewport(left, bottom, width, height);
       gl2.scissor(left, bottom, width, height);
       if (cube.animationQueue[0]) {
@@ -1448,21 +1437,23 @@
         spring.update(dt);
         if (spring.position >= 90) {
           cube.affectedStickers = Array(cube.numOfStickers).fill(false);
-          cube.commitStickers();
           spring.position = 0;
           cube.animationQueue.shift();
         }
       }
       const animation = cube.animationQueue[0];
-      let listToShow = animation ? animation.stickers : cube.stickers;
+      let stickers = chooseStickers(cube);
+      let _singleton = singleton();
       for (let i2 = 0; i2 < cube.numOfStickers; i2++) {
         let object = buffers[i2];
-        const m = animation && animation.stickersToAnimate[i2] ? rotate(
-          create(),
-          transformMatrix,
-          spring.position * Math.PI / 180,
-          animation.axis
-        ) : transformMatrix;
+        const m = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _singleton(() => {
+          return rotate(
+            create(),
+            transformMatrix,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : transformMatrix;
         gl2.uniformMatrix4fv(
           programInfo.uniformLocations.transformMatrix,
           false,
@@ -1475,16 +1466,25 @@
           drawElements(gl2);
         }
         bindPosition(object.positionBuffer, programInfo, gl2);
-        bindColor(listToShow[i2].buffer, programInfo, gl2);
+        bindColor(stickers[i2].buffer, programInfo, gl2);
         drawElements(gl2);
       }
-      if (!settings.hintStickers)
-        return;
-      renderHintStickers(cube, buffers, transformMatrix, listToShow);
+      renderHintStickers(cube, buffers, transformMatrix, stickers);
     }
     requestAnimationFrame(render);
   }
-  function renderHintStickers(cube, buffers, transformMatrix, listToShow) {
+  function chooseStickers(cube) {
+    if (!settings.animateTurns) {
+      return cube.stickers;
+    }
+    if (cube.animationQueue[0]) {
+      return cube.animationQueue[0].stickers;
+    }
+    return cube.stickers;
+  }
+  function renderHintStickers(cube, buffers, transformMatrix, stickers) {
+    if (!settings.hintStickers)
+      return;
     gl2.uniformMatrix4fv(
       programInfo.uniformLocations.transformMatrix,
       false,
@@ -1493,7 +1493,7 @@
     for (let j = 2 * cube.layersSq; j < cube.numOfStickers; j++) {
       let object = buffers[j];
       bindPosition(object.hintPositionBuffer, programInfo, gl2);
-      bindColor(listToShow[j].buffer, programInfo, gl2);
+      bindColor(stickers[j].buffer, programInfo, gl2);
       drawElements(gl2);
     }
   }
@@ -1567,6 +1567,39 @@
       open(ele);
     }
   }
+
+  // ui/src/scripts/pieceIndices.ts
+  var CENTERS = [4, 13, 22, 31, 40, 49];
+  var UBL = [0, 29, 36];
+  var URB = [6, 35, 51];
+  var ULF = [2, 9, 42];
+  var UFR = [8, 15, 45];
+  var DFL = [18, 11, 44];
+  var DRF = [24, 47, 17];
+  var DLB = [20, 38, 27];
+  var DBR = [26, 33, 53];
+  var UB = [3, 32];
+  var UL = [1, 39];
+  var UR = [7, 48];
+  var UF = [5, 12];
+  var FL = [10, 43];
+  var FR = [16, 46];
+  var DF = [21, 14];
+  var DL = [19, 41];
+  var DR = [25, 50];
+  var DB = [23, 30];
+  var BL = [28, 37];
+  var BR = [34, 52];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
 
   // ui/src/scripts/learn.ts
   function parseMovesFromAlg(alg) {
@@ -1731,22 +1764,19 @@
       scenes.push(scene);
       lessons[i].cube = scene.cube;
       const lesson = lessons[i];
-      const colors = Array(54);
-      let brights = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+      const colors2 = Array(54);
       lesson.activeStickers.forEach((i2) => {
-        colors[i2] = brights[Math.floor(i2 / 9)];
+        colors2[i2] = faceToColor(stickerToFace(i2, scene.cube));
       });
-      let dulls = [GRAY, DULL_GREEN, DULL_YELLOW, DULL_BLUE, DULL_ORANGE, DULL_ORANGE];
       for (let i2 = 0; i2 < 54; i2++) {
-        if (colors[i2])
+        if (colors2[i2])
           continue;
-        colors[i2] = dulls[Math.floor(i2 / 9)];
+        colors2[i2] = faceToDullColor(stickerToFace(i2, scene.cube));
       }
-      scene.cube.setColors(colors);
+      scene.cube.setColors(colors2);
       updateMoveCounter(i);
       const setup = lesson.setup;
       scene.cube.execAlg(setup);
-      scene.cube.commitStickers();
     }
     const lessonNavigator = document.querySelector("#lessonNavigator");
     lessonNavigator.addEventListener("click", (event) => {

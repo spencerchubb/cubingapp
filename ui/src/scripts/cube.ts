@@ -1,10 +1,17 @@
-import * as _colors from "./colors";
-import * as pieceIndices from "./pieceIndices";
+import * as colors from "./colors";
+import { stickerToFace } from "./common/util";
 import { scramble3x3 } from "./scramble";
 
-let gl;
+let canvas: HTMLCanvasElement = document.querySelector("canvas");
+let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
-const COLORS = [_colors.WHITE, _colors.GREEN, _colors.YELLOW, _colors.BLUE, _colors.ORANGE, _colors.RED];
+export type Sticker = {
+    /**
+     * 0, 1, 2, 3, 4, 5, or 6. Indicates which face the sticker belongs to.
+     */
+    face: number,
+    buffer: WebGLBuffer,
+}
 
 export type AnimationData = {
     /**
@@ -14,77 +21,57 @@ export type AnimationData = {
      */
     axis: number[];
 
-    stickers: any[];
+    stickers: Sticker[];
     stickersToAnimate: boolean[];
 }
 
-type Sticker = {
-    /** rgba */
-    color: number[],
-    /**
-     * 0, 1, 2, 3, 4, 5, or 6. Indicates which face sticker belongs to.
-     */
-    face: number,
-    /** [r, g, b, a, r, g, b, a, r, g, b, a, r, g, b, a] */
-    arr: number[],
-    buffer: WebGLBuffer,
-}
-
-function makeSticker(color: number[], face: number): Sticker {
+function setStickerColor(sticker: Sticker, color: number[]) {
     const arr = [
         color[0], color[1], color[2], color[3],
         color[0], color[1], color[2], color[3],
         color[0], color[1], color[2], color[3],
         color[0], color[1], color[2], color[3],
     ];
-
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
-
-    return {
-        color,
-        face,
-        arr,
-        buffer,
-    };
 }
 
 export class CubeLogic {
     axis: number;
-    stickers: any[];
+    stickers: Sticker[];
     underStickers: Sticker[];
-    hintStickers: Sticker[];
     layers: number;
     layersSq: number;
     layersHalf: number;
     layersEven: boolean;
     numOfStickers: number;
-    currentStickers: Sticker[];
     affectedStickers: boolean[];
     disableTurn: boolean;
     clockwise: boolean;
     animationQueue: AnimationData[];
-    animateTurns: boolean;
 
-    constructor(_gl: WebGLRenderingContext, animateTurns: boolean) {
-        gl = _gl;
-
+    constructor() {
         this.animationQueue = [];
-        this.animateTurns = animateTurns;
     }
 
     new() {
         this.axis = 0;
 
-        const state = Array(this.numOfStickers);
+        this.stickers = Array(this.numOfStickers);
         this.underStickers = Array(this.numOfStickers);
-        this.hintStickers = Array(this.numOfStickers);
         for (let i = 0; i < this.numOfStickers; i++) {
-            state[i] = Math.floor(i / this.layersSq);
+            const face = stickerToFace(i, this);
 
-            // Pass in -1 for face because it shouldn't matter for the under stickers.
-            this.underStickers[i] = makeSticker(_colors.BLACK, -1);
+            this.stickers[i] = {
+                face: face,
+                buffer: gl.createBuffer(),
+            };
+
+            this.underStickers[i] = {
+                face: face,
+                buffer: gl.createBuffer(),
+            };
+            setStickerColor(this.underStickers[i], colors.BLACK);
         }
 
         this.affectedStickers = Array(this.numOfStickers).fill(false);
@@ -105,15 +92,21 @@ export class CubeLogic {
     }
 
     setColors(colors: number[][]) {
-        this.stickers = [];
         for (let i = 0; i < this.numOfStickers; i++) {
             this.setColor(colors[i], i);
         }
     }
 
     setColor(color: number[], stickerIndex: number) {
-        const sticker = makeSticker(color, Math.floor(stickerIndex / this.layersSq));
-        this.stickers[stickerIndex] = sticker;
+        setStickerColor(this.stickers[stickerIndex], color);
+    }
+
+    solve() {
+        const arr = Array(this.numOfStickers);
+        for (let i = 0; i < this.numOfStickers; i++) {
+            arr[i] = colors.faceToColor(stickerToFace(i, this));
+        }
+        this.setColors(arr);
     }
 
     scramble() {
@@ -125,8 +118,8 @@ export class CubeLogic {
     }
 
     scramble3x3() {
-        const colors = scramble3x3(this);
-        this.setCubeState(colors);
+        const state = scramble3x3(this);
+        this.setCubeState(state);
     }
 
     /**
@@ -140,36 +133,6 @@ export class CubeLogic {
             let layer = Math.floor(Math.random() * this.layers);
             let clockwise = Math.floor(Math.random() * 1) == 0.0;
             this._matchTurn(axis, layer, clockwise);
-        }
-
-        this.commitStickers();
-    }
-
-    cubleScramble() {
-        for (let i = 0; i < 54; i++) {
-            if (!pieceIndices.CENTERS.includes(i)) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-                const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW); // consider making DYNAMIC_DRAW
-            }
-        }
-    }
-
-    /**
-     * This method is used for the Cuble mini-game. This method should be called
-     * after each turn. When a sticker is turned to its correct face, its color is revealed.
-     */
-    revealCorrectStickers() {
-        for (let i = 0; i < 54; i++) {
-            if ((0 <= i && i <= 8 && this.stickers[i].color == this.stickers[4].color)
-                || (9 <= i && i <= 17 && this.stickers[i].color == this.stickers[13].color)
-                || (18 <= i && i <= 26 && this.stickers[i].color == this.stickers[22].color)
-                || (27 <= i && i <= 35 && this.stickers[i].color == this.stickers[31].color)
-                || (36 <= i && i <= 44 && this.stickers[i].color == this.stickers[40].color)
-                || (45 <= i && i <= 53 && this.stickers[i].color == this.stickers[49].color)) {
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.stickers[i].buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.stickers[i].arr), gl.STATIC_DRAW);
-            }
         }
     }
 
@@ -192,27 +155,15 @@ export class CubeLogic {
      * 5 -> right
      */
     getCubeState(): number[] {
-        return this.currentStickers.map(sticker => sticker.face);
+        return this.stickers.map(sticker => sticker.face);
     }
 
     setCubeState(state: number[]) {
-        this.stickers = Array(this.numOfStickers);
         for (let i = 0; i < this.numOfStickers; i++) {
-            const color = COLORS[state[i]];
-            this.stickers[i] = makeSticker(color, state[i]);
+            const color = colors.faceToColor(state[i]);
+            this.stickers[i].face = state[i];
+            setStickerColor(this.stickers[i], color);
         }
-        this.commitStickers();
-    }
-
-    getStickers() {
-        return this.currentStickers;
-    }
-
-    /** 
-     * Take the stickers that have been modified and transfer them to currentStickers 
-    */
-    commitStickers() {
-        this.currentStickers = [...this.stickers];
     }
 
     resetAffectedStickers() {
@@ -222,8 +173,6 @@ export class CubeLogic {
     }
 
     pushAnimation(axis, clockwise, prevStickers) {
-        if (!this.animateTurns) return;
-
         let x = clockwise ? -1 : 1;
         let rotationAxis = [0, 0, 0];
         rotationAxis[axis] = x;
@@ -262,7 +211,6 @@ export class CubeLogic {
         for (let i = 1; i < this.layers - 1; i++) {
             this._matchTurn(axis, i, clockwise);
         }
-
     }
 
     cubeRotate(axis, clockwise) {
@@ -675,17 +623,4 @@ export class CubeLogic {
             bottom: corners.bottomLeft + this.layers * (numEdges - edge),
         };
     }
-}
-
-/** Returns colors for a solved cube */
-export function solvedColors(cube: CubeLogic): number[][] {
-    const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
-
-    // Fill in the active stickers with bright colors
-    let brights = [_colors.WHITE, _colors.GREEN, _colors.YELLOW, _colors.BLUE, _colors.ORANGE, _colors.RED];
-    for (let i = 0; i < cube.numOfStickers; i++) {
-        colors[i] = brights[Math.floor(i / cube.layersSq)];
-    }
-
-    return colors;
 }

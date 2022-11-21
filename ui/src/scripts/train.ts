@@ -1,7 +1,7 @@
-import * as scene from "./scene";
-import { addListenersForLeftModal } from "./ui";
-import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
+import { loadSavedSettings, newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
 import * as slide from "./slide";
+import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
+import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
 
 type TrainingAlg = { score: number, alg: string }
@@ -150,8 +150,11 @@ function renderDrawer() {
 }
 
 export function main() {
-    // Initial canvas render
-    // scene.renderCanvas(); TODO
+    let scene = newScene("#scene");
+    scenes.push(scene);
+    scene.cube.solve();
+
+    startLoop();
 
     addListenersForLeftModal();
 
@@ -165,17 +168,13 @@ export function main() {
             retry();
         } else if (event.key == "Enter") {
             nextAlg();
-        }
-        // TODO
-        // } else if (scene.cube.matchKeyToTurn(event)) {
-        //     scene.animateTurn();
-            
-        //     if (solved(scene.cube.stickers, state.algSet)) {
-        //         showSolved();
+        } else if (scene.cube.matchKeyToTurn(event)) {
+            if (solved(scene.cube.stickers, state.algSet)) {
+                showSolved();
 
-        //         state.solved = true;
-        //     }
-        // }
+                state.solved = true;
+            }
+        }
     });
 
     const algSetSelect = document.querySelector("#alg-set-select");
@@ -213,15 +212,9 @@ export function main() {
         state.postAUF = generateRandAUF();
         alg = applyPost(alg, state.postAUF);
 
-        // TODO
-        // scene.cube.new();
-
-        // scene.cube.execAlg(state.preRotation);
-        
-        // scene.cube.execAlgReverse(alg);
-        // scene.cube.commitStickers();
-
-        // scene.render();
+        scene.cube.solve();
+        scene.cube.execAlg(state.preRotation);
+        scene.cube.execAlgReverse(alg);
     }
 
     function nextAlg() {
@@ -268,9 +261,15 @@ export function main() {
         state.algSet = algSet;
 
         if (algSet.cube == "2x2") {
-            scene.setNumLayers(2);
+            setNumLayers(2);
+            scene = newScene("#scene");
+            scenes[0] = scene;
+            scene.cube.solve();
         } else if (algSet.cube == "3x3") {
-            scene.setNumLayers(3);
+            setNumLayers(3);
+            scene = newScene("#scene");
+            scenes[0] = scene;
+            scene.cube.solve();
         }
 
         // Remove elements from storedAlgs that are in storedAlgs but not in algs.
