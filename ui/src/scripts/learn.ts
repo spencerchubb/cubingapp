@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { newScene, scenes, startLoop } from "./scene";
+import { newScene, scenes, settings, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import * as slide from "./slide";
 import { CubeLogic } from "./cube";
@@ -226,6 +226,7 @@ function main() {
         renderLesson(i);
     }
 
+    settings.dragEnabled = false;
     startLoop();
 
     document.addEventListener("click", (event) => {

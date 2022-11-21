@@ -1798,6 +1798,7 @@
     for (let i = 0; i < lessons.length; i++) {
       renderLesson(i);
     }
+    settings.dragEnabled = false;
     startLoop();
     document.addEventListener("click", (event) => {
       const target = event.target;
