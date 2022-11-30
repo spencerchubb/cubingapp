@@ -2,7 +2,7 @@
 
 export PATH=$PATH:/usr/local/go/bin
 
-source ../.env
+source ../.env-dev
 
 ./kill_port.sh 3000
 

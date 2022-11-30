@@ -1,0 +1,13 @@
+## postgres cheatsheet
+- CREATE DATABASE database_name;
+    - create a database called database_name
+- \c database_name
+    - connect to a database called database_name
+- \conninfo
+    - get connection info
+- \password postgres
+    - set the password to be 'postgres'
+- \l
+    - list databases on server
+- \dt
+    - list tables in current database
