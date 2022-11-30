@@ -42,22 +42,6 @@ function frontColumn(cube: CubeLogic, sticker: number) {
     return cube.layers - 1 - Math.floor((sticker - cube.layersSq) / cube.layers);
 }
 
-function leftRow(cube: CubeLogic, sticker: number) {
-    return sticker % cube.layers;
-}
-
-function leftColumn(cube: CubeLogic, sticker: number) {
-    return cube.layers - 1 - Math.floor((sticker - 4 * cube.layersSq) / cube.layers);
-}
-
-function rightRow(cube: CubeLogic, sticker: number) {
-    return sticker % cube.layers;
-}
-
-function rightColumn(cube: CubeLogic, sticker: number) {
-    return Math.floor((sticker - 5 * cube.layersSq) / cube.layers);
-}
-
 export class DragDetector {
     numOfPointerMoves: number;
     xOnDown: number;
@@ -71,7 +55,6 @@ export class DragDetector {
      * x and y are pixel values.
      */
     onPointerDown(x: number, y: number, div: HTMLElement, cube: CubeLogic, buffers: BufferObject[]) {
-
         this.numOfPointerMoves = 0;
 
         const clipX = xPixelToClip(x, div.clientWidth);
@@ -115,6 +98,7 @@ export class DragDetector {
      * x and y are pixel values.
      */
     onPointerMove(x: number, y: number) {
+        console.log({ x, y });
         this.numOfPointerMoves++;
         this.xOnMove = x;
         this.yOnMove = y;

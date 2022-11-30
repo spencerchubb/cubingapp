@@ -1820,6 +1820,7 @@
       }
     }
     onPointerMove(x, y) {
+      console.log({ x, y });
       this.numOfPointerMoves++;
       this.xOnMove = x;
       this.yOnMove = y;
