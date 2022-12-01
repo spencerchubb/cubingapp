@@ -287,7 +287,9 @@ func main() {
 	handleFunc("/getTrainingAlgs", getTrainingAlgs)
 	handleFunc("/user", user)
 
-	err = http.ListenAndServe(":3000", nil)
+	fullchain := "/etc/letsencrypt/live/cubingapp.com/fullchain.pem"
+	privkey := "/etc/letsencrypt/live/cubingapp.com/privkey.pem"
+	err = http.ListenAndServeTLS(":3000", fullchain, privkey, nil)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server closed\n")
 	} else if err != nil {
