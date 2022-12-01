@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -11,8 +12,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func serverUrl(route string) string {
+	return fmt.Sprintf("https://api.cubingapp.com:%s/%s", serverPort, route)
+}
+
 func connect(t *testing.T) (*pgx.Conn, error) {
-	conn, err := pgx.Connect(context.Background(), pgUrl())
+	conn, err := pgx.Connect(context.Background(), pgUrl)
 	if err != nil {
 		t.Errorf("Unable to connect to database: %v\n", err)
 	}
@@ -71,7 +76,7 @@ func TestGetSolve(t *testing.T) {
 		return
 	}
 
-	res, err := post(t, "http://127.0.0.1:3000/getSolve", GetSolveRequest{id})
+	res, err := post(t, serverUrl("getSolve"), GetSolveRequest{id})
 	if err != nil {
 		return
 	}
@@ -103,7 +108,7 @@ func TestAddAndGetSolves(t *testing.T) {
 	}
 
 	for i := 0; i < 3; i++ {
-		res, err := post(t, "http://127.0.0.1:3000/addSolve", mockSolve)
+		res, err := post(t, serverUrl("addSolve"), mockSolve)
 		if err != nil {
 			return
 		}
@@ -114,7 +119,7 @@ func TestAddAndGetSolves(t *testing.T) {
 		assert.NotZero(t, response.Id)
 	}
 
-	res, err := post(t, "http://127.0.0.1:3000/getSolves", GetSolvesRequest{2})
+	res, err := post(t, serverUrl("getSolves"), GetSolvesRequest{2})
 	if err != nil {
 		return
 	}
@@ -145,7 +150,7 @@ func TestTrainingAlgs(t *testing.T) {
 		},
 	}
 
-	res, err := post(t, "http://127.0.0.1:3000/writeTrainingAlgs", mockTrainingAlgsRecord)
+	res, err := post(t, serverUrl("writeTrainingAlgs"), mockTrainingAlgsRecord)
 	if err != nil {
 		return 
 	}
@@ -154,7 +159,7 @@ func TestTrainingAlgs(t *testing.T) {
 	unmarshal(res.Body, &response)
 	assert.True(t, response.Success)
 
-	res, err = post(t, "http://127.0.0.1:3000/getTrainingAlgs", GetTrainingAlgsRequest{2, "CMLL"})
+	res, err = post(t, serverUrl("getTrainingAlgs"), GetTrainingAlgsRequest{2, "CMLL"})
 	if err != nil {
 		return
 	}
@@ -174,7 +179,7 @@ func TestUser(t *testing.T) {
 
 	conn.Exec(context.Background(), "delete from users;")
 
-	res, err := post(t, "http://127.0.0.1:3000/user", UserRequest{"example@gmail.com"})
+	res, err := post(t, serverUrl("user"), UserRequest{"example@gmail.com"})
 	if err != nil {
 		return 
 	}
@@ -183,7 +188,7 @@ func TestUser(t *testing.T) {
 	unmarshal(res.Body, &response)
 	assert.True(t, response.Success)
 
-	res, err = post(t, "http://127.0.0.1:3000/user", UserRequest{"example@gmail.com"})
+	res, err = post(t, serverUrl("user"), UserRequest{"example@gmail.com"})
 	if err != nil {
 		return
 	}

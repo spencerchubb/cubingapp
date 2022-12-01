@@ -14,6 +14,9 @@ import (
 
 var conn *pgxpool.Pool
 
+var pgUrl = getEnv("PG_URL")
+var serverPort = getEnv("SERVER_PORT")
+
 func writeJson(w http.ResponseWriter, v any) error {
 	out, err := json.Marshal(v)
 	if err != nil {
@@ -270,7 +273,7 @@ func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)
 func main() {
 	fmt.Printf("Attempting to connect to postgres...\n")
 	var err error
-	conn, err = pgxpool.New(context.Background(), pgUrl())
+	conn, err = pgxpool.New(context.Background(), pgUrl)
 	if err != nil {
 		fmt.Printf("Unable to connect to database: %v\n", err)
 		os.Exit(1)
@@ -287,9 +290,10 @@ func main() {
 	handleFunc("/getTrainingAlgs", getTrainingAlgs)
 	handleFunc("/user", user)
 
+	addr := fmt.Sprintf(":%s", serverPort)
 	fullchain := "/etc/letsencrypt/live/cubingapp.com/fullchain.pem"
 	privkey := "/etc/letsencrypt/live/cubingapp.com/privkey.pem"
-	err = http.ListenAndServeTLS(":3000", fullchain, privkey, nil)
+	err = http.ListenAndServeTLS(addr, fullchain, privkey, nil)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server closed\n")
 	} else if err != nil {

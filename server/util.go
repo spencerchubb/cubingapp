@@ -30,7 +30,3 @@ func getEnv(key string) string {
 	}
 	return env
 }
-
-func pgUrl() string {
-	return getEnv("PG_URL")
-}
