@@ -4,7 +4,7 @@ import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
 import { Recorder } from "./recorder";
-import { url } from "./vars/vars";
+import { url } from "./common/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
 import { renderModal } from "./modal";
 import * as slide from "./slide";
@@ -234,6 +234,9 @@ async function renderSolves(drawerEle: HTMLElement) {
         });
         const json = await res.json();
         console.log(json);
+
+        if (!json.SolveRecords) return;
+        
         solves = json.SolveRecords.map((record: any) => {
             return {
                 id: record.Id,

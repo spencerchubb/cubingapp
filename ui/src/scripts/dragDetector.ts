@@ -98,7 +98,6 @@ export class DragDetector {
      * x and y are pixel values.
      */
     onPointerMove(x: number, y: number) {
-        console.log({ x, y });
         this.numOfPointerMoves++;
         this.xOnMove = x;
         this.yOnMove = y;

@@ -1,6 +1,6 @@
 import * as scene from "./scene";
 import { addListenersForLeftModal } from "./ui";
-import { url } from "./vars/vars";
+import { url } from "./common/vars";
 import { renderModal } from "./modal";
 
 type Solve = {

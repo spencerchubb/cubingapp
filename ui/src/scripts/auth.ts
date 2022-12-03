@@ -1,3 +1,4 @@
+import { auth as _auth, url } from "./common/vars";
 import {
     Auth,
     createUserWithEmailAndPassword,
@@ -7,7 +8,6 @@ import {
     UserCredential,
 } from "firebase/auth";
 import { renderModal } from "./modal";
-import { auth as _auth, url } from "./vars/vars";
 import { getUser, removeUser, setUser } from "./store";
 
 export {
@@ -57,7 +57,7 @@ let removeModal: () => void;
 let errorText;
 
 function renderSignIn() {
-    auth = _auth();
+    const auth = _auth();
 
     [modal, removeModal] = renderModal();
 
