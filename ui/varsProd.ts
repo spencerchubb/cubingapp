@@ -21,6 +21,4 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-// Use singleton pattern because connectAuthEmulator can only be called once
-let authSingleton;
 const auth = () => getAuth(app);

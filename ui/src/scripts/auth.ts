@@ -40,7 +40,6 @@ class CubingAppUser {
     }
 }
 
-let auth: Auth;
 let user: CubingAppUser;
 
 let authListener: Function;
@@ -154,6 +153,7 @@ function successfulSignIn(userCredential: UserCredential) {
 }
 
 function _signInWithPopup() {
+    const auth = _auth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
         .then(successfulSignIn)
@@ -163,7 +163,7 @@ function _signInWithPopup() {
 }
 
 function _createUserWithEmailAndPassword(email: string, password: string) {
-    console.log(email, password);
+    const auth = _auth();    
     createUserWithEmailAndPassword(auth, email, password)
         .then(successfulSignIn)
         .catch(error => {
@@ -173,7 +173,7 @@ function _createUserWithEmailAndPassword(email: string, password: string) {
 }
 
 function _signInWithEmailAndPassword(email: string, password: string) {
-    console.log(email, password);
+    const auth = _auth();
     signInWithEmailAndPassword(auth, email, password)
         .then(successfulSignIn)
         .catch(error => {
@@ -183,7 +183,8 @@ function _signInWithEmailAndPassword(email: string, password: string) {
 }
 
 function signOut() {
-    auth?.signOut();
+    const auth = _auth();
+    auth.signOut();
     user = null;
     removeUser();
     authListener();
