@@ -1,4 +1,4 @@
-import * as scene from "./scene";
+import { newScene, scenes, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { url } from "./common/vars";
 import { renderModal } from "./modal";
@@ -18,10 +18,11 @@ type GetSolveResponse = {
 }
 
 async function main() {
-    scene.settings.dragEnabled = false;
+    let scene = newScene("#scene");
+    scenes.push(scene);
+    scene.cube.solve();
 
-    // Initial canvas render
-    // scene.renderCanvas(); TODO
+    startLoop();
 
     addListenersForLeftModal();
 
@@ -54,9 +55,7 @@ async function main() {
 function renderSolve(solveResponse: GetSolveResponse) {
     const solve = solveResponse.SolveRecord.Solve;
 
-    // TODO
-    // scene.cube.setCubeState(solve.InitialCubeState);
-    // scene.render();
+    scenes[0].cube.setCubeState(solve.InitialCubeState);
 
     let moveIndex = 0;
     let moveElements: HTMLElement[];
@@ -74,19 +73,13 @@ function renderSolve(solveResponse: GetSolveResponse) {
 
     document.querySelector("#leftButton").addEventListener("click", (event) => {
         if (moveIndex > 0) {
-            // TODO
-            // scene.cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
-            // scene.animateTurn();
-
+            scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
             updateMoveCounter(moveIndex - 1);
         }
     });
     document.querySelector("#rightButton").addEventListener("click", (event) => {
         if (moveIndex < solve.Moves.length) {
-            // TODO
-            // scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
-            // scene.animateTurn();
-
+            scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
             updateMoveCounter(moveIndex + 1);
         }
     });
@@ -100,6 +93,7 @@ function renderSolve(solveResponse: GetSolveResponse) {
             pause();
             return;
         }
+        if (moveIndex === solve.Moves.length) return;
         absoluteStartTime = Date.now();
         relativeStartTime = solve.Moves[moveIndex].Time;
         paused = false;
@@ -117,9 +111,7 @@ function renderSolve(solveResponse: GetSolveResponse) {
         }
         function step() {
             if (paused) return;
-            // TODO
-            // scene.cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
-            // scene.animateTurn();
+            scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
             updateMoveCounter(moveIndex + 1);
             if (moveIndex === solve.Moves.length) {
                 pause();
@@ -158,19 +150,13 @@ function renderSolve(solveResponse: GetSolveResponse) {
             if (rowIndex === moveIndex) return;
             let newMoveIndex = moveIndex;
             while (newMoveIndex < rowIndex) {
-                // TODO
-                // scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
+                scenes[0].cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
                 newMoveIndex++;
             }
             while (newMoveIndex > rowIndex) {
                 newMoveIndex--;
-                // TODO
-                // scene.cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
+                scenes[0].cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
             }
-            // TODO
-            // scene.cube.animationQueue = [];
-            // scene.cube.commitStickers();
-            // scene.render();
             updateMoveCounter(newMoveIndex);
         });
 
@@ -222,15 +208,6 @@ function renderBasedOnWidth() {
     solveData.parentElement.parentElement.style.width = "";
     solveData.parentElement.parentElement.style.overflowY = "scroll";
     solveData.parentElement.style.width = "";
-}
-
-function renderOnly3x3(solve) {
-    const glDiv = document.querySelector("#glDiv");
-    glDiv.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; width: 320px; height: 320px;">
-        <p style="color: white; text-align: center;">At this time, we can only do 3x3 replays, but this is a ${solve.puzzle}x${solve.puzzle} replay! More coming soon...</p>
-    </div>
-    `;
 }
 
 main();

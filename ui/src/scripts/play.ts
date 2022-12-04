@@ -3,18 +3,19 @@ import { loadSavedSettings, newScene, scenes, setNumLayers, settings, startLoop 
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
-import { Recorder } from "./recorder";
 import { url } from "./common/vars";
 import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
 import { renderModal } from "./modal";
 import * as slide from "./slide";
+import { Move } from "./common/types";
 
 let drawerIndex;
 let solves: { id: number, time: number }[] = [];
 let solvesFetched: boolean = false;
 
 const timer = new Timer();
-const recorder = new Recorder();
+let initialCubeState: number[] = [];
+let moves: Move[] = [];
 
 function main() {
     let scene = newScene("#scene");
@@ -71,7 +72,7 @@ function main() {
 
         const result = scene.cube.matchKeyToTurn(event);
         if (result) {
-            recorder.addMove(result.notation, timer.calcSecondsSinceStart(time));
+            moves.push({ move: result.notation, time: timer.secondsSinceStart(time) });
             return;
         }
     });
@@ -114,21 +115,28 @@ function addIconListeners(index: number) {
 
 function handleStartStop(time: number) {
     if (!timer.isRunning) {
-        timer.start(time);
-        // recorder.start(scene.cube.getCubeState()); TODO 
+        timer.start(time, (time) => {
+            renderTime(time);
+        });
+        initialCubeState = scenes[0].cube.getCubeState();
+        moves = [];
+        renderStartStop(true);
         return;
     }
+
     timer.stop(time);
+    renderStartStop(false);
 
     // Cannot save the solve to the database if the user is not signed in
     if (!user) return;
 
     const solve = {
         uid: user.uid,
-        time: timer.secondsSinceStart,
-        initialCubeState: recorder.cubeState,
-        moves: recorder.moves,
+        time: timer.stopTime,
+        initialCubeState,
+        moves,
     };
+    console.log(solve);
     fetch(`${url}/addSolve`, {
         method: "POST",
         body: JSON.stringify(solve),
@@ -139,13 +147,29 @@ function handleStartStop(time: number) {
             if (!data.Success) return;
             solves.push({
                 id: data.Id,
-                time: timer.secondsSinceStart,
+                time: timer.stopTime,
             });
 
             if (drawerIndex === 1) { // 1 is the index associated with Solves
                 renderSolves(document.querySelector("#rightDrawer"));
             }
         });
+}
+
+function renderTime(time: number) {
+    const timeEle = document.querySelector("#time") as HTMLElement;
+    timeEle.textContent = time.toFixed(2);
+}
+
+function renderStartStop(running: boolean) {
+    const startStop = document.querySelector("#startStop") as HTMLElement;
+    if (running) {
+        startStop.textContent = "Stop";
+        startStop.title = "Press enter to stop timer";
+        return;
+    }
+    startStop.textContent = "Start";
+    startStop.title = "Press enter to start timer";
 }
 
 /**

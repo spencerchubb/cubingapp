@@ -1,56 +1,37 @@
 export class Timer {
     isRunning: boolean;
+    /** ms since epoch */
     startTime: number;
-    secondsSinceStart: number;
-    _timeEle: HTMLElement;
+    /** seconds since `startTime` */
+    stopTime: number;
     _interval: NodeJS.Timeout;
 
     constructor() {
         this.isRunning = false;
-        this._timeEle = document.querySelector("#time");
-        
-        this._updateTimeDisplay(0);
-        this._updateStartStopButton(false);
     }
 
-    _updateTimeDisplay(secondsSinceStart: number) {
-        this.secondsSinceStart = secondsSinceStart;
-        this._timeEle.textContent = this.secondsSinceStart.toFixed(2);
-    }
 
-    _updateStartStopButton(val: boolean) {
-        this.isRunning = val;
-        const button: HTMLElement = document.querySelector("#startStop");
-        if (val) {
-            button.textContent = "Stop";
-            button.title = "Press space to stop timer";
-        } else {
-            button.textContent = "Start";
-            button.title = "Press space to start timer";
-        }
-    }
-
-    start(time: number) {
+    /** Input Date.now() and a callback to be executed every millisecond */
+    start(time: number, everyMs: (number) => void) {
+        this.isRunning = true;
         this.startTime = time;
         this._interval = setInterval(
             () => {
-                const secondsSinceStart = this.calcSecondsSinceStart(Date.now());
-                this._updateTimeDisplay(secondsSinceStart);
+                const time = this.secondsSinceStart(Date.now());
+                everyMs(time);
             },
             1, // Repeat every 1 ms
         );
-        this._updateStartStopButton(true);
     }
 
+    /** Input Date.now() */
     stop(time: number) {
+        this.isRunning = false;
+        this.stopTime = this.secondsSinceStart(time);
         clearInterval(this._interval);
-        this._updateStartStopButton(false);
-
-        const secondsSinceStart = this.calcSecondsSinceStart(time);
-        this._updateTimeDisplay(secondsSinceStart);
     }
 
-    calcSecondsSinceStart(time: number) {
+    secondsSinceStart(time: number) {
         return (time - this.startTime) / 1000;
     }
 }
