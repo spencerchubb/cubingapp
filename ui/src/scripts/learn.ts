@@ -70,12 +70,6 @@ let lessons: Lesson[] = [
                 explanation: "To insert the white green, move the top layer, move the white-green up, then fix the top layer.",
             },
             {
-                setup: "R' F D F'",
-                algorithm: "y F' U' R U",
-                directions: "Solve the white-red edge",
-                explanation: "The white-red is on the bottom right, so first we'll rotate the cube. Then move the white-red to the side and insert it.",
-            },
-            {
                 setup: "F' R' F",
                 algorithm: "y D F' U' R U",
                 directions: "Solve the white-red edge",
@@ -98,12 +92,6 @@ let lessons: Lesson[] = [
                 algorithm: "D' D' L' L'",
                 directions: "Solve the white-blue edge",
                 explanation: "The white-blue is on the bottom right. To solve it, line up the blue, then line up the white.",
-            },
-            {
-                setup: "y2 R' U' R U",
-                algorithm: "F2 D R2",
-                directions: "Solve the white-orange edge",
-                explanation: "The white-orange is in another edge's position, so first, we'll take it out. Then line up the orange, then line up the white.",
             },
             {
                 setup: "y2 R' U' R U",
