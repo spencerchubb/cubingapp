@@ -5,201 +5,341 @@ import * as slide from "./slide";
 import { CubeLogic } from "./cube";
 import * as pieceIndices from "./pieceIndices";
 import { stickerToFace } from "./common/util";
+import { randInt } from "./common/rand";
 
 function parseMovesFromAlg(alg?: string): string[] {
     return (alg || "").split(" ");
 }
 
+type Lesson = {
+    activeStickers: number[],
+    cube?: CubeLogic,
+    move?: number,
+
+    // The following are used for the explanatory lessons
+    setup?: string,
+    algorithm?: string,
+
+    // The following is used for practice problems
+    practiceProblems?: PracticeProblem[],
+    problemIndex?: number,
+    showSolution?: boolean,
+}
+
+type PracticeProblem = {
+    setup: string,
+    algorithm: string,
+    directions: string,
+    explanation: string,
+}
+
+let lessons: Lesson[] = [
+    {
+        activeStickers: pieceIndices.CENTERS,
+        setup: "",
+        algorithm: "x x x x y y y y",
+    },
+    {
+        activeStickers: [...pieceIndices.layer1Corners, ...pieceIndices.layer2Corners],
+        setup: "",
+        algorithm: "x x x x y y y y",
+    },
+    {
+        activeStickers: [...pieceIndices.layer1Edges, ...pieceIndices.layer2Edges, ...pieceIndices.layer3Edges],
+        setup: "",
+        algorithm: "x x x x y y y y",
+    },
+    {
+        activeStickers: pieceIndices.cross,
+        setup: "",
+        algorithm: "y y y y",
+    },
+    {
+        activeStickers: pieceIndices.cross,
+        practiceProblems: [
+            {
+                setup: "F F D",
+                algorithm: "D' F F",
+                directions: "Solve the white-green edge",
+                explanation: "Line up the green, then line up the white.",
+            },
+            {
+                setup: "R' U F' U'",
+                algorithm: "U F U' R",
+                directions: "Solve the white-red edge",
+                explanation: "Foobar",
+            },
+            {
+                setup: "U R U' B'",
+                algorithm: "B U R' U'",
+                directions: "Solve the white-blue edge",
+                explanation: "Foobar",
+            },
+        ],
+    },
+    {
+        activeStickers: pieceIndices.firstLayer,
+        setup: "",
+        algorithm: "y y y y",
+    },
+    {
+        activeStickers: pieceIndices.firstLayer,
+        practiceProblems: [
+            {
+                setup: "z2 R U' R'",
+                algorithm: "R U R'",
+                directions: "Solve the white-green-orange corner",
+                explanation: "Move corner up, move corner to the side, move back down",
+            },
+            {
+                setup: "z2 y R U' R' U R U' R' U",
+                algorithm: "R U R' U' R U R'",
+                directions: "Solve the white-orange-blue corner",
+                explanation: "Move corner up, move corner to the side, move back down. Repeat 1x",
+            },
+            {
+                setup: "z2 y2 R U' R' U R U' R' U R U' R'",
+                algorithm: "R U R' U' R U R' U' R U R'",
+                directions: "Solve the white-blue-red corner",
+                explanation: "Move corner up, move corner to the side, move back down. Repeat 3x",
+            },
+            {
+                setup: "z2 y' R U' R' U R U' R' U R U' R' U R U' R'",
+                algorithm: "R U R' U' R U R' U' R U R' U' R U R'",
+                directions: "Solve the white-red-green corner",
+                explanation: "Move corner up, move corner to the side, move back down. Repeat 4x",
+            },
+            {
+                setup: "z2 R U' R' U R U' R' U R U' R' U R U' R' U R U' R'",
+                algorithm: "R U R' U' R U R' U' R U R' U' R U R' U' R U R'",
+                directions: "Solve the white-green-orange corner",
+                explanation: "Move corner up, move corner to the side, move back down. Repeat 5x",
+            },
+        ],
+    },
+    {
+        activeStickers: pieceIndices.f2l,
+        setup: "z2",
+        algorithm: "y y y y",
+    },
+    {
+        activeStickers: pieceIndices.f2l,
+        practiceProblems: [
+            {
+                setup: "z2 F' U' F U R U R' U'",
+                algorithm: "U R U' R' U' F' U F",
+                directions: "Solve the green-orange edge",
+                explanation: "Pair up the green-orange edge with the white-green-orange corner. Then insert the pair into the slot.",
+            },
+            {
+                setup: "z2 y F' U' F U R U R' U",
+                algorithm: "U' R U' R' U' F' U F",
+                directions: "Solve the orange-blue edge",
+                explanation: "Pair up the orange-blue edge with the white-orange-blue corner. Then insert the pair into the slot.",
+            },
+            {
+                setup: "z2 y2 F' U' F U R U R' U2",
+                algorithm: "U U R U' R' U' F' U F",
+                directions: "Solve the blue-red edge",
+                explanation: "Pair up the blue-red edge with the white-blue-red corner. Then insert the pair into the slot.",
+            },
+            {
+                setup: "z2 y' F' U' F U R U R'",
+                algorithm: "R U' R' U' F' U F",
+                directions: "Solve the red-green edge",
+                explanation: "Pair up the red-green edge with the white-red-green corner. Then insert the pair into the slot.",
+            },
+        ],
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.eoll],
+        setup: "z2",
+        algorithm: "y y y y",
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.eoll],
+        practiceProblems: [
+            {
+                setup: "z2 F U R U' R' F'",
+                algorithm: "F R U R' U' F'",
+                directions: "Solve the yellow cross",
+                explanation: "When you have a horizontal bar, move the front layer, do some in-between moves, then fix the front layer.",
+            },
+            {
+                setup: "z2 y F U R U' R' F' U",
+                algorithm: "U F R U R' U' F'",
+                directions: "Solve the yellow cross",
+                explanation: "Make the bar horizontal. Then move the front layer, do some in-between moves, then fix the front layer.",
+            },
+            {
+                setup: "z2 y F R U R' U' F' U'",
+                algorithm: "U F U R U' R' F'",
+                directions: "Solve the yellow cross",
+                explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer.",
+            },
+            {
+                setup: "z2 y' F R U R' U' F' U2",
+                algorithm: "U U F U R U' R' F'",
+                directions: "Solve the yellow cross",
+                explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer.",
+            },
+            {
+                setup: "z2 F U R U' R' F' U F R U R' U' F'",
+                algorithm: "F U R U' R' F' U F R U R' U' F'",
+                directions: "Solve the yellow cross",
+                explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases.",
+            },
+            {
+                setup: "z2 y2 F U R U' R' F' U F R U R' U' F'",
+                algorithm: "F U R U' R' F' U F R U R' U' F'",
+                directions: "Solve the yellow cross",
+                explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases.",
+            },
+        ],
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.oll],
+        setup: "z2 R U2 R' U' R U' R'",
+        algorithm: "R U R' U R U U R'",
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.oll],
+        practiceProblems: [
+            {
+                setup: "z2 R U2 R' U' R U' R'",
+                algorithm: "R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune.",
+            },
+            {
+                setup: "z2 y R U R' U R U2 R' U'",
+                algorithm: "U' R U R' U R U U R' U U R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune. In this case, you have to do the Sune twice.",
+            },
+            {
+                setup: "z2 y2 R U2 R' U' R U R' U' R U' R'",
+                algorithm: "R U R' U R U U R' R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "In this case, there are no yellows on top, and it kind of looks like an H. Do the Sune twice.",
+            },
+            {
+                setup: "z2 y' L F R' F' L' F R F' U2",
+                algorithm: "R U R' U R U U R' R U R' U R U U R' R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "In this case, there are 2 yellows diagonal from each other. Do the Sune 3x.",
+            },
+            {
+                setup: "z2 F R' F' L F R F' L'",
+                algorithm: "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "In this case, there are two yellows on top and the other yellows are facing opposite directions. This requires doing Sune 3x.",
+            },
+            {
+                setup: "z2 y R U2 R D R' U2 R D' R2",
+                algorithm: "R U R' U R U U R' U' R U R' U R U U R' U U R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "In this case, there are two yellows on top and the other yellows are facing the same direction. This requires doing Sune 3x.",
+            },
+            {
+                setup: "z2 y2 R U2 R2 U' R2 U' R2 U2 R",
+                algorithm: "R U R' U R U U R' U' R U R' U R U U R'",
+                directions: "Solve the yellow corners",
+                explanation: "In this case, there are no yellows on top. This requires doing Sune 2x.",
+            },
+        ],
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.oll, ...pieceIndices.cpll],
+        setup: "z2 R2 B2 R F R' B2 R F' R",
+        algorithm: "R' F R' B' B' R F' R' B' B' R R",
+    },
+    {
+        activeStickers: [...pieceIndices.f2l, ...pieceIndices.oll, ...pieceIndices.cpll],
+        practiceProblems: [
+            {
+                setup: "z2 U2 R2 B2 R F R' B2 R F' R U",
+                algorithm: "U' R' F R' B' B' R F' R' B' B' R R U U",
+                directions: "Solve the corners",
+                explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer.",
+            },
+            {
+                setup: "z2 y U' R2 B2 R F R' B2 R F' R U2",
+                algorithm: "U U R' F R' B' B' R F' R' B' B' R R U",
+                directions: "Solve the corners",
+                explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer.",
+            },
+            {
+                setup: "z2 y2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
+                algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U U",
+                directions: "Solve the corners",
+                explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice.",
+            },
+            {
+                setup: "z2 y' F R U' R' U' R U R' F' R U R' U' R' F R F' U'",
+                algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U",
+                directions: "Solve the corners",
+                explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice.",
+            },
+        ],
+    },
+    {
+        activeStickers: pieceIndices.allPieces,
+        setup: "z2 M' M' U' M U U M' U' M' M'",
+        algorithm: "M' M' U M U U M' U M' M'",
+    },
+    {
+        activeStickers: pieceIndices.allPieces,
+        practiceProblems: [
+            {
+                setup: "z2 U2 M' M' U' M U U M' U' M' M' U",
+                algorithm: "U' M' M' U M U U M' U M' M' U U",
+                directions: "Solve the cube",
+                explanation: "Move the matching colors to back, use the last layer edges algorithm, then adjust the top layer.",
+            },
+            {
+                setup: "z2 y U' M' M' U M U U M' U M' M' U2",
+                algorithm: "U U M' M' U M U U M' U M' M' M' M' U M U U M' U M' M' U",
+                directions: "Solve the cube",
+                explanation: "You have to use the algorithm twice for this case.",
+            },
+            {
+                setup: "z2 y2 M2 U' M2 U2 M2 U' M2 U'",
+                algorithm: "M' M' U M U U M' U M' M' U M' M' U M U U M' U M' M'",
+                directions: "Solve the cube",
+                explanation: "You have to use the algorithm twice for this case.",
+            },
+            {
+                setup: "z2 y' M2 U' M2 U' M' U2 M2 U2 M' U",
+                algorithm: "M' M' U M U U M' U M' M' U' M' M' U M U U M' U M' M' U U",
+                directions: "Solve the cube",
+                explanation: "You have to use the algorithm twice for this case.",
+            },
+        ],
+    },
+];
+
 function main() {
     addListenersForLeftModal();
-
-    interface Lesson {
-        setup: string,
-        algorithm: string,
-        activeStickers: number[],
-        cube?: CubeLogic,
-        move: number,
-    }
-
-    const lessons: Lesson[] = [
-        {
-            setup: "",
-            algorithm: "x x x x y y y y",
-            activeStickers: pieceIndices.CENTERS,
-            move: 0,
-        },
-        {
-            setup: "",
-            algorithm: "x x x x y y y y",
-            activeStickers: [...pieceIndices.layer1Corners, ...pieceIndices.layer2Corners],
-            move: 0,
-        },
-        {
-            setup: "",
-            algorithm: "x x x x y y y y",
-            activeStickers: [...pieceIndices.layer1Edges, ...pieceIndices.layer2Edges, ...pieceIndices.layer3Edges],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F'",
-            algorithm: "y y y y",
-            activeStickers: pieceIndices.cross,
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F D y x",
-            algorithm: "x' y' D' F F",
-            activeStickers: pieceIndices.cross,
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F'",
-            algorithm: "R' D' R F F",
-            activeStickers: pieceIndices.cross,
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R F' F'",
-            algorithm: "F",
-            activeStickers: pieceIndices.cross,
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L R' D' R",
-            algorithm: "F'",
-            activeStickers: pieceIndices.cross,
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z",
-            algorithm: "U'",
-            activeStickers: [...pieceIndices.cross, ...pieceIndices.ULF],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z L' U U L",
-            algorithm: "R U R' U'",
-            activeStickers: [...pieceIndices.cross, ...pieceIndices.ULF],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U'",
-            algorithm: "R U R' U' R U R' U' R U R' U' R U R' U' R U R' U'",
-            activeStickers: [...pieceIndices.cross, ...pieceIndices.ULF],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z U' R U R' U' R U R' U' R U R' U'",
-            algorithm: "R U R' U' R U R' U'",
-            activeStickers: [...pieceIndices.cross, ...pieceIndices.ULF],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L",
-            algorithm: "U",
-            activeStickers: [...pieceIndices.firstLayer, ...pieceIndices.FR],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B L' U' L U L' U' L U",
-            algorithm: "U' L' U L y' U R U' R'",
-            activeStickers: [...pieceIndices.firstLayer, ...pieceIndices.FR],
-            move: 0,
-        },
-        {
-            setup: "D D R R D' F F L L R R U B B F F U' R R U' L F' D L D D F' U U L B' U U L' U U L F' z z R U' R' R' U U R B' U' B F U' F' U F U' F'",
-            algorithm: "U R U' R' y U' L' U L",
-            activeStickers: [...pieceIndices.firstLayer, ...pieceIndices.FL],
-            move: 0,
-        },
-        {
-            setup: "z z R' L L F F L L F' L L F' L L F' R U F R U' R' F'",
-            algorithm: "F R U R' U' F'",
-            activeStickers: [...pieceIndices.f2l, ...pieceIndices.layer3Edges],
-            move: 0,
-        },
-        {
-            setup: "z z L L F D D B' R R B D D B' F' U U R' U R U B U L L U",
-            algorithm: "F U R U' R' F'",
-            activeStickers: [...pieceIndices.f2l, ...pieceIndices.layer3Edges],
-            move: 0,
-        },
-        {
-            setup: "z z B' L L F' D F' D R F' D D L L B' R R U U L L D D F F L L",
-            algorithm: "F R U R' U' F' U U F U R U' R' F'",
-            activeStickers: [...pieceIndices.f2l, ...pieceIndices.layer3Edges],
-            move: 0,
-        },
-        {
-            setup: "z z R U R' U' D R R U' R U' R' U R' U R R D' R U U R' U' R U' R'",
-            algorithm: "R U R' U R U U R'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z R U R' U' D R R U' R U' R' U R' U R R D' R U R' U R U U R' U U",
-            algorithm: "R U R' U R U U R' U U R U R' U R U U R'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z R U R' U' D R R U' R U' R' U R' U R R D' F R' F' L F R F' L'",
-            algorithm: "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z R U R' U' D R R U' R U' R' U R' U R R D' U'",
-            algorithm: "U R U R' F' R U R' U' R' F R R U' R'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z F R U' R' U' R U R' F' R U R' U' R' F R F'",
-            algorithm: "R U R' F' R U R' U' R' F R R U' R'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z M M U' M' U U M U' M M",
-            algorithm: "U U U U M' M' U M' U U M U M' M'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-        {
-            setup: "z z M M U M M U U M M U M M",
-            algorithm: "U U U U M' M' U M' U U M U M' M'",
-            activeStickers: pieceIndices.allPieces,
-            move: 0,
-        },
-    ];
 
     function renderLesson(i: number) {
         const scene = newScene(`#scene${i}`);
         scenes.push(scene);
-        lessons[i].cube = scene.cube;
 
         const lesson = lessons[i];
+        lesson.cube = scene.cube;
+        lesson.move = 0;
 
-        const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
+        // if there are no practice problems, then we are in the explain mode
+        if (lesson.practiceProblems) {
+            scene.dragEnabled = true;
+            randomProblem(lesson);
+        } else {
+            const colors = determineColors(lesson);
+            scene.cube.setColors(colors);
 
-        // Fill in the active stickers with bright colors
-        lesson.activeStickers.forEach(i => {
-            colors[i] = _colors.faceToColor(stickerToFace(i, scene.cube));
-        });
-
-        // Fill in the rest with dull colors
-        for (let i = 0; i < 54; i++) {
-            if (colors[i]) continue;
-            colors[i] = _colors.faceToDullColor(stickerToFace(i, scene.cube));
+            scene.cube.execAlg(lesson.setup);
         }
-
-        scene.cube.setColors(colors);
-
-        updateMoveCounter(i);
-
-        const setup = lesson.setup;
-        scene.cube.execAlg(setup);
     }
 
     const lessonNavigator: HTMLElement = document.querySelector("#lessonNavigator");
@@ -215,25 +355,21 @@ function main() {
         }
     });
 
-    function updateMoveCounter(lessonIndex: number) {
-        const lesson = lessons[lessonIndex];
-        const moveCounter = document.querySelector(`#moveCounter${lessonIndex}`);
-        const parsedAlg = parseMovesFromAlg(lesson.algorithm);
-        moveCounter.textContent = `${lesson.move} / ${parsedAlg.length}`;
-    }
-
     for (let i = 0; i < lessons.length; i++) {
         renderLesson(i);
     }
 
-    settings.dragEnabled = false;
+    render();
     startLoop();
 
+    const leftButton = "leftButton";
+    const rightButton = "rightButton";
+    const showSolution = "showSolution";
+    const next = "next";
     document.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
-        if (target.id.startsWith("leftButton")) {
-            // take the number after 'leftButton'
-            const lessonIndex = parseInt(target.id.substring(10));
+        if (target.id.startsWith(leftButton)) {
+            const lessonIndex = parseInt(target.id.substring(leftButton.length));
             const lesson = lessons[lessonIndex];
 
             if (lesson.move <= 0) return;
@@ -241,10 +377,10 @@ function main() {
             lesson.move--;
             const moves = parseMovesFromAlg(lesson.algorithm);
             lesson.cube.stepAlgorithm(moves[lesson.move], false);
-            updateMoveCounter(lessonIndex);
-        } else if (target.id.startsWith("rightButton")) {
-            // take the number after 'rightButton'
-            const lessonIndex = parseInt(target.id.substring(11));
+
+            render();
+        } else if (target.id.startsWith(rightButton)) {
+            const lessonIndex = parseInt(target.id.substring(rightButton.length));
             const lesson = lessons[lessonIndex];
 
             const moves = parseMovesFromAlg(lesson.algorithm);
@@ -253,7 +389,21 @@ function main() {
             lesson.cube.stepAlgorithm(moves[lesson.move], true);
 
             lesson.move++;
-            updateMoveCounter(lessonIndex);
+            render();
+        } else if (target.id.startsWith(showSolution)) {
+            const lessonIndex = parseInt(target.id.substring(showSolution.length));
+            const lesson = lessons[lessonIndex];
+            lesson.showSolution = true;
+            scenes[lessonIndex].dragEnabled = false;
+            setupProblem(lesson, lesson.problemIndex);
+            render();
+        } else if (target.id.startsWith(next)) {
+            const lessonIndex = parseInt(target.id.substring(next.length));
+            const lesson = lessons[lessonIndex];
+            lesson.showSolution = false;
+            scenes[lessonIndex].dragEnabled = true;
+            randomProblem(lesson);
+            render();
         }
     });
 
@@ -262,6 +412,71 @@ function main() {
     });
 
     renderBasedOnWidth();
+}
+
+function determineColors(lesson: Lesson): number[][] {
+    const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
+
+    lesson.activeStickers.forEach(i => {
+        colors[i] = _colors.faceToColor(stickerToFace(i, lesson.cube));
+    });
+
+    // Fill in the rest with gray
+    for (let i = 0; i < 54; i++) {
+        if (colors[i]) continue;
+        colors[i] = _colors.GRAY;
+    }
+
+    return colors;
+}
+
+function render() {
+    for (let i = 0; i < lessons.length; i++) {
+        const lesson = lessons[i];
+        if (lesson.practiceProblems && lesson.showSolution) {
+            const problem = lesson.practiceProblems[lesson.problemIndex];
+            document.querySelector(`#problemText${i}`).textContent = problem.explanation;
+
+            (document.querySelector(`#leftButton${i}`) as HTMLElement).style.display = "";
+            (document.querySelector(`#rightButton${i}`) as HTMLElement).style.display = "";
+            const moveCounter: HTMLElement = document.querySelector(`#moveCounter${i}`);
+            moveCounter.style.display = "";
+            const parsedAlg = parseMovesFromAlg(lesson.algorithm);
+            moveCounter.textContent = `${lesson.move} / ${parsedAlg.length}`;
+            continue;
+        }
+        if (lesson.practiceProblems && !lesson.showSolution) {
+            const problem = lesson.practiceProblems[lesson.problemIndex];
+            document.querySelector(`#problemText${i}`).textContent = problem.directions;
+
+            (document.querySelector(`#leftButton${i}`) as HTMLElement).style.display = "none";
+            (document.querySelector(`#rightButton${i}`) as HTMLElement).style.display = "none";
+            (document.querySelector(`#moveCounter${i}`) as HTMLElement).style.display = "none";
+            continue;
+        }
+
+        // no practice problems, so we are in the explain mode
+        const moveCounter = document.querySelector(`#moveCounter${i}`);
+        const parsedAlg = parseMovesFromAlg(lesson.algorithm);
+        moveCounter.textContent = `${lesson.move} / ${parsedAlg.length}`;
+    }
+}
+
+function randomProblem(lesson: Lesson) {
+    const problemIndex = randInt(lesson.practiceProblems.length);
+    setupProblem(lesson, problemIndex);
+}
+
+function setupProblem(lesson: Lesson, problemIndex: number) {
+    const problem = lesson.practiceProblems[problemIndex];
+    lesson.problemIndex = problemIndex;
+    lesson.algorithm = lesson.practiceProblems[problemIndex].algorithm;
+
+    const colors = determineColors(lesson);
+    lesson.cube.setColors(colors);
+
+    lesson.cube.execAlg(problem.setup);
+    lesson.move = 0;
 }
 
 window.addEventListener("resize", () => {

@@ -8,9 +8,9 @@ function genHtml(html) {
 }
 
 function htmlToStr(html, depth) {
-    if (html === undefined) {
-        return '';
-    } else if (typeof html === 'string') {
+    if (html === undefined || html === null) {
+        return "";
+    } else if (typeof html === "string") {
         return "\t".repeat(depth) + html.trim();
     } else if (html instanceof Array) {
         return html.map(child => `${objToStr(child, depth)}`).join('\n');
@@ -20,6 +20,11 @@ function htmlToStr(html, depth) {
 
 function objToStr(obj, depth) {
     let indent = "\t".repeat(depth);
+    if (obj === undefined || obj === null) {
+        return "";
+    } else if (typeof obj === "string") {
+        return `${indent}${obj}`;
+    }
     let children = obj.children
         ? `\n${htmlToStr(obj.children, depth + 1)}\n${indent}`
         : "";
@@ -35,104 +40,89 @@ function objToStr(obj, depth) {
 
 let lessons = [
     {
-        title: "Centers",
-        text: "In this tutorial, we will refer to different types of pieces. One of these types is the centers, which are highlighted in the animation.",
+        type: "explain",
+        title: "What are centers?",
+        text: "As a warmup, first we'll show you the different types of pieces. These are centers.",
     },
     {
-        title: "Corners",
-        text: "Now in the animation, the corners and the centers are highlighted.",
+        type: "explain",
+        title: "What are corners?",
+        text: "These are corners.",
     },
     {
-        title: "Edges",
-        text: "The edges and centers are highlighted. This is the last category of piece that you need to know for the tutorial.",
+        type: "explain",
+        title: "What are edges?",
+        text: "These are edges.",
     },
     {
-        title: "About the cross",
-        text: "Once you solve the cross, it should look like the animation. You should be able to see how it forms a white cross, hence the name of the step. Try the arrow buttons so you can see how it looks from all angles.",
+        type: "explain",
+        title: "White cross",
+        text: "The first step is to solve the white cross. You could start with any color, but white is most common. To solve the cross, you just solve one edge at a time. We will see how to do that soon.",
     },
     {
-        title: "Case 1",
-        text: "We want to move the green-white pieces from the bottom to its solved position. First you line up the green, then you line up the white.",
+        type: "practice",
+        title: "Practice white cross",
+        text: "The best way to learn is by doing. If you don't know what to do, you can always look at the solution. Do as many practice problems as you need to get comfortable with the cross.",
     },
     {
-        title: "Case 2",
-        text: "Now the white-green piece is in the middle layer, on the right. First we move it to the bottom, then you'll notice that the white-red was disturbed. We move the white-green out of the way, then fix the white-red.",
+        type: "explain",
+        title: "First layer",
+        text: "The next step is to solve the rest of the first layer. To do that, we need to solve the 4 white corners.",
     },
     {
-        title: "Case 3",
-        text: "The white-green is in its correct position, but flipped. We can move the front layer, and this brings us to a case we have seen before.",
+        type: "practice",
+        title: "Practice first layer",
+        text: "To solve the first layer, we will actually hold the white cross on the bottom. Just like before, here are some practice problems.",
     },
     {
-        title: "Case 4",
-        text: "The white-green is on the bottom, but flipped incorrectly. White is matched with green, but we want green with green. We can move hte front layer, and this brings us to a case we have seen before.",
+        type: "explain",
+        title: "Second layer",
+        text: "The next step is to solve the second layer.",
     },
     {
-        title: "Prepare corner to insert",
-        text: "Since the cross is solved, we will holdit on the bottom from now on. The white-orange-green corner is in the top left, and needs to go to the bottom right. We can move the top layer to put it above its solved position.",
+        type: "practice",
+        title: "Practice second layer",
+        text: "Here are some practice problems for the second layer.",
     },
     {
-        title: "Inserting a corner example 1",
-        text: "The white-orange-green is above where it needs to go. We only need a 4-move algorithm to insert it.",
+        type: "explain",
+        title: "Yellow cross",
+        text: "The next step is to make a yellow cross.",
     },
     {
-        title: "Inserting a corner example 2",
-        text: "We will use the same 4-move algorithm, but we have to repeat it multiple times.",
+        type: "practice",
+        title: "Practice yellow cross",
+        text: "Here are some practice problems for the yellow cross.",
     },
     {
-        title: "Inserting a corner example 3",
-        text: "We will use the same 4-move algorithm, but we have to repeat it multiple times.",
-    },
-    {
-        title: "Prepare edge to insert",
-        text: "We are interested in the red-green. Move the top layer so that the green matches the center.",
-    },
-    {
-        title: "Insert edge to the left",
-        text: "Notice the red-green is ready because the green matches the center. To insert it to the left, we use this algorithm.",
-    },
-    {
-        title: "Insert edge to the right",
-        text: "We want to insert the orange-green to the right. This is a mirror of the \"left insert\" algorithm.",
-    },
-    {
-        title: "Bar case",
-        text: "This algorithm turns the Bar into a cross.",
-    },
-    {
-        title: "L case",
-        text: "This algorithm turns the L into a cross.",
-    },
-    {
-        title: "Dot case",
-        text: "To turn the dot into a cross, we combine the Bar algorithm and the L algorithm.",
-    },
-    {
+        type: "explain",
         title: "Sune algorithm",
-        text: "This algorithm is used to get the yellow corners on top.",
+        text: "The next step is to get the yellow corners on top. This is the algorithm to use, and soon you will see how to apply the algorithm.",
     },
     {
-        title: "Sune example 1",
-        text: "In this case, one yellow corner is on top and another is facing the right. Perform Sune twice to solve.",
+        type: "practice",
+        title: "Practice yellow corners",
+        text: "Here are some practice problems to solve the yellow corners. Each of them will involve the Sune algorithm you just learned.",
     },
     {
-        title: "Sune example 2",
-        text: "This case uses Sune 3 times. If you get a case that isn't covered here, just use trial-and-error. Try doing Sune to give you another case, and keep doing that until you get a case that you recognize.",
+        type: "explain",
+        title: "Last layer corners",
+        text: "The next step is to solve the last layer corners. This is the algorithm to use, and depending on the case, you may apply the algorithm once or twice.",
     },
     {
-        title: "Headlights",
-        text: "Notice the two red corners form \"headlights\". Use this algorithm to solve the corners when you see headlights.",
+        type: "practice",
+        title: "Practice last layer corners",
+        text: "Here are some practice problems to solve the last layer corners. Each of them will involve the last layer corners algorithm you just learned.",
     },
     {
-        title: "No headlights",
-        text: "Where there are no headlights, you can perform the headlights algorithm to produce a headlights case.",
+        type: "explain",
+        title: "Last layer edges",
+        text: "The last step is to solve the last layer edges. This is the algorithm to use, and depending on the case, you may have to apply it once or twice.",
     },
     {
-        title: "Bar case",
-        text: "In this case, there is a bar on one side with all the colors matching.",
-    },
-    {
-        title: "No bar case",
-        text: "If there is no bar, you can perform the bar algorithm to produce a bar case.",
+        type: "practice",
+        title: "Practice last layer edges",
+        text: "Here are some practice problems to solve the last layer edges. Each of them will involve the last layer edges algorithm you just learned.",
     },
 ];
 
@@ -184,7 +174,7 @@ let learn = [
                 tag: "div",
                 class: "row slideWrapper",
                 children: [
-                    { 
+                    {
                         tag: "div",
                         id: "lessonNavigator",
                         class: "slideLeft slideLeftClosed col",
@@ -196,7 +186,7 @@ let learn = [
                             ...lessons.map((lesson, index) => {
                                 return {
                                     tag: "a",
-                                    href: `#scene${index}`,
+                                    href: `#lesson${index}`,
                                     class: "text-black hover:underline mt-2",
                                     children: lesson.title,
                                 };
@@ -206,56 +196,128 @@ let learn = [
                     {
                         tag: "div",
                         class: "col w-full h-full overflow-y-auto",
-                        children: lessons.map((lesson, index) => {
-                            return {
-                                tag: "div",
-                                class: "col",
-                                children: [
-                                    {
-                                        tag: "div",
-                                        id: `scene${index}`,
-                                        class: "glDiv mt-6",
-                                    },
-                                    {
-                                        tag: "div",
-                                        class: "row mt-4",
-                                        children: [
-                                            {
-                                                tag: "button",
-                                                id: `leftButton${index}`,
-                                                class: "btn-primary",
-                                                children: "&lt;",
-                                            },
-                                            {
-                                                tag: "p",
-                                                id: `moveCounter${index}`,
-                                                class: "mx-4 text-2xl text-white",
-                                            },
-                                            {
-                                                tag: "button",
-                                                id: `rightButton${index}`,
-                                                class: "btn-primary",
-                                                children: "&gt;",
-                                            },
-                                        ],
-                                    },
-                                    {
-                                        tag: "p",
-                                        class: "mt-4 text-white text-lg font-bold",
-                                        children: lesson.title,
-                                    },
-                                    {
-                                        tag: "p",
-                                        class: "mt-2 text-white text-left px-6 max-w-lg break-words",
-                                        children: lesson.text,
-                                    },
-                                    {
+                        children: [
+                            {
+                                tag: "h1",
+                                class: "text-white max-w-lg mt-4 px-6",
+                                children: "How to solve a Rubik's Cube",
+                            },
+                            {
+                                tag: "p",
+                                class: "text-white max-w-lg mt-4 px-6",
+                                children: "This guide will teach you how to solve a Rubik's Cube. We use animations and practice problems to help you learn."
+                            },
+                            ...lessons.map((lesson, index) => {
+                                const title = {
+                                    tag: "p",
+                                    class: "mt-4 text-white text-lg font-bold",
+                                    children: lesson.title,
+                                };
+                                const text = {
+                                    tag: "p",
+                                    class: "mt-2 text-white text-left px-6 max-w-lg break-words",
+                                    children: lesson.text,
+                                };
+                                const scene = {
+                                    tag: "div",
+                                    id: `scene${index}`,
+                                    class: "glDiv mt-6",
+                                };
+                                const counterAndButtons = {
+                                    tag: "div",
+                                    class: "row mt-4",
+                                    children: [
+                                        {
+                                            tag: "button",
+                                            id: `leftButton${index}`,
+                                            class: "btn-primary",
+                                            children: "&lt;",
+                                        },
+                                        {
+                                            tag: "p",
+                                            id: `moveCounter${index}`,
+                                            class: "mx-4 text-2xl text-white",
+                                        },
+                                        {
+                                            tag: "button",
+                                            id: `rightButton${index}`,
+                                            class: "btn-primary",
+                                            children: "&gt;",
+                                        },
+                                    ],
+                                };
+                                const divider = index === lessons.length - 1
+                                    ? null 
+                                    : {
                                         tag: "div",
                                         class: "bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6",
-                                    }
+                                    };
+                                if (lesson.type === "explain") {
+                                    return {
+                                        tag: "div",
+                                        id: `lesson${index}`,
+                                        class: "col w-full",
+                                        children: [
+                                            title,
+                                            text,
+                                            scene,
+                                            counterAndButtons,
+                                            divider,
+                                        ],
+                                    };
+                                } else if (lesson.type === "practice") {
+                                    return {
+                                        tag: "div",
+                                        id: `lesson${index}`,
+                                        class: "col w-full",
+                                        children: [
+                                            title,
+                                            text,
+                                            scene,
+                                            {
+                                                tag: "p",
+                                                id: `problemText${index}`,
+                                                class: "mt-4 text-white text-left px-6 max-w-lg break-words",
+                                            },
+                                            counterAndButtons,
+                                            {
+                                                tag: "div",
+                                                class: "row gap-2 p-2 mt-4 bg-gray-700 rounded-md",
+                                                children: [
+                                                    {
+                                                        tag: "button",
+                                                        id: `showSolution${index}`,
+                                                        class: "btn-primary",
+                                                        children: "Show solution",
+                                                    },
+                                                    {
+                                                        tag: "button",
+                                                        id: `next${index}`,
+                                                        class: "btn-primary",
+                                                        children: "Next",
+                                                    },
+                                                ],
+                                            },
+                                            divider,
+                                        ],
+                                    };
+                                } else {
+                                    console.error("Invalid lesson type:", lesson.type)
+                                }
+                            }),
+                            {
+                                tag: "p",
+                                class: "mt-8 mb-4 text-white text-left px-6 max-w-lg break-words",
+                                children: [
+                                    "That is the end of the guide! Now you are ready to solve a full Rubik's Cube. You can keep practicing ",
+                                    {
+                                        tag: "a",
+                                        href: "./play.html",
+                                        children: "here",
+                                    },
                                 ],
-                            };
-                        }),
+                            },
+                        ],
                     },
                 ],
             },

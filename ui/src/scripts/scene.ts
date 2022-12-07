@@ -27,12 +27,12 @@ export type Scene = {
     spring: Spring,
     buffers: BufferObject[],
     transformMatrix: number[],
+    dragEnabled?: boolean,
 };
 export let scenes: Scene[] = [];
 
 export let settings = {
     animateTurns: true,
-    dragEnabled: true,
     hintStickers: true,
     showBody: true,
 }
@@ -70,18 +70,26 @@ export function newScene(selector: string): Scene {
 
     let buffers = createBuffers(gl, cube, transformMatrix);
 
+    let scene: Scene = {
+        div,
+        cube,
+        spring,
+        buffers,
+        transformMatrix,
+    };
+
     const pointerdown = (offsetX, offsetY) => {
-        if (!settings.dragEnabled) return;
+        if (!scene.dragEnabled) return;
         dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers);
     }
 
     const pointermove = (offsetX, offsetY) => {
-        if (!settings.dragEnabled) return;
+        if (!scene.dragEnabled) return;
         dragDetector.onPointerMove(offsetX, offsetY);
     }
 
     const pointerup = () => {
-        if (!settings.dragEnabled) return;
+        if (!scene.dragEnabled) return;
         dragDetector.onPointerUp(div, cube, buffers);
     }
 
@@ -118,13 +126,7 @@ export function newScene(selector: string): Scene {
         addTouchListeners();
     }
 
-    return {
-        div,
-        cube,
-        spring,
-        buffers,
-        transformMatrix,
-    };
+    return scene;
 }
 
 function initPrograms() {
