@@ -16,6 +16,7 @@ type ProgramInfo = {
     },
     uniformLocations: {
         transformMatrix: WebGLUniformLocation,
+        rotateMatrix: WebGLUniformLocation,
     },
 };
 
@@ -26,7 +27,7 @@ export type Scene = {
     cube: CubeLogic,
     spring: Spring,
     buffers: BufferObject[],
-    transformMatrix: number[],
+    perspectiveMatrix: number[],
     dragEnabled?: boolean,
 };
 export let scenes: Scene[] = [];
@@ -62,20 +63,20 @@ export function newScene(selector: string): Scene {
     let div = document.querySelector(selector) as HTMLElement;
     let cube = new CubeLogic();
     let spring = new Spring();
-    let transformMatrix = initTransform(div);
+    let perspectiveMatrix = initPerspective(div);
     let dragDetector = new DragDetector();
 
-    cube.setNumOfLayers(numLayers);
+    cube.setNumOfLayers(3);
     cube.new();
 
-    let buffers = createBuffers(gl, cube, transformMatrix);
+    let buffers = createBuffers(gl, cube, perspectiveMatrix);
 
     let scene: Scene = {
         div,
         cube,
         spring,
         buffers,
-        transformMatrix,
+        perspectiveMatrix,
     };
 
     const pointerdown = (offsetX, offsetY) => {
@@ -134,17 +135,43 @@ function initPrograms() {
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uTransformMatrix;
+    uniform mat4 uRotateMatrix;
+
+    // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
+    varying lowp vec4 originalPos;
+    varying lowp vec4 rotatedPos;
     void main(void) {
         gl_Position = uTransformMatrix * aVertexPosition;
+        originalPos = aVertexPosition;
+        rotatedPos = uRotateMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
     `;
 
     const fragmentShaderSource = `
+    // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
+    varying lowp vec4 originalPos;
+    varying lowp vec4 rotatedPos;
+
     void main(void) {
         gl_FragColor = vColor;
+
+        // low precision float variable
+        lowp float max = 1.05;
+
+        // if it is a normal sticker rather than a hint sticker, it should not be discarded
+        if (originalPos.x < max && originalPos.x > -max && originalPos.y < max && originalPos.y > -max && originalPos.z < max && originalPos.z > -max) {
+            return;
+        }
+
+        // if it starts on the right or left, and stays on its side, it should not be discarded
+        if (originalPos.x > max && rotatedPos.x > max) return;
+        if (originalPos.x < -max && rotatedPos.x < -max) return;
+
+        if (rotatedPos.y < max && rotatedPos.z < max) return;
+        discard;
     }
     `;
 
@@ -159,35 +186,36 @@ function initPrograms() {
         },
         uniformLocations: {
             transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix'),
+            rotateMatrix: gl.getUniformLocation(shaderProgram, 'uRotateMatrix'),
         }
     }
 }
 
-function initTransform(element: HTMLElement) {
-    let transformMatrix = glMat.create();
+function initPerspective(element: HTMLElement) {
+    let perspectiveMatrix = glMat.create();
 
-    glMat.perspective(transformMatrix,
+    glMat.perspective(perspectiveMatrix,
         50 * Math.PI / 180, // field of view
         element.clientWidth / element.clientHeight, // aspect
         0.1, // z near
         100.0); // z far
 
-    glMat.translate(transformMatrix,
+    glMat.translate(perspectiveMatrix,
         [0.0, 0.0, -5.0]);
 
-    glMat.rotate(transformMatrix,
-        transformMatrix,
+    glMat.rotate(perspectiveMatrix,
+        perspectiveMatrix,
         45 * Math.PI / 180,
         [1, 0, 0],
     );
 
-    glMat.rotate(transformMatrix,
-        transformMatrix,
+    glMat.rotate(perspectiveMatrix,
+        perspectiveMatrix,
         0,
         [0, -1, 0],
     );
 
-    return transformMatrix;
+    return perspectiveMatrix;
 }
 
 function bindPosition(positionBuffer: WebGLBuffer, programInfo: ProgramInfo, gl: WebGLRenderingContext) {
@@ -296,7 +324,7 @@ function render(newTime: number) {
     canvas.style.transform = `translateY(${window.scrollY}px)`;
 
     for (let i = 0; i < scenes.length; i++) {
-        const { cube, div, spring, buffers, transformMatrix } = scenes[i];
+        const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -328,33 +356,46 @@ function render(newTime: number) {
         const animation = cube.animationQueue[0];
         let stickers = chooseStickers(cube);
 
-        let _singleton = singleton<number[]>();
+        let _transformSingleton = singleton<number[]>();
+        let _rotateSingleton = singleton<number[]>();
 
         for (let i = 0; i < cube.numOfStickers; i++) {
             let object = buffers[i];
 
             // Rotate if the sticker is affected by the animation and if the user wants to animate
-            const m = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
-                // ? glMat.rotate(
-                //     glMat.create(),
-                //     transformMatrix,
-                //     spring.position * Math.PI / 180,
-                //     animation.axis
-                // )
-                ? _singleton(() => {
+            const transform = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
+                ? _transformSingleton(() => {
                     return glMat.rotate(
                         glMat.create(),
-                        transformMatrix,
+                        perspectiveMatrix,
                         spring.position * Math.PI / 180,
                         animation.axis
                     );
                 })
-                : transformMatrix;
+                : perspectiveMatrix;
 
             gl.uniformMatrix4fv(
                 programInfo.uniformLocations.transformMatrix,
                 false,
-                m,
+                transform,
+            );
+
+            const rotation = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
+                ? _rotateSingleton(() => {
+                    const rotateMat = glMat.create();
+                    return glMat.rotate(
+                        rotateMat,
+                        rotateMat,
+                        spring.position * Math.PI / 180,
+                        animation.axis,
+                    );
+                })
+                : glMat.create();
+
+            gl.uniformMatrix4fv(
+                programInfo.uniformLocations.rotateMatrix,
+                false,
+                rotation,
             );
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
@@ -368,9 +409,13 @@ function render(newTime: number) {
             bindPosition(object.positionBuffer, programInfo, gl);
             bindColor(stickers[i].buffer, programInfo, gl);
             drawElements(gl);
-        }
 
-        renderHintStickers(cube, buffers, transformMatrix, stickers);
+            if (settings.hintStickers) {
+                bindPosition(object.hintPositionBuffer, programInfo, gl);
+                bindColor(stickers[i].buffer, programInfo, gl);
+                drawElements(gl);
+            }
+        }
     }
 
     requestAnimationFrame(render);
@@ -388,22 +433,4 @@ function chooseStickers(cube: CubeLogic) {
     }
 
     return cube.stickers;
-}
-
-function renderHintStickers(cube: CubeLogic, buffers: BufferObject[], transformMatrix: number[], stickers: Sticker[]) {
-    if (!settings.hintStickers) return;
-
-    gl.uniformMatrix4fv(
-        programInfo.uniformLocations.transformMatrix,
-        false,
-        transformMatrix,
-    );
-
-    for (let j = 2 * cube.layersSq; j < cube.numOfStickers; j++) {
-        let object = buffers[j];
-
-        bindPosition(object.hintPositionBuffer, programInfo, gl);
-        bindColor(stickers[j].buffer, programInfo, gl);
-        drawElements(gl);
-    }
 }

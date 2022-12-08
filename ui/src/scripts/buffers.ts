@@ -13,7 +13,7 @@ export type BufferObject = {
 
 type Axis = 0 | 1 | 2;
 
-export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, transformMatrix: number[]): BufferObject[] {
+export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, perspectiveMatrix: number[]): BufferObject[] {
     // Vertex positions with gap between stickers
     let allPositions = makePositions(cube, 1.01, 0.02)
 
@@ -54,13 +54,13 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, transf
         gl.bindBuffer(gl.ARRAY_BUFFER, object.hintPositionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, hintPos, gl.STATIC_DRAW);
 
-        if (transformMatrix) {
+        if (perspectiveMatrix) {
             // Represent as homogeneous coordinates
             const homo = Array(16);
-            multiply(homo, 0, transformMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
-            multiply(homo, 4, transformMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
-            multiply(homo, 8, transformMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
-            multiply(homo, 12, transformMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+            multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+            multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+            multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+            multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
 
             // Represent as 2D cartesian coordinates by dividing x and y by w
             object.cart2d = [
