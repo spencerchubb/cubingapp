@@ -1,7 +1,7 @@
 import * as colors from "./colors";
 import { faceToColor } from "./colors";
 import { stickerToFace } from "./common/util";
-import { CubeLogic } from "./cube";
+import { Cube, setColor } from "./cube";
 import * as pieceIndices from "./pieceIndices";
 import { loadSavedSettings, newScene, scenes, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
@@ -40,7 +40,7 @@ export function main() {
 
         for (let i = 0; i < 54; i++) {
             if (!pieceIndices.CENTERS.includes(i)) {
-                scene.cube.setColor(colors.GRAY, i);
+                setColor(scene.cube.stickers[i], colors.GRAY);
             }
         }
 
@@ -65,7 +65,7 @@ export function main() {
 /**
  * When a sticker is turned to its correct face, its color is revealed.
  */
-function revealCorrectStickers(cube: CubeLogic) {
+function revealCorrectStickers(cube: Cube) {
     for (let i = 0; i < 54; i++) {
         if ((0 <= i && i <= 8 && cube.stickers[i].face == cube.stickers[4].face)
             || (9 <= i && i <= 17 && cube.stickers[i].face == cube.stickers[13].face)
@@ -73,7 +73,8 @@ function revealCorrectStickers(cube: CubeLogic) {
             || (27 <= i && i <= 35 && cube.stickers[i].face == cube.stickers[31].face)
             || (36 <= i && i <= 44 && cube.stickers[i].face == cube.stickers[40].face)
             || (45 <= i && i <= 53 && cube.stickers[i].face == cube.stickers[49].face)) {
-            cube.setColor(faceToColor(cube.stickers[i].face), i);
+            const color = faceToColor(cube.stickers[i].face);
+            setColor(cube.stickers[i], color);
         }
     }
 }

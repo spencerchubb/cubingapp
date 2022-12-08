@@ -1,5 +1,5 @@
 import { BufferObject } from "./buffers";
-import { CubeLogic } from "./cube";
+import { Cube, sq } from "./cube";
 
 /**
  * Translate coordinate from pixels (relative to canvas) to clipping space
@@ -26,20 +26,20 @@ function areaTriangle(x1: number, y1: number, x2: number, y2: number, x3: number
     return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
 }
 
-function topRow(cube: CubeLogic, sticker: number) {
+function topRow(cube: Cube, sticker: number) {
     return cube.layers - 1 - sticker % cube.layers;
 }
 
-function topColumn(cube: CubeLogic, sticker: number) {
+function topColumn(cube: Cube, sticker: number) {
     return cube.layers - 1 - Math.floor(sticker / cube.layers);
 }
 
-function frontRow(cube: CubeLogic, sticker: number) {
+function frontRow(cube: Cube, sticker: number) {
     return sticker % cube.layers;
 }
 
-function frontColumn(cube: CubeLogic, sticker: number) {
-    return cube.layers - 1 - Math.floor((sticker - cube.layersSq) / cube.layers);
+function frontColumn(cube: Cube, sticker: number) {
+    return cube.layers - 1 - Math.floor((sticker - sq(cube.layers)) / cube.layers);
 }
 
 export class DragDetector {
@@ -54,7 +54,7 @@ export class DragDetector {
     /**
      * x and y are pixel values.
      */
-    onPointerDown(x: number, y: number, div: HTMLElement, cube: CubeLogic, buffers: BufferObject[]) {
+    onPointerDown(x: number, y: number, div: HTMLElement, cube: Cube, buffers: BufferObject[]) {
         this.numOfPointerMoves = 0;
 
         const clipX = xPixelToClip(x, div.clientWidth);
@@ -76,9 +76,9 @@ export class DragDetector {
         const topLeft = getXY(0, 0, 1);
         const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
         const left = getXY(cube.layers - 1, 2, 3);
-        const right = getXY(cube.layersSq - 1, 4, 5);
+        const right = getXY(sq(cube.layers) - 1, 4, 5);
         const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
-        const bottomRight = getXY(cube.layersSq * 2 - 1, 2, 3);
+        const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
         if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
             cube.cubeRotate(0, true);
         } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
@@ -103,7 +103,7 @@ export class DragDetector {
         this.yOnMove = y;
     }
 
-    onPointerUp(div: HTMLElement, cube: CubeLogic, buffers: BufferObject[]) {
+    onPointerUp(div: HTMLElement, cube: Cube, buffers: BufferObject[]) {
         // Do nothing if the pointer movement was tiny.
         if (this.numOfPointerMoves < 2) return;
 
@@ -122,8 +122,6 @@ export class DragDetector {
         const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
 
         const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
-
-        const [stickerOnUp, _] = this._coordinatesToSticker(xClip, yClip, cube, buffers);
 
         if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
             if (xClip === this.xOnDown) {
@@ -156,9 +154,12 @@ export class DragDetector {
      * Find the sticker with cart2d that contains this coordinate.
      * Return -1 if it's not in any sticker.
      */
-    _coordinatesToSticker(x: number, y: number, cube: CubeLogic, buffers: BufferObject[]) {
+    _coordinatesToSticker(x: number, y: number, cube: Cube, buffers: BufferObject[]) {
         const coordinateIsInSticker = i => {
-            if (!buffers[i].cart2d) return;
+            if (!buffers[i].cart2d) {
+                console.error("cart2d is undefined");
+                return;
+            }
             const cart2d = buffers[i].cart2d;
             // Determine if coordinate is in convex quadrilateral
             const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5])
@@ -178,12 +179,7 @@ export class DragDetector {
             return undefined;
         }
 
-        for (let i = 0; i < 2 * cube.layersSq; i++) {
-            const output = coordinateIsInSticker(i);
-            if (output) return output;
-        }
-
-        for (let i = 4 * cube.layersSq; i < 5 * cube.layersSq; i++) {
+        for (let i = 0; i < 2 * sq(cube.layers); i++) {
             const output = coordinateIsInSticker(i);
             if (output) return output;
         }

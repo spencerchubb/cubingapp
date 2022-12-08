@@ -25,7 +25,7 @@ export type AnimationData = {
     stickersToAnimate: boolean[];
 }
 
-function setStickerColor(sticker: Sticker, color: number[]) {
+export function setColor(sticker: Sticker, color: number[]) {
     const arr = [
         color[0], color[1], color[2], color[3],
         color[0], color[1], color[2], color[3],
@@ -36,15 +36,26 @@ function setStickerColor(sticker: Sticker, color: number[]) {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
 }
 
-export class CubeLogic {
-    axis: number;
+export function sq(x: number): number {
+    return x * x;
+}
+
+export function half(x: number): number {
+    return Math.floor(x / 2);
+}
+
+export function even(x: number): boolean {
+    return x % 2 == 0;
+}
+
+export function stickers(layers: number): number {
+    return layers * layers * 6;
+}
+
+export class Cube {
     stickers: Sticker[];
     underStickers: Sticker[];
     layers: number;
-    layersSq: number;
-    layersHalf: number;
-    layersEven: boolean;
-    numOfStickers: number;
     affectedStickers: boolean[];
     disableTurn: boolean;
     clockwise: boolean;
@@ -54,56 +65,15 @@ export class CubeLogic {
         this.animationQueue = [];
     }
 
-    new() {
-        this.axis = 0;
-
-        this.stickers = Array(this.numOfStickers);
-        this.underStickers = Array(this.numOfStickers);
-        for (let i = 0; i < this.numOfStickers; i++) {
-            const face = stickerToFace(i, this);
-
-            this.stickers[i] = {
-                face: face,
-                buffer: gl.createBuffer(),
-            };
-
-            this.underStickers[i] = {
-                face: face,
-                buffer: gl.createBuffer(),
-            };
-            setStickerColor(this.underStickers[i], colors.BLACK);
-        }
-
-        this.affectedStickers = Array(this.numOfStickers).fill(false);
-    }
-
-    isSolved() {
-        let firstOnFace;
-        for (let i = 0; i < this.numOfStickers; i++) {
-            if (i % this.layersSq === 0) {
-                firstOnFace = this.stickers[i].face;
-                continue;
-            }
-            if (firstOnFace !== this.stickers[i].face) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     setColors(colors: number[][]) {
-        for (let i = 0; i < this.numOfStickers; i++) {
-            this.setColor(colors[i], i);
+        for (let i = 0; i < stickers(this.layers); i++) {
+            setColor(this.stickers[i], colors[i]);
         }
-    }
-
-    setColor(color: number[], stickerIndex: number) {
-        setStickerColor(this.stickers[stickerIndex], color);
     }
 
     solve() {
-        const arr = Array(this.numOfStickers);
-        for (let i = 0; i < this.numOfStickers; i++) {
+        const arr = Array(stickers(this.layers));
+        for (let i = 0; i < stickers(this.layers); i++) {
             arr[i] = colors.faceToColor(stickerToFace(i, this));
         }
         this.setColors(arr);
@@ -127,7 +97,7 @@ export class CubeLogic {
      * I will eventually deprecate this, but this was easier to implement.
      */
     naiveScramble() {
-        let numTurns = this.layersSq * 10;
+        let numTurns = sq(this.layers) * 10;
         for (let i = 0; i < numTurns; i++) {
             let axis = Math.floor(Math.random() * 3);
             let layer = Math.floor(Math.random() * this.layers);
@@ -138,10 +108,25 @@ export class CubeLogic {
 
     setNumOfLayers(num: number) {
         this.layers = num;
-        this.layersSq = num * num;
-        this.layersHalf = Math.floor(this.layers / 2);
-        this.layersEven = this.layers % 2 == 0;
-        this.numOfStickers = this.layersSq * 6;
+
+        this.stickers = Array(stickers(num));
+        this.underStickers = Array(stickers(num));
+        for (let i = 0; i < stickers(num); i++) {
+            const face = stickerToFace(i, this);
+
+            this.stickers[i] = {
+                face: face,
+                buffer: gl.createBuffer(),
+            };
+
+            this.underStickers[i] = {
+                face: face,
+                buffer: gl.createBuffer(),
+            };
+            setColor(this.underStickers[i], colors.BLACK);
+        }
+
+        this.affectedStickers = Array(stickers(num)).fill(false);
     }
 
     /**
@@ -159,17 +144,18 @@ export class CubeLogic {
     }
 
     setCubeState(state: number[]) {
-        for (let i = 0; i < this.numOfStickers; i++) {
+        for (let i = 0; i < stickers(this.layers); i++) {
             const color = colors.faceToColor(state[i]);
             this.stickers[i].face = state[i];
-            setStickerColor(this.stickers[i], color);
+            setColor(this.stickers[i], color);
         }
     }
 
     resetAffectedStickers() {
-        // If numOfLayers === 1, make all stickers true, because everything
-        // should be affected for 1x1.
-        this.affectedStickers = Array(this.numOfStickers).fill(this.layers === 1);
+        // If numOfLayers === 1, make all stickers true.
+        // Everything should be affected for 1x1.
+        const arr = Array(stickers(this.layers));
+        this.affectedStickers = arr.fill(this.layers === 1);
     }
 
     pushAnimation(axis, clockwise, prevStickers) {
@@ -193,7 +179,8 @@ export class CubeLogic {
     }
 
     sliceTurn(axis, clockwise) {
-        this.affectedStickers = Array(this.numOfStickers).fill(false);
+        const arr = Array(stickers(this.layers));
+        this.affectedStickers = arr.fill(false);
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
@@ -254,10 +241,10 @@ export class CubeLogic {
         for (let i = 1; i <= this.layers; i++) {
             this._cycle(
                 clockwise,
-                0 * this.layersSq + this.layersSq - i - layer * this.layers,
-                3 * this.layersSq + this.layersSq - i - layer * this.layers,
-                2 * this.layersSq + this.layersSq - i - layer * this.layers,
-                1 * this.layersSq + this.layersSq - i - layer * this.layers,
+                0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+                3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+                2 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+                1 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
             );
         }
     }
@@ -266,10 +253,10 @@ export class CubeLogic {
         for (let i = 0; i < this.layers; i++) {
             this._cycle(
                 clockwise,
-                1 * this.layersSq + i * this.layers + layer,
-                4 * this.layersSq + i * this.layers + layer,
-                3 * this.layersSq + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
-                5 * this.layersSq + i * this.layers + layer,
+                1 * sq(this.layers) + i * this.layers + layer,
+                4 * sq(this.layers) + i * this.layers + layer,
+                3 * sq(this.layers) + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+                5 * sq(this.layers) + i * this.layers + layer,
             );
         }
     }
@@ -278,10 +265,10 @@ export class CubeLogic {
         for (let i = 0; i < this.layers; i++) {
             this._cycle(
                 clockwise,
-                0 * this.layersSq + (i + 1) * this.layers - 1 - layer,
-                5 * this.layersSq + i + this.layers * layer,
-                2 * this.layersSq + (this.layers - i - 1) * this.layers + layer,
-                4 * this.layersSq + this.layersSq - (i + 1) - layer * this.layers,
+                0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
+                5 * sq(this.layers) + i + this.layers * layer,
+                2 * sq(this.layers) + (this.layers - i - 1) * this.layers + layer,
+                4 * sq(this.layers) + sq(this.layers) - (i + 1) - layer * this.layers,
             );
         }
     }
@@ -596,15 +583,15 @@ export class CubeLogic {
     }
 
     stickerIsOnFace(sticker: number, face: number) {
-        return face * this.layersSq <= sticker && sticker < (face + 1) * this.layersSq;
+        return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
     }
 
     center(face: number) {
-        return face * this.layersSq + Math.floor(this.layersSq / 2);
+        return face * sq(this.layers) + Math.floor(sq(this.layers) / 2);
     }
 
     corners(face: number, layer: number) {
-        const offset = face * this.layersSq;
+        const offset = face * sq(this.layers);
         return {
             topLeft: offset + (this.layers + 1) * layer,
             topRight: offset + (this.layers - 1) * (this.layers - layer),

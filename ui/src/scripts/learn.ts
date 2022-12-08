@@ -2,7 +2,7 @@ import * as _colors from "./colors";
 import { newScene, scenes, settings, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import * as slide from "./slide";
-import { CubeLogic } from "./cube";
+import { Cube } from "./cube";
 import * as pieceIndices from "./pieceIndices";
 import { stickerToFace } from "./common/util";
 import { randInt } from "./common/rand";
@@ -13,7 +13,7 @@ function parseMovesFromAlg(alg?: string): string[] {
 
 type Lesson = {
     activeStickers: number[],
-    cube?: CubeLogic,
+    cube?: Cube,
     move?: number,
 
     // The following are used for the explanatory lessons

@@ -1,5 +1,5 @@
 import * as _colors from "./colors";
-import { loadSavedSettings, newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
+import { loadSavedSettings, newScene, scenes, settings, startLoop } from "./scene";
 import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
@@ -8,6 +8,10 @@ import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "
 import { renderModal } from "./modal";
 import * as slide from "./slide";
 import { Move } from "./common/types";
+import { createBuffers } from "./buffers";
+
+let canvas: HTMLCanvasElement = document.querySelector("canvas");
+let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
 let drawerIndex;
 let solves: { id: number, time: number }[] = [];
@@ -21,6 +25,7 @@ function main() {
     let scene = newScene("#scene");
     scenes.push(scene);
     scene.cube.solve();
+    scene.dragEnabled = true;
 
     loadSavedSettings();
     startLoop();
@@ -37,9 +42,8 @@ function main() {
             return;
         };
 
-        setNumLayers(value);
-        scene = newScene("#scene");
-        scenes[0] = scene;
+        scenes[0].cube.setNumOfLayers(value);
+        scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
 
         scene.cube.solve();
     });

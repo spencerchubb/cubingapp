@@ -1,4 +1,4 @@
-import { CubeLogic } from "./cube";
+import { Cube, even, half, sq, stickers } from "./cube";
 
 export type BufferObject = {
     positionBuffer: WebGLBuffer,
@@ -13,7 +13,7 @@ export type BufferObject = {
 
 type Axis = 0 | 1 | 2;
 
-export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, perspectiveMatrix: number[]): BufferObject[] {
+export function createBuffers(gl: WebGLRenderingContext, cube: Cube, perspectiveMatrix: number[]): BufferObject[] {
     // Vertex positions with gap between stickers
     let allPositions = makePositions(cube, 1.01, 0.02)
 
@@ -23,8 +23,8 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, perspe
     // Vertex positions of hint stickers
     let allHintPositions = makePositions(cube, 1.5, 0.02);
 
-    const objects = Array(cube.numOfStickers);
-    for (let i = 0; i < cube.numOfStickers; i++) {
+    const objects = Array(stickers(cube.layers));
+    for (let i = 0; i < stickers(cube.layers); i++) {
         let object: BufferObject = {
             positionBuffer: gl.createBuffer(),
             noGapPositionBuffer: gl.createBuffer(),
@@ -54,22 +54,19 @@ export function createBuffers(gl: WebGLRenderingContext, cube: CubeLogic, perspe
         gl.bindBuffer(gl.ARRAY_BUFFER, object.hintPositionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, hintPos, gl.STATIC_DRAW);
 
-        if (perspectiveMatrix) {
-            // Represent as homogeneous coordinates
-            const homo = Array(16);
-            multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
-            multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
-            multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
-            multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+        const homo = Array(16);
+        multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+        multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+        multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+        multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
 
-            // Represent as 2D cartesian coordinates by dividing x and y by w
-            object.cart2d = [
-                homo[0] / homo[3], homo[1] / homo[3],
-                homo[4] / homo[7], homo[5] / homo[7],
-                homo[8] / homo[11], homo[9] / homo[11],
-                homo[12] / homo[15], homo[13] / homo[15],
-            ];
-        }
+        // Represent as 2D cartesian coordinates by dividing x and y by w
+        object.cart2d = [
+            homo[0] / homo[3], homo[1] / homo[3],
+            homo[4] / homo[7], homo[5] / homo[7],
+            homo[8] / homo[11], homo[9] / homo[11],
+            homo[12] / homo[15], homo[13] / homo[15],
+        ];
 
         // Define each face as two triangles.
         // Given vertices A, B, C, and D, we define triangles ABC and ACD.
@@ -109,8 +106,8 @@ const verticesInSquare: number = 4;
 const dimensions: number = 3;
 
 /** Array of length 648 */
-function makePositions(cube: CubeLogic, radius: number, gap: number) {
-    const perFace = cube.layersSq * perSticker;
+function makePositions(cube: Cube, radius: number, gap: number) {
+    const perFace = sq(cube.layers) * perSticker;
     const out = Array(6 * perFace);
     topFace(out, 0 * perFace, cube, 1, radius, gap);
     frontFace(out, 1 * perFace, cube, 0, radius, gap);
@@ -127,9 +124,9 @@ function makePositions(cube: CubeLogic, radius: number, gap: number) {
 // 1 4 7
 // 2 5 8
 
-function topFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function topFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = 0; j < cube.layers; j++) {
@@ -143,10 +140,10 @@ function topFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: num
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+        for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
             coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
             idx++;
         }
@@ -154,9 +151,9 @@ function topFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: num
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function frontFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function frontFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
@@ -170,10 +167,10 @@ function frontFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: n
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+        for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
             coords[idx] = [2.0 * i / cube.layers, 2.0 * j / cube.layers, r];
             idx++;
         }
@@ -181,9 +178,9 @@ function frontFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: n
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function bottomFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function bottomFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
@@ -197,10 +194,10 @@ function bottomFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: 
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+        for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
             coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
             idx++;
         }
@@ -208,9 +205,9 @@ function bottomFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: 
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function backFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function backFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = 0; j < cube.layers; j++) {
@@ -224,10 +221,10 @@ function backFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: nu
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = -cube.layersHalf; j <= cube.layersHalf; j++) {
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+        for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
             coords[idx] = [2.0 * i / cube.layers, 2.0 * j / cube.layers, r];
             idx++;
         }
@@ -235,9 +232,9 @@ function backFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: nu
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function leftFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function leftFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = 0; i < cube.layers; i++) {
             for (let j = cube.layers - 1; j >= 0; j--) {
@@ -251,10 +248,10 @@ function leftFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: nu
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = -cube.layersHalf; i <= cube.layersHalf; i++) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+        for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
             coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
             idx++;
         }
@@ -262,9 +259,9 @@ function leftFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: nu
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function rightFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: number, gap: number) {
-    if (cube.layersEven) {
-        let coords = Array(cube.layersSq);
+function rightFace(arr: number[], offset: number, cube: Cube, a: Axis, r: number, gap: number) {
+    if (even(cube.layers)) {
+        let coords = Array(sq(cube.layers));
         let idx = 0;
         for (let i = cube.layers - 1; i >= 0; i--) {
             for (let j = cube.layers - 1; j >= 0; j--) {
@@ -278,10 +275,10 @@ function rightFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: n
         return;
     }
 
-    let coords = Array(cube.layersSq);
+    let coords = Array(sq(cube.layers));
     let idx = 0;
-    for (let i = cube.layersHalf; i >= -cube.layersHalf; i--) {
-        for (let j = cube.layersHalf; j >= -cube.layersHalf; j--) {
+    for (let i = half(cube.layers); i >= -half(cube.layers); i--) {
+        for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
             coords[idx] = [2.0 * j / cube.layers, 2.0 * i / cube.layers, r];
             idx++;
         }
@@ -289,14 +286,14 @@ function rightFace(arr: number[], offset: number, cube: CubeLogic, a: Axis, r: n
     makeFace(arr, offset, cube, coords, a, gap);
 }
 
-function makeFace(arr: number[], offset: number, cube: CubeLogic, coords: number[], a: Axis, gap: number) {
-    for (let i = 0; i < cube.layersSq; i++) {
+function makeFace(arr: number[], offset: number, cube: Cube, coords: number[], a: Axis, gap: number) {
+    for (let i = 0; i < sq(cube.layers); i++) {
         const temp = coords[i];
         makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
     }
 }
 
-function makeSticker(arr: number[], offset: number, cube: CubeLogic, x: number, y: number, r: number, a: Axis, gap: number) {
+function makeSticker(arr: number[], offset: number, cube: Cube, x: number, y: number, r: number, a: Axis, gap: number) {
     const s = (1.0 / cube.layers) - gap;
 
     const coords = [

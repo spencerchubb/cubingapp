@@ -1,8 +1,12 @@
-import { loadSavedSettings, newScene, scenes, setNumLayers, settings, startLoop } from "./scene";
+import { createBuffers } from "./buffers";
+import { loadSavedSettings, newScene, scenes, settings, startLoop } from "./scene";
 import * as slide from "./slide";
 import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
+
+let canvas: HTMLCanvasElement = document.querySelector("canvas");
+let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
 type TrainingAlg = { score: number, alg: string }
 type AlgSet = { cube: string, name: string, algs: string[] };
@@ -261,14 +265,12 @@ export function main() {
         state.algSet = algSet;
 
         if (algSet.cube == "2x2") {
-            setNumLayers(2);
-            scene = newScene("#scene");
-            scenes[0] = scene;
+            scenes[0].cube.setNumOfLayers(2);
+            scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
             scene.cube.solve();
         } else if (algSet.cube == "3x3") {
-            setNumLayers(3);
-            scene = newScene("#scene");
-            scenes[0] = scene;
+            scenes[0].cube.setNumOfLayers(23);
+            scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
             scene.cube.solve();
         }
 

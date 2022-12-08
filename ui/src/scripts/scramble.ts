@@ -1,6 +1,6 @@
 import { shuffle } from "./util";
 import { randInt } from "./common/rand";
-import { CubeLogic } from "./cube";
+import { Cube } from "./cube";
 
 const U = 0;
 const F = 1;
@@ -34,7 +34,7 @@ const edges = [
     [B, R],
 ];
 
-export function scramble3x3(cube: CubeLogic): number[] {
+export function scramble3x3(cube: Cube): number[] {
     let eo = orientation(12, 2);
     let co = orientation(8, 3);
     let cp = permutation(8);

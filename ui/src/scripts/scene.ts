@@ -1,6 +1,6 @@
 import { BufferObject, createBuffers } from "./buffers";
 import { Spring } from "./common/spring";
-import { CubeLogic, Sticker } from "./cube";
+import { Cube, stickers as numStickers } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import { singleton } from "./common/singleton";
@@ -24,7 +24,7 @@ let programInfo: ProgramInfo = initPrograms();
 
 export type Scene = {
     div: HTMLElement,
-    cube: CubeLogic,
+    cube: Cube,
     spring: Spring,
     buffers: BufferObject[],
     perspectiveMatrix: number[],
@@ -55,19 +55,14 @@ export function startLoop() {
     requestAnimationFrame(render);
 }
 
-export function setNumLayers(val: number) {
-    numLayers = val;
-}
-
 export function newScene(selector: string): Scene {
     let div = document.querySelector(selector) as HTMLElement;
-    let cube = new CubeLogic();
+    let cube = new Cube();
     let spring = new Spring();
     let perspectiveMatrix = initPerspective(div);
     let dragDetector = new DragDetector();
 
-    cube.setNumOfLayers(3);
-    cube.new();
+    cube.setNumOfLayers(numLayers);
 
     let buffers = createBuffers(gl, cube, perspectiveMatrix);
 
@@ -81,7 +76,7 @@ export function newScene(selector: string): Scene {
 
     const pointerdown = (offsetX, offsetY) => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, div, cube, buffers);
+        dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
     }
 
     const pointermove = (offsetX, offsetY) => {
@@ -91,7 +86,7 @@ export function newScene(selector: string): Scene {
 
     const pointerup = () => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerUp(div, cube, buffers);
+        dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
     }
 
     const calcOffset = (event) => {
@@ -346,7 +341,7 @@ function render(newTime: number) {
             spring.update(dt);
 
             if (spring.position >= 90) {
-                cube.affectedStickers = Array(cube.numOfStickers).fill(false);
+                cube.affectedStickers = Array(numStickers(cube.layers)).fill(false);
 
                 spring.position = 0;
                 cube.animationQueue.shift();
@@ -359,7 +354,8 @@ function render(newTime: number) {
         let _transformSingleton = singleton<number[]>();
         let _rotateSingleton = singleton<number[]>();
 
-        for (let i = 0; i < cube.numOfStickers; i++) {
+
+        for (let i = 0; i < numStickers(cube.layers); i++) {
             let object = buffers[i];
 
             // Rotate if the sticker is affected by the animation and if the user wants to animate
@@ -421,7 +417,7 @@ function render(newTime: number) {
     requestAnimationFrame(render);
 }
 
-function chooseStickers(cube: CubeLogic) {
+function chooseStickers(cube: Cube) {
     // If user doesn't want animations, go straight to the current stickers
     if (!settings.animateTurns) {
         return cube.stickers;
