@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<link rel="stylesheet" href="./styles/main.css"></link>
+	<link rel="icon" href="./images/favicon.png" type="image/x-icon"></link>
+	<title>
+		How to solve a 2x2 Rubik's Cube
+	</title>
+</head>
+<body class="col">
+	<nav class="navbar" style="justify-content: space-between;">
+		<a class="hover:cursor-pointer">
+			<img id="menu" src="./images/menu.svg" alt="Menu"></img>
+		</a>
+		<div>
+			<button id="openClose" class="btn-primary">
+				Lessons
+			</button>
+		</div>
+	</nav>
+	<canvas></canvas>
+	<div class="row slideWrapper">
+		<div id="lessonNavigator" class="slideLeft slideLeftClosed col">
+			<h2>
+				Contents
+			</h2>
+			<a href="#lesson0" class="text-black hover:underline mt-2">
+				Pair two pieces
+			</a>
+			<a href="#lesson1" class="text-black hover:underline mt-2">
+				Practice pairing two pieces
+			</a>
+			<a href="#lesson2" class="text-black hover:underline mt-2">
+				Solve another piece
+			</a>
+			<a href="#lesson3" class="text-black hover:underline mt-2">
+				Practice solving another piece
+			</a>
+			<a href="#lesson4" class="text-black hover:underline mt-2">
+				First layer
+			</a>
+			<a href="#lesson5" class="text-black hover:underline mt-2">
+				Practice first layer
+			</a>
+			<a href="#lesson6" class="text-black hover:underline mt-2">
+				Sune algorithm
+			</a>
+			<a href="#lesson7" class="text-black hover:underline mt-2">
+				Practice yellow face
+			</a>
+			<a href="#lesson8" class="text-black hover:underline mt-2">
+				Last layer
+			</a>
+			<a href="#lesson9" class="text-black hover:underline mt-2">
+				Practice last layer
+			</a>
+		</div>
+		<div class="col w-full h-full overflow-y-auto">
+			<h1 class="text-white max-w-lg mt-4 px-6">
+				How to solve a 2x2 Rubik's Cube
+			</h1>
+			<p class="text-white max-w-lg mt-4 px-6">
+				This guide will teach you how to solve a 2x2 Rubik's Cube. We provide 3D animations of the Rubik's Cube algorithms, and we provide practice problems to help you learn.
+			</p>
+			<div id="lesson0" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Pair two pieces
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					The first step is to pair up two pieces. You could start with any color, but white is most common. Solving this step will be a bit different each time, so we will give you plenty of practice problems.
+				</p>
+				<div id="scene0" class="glDiv mt-6"></div>
+				<div class="row mt-4">
+					<button id="leftButton0" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter0" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton0" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson1" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Practice pairing two pieces
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					The best way to learn is by doing. If you don't know what to do, you can always look at the solution. Do as many practice problems as you need to get comfortable with this step.
+				</p>
+				<div id="scene1" class="glDiv mt-6"></div>
+				<p id="problemText1" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
+				<div class="row mt-4">
+					<button id="leftButton1" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter1" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton1" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
+					<button id="showSolution1" class="btn-primary">
+						Show solution
+					</button>
+					<button id="next1" class="btn-primary">
+						Next
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson2" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Solve another piece
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Next we will solve another piece. This is what it should look like when you have three pieces solves.
+				</p>
+				<div id="scene2" class="glDiv mt-6"></div>
+				<div class="row mt-4">
+					<button id="leftButton2" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter2" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton2" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson3" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Practice solving another piece
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Here are some practice problems for solving another piece.
+				</p>
+				<div id="scene3" class="glDiv mt-6"></div>
+				<p id="problemText3" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
+				<div class="row mt-4">
+					<button id="leftButton3" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter3" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton3" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
+					<button id="showSolution3" class="btn-primary">
+						Show solution
+					</button>
+					<button id="next3" class="btn-primary">
+						Next
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson4" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					First layer
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Now we just have to solve one more piece to finish the first layer. This is what it should look like when the first layer is solved.
+				</p>
+				<div id="scene4" class="glDiv mt-6"></div>
+				<div class="row mt-4">
+					<button id="leftButton4" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter4" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton4" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson5" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Practice first layer
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Here are some practice problems for the first layer.
+				</p>
+				<div id="scene5" class="glDiv mt-6"></div>
+				<p id="problemText5" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
+				<div class="row mt-4">
+					<button id="leftButton5" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter5" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton5" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
+					<button id="showSolution5" class="btn-primary">
+						Show solution
+					</button>
+					<button id="next5" class="btn-primary">
+						Next
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson6" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Sune algorithm
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Now that the first layer is solved, we will hold the first layer on the bottom. The next step is to solve the yellow face. This algorithm is called Sune, and next we will show you how to apply the algorithm.
+				</p>
+				<div id="scene6" class="glDiv mt-6"></div>
+				<div class="row mt-4">
+					<button id="leftButton6" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter6" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton6" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson7" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Practice yellow face
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Here are some practice problems to solve the yellow corners. Each of them will involve the Sune algorithm you just learned.
+				</p>
+				<div id="scene7" class="glDiv mt-6"></div>
+				<p id="problemText7" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
+				<div class="row mt-4">
+					<button id="leftButton7" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter7" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton7" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
+					<button id="showSolution7" class="btn-primary">
+						Show solution
+					</button>
+					<button id="next7" class="btn-primary">
+						Next
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson8" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Last layer
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					This is the last step you need to solve the entire 2x2 Rubik's Cube. This is the algorithm to use.
+				</p>
+				<div id="scene8" class="glDiv mt-6"></div>
+				<div class="row mt-4">
+					<button id="leftButton8" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter8" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton8" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
+			</div>
+			<div id="lesson9" class="col w-full">
+				<p class="mt-4 text-white text-lg font-bold">
+					Practice last layer
+				</p>
+				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
+					Here are some practice problems to solve last layer. Each of them will involve the algorithm you just learned.
+				</p>
+				<div id="scene9" class="glDiv mt-6"></div>
+				<p id="problemText9" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
+				<div class="row mt-4">
+					<button id="leftButton9" class="btn-primary">
+						&lt;
+					</button>
+					<p id="moveCounter9" class="mx-4 text-2xl text-white"></p>
+					<button id="rightButton9" class="btn-primary">
+						&gt;
+					</button>
+				</div>
+				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
+					<button id="showSolution9" class="btn-primary">
+						Show solution
+					</button>
+					<button id="next9" class="btn-primary">
+						Next
+					</button>
+				</div>
+
+			</div>
+			<p class="mt-8 text-white text-left px-6 max-w-lg break-words">
+				That is the end of the guide! Now you know how to solve the 2x2 Rubik's Cube. If you want to try it out yourself, you can play the Rubik's Cube 
+				<a class="text-cyan-300 hover:underline" href="./play.html">
+					here
+				</a>
+			</p>
+			<p class="mt-8 mb-4 text-white text-left px-6 max-w-lg break-words">
+				If you loved learning how to solve a 2x2 Rubik's Cube, you can learn how to solve a 3x3 Rubik's Cube
+				<a class="text-cyan-300 hover:underline" href="./learn.html">
+					here
+				</a>
+			</p>
+		</div>
+	</div>
+	<div class="slideRight">
+		<div class="row" style="justify-content: space-between;">
+			<h5 style="font-size: 1.2rem;">
+				Menu
+			</h5>
+			<button id="closeMenu" class="xButton">
+				<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+					<path d="M 2 2L 22 22 M 22 2 L 2 22" stroke-width="2"></path>
+				</svg>
+			</button>
+		</div>
+		<div style="display: flex; flex-direction: column;">
+			<div style="height: 16px;"></div>
+			<button id="learnButton" class="btn-primary">
+				Learn
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="playButton" class="btn-primary">
+				Play
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="trainButton" class="btn-primary">
+				Train
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="cubleButton" class="btn-primary">
+				Cuble
+			</button>
+		</div>
+	</div>
+	<script src="./scripts/learn2x2.js"></script>
+</body>
+</html>
