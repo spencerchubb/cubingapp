@@ -183,7 +183,7 @@ let commonHeadTags = [
     { tag: "meta", charset: "utf-8" },
     { tag: "meta", name: "viewport", content: "width=device-width, initial-scale=1" },
     { tag: "link", rel: "stylesheet", href: "./styles/main.css" },
-    { tag: "link", rel: "icon", href: "./images/favicon.png", type: "image/x-icon" },
+    { tag: "link", rel: "icon", href: "./images/favicon.svg", type: "image/x-icon" },
 ];
 
 let navBar = {
