@@ -1,6 +1,3 @@
-// export headTags
-// export navBar
-
 let headTags = [
     { tag: "meta", charset: "utf-8" },
     { tag: "meta", name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -10,12 +7,11 @@ let headTags = [
 
 let navBar = {
     tag: "nav",
-    class: "navbar",
-    style: "justify-content: space-between;",
+    class: "navbar justify-between",
     children: [
         {
             tag: "a",
-            class: "hover:cursor-pointer",
+            class: "hover:cursor-pointer ml-4 hover:bg-slate-500 rounded-lg",
             children: {
                 tag: "img",
                 id: "menu",
@@ -25,11 +21,12 @@ let navBar = {
         },
         {
             tag: "div",
+            class: "mr-4",
             children: {
                 tag: "button",
                 id: "openClose",
                 class: "btn-primary",
-                children: "Lessons",
+                children: "Contents",
             },
         },
     ],
@@ -44,8 +41,22 @@ function lessonNavigator(lessons) {
         class: "slideLeft slideLeftClosed col",
         children: [
             {
-                tag: "h2",
-                children: "Contents",
+                tag: "div",
+                class: "row justify-between w-full",
+                children: [
+                    {
+                        tag: "h2",
+                        children: "Contents",
+                    },
+                    {
+                        tag: "button",
+                        id: "close",
+                        class: "xButton",
+                        children: `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                            <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                        </svg>`,
+                    },
+                ],
             },
             ...lessons.map((lesson, index) => {
                 return {

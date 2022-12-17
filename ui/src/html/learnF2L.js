@@ -134,7 +134,7 @@ let learnF2L = [
                             ...renderLessons(lessonsF2L),
                             {
                                 tag: "p",
-                                class: "mt-8 text-white text-left px-6 max-w-lg break-words",
+                                class: "mt-8 mb-4 text-white text-left px-6 max-w-lg break-words",
                                 children: "That is the end of the guide! This is not a complete list of all the F2L cases, but it shows you all the concepts. If you get a case that you don't know, you can use intuition and try out different triggers to solve it.",
                             },
                         ],

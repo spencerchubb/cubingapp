@@ -158,6 +158,10 @@ function addLessonNavigatorListener(lessons: Lesson[], layers: number) {
     document.querySelector("#openClose").addEventListener("click", (event) => {
         slide.toggle(lessonNavigator);
     });
+
+    document.querySelector("#close").addEventListener("click", (event) => {
+        slide.toggle(lessonNavigator);
+    });
 }
 
 function addShowSolutionListeners(lessons: Lesson[]) {
@@ -215,14 +219,17 @@ export function addResizeListener() {
 
 export function renderBasedOnWidth() {
     const openClose = document.querySelector("#openClose") as HTMLElement;
+    const close = document.querySelector("#close") as HTMLElement;
     const drawerEle = document.querySelector("#lessonNavigator") as HTMLElement;
 
     if (document.documentElement.clientWidth < slide.NARROW) {
         openClose.style.display = "inline-block";
+        close.style.display = "inline-block";
         slide.close(drawerEle);
         return;
     }
     openClose.style.display = "none";
+    close.style.display = "none";
     slide.open(drawerEle);
 }
 

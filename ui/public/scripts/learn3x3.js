@@ -1775,6 +1775,9 @@
     document.querySelector("#openClose").addEventListener("click", (event) => {
       toggle(lessonNavigator);
     });
+    document.querySelector("#close").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
   }
   function addShowSolutionListeners(lessons2) {
     const leftButton = "leftButton";
@@ -1825,13 +1828,16 @@
   }
   function renderBasedOnWidth() {
     const openClose = document.querySelector("#openClose");
+    const close2 = document.querySelector("#close");
     const drawerEle = document.querySelector("#lessonNavigator");
     if (document.documentElement.clientWidth < NARROW) {
       openClose.style.display = "inline-block";
+      close2.style.display = "inline-block";
       close(drawerEle);
       return;
     }
     openClose.style.display = "none";
+    close2.style.display = "none";
     open(drawerEle);
   }
   function parseMovesFromAlg(alg) {

@@ -10,8 +10,8 @@
 	</title>
 </head>
 <body class="col">
-	<nav class="navbar" style="justify-content: space-between;">
-		<div class="hover:cursor-pointer">
+	<nav class="navbar justify-between">
+		<div class="hover:cursor-pointer ml-4 hover:bg-slate-500 rounded-lg">
 			<img id="menu" src="./images/menu.svg" alt="Menu"></img>
 		</div>
 	</nav>
@@ -91,5 +91,36 @@
 			</div>
 		</div>
 	</a>
+	<div class="slideRight">
+		<div class="row" style="justify-content: space-between;">
+			<h5 style="font-size: 1.2rem;">
+				Menu
+			</h5>
+			<button id="closeMenu" class="xButton">
+				<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+					<path d="M 2 2L 22 22 M 22 2 L 2 22" stroke-width="2"></path>
+				</svg>
+			</button>
+		</div>
+		<div style="display: flex; flex-direction: column;">
+			<div style="height: 16px;"></div>
+			<button id="learnButton" class="btn-primary">
+				Learn
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="playButton" class="btn-primary">
+				Play
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="trainButton" class="btn-primary">
+				Train
+			</button>
+			<div style="height: 8px;"></div>
+			<button id="cubleButton" class="btn-primary">
+				Cuble
+			</button>
+		</div>
+	</div>
+	<script src="./scripts/learn.js"></script>
 </body>
 </html>

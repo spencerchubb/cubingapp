@@ -1,4 +1,4 @@
-const { headTags } = require("./common.js");
+const { headTags, slideRight } = require("./common.js");
 
 function rowOfSquares(colors, size) {
     return {
@@ -77,12 +77,11 @@ const learn = [
         children: [
             {
                 tag: "nav",
-                class: "navbar",
-                style: "justify-content: space-between;",
+                class: "navbar justify-between",
                 children: [
                     {
                         tag: "div",
-                        class: "hover:cursor-pointer",
+                        class: "hover:cursor-pointer ml-4 hover:bg-slate-500 rounded-lg",
                         children: {
                             tag: "img",
                             id: "menu",
@@ -113,6 +112,11 @@ const learn = [
                     ],
                 };
             }),
+            slideRight,
+            {
+                tag: "script",
+                src: "./scripts/learn.js",
+            },
         ],
     },
 ];
