@@ -1,4 +1,40 @@
 (() => {
+  // src/scripts/pieceIndices.ts
+  var CENTERS = [4, 13, 22, 31, 40, 49];
+  var UBL = [0, 29, 36];
+  var URB = [6, 35, 51];
+  var ULF = [2, 9, 42];
+  var UFR = [8, 15, 45];
+  var DFL = [18, 11, 44];
+  var DRF = [24, 47, 17];
+  var DLB = [20, 38, 27];
+  var DBR = [26, 33, 53];
+  var UB = [3, 32];
+  var UL = [1, 39];
+  var UR = [7, 48];
+  var UF = [5, 12];
+  var FL = [10, 43];
+  var FR = [16, 46];
+  var DF = [21, 14];
+  var DL = [19, 41];
+  var DR = [25, 50];
+  var DB = [23, 30];
+  var BL = [28, 37];
+  var BR = [34, 52];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var eoll = [19, 21, 23, 25];
+  var oll = [18, 19, 20, 21, 22, 23, 24, 25, 26];
+  var cpll = [11, 17, 27, 33, 38, 44, 47, 53];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
+
   // src/scripts/colors.ts
   var WHITE = [1, 1, 1, 1];
   var GRAY = [0.5, 0.5, 0.5, 1];
@@ -1802,171 +1838,208 @@
     return (alg || "").split(" ");
   }
 
-  // src/scripts/learn2x2.ts
+  // src/scripts/learn3x3.ts
   var lessons = [
     {
-      activeStickers: [0, 1, 4, 13, 16, 18],
+      activeStickers: CENTERS,
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: [...layer1Corners, ...layer2Corners],
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: [...layer1Edges, ...layer2Edges, ...layer3Edges],
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: cross,
       setup: "",
       algorithm: "y y y y"
     },
     {
-      activeStickers: [0, 1, 4, 13, 16, 18],
+      activeStickers: cross,
       practiceProblems: [
         {
-          setup: "F",
-          algorithm: "F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "This case requires just one move."
+          setup: "F F D",
+          algorithm: "D' F F",
+          directions: "Solve the white-green edge",
+          explanation: "To solve the white-green, line up the green, then line up the white."
         },
         {
-          setup: "F2 D'",
-          algorithm: "D F' F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the side, then pair it."
+          setup: "y U2 R' U2",
+          algorithm: "U U R U U",
+          directions: "Solve the white-green edge",
+          explanation: "To insert the white green, move the top layer, move the white-green up, then fix the top layer."
         },
         {
-          setup: "F R'",
-          algorithm: "R F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green up, then pair it."
+          setup: "F' R' F",
+          algorithm: "y D F' U' R U",
+          directions: "Solve the white-red edge",
+          explanation: "First we'll rotate the cube so red is in the front. Then we'll bring the white-red around to insert it."
         },
         {
-          setup: "B2 R2",
-          algorithm: "R R B B",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-blue-orange to the bottom, then pair it."
+          setup: "y' U R U' B'",
+          algorithm: "y y F' U' R U",
+          directions: "Solve the white-red edge",
+          explanation: "The white-red is in the back, so first we'll rotate the cube. Then, move the white-red to the side and insert it."
         },
         {
-          setup: "B2 D2",
-          algorithm: "D D B B",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Bring around the white-blue-orange, then pair it."
+          setup: "y U F' U'",
+          algorithm: "y' U R U'",
+          directions: "Solve the white-blue edge",
+          explanation: "The white-blue is on the left, so first we'll rotate the cube. Then, insert it."
         },
         {
-          setup: "F' D R",
-          algorithm: "R' D' F",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Bring down the white-orange-green, then pair it up."
+          setup: "y' L2 D2",
+          algorithm: "D' D' L' L'",
+          directions: "Solve the white-blue edge",
+          explanation: "The white-blue is on the bottom right. To solve it, line up the blue, then line up the white."
         },
         {
-          setup: "F R' D'",
-          algorithm: "D R F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the side, move it up, then pair it."
+          setup: "y2 R' U' R U",
+          algorithm: "F F D R R",
+          directions: "Solve the white-orange edge",
+          explanation: "The white-orange is in another edge's position, so first, we'll take it out. Then line up the orange, then line up the white."
         },
         {
-          setup: "F2 D R'",
-          algorithm: "R D' F' F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the bottom, bring it around, then pair it."
+          setup: "L",
+          algorithm: "L'",
+          directions: "Solve the white-orange edge",
+          explanation: "This is one of the easiest cases. The white-orange is only one move away."
         }
       ]
     },
     {
-      activeStickers: [0, 1, 3, 4, 6, 13, 16, 18, 20],
+      activeStickers: firstLayer,
       setup: "",
       algorithm: "y y y y"
     },
     {
-      activeStickers: [0, 1, 3, 4, 6, 13, 16, 18, 20],
+      activeStickers: firstLayer,
       practiceProblems: [
         {
-          setup: "R' D",
-          algorithm: "D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Bring the white-green-red around, then solve it.."
+          setup: "z2 R U' R'",
+          algorithm: "R U R'",
+          directions: "Solve the white-green-orange corner",
+          explanation: "Move corner up, move corner to the side, move back down"
         },
         {
-          setup: "R2 D'",
-          algorithm: "D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red to the side, then solve it."
+          setup: "z2 y R U' R' U R U' R' U",
+          algorithm: "R U R' U' R U R'",
+          directions: "Solve the white-orange-blue corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 1x"
         },
         {
-          setup: "R' D R",
-          algorithm: "R' D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
+          setup: "z2 y2 R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-blue-red corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 3x"
         },
         {
-          setup: "R' D'",
-          algorithm: "D R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red to the side, then solve it."
+          setup: "z2 y' R U' R' U R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-red-green corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 4x"
         },
         {
-          setup: "R2 D' R",
-          algorithm: "R' D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
-        },
-        {
-          setup: "R' D R2",
-          algorithm: "R' R' D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
-        },
-        {
-          setup: "R2 D' R2",
-          algorithm: "R' R' D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white to the bottom, bring it around, then solve it."
-        },
-        {
-          setup: "R2 D' R'",
-          algorithm: "R D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white to the bottom, bring it around, then solve it."
+          setup: "z2 R U' R' U R U' R' U R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-green-orange corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 5x"
         }
       ]
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 13, 15, 16, 18, 20, 22],
-      setup: "",
+      activeStickers: f2l,
+      setup: "z2",
       algorithm: "y y y y"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 13, 15, 16, 18, 20, 22],
+      activeStickers: f2l,
       practiceProblems: [
         {
-          setup: "R' D' R",
-          algorithm: "R' D R",
-          directions: "Solve white-green-red",
-          explanation: "Insert the white-green-red into its slot"
+          setup: "z2 F' U' F U R U R' U'",
+          algorithm: "U R U' R' U' F' U F",
+          directions: "Solve the green-orange edge",
+          explanation: "Pair up the green-orange edge with the white-green-orange corner. Then insert the pair into the slot."
         },
         {
-          setup: "R' D R",
-          algorithm: "R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Insert the white-green-red into its slot"
+          setup: "z2 y F' U' F U R U R' U",
+          algorithm: "U' R U' R' U' F' U F",
+          directions: "Solve the orange-blue edge",
+          explanation: "Pair up the orange-blue edge with the white-orange-blue corner. Then insert the pair into the slot."
         },
         {
-          setup: "R' D' R D R' D' R",
-          algorithm: "R' D R D' R' D R",
-          directions: "Solve white-green-red",
-          explanation: "Take the white-green-red out of its slot, then insert"
+          setup: "z2 y2 F' U' F U R U R' U2",
+          algorithm: "U U R U' R' U' F' U F",
+          directions: "Solve the blue-red edge",
+          explanation: "Pair up the blue-red edge with the white-blue-red corner. Then insert the pair into the slot."
         },
         {
-          setup: "R' D R D' R' D R",
-          algorithm: "R' D' R D R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Take the white-green-red out of its slot, then insert"
-        },
-        {
-          setup: "R' D R D' R' D2 R",
-          algorithm: "R' D' D' R D R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Flip the white-green red, then insert"
+          setup: "z2 y' F' U' F U R U R'",
+          algorithm: "R U' R' U' F' U F",
+          directions: "Solve the red-green edge",
+          explanation: "Pair up the red-green edge with the white-red-green corner. Then insert the pair into the slot."
         }
       ]
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 8, 9, 10, 11, 13, 15, 16, 18, 20, 22],
+      activeStickers: [...f2l, ...eoll],
+      setup: "z2",
+      algorithm: "y y y y"
+    },
+    {
+      activeStickers: [...f2l, ...eoll],
+      practiceProblems: [
+        {
+          setup: "z2 F U R U' R' F'",
+          algorithm: "F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have a horizontal bar, move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y F U R U' R' F' U",
+          algorithm: "U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Make the bar horizontal. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y F R U R' U' F' U'",
+          algorithm: "U F U R U' R' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y' F R U R' U' F' U2",
+          algorithm: "U U F U R U' R' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 F U R U' R' F' U F R U R' U' F'",
+          algorithm: "F U R U' R' F' U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."
+        },
+        {
+          setup: "z2 y2 F U R U' R' F' U F R U R' U' F'",
+          algorithm: "F U R U' R' F' U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."
+        }
+      ]
+    },
+    {
+      activeStickers: [...f2l, ...oll],
       setup: "z2 R U2 R' U' R U' R'",
       algorithm: "R U R' U R U U R'"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 8, 9, 10, 11, 13, 15, 16, 18, 20, 22],
+      activeStickers: [...f2l, ...oll],
       practiceProblems: [
         {
           setup: "z2 R U2 R' U' R U' R'",
@@ -2013,31 +2086,77 @@
       ]
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+      activeStickers: [...f2l, ...oll, ...cpll],
       setup: "z2 R2 B2 R F R' B2 R F' R",
       algorithm: "R' F R' B' B' R F' R' B' B' R R"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+      activeStickers: [...f2l, ...oll, ...cpll],
       practiceProblems: [
         {
-          setup: "z2 R2 B2 R F R' B2 R F' R",
-          algorithm: "R' F R' B' B' R F' R' B' B' R R",
+          setup: "z2 U2 R2 B2 R F R' B2 R F' R U",
+          algorithm: "U' R' F R' B' B' R F' R' B' B' R R U U",
           directions: "Solve the corners",
-          explanation: "Hold the matching corners in the back, then use the last layer algorithm."
+          explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."
         },
         {
-          setup: "z2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
+          setup: "z2 y U' R2 B2 R F R' B2 R F' R U2",
+          algorithm: "U U R' F R' B' B' R F' R' B' B' R R U",
+          directions: "Solve the corners",
+          explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."
+        },
+        {
+          setup: "z2 y2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
           algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U U",
           directions: "Solve the corners",
           explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."
+        },
+        {
+          setup: "z2 y' F R U' R' U' R U R' F' R U R' U' R' F R F' U'",
+          algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U",
+          directions: "Solve the corners",
+          explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."
+        }
+      ]
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z2 M' M' U' M U U M' U' M' M'",
+      algorithm: "M' M' U M U U M' U M' M'"
+    },
+    {
+      activeStickers: allPieces,
+      practiceProblems: [
+        {
+          setup: "z2 U2 M' M' U' M U U M' U' M' M' U",
+          algorithm: "U' M' M' U M U U M' U M' M' U U",
+          directions: "Solve the cube",
+          explanation: "Move the matching colors to back, use the last layer edges algorithm, then adjust the top layer."
+        },
+        {
+          setup: "z2 y U' M' M' U M U U M' U M' M' U2",
+          algorithm: "U U M' M' U M U U M' U M' M' M' M' U M U U M' U M' M' U",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
+        },
+        {
+          setup: "z2 y2 M2 U' M2 U2 M2 U' M2 U'",
+          algorithm: "M' M' U M U U M' U M' M' U M' M' U M U U M' U M' M'",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
+        },
+        {
+          setup: "z2 y' M2 U' M2 U' M' U2 M2 U2 M' U",
+          algorithm: "M' M' U M U U M' U M' M' U' M' M' U M U U M' U M' M' U U",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
         }
       ]
     }
   ];
   function main() {
-    initLearnPage(lessons, 2);
+    initLearnPage(lessons, 3);
   }
   main();
 })();
-//# sourceMappingURL=learn2x2.js.map
+//# sourceMappingURL=learn3x3.js.map

@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="./styles/main.css"></link>
 	<link rel="icon" href="./images/favicon.svg" type="image/x-icon"></link>
 	<title>
-		How to solve a 2x2 Rubik's Cube
+		How to solve first two layers (advanced)
 	</title>
 </head>
 <body class="col">
@@ -27,49 +27,76 @@
 				Contents
 			</h2>
 			<a href="#lesson0" class="text-black hover:underline mt-2">
-				Pair two pieces
+				Paired
 			</a>
 			<a href="#lesson1" class="text-black hover:underline mt-2">
-				Practice pairing two pieces
+				Paired (mirror)
 			</a>
 			<a href="#lesson2" class="text-black hover:underline mt-2">
-				Solve another piece
+				C+E opposite
 			</a>
 			<a href="#lesson3" class="text-black hover:underline mt-2">
-				Practice solving another piece
+				C+E split
 			</a>
 			<a href="#lesson4" class="text-black hover:underline mt-2">
-				First layer
+				C+E split (the wrong way)
 			</a>
 			<a href="#lesson5" class="text-black hover:underline mt-2">
-				Practice first layer
+				Edge solved in slot
 			</a>
 			<a href="#lesson6" class="text-black hover:underline mt-2">
-				Sune algorithm
+				Edge flipped in slot
 			</a>
 			<a href="#lesson7" class="text-black hover:underline mt-2">
-				Practice yellow face
+				Corner solved in slot
 			</a>
 			<a href="#lesson8" class="text-black hover:underline mt-2">
-				Last layer
+				Corner flipped in slot
 			</a>
 			<a href="#lesson9" class="text-black hover:underline mt-2">
-				Practice last layer
+				Corner on top
 			</a>
 		</div>
 		<div class="col w-full h-full overflow-y-auto">
 			<h1 class="text-white max-w-lg mt-4 px-6">
-				How to solve a 2x2 Rubik's Cube
+				How to solve first two layers (advanced)
 			</h1>
 			<p class="text-white max-w-lg mt-4 px-6">
-				This guide will teach you how to solve a 2x2 Rubik's Cube. We provide 3D animations of the Rubik's Cube algorithms, and we provide practice problems to help you learn.
+				Are you trying to learn the CFOP method (also known as the Fridrich method)? The most difficult step for most people is the first two layers (F2L). This guide will teach you an advanced method for solving the first two layers.
+			</p>
+			<p class="text-white max-w-lg mt-4 px-6">
+				I am going to assume you already know how to solve the Rubik's Cube with a beginner's method. If you want to learn how to solve the Rubik's Cube faster, then you will benefit from learning advanced F2L.
+			</p>
+			<p class="text-white max-w-lg mt-4 px-6">
+				As you already know, beginner's F2L involves solving the first layer and the second layer separately. To improve upon this, advanced F2L involves solving a corner and an edge at the same time. This is called a corner-edge pair, or just a 'pair' for short.
+			</p>
+			<h2 class="text-white max-w-lg mt-4 px-6">
+				Intuition vs Memorization
+			</h2>
+			<p class="text-white max-w-lg mt-4 px-6">
+				When you start learning advanced F2L, you should learn the intuition behind the method. You should visualize the pieces and understand how the pieces move. It is easier to learn F2L by intuition.
+			</p>
+			<p class="text-white max-w-lg mt-4 px-6">
+				However, intuition is slow. If you want to solve the Rubik's Cube as fast as possible, you should memorize the F2L algorithms. You should be able to recognize a case instantly, and do the algorithm almost without thinking. But like I said, you should start with intuition and work on memorization later.
+			</p>
+			<h2 class="text-white max-w-lg mt-4 px-6">
+				Triggers
+			</h2>
+			<p class="text-white max-w-lg mt-4 px-6">
+				Now you might be wondering, how do I learn F2L intuitively? The answer is triggers.
+			</p>
+			<p class="text-white max-w-lg mt-4 px-6">
+				A trigger is a short sequence of moves. You can think of a trigger as a 'word' and an algorithm as a 'sentence'. You combine multiple triggers to make an algorithm.
+			</p>
+			<p class="text-white max-w-lg mt-4 px-6">
+				Some F2L cases can be solved with 1 trigger, and the vast majority can be solved with 2 triggers. When you break down advanced F2L into triggers, it becomes much easier to learn.
 			</p>
 			<div id="lesson0" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Pair two pieces
+					Paired
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					The first step is to pair up two pieces. You could start with any color, but white is most common. Solving this step will be a bit different each time, so we will give you plenty of practice problems.
+					When the corner and the edge are already paired, you can solve the pair with one trigger: R U' R'
 				</p>
 				<div id="scene0" class="glDiv mt-6"></div>
 				<div class="row mt-4">
@@ -85,13 +112,12 @@
 			</div>
 			<div id="lesson1" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Practice pairing two pieces
+					Paired (mirror)
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					The best way to learn is by doing. If you don't know what to do, you can always look at the solution. Do as many practice problems as you need to get comfortable with this step.
+					This is the same case mirrored from right-to-left: L' U L. For an extra exercise, think about how this case can be mirrored front-to-back.
 				</p>
 				<div id="scene1" class="glDiv mt-6"></div>
-				<p id="problemText1" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
 				<div class="row mt-4">
 					<button id="leftButton1" class="btn-primary">
 						&lt;
@@ -101,22 +127,14 @@
 						&gt;
 					</button>
 				</div>
-				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
-					<button id="showSolution1" class="btn-primary">
-						Show solution
-					</button>
-					<button id="next1" class="btn-primary">
-						Next
-					</button>
-				</div>
 				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
 			</div>
 			<div id="lesson2" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Solve another piece
+					C+E opposite
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Next we will solve another piece. This is what it should look like when you have three pieces solved.
+					When the corner and the edge are opposite each other, and have different colors on top, you can solve the pair with one trigger: R U R'. This case also has mirrored versions, but you can figure them out on your own.
 				</p>
 				<div id="scene2" class="glDiv mt-6"></div>
 				<div class="row mt-4">
@@ -132,13 +150,12 @@
 			</div>
 			<div id="lesson3" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Practice solving another piece
+					C+E split
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Here are some practice problems for solving another piece.
+					The corner and edge are split, and they have the same color on top. You can do one trigger to form the pair, and then another trigger to insert the pair.
 				</p>
 				<div id="scene3" class="glDiv mt-6"></div>
-				<p id="problemText3" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
 				<div class="row mt-4">
 					<button id="leftButton3" class="btn-primary">
 						&lt;
@@ -148,22 +165,14 @@
 						&gt;
 					</button>
 				</div>
-				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
-					<button id="showSolution3" class="btn-primary">
-						Show solution
-					</button>
-					<button id="next3" class="btn-primary">
-						Next
-					</button>
-				</div>
 				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
 			</div>
 			<div id="lesson4" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					First layer
+					C+E split (the wrong way)
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Now we just have to solve one more piece to finish the first layer. This is what it should look like when the first layer is solved.
+					This is an example of what not to do. The corner and edge are split, and we can do one trigger to form the pair. However, this breaks a pair that was already solved. When we are doing triggers, we have to make sure we are not affecting pairs that are already solved.
 				</p>
 				<div id="scene4" class="glDiv mt-6"></div>
 				<div class="row mt-4">
@@ -179,13 +188,12 @@
 			</div>
 			<div id="lesson5" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Practice first layer
+					Edge solved in slot
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Here are some practice problems for the first layer.
+					Use a trigger to take the edge out and form the pair. Then use another trigger to insert the pair.
 				</p>
 				<div id="scene5" class="glDiv mt-6"></div>
-				<p id="problemText5" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
 				<div class="row mt-4">
 					<button id="leftButton5" class="btn-primary">
 						&lt;
@@ -195,22 +203,14 @@
 						&gt;
 					</button>
 				</div>
-				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
-					<button id="showSolution5" class="btn-primary">
-						Show solution
-					</button>
-					<button id="next5" class="btn-primary">
-						Next
-					</button>
-				</div>
 				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
 			</div>
 			<div id="lesson6" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Sune algorithm
+					Edge flipped in slot
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Now that the first layer is solved, we will hold the first layer on the bottom. The next step is to solve the yellow face. This algorithm is called Sune, and next we will show you how to apply the algorithm.
+					Use a trigger to make the corner and edge opposite to each other. Then use another trigger to insert the pair.
 				</p>
 				<div id="scene6" class="glDiv mt-6"></div>
 				<div class="row mt-4">
@@ -226,13 +226,12 @@
 			</div>
 			<div id="lesson7" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Practice yellow face
+					Corner solved in slot
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Here are some practice problems to solve the yellow corners. Each of them will involve the Sune algorithm you just learned.
+					Use a trigger to take the corner out, then use another trigger to insert the pair.
 				</p>
 				<div id="scene7" class="glDiv mt-6"></div>
-				<p id="problemText7" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
 				<div class="row mt-4">
 					<button id="leftButton7" class="btn-primary">
 						&lt;
@@ -242,22 +241,14 @@
 						&gt;
 					</button>
 				</div>
-				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
-					<button id="showSolution7" class="btn-primary">
-						Show solution
-					</button>
-					<button id="next7" class="btn-primary">
-						Next
-					</button>
-				</div>
 				<div class="bg-gray-300 w-full max-w-lg h-0.5 flex-shrink-0 mt-6"></div>
 			</div>
 			<div id="lesson8" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Last layer
+					Corner flipped in slot
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					This is the last step you need to solve the entire 2x2 Rubik's Cube. This is the algorithm to use.
+					Use a trigger to take the corner out, then use another trigger to insert the pair.
 				</p>
 				<div id="scene8" class="glDiv mt-6"></div>
 				<div class="row mt-4">
@@ -273,13 +264,12 @@
 			</div>
 			<div id="lesson9" class="col w-full">
 				<p class="mt-4 text-white text-lg font-bold">
-					Practice last layer
+					Corner on top
 				</p>
 				<p class="mt-2 text-white text-left px-6 max-w-lg break-words">
-					Here are some practice problems to solve last layer. Each of them will involve the algorithm you just learned.
+					Use a trigger to flip the corner so it is not facing the top, then use another trigger to insert the pair.
 				</p>
 				<div id="scene9" class="glDiv mt-6"></div>
-				<p id="problemText9" class="mt-4 text-white text-left px-6 max-w-lg break-words"></p>
 				<div class="row mt-4">
 					<button id="leftButton9" class="btn-primary">
 						&lt;
@@ -289,27 +279,10 @@
 						&gt;
 					</button>
 				</div>
-				<div class="row gap-2 p-2 mt-4 bg-gray-700 rounded-md">
-					<button id="showSolution9" class="btn-primary">
-						Show solution
-					</button>
-					<button id="next9" class="btn-primary">
-						Next
-					</button>
-				</div>
 
 			</div>
 			<p class="mt-8 text-white text-left px-6 max-w-lg break-words">
-				That is the end of the guide! Now you know how to solve the 2x2 Rubik's Cube. If you want to try it out yourself, you can play the Rubik's Cube 
-				<a class="text-cyan-300 hover:underline" href="./play.html">
-					here
-				</a>
-			</p>
-			<p class="mt-8 mb-4 text-white text-left px-6 max-w-lg break-words">
-				If you loved learning how to solve a 2x2 Rubik's Cube, you can learn how to solve a 3x3 Rubik's Cube
-				<a class="text-cyan-300 hover:underline" href="./learn-3x3.html">
-					here
-				</a>
+				That is the end of the guide! This is not a complete list of all the F2L cases, but it shows you all the concepts. If you get a case that you don't know, you can use intuition and try out different triggers to solve it.
 			</p>
 		</div>
 	</div>
@@ -343,6 +316,6 @@
 			</button>
 		</div>
 	</div>
-	<script src="./scripts/learn2x2.js"></script>
+	<script src="./scripts/learnF2L.js"></script>
 </body>
 </html>

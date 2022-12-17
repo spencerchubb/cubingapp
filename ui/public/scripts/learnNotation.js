@@ -1,4 +1,37 @@
 (() => {
+  // src/scripts/pieceIndices.ts
+  var CENTERS = [4, 13, 22, 31, 40, 49];
+  var UBL = [0, 29, 36];
+  var URB = [6, 35, 51];
+  var ULF = [2, 9, 42];
+  var UFR = [8, 15, 45];
+  var DFL = [18, 11, 44];
+  var DRF = [24, 47, 17];
+  var DLB = [20, 38, 27];
+  var DBR = [26, 33, 53];
+  var UB = [3, 32];
+  var UL = [1, 39];
+  var UR = [7, 48];
+  var UF = [5, 12];
+  var FL = [10, 43];
+  var FR = [16, 46];
+  var DF = [21, 14];
+  var DL = [19, 41];
+  var DR = [25, 50];
+  var DB = [23, 30];
+  var BL = [28, 37];
+  var BR = [34, 52];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
+
   // src/scripts/colors.ts
   var WHITE = [1, 1, 1, 1];
   var GRAY = [0.5, 0.5, 0.5, 1];
@@ -1802,242 +1835,172 @@
     return (alg || "").split(" ");
   }
 
-  // src/scripts/learn2x2.ts
+  // src/scripts/learnNotation.ts
   var lessons = [
     {
-      activeStickers: [0, 1, 4, 13, 16, 18],
-      setup: "",
-      algorithm: "y y y y"
+      activeStickers: allPieces,
+      setup: "U'",
+      algorithm: "U"
     },
     {
-      activeStickers: [0, 1, 4, 13, 16, 18],
-      practiceProblems: [
-        {
-          setup: "F",
-          algorithm: "F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "This case requires just one move."
-        },
-        {
-          setup: "F2 D'",
-          algorithm: "D F' F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the side, then pair it."
-        },
-        {
-          setup: "F R'",
-          algorithm: "R F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green up, then pair it."
-        },
-        {
-          setup: "B2 R2",
-          algorithm: "R R B B",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-blue-orange to the bottom, then pair it."
-        },
-        {
-          setup: "B2 D2",
-          algorithm: "D D B B",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Bring around the white-blue-orange, then pair it."
-        },
-        {
-          setup: "F' D R",
-          algorithm: "R' D' F",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Bring down the white-orange-green, then pair it up."
-        },
-        {
-          setup: "F R' D'",
-          algorithm: "D R F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the side, move it up, then pair it."
-        },
-        {
-          setup: "F2 D R'",
-          algorithm: "R D' F' F'",
-          directions: "Pair the white-orange-green and the white-blue-orange",
-          explanation: "Move the white-orange-green to the bottom, bring it around, then pair it."
-        }
-      ]
+      activeStickers: allPieces,
+      setup: "U",
+      algorithm: "U'"
     },
     {
-      activeStickers: [0, 1, 3, 4, 6, 13, 16, 18, 20],
-      setup: "",
-      algorithm: "y y y y"
+      activeStickers: allPieces,
+      setup: "D'",
+      algorithm: "D"
     },
     {
-      activeStickers: [0, 1, 3, 4, 6, 13, 16, 18, 20],
-      practiceProblems: [
-        {
-          setup: "R' D",
-          algorithm: "D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Bring the white-green-red around, then solve it.."
-        },
-        {
-          setup: "R2 D'",
-          algorithm: "D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red to the side, then solve it."
-        },
-        {
-          setup: "R' D R",
-          algorithm: "R' D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
-        },
-        {
-          setup: "R' D'",
-          algorithm: "D R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red to the side, then solve it."
-        },
-        {
-          setup: "R2 D' R",
-          algorithm: "R' D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
-        },
-        {
-          setup: "R' D R2",
-          algorithm: "R' R' D' R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white-green-red down, bring it around, then solve it."
-        },
-        {
-          setup: "R2 D' R2",
-          algorithm: "R' R' D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white to the bottom, bring it around, then solve it."
-        },
-        {
-          setup: "R2 D' R'",
-          algorithm: "R D R R",
-          directions: "Solve the white-green-red",
-          explanation: "Move the white to the bottom, bring it around, then solve it."
-        }
-      ]
+      activeStickers: allPieces,
+      setup: "D",
+      algorithm: "D'"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 13, 15, 16, 18, 20, 22],
-      setup: "",
-      algorithm: "y y y y"
+      activeStickers: allPieces,
+      setup: "R'",
+      algorithm: "R"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 13, 15, 16, 18, 20, 22],
-      practiceProblems: [
-        {
-          setup: "R' D' R",
-          algorithm: "R' D R",
-          directions: "Solve white-green-red",
-          explanation: "Insert the white-green-red into its slot"
-        },
-        {
-          setup: "R' D R",
-          algorithm: "R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Insert the white-green-red into its slot"
-        },
-        {
-          setup: "R' D' R D R' D' R",
-          algorithm: "R' D R D' R' D R",
-          directions: "Solve white-green-red",
-          explanation: "Take the white-green-red out of its slot, then insert"
-        },
-        {
-          setup: "R' D R D' R' D R",
-          algorithm: "R' D' R D R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Take the white-green-red out of its slot, then insert"
-        },
-        {
-          setup: "R' D R D' R' D2 R",
-          algorithm: "R' D' D' R D R' D' R",
-          directions: "Solve white-green-red",
-          explanation: "Flip the white-green red, then insert"
-        }
-      ]
+      activeStickers: allPieces,
+      setup: "R",
+      algorithm: "R'"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 8, 9, 10, 11, 13, 15, 16, 18, 20, 22],
-      setup: "z2 R U2 R' U' R U' R'",
-      algorithm: "R U R' U R U U R'"
+      activeStickers: allPieces,
+      setup: "L'",
+      algorithm: "L"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 6, 8, 9, 10, 11, 13, 15, 16, 18, 20, 22],
-      practiceProblems: [
-        {
-          setup: "z2 R U2 R' U' R U' R'",
-          algorithm: "R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune."
-        },
-        {
-          setup: "z2 y R U R' U R U2 R' U'",
-          algorithm: "U' R U R' U R U U R' U U R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune. In this case, you have to do the Sune twice."
-        },
-        {
-          setup: "z2 y2 R U2 R' U' R U R' U' R U' R'",
-          algorithm: "R U R' U R U U R' R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "In this case, there are no yellows on top, and it kind of looks like an H. Do the Sune twice."
-        },
-        {
-          setup: "z2 y' L F R' F' L' F R F' U2",
-          algorithm: "R U R' U R U U R' R U R' U R U U R' R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "In this case, there are 2 yellows diagonal from each other. Do the Sune 3x."
-        },
-        {
-          setup: "z2 F R' F' L F R F' L'",
-          algorithm: "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "In this case, there are two yellows on top and the other yellows are facing opposite directions. This requires doing Sune 3x."
-        },
-        {
-          setup: "z2 y R U2 R D R' U2 R D' R2",
-          algorithm: "R U R' U R U U R' U' R U R' U R U U R' U U R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "In this case, there are two yellows on top and the other yellows are facing the same direction. This requires doing Sune 3x."
-        },
-        {
-          setup: "z2 y2 R U2 R2 U' R2 U' R2 U2 R",
-          algorithm: "R U R' U R U U R' U' R U R' U R U U R'",
-          directions: "Solve the yellow corners",
-          explanation: "In this case, there are no yellows on top. This requires doing Sune 2x."
-        }
-      ]
+      activeStickers: allPieces,
+      setup: "L",
+      algorithm: "L'"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-      setup: "z2 R2 B2 R F R' B2 R F' R",
-      algorithm: "R' F R' B' B' R F' R' B' B' R R"
+      activeStickers: allPieces,
+      setup: "F'",
+      algorithm: "F"
     },
     {
-      activeStickers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-      practiceProblems: [
-        {
-          setup: "z2 R2 B2 R F R' B2 R F' R",
-          algorithm: "R' F R' B' B' R F' R' B' B' R R",
-          directions: "Solve the corners",
-          explanation: "Hold the matching corners in the back, then use the last layer algorithm."
-        },
-        {
-          setup: "z2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
-          algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U U",
-          directions: "Solve the corners",
-          explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."
-        }
-      ]
+      activeStickers: allPieces,
+      setup: "F",
+      algorithm: "F'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B'",
+      algorithm: "B"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B",
+      algorithm: "B'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B2 F2 L2 R2 D2 U2",
+      algorithm: "U U D D R R L L F F B B"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "u'",
+      algorithm: "u"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "d'",
+      algorithm: "d"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "r'",
+      algorithm: "r"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "l'",
+      algorithm: "l"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "f'",
+      algorithm: "f"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "b'",
+      algorithm: "b"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "M'",
+      algorithm: "M"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "M",
+      algorithm: "M'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "E'",
+      algorithm: "E"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "E",
+      algorithm: "E'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "S'",
+      algorithm: "S"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "S",
+      algorithm: "S'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "x'",
+      algorithm: "x"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "x",
+      algorithm: "x'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "y'",
+      algorithm: "y"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "y",
+      algorithm: "y'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z'",
+      algorithm: "z"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z",
+      algorithm: "z'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "R U R' F' R U R' U' R' F R2 U' R' U'",
+      algorithm: "R U R' F' R U R' U' R' F R2 U' R' U'"
     }
   ];
   function main() {
-    initLearnPage(lessons, 2);
+    initLearnPage(lessons, 3);
   }
   main();
 })();
-//# sourceMappingURL=learn2x2.js.map
+//# sourceMappingURL=learnNotation.js.map

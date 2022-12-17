@@ -429,6 +429,7 @@ export class Cube {
                 this.cubeRotate(0, !forward);
                 break;
             case "x2":
+            case "x2'":
                 this.cubeRotate(0, forward);
                 this.cubeRotate(0, forward);
                 break;
@@ -439,6 +440,7 @@ export class Cube {
                 this.cubeRotate(1, !forward);
                 break;
             case "y2":
+            case "y2'":
                 this.cubeRotate(1, forward);
                 this.cubeRotate(1, forward);
                 break;
@@ -449,6 +451,7 @@ export class Cube {
                 this.cubeRotate(2, !forward);
                 break;
             case "z2":
+            case "z2'":
                 this.cubeRotate(2, forward);
                 this.cubeRotate(2, forward);
                 break;
@@ -463,6 +466,17 @@ export class Cube {
                 this.turn(1, 0, forward);
                 this.turn(1, 0, forward);
                 break;
+            case "u":
+                this.wideTurn(1, 0, forward);
+                break;
+            case "u'":
+                this.wideTurn(1, 0, !forward);
+                break;
+            case "u2":
+            case "u2'":
+                this.wideTurn(1, 0, forward);
+                this.wideTurn(1, 0, forward);
+                break;
             case "D":
                 this.turn(1, this.layers - 1, !forward);
                 break;
@@ -470,8 +484,20 @@ export class Cube {
                 this.turn(1, this.layers - 1, forward);
                 break;
             case "D2":
+            case "D2'":
                 this.turn(1, this.layers - 1, forward);
                 this.turn(1, this.layers - 1, forward);
+                break;
+            case "d":
+                this.wideTurn(1, this.layers - 1, !forward);
+                break;
+            case "d'":
+                this.wideTurn(1, this.layers - 1, forward);
+                break;
+            case "d2":
+            case "d2'":
+                this.wideTurn(1, this.layers - 1, forward);
+                this.wideTurn(1, this.layers - 1, forward);
                 break;
             case "F":
                 this.turn(2, 0, forward);
@@ -480,8 +506,20 @@ export class Cube {
                 this.turn(2, 0, !forward);
                 break;
             case "F2":
+            case "F2'":
                 this.turn(2, 0, forward);
                 this.turn(2, 0, forward);
+                break;
+            case "f":
+                this.wideTurn(2, 0, forward);
+                break;
+            case "f'":
+                this.wideTurn(2, 0, !forward);
+                break;
+            case "f2":
+            case "f2'":
+                this.wideTurn(2, 0, forward);
+                this.wideTurn(2, 0, forward);
                 break;
             case "B":
                 this.turn(2, this.layers - 1, !forward);
@@ -490,9 +528,21 @@ export class Cube {
                 this.turn(2, this.layers - 1, forward);
                 break
             case "B2":
+            case "B2'":
                 this.turn(2, this.layers - 1, forward);
                 this.turn(2, this.layers - 1, forward);
                 break
+            case "b":
+                this.wideTurn(2, this.layers - 1, !forward);
+                break;
+            case "b'":
+                this.wideTurn(2, this.layers - 1, forward);
+                break;
+            case "b2":
+            case "b2'":
+                this.wideTurn(2, this.layers - 1, forward);
+                this.wideTurn(2, this.layers - 1, forward);
+                break;
             case "L":
                 this.turn(0, this.layers - 1, !forward);
                 break;
@@ -500,6 +550,7 @@ export class Cube {
                 this.turn(0, this.layers - 1, forward);
                 break;
             case "L2":
+            case "L2'":
                 this.turn(0, this.layers - 1, forward);
                 this.turn(0, this.layers - 1, forward);
                 break;
@@ -507,6 +558,11 @@ export class Cube {
                 this.wideTurn(0, this.layers - 1, !forward);
                 break;
             case "l'":
+                this.wideTurn(0, this.layers - 1, forward);
+                break;
+            case "l2":
+            case "l2'":
+                this.wideTurn(0, this.layers - 1, forward);
                 this.wideTurn(0, this.layers - 1, forward);
                 break;
             case "R":
@@ -538,6 +594,7 @@ export class Cube {
                 this.turn(0, 1, forward);
                 break;
             case "M2":
+            case "M2'":
                 this.sliceTurn(0, forward);
                 this.sliceTurn(0, forward);
                 break;
@@ -547,12 +604,20 @@ export class Cube {
             case "E'":
                 this.sliceTurn(1, forward);
                 break;
+            case "E2":
+            case "E2'":
+                this.sliceTurn(1, forward);
+                this.sliceTurn(1, forward);
+                break;
             case "S":
                 this.sliceTurn(2, forward);
                 break;
             case "S'":
                 this.sliceTurn(2, !forward);
                 break;
+            case "S2":
+            case "S2'":
+                this.sliceTurn(2, forward);
             default:
                 throw new Error("Invalid turn in algorithm: " + move);
         }

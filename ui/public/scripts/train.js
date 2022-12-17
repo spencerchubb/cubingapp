@@ -1,4 +1,2148 @@
-(()=>{var eU=(U,e)=>()=>(e||U((e={exports:{}}).exports,e),e.exports);var ZR=eU((De,OU)=>{OU.exports=[{cube:"3x3",name:"CMLL",algs:["R U R' U R U2 R'","R U R' U R' F R F' R U2 R'","F R' F' R U2 R U2 R'","R U' L' U R' U' L","R U R' U R U' R D R' U' R D' R2","L' U2 L U2 L F' L' F","L' U' L U' L' U2 L","R' U' R U' R' U R' F R F' U R","F' L F L' U2 L' U2 L","L' U R U' L U R'","R2 D R' U R D' R' U R' U' R U' R'","R U2 R' U2 R' F R F'","F R U R' U' R U R' U' F'","R' U' R' F R F' R U' R' U2 R","r U' r2' D' r U r' D r2 U r'","R' F R U F U' R U R' U' F'","R U2 R' U' R U R' U2 R' F R F'","F R' F' R U2 R U' R' U R U2 R'","F R U R' U' F'","R' U' R U' R' U2 R2 U R' U R U2 R'","F R2 D R' U R D' R2 U' F'","r U' r' U r' D' r U' r' D r","R2 D' R U2 R' D R U2 R","R2 D R' U2 R D' R' U2 R'","F' L F L' U' L' U L","F R' F' R U R U' R'","R U2 R2' F R F' R U2 R'","R U R' U R U' R' U R U' R' U R U2 R'","R' U2 R' D' R U2 R' D R2","R U2 R D R' U2 R D' R2","R U R' U' R' F R F'","L' U' L U L F' L' F","r U' r2' D' r U2 r' D r2 U r'","R U2 R' U' R U' R2 U2 R U R' U R","r' D' r U r' D r U' r U r'","r' U r U2 R2 F R F' R","R U R' U R U' R' U R U2 R'","F R U R' U' R U R' U' R U R' U' F'","r U' r2' D' r U' r' D r2 U r'","R U2 R2 F R F' U2 R' F R F'","R U R' F' R U R' U' R' F R2 U' R'","F R U' R' U' R U R' F' R U R' U' R' F R F'"]},{cube:"3x3",name:"OLL",algs:["R U2 R2 F R F' U2 R' F R F'","L F L' U2 L F2 R' F2 R F' L'","M R U R' U L F2 L' U M'","M U' L F2 L' U' R U' R' M'","R' F2 L F L' F R","L F2 R' F' R F' L'","L F R' F R F2 L'","R' F' L F' L' F2 R","R U R' U' R' F R2 U R' U' F'","R U R' U R' F R F' R U2 R'","M R U R' U R U2 R' U M'","M' R' U' R U' R' U2 R U' M","F U R U' R2 F' R U R U' R'","R' F R U R' F' R F U' F'","R' F' R L' U' L U R' F R","L F L' R U R' U' L F' L'","F R' F' R U S' R U' R' S","R U2 R2 F R F' U2 M' U R U' r'","S' R U R' S U' R' F R F'","S R' U' R U R U R U' R' S'","R U R' U R U' R' U R U2 R'","R U2 R2 U' R2 U' R2 U2 R","R2 D' R U2 R' D R U2 R","L F R' F' L' F R F'","F' L F R' F' L' F R","R U2 R' U' R U' R'","R U R' U R U2 R'","r U R' U' r' R U R U' R'","R U R' U' R U' R' F' U' F R U R'","F R' F R2 U' R' U' R U R' F2","R' U' F U R U' R' F' R","L U F' U' L' U L F L'","R U R' U' R' F R F'","R U R2 U' R' F R U R U' F'","R U2 R2 F R F' R U2 R'","L' U' L U' L' U L U L F' L' F","F R' F' R U R U' R'","R U R' U R U' R' U' R' F R F'","L F' L' U' L U F U' L'","R' F R U R' U' F' U R","R U R' U R U2 R' F R U R' U' F'","R' U' R U' R' U2 R F R U R' U' F'","F' U' L' U L F","F U R U' R' F'","F R U R' U' F'","R' U' R' F R F' U R","R' U' R' F R F' R' F R F' U R","F R U R' U' R U R' U' F'","L F' L2 B L2 F L2 B' L","R' F R2 B' R2 F' R2 B R'","F U R U' R' U R U' R' F'","R U R' U R U' B U' B' R'","R' F' L F' L' F L F' L' F2 R","L F R' F R F' R' F R F2 L'","R' F R U R U' R2 F' R2 U' R' U R U R'","R' F' R U' L' U L U' L' U L R' F R","S R' F R S' R' F' R"]},{cube:"3x3",name:"PLL",algs:["R' F R' B2 R F' R' B2 R2","R2 B2 R F R' B2 R F' R","R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R","R2 U R' U R' U' R U' R2 U' D R' U R D'","R' U' R U D' R2 U R' U R U' R U' R2 D","R2 U' R U' R U R' U R2 U D' R U' R' D","R U R' U' D R2 U' R U' R' U R' U R2 D'","x R2 F R F' R U2 L' B L U2 x'","R U R' F' R U R' U' R' F R2 U' R'","R U' R' U' R U R D R' U' R D' R' U2 R'","R2 F R U R U' R' F' R U2 R' U2 R","R U R' U' R' F R2 U' R' U' R U R' F'","x' R U' R' D R U R' D' R U R' D R U' R' D' x","R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'","R' U R U' R' F' U' F R U R' F R' F' R U' R","R' U R' U' y R' F' R2 U' R' U R' F R F","F R U' R' U' R U R' F' R U R' U' R' F R F'","M2 U M2 U2 M2 U M2","M2 U M U2 M' U M2","M2 U' M U2 M' U' M2","M' U M2 U M2 U M' U2 M2"]},{cube:"3x3",name:"ZBLL",algs:["R' D R D' R' D R U R' D' R D R' D' R","R' U R U2 R' U' R U' R U R' U' R' U' R U R U' R'","R' U2 R U R' U R2 U2 R' U' R U' R'","R U2 R' U' R U' R2 U2 R U R' U R","R' U R U2 R' U' R U2 R' U' R U' R' U R","R U' R' U2 R U R' U2 R U R' U R U' R'","R' U R2 U R' U R' U' R U' R' U' R U R U' R'","R U R' U R U' R' U R' U' R2 U' R2 U2 R","R' U2 R U R' U R U' R' U' R U' R' U2 R","R U2 R' U' R U' R' U R U R' U R U2 R'","R' U' R2 U R2 U R2 U2 R' U R' U R","R U R2 U' R2 U' R2 U2 R U' R U' R'","R U R' F' R U R' U' R' F R U' R' F R U R U' R' F'","R' U' R U' R' U' R2 D r' U2 r D' R2 U' R","R U' R2 D' r U2 r' D R2 U R'","R' U R2 D r' U2 r D' R2 U' R","R' U2 R U2 R2 D' R U2 R' D R2 U' R' U R","R U R' U2 R' D' R U R' D R2 U' R' U R U' R'","R' U' R U R2 D' R U2 R' D R2 U2 R' U2 R","R U R' U' R U R2 D' R U' R' D R U2 R U' R'","R' D' R U' R' D R U' R U' R' U R U' R' U' R U R'","R U' R' U R U R' U' R U R' U R' D' R U R' D R","R U R D R' U R D' R' U L' U R' U' L","r U r' R U R' U' R U R' U' r U' r' F R U R' U' F'","R' U R U2 R' L' U R U' L","R U' R' U2 R L U' R' U L'","R' U' R2 U R' F' R U R' U' R' F R2 U' R' U' R' U R","r U' r U2 R' F R U2 r2 F","R' U' R' D' R U R' D R U2 R U R' U R","R U R D R' U' R D' R' U2 R' U' R U' R'","R D R' U' R D' R' U' R' U R U' R' U R U R' U' R","R' D' R U R U' R' U R U' R' U' R U R'","R' U' R U' R' U R F U' R' U2 R U F'","R U R' U R U' R' U' L' U2 R U2 R' U2 L","R' U2 R U R' U R F U R U2 R' U R U R' F'","r' U' R' F2 R F' R' F2 R2 U' R' U2 r","R' F2 R' B2 R F2 R' B2 R2","R' U2 R U' R' F R U R' U' R' F' R U' R","R' U2 R' D' R U2 R' D R' U R' U R U2 R'","R U2 R D R' U2 R D' R U' R U' R' U2 R","R U R D R' U' R D' R' U R' U R U2 R'","R' U' R' D' R U R' D R U' R U' R' U2 R","R' U R2 D R' U R D' R' U R' U' R U' R' U' R","R U' R2 D' R U' R' D R U' R U R' U R U R'","R' U' R U' F U' R' U R U F' R' U R","R' D' R U R' D R2 U R' U2 R U' R' U' R U' R'","F R U R' U' R U' R' U' R U R' F'","R U R' U2 R U' R' U2 R U' R2 F' R U R U' R' F","R U R D R' U' R D' R2","R U2 R' U2 R' F R U R U' R' F'","R2 B2 R' U2 R' U2 R B2 R' U R U' R'","R' D' R U R' D R2 U' R' U R U R' U' R U R'","F' U' r' F2 r U' r' F' r F","R U R' U' R U' R' L U' R U R' L'","R U R' U R U R' U2 L R U' R' U L'","R' U' R U' R2' F' R U R U' R' F U R U' R' U2 R","R' U' R U R' U' R2 D R' U2 R D' R' U R' U R","R U R D R' U2 R D' R' U' R' U R U' R' U' R U' R'","F R U R' U' R' F' U2 R U R U' R2 U2 R","R U' R' U' R U R D R' U2 R D' R' U' R'","x' U' R' D R U R' D' R x","R U R' U' R' F' R U2 R U2 R' F","R2 F2 R U2 R U2 R' F2 R U' R' U R","R D R' U' R D' R2 U R U' R' U' R U R' U' R","F U R U2 R' U R U R' F'","R U R' U' R U' R'  U' F R U R' U' R' F' R","R' U' R U' R' U R' U' R U R' F' R U R' U' R' F R'","F R U R' U' R U R' U' F' R U R' U' R' F R F'","R U R' U' R U R2 D' R U2 R' D R U' R U' R'","R' U2 R F U' R' U R U F' R' U R","R' U2 R2 U R' U' R' U2 F' R U2 R U2 R' F","R' U R U R' U' R' D' R U2 R' D R U R","R U2 R' U' R U' R' U2 R' U2 R U R' U R","R U R' U' R U' R U2 R2 U' R U R' U' R2 U' R2","R' U' R U' R' U2 R2 U R' U R U2 R'","R U R' U R U2 R2 U' R U' R' U2 R","R U R' U' R U' R' U2 R U' R' U2 R U R'","R' U' R U R' U R U2 R' U R U2 R' U' R","R U2 R2 U' R2 U' R' U R' U' R U R' U R","R' U2 R2 U R2 U R U' R U R' U' R U' R'","R' U2 R U R' U R U R' U' R U' R' U2 R","R U2 R' U' R U' R' U' R U R' U R U2 R'","R' U' R U' R U2 R2 U' R2 U' R2 U R","R U R' U R' U2 R2 U R2 U R2 U' R'","R' U' R U' F U' R' U R U R' U R U' F'","R U R' U L' U R U' M' x' U' R U' R'","R U2 R2 F R F' M' U' R U' R' U M","R' U2 R F U' R' U R U R' U R U' F'","R2 D R' U' R D' R' U' R' U R U R'","R2 D' R U R' D R U R U' R' U' R","R U' R' U' R U R D R' U R D' R2","R' U R U R' U' R' D' R U' R' D R2","M' U R' U' F' U F R2 U R' U R U2 r'","F R U R' U' R U R' U' F' U' R' F' U' F U R","F R U' R' U' R U2 R' U' R U' R' U' R U2 R' U' F'","r' U' R' F R U r F R U' R' F'","R' F R U' R' U' R U R' F' R U R' U' R' F R F' R","F2 R U' R' U' R U R' F' R U R' U' R' F R F2","R U' R' U R U' L U r' F U2 R U2 R2 x","R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R' U2 R","R U' L U L' U R' U' l U2 R U2 R2 x","R' U L' U' L U' R U l' U2 R' U2 R2 x'","F R U R U2 R' U' R U' R' U2 R' U2 R U' R' U' F'","r U R' U' r' F R2 U' R' U' R U2 R' U' F'","F U R U2 R' U R U R2 F' r U R U' r'","R U2 R' U2 R' F R U R U2 R' U' R U2 R' U' F'","R' U' R F R2 D' R U R' D R2 U' F'","r U R' U' r' F R U R' U' R F' R' U R","x R2 U2 R' D2 R U2 R' D2 R' x'","x R2 D2 R U2 R' D2 R U2 l","R U R' U R U' R' U2 R' D' R U2 R' D R2 U' R'","R' U2 R U R' U R' D R' U2 R D' R' U2 R'","R U' R' U' R U' R' U R' D' R U R' D R2 U R'","R' U R U R' U R U' R D R' U' R D' R2 U' R","R' U2 R U R' U R' D' R U' R' D R U R","R U' R' U' R U2 R' U2 R' D' R U' R' D R","R' U' R U2 R' F' R U R' U' R' F R2 U2 R' U R","R U R' U R U R' U2 R U' R2 D' R U' R' D R","F R U' R' U R U R' U R U' R' F'","F' R U R' U' R' F R2 U R' U2 R U R' U2 R U' R'","R2 D' r U2 r' D R U2 R","R2 D' R U2 R' D R U2 R","R U' R' D R' U' R D' R2 U R' U' R' U2 R'","R U R' U R U2 R2 U z U R' D R U' z'","R2 D' R U' R' D R2 U' R' U2 R","R' U R U R' U2 R U2 y R U' R' U2 R U' R'","R2 D R' U R D' R2 U' R U' R' U2 R U' R' U2 R U R'","R2' F' R U2 R U2' R' F U' R U R' U' R","R' U2 R2 D R' U2 R D' R2 U R U2 R' U2 R","R U R' U2 F2 R U2 R' U2 R' F2 R2 U R'","R' U2 R' D' R U2 R' D R U2 R U R' U R","R' U R U' R' U' R U2 R D R' U' R D' R2 U' R","R' U2 R U R2 F' R U R U' R' F R","R2 D R' U2 R D' R' U2 R'","R' U' R U R U R' U' R' U F R U R U' R' F'","R U' R' U' R U2 R' U' R' D' R U2 R' D R","R U R2 D' R U R' D R2 U2 R'","R U' R' U' R U2 R' U2 y' R' U R U2 R' U R","R' U R' U' D' R U' R' U2 R U' R' D R U' R","R U R' U R U' R' U F' R U2 R' U2 R' F R","R' U' R U R' U R U2 F R' U R U' F' R' U2 R","R U R' U R U' R' U R U' R' U' L' U R U' R' L","R U2 R D R' U2 R D' R' U2 R' U' R U' R'","R U' R' U R U R' U2 R' D' R U R' D R2 U R'","R U2 R' U2 R' U' R U R U' R' U2 R' U2 R","R U R' U R U' R' U R U' R' U R U2 R'","R U2 R' U' R U' R' U2 R U R' U R U2 R'","R U R' U R U2 R' U2 R U2 R' U' R U' R'","R2 U R' U R' U' R U' R' U' R U R U' R2","R2 U' R U' R U R' U R U R' U' R' U R2","R' U2 R U R' U R U' R U2 R' U' R U' R'","R U2 R' U' R U' R' U R' U2 R U R' U R","R2 U R' U' R' U R U R' U R U' R U' R2","r U r' U R U' R' U R U' R' M' U R U2' r'","R U R' U R U2 R' U R' U' R U' R' U2 R","R' U' R U' R' U2 R U' R U R' U R U2 R'","F R U' R' U' R U R D R' U' R D' R' U2 R' U' F'","F R U R2' F R F' R U' R' F'","L' U2 R U' R' U2 L R U' R'","R' U' R U R' F' R U R' U' R' F R2","R' U F' R U R' U' R' F R2 U' R' U' R U R' U' R","R U' R' U R U R' U R U' R2' D' R U R' D R","r U2 R r2 F R' F' r2 U2 r'","r U2 r2 F R F' r2 R' U2 r'","F R U R' U' F' r U r' U R U' R' r U' r'","r U r' R U R' U' r U' r' F U R U' R' F'","R U R' U R U' R' F2 R U2 R' U2 R' F2 R2 U' R'","R U R2 F2 R U2 R U2 R' F2 R U R' U' R U' R'","F' r U R' U' r' F R","R' U' R U R' F2 R U2 R' U2 R' F2 R2","F' R U2 R' U2 R' F R U R U' R'","R' U R U' R' U R U R' U' R2 D R' U R D' R'","F R U' R' U' R U2 R' U' F'","R' U' R U2 R' F' R U R' U' R' F R2 U R' U2 R","R' F R U R U' R' F' U R U R' U R U' R'","R2 D' R U' R' D R U R' U' R' U' R U R U R U' R","F R' F' R U R U' R' F U R U' R' U R U' R' F'","F' R U2 R' U2 R' F U2 R U R U' R2 U2 R","R U R' U R' D' R U2 R' D R2 U' R' U R U' R'","R' U' R' D' R U2 R' D R U R U' R' U' R","F R' F' r U R U' r'","R U R' U' R B2 R' U2 R U2 R B2 R2","F R U R' U' R' F' R U2 R U2 R'","R U' R' U R U' R' U' R U R2 D' R U' R' D R","R' F' R U R' U' R' F R U' R U R' U R","R U R' U R U R' U' R U R D R' U2 R D' R' U' R'","L R U' R' U R L' U R' U R U' R'","L U' R U R' L' U2 R U' R' U' R U' R'","R' U2 R U R' U' F' R U R' U' R' F R2 U R' U R","R' U2 R2 U R' U' R' U2 F R U R U' R' F'","R U R' U R U' R' U' L' U R U' M' x'","R U R D R' U2 R D' R' U' R' U R U R'","R' U2 R' D' R U2 R' D R2","R' U2 R' D' r U2 r' D R2","R D R' U2 R D' R' U' R' U2 R U' R' U' R","R U2 R U R U' R2 D R' U R D' R U R'","R U R' U2 R U R' U2 y' R' U2 R U' R' U' R","R' U2 R U R2 D' R U R' D R2","R U R' U' R U' R' U L' U R U' L U' R'","R U' R' U2 R U R' U2 R U R' U R2 D R' U' R D' R2","R' U2 R U2 R' U' R2 D R' U2 R D' R2 U2 R","F' R U R' U' R' F R2 U' R' U' R U' R' U R U R'","R U' R2 F2 R U2 R U2 R' F2 U2 R U' R'","R' U R2 D R' U R D' R' U2 R' U R U R' U' R","R U2 R D R' U2 R D' R2","R' F' R U R' U' R' F R2 U' R' U2 R","L' U R U' L U R2 U2 R U R' U R","F R U R' U' R' F' U' R U R U' R' U' R' U R","R' U' R U2 R' U' R y U2 R U2 R' U R U R'","R U2 R' U' R2 D R' U' R D' R2","R' U' R U R' U R U' L U' R' U L' U R","R' U R' D' R U R' U2 R U R' D U R U' R","R U2 R' U2 R U R2 D' R U2 R' D R2 U2 R'","R U R' U R U2 R D R' U2 R D' R' U2 R'","R' U R2 B2 R' U2 R' U2 R B2 U2 R' U R","R U' R2 D' R U' R' D R U2 R U' R' U' R U R'","R' U' R U R U2 R' U' R U' R2 U2 R","R U R' U' R' U2 R U R' U R2 U2 R'","R' U2 R U R' U R2 U R' U R U2 R'","R U2 R' U' R U' R2 U' R U' R' U2 R","R U2 R' U2 R U' R' U2 R U' R' U2 R U R'","R' U2 R U2 R' U R U2 R' U R U2 R' U' R","R U' R' U2 R U R' U2 R U R' U2 R U2 R'","R' U R U2 R' U' R U2 R' U' R U2 R' U2 R","R' U2 R2 U R2 U R2 U2 R'","R U2 R2 U' R2 U' R2 U2 R","R U R' U' R' U' R U R U R' U' R' U R U' R U' R'","R U2 R' U' R U' R' U' R U2 R' U' R U' R'","R2 U R' U2 R' U' R U R D R' U R D' R' U R U' R2'","F R2 U' R U2 R U R' U R' U R2 F'","F U R' U' R2 U' R2 U2 R U2 R U R' F'","r' U' R U' R' U R U' R' U R' F R F' U r","R U2 R' U' F' R U2 R' U' R U' R' F R U' R'","R U R' U r' F R F' r U' R' U R U2' R'","r U R' U R' F R F' R U' R' U R U2' r'","R U R' U' R U R2 D' R U' R' D R U' R U2 R'","R U2 R' U R' D' R U R' D R2 U' R' U R U' R'","R' U2 R U' R D R' U' R D' R2 U R U' R' U R","R2 D R' U' R D' R' U' R' U R U' R' U' R U' R'","R2 D' R U R' D R U R U' R' U R U R' U R","F U R U2 R' U R U R' F' R U2 R' U' R U' R'","r U' r' U' r U r' U' l R U' R' U l'","r' U r U r' U' r U R2 F R F' R","r' U' R U' R' U2 r U' R U2 R' U2 R' F R F'","R' U' R U R2 F' R U R U' R' F U' R U R' U R","R U2 R D' R U' R' D R' U' R2 U2 R","R' U' R U' R2 D' R U R' D R2 U' R' U2 R","L' U R U' L U' R' U' R U' R'","R U' L' U R' U L U L' U L","R2 D' R U2 R' D R2 U R2 D' R U R' D R2","R2 D R' U2 R D' R2 U' R2 D R' U' R D' R2","R U2 R2 F R U R U2 R' U' R U2 R' U' F' R U R'","R U2 R2 U' R U' R' U2 F R U R U' R' F'","R U R' U R U2 R2 F' r U R U' r' F","r' F' r U' r' F2 r2 U R' U' r' F R F'","F R U R' U' R' F' R U2 R' U' R2 U' R2 U2 R","R' U' R L U2 R' U2 R U2 L' U R' U2 R","F U' R U' R' U R U R' U2 R U2 R' U F'","R2 D' R U' R' D R U R' D' R U R' D R U R U' R' U' R","R' U' F' R U R' U' R' F R2 U2' R' U2 R","R U R' U R U' R' U' R' F' R U2 R U2' R' F","R' U' R' D' R U R' D R' U R' U R U2 R'","R U R D R' U' R D' R U' R U' R' U2 R","F U R U' R' U R U2 R' U' R U R' F'","r' F' r U r U2 r' F2 U' R U R' U' R U' R'","R U2 R' U2 R' F R2 U' R' U2 R U2 R' U' F'","R' F R U R' U' R' F' R2 U' R' U R U' R' U2 R","R' L U2 R2 U R2 U R U L' U' R U2 R'","l U2 l' U2 R' U2 R B2 U R' U R","R U R' U F2 R U2 R' U2 R' F2 R","R' U2 R U R' U R2 U' L' U R' U' L","R U R' U R U' R' U R U' R D R' U' R D' R2","R U R' U' R' F R2 U R' U' R U R' U' F'","R2 D R' U2' R D' R2' U' R U' R' U R U2' R' U' R U' R'","R U2 R' U' R U R' U2 L' U R U' M' x'","L R' U' R U L' U2 R' U R U' R' U2 R","R U R' U R U' R2' F R F' R U' R' F' U F","F U R U2 R' U2 R U R2 F' R U2 R U2 R'","R U' R' U' R U' R' U R U R' U R' F' R U R U' R' F","R' U2 R U R' U' R U R2 F R U R U' R' F' R","R' F2 R U2 R U2 R' F2 U' R U' R'","R' U' R U' B2 R' U2 R U2 l U2 l'","R U2 R' U' R U' R2 U L U' R U L'","R' U' R U' R' U R U' R' U R' D' R U R' D R2","F U R U' R' U R U' R2 F' R U R U' R'","R U R' U R U2' R' U' R U R' U R2 D R' U2 R D' R2'","R' U2 R U R' U' R U2 L U' R' U R L'","R L' U R' U' L U2 R U' R' U R U2 R'","R U2 R' U' R U' R' U' R' U' R U' R' U2 R","R' U2 R U R' U R U R U R' U R U2 R'","R' U' R U' R' U R U' R' U2 R","R U R' U R U' R' U R U2 R'","R' U2 R U R' U' R U R' U R","R U2 R' U' R U R' U' R U' R'","R U R' U R U' R' U R U' R' U R' U' R2 U' R' U R' U R","R U R' U R U2 R' U' R' U2 R U R' U R","R U2 R D R' U' R D' R2 U' R' F R U R U' R' F'","F U R U' R' U R U' R' U R U' R' F'","R U R' y' U R' U R U' R2 F R F' R","R' U' R y U' R U' R' U R l U' R' U l'","F R U R' U' R U R' U' F' U R' F' U' F U R","R' U' R U' R' U2 R U R' U' R U R' F' R U R' U' R' F R2","L' U L U' L' U' L U R' U' R U L' U' L U2 R' U' R","R U' R' U R U R' U' L U L' U' R U R' U2 L U L'","R U R' U R U2 R' F R U' R' U' R U2 R' U' F'","R U R2 F R F' r U' r' U r U r' U2","R' F R' F' R2 U' r' U r U' r' U' r","R' U' R U' R' U' L U' R U L'","R U R' U R U L' U R' U' L","R' U' R U' R' U F' R U R' U' R' F R2 U' R' U R","R U R' U R' U' R2 U' R2 U' L U' R U L'","R' U2' R U R2' D' R U' R' D R2 U R' U R","R U2 R' U' R2 D R' U R D' R2' U' R U' R'","F R U' R' U' R U2 R' U' F' U R U R' U R U2 R'","R2 D' R U' R' D R2 U' R2 D' R U2 R' D R2","R2 D R' U R D' R2' U R2 D R' U2 R D' R2'","F R' F' r U R U' r2 F2 r U r' F r","R U R' U' R' F R U R U' R' F' R U R' U R U2 R'","R' U2 R U' L U2 R' U2 R U2 L' R' U R","R U2 R' U L' U2 R U2 R' U2 L R U' R'","F U' R U2 R' U2 R U' R' U' R U R' U F'","R' F R U R' U' F' R U' R' U R' F R F' U R","R U2 R' U' R U' R D' R U' R' D R U R","R U2 R2 F U' R2 U' R2 U F' U R","R' U2 R U2' R2 F' R U R U' R' F U R","F B' R2 B R2 U' R2 U' R2 U R2 F'","R' U' R U' R' U R U R' F R U R' U' R' F' R2","F R U' R' U R U2 R' U' R U R' U' F'","R' U R2 U R' U R U2 R U2 R U R' U R2","R' U2 R2 U R  U' R' U R U R2 U' R'","R U R' U R U2 R'","R' U2 R U R' U R","R U R2 U' R2 U' R2 U2 R2 U2 R'","R' U' R U' R U R2 U R2 U2 R'","R U R' U' R' U2 R U R U' R' U R' U R","R' U' R U R U R' U' R' U R U R U' R'","R U R' U R U' R' U R' U' R2 U' R' U R' U R","R U R' U R U R U R U R U' R' U' R2","R U R' U R' U' R2 U' R' U R' U' R U R' U R","R U R' U R U' R' U R' U' R' U R U' R' U' R2 U R","F U' R' U R U F' R U R2 U R2 U2 R'","R' D' R U' R' D R U2 R U R' U2 R U R'","R' U2 R U R' U' R F U' R' U' R U F'","R' U R U2 R' U R U2 R D R' U' R D' R'","L' U2 R U' R' U2 L U R U' R' U R U2 R'","F R U R' U' R U R2 U' F' U R U R U' R'","R U R' F' R U R' U R U2 R' F R U' R'","R U2 L' R' U2 R U2 R' U2 L U' R U' R'","R U' R2 U2 D' R U R' U D R2 U R'","F U R' F R F' R U' R' U R U' R' F'","R U R' U' L' U R U' L U' L' U R' U' L","F R U' R U2 R' U2 R' U' R U2 R' U' R2 U' R2 F'","R U' L' U R' U' L","R' U2 R U R' U' R' D' R U2 R' D R2","R' D U' R' U R U2 D' R2 U R' U' R'","R' U' R' U R2 D' U2 R U R' U' D R'","R2 D R' U2 R D' R' U' R' U R U2 R'","D' R U R' U R U' R' U' D R2 U' R U' R' U R' U R2","R U R' U R U R' U' R U R D R' U' R D' R' U2 R'","R' U2 R U R' U' R' D' R U' R' D R U R U' R' U' R","R' U2 F' R U R' U' R' F R U2 R","R2 U R U R' U' R' U' R' L' U R' U' L","R U2 R' U2 R' F R2 U R' U' R U R' U' F'","R U R' U R U' R' U' R' F R2 U' R' U' R U R' F'","R2 U R' U R D R' U2 R D' R' U R U' R2'","R U R' U R U' R D R' U' R D' R2","R U' R' U' R U' R' U2 R U R2 D' R U2 R' D R","F U R U' R' U R U' l U' R2 D' R U R' x","R2 D' R U' R' D R U' R U R' U R","R U2 R' L' U2 R U R' U2 L R U2 R'","R' D' R U R' D R2 U' R' U R U R' U' R U2 R' U R U2 R'","R U' R' U' R U R D R' U2 R D' R2 U R U2 R'","R' U2 R' D' R U R' D R U' R U R' U R","R' U' R U' R2 F' R U R U' R' F U2 R","R U R' U R' D' R U R' D R U' R U2 R'","R U2 R' U' R U R' U' R U R D R' U2 R D' R2","f R' F' R U2 R U2 R' U2 S'","R' D' R U R' D R2 U R' U2 R U R'","R' D R' U R D' U R U' R' U' R2 U R U' R'","R' U2 R U R2 D' R U' R' D R U2 R","R2 D' r U2 r' D R2 U R' U R","R' U2 R U R' U R' D' R U2 R' D R U2 R","R L' U R' U' L U2 R U2 R'","R2 D' R U2 R' D R2 U R' U R","R2 F R U R U' R' F' R U' R' U R","R U R' U R' U' R' D' R U R' D R' U2 R'","R' U' F U' R2 U R2 U F' R U' R U' R'","R2 D' R U2 R D2 R' U' R D2 R' U R' D R U2 R","R U R' U' R U R2 D' R U2 R' D R2 U2 R'","R U R' U R U' R2 F' R U R U' R' F R U' R'","R U R' U R2 D r' U2 r D' R2","R' U R U2 R' U R2 D R' U R D' R'","R' U' R U R2 U' R' U' R U D' R U R' D R'","R U R' U R2 D R' U2 R D' R2","R' U2 R U2 L U' R' U L' R","R U2 R D R' U2 R D' R' U R' U R U2 R'","R U R2 F' R U2 R U2 R' F R U' R'","R U R' U' R U R2 D' R U R' D R U R U2 R'","F' R U R' U R U2 R' F U R U' R' U2 R U' R'","R' F R U R' U' R' F' D' R U R' D R2","R2' D' R U2 R' D R U R' F R U R U' R' F' R","R U2 R2 U' R' U R U' R' U' R2 U R","R' U' R U' R' U2 R","R U2 R' U' R U' R'","R' U' R2 U R2 U R2 U2 R2 U2 R","R U R' U R' U' R2 U' R2 U2 R","R' U' R U R U2 R' U' R' U R U' R U' R'","R U R' U' R' U' R U R U' R' U' R' U R","R U R' U R' U' R U R' U' R2 U' R2 U R U' R' U R","R' U' R U' R' U' R' U' R' U' R' U R U R2","R U R' U' R U R2 U' R2 U' R' U R U' R' U R' U R","R U R' U R' U' R' U R U' R' U' R' U' R' U2 R","R U2 R2 U' R2 U' R' F U' R' U' R U F'","R D R' U R D' R' U2 R' U' R U2 R' U' R","R U2 R' U' R U R' L' U R U' L U2 R'","R U' R' U2 R U' R' U2 R' D' R U R' D R","F U' R' U R U F' R' U R U' R' U2 R","R U R' U L' U2 R U2 R' U2 R L U2 R'","R U R' F' R U2 R' U' R U' R' F R U' R'","R U  R' U' R' U' F U R2 U' R' U R U' R' F'","R' U R2 U2 D R' U' R U' D' R2 U' R","R' U R U R' U r U' R' U R U r' R' F R F' U R","z D' R' D R U R' D' R U' R U R' D R U' z'","R U2 R' U' R U r' F r U2 R' U' r' F2 r","R' U L U' R U L'","R U2 R' U' R U R D R' U2 R D' R2","R D' U R U' R' U2 D R2 U' R U R","R U R U' R2 D U2 R' U' R U D' R","R2 D' R U2 R' D R U R U' R' U2 R","D R' U' R U' R' U R U D' R2 U R' U R U' R U' R2","R' U' R U' R' U' R U R' U' R' D' R U R' D R U2 R","R U2 R' U' R U R D  R' U R D' R' U' R' U R U R'","F U R U' R' U R U' R2 F' R U2 R U2 R'","F R U' R' U R U R2 F' R U R U R' U' R U' R'","R' U2 R' F' R U R U' R' F U2 R","L' U R U' L R U R U R U' R' U' R2","R D' R2 D R2 U' R2 D' R2 D R2 U R","R' U' R U' R' U R' D' R U R' D R2","l U' R' D R2 U l' U R' U' R U R' U' F'","R' D' R U2 R' D R2 U' R' U2 R U R' U R U R'","R2 D R' U R D' R' U R' U' R U' R'","R U2 R' L' U2 R U' R' U2 L R U2 R'","R U R' U' R' U' R U R U' R' U' R2 D' R U' R' D R U2 R","R U2 R' U' R2 D R' U2 R D' R' U' R' U R U R'","R U2 R' U R' D' R U' R' D R U' R U' R'","R2 D R' U2 R D' R' U' R' U R U' R' U  R U2 R'","R' U' R U' R D R' U' R D' R' U R' U2 R","R' U2 F' R U R' U' R' F R2 U R' U R","R U2 R2 D' R U2 R' D R2 U' R' U R U' R'","R D R' U' R D' R2 U' R U2 R' U' R","R D' R U' R' D U' R' U R U R2 U' R' U R","R U R' F' R U R' U' R' F R2 U R' U' R U' R'","R2 D r' U2 r D' R2 U' R U' R'","R U2 R' U' R U' R D R' U2 R D' R' U2 R'","L R' U' R U L' U2 R' U2 R","R2 D R' U2 R D' R2 U' R U' R'","R U R' F' R U2 R' U2 R' F R2 U' R'","R U2' R' U' R' D' R U' R' D R2 U' R' U R U' R'","R U R' U2 R U R' U' F' R U2 R' U' R U' R' F","R2 D' R U' R' D F R U R U' R' F' R","R U2 R' U' F' R U R' U' R' F R2 U' R'","R' U2 R' D' R U R' D R2 U' R' U2 R","R' U' R U' R2 D' r U2 r' D R2","R U' R' U2 R U' R2 D' R U' R' D R","R U R' U' R2 U R U R' U' D R' U' R D' R","R' U' R U' R2 D' R U2 R' D R2","R U2 R' U2 L' U R U' R' L","R' U2 R' D' R U2 R' D R U' R U' R' U2 R","R' U' R U R' F R U R' U' R' F' R2","R U2 R D' R U' R' D R U R U' R U' R'","R U R' U R' F U' R2 U' R2 U F' U R","R U R' U R' U' R2 U' R D' R U R' D R U R"]},{cube:"2x2",name:"2x2 CLL",algs:["R U R' U R U2 R'","R U R' U R' F R F' R U2 R'","F R' F' R U2 R U2 R'","R U' L' U R' U' L","R U' R U' R' U R' U' F R' F'","L' U2 L U2 L F' L' F","L' U' L U' L' U2 L","R' U' R U' R' U R' F R F' U R","F' L F L' U2 L' U2 L","L' U R U' L U R'","R2 F R U2 R U' R' U2 F' R","R U2 R' U2 R' F R F'","F R U R' U' R U R' U' F'","R' U' R' F R F' R U' R' U2 R","R' F R F' R U' R' U' R U' R'","F R2 U' R2 U R2 U R2 F'","R U2 R' U' R U R' U2 R' F R F'","F R' F' R U2 R U' R' U R U2 R'","F R U R' U' F'","R U R2' U' R U2 R' U2' R U' R","F R U R' U2 F' R U' R' F","x R U' R U' R' U R' F' R x2","R U' R2 F R F' R U R' U' R U R'","R' U R' F R F' R U2 R' U R","F' L F L' U' L' U L","F R' F' R U R U' R'","R U2 R2' F R F' R U2 R'","R' U R' U2 R U' R' U R U' R2","R U' R' U R U' R' F R' F' R2 U R'","R' F' R U R' U' R' F R2 U' R' U2 R","R U R' U' R' F R F'","L' U' L U L F' L' F","F U' R U2 R' U' F2 R U R'","R' U R' U2 R U2 R' U R2 U' R'","R' U2 R' F2 R F2 R' F2 R2","R' U R U2 R2 F R F' R","R2 U2 R U2' R2'","x' U2 R U2 R2 F2 R U2 x","R U R' U R U R' F R' F' R","F R2 U' R2' U' R2 U R2' F'","R U R' F' R U R' U' R' F R2 U' R'","R' U R' F2 R F' U R' F2 R F' R"]},{cube:"2x2",name:"2x2 EG1",algs:["R' F R2 F' R2 U2 R","R U R' F2 U F R U R'","F R' F' R U R' F' R2 U R'","F' U R U' R' U F R U R'","R U' R' U R U' R' U F R U' R'","L' U L2 F' L' U L F' L' F","B U' R2 F2 U' F","R U' R' F' U' F2 R U' R'","F' L F L' U' L F L2 U' L","R U' R' F' U' R U R' U' F","R U R' F' U' R U R' U' R U R'","R U' R2 F R U' R' F R F'","F2 R U R' U2 R U R' U' F","R' F R2 U' R2 F R","F R' F U' F2 R U R","R U' R' U R U' R' F R U' R'","F U' R U2 R' F' R U R' F'","F R U' R' F R U2 R' U F'","R2 U' R' U' R U' R' U R'","x U' R' U R U' F R U R U' x'","F' U2 R U2 R' U2 F","R' F R F' R' F R2 U' R'","R U' R' U R U' R' U R' F' R F","L' U L U' L U L U' L F L' F'","R U' R' U R U' R2 F' R F","L' U L U' L' U L2 F L' F'","R' U R2 U' R2 U' F R2 U' R'","R' F2 R F' R' F R2 U R'","F' R' F R U' R U R' U' R U R'","F L F' L' U L' U' L U L' U' L","F L F' L2 U' L U L' U' L","F' R' F R2 U R' U' R U R'","R U' R2 F R U R U2 R'","R U' R' F' U' x U R' U' R U x'","R U R2' F' R F R' F' R","R U' R' U2 F R U2 R' F","R' F R2 U' R2 U' F U R","F' U R U' R2 F2 R U' F","R' U' R' F2 U F' R F'","R U R' F' R U R' U' R U R' U'","R2 U F2 U2 R2 U R2","R' D R' F2 R D' R"]},{cube:"2x2",name:"2x2 EG2",algs:["F U' R2 U' R' U2 R U' R2 F'","R U R' U R U2 R B2 R2","R U' R' F2 R2 F' L' U' L","F R2 F' R2 F' R U' R","F' R' U R' U2 F R' U R'","R2 B2 R' U' L' U  R' U' L","x U' R2 F R2 F' U R' U2 R' U x'","R' U' R U' R' U2 R' F2 R2","L' U L F' R U R B2 R2","R' U R' F R2 F R2 F'","R' U' R U' R' U' R' F2 R F' R","R2 F2 R F R F' R U R'","F U' R U2 R U' R' U R' F'","R' U2 R2 U' R' F2 R2 F'","R' F' U R' F R2 U2\u2019 R' U R","R' F U' R U R' F2 U2 R","R' U' R' F2 R2 U R' F2 R","R' U2 R U' R2 F2 R F R","F U' R U2 R U' R' U2 R' U' F'","F U R U' R' F R2 F2","R U R' U' R B2 R' U R U' R'","R2 F2 R U R U2 R2 F R F' R","R U' R' U2 L U L' U2 R U' R'","L' U L U2 R' U' R U2 L' U L","R2 B2 R2 F R' F' R U R U' R'","F2 R2' F R U R' U' R' F R","R' U' F2 R U2 R' U2 F R","R' U' R U R' F' R U R' U' R' F' R2","F R' F' R U R U' R B2 R2","F' R U R' U' R' F R' F2 R2","F R F' R U R' U' R B2 R2'","F R' U2 R' U' R U2 F'","R' U R' F R2 U2' R' U' R","F2 R2 F U' R' F R F","R F2 R U R U R F R U R","R' U2 R' F2 R F2 R ","R2 F U2 F2 R2 F' R2","R2 U2 R U2 B2 R2","R' U' R U2 R2 F' R U' F R","R U' R' F U2 R2 F' R F' R","R' U R' F2 R F' R","R2 F2 R2"]}]});var tU=[1,1,1,1];var rU=[1,1,0,1],nU=[0,1,0,1],sU=[0,0,1,1],iU=[1,.5,0,1],oU=[1,0,0,1],gR=[0,0,0,1],xR=[tU,nU,rU,sU,iU,oU];function sR(U){return(U<0||U>=xR.length)&&console.error("Invalid face: "+U),xR[U]}function iR(U,e){return Math.floor(U/h(e.layers))}function q(U){return Math.floor(Math.random()*U)}function bR(U){let e=U.length;for(;e!=0;){let R=q(e);e--;let t=U[R];U[R]=U[e],U[e]=t}return U}function oR(U){return U<=0?2:oR(U-1)+U+2}function SR(U){U[0].score++;let e=oR(U[0].score),R=Math.ceil(U.length*3/4);e>R&&(e=R+q(U.length-R)),vR(U,e)}function AR(U){U[0].score=0,vR(U,oR(0))}function vR(U,e){let R=U[0];for(let t=0;t<e;t++)U[t]=U[t+1];U[e]=R}var W=0,H=1,G=2,Y=3,K=4,z=5,lU=[[W,Y,K],[W,z,Y],[W,K,H],[W,H,z],[G,H,K],[G,z,H],[G,K,Y],[G,Y,z]],FU=[[W,Y],[W,K],[W,z],[W,H],[H,K],[H,z],[G,H],[G,K],[G,z],[G,Y],[Y,K],[Y,z]];function MR(U){let e=kR(12,2),R=kR(8,3),t=aR(8),r=aR(12);for(;BR(t)!==BR(r);)t=aR(8);let n=Array(54);for(let p=0;p<6;p++){let A=U.center(p);n[A]=p}let o=U.corners(0,0),s=U.corners(1,0),i=U.corners(2,0),a=U.corners(3,0),l=U.corners(4,0),f=U.corners(5,0),c=(p,A,N,E,O,C,P,w,_)=>{let b=(T,I)=>lU[t[T]][(R[T]+I)%3];n[p.topLeft]=b(A,C),n[p.topRight]=b(N,P),n[p.bottomLeft]=b(E,w),n[p.bottomRight]=b(O,_)};c(o,0,1,2,3,0,0,0,0),c(s,2,3,4,5,2,1,1,2),c(i,4,5,6,7,0,0,0,0),c(a,6,7,0,1,2,1,1,2),c(l,0,2,6,4,2,1,1,2),c(f,3,1,5,7,2,1,1,2);let F=U.edges(0,0,0),u=U.edges(1,0,0),D=U.edges(2,0,0),x=U.edges(3,0,0),d=U.edges(4,0,0),M=U.edges(5,0,0),S=(p,A,N,E,O,C,P,w,_)=>{let b=(T,I)=>FU[r[T]][(e[T]+I)%2];n[p.top]=b(A,C),n[p.left]=b(N,P),n[p.right]=b(E,w),n[p.bottom]=b(O,_)};return S(F,0,1,2,3,0,0,0,0),S(u,3,4,5,6,1,0,0,1),S(D,6,7,8,9,0,0,0,0),S(x,9,10,11,0,1,0,0,1),S(d,1,10,4,7,1,1,1,1),S(M,2,5,11,8,1,1,1,1),n}function kR(U,e){let R=Array(U);for(let t=0;t<U;t++)R[t]=q(e);for(;!uU(R,e);){let t=q(U);R[t]=q(e)}return R}function uU(U,e){let R=0;for(let t=0;t<U.length;t++)R+=U[t];return R%e===0}function aR(U){let e=Array(U);for(let R=0;R<U;R++)e[R]=R;return bR(e),e}function BR(U){let e=[...U],R=!1;for(;;)if(e[0]===0){let t=e.findIndex((r,n)=>r!==n);if(t===-1)return R;e[0]=e[t],e[t]=0,R=!R}else{let t=e[0];e[0]=e[t],e[t]=t,R=!R}}var cU=document.querySelector("canvas"),Q=cU.getContext("webgl");function lR(U,e){let R=[e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3]];Q.bindBuffer(Q.ARRAY_BUFFER,U.buffer),Q.bufferData(Q.ARRAY_BUFFER,new Float32Array(R),Q.STATIC_DRAW)}function h(U){return U*U}function y(U){return Math.floor(U/2)}function V(U){return U%2==0}function g(U){return U*U*6}var eR=class{constructor(){this.animationQueue=[]}setColors(e){for(let R=0;R<g(this.layers);R++)lR(this.stickers[R],e[R])}solve(){let e=Array(g(this.layers));for(let R=0;R<g(this.layers);R++)e[R]=sR(iR(R,this));this.setColors(e)}scramble(){if(this.layers===3){this.scramble3x3();return}this.naiveScramble()}scramble3x3(){let e=MR(this);this.setCubeState(e)}naiveScramble(){let e=h(this.layers)*10;for(let R=0;R<e;R++){let t=Math.floor(Math.random()*3),r=Math.floor(Math.random()*this.layers),n=Math.floor(Math.random()*1)==0;this._matchTurn(t,r,n)}}setNumOfLayers(e){this.layers=e,this.stickers=Array(g(e)),this.underStickers=Array(g(e));for(let R=0;R<g(e);R++){let t=iR(R,this);this.stickers[R]={face:t,buffer:Q.createBuffer()},this.underStickers[R]={face:t,buffer:Q.createBuffer()},lR(this.underStickers[R],gR)}this.affectedStickers=Array(g(e)).fill(!1)}getCubeState(){return this.stickers.map(e=>e.face)}setCubeState(e){for(let R=0;R<g(this.layers);R++){let t=sR(e[R]);this.stickers[R].face=e[R],lR(this.stickers[R],t)}}resetAffectedStickers(){let e=Array(g(this.layers));this.affectedStickers=e.fill(this.layers===1)}pushAnimation(e,R,t){let r=R?-1:1,n=[0,0,0];n[e]=r,this.animationQueue.push({axis:n,stickers:t,stickersToAnimate:this.affectedStickers})}turn(e,R,t){this.resetAffectedStickers(),this.pushAnimation(e,t,[...this.stickers]),this._matchTurn(e,R,t)}sliceTurn(e,R){let t=Array(g(this.layers));this.affectedStickers=t.fill(!1),this.pushAnimation(e,R,[...this.stickers]);for(let r=1;r<this.layers-1;r++)this._matchTurn(e,r,R)}wideTurn(e,R,t){this.resetAffectedStickers(),this.pushAnimation(e,t,[...this.stickers]),this._matchTurn(e,R,t);for(let r=1;r<this.layers-1;r++)this._matchTurn(e,r,t)}cubeRotate(e,R){this.resetAffectedStickers(),this.pushAnimation(e,R,[...this.stickers]);for(let t=0;t<this.layers;t++)this._matchTurn(e,t,R)}_matchTurn(e,R,t){e==0?(this._turnXAxis(R,t),R==0?this._turnOuter(5,t):R==this.layers-1&&this._turnOuter(4,!t)):e==1?(this._turnYAxis(R,t),R==0?this._turnOuter(0,t):R==this.layers-1&&this._turnOuter(2,!t)):e==2?(this._turnZAxis(R,t),R==0?this._turnOuter(1,t):R==this.layers-1&&this._turnOuter(3,!t)):console.error(`Axis ${e} not recognized`)}_turnXAxis(e,R){for(let t=1;t<=this.layers;t++)this._cycle(R,0*h(this.layers)+h(this.layers)-t-e*this.layers,3*h(this.layers)+h(this.layers)-t-e*this.layers,2*h(this.layers)+h(this.layers)-t-e*this.layers,1*h(this.layers)+h(this.layers)-t-e*this.layers)}_turnYAxis(e,R){for(let t=0;t<this.layers;t++)this._cycle(R,1*h(this.layers)+t*this.layers+e,4*h(this.layers)+t*this.layers+e,3*h(this.layers)+(this.layers-t-1)*this.layers+(this.layers-1)-e,5*h(this.layers)+t*this.layers+e)}_turnZAxis(e,R){for(let t=0;t<this.layers;t++)this._cycle(R,0*h(this.layers)+(t+1)*this.layers-1-e,5*h(this.layers)+t+this.layers*e,2*h(this.layers)+(this.layers-t-1)*this.layers+e,4*h(this.layers)+h(this.layers)-(t+1)-e*this.layers)}_turnOuter(e,R){if(this.layers%2!=0){let t=this.center(e);this.affectedStickers[t]=!0}for(let t=0;t<Math.floor(this.layers/2);t++){let{topLeft:r,topRight:n,bottomLeft:o,bottomRight:s}=this.corners(e,t);this._cycle(R,r,n,s,o);let i=this.layers-2*(t+1);for(let a=0;a<i;a++){let{top:l,left:f,bottom:c,right:F}=this.edges(e,t,a);this._cycle(R,l,F,c,f)}}}_cycle(e,R,t,r,n){this.affectedStickers[R]=!0,this.affectedStickers[t]=!0,this.affectedStickers[r]=!0,this.affectedStickers[n]=!0,e?this._cycleHelper(R,t,r,n):this._cycleHelper(n,r,t,R)}_cycleHelper(e,R,t,r){let n=this.stickers[r];this.stickers[r]=this.stickers[t],this.stickers[t]=this.stickers[R],this.stickers[R]=this.stickers[e],this.stickers[e]=n}matchKeyToTurn(e){if(this.disableTurn||e.ctrlKey)return;switch(e.code){case"KeyN":return this.cubeRotate(0,!0),{notation:"x",rotate:!0};case"KeyB":return this.cubeRotate(0,!1),{notation:"x'",rotate:!0};case"Semicolon":return this.cubeRotate(1,!0),{notation:"y",rotate:!0};case"KeyA":return this.cubeRotate(1,!1),{notation:"y'",rotate:!0};case"KeyP":return this.cubeRotate(2,!0),{notation:"z",rotate:!0};case"KeyQ":return this.cubeRotate(2,!1),{notation:"z'",rotate:!0};case"KeyJ":return this.turn(1,0,!0),{notation:"U",turn:!0};case"KeyF":return this.turn(1,0,!1),{notation:"U'",turn:!0};case"KeyS":return this.turn(1,this.layers-1,!1),{notation:"D",turn:!0};case"KeyL":return this.turn(1,this.layers-1,!0),{notation:"D'",turn:!0};case"KeyH":return this.turn(2,0,!0),{notation:"F",turn:!0};case"KeyG":return this.turn(2,0,!1),{notation:"F'",turn:!0};case"KeyW":return this.turn(2,this.layers-1,!1),{notation:"B",turn:!0};case"KeyO":return this.turn(2,this.layers-1,!0),{notation:"B'",turn:!0};case"KeyD":return this.turn(0,this.layers-1,!1),{notation:"L",turn:!0};case"KeyE":return this.turn(0,this.layers-1,!0),{notation:"L'",turn:!0};case"KeyI":return this.turn(0,0,!0),{notation:"R",turn:!0};case"KeyK":return this.turn(0,0,!1),{notation:"R'",turn:!0};case"BracketLeft":return this.sliceTurn(0,!1),{notation:"M",turn:!0};case"Quote":return this.sliceTurn(0,!0),{notation:"M'",turn:!0};case"KeyC":return this.sliceTurn(1,!1),{notation:"E",turn:!0};case"Comma":return this.sliceTurn(1,!0),{notation:"E'",turn:!0};case"KeyY":return this.sliceTurn(2,!0),{notation:"S",turn:!0};case"KeyT":return this.sliceTurn(2,!1),{notation:"S'",turn:!0};case"KeyU":return this.wideTurn(0,0,!0),{notation:"r",turn:!0};case"KeyM":return this.wideTurn(0,0,!1),{notation:"r'",turn:!0};case"KeyV":return this.wideTurn(0,this.layers-1,!1),{notation:"l",turn:!0};case"KeyR":return this.wideTurn(0,this.layers-1,!0),{notation:"l'",turn:!0}}}stepAlgorithm(e,R){switch(e){case"x":this.cubeRotate(0,R);break;case"x'":this.cubeRotate(0,!R);break;case"x2":this.cubeRotate(0,R),this.cubeRotate(0,R);break;case"y":this.cubeRotate(1,R);break;case"y'":this.cubeRotate(1,!R);break;case"y2":this.cubeRotate(1,R),this.cubeRotate(1,R);break;case"z":this.cubeRotate(2,R);break;case"z'":this.cubeRotate(2,!R);break;case"z2":this.cubeRotate(2,R),this.cubeRotate(2,R);break;case"U":this.turn(1,0,R);break;case"U'":this.turn(1,0,!R);break;case"U2":case"U2'":this.turn(1,0,R),this.turn(1,0,R);break;case"D":this.turn(1,this.layers-1,!R);break;case"D'":this.turn(1,this.layers-1,R);break;case"D2":this.turn(1,this.layers-1,R),this.turn(1,this.layers-1,R);break;case"F":this.turn(2,0,R);break;case"F'":this.turn(2,0,!R);break;case"F2":this.turn(2,0,R),this.turn(2,0,R);break;case"B":this.turn(2,this.layers-1,!R);break;case"B'":this.turn(2,this.layers-1,R);break;case"B2":this.turn(2,this.layers-1,R),this.turn(2,this.layers-1,R);break;case"L":this.turn(0,this.layers-1,!R);break;case"L'":this.turn(0,this.layers-1,R);break;case"L2":this.turn(0,this.layers-1,R),this.turn(0,this.layers-1,R);break;case"l":this.wideTurn(0,this.layers-1,!R);break;case"l'":this.wideTurn(0,this.layers-1,R);break;case"R":this.turn(0,0,R);break;case"R'":this.turn(0,0,!R);break;case"R2":case"R2'":this.turn(0,0,R),this.turn(0,0,R);break;case"r":this.wideTurn(0,0,R);break;case"r'":this.wideTurn(0,0,!R);break;case"r2":case"r2'":this.wideTurn(0,0,R),this.wideTurn(0,0,R);break;case"M":this.turn(0,1,!R);break;case"M'":this.turn(0,1,R);break;case"M2":this.sliceTurn(0,R),this.sliceTurn(0,R);break;case"E":this.sliceTurn(1,!R);break;case"E'":this.sliceTurn(1,R);break;case"S":this.sliceTurn(2,R);break;case"S'":this.sliceTurn(2,!R);break;default:throw new Error("Invalid turn in algorithm: "+e)}}execAlg(e){if(!e)return;let R=e.split(" ");for(let t=0;t<R.length;t++)this.stepAlgorithm(R[t],!0);this.animationQueue=[]}execAlgReverse(e){if(!e)return;let R=e.split(" ");for(let t=R.length-1;t>=0;t--)this.stepAlgorithm(R[t],!1);this.animationQueue=[]}stickerIsOnFace(e,R){return R*h(this.layers)<=e&&e<(R+1)*h(this.layers)}center(e){return e*h(this.layers)+Math.floor(h(this.layers)/2)}corners(e,R){let t=e*h(this.layers);return{topLeft:t+(this.layers+1)*R,topRight:t+(this.layers-1)*(this.layers-R),bottomRight:t+(this.layers+1)*(this.layers-R-1),bottomLeft:t+(this.layers-1)*(R+1)}}edges(e,R,t){let r=this.corners(e,R),n=this.layers-2*(R+1);return{top:r.topLeft+this.layers*(t+1),left:r.topLeft+(n-t),right:r.topRight+t+1,bottom:r.bottomLeft+this.layers*(n-t)}}};function Z(U,e,R){let t=FR(e,1.01,.02),r=FR(e,1,0),n=FR(e,1.5,.02),o=Array(g(e.layers));for(let s=0;s<g(e.layers);s++){let i={positionBuffer:U.createBuffer(),noGapPositionBuffer:U.createBuffer(),hintPositionBuffer:U.createBuffer(),indexBuffer:U.createBuffer(),cart2d:[],positions:null},a=new Float32Array(12),l=new Float32Array(12),f=new Float32Array(12);for(let u=0;u<12;u++){let D=s*12+u;a[u]=t[D],l[u]=r[D],f[u]=n[D]}U.bindBuffer(U.ARRAY_BUFFER,i.positionBuffer),U.bufferData(U.ARRAY_BUFFER,a,U.STATIC_DRAW),i.positions=a,U.bindBuffer(U.ARRAY_BUFFER,i.noGapPositionBuffer),U.bufferData(U.ARRAY_BUFFER,l,U.STATIC_DRAW),U.bindBuffer(U.ARRAY_BUFFER,i.hintPositionBuffer),U.bufferData(U.ARRAY_BUFFER,f,U.STATIC_DRAW);let c=Array(16);tR(c,0,R,[l[0],l[1],l[2],1]),tR(c,4,R,[l[3],l[4],l[5],1]),tR(c,8,R,[l[6],l[7],l[8],1]),tR(c,12,R,[l[9],l[10],l[11],1]),i.cart2d=[c[0]/c[3],c[1]/c[3],c[4]/c[7],c[5]/c[7],c[8]/c[11],c[9]/c[11],c[12]/c[15],c[13]/c[15]];let F=[0,1,2,0,2,3];U.bindBuffer(U.ELEMENT_ARRAY_BUFFER,i.indexBuffer),U.bufferData(U.ELEMENT_ARRAY_BUFFER,new Uint16Array(F),U.STATIC_DRAW),o[s]=i}return o}function tR(U,e,R,t){let r=Array(4),n=t[0],o=t[1],s=t[2],i=t[3];U[e+0]=n*R[0]+o*R[4]+s*R[8]+i*R[12],U[e+1]=n*R[1]+o*R[5]+s*R[9]+i*R[13],U[e+2]=n*R[2]+o*R[6]+s*R[10]+i*R[14],U[e+3]=n*R[3]+o*R[7]+s*R[11]+i*R[15]}var TR=12,fU=4,$=3;function FR(U,e,R){let t=h(U.layers)*TR,r=Array(6*t);return hU(r,0*t,U,1,e,R),DU(r,1*t,U,0,e,R),mU(r,2*t,U,1,-e,R),LU(r,3*t,U,0,-e,R),yU(r,4*t,U,2,-e,R),dU(r,5*t,U,2,e,R),r}function hU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=0;l<R.layers;l++)for(let f=0;f<R.layers;f++){let c=-1+1/R.layers+f*2/R.layers,F=-1+1/R.layers+l*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=-y(R.layers);i<=y(R.layers);i++)for(let a=-y(R.layers);a<=y(R.layers);a++)o[s]=[2*a/R.layers,2*i/R.layers,r],s++;v(U,e,R,o,t,n)}function DU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=0;l<R.layers;l++)for(let f=R.layers-1;f>=0;f--){let c=-1+1/R.layers+l*2/R.layers,F=-1+1/R.layers+f*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=-y(R.layers);i<=y(R.layers);i++)for(let a=y(R.layers);a>=-y(R.layers);a--)o[s]=[2*i/R.layers,2*a/R.layers,r],s++;v(U,e,R,o,t,n)}function mU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=0;l<R.layers;l++)for(let f=R.layers-1;f>=0;f--){let c=-1+1/R.layers+f*2/R.layers,F=-1+1/R.layers+l*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=-y(R.layers);i<=y(R.layers);i++)for(let a=y(R.layers);a>=-y(R.layers);a--)o[s]=[2*a/R.layers,2*i/R.layers,r],s++;v(U,e,R,o,t,n)}function LU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=0;l<R.layers;l++)for(let f=0;f<R.layers;f++){let c=-1+1/R.layers+l*2/R.layers,F=-1+1/R.layers+f*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=-y(R.layers);i<=y(R.layers);i++)for(let a=-y(R.layers);a<=y(R.layers);a++)o[s]=[2*i/R.layers,2*a/R.layers,r],s++;v(U,e,R,o,t,n)}function yU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=0;l<R.layers;l++)for(let f=R.layers-1;f>=0;f--){let c=-1+1/R.layers+f*2/R.layers,F=-1+1/R.layers+l*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=-y(R.layers);i<=y(R.layers);i++)for(let a=y(R.layers);a>=-y(R.layers);a--)o[s]=[2*a/R.layers,2*i/R.layers,r],s++;v(U,e,R,o,t,n)}function dU(U,e,R,t,r,n){if(V(R.layers)){let i=Array(h(R.layers)),a=0;for(let l=R.layers-1;l>=0;l--)for(let f=R.layers-1;f>=0;f--){let c=-1+1/R.layers+f*2/R.layers,F=-1+1/R.layers+l*2/R.layers;i[a]=[c,F,r],a++}v(U,e,R,i,t,n);return}let o=Array(h(R.layers)),s=0;for(let i=y(R.layers);i>=-y(R.layers);i--)for(let a=y(R.layers);a>=-y(R.layers);a--)o[s]=[2*a/R.layers,2*i/R.layers,r],s++;v(U,e,R,o,t,n)}function v(U,e,R,t,r,n){for(let o=0;o<h(R.layers);o++){let s=t[o];pU(U,e+o*TR,R,s[0],s[1],s[2],r,n)}}function pU(U,e,R,t,r,n,o,s){let i=1/R.layers-s,a=[[t-i,r-i,n],[t+i,r-i,n],[t+i,r+i,n],[t-i,r+i,n]];for(let l=0;l<fU;l++){let f=a[l];U[e+l*$]=f[(o+0)%$],U[e+l*$+1]=f[(o+1)%$],U[e+l*$+2]=f[(o+2)%$]}}var rR=class{constructor(){this.position=0,this._velocity=200,this._acceleration=0,this.target=0}update(e){let R=-100*(this.position-this.target),t=-15*this._velocity;this._acceleration=R+t,this._velocity+=this._acceleration*e,this.position+=this._velocity*e}};function ER(U,e){return U/e*2-1}function OR(U,e){return 1-U/e*2}function uR(U,e,R,t){return U<R?(t-e)/(R-U):(e-t)/(U-R)}function X(U,e,R,t,r,n){return Math.abs(.5*(U*(t-n)+R*(n-e)+r*(e-t)))}function xU(U,e){return U.layers-1-e%U.layers}function cR(U,e){return U.layers-1-Math.floor(e/U.layers)}function gU(U,e){return e%U.layers}function fR(U,e){return U.layers-1-Math.floor((e-h(U.layers))/U.layers)}var nR=class{onPointerDown(e,R,t,r,n){this.numOfPointerMoves=0;let o=ER(e,t.clientWidth),s=OR(R,t.clientHeight);this.xOnDown=o,this.yOnDown=s,[this.stickerOnDown,this.cart2dOnDown]=this._coordinatesToSticker(o,s,r,n);function i(D,x,d){return{x:n[D].cart2d[x],y:n[D].cart2d[d]}}if(this.stickerOnDown!==-1)return;let a=i(0,0,1),l=i(r.layers*(r.layers-1),6,7),f=i(r.layers-1,2,3),c=i(h(r.layers)-1,4,5),F=i(r.layers*(r.layers+1)-1,0,1),u=i(h(r.layers)*2-1,2,3);s>a.y&&o>a.x&&o<l.x?r.cubeRotate(0,!0):o<a.x&&s>f.y&&s<a.y?r.cubeRotate(2,!1):o>l.x&&s>c.y&&s<l.y?r.cubeRotate(2,!0):o<F.x&&s>F.y&&s<f.y?r.cubeRotate(1,!0):o>u.x&&s>u.y&&s<c.y?r.cubeRotate(1,!1):s<F.y&&o>F.x&&o<u.x&&r.cubeRotate(0,!1)}onPointerMove(e,R){this.numOfPointerMoves++,this.xOnMove=e,this.yOnMove=R}onPointerUp(e,R,t){if(this.numOfPointerMoves<2)return;let r,n;if(this.stickerOnDown!==-1&&(r=uR(this.cart2dOnDown[0],this.cart2dOnDown[1],this.cart2dOnDown[4],this.cart2dOnDown[5]),n=uR(this.cart2dOnDown[2],this.cart2dOnDown[3],this.cart2dOnDown[6],this.cart2dOnDown[7]),r<0)){let a=r;r=n,n=a}let o=ER(this.xOnMove,e.clientWidth),s=OR(this.yOnMove,e.clientHeight),i=uR(o,s,this.xOnDown,this.yOnDown);R.stickerIsOnFace(this.stickerOnDown,0)?o===this.xOnDown?R.turn(0,cR(R,this.stickerOnDown),s>this.yOnDown):i>r?R.turn(0,cR(R,this.stickerOnDown),o>this.xOnDown):i<n?R.turn(0,cR(R,this.stickerOnDown),o<this.xOnDown):R.turn(2,xU(R,this.stickerOnDown),o>this.xOnDown):R.stickerIsOnFace(this.stickerOnDown,1)&&(o===this.xOnDown?R.turn(0,fR(R,this.stickerOnDown),s>this.yOnDown):i>r?R.turn(0,fR(R,this.stickerOnDown),o>this.xOnDown):i<n?R.turn(0,fR(R,this.stickerOnDown),o<this.xOnDown):R.turn(1,gU(R,this.stickerOnDown),o<this.xOnDown))}_coordinatesToSticker(e,R,t,r){let n=o=>{if(!r[o].cart2d){console.error("cart2d is undefined");return}let s=r[o].cart2d,i=X(s[0],s[1],s[2],s[3],s[4],s[5])+X(s[0],s[1],s[4],s[5],s[6],s[7]),a=X(e,R,s[0],s[1],s[2],s[3])+X(e,R,s[2],s[3],s[4],s[5])+X(e,R,s[4],s[5],s[6],s[7])+X(e,R,s[6],s[7],s[0],s[1]),l=1e-5;if(Math.abs(i-a)<l)return[o,s]};for(let o=0;o<2*h(t.layers);o++){let s=n(o);if(s)return s}return[-1,void 0]}};function J(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}function CR(U,e,R,t,r){let n=1/Math.tan(e/2);if(U[0]=n/R,U[1]=0,U[2]=0,U[3]=0,U[4]=0,U[5]=n,U[6]=0,U[7]=0,U[8]=0,U[9]=0,U[11]=-1,U[12]=0,U[13]=0,U[15]=0,r!=null&&r!==1/0){let o=1/(t-r);U[10]=(r+t)*o,U[14]=2*r*t*o}else U[10]=-1,U[14]=-2*t;return U}function RR(U,e,R,t){let r=t[0],n=t[1],o=t[2],s=1/Math.hypot(r,n,o);r*=s,n*=s,o*=s;let i=Math.sin(R),a=Math.cos(R),l=1-a,f=e[0],c=e[1],F=e[2],u=e[3],D=e[4],x=e[5],d=e[6],M=e[7],S=e[8],p=e[9],A=e[10],N=e[11],E=r*r*l+a,O=n*r*l+o*i,C=o*r*l-n*i,P=r*n*l-o*i,w=n*n*l+a,_=o*n*l+r*i,b=r*o*l+n*i,T=n*o*l-r*i,I=o*o*l+a;return U[0]=f*E+D*O+S*C,U[1]=c*E+x*O+p*C,U[2]=F*E+d*O+A*C,U[3]=u*E+M*O+N*C,U[4]=f*P+D*w+S*_,U[5]=c*P+x*w+p*_,U[6]=F*P+d*w+A*_,U[7]=u*P+M*w+N*_,U[8]=f*b+D*T+S*I,U[9]=c*b+x*T+p*I,U[10]=F*b+d*T+A*I,U[11]=u*b+M*T+N*I,e!==U&&(U[12]=e[12],U[13]=e[13],U[14]=e[14],U[15]=e[15]),U}function PR(U,e){let R=e[0],t=e[1],r=e[2];return U[12]+=U[0]*R+U[4]*t+U[7]*r,U[13]+=U[1]*R+U[5]*t+U[8]*r,U[14]+=U[2]*R+U[5]*t+U[9]*r,U[15]+=U[3]*R+U[6]*t+U[10]*r,U}function hR(){let U;return e=>(U||(U=e()),U)}var wR="algs";var _R="orientation";function IR(U){let e=localStorage.getItem(wR+U);return e?JSON.parse(e):[]}function WR(U,e){localStorage.setItem(wR+U,JSON.stringify(e))}function HR(){var U;return(U=localStorage.getItem(_R))!=null?U:""}function GR(U){localStorage.setItem(_R,U)}var B=document.querySelector("canvas"),m=B.getContext("webgl"),j=vU(),k=[],UR={animateTurns:!0,hintStickers:!0,showBody:!0};var YR=Date.now()*.001,AU=3,KR=!1;function jR(){KR||(KR=!0,requestAnimationFrame(qR))}function NR(U){let e=document.querySelector(U),R=new eR,t=new rR,r=kU(e),n=new nR;R.setNumOfLayers(AU);let o=Z(m,R,r),s={div:e,cube:R,spring:t,buffers:o,perspectiveMatrix:r},i=(u,D)=>{!s.dragEnabled||n.onPointerDown(u,D,s.div,s.cube,s.buffers)},a=(u,D)=>{!s.dragEnabled||n.onPointerMove(u,D)},l=()=>{!s.dragEnabled||n.onPointerUp(s.div,s.cube,s.buffers)},f=u=>{let D=u.target.getBoundingClientRect(),x=u.touches[0].pageX-D.left,d=u.touches[0].pageY-D.top;return{x,y:d}},c=()=>{e.addEventListener("pointerdown",u=>i(u.offsetX,u.offsetY)),e.addEventListener("pointermove",u=>a(u.offsetX,u.offsetY)),e.addEventListener("pointerup",u=>l())},F=()=>{e.addEventListener("touchstart",u=>{let{x:D,y:x}=f(u);i(D,x)}),e.addEventListener("touchmove",u=>{let{x:D,y:x}=f(u);a(D,x)}),e.addEventListener("touchend",u=>{l()})};return window.PointerEvent?c():F(),s}function vU(){let R=BU(m,`
+(() => {
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+
+  // src/scripts/alg-data.json
+  var require_alg_data = __commonJS({
+    "src/scripts/alg-data.json"(exports, module) {
+      module.exports = [
+        {
+          cube: "3x3",
+          name: "CMLL",
+          algs: [
+            "R U R' U R U2 R'",
+            "R U R' U R' F R F' R U2 R'",
+            "F R' F' R U2 R U2 R'",
+            "R U' L' U R' U' L",
+            "R U R' U R U' R D R' U' R D' R2",
+            "L' U2 L U2 L F' L' F",
+            "L' U' L U' L' U2 L",
+            "R' U' R U' R' U R' F R F' U R",
+            "F' L F L' U2 L' U2 L",
+            "L' U R U' L U R'",
+            "R2 D R' U R D' R' U R' U' R U' R'",
+            "R U2 R' U2 R' F R F'",
+            "F R U R' U' R U R' U' F'",
+            "R' U' R' F R F' R U' R' U2 R",
+            "r U' r2' D' r U r' D r2 U r'",
+            "R' F R U F U' R U R' U' F'",
+            "R U2 R' U' R U R' U2 R' F R F'",
+            "F R' F' R U2 R U' R' U R U2 R'",
+            "F R U R' U' F'",
+            "R' U' R U' R' U2 R2 U R' U R U2 R'",
+            "F R2 D R' U R D' R2 U' F'",
+            "r U' r' U r' D' r U' r' D r",
+            "R2 D' R U2 R' D R U2 R",
+            "R2 D R' U2 R D' R' U2 R'",
+            "F' L F L' U' L' U L",
+            "F R' F' R U R U' R'",
+            "R U2 R2' F R F' R U2 R'",
+            "R U R' U R U' R' U R U' R' U R U2 R'",
+            "R' U2 R' D' R U2 R' D R2",
+            "R U2 R D R' U2 R D' R2",
+            "R U R' U' R' F R F'",
+            "L' U' L U L F' L' F",
+            "r U' r2' D' r U2 r' D r2 U r'",
+            "R U2 R' U' R U' R2 U2 R U R' U R",
+            "r' D' r U r' D r U' r U r'",
+            "r' U r U2 R2 F R F' R",
+            "R U R' U R U' R' U R U2 R'",
+            "F R U R' U' R U R' U' R U R' U' F'",
+            "r U' r2' D' r U' r' D r2 U r'",
+            "R U2 R2 F R F' U2 R' F R F'",
+            "R U R' F' R U R' U' R' F R2 U' R'",
+            "F R U' R' U' R U R' F' R U R' U' R' F R F'"
+          ]
+        },
+        {
+          cube: "3x3",
+          name: "OLL",
+          algs: [
+            "R U2 R2 F R F' U2 R' F R F'",
+            "L F L' U2 L F2 R' F2 R F' L'",
+            "M R U R' U L F2 L' U M'",
+            "M U' L F2 L' U' R U' R' M'",
+            "R' F2 L F L' F R",
+            "L F2 R' F' R F' L'",
+            "L F R' F R F2 L'",
+            "R' F' L F' L' F2 R",
+            "R U R' U' R' F R2 U R' U' F'",
+            "R U R' U R' F R F' R U2 R'",
+            "M R U R' U R U2 R' U M'",
+            "M' R' U' R U' R' U2 R U' M",
+            "F U R U' R2 F' R U R U' R'",
+            "R' F R U R' F' R F U' F'",
+            "R' F' R L' U' L U R' F R",
+            "L F L' R U R' U' L F' L'",
+            "F R' F' R U S' R U' R' S",
+            "R U2 R2 F R F' U2 M' U R U' r'",
+            "S' R U R' S U' R' F R F'",
+            "S R' U' R U R U R U' R' S'",
+            "R U R' U R U' R' U R U2 R'",
+            "R U2 R2 U' R2 U' R2 U2 R",
+            "R2 D' R U2 R' D R U2 R",
+            "L F R' F' L' F R F'",
+            "F' L F R' F' L' F R",
+            "R U2 R' U' R U' R'",
+            "R U R' U R U2 R'",
+            "r U R' U' r' R U R U' R'",
+            "R U R' U' R U' R' F' U' F R U R'",
+            "F R' F R2 U' R' U' R U R' F2",
+            "R' U' F U R U' R' F' R",
+            "L U F' U' L' U L F L'",
+            "R U R' U' R' F R F'",
+            "R U R2 U' R' F R U R U' F'",
+            "R U2 R2 F R F' R U2 R'",
+            "L' U' L U' L' U L U L F' L' F",
+            "F R' F' R U R U' R'",
+            "R U R' U R U' R' U' R' F R F'",
+            "L F' L' U' L U F U' L'",
+            "R' F R U R' U' F' U R",
+            "R U R' U R U2 R' F R U R' U' F'",
+            "R' U' R U' R' U2 R F R U R' U' F'",
+            "F' U' L' U L F",
+            "F U R U' R' F'",
+            "F R U R' U' F'",
+            "R' U' R' F R F' U R",
+            "R' U' R' F R F' R' F R F' U R",
+            "F R U R' U' R U R' U' F'",
+            "L F' L2 B L2 F L2 B' L",
+            "R' F R2 B' R2 F' R2 B R'",
+            "F U R U' R' U R U' R' F'",
+            "R U R' U R U' B U' B' R'",
+            "R' F' L F' L' F L F' L' F2 R",
+            "L F R' F R F' R' F R F2 L'",
+            "R' F R U R U' R2 F' R2 U' R' U R U R'",
+            "R' F' R U' L' U L U' L' U L R' F R",
+            "S R' F R S' R' F' R"
+          ]
+        },
+        {
+          cube: "3x3",
+          name: "PLL",
+          algs: [
+            "R' F R' B2 R F' R' B2 R2",
+            "R2 B2 R F R' B2 R F' R",
+            "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+            "R2 U R' U R' U' R U' R2 U' D R' U R D'",
+            "R' U' R U D' R2 U R' U R U' R U' R2 D",
+            "R2 U' R U' R U R' U R2 U D' R U' R' D",
+            "R U R' U' D R2 U' R U' R' U R' U R2 D'",
+            "x R2 F R F' R U2 L' B L U2 x'",
+            "R U R' F' R U R' U' R' F R2 U' R'",
+            "R U' R' U' R U R D R' U' R D' R' U2 R'",
+            "R2 F R U R U' R' F' R U2 R' U2 R",
+            "R U R' U' R' F R2 U' R' U' R U R' F'",
+            "x' R U' R' D R U R' D' R U R' D R U' R' D' x",
+            "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
+            "R' U R U' R' F' U' F R U R' F R' F' R U' R",
+            "R' U R' U' y R' F' R2 U' R' U R' F R F",
+            "F R U' R' U' R U R' F' R U R' U' R' F R F'",
+            "M2 U M2 U2 M2 U M2",
+            "M2 U M U2 M' U M2",
+            "M2 U' M U2 M' U' M2",
+            "M' U M2 U M2 U M' U2 M2"
+          ]
+        },
+        {
+          cube: "3x3",
+          name: "ZBLL",
+          algs: [
+            "R' D R D' R' D R U R' D' R D R' D' R",
+            "R' U R U2 R' U' R U' R U R' U' R' U' R U R U' R'",
+            "R' U2 R U R' U R2 U2 R' U' R U' R'",
+            "R U2 R' U' R U' R2 U2 R U R' U R",
+            "R' U R U2 R' U' R U2 R' U' R U' R' U R",
+            "R U' R' U2 R U R' U2 R U R' U R U' R'",
+            "R' U R2 U R' U R' U' R U' R' U' R U R U' R'",
+            "R U R' U R U' R' U R' U' R2 U' R2 U2 R",
+            "R' U2 R U R' U R U' R' U' R U' R' U2 R",
+            "R U2 R' U' R U' R' U R U R' U R U2 R'",
+            "R' U' R2 U R2 U R2 U2 R' U R' U R",
+            "R U R2 U' R2 U' R2 U2 R U' R U' R'",
+            "R U R' F' R U R' U' R' F R U' R' F R U R U' R' F'",
+            "R' U' R U' R' U' R2 D r' U2 r D' R2 U' R",
+            "R U' R2 D' r U2 r' D R2 U R'",
+            "R' U R2 D r' U2 r D' R2 U' R",
+            "R' U2 R U2 R2 D' R U2 R' D R2 U' R' U R",
+            "R U R' U2 R' D' R U R' D R2 U' R' U R U' R'",
+            "R' U' R U R2 D' R U2 R' D R2 U2 R' U2 R",
+            "R U R' U' R U R2 D' R U' R' D R U2 R U' R'",
+            "R' D' R U' R' D R U' R U' R' U R U' R' U' R U R'",
+            "R U' R' U R U R' U' R U R' U R' D' R U R' D R",
+            "R U R D R' U R D' R' U L' U R' U' L",
+            "r U r' R U R' U' R U R' U' r U' r' F R U R' U' F'",
+            "R' U R U2 R' L' U R U' L",
+            "R U' R' U2 R L U' R' U L'",
+            "R' U' R2 U R' F' R U R' U' R' F R2 U' R' U' R' U R",
+            "r U' r U2 R' F R U2 r2 F",
+            "R' U' R' D' R U R' D R U2 R U R' U R",
+            "R U R D R' U' R D' R' U2 R' U' R U' R'",
+            "R D R' U' R D' R' U' R' U R U' R' U R U R' U' R",
+            "R' D' R U R U' R' U R U' R' U' R U R'",
+            "R' U' R U' R' U R F U' R' U2 R U F'",
+            "R U R' U R U' R' U' L' U2 R U2 R' U2 L",
+            "R' U2 R U R' U R F U R U2 R' U R U R' F'",
+            "r' U' R' F2 R F' R' F2 R2 U' R' U2 r",
+            "R' F2 R' B2 R F2 R' B2 R2",
+            "R' U2 R U' R' F R U R' U' R' F' R U' R",
+            "R' U2 R' D' R U2 R' D R' U R' U R U2 R'",
+            "R U2 R D R' U2 R D' R U' R U' R' U2 R",
+            "R U R D R' U' R D' R' U R' U R U2 R'",
+            "R' U' R' D' R U R' D R U' R U' R' U2 R",
+            "R' U R2 D R' U R D' R' U R' U' R U' R' U' R",
+            "R U' R2 D' R U' R' D R U' R U R' U R U R'",
+            "R' U' R U' F U' R' U R U F' R' U R",
+            "R' D' R U R' D R2 U R' U2 R U' R' U' R U' R'",
+            "F R U R' U' R U' R' U' R U R' F'",
+            "R U R' U2 R U' R' U2 R U' R2 F' R U R U' R' F",
+            "R U R D R' U' R D' R2",
+            "R U2 R' U2 R' F R U R U' R' F'",
+            "R2 B2 R' U2 R' U2 R B2 R' U R U' R'",
+            "R' D' R U R' D R2 U' R' U R U R' U' R U R'",
+            "F' U' r' F2 r U' r' F' r F",
+            "R U R' U' R U' R' L U' R U R' L'",
+            "R U R' U R U R' U2 L R U' R' U L'",
+            "R' U' R U' R2' F' R U R U' R' F U R U' R' U2 R",
+            "R' U' R U R' U' R2 D R' U2 R D' R' U R' U R",
+            "R U R D R' U2 R D' R' U' R' U R U' R' U' R U' R'",
+            "F R U R' U' R' F' U2 R U R U' R2 U2 R",
+            "R U' R' U' R U R D R' U2 R D' R' U' R'",
+            "x' U' R' D R U R' D' R x",
+            "R U R' U' R' F' R U2 R U2 R' F",
+            "R2 F2 R U2 R U2 R' F2 R U' R' U R",
+            "R D R' U' R D' R2 U R U' R' U' R U R' U' R",
+            "F U R U2 R' U R U R' F'",
+            "R U R' U' R U' R'  U' F R U R' U' R' F' R",
+            "R' U' R U' R' U R' U' R U R' F' R U R' U' R' F R'",
+            "F R U R' U' R U R' U' F' R U R' U' R' F R F'",
+            "R U R' U' R U R2 D' R U2 R' D R U' R U' R'",
+            "R' U2 R F U' R' U R U F' R' U R",
+            "R' U2 R2 U R' U' R' U2 F' R U2 R U2 R' F",
+            "R' U R U R' U' R' D' R U2 R' D R U R",
+            "R U2 R' U' R U' R' U2 R' U2 R U R' U R",
+            "R U R' U' R U' R U2 R2 U' R U R' U' R2 U' R2",
+            "R' U' R U' R' U2 R2 U R' U R U2 R'",
+            "R U R' U R U2 R2 U' R U' R' U2 R",
+            "R U R' U' R U' R' U2 R U' R' U2 R U R'",
+            "R' U' R U R' U R U2 R' U R U2 R' U' R",
+            "R U2 R2 U' R2 U' R' U R' U' R U R' U R",
+            "R' U2 R2 U R2 U R U' R U R' U' R U' R'",
+            "R' U2 R U R' U R U R' U' R U' R' U2 R",
+            "R U2 R' U' R U' R' U' R U R' U R U2 R'",
+            "R' U' R U' R U2 R2 U' R2 U' R2 U R",
+            "R U R' U R' U2 R2 U R2 U R2 U' R'",
+            "R' U' R U' F U' R' U R U R' U R U' F'",
+            "R U R' U L' U R U' M' x' U' R U' R'",
+            "R U2 R2 F R F' M' U' R U' R' U M",
+            "R' U2 R F U' R' U R U R' U R U' F'",
+            "R2 D R' U' R D' R' U' R' U R U R'",
+            "R2 D' R U R' D R U R U' R' U' R",
+            "R U' R' U' R U R D R' U R D' R2",
+            "R' U R U R' U' R' D' R U' R' D R2",
+            "M' U R' U' F' U F R2 U R' U R U2 r'",
+            "F R U R' U' R U R' U' F' U' R' F' U' F U R",
+            "F R U' R' U' R U2 R' U' R U' R' U' R U2 R' U' F'",
+            "r' U' R' F R U r F R U' R' F'",
+            "R' F R U' R' U' R U R' F' R U R' U' R' F R F' R",
+            "F2 R U' R' U' R U R' F' R U R' U' R' F R F2",
+            "R U' R' U R U' L U r' F U2 R U2 R2 x",
+            "R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R' U2 R",
+            "R U' L U L' U R' U' l U2 R U2 R2 x",
+            "R' U L' U' L U' R U l' U2 R' U2 R2 x'",
+            "F R U R U2 R' U' R U' R' U2 R' U2 R U' R' U' F'",
+            "r U R' U' r' F R2 U' R' U' R U2 R' U' F'",
+            "F U R U2 R' U R U R2 F' r U R U' r'",
+            "R U2 R' U2 R' F R U R U2 R' U' R U2 R' U' F'",
+            "R' U' R F R2 D' R U R' D R2 U' F'",
+            "r U R' U' r' F R U R' U' R F' R' U R",
+            "x R2 U2 R' D2 R U2 R' D2 R' x'",
+            "x R2 D2 R U2 R' D2 R U2 l",
+            "R U R' U R U' R' U2 R' D' R U2 R' D R2 U' R'",
+            "R' U2 R U R' U R' D R' U2 R D' R' U2 R'",
+            "R U' R' U' R U' R' U R' D' R U R' D R2 U R'",
+            "R' U R U R' U R U' R D R' U' R D' R2 U' R",
+            "R' U2 R U R' U R' D' R U' R' D R U R",
+            "R U' R' U' R U2 R' U2 R' D' R U' R' D R",
+            "R' U' R U2 R' F' R U R' U' R' F R2 U2 R' U R",
+            "R U R' U R U R' U2 R U' R2 D' R U' R' D R",
+            "F R U' R' U R U R' U R U' R' F'",
+            "F' R U R' U' R' F R2 U R' U2 R U R' U2 R U' R'",
+            "R2 D' r U2 r' D R U2 R",
+            "R2 D' R U2 R' D R U2 R",
+            "R U' R' D R' U' R D' R2 U R' U' R' U2 R'",
+            "R U R' U R U2 R2 U z U R' D R U' z'",
+            "R2 D' R U' R' D R2 U' R' U2 R",
+            "R' U R U R' U2 R U2 y R U' R' U2 R U' R'",
+            "R2 D R' U R D' R2 U' R U' R' U2 R U' R' U2 R U R'",
+            "R2' F' R U2 R U2' R' F U' R U R' U' R",
+            "R' U2 R2 D R' U2 R D' R2 U R U2 R' U2 R",
+            "R U R' U2 F2 R U2 R' U2 R' F2 R2 U R'",
+            "R' U2 R' D' R U2 R' D R U2 R U R' U R",
+            "R' U R U' R' U' R U2 R D R' U' R D' R2 U' R",
+            "R' U2 R U R2 F' R U R U' R' F R",
+            "R2 D R' U2 R D' R' U2 R'",
+            "R' U' R U R U R' U' R' U F R U R U' R' F'",
+            "R U' R' U' R U2 R' U' R' D' R U2 R' D R",
+            "R U R2 D' R U R' D R2 U2 R'",
+            "R U' R' U' R U2 R' U2 y' R' U R U2 R' U R",
+            "R' U R' U' D' R U' R' U2 R U' R' D R U' R",
+            "R U R' U R U' R' U F' R U2 R' U2 R' F R",
+            "R' U' R U R' U R U2 F R' U R U' F' R' U2 R",
+            "R U R' U R U' R' U R U' R' U' L' U R U' R' L",
+            "R U2 R D R' U2 R D' R' U2 R' U' R U' R'",
+            "R U' R' U R U R' U2 R' D' R U R' D R2 U R'",
+            "R U2 R' U2 R' U' R U R U' R' U2 R' U2 R",
+            "R U R' U R U' R' U R U' R' U R U2 R'",
+            "R U2 R' U' R U' R' U2 R U R' U R U2 R'",
+            "R U R' U R U2 R' U2 R U2 R' U' R U' R'",
+            "R2 U R' U R' U' R U' R' U' R U R U' R2",
+            "R2 U' R U' R U R' U R U R' U' R' U R2",
+            "R' U2 R U R' U R U' R U2 R' U' R U' R'",
+            "R U2 R' U' R U' R' U R' U2 R U R' U R",
+            "R2 U R' U' R' U R U R' U R U' R U' R2",
+            "r U r' U R U' R' U R U' R' M' U R U2' r'",
+            "R U R' U R U2 R' U R' U' R U' R' U2 R",
+            "R' U' R U' R' U2 R U' R U R' U R U2 R'",
+            "F R U' R' U' R U R D R' U' R D' R' U2 R' U' F'",
+            "F R U R2' F R F' R U' R' F'",
+            "L' U2 R U' R' U2 L R U' R'",
+            "R' U' R U R' F' R U R' U' R' F R2",
+            "R' U F' R U R' U' R' F R2 U' R' U' R U R' U' R",
+            "R U' R' U R U R' U R U' R2' D' R U R' D R",
+            "r U2 R r2 F R' F' r2 U2 r'",
+            "r U2 r2 F R F' r2 R' U2 r'",
+            "F R U R' U' F' r U r' U R U' R' r U' r'",
+            "r U r' R U R' U' r U' r' F U R U' R' F'",
+            "R U R' U R U' R' F2 R U2 R' U2 R' F2 R2 U' R'",
+            "R U R2 F2 R U2 R U2 R' F2 R U R' U' R U' R'",
+            "F' r U R' U' r' F R",
+            "R' U' R U R' F2 R U2 R' U2 R' F2 R2",
+            "F' R U2 R' U2 R' F R U R U' R'",
+            "R' U R U' R' U R U R' U' R2 D R' U R D' R'",
+            "F R U' R' U' R U2 R' U' F'",
+            "R' U' R U2 R' F' R U R' U' R' F R2 U R' U2 R",
+            "R' F R U R U' R' F' U R U R' U R U' R'",
+            "R2 D' R U' R' D R U R' U' R' U' R U R U R U' R",
+            "F R' F' R U R U' R' F U R U' R' U R U' R' F'",
+            "F' R U2 R' U2 R' F U2 R U R U' R2 U2 R",
+            "R U R' U R' D' R U2 R' D R2 U' R' U R U' R'",
+            "R' U' R' D' R U2 R' D R U R U' R' U' R",
+            "F R' F' r U R U' r'",
+            "R U R' U' R B2 R' U2 R U2 R B2 R2",
+            "F R U R' U' R' F' R U2 R U2 R'",
+            "R U' R' U R U' R' U' R U R2 D' R U' R' D R",
+            "R' F' R U R' U' R' F R U' R U R' U R",
+            "R U R' U R U R' U' R U R D R' U2 R D' R' U' R'",
+            "L R U' R' U R L' U R' U R U' R'",
+            "L U' R U R' L' U2 R U' R' U' R U' R'",
+            "R' U2 R U R' U' F' R U R' U' R' F R2 U R' U R",
+            "R' U2 R2 U R' U' R' U2 F R U R U' R' F'",
+            "R U R' U R U' R' U' L' U R U' M' x'",
+            "R U R D R' U2 R D' R' U' R' U R U R'",
+            "R' U2 R' D' R U2 R' D R2",
+            "R' U2 R' D' r U2 r' D R2",
+            "R D R' U2 R D' R' U' R' U2 R U' R' U' R",
+            "R U2 R U R U' R2 D R' U R D' R U R'",
+            "R U R' U2 R U R' U2 y' R' U2 R U' R' U' R",
+            "R' U2 R U R2 D' R U R' D R2",
+            "R U R' U' R U' R' U L' U R U' L U' R'",
+            "R U' R' U2 R U R' U2 R U R' U R2 D R' U' R D' R2",
+            "R' U2 R U2 R' U' R2 D R' U2 R D' R2 U2 R",
+            "F' R U R' U' R' F R2 U' R' U' R U' R' U R U R'",
+            "R U' R2 F2 R U2 R U2 R' F2 U2 R U' R'",
+            "R' U R2 D R' U R D' R' U2 R' U R U R' U' R",
+            "R U2 R D R' U2 R D' R2",
+            "R' F' R U R' U' R' F R2 U' R' U2 R",
+            "L' U R U' L U R2 U2 R U R' U R",
+            "F R U R' U' R' F' U' R U R U' R' U' R' U R",
+            "R' U' R U2 R' U' R y U2 R U2 R' U R U R'",
+            "R U2 R' U' R2 D R' U' R D' R2",
+            "R' U' R U R' U R U' L U' R' U L' U R",
+            "R' U R' D' R U R' U2 R U R' D U R U' R",
+            "R U2 R' U2 R U R2 D' R U2 R' D R2 U2 R'",
+            "R U R' U R U2 R D R' U2 R D' R' U2 R'",
+            "R' U R2 B2 R' U2 R' U2 R B2 U2 R' U R",
+            "R U' R2 D' R U' R' D R U2 R U' R' U' R U R'",
+            "R' U' R U R U2 R' U' R U' R2 U2 R",
+            "R U R' U' R' U2 R U R' U R2 U2 R'",
+            "R' U2 R U R' U R2 U R' U R U2 R'",
+            "R U2 R' U' R U' R2 U' R U' R' U2 R",
+            "R U2 R' U2 R U' R' U2 R U' R' U2 R U R'",
+            "R' U2 R U2 R' U R U2 R' U R U2 R' U' R",
+            "R U' R' U2 R U R' U2 R U R' U2 R U2 R'",
+            "R' U R U2 R' U' R U2 R' U' R U2 R' U2 R",
+            "R' U2 R2 U R2 U R2 U2 R'",
+            "R U2 R2 U' R2 U' R2 U2 R",
+            "R U R' U' R' U' R U R U R' U' R' U R U' R U' R'",
+            "R U2 R' U' R U' R' U' R U2 R' U' R U' R'",
+            "R2 U R' U2 R' U' R U R D R' U R D' R' U R U' R2'",
+            "F R2 U' R U2 R U R' U R' U R2 F'",
+            "F U R' U' R2 U' R2 U2 R U2 R U R' F'",
+            "r' U' R U' R' U R U' R' U R' F R F' U r",
+            "R U2 R' U' F' R U2 R' U' R U' R' F R U' R'",
+            "R U R' U r' F R F' r U' R' U R U2' R'",
+            "r U R' U R' F R F' R U' R' U R U2' r'",
+            "R U R' U' R U R2 D' R U' R' D R U' R U2 R'",
+            "R U2 R' U R' D' R U R' D R2 U' R' U R U' R'",
+            "R' U2 R U' R D R' U' R D' R2 U R U' R' U R",
+            "R2 D R' U' R D' R' U' R' U R U' R' U' R U' R'",
+            "R2 D' R U R' D R U R U' R' U R U R' U R",
+            "F U R U2 R' U R U R' F' R U2 R' U' R U' R'",
+            "r U' r' U' r U r' U' l R U' R' U l'",
+            "r' U r U r' U' r U R2 F R F' R",
+            "r' U' R U' R' U2 r U' R U2 R' U2 R' F R F'",
+            "R' U' R U R2 F' R U R U' R' F U' R U R' U R",
+            "R U2 R D' R U' R' D R' U' R2 U2 R",
+            "R' U' R U' R2 D' R U R' D R2 U' R' U2 R",
+            "L' U R U' L U' R' U' R U' R'",
+            "R U' L' U R' U L U L' U L",
+            "R2 D' R U2 R' D R2 U R2 D' R U R' D R2",
+            "R2 D R' U2 R D' R2 U' R2 D R' U' R D' R2",
+            "R U2 R2 F R U R U2 R' U' R U2 R' U' F' R U R'",
+            "R U2 R2 U' R U' R' U2 F R U R U' R' F'",
+            "R U R' U R U2 R2 F' r U R U' r' F",
+            "r' F' r U' r' F2 r2 U R' U' r' F R F'",
+            "F R U R' U' R' F' R U2 R' U' R2 U' R2 U2 R",
+            "R' U' R L U2 R' U2 R U2 L' U R' U2 R",
+            "F U' R U' R' U R U R' U2 R U2 R' U F'",
+            "R2 D' R U' R' D R U R' D' R U R' D R U R U' R' U' R",
+            "R' U' F' R U R' U' R' F R2 U2' R' U2 R",
+            "R U R' U R U' R' U' R' F' R U2 R U2' R' F",
+            "R' U' R' D' R U R' D R' U R' U R U2 R'",
+            "R U R D R' U' R D' R U' R U' R' U2 R",
+            "F U R U' R' U R U2 R' U' R U R' F'",
+            "r' F' r U r U2 r' F2 U' R U R' U' R U' R'",
+            "R U2 R' U2 R' F R2 U' R' U2 R U2 R' U' F'",
+            "R' F R U R' U' R' F' R2 U' R' U R U' R' U2 R",
+            "R' L U2 R2 U R2 U R U L' U' R U2 R'",
+            "l U2 l' U2 R' U2 R B2 U R' U R",
+            "R U R' U F2 R U2 R' U2 R' F2 R",
+            "R' U2 R U R' U R2 U' L' U R' U' L",
+            "R U R' U R U' R' U R U' R D R' U' R D' R2",
+            "R U R' U' R' F R2 U R' U' R U R' U' F'",
+            "R2 D R' U2' R D' R2' U' R U' R' U R U2' R' U' R U' R'",
+            "R U2 R' U' R U R' U2 L' U R U' M' x'",
+            "L R' U' R U L' U2 R' U R U' R' U2 R",
+            "R U R' U R U' R2' F R F' R U' R' F' U F",
+            "F U R U2 R' U2 R U R2 F' R U2 R U2 R'",
+            "R U' R' U' R U' R' U R U R' U R' F' R U R U' R' F",
+            "R' U2 R U R' U' R U R2 F R U R U' R' F' R",
+            "R' F2 R U2 R U2 R' F2 U' R U' R'",
+            "R' U' R U' B2 R' U2 R U2 l U2 l'",
+            "R U2 R' U' R U' R2 U L U' R U L'",
+            "R' U' R U' R' U R U' R' U R' D' R U R' D R2",
+            "F U R U' R' U R U' R2 F' R U R U' R'",
+            "R U R' U R U2' R' U' R U R' U R2 D R' U2 R D' R2'",
+            "R' U2 R U R' U' R U2 L U' R' U R L'",
+            "R L' U R' U' L U2 R U' R' U R U2 R'",
+            "R U2 R' U' R U' R' U' R' U' R U' R' U2 R",
+            "R' U2 R U R' U R U R U R' U R U2 R'",
+            "R' U' R U' R' U R U' R' U2 R",
+            "R U R' U R U' R' U R U2 R'",
+            "R' U2 R U R' U' R U R' U R",
+            "R U2 R' U' R U R' U' R U' R'",
+            "R U R' U R U' R' U R U' R' U R' U' R2 U' R' U R' U R",
+            "R U R' U R U2 R' U' R' U2 R U R' U R",
+            "R U2 R D R' U' R D' R2 U' R' F R U R U' R' F'",
+            "F U R U' R' U R U' R' U R U' R' F'",
+            "R U R' y' U R' U R U' R2 F R F' R",
+            "R' U' R y U' R U' R' U R l U' R' U l'",
+            "F R U R' U' R U R' U' F' U R' F' U' F U R",
+            "R' U' R U' R' U2 R U R' U' R U R' F' R U R' U' R' F R2",
+            "L' U L U' L' U' L U R' U' R U L' U' L U2 R' U' R",
+            "R U' R' U R U R' U' L U L' U' R U R' U2 L U L'",
+            "R U R' U R U2 R' F R U' R' U' R U2 R' U' F'",
+            "R U R2 F R F' r U' r' U r U r' U2",
+            "R' F R' F' R2 U' r' U r U' r' U' r",
+            "R' U' R U' R' U' L U' R U L'",
+            "R U R' U R U L' U R' U' L",
+            "R' U' R U' R' U F' R U R' U' R' F R2 U' R' U R",
+            "R U R' U R' U' R2 U' R2 U' L U' R U L'",
+            "R' U2' R U R2' D' R U' R' D R2 U R' U R",
+            "R U2 R' U' R2 D R' U R D' R2' U' R U' R'",
+            "F R U' R' U' R U2 R' U' F' U R U R' U R U2 R'",
+            "R2 D' R U' R' D R2 U' R2 D' R U2 R' D R2",
+            "R2 D R' U R D' R2' U R2 D R' U2 R D' R2'",
+            "F R' F' r U R U' r2 F2 r U r' F r",
+            "R U R' U' R' F R U R U' R' F' R U R' U R U2 R'",
+            "R' U2 R U' L U2 R' U2 R U2 L' R' U R",
+            "R U2 R' U L' U2 R U2 R' U2 L R U' R'",
+            "F U' R U2 R' U2 R U' R' U' R U R' U F'",
+            "R' F R U R' U' F' R U' R' U R' F R F' U R",
+            "R U2 R' U' R U' R D' R U' R' D R U R",
+            "R U2 R2 F U' R2 U' R2 U F' U R",
+            "R' U2 R U2' R2 F' R U R U' R' F U R",
+            "F B' R2 B R2 U' R2 U' R2 U R2 F'",
+            "R' U' R U' R' U R U R' F R U R' U' R' F' R2",
+            "F R U' R' U R U2 R' U' R U R' U' F'",
+            "R' U R2 U R' U R U2 R U2 R U R' U R2",
+            "R' U2 R2 U R  U' R' U R U R2 U' R'",
+            "R U R' U R U2 R'",
+            "R' U2 R U R' U R",
+            "R U R2 U' R2 U' R2 U2 R2 U2 R'",
+            "R' U' R U' R U R2 U R2 U2 R'",
+            "R U R' U' R' U2 R U R U' R' U R' U R",
+            "R' U' R U R U R' U' R' U R U R U' R'",
+            "R U R' U R U' R' U R' U' R2 U' R' U R' U R",
+            "R U R' U R U R U R U R U' R' U' R2",
+            "R U R' U R' U' R2 U' R' U R' U' R U R' U R",
+            "R U R' U R U' R' U R' U' R' U R U' R' U' R2 U R",
+            "F U' R' U R U F' R U R2 U R2 U2 R'",
+            "R' D' R U' R' D R U2 R U R' U2 R U R'",
+            "R' U2 R U R' U' R F U' R' U' R U F'",
+            "R' U R U2 R' U R U2 R D R' U' R D' R'",
+            "L' U2 R U' R' U2 L U R U' R' U R U2 R'",
+            "F R U R' U' R U R2 U' F' U R U R U' R'",
+            "R U R' F' R U R' U R U2 R' F R U' R'",
+            "R U2 L' R' U2 R U2 R' U2 L U' R U' R'",
+            "R U' R2 U2 D' R U R' U D R2 U R'",
+            "F U R' F R F' R U' R' U R U' R' F'",
+            "R U R' U' L' U R U' L U' L' U R' U' L",
+            "F R U' R U2 R' U2 R' U' R U2 R' U' R2 U' R2 F'",
+            "R U' L' U R' U' L",
+            "R' U2 R U R' U' R' D' R U2 R' D R2",
+            "R' D U' R' U R U2 D' R2 U R' U' R'",
+            "R' U' R' U R2 D' U2 R U R' U' D R'",
+            "R2 D R' U2 R D' R' U' R' U R U2 R'",
+            "D' R U R' U R U' R' U' D R2 U' R U' R' U R' U R2",
+            "R U R' U R U R' U' R U R D R' U' R D' R' U2 R'",
+            "R' U2 R U R' U' R' D' R U' R' D R U R U' R' U' R",
+            "R' U2 F' R U R' U' R' F R U2 R",
+            "R2 U R U R' U' R' U' R' L' U R' U' L",
+            "R U2 R' U2 R' F R2 U R' U' R U R' U' F'",
+            "R U R' U R U' R' U' R' F R2 U' R' U' R U R' F'",
+            "R2 U R' U R D R' U2 R D' R' U R U' R2'",
+            "R U R' U R U' R D R' U' R D' R2",
+            "R U' R' U' R U' R' U2 R U R2 D' R U2 R' D R",
+            "F U R U' R' U R U' l U' R2 D' R U R' x",
+            "R2 D' R U' R' D R U' R U R' U R",
+            "R U2 R' L' U2 R U R' U2 L R U2 R'",
+            "R' D' R U R' D R2 U' R' U R U R' U' R U2 R' U R U2 R'",
+            "R U' R' U' R U R D R' U2 R D' R2 U R U2 R'",
+            "R' U2 R' D' R U R' D R U' R U R' U R",
+            "R' U' R U' R2 F' R U R U' R' F U2 R",
+            "R U R' U R' D' R U R' D R U' R U2 R'",
+            "R U2 R' U' R U R' U' R U R D R' U2 R D' R2",
+            "f R' F' R U2 R U2 R' U2 S'",
+            "R' D' R U R' D R2 U R' U2 R U R'",
+            "R' D R' U R D' U R U' R' U' R2 U R U' R'",
+            "R' U2 R U R2 D' R U' R' D R U2 R",
+            "R2 D' r U2 r' D R2 U R' U R",
+            "R' U2 R U R' U R' D' R U2 R' D R U2 R",
+            "R L' U R' U' L U2 R U2 R'",
+            "R2 D' R U2 R' D R2 U R' U R",
+            "R2 F R U R U' R' F' R U' R' U R",
+            "R U R' U R' U' R' D' R U R' D R' U2 R'",
+            "R' U' F U' R2 U R2 U F' R U' R U' R'",
+            "R2 D' R U2 R D2 R' U' R D2 R' U R' D R U2 R",
+            "R U R' U' R U R2 D' R U2 R' D R2 U2 R'",
+            "R U R' U R U' R2 F' R U R U' R' F R U' R'",
+            "R U R' U R2 D r' U2 r D' R2",
+            "R' U R U2 R' U R2 D R' U R D' R'",
+            "R' U' R U R2 U' R' U' R U D' R U R' D R'",
+            "R U R' U R2 D R' U2 R D' R2",
+            "R' U2 R U2 L U' R' U L' R",
+            "R U2 R D R' U2 R D' R' U R' U R U2 R'",
+            "R U R2 F' R U2 R U2 R' F R U' R'",
+            "R U R' U' R U R2 D' R U R' D R U R U2 R'",
+            "F' R U R' U R U2 R' F U R U' R' U2 R U' R'",
+            "R' F R U R' U' R' F' D' R U R' D R2",
+            "R2' D' R U2 R' D R U R' F R U R U' R' F' R",
+            "R U2 R2 U' R' U R U' R' U' R2 U R",
+            "R' U' R U' R' U2 R",
+            "R U2 R' U' R U' R'",
+            "R' U' R2 U R2 U R2 U2 R2 U2 R",
+            "R U R' U R' U' R2 U' R2 U2 R",
+            "R' U' R U R U2 R' U' R' U R U' R U' R'",
+            "R U R' U' R' U' R U R U' R' U' R' U R",
+            "R U R' U R' U' R U R' U' R2 U' R2 U R U' R' U R",
+            "R' U' R U' R' U' R' U' R' U' R' U R U R2",
+            "R U R' U' R U R2 U' R2 U' R' U R U' R' U R' U R",
+            "R U R' U R' U' R' U R U' R' U' R' U' R' U2 R",
+            "R U2 R2 U' R2 U' R' F U' R' U' R U F'",
+            "R D R' U R D' R' U2 R' U' R U2 R' U' R",
+            "R U2 R' U' R U R' L' U R U' L U2 R'",
+            "R U' R' U2 R U' R' U2 R' D' R U R' D R",
+            "F U' R' U R U F' R' U R U' R' U2 R",
+            "R U R' U L' U2 R U2 R' U2 R L U2 R'",
+            "R U R' F' R U2 R' U' R U' R' F R U' R'",
+            "R U  R' U' R' U' F U R2 U' R' U R U' R' F'",
+            "R' U R2 U2 D R' U' R U' D' R2 U' R",
+            "R' U R U R' U r U' R' U R U r' R' F R F' U R",
+            "z D' R' D R U R' D' R U' R U R' D R U' z'",
+            "R U2 R' U' R U r' F r U2 R' U' r' F2 r",
+            "R' U L U' R U L'",
+            "R U2 R' U' R U R D R' U2 R D' R2",
+            "R D' U R U' R' U2 D R2 U' R U R",
+            "R U R U' R2 D U2 R' U' R U D' R",
+            "R2 D' R U2 R' D R U R U' R' U2 R",
+            "D R' U' R U' R' U R U D' R2 U R' U R U' R U' R2",
+            "R' U' R U' R' U' R U R' U' R' D' R U R' D R U2 R",
+            "R U2 R' U' R U R D  R' U R D' R' U' R' U R U R'",
+            "F U R U' R' U R U' R2 F' R U2 R U2 R'",
+            "F R U' R' U R U R2 F' R U R U R' U' R U' R'",
+            "R' U2 R' F' R U R U' R' F U2 R",
+            "L' U R U' L R U R U R U' R' U' R2",
+            "R D' R2 D R2 U' R2 D' R2 D R2 U R",
+            "R' U' R U' R' U R' D' R U R' D R2",
+            "l U' R' D R2 U l' U R' U' R U R' U' F'",
+            "R' D' R U2 R' D R2 U' R' U2 R U R' U R U R'",
+            "R2 D R' U R D' R' U R' U' R U' R'",
+            "R U2 R' L' U2 R U' R' U2 L R U2 R'",
+            "R U R' U' R' U' R U R U' R' U' R2 D' R U' R' D R U2 R",
+            "R U2 R' U' R2 D R' U2 R D' R' U' R' U R U R'",
+            "R U2 R' U R' D' R U' R' D R U' R U' R'",
+            "R2 D R' U2 R D' R' U' R' U R U' R' U  R U2 R'",
+            "R' U' R U' R D R' U' R D' R' U R' U2 R",
+            "R' U2 F' R U R' U' R' F R2 U R' U R",
+            "R U2 R2 D' R U2 R' D R2 U' R' U R U' R'",
+            "R D R' U' R D' R2 U' R U2 R' U' R",
+            "R D' R U' R' D U' R' U R U R2 U' R' U R",
+            "R U R' F' R U R' U' R' F R2 U R' U' R U' R'",
+            "R2 D r' U2 r D' R2 U' R U' R'",
+            "R U2 R' U' R U' R D R' U2 R D' R' U2 R'",
+            "L R' U' R U L' U2 R' U2 R",
+            "R2 D R' U2 R D' R2 U' R U' R'",
+            "R U R' F' R U2 R' U2 R' F R2 U' R'",
+            "R U2' R' U' R' D' R U' R' D R2 U' R' U R U' R'",
+            "R U R' U2 R U R' U' F' R U2 R' U' R U' R' F",
+            "R2 D' R U' R' D F R U R U' R' F' R",
+            "R U2 R' U' F' R U R' U' R' F R2 U' R'",
+            "R' U2 R' D' R U R' D R2 U' R' U2 R",
+            "R' U' R U' R2 D' r U2 r' D R2",
+            "R U' R' U2 R U' R2 D' R U' R' D R",
+            "R U R' U' R2 U R U R' U' D R' U' R D' R",
+            "R' U' R U' R2 D' R U2 R' D R2",
+            "R U2 R' U2 L' U R U' R' L",
+            "R' U2 R' D' R U2 R' D R U' R U' R' U2 R",
+            "R' U' R U R' F R U R' U' R' F' R2",
+            "R U2 R D' R U' R' D R U R U' R U' R'",
+            "R U R' U R' F U' R2 U' R2 U F' U R",
+            "R U R' U R' U' R2 U' R D' R U R' D R U R"
+          ]
+        },
+        {
+          cube: "2x2",
+          name: "2x2 CLL",
+          algs: [
+            "R U R' U R U2 R'",
+            "R U R' U R' F R F' R U2 R'",
+            "F R' F' R U2 R U2 R'",
+            "R U' L' U R' U' L",
+            "R U' R U' R' U R' U' F R' F'",
+            "L' U2 L U2 L F' L' F",
+            "L' U' L U' L' U2 L",
+            "R' U' R U' R' U R' F R F' U R",
+            "F' L F L' U2 L' U2 L",
+            "L' U R U' L U R'",
+            "R2 F R U2 R U' R' U2 F' R",
+            "R U2 R' U2 R' F R F'",
+            "F R U R' U' R U R' U' F'",
+            "R' U' R' F R F' R U' R' U2 R",
+            "R' F R F' R U' R' U' R U' R'",
+            "F R2 U' R2 U R2 U R2 F'",
+            "R U2 R' U' R U R' U2 R' F R F'",
+            "F R' F' R U2 R U' R' U R U2 R'",
+            "F R U R' U' F'",
+            "R U R2' U' R U2 R' U2' R U' R",
+            "F R U R' U2 F' R U' R' F",
+            "x R U' R U' R' U R' F' R x2",
+            "R U' R2 F R F' R U R' U' R U R'",
+            "R' U R' F R F' R U2 R' U R",
+            "F' L F L' U' L' U L",
+            "F R' F' R U R U' R'",
+            "R U2 R2' F R F' R U2 R'",
+            "R' U R' U2 R U' R' U R U' R2",
+            "R U' R' U R U' R' F R' F' R2 U R'",
+            "R' F' R U R' U' R' F R2 U' R' U2 R",
+            "R U R' U' R' F R F'",
+            "L' U' L U L F' L' F",
+            "F U' R U2 R' U' F2 R U R'",
+            "R' U R' U2 R U2 R' U R2 U' R'",
+            "R' U2 R' F2 R F2 R' F2 R2",
+            "R' U R U2 R2 F R F' R",
+            "R2 U2 R U2' R2'",
+            "x' U2 R U2 R2 F2 R U2 x",
+            "R U R' U R U R' F R' F' R",
+            "F R2 U' R2' U' R2 U R2' F'",
+            "R U R' F' R U R' U' R' F R2 U' R'",
+            "R' U R' F2 R F' U R' F2 R F' R"
+          ]
+        },
+        {
+          cube: "2x2",
+          name: "2x2 EG1",
+          algs: [
+            "R' F R2 F' R2 U2 R",
+            "R U R' F2 U F R U R'",
+            "F R' F' R U R' F' R2 U R'",
+            "F' U R U' R' U F R U R'",
+            "R U' R' U R U' R' U F R U' R'",
+            "L' U L2 F' L' U L F' L' F",
+            "B U' R2 F2 U' F",
+            "R U' R' F' U' F2 R U' R'",
+            "F' L F L' U' L F L2 U' L",
+            "R U' R' F' U' R U R' U' F",
+            "R U R' F' U' R U R' U' R U R'",
+            "R U' R2 F R U' R' F R F'",
+            "F2 R U R' U2 R U R' U' F",
+            "R' F R2 U' R2 F R",
+            "F R' F U' F2 R U R",
+            "R U' R' U R U' R' F R U' R'",
+            "F U' R U2 R' F' R U R' F'",
+            "F R U' R' F R U2 R' U F'",
+            "R2 U' R' U' R U' R' U R'",
+            "x U' R' U R U' F R U R U' x'",
+            "F' U2 R U2 R' U2 F",
+            "R' F R F' R' F R2 U' R'",
+            "R U' R' U R U' R' U R' F' R F",
+            "L' U L U' L U L U' L F L' F'",
+            "R U' R' U R U' R2 F' R F",
+            "L' U L U' L' U L2 F L' F'",
+            "R' U R2 U' R2 U' F R2 U' R'",
+            "R' F2 R F' R' F R2 U R'",
+            "F' R' F R U' R U R' U' R U R'",
+            "F L F' L' U L' U' L U L' U' L",
+            "F L F' L2 U' L U L' U' L",
+            "F' R' F R2 U R' U' R U R'",
+            "R U' R2 F R U R U2 R'",
+            "R U' R' F' U' x U R' U' R U x'",
+            "R U R2' F' R F R' F' R",
+            "R U' R' U2 F R U2 R' F",
+            "R' F R2 U' R2 U' F U R",
+            "F' U R U' R2 F2 R U' F",
+            "R' U' R' F2 U F' R F'",
+            "R U R' F' R U R' U' R U R' U'",
+            "R2 U F2 U2 R2 U R2",
+            "R' D R' F2 R D' R"
+          ]
+        },
+        {
+          cube: "2x2",
+          name: "2x2 EG2",
+          algs: [
+            "F U' R2 U' R' U2 R U' R2 F'",
+            "R U R' U R U2 R B2 R2",
+            "R U' R' F2 R2 F' L' U' L",
+            "F R2 F' R2 F' R U' R",
+            "F' R' U R' U2 F R' U R'",
+            "R2 B2 R' U' L' U  R' U' L",
+            "x U' R2 F R2 F' U R' U2 R' U x'",
+            "R' U' R U' R' U2 R' F2 R2",
+            "L' U L F' R U R B2 R2",
+            "R' U R' F R2 F R2 F'",
+            "R' U' R U' R' U' R' F2 R F' R",
+            "R2 F2 R F R F' R U R'",
+            "F U' R U2 R U' R' U R' F'",
+            "R' U2 R2 U' R' F2 R2 F'",
+            "R' F' U R' F R2 U2\u2019 R' U R",
+            "R' F U' R U R' F2 U2 R",
+            "R' U' R' F2 R2 U R' F2 R",
+            "R' U2 R U' R2 F2 R F R",
+            "F U' R U2 R U' R' U2 R' U' F'",
+            "F U R U' R' F R2 F2",
+            "R U R' U' R B2 R' U R U' R'",
+            "R2 F2 R U R U2 R2 F R F' R",
+            "R U' R' U2 L U L' U2 R U' R'",
+            "L' U L U2 R' U' R U2 L' U L",
+            "R2 B2 R2 F R' F' R U R U' R'",
+            "F2 R2' F R U R' U' R' F R",
+            "R' U' F2 R U2 R' U2 F R",
+            "R' U' R U R' F' R U R' U' R' F' R2",
+            "F R' F' R U R U' R B2 R2",
+            "F' R U R' U' R' F R' F2 R2",
+            "F R F' R U R' U' R B2 R2'",
+            "F R' U2 R' U' R U2 F'",
+            "R' U R' F R2 U2' R' U' R",
+            "F2 R2 F U' R' F R F",
+            "R F2 R U R U R F R U R",
+            "R' U2 R' F2 R F2 R ",
+            "R2 F U2 F2 R2 F' R2",
+            "R2 U2 R U2 B2 R2",
+            "R' U' R U2 R2 F' R U' F R",
+            "R U' R' F U2 R2 F' R F' R",
+            "R' U R' F2 R F' R",
+            "R2 F2 R2"
+          ]
+        }
+      ];
+    }
+  });
+
+  // src/scripts/colors.ts
+  var WHITE = [1, 1, 1, 1];
+  var YELLOW = [1, 1, 0, 1];
+  var GREEN = [0, 1, 0, 1];
+  var BLUE = [0, 0, 1, 1];
+  var ORANGE = [1, 0.5, 0, 1];
+  var RED = [1, 0, 0, 1];
+  var BLACK = [0, 0, 0, 1];
+  var colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+  function faceToColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return colors[face];
+  }
+
+  // src/scripts/common/util.ts
+  function stickerToFace(sticker, cube) {
+    return Math.floor(sticker / sq(cube.layers));
+  }
+
+  // src/scripts/common/rand.ts
+  function randInt(int) {
+    return Math.floor(Math.random() * int);
+  }
+
+  // src/scripts/util.ts
+  function shuffle(array) {
+    let i = array.length;
+    while (i != 0) {
+      let r = randInt(i);
+      i--;
+      let temp = array[r];
+      array[r] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  }
+  function series(n) {
+    if (n <= 0) {
+      return 2;
+    }
+    return series(n - 1) + n + 2;
+  }
+  function promoteAlg(algs2) {
+    algs2[0].score++;
+    let position = series(algs2[0].score);
+    const threeFourths = Math.ceil(algs2.length * 3 / 4);
+    if (position > threeFourths) {
+      position = threeFourths + randInt(algs2.length - threeFourths);
+    }
+    move(algs2, position);
+  }
+  function demoteAlg(algs2) {
+    algs2[0].score = 0;
+    move(algs2, series(0));
+  }
+  function move(arr, n) {
+    const temp = arr[0];
+    for (let i = 0; i < n; i++) {
+      arr[i] = arr[i + 1];
+    }
+    arr[n] = temp;
+  }
+
+  // src/scripts/scramble.ts
+  var U = 0;
+  var F = 1;
+  var D = 2;
+  var B = 3;
+  var L = 4;
+  var R = 5;
+  var corners = [
+    [U, B, L],
+    [U, R, B],
+    [U, L, F],
+    [U, F, R],
+    [D, F, L],
+    [D, R, F],
+    [D, L, B],
+    [D, B, R]
+  ];
+  var edges = [
+    [U, B],
+    [U, L],
+    [U, R],
+    [U, F],
+    [F, L],
+    [F, R],
+    [D, F],
+    [D, L],
+    [D, R],
+    [D, B],
+    [B, L],
+    [B, R]
+  ];
+  function scramble3x3(cube) {
+    let eo = orientation(12, 2);
+    let co = orientation(8, 3);
+    let cp = permutation(8);
+    let ep = permutation(12);
+    while (permutationParity(cp) !== permutationParity(ep)) {
+      cp = permutation(8);
+    }
+    const stickers2 = Array(54);
+    for (let i = 0; i < 6; i++) {
+      const center = cube.center(i);
+      stickers2[center] = i;
+    }
+    let uCorners = cube.corners(0, 0);
+    let fCorners = cube.corners(1, 0);
+    let dCorners = cube.corners(2, 0);
+    let bCorners = cube.corners(3, 0);
+    let lCorners = cube.corners(4, 0);
+    let rCorners = cube.corners(5, 0);
+    const fill4C = (cIndices, c1, c2, c3, c4, co1, co2, co3, co4) => {
+      const corner = (ci, o) => corners[cp[ci]][(co[ci] + o) % 3];
+      stickers2[cIndices.topLeft] = corner(c1, co1);
+      stickers2[cIndices.topRight] = corner(c2, co2);
+      stickers2[cIndices.bottomLeft] = corner(c3, co3);
+      stickers2[cIndices.bottomRight] = corner(c4, co4);
+    };
+    fill4C(uCorners, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4C(fCorners, 2, 3, 4, 5, 2, 1, 1, 2);
+    fill4C(dCorners, 4, 5, 6, 7, 0, 0, 0, 0);
+    fill4C(bCorners, 6, 7, 0, 1, 2, 1, 1, 2);
+    fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
+    fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
+    const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
+      const edge = (ei, o) => edges[ep[ei]][(eo[ei] + o) % 2];
+      stickers2[eIndices.top] = edge(e1, eo1);
+      stickers2[eIndices.left] = edge(e2, eo2);
+      stickers2[eIndices.right] = edge(e3, eo3);
+      stickers2[eIndices.bottom] = edge(e4, eo4);
+    };
+    fill4E(uEdges, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4E(fEdges, 3, 4, 5, 6, 1, 0, 0, 1);
+    fill4E(dEdges, 6, 7, 8, 9, 0, 0, 0, 0);
+    fill4E(bEdges, 9, 10, 11, 0, 1, 0, 0, 1);
+    fill4E(lEdges, 1, 10, 4, 7, 1, 1, 1, 1);
+    fill4E(rEdges, 2, 5, 11, 8, 1, 1, 1, 1);
+    return stickers2;
+  }
+  function orientation(pieces, orientations) {
+    const o = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      o[i] = randInt(orientations);
+    }
+    while (!orientationValid(o, orientations)) {
+      const randPiece = randInt(pieces);
+      o[randPiece] = randInt(orientations);
+    }
+    return o;
+  }
+  function orientationValid(pieces, orientations) {
+    let sum = 0;
+    for (let i = 0; i < pieces.length; i++) {
+      sum += pieces[i];
+    }
+    return sum % orientations === 0;
+  }
+  function permutation(pieces) {
+    const p = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      p[i] = i;
+    }
+    shuffle(p);
+    return p;
+  }
+  function permutationParity(pieces) {
+    const cpy = [...pieces];
+    let parity = false;
+    while (true) {
+      if (cpy[0] === 0) {
+        const misplaced = cpy.findIndex((value, index) => value !== index);
+        if (misplaced === -1) {
+          return parity;
+        }
+        cpy[0] = cpy[misplaced];
+        cpy[misplaced] = 0;
+        parity = !parity;
+      } else {
+        const temp = cpy[0];
+        cpy[0] = cpy[temp];
+        cpy[temp] = temp;
+        parity = !parity;
+      }
+    }
+  }
+
+  // src/scripts/cube.ts
+  var canvas = document.querySelector("canvas");
+  var gl = canvas.getContext("webgl");
+  function setColor(sticker, color) {
+    const arr = [
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3]
+    ];
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+  }
+  function sq(x) {
+    return x * x;
+  }
+  function half(x) {
+    return Math.floor(x / 2);
+  }
+  function even(x) {
+    return x % 2 == 0;
+  }
+  function stickers(layers) {
+    return layers * layers * 6;
+  }
+  var Cube2 = class {
+    constructor() {
+      this.animationQueue = [];
+    }
+    setColors(colors2) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        setColor(this.stickers[i], colors2[i]);
+      }
+    }
+    solve() {
+      const arr = Array(stickers(this.layers));
+      for (let i = 0; i < stickers(this.layers); i++) {
+        arr[i] = faceToColor(stickerToFace(i, this));
+      }
+      this.setColors(arr);
+    }
+    scramble() {
+      if (this.layers === 3) {
+        this.scramble3x3();
+        return;
+      }
+      this.naiveScramble();
+    }
+    scramble3x3() {
+      const state2 = scramble3x3(this);
+      this.setCubeState(state2);
+    }
+    naiveScramble() {
+      let numTurns = sq(this.layers) * 10;
+      for (let i = 0; i < numTurns; i++) {
+        let axis = Math.floor(Math.random() * 3);
+        let layer = Math.floor(Math.random() * this.layers);
+        let clockwise = Math.floor(Math.random() * 1) == 0;
+        this._matchTurn(axis, layer, clockwise);
+      }
+    }
+    setNumOfLayers(num) {
+      this.layers = num;
+      this.stickers = Array(stickers(num));
+      this.underStickers = Array(stickers(num));
+      for (let i = 0; i < stickers(num); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        this.underStickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        setColor(this.underStickers[i], BLACK);
+      }
+      this.affectedStickers = Array(stickers(num)).fill(false);
+    }
+    getCubeState() {
+      return this.stickers.map((sticker) => sticker.face);
+    }
+    setCubeState(state2) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const color = faceToColor(state2[i]);
+        this.stickers[i].face = state2[i];
+        setColor(this.stickers[i], color);
+      }
+    }
+    resetAffectedStickers() {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(this.layers === 1);
+    }
+    pushAnimation(axis, clockwise, prevStickers) {
+      let x = clockwise ? -1 : 1;
+      let rotationAxis = [0, 0, 0];
+      rotationAxis[axis] = x;
+      this.animationQueue.push({
+        axis: rotationAxis,
+        stickers: prevStickers,
+        stickersToAnimate: this.affectedStickers
+      });
+    }
+    turn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+    }
+    sliceTurn(axis, clockwise) {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(false);
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    wideTurn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    cubeRotate(axis, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 0; i < this.layers; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    _matchTurn(axis, layer, clockwise) {
+      if (axis == 0) {
+        this._turnXAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(5, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(4, !clockwise);
+        }
+      } else if (axis == 1) {
+        this._turnYAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(0, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(2, !clockwise);
+        }
+      } else if (axis == 2) {
+        this._turnZAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(1, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(3, !clockwise);
+        }
+      } else {
+        console.error(`Axis ${axis} not recognized`);
+      }
+    }
+    _turnXAxis(layer, clockwise) {
+      for (let i = 1; i <= this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          2 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          1 * sq(this.layers) + sq(this.layers) - i - layer * this.layers
+        );
+      }
+    }
+    _turnYAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          1 * sq(this.layers) + i * this.layers + layer,
+          4 * sq(this.layers) + i * this.layers + layer,
+          3 * sq(this.layers) + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+          5 * sq(this.layers) + i * this.layers + layer
+        );
+      }
+    }
+    _turnZAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
+          5 * sq(this.layers) + i + this.layers * layer,
+          2 * sq(this.layers) + (this.layers - i - 1) * this.layers + layer,
+          4 * sq(this.layers) + sq(this.layers) - (i + 1) - layer * this.layers
+        );
+      }
+    }
+    _turnOuter(face, clockwise) {
+      if (this.layers % 2 != 0) {
+        let center = this.center(face);
+        this.affectedStickers[center] = true;
+      }
+      for (let i = 0; i < Math.floor(this.layers / 2); i++) {
+        const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
+        this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
+        let numEdges = this.layers - 2 * (i + 1);
+        for (let j = 0; j < numEdges; j++) {
+          const { top, left, bottom, right } = this.edges(face, i, j);
+          this._cycle(clockwise, top, right, bottom, left);
+        }
+      }
+    }
+    _cycle(clockwise, i1, i2, i3, i4) {
+      this.affectedStickers[i1] = true;
+      this.affectedStickers[i2] = true;
+      this.affectedStickers[i3] = true;
+      this.affectedStickers[i4] = true;
+      if (clockwise) {
+        this._cycleHelper(i1, i2, i3, i4);
+      } else {
+        this._cycleHelper(i4, i3, i2, i1);
+      }
+    }
+    _cycleHelper(i1, i2, i3, i4) {
+      let temp = this.stickers[i4];
+      this.stickers[i4] = this.stickers[i3];
+      this.stickers[i3] = this.stickers[i2];
+      this.stickers[i2] = this.stickers[i1];
+      this.stickers[i1] = temp;
+    }
+    matchKeyToTurn(event) {
+      if (this.disableTurn)
+        return;
+      if (event.ctrlKey)
+        return;
+      const code = event.code;
+      switch (code) {
+        case "KeyN":
+          this.cubeRotate(0, true);
+          return { notation: "x", rotate: true };
+        case "KeyB":
+          this.cubeRotate(0, false);
+          return { notation: "x'", rotate: true };
+        case "Semicolon":
+          this.cubeRotate(1, true);
+          return { notation: "y", rotate: true };
+        case "KeyA":
+          this.cubeRotate(1, false);
+          return { notation: "y'", rotate: true };
+        case "KeyP":
+          this.cubeRotate(2, true);
+          return { notation: "z", rotate: true };
+        case "KeyQ":
+          this.cubeRotate(2, false);
+          return { notation: "z'", rotate: true };
+        case "KeyJ":
+          this.turn(1, 0, true);
+          return { notation: "U", turn: true };
+        case "KeyF":
+          this.turn(1, 0, false);
+          return { notation: "U'", turn: true };
+        case "KeyS":
+          this.turn(1, this.layers - 1, false);
+          return { notation: "D", turn: true };
+        case "KeyL":
+          this.turn(1, this.layers - 1, true);
+          return { notation: "D'", turn: true };
+        case "KeyH":
+          this.turn(2, 0, true);
+          return { notation: "F", turn: true };
+        case "KeyG":
+          this.turn(2, 0, false);
+          return { notation: "F'", turn: true };
+        case "KeyW":
+          this.turn(2, this.layers - 1, false);
+          return { notation: "B", turn: true };
+        case "KeyO":
+          this.turn(2, this.layers - 1, true);
+          return { notation: "B'", turn: true };
+        case "KeyD":
+          this.turn(0, this.layers - 1, false);
+          return { notation: "L", turn: true };
+        case "KeyE":
+          this.turn(0, this.layers - 1, true);
+          return { notation: "L'", turn: true };
+        case "KeyI":
+          this.turn(0, 0, true);
+          return { notation: "R", turn: true };
+        case "KeyK":
+          this.turn(0, 0, false);
+          return { notation: "R'", turn: true };
+        case "BracketLeft":
+          this.sliceTurn(0, false);
+          return { notation: "M", turn: true };
+        case "Quote":
+          this.sliceTurn(0, true);
+          return { notation: "M'", turn: true };
+        case "KeyC":
+          this.sliceTurn(1, false);
+          return { notation: "E", turn: true };
+        case "Comma":
+          this.sliceTurn(1, true);
+          return { notation: "E'", turn: true };
+        case "KeyY":
+          this.sliceTurn(2, true);
+          return { notation: "S", turn: true };
+        case "KeyT":
+          this.sliceTurn(2, false);
+          return { notation: "S'", turn: true };
+        case "KeyU":
+          this.wideTurn(0, 0, true);
+          return { notation: "r", turn: true };
+        case "KeyM":
+          this.wideTurn(0, 0, false);
+          return { notation: "r'", turn: true };
+        case "KeyV":
+          this.wideTurn(0, this.layers - 1, false);
+          return { notation: "l", turn: true };
+        case "KeyR":
+          this.wideTurn(0, this.layers - 1, true);
+          return { notation: "l'", turn: true };
+      }
+      return;
+    }
+    stepAlgorithm(move2, forward) {
+      switch (move2) {
+        case "x":
+          this.cubeRotate(0, forward);
+          break;
+        case "x'":
+          this.cubeRotate(0, !forward);
+          break;
+        case "x2":
+        case "x2'":
+          this.cubeRotate(0, forward);
+          this.cubeRotate(0, forward);
+          break;
+        case "y":
+          this.cubeRotate(1, forward);
+          break;
+        case "y'":
+          this.cubeRotate(1, !forward);
+          break;
+        case "y2":
+        case "y2'":
+          this.cubeRotate(1, forward);
+          this.cubeRotate(1, forward);
+          break;
+        case "z":
+          this.cubeRotate(2, forward);
+          break;
+        case "z'":
+          this.cubeRotate(2, !forward);
+          break;
+        case "z2":
+        case "z2'":
+          this.cubeRotate(2, forward);
+          this.cubeRotate(2, forward);
+          break;
+        case "U":
+          this.turn(1, 0, forward);
+          break;
+        case "U'":
+          this.turn(1, 0, !forward);
+          break;
+        case "U2":
+        case "U2'":
+          this.turn(1, 0, forward);
+          this.turn(1, 0, forward);
+          break;
+        case "u":
+          this.wideTurn(1, 0, forward);
+          break;
+        case "u'":
+          this.wideTurn(1, 0, !forward);
+          break;
+        case "u2":
+        case "u2'":
+          this.wideTurn(1, 0, forward);
+          this.wideTurn(1, 0, forward);
+          break;
+        case "D":
+          this.turn(1, this.layers - 1, !forward);
+          break;
+        case "D'":
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "D2":
+        case "D2'":
+          this.turn(1, this.layers - 1, forward);
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "d":
+          this.wideTurn(1, this.layers - 1, !forward);
+          break;
+        case "d'":
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "d2":
+        case "d2'":
+          this.wideTurn(1, this.layers - 1, forward);
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "F":
+          this.turn(2, 0, forward);
+          break;
+        case "F'":
+          this.turn(2, 0, !forward);
+          break;
+        case "F2":
+        case "F2'":
+          this.turn(2, 0, forward);
+          this.turn(2, 0, forward);
+          break;
+        case "f":
+          this.wideTurn(2, 0, forward);
+          break;
+        case "f'":
+          this.wideTurn(2, 0, !forward);
+          break;
+        case "f2":
+        case "f2'":
+          this.wideTurn(2, 0, forward);
+          this.wideTurn(2, 0, forward);
+          break;
+        case "B":
+          this.turn(2, this.layers - 1, !forward);
+          break;
+        case "B'":
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "B2":
+        case "B2'":
+          this.turn(2, this.layers - 1, forward);
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "b":
+          this.wideTurn(2, this.layers - 1, !forward);
+          break;
+        case "b'":
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "b2":
+        case "b2'":
+          this.wideTurn(2, this.layers - 1, forward);
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "L":
+          this.turn(0, this.layers - 1, !forward);
+          break;
+        case "L'":
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "L2":
+        case "L2'":
+          this.turn(0, this.layers - 1, forward);
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "l":
+          this.wideTurn(0, this.layers - 1, !forward);
+          break;
+        case "l'":
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "l2":
+        case "l2'":
+          this.wideTurn(0, this.layers - 1, forward);
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "R":
+          this.turn(0, 0, forward);
+          break;
+        case "R'":
+          this.turn(0, 0, !forward);
+          break;
+        case "R2":
+        case "R2'":
+          this.turn(0, 0, forward);
+          this.turn(0, 0, forward);
+          break;
+        case "r":
+          this.wideTurn(0, 0, forward);
+          break;
+        case "r'":
+          this.wideTurn(0, 0, !forward);
+          break;
+        case "r2":
+        case "r2'":
+          this.wideTurn(0, 0, forward);
+          this.wideTurn(0, 0, forward);
+          break;
+        case "M":
+          this.turn(0, 1, !forward);
+          break;
+        case "M'":
+          this.turn(0, 1, forward);
+          break;
+        case "M2":
+        case "M2'":
+          this.sliceTurn(0, forward);
+          this.sliceTurn(0, forward);
+          break;
+        case "E":
+          this.sliceTurn(1, !forward);
+          break;
+        case "E'":
+          this.sliceTurn(1, forward);
+          break;
+        case "E2":
+        case "E2'":
+          this.sliceTurn(1, forward);
+          this.sliceTurn(1, forward);
+          break;
+        case "S":
+          this.sliceTurn(2, forward);
+          break;
+        case "S'":
+          this.sliceTurn(2, !forward);
+          break;
+        case "S2":
+        case "S2'":
+          this.sliceTurn(2, forward);
+        default:
+          throw new Error("Invalid turn in algorithm: " + move2);
+      }
+    }
+    execAlg(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = 0; i < moves.length; i++) {
+        this.stepAlgorithm(moves[i], true);
+      }
+      this.animationQueue = [];
+    }
+    execAlgReverse(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = moves.length - 1; i >= 0; i--) {
+        this.stepAlgorithm(moves[i], false);
+      }
+      this.animationQueue = [];
+    }
+    stickerIsOnFace(sticker, face) {
+      return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
+    }
+    center(face) {
+      return face * sq(this.layers) + Math.floor(sq(this.layers) / 2);
+    }
+    corners(face, layer) {
+      const offset = face * sq(this.layers);
+      return {
+        topLeft: offset + (this.layers + 1) * layer,
+        topRight: offset + (this.layers - 1) * (this.layers - layer),
+        bottomRight: offset + (this.layers + 1) * (this.layers - layer - 1),
+        bottomLeft: offset + (this.layers - 1) * (layer + 1)
+      };
+    }
+    edges(face, corner, edge) {
+      const corners2 = this.corners(face, corner);
+      let numEdges = this.layers - 2 * (corner + 1);
+      return {
+        top: corners2.topLeft + this.layers * (edge + 1),
+        left: corners2.topLeft + (numEdges - edge),
+        right: corners2.topRight + edge + 1,
+        bottom: corners2.bottomLeft + this.layers * (numEdges - edge)
+      };
+    }
+  };
+
+  // src/scripts/buffers.ts
+  function createBuffers(gl4, cube, perspectiveMatrix) {
+    let allPositions = makePositions(cube, 1.01, 0.02);
+    let allNoGapPositions = makePositions(cube, 1, 0);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
+    const objects = Array(stickers(cube.layers));
+    for (let i = 0; i < stickers(cube.layers); i++) {
+      let object = {
+        positionBuffer: gl4.createBuffer(),
+        noGapPositionBuffer: gl4.createBuffer(),
+        hintPositionBuffer: gl4.createBuffer(),
+        indexBuffer: gl4.createBuffer(),
+        cart2d: [],
+        positions: null
+      };
+      let positions = new Float32Array(12);
+      let noGapPos = new Float32Array(12);
+      let hintPos = new Float32Array(12);
+      for (let j = 0; j < 12; j++) {
+        let index = i * 12 + j;
+        positions[j] = allPositions[index];
+        noGapPos[j] = allNoGapPositions[index];
+        hintPos[j] = allHintPositions[index];
+      }
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.positionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, positions, gl4.STATIC_DRAW);
+      object.positions = positions;
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.noGapPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, noGapPos, gl4.STATIC_DRAW);
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.hintPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, hintPos, gl4.STATIC_DRAW);
+      const homo = Array(16);
+      multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+      multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+      multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+      multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+      object.cart2d = [
+        homo[0] / homo[3],
+        homo[1] / homo[3],
+        homo[4] / homo[7],
+        homo[5] / homo[7],
+        homo[8] / homo[11],
+        homo[9] / homo[11],
+        homo[12] / homo[15],
+        homo[13] / homo[15]
+      ];
+      const indices = [0, 1, 2, 0, 2, 3];
+      gl4.bindBuffer(gl4.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+      gl4.bufferData(gl4.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl4.STATIC_DRAW);
+      objects[i] = object;
+    }
+    return objects;
+  }
+  function multiply(arr, offset, a, b) {
+    const out = Array(4);
+    let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+  }
+  var perSticker = 12;
+  var verticesInSquare = 4;
+  var dimensions = 3;
+  function makePositions(cube, radius, gap) {
+    const perFace = sq(cube.layers) * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
+    return out;
+  }
+  function topFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function frontFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function bottomFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function backFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function leftFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function rightFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = cube.layers - 1; i >= 0; i--) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = half(cube.layers); i >= -half(cube.layers); i--) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function makeFace(arr, offset, cube, coords, a, gap) {
+    for (let i = 0; i < sq(cube.layers); i++) {
+      const temp = coords[i];
+      makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
+    }
+  }
+  function makeSticker(arr, offset, cube, x, y, r, a, gap) {
+    const s = 1 / cube.layers - gap;
+    const coords = [
+      [x - s, y - s, r],
+      [x + s, y - s, r],
+      [x + s, y + s, r],
+      [x - s, y + s, r]
+    ];
+    for (let i = 0; i < verticesInSquare; i++) {
+      const temp = coords[i];
+      arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+      arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+      arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
+    }
+  }
+
+  // src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
+  // src/scripts/dragDetector.ts
+  function xPixelToClip(val, canvasSize) {
+    return val / canvasSize * 2 - 1;
+  }
+  function yPixelToClip(val, canvasSize) {
+    return 1 - val / canvasSize * 2;
+  }
+  function calcSlope(x1, y1, x2, y2) {
+    if (x1 < x2) {
+      return (y2 - y1) / (x2 - x1);
+    }
+    return (y1 - y2) / (x1 - x2);
+  }
+  function areaTriangle(x1, y1, x2, y2, x3, y3) {
+    return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
+  }
+  function topRow(cube, sticker) {
+    return cube.layers - 1 - sticker % cube.layers;
+  }
+  function topColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
+  }
+  function frontRow(cube, sticker) {
+    return sticker % cube.layers;
+  }
+  function frontColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - sq(cube.layers)) / cube.layers);
+  }
+  var DragDetector = class {
+    onPointerDown(x, y, div, cube, buffers) {
+      this.numOfPointerMoves = 0;
+      const clipX = xPixelToClip(x, div.clientWidth);
+      const clipY = yPixelToClip(y, div.clientHeight);
+      this.xOnDown = clipX;
+      this.yOnDown = clipY;
+      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers);
+      function getXY(objectIndex, xIndex, yIndex) {
+        return {
+          x: buffers[objectIndex].cart2d[xIndex],
+          y: buffers[objectIndex].cart2d[yIndex]
+        };
+      }
+      if (this.stickerOnDown !== -1)
+        return;
+      const topLeft = getXY(0, 0, 1);
+      const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+      const left = getXY(cube.layers - 1, 2, 3);
+      const right = getXY(sq(cube.layers) - 1, 4, 5);
+      const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+      const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
+      if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+        cube.cubeRotate(0, true);
+      } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+        cube.cubeRotate(2, false);
+      } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+        cube.cubeRotate(2, true);
+      } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+        cube.cubeRotate(1, true);
+      } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+        cube.cubeRotate(1, false);
+      } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+        cube.cubeRotate(0, false);
+      }
+    }
+    onPointerMove(x, y) {
+      this.numOfPointerMoves++;
+      this.xOnMove = x;
+      this.yOnMove = y;
+    }
+    onPointerUp(div, cube, buffers) {
+      if (this.numOfPointerMoves < 2)
+        return;
+      let posSlope, negSlope;
+      if (this.stickerOnDown !== -1) {
+        posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
+        negSlope = calcSlope(this.cart2dOnDown[2], this.cart2dOnDown[3], this.cart2dOnDown[6], this.cart2dOnDown[7]);
+        if (posSlope < 0) {
+          const temp = posSlope;
+          posSlope = negSlope;
+          negSlope = temp;
+        }
+      }
+      const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
+      const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
+      const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
+      if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
+          }
+        }
+      } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
+          }
+        }
+      }
+    }
+    _coordinatesToSticker(x, y, cube, buffers) {
+      const coordinateIsInSticker = (i) => {
+        if (!buffers[i].cart2d) {
+          console.error("cart2d is undefined");
+          return;
+        }
+        const cart2d = buffers[i].cart2d;
+        const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
+        const sumAreaTriangles = areaTriangle(x, y, cart2d[0], cart2d[1], cart2d[2], cart2d[3]) + areaTriangle(x, y, cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(x, y, cart2d[4], cart2d[5], cart2d[6], cart2d[7]) + areaTriangle(x, y, cart2d[6], cart2d[7], cart2d[0], cart2d[1]);
+        const EPSILON = 1e-5;
+        if (Math.abs(areaQuadrilateral - sumAreaTriangles) < EPSILON) {
+          return [
+            i,
+            cart2d
+          ];
+        }
+        return void 0;
+      };
+      for (let i = 0; i < 2 * sq(cube.layers); i++) {
+        const output = coordinateIsInSticker(i);
+        if (output)
+          return output;
+      }
+      return [-1, void 0];
+    }
+  };
+
+  // src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+    return out;
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = 1 / Math.hypot(x, y, z);
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+    return out;
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
+  }
+
+  // src/scripts/common/singleton.ts
+  function singleton() {
+    let instance;
+    return (constructor) => {
+      if (!instance) {
+        instance = constructor();
+      }
+      return instance;
+    };
+  }
+
+  // src/scripts/store.ts
+  var algs = "algs";
+  var orientation2 = "orientation";
+  function getAlgs(setName) {
+    const item = localStorage.getItem(algs + setName);
+    if (item) {
+      return JSON.parse(item);
+    }
+    return [];
+  }
+  function setAlgs(setName, value) {
+    localStorage.setItem(algs + setName, JSON.stringify(value));
+  }
+  function getOrientation() {
+    var _a;
+    return (_a = localStorage.getItem(orientation2)) != null ? _a : "";
+  }
+  function setOrientation(value) {
+    localStorage.setItem(orientation2, value);
+  }
+
+  // src/scripts/scene.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
+  var programInfo = initPrograms();
+  var scenes = [];
+  var settings = {
+    animateTurns: true,
+    hintStickers: true,
+    showBody: true
+  };
+  var time = Date.now() * 1e-3;
+  var numLayers = 3;
+  var loopStarted = false;
+  function startLoop() {
+    if (loopStarted)
+      return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+  }
+  function newScene(selector) {
+    let div = document.querySelector(selector);
+    let cube = new Cube2();
+    let spring = new Spring();
+    let perspectiveMatrix = initPerspective(div);
+    let dragDetector = new DragDetector();
+    cube.setNumOfLayers(numLayers);
+    let buffers = createBuffers(gl2, cube, perspectiveMatrix);
+    let scene = {
+      div,
+      cube,
+      spring,
+      buffers,
+      perspectiveMatrix
+    };
+    const pointerdown = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
+    };
+    const pointermove = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerMove(offsetX, offsetY);
+    };
+    const pointerup = () => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
+    };
+    const calcOffset = (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.touches[0].pageX - rect.left;
+      const y = event.touches[0].pageY - rect.top;
+      return { x, y };
+    };
+    const addPointerListeners = () => {
+      div.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
+      div.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
+      div.addEventListener("pointerup", (event) => pointerup());
+    };
+    const addTouchListeners = () => {
+      div.addEventListener("touchstart", (event) => {
+        const { x, y } = calcOffset(event);
+        pointerdown(x, y);
+      });
+      div.addEventListener("touchmove", (event) => {
+        const { x, y } = calcOffset(event);
+        pointermove(x, y);
+      });
+      div.addEventListener("touchend", (event) => {
+        pointerup();
+      });
+    };
+    if (window.PointerEvent) {
+      addPointerListeners();
+    } else {
+      addTouchListeners();
+    }
+    return scene;
+  }
+  function initPrograms() {
+    const vertexShaderSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uTransformMatrix;
@@ -14,7 +2158,8 @@
         rotatedPos = uRotateMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
-    `,`
+    `;
+    const fragmentShaderSource = `
     // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
     varying lowp vec4 originalPos;
@@ -38,18 +2183,540 @@
         if (rotatedPos.y < max && rotatedPos.z < max) return;
         discard;
     }
-    `);return m.useProgram(R),{attribLocations:{vertexPosition:m.getAttribLocation(R,"aVertexPosition"),vertexColor:m.getAttribLocation(R,"aVertexColor")},uniformLocations:{transformMatrix:m.getUniformLocation(R,"uTransformMatrix"),rotateMatrix:m.getUniformLocation(R,"uRotateMatrix")}}}function kU(U){let e=J();return CR(e,50*Math.PI/180,U.clientWidth/U.clientHeight,.1,100),PR(e,[0,0,-5]),RR(e,e,45*Math.PI/180,[1,0,0]),RR(e,e,0,[0,-1,0]),e}function DR(U,e,R){R.bindBuffer(R.ARRAY_BUFFER,U),R.vertexAttribPointer(e.attribLocations.vertexPosition,3,R.FLOAT,!1,0,0),R.enableVertexAttribArray(e.attribLocations.vertexPosition)}function mR(U,e,R){R.bindBuffer(R.ARRAY_BUFFER,U),R.vertexAttribPointer(e.attribLocations.vertexColor,4,R.FLOAT,!1,0,0),R.enableVertexAttribArray(e.attribLocations.vertexColor)}function LR(U){U.drawElements(U.TRIANGLES,6,U.UNSIGNED_SHORT,0)}function BU(U,e,R){let t=zR(U,U.VERTEX_SHADER,e),r=zR(U,U.FRAGMENT_SHADER,R),n=U.createProgram();return U.attachShader(n,t),U.attachShader(n,r),U.linkProgram(n),U.getProgramParameter(n,U.LINK_STATUS)?n:(alert("Unable to initialize the shader program: "+U.getProgramInfoLog(n)),null)}function zR(U,e,R){let t=U.createShader(e);return U.shaderSource(t,R),U.compileShader(t),U.getShaderParameter(t,U.COMPILE_STATUS)?t:(alert("An error occurred compiling the shaders: "+U.getShaderInfoLog(t)),U.deleteShader(t),null)}function MU(){let U=B.clientWidth,e=B.clientHeight,R=B.width!==U||B.height!==e;return R&&(B.width=U,B.height=e),R}function qR(U){U*=.001;let e=U-YR;YR=U,MU(),m.enable(m.DEPTH_TEST),m.enable(m.SCISSOR_TEST),m.depthFunc(m.LEQUAL),m.clear(m.COLOR_BUFFER_BIT|m.DEPTH_BUFFER_BIT),B.style.transform=`translateY(${window.scrollY}px)`;for(let R=0;R<k.length;R++){let{cube:t,div:r,spring:n,buffers:o,perspectiveMatrix:s}=k[R],i=r.getBoundingClientRect();if(i.bottom<0||i.top>B.clientHeight||i.right<0||i.left>B.clientWidth)continue;let a=i.right-i.left,l=i.bottom-i.top,f=i.left,c=B.clientHeight-i.bottom;m.viewport(f,c,a,l),m.scissor(f,c,a,l),t.animationQueue[0]&&(n.target=t.animationQueue.length*90,n.update(e),n.position>=90&&(t.affectedStickers=Array(g(t.layers)).fill(!1),n.position=0,t.animationQueue.shift()));let F=t.animationQueue[0],u=TU(t),D=hR(),x=hR();for(let d=0;d<g(t.layers);d++){let M=o[d],S=F&&F.stickersToAnimate[d]&&UR.animateTurns?D(()=>RR(J(),s,n.position*Math.PI/180,F.axis)):s;m.uniformMatrix4fv(j.uniformLocations.transformMatrix,!1,S);let p=F&&F.stickersToAnimate[d]&&UR.animateTurns?x(()=>{let A=J();return RR(A,A,n.position*Math.PI/180,F.axis)}):J();m.uniformMatrix4fv(j.uniformLocations.rotateMatrix,!1,p),m.bindBuffer(m.ELEMENT_ARRAY_BUFFER,M.indexBuffer),UR.showBody&&(DR(M.noGapPositionBuffer,j,m),mR(t.underStickers[d].buffer,j,m),LR(m)),DR(M.positionBuffer,j,m),mR(u[d].buffer,j,m),LR(m),UR.hintStickers&&(DR(M.hintPositionBuffer,j,m),mR(u[d].buffer,j,m),LR(m))}}requestAnimationFrame(qR)}function TU(U){return UR.animateTurns&&U.animationQueue[0]?U.animationQueue[0].stickers:U.stickers}var QR=!1;function VR(U){QR=!0,U.style.display="flex",U.classList.add("slideLeftOpen"),document.documentElement.clientWidth<725?U.classList.add("slideLeftClosed"):U.classList.remove("slideLeftClosed")}function yR(U){QR=!1,document.documentElement.clientWidth<725?(U.classList.add("slideLeftClosed"),U.classList.remove("slideLeftOpen"),U.style.display="flex"):U.style.display="none"}function $R(U){return`
+    `;
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
+    return {
+      attribLocations: {
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
+      },
+      uniformLocations: {
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix"),
+        rotateMatrix: gl2.getUniformLocation(shaderProgram, "uRotateMatrix")
+      }
+    };
+  }
+  function initPerspective(element) {
+    let perspectiveMatrix = create();
+    perspective(
+      perspectiveMatrix,
+      50 * Math.PI / 180,
+      element.clientWidth / element.clientHeight,
+      0.1,
+      100
+    );
+    translate(
+      perspectiveMatrix,
+      [0, 0, -5]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      45 * Math.PI / 180,
+      [1, 0, 0]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      0,
+      [0, -1, 0]
+    );
+    return perspectiveMatrix;
+  }
+  function bindPosition(positionBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, positionBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexPosition,
+      3,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexPosition
+    );
+  }
+  function bindColor(colorBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, colorBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexColor,
+      4,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexColor
+    );
+  }
+  function drawElements(gl4) {
+    gl4.drawElements(
+      gl4.TRIANGLES,
+      6,
+      gl4.UNSIGNED_SHORT,
+      0
+    );
+  }
+  function initShaderProgram(gl4, vsSource, fsSource) {
+    const vertexShader = loadShader(gl4, gl4.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl4, gl4.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl4.createProgram();
+    gl4.attachShader(shaderProgram, vertexShader);
+    gl4.attachShader(shaderProgram, fragmentShader);
+    gl4.linkProgram(shaderProgram);
+    if (!gl4.getProgramParameter(shaderProgram, gl4.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl4.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+    return shaderProgram;
+  }
+  function loadShader(gl4, type, source) {
+    const shader = gl4.createShader(type);
+    gl4.shaderSource(shader, source);
+    gl4.compileShader(shader);
+    if (!gl4.getShaderParameter(shader, gl4.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl4.getShaderInfoLog(shader));
+      gl4.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+  function resizeCanvasToDisplaySize() {
+    const displayWidth = canvas2.clientWidth;
+    const displayHeight = canvas2.clientHeight;
+    const needResize = canvas2.width !== displayWidth || canvas2.height !== displayHeight;
+    if (needResize) {
+      canvas2.width = displayWidth;
+      canvas2.height = displayHeight;
+    }
+    return needResize;
+  }
+  function render(newTime) {
+    newTime *= 1e-3;
+    const dt = newTime - time;
+    time = newTime;
+    resizeCanvasToDisplaySize();
+    gl2.enable(gl2.DEPTH_TEST);
+    gl2.enable(gl2.SCISSOR_TEST);
+    gl2.depthFunc(gl2.LEQUAL);
+    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
+    canvas2.style.transform = `translateY(${window.scrollY}px)`;
+    for (let i = 0; i < scenes.length; i++) {
+      const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
+      const rect = div.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > canvas2.clientHeight || rect.right < 0 || rect.left > canvas2.clientWidth) {
+        continue;
+      }
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = canvas2.clientHeight - rect.bottom;
+      gl2.viewport(left, bottom, width, height);
+      gl2.scissor(left, bottom, width, height);
+      if (cube.animationQueue[0]) {
+        spring.target = cube.animationQueue.length * 90;
+        spring.update(dt);
+        if (spring.position >= 90) {
+          cube.affectedStickers = Array(stickers(cube.layers)).fill(false);
+          spring.position = 0;
+          cube.animationQueue.shift();
+        }
+      }
+      const animation = cube.animationQueue[0];
+      let stickers2 = chooseStickers(cube);
+      let _transformSingleton = singleton();
+      let _rotateSingleton = singleton();
+      for (let i2 = 0; i2 < stickers(cube.layers); i2++) {
+        let object = buffers[i2];
+        const transform = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _transformSingleton(() => {
+          return rotate(
+            create(),
+            perspectiveMatrix,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : perspectiveMatrix;
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          transform
+        );
+        const rotation = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _rotateSingleton(() => {
+          const rotateMat = create();
+          return rotate(
+            rotateMat,
+            rotateMat,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : create();
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.rotateMatrix,
+          false,
+          rotation
+        );
+        gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+        if (settings.showBody) {
+          bindPosition(object.noGapPositionBuffer, programInfo, gl2);
+          bindColor(cube.underStickers[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+        bindPosition(object.positionBuffer, programInfo, gl2);
+        bindColor(stickers2[i2].buffer, programInfo, gl2);
+        drawElements(gl2);
+        if (settings.hintStickers) {
+          bindPosition(object.hintPositionBuffer, programInfo, gl2);
+          bindColor(stickers2[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  function chooseStickers(cube) {
+    if (!settings.animateTurns) {
+      return cube.stickers;
+    }
+    if (cube.animationQueue[0]) {
+      return cube.animationQueue[0].stickers;
+    }
+    return cube.stickers;
+  }
+
+  // src/scripts/slide.ts
+  var NARROW = 725;
+  var opened = false;
+  function open(ele) {
+    opened = true;
+    ele.style.display = "flex";
+    ele.classList.add("slideLeftOpen");
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+    } else {
+      ele.classList.remove("slideLeftClosed");
+    }
+  }
+  function close(ele) {
+    opened = false;
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+      ele.classList.remove("slideLeftOpen");
+      ele.style.display = "flex";
+    } else {
+      ele.style.display = "none";
+    }
+  }
+  function renderHeader(title) {
+    return `
     <div class="row" style="justify-content: space-between; width: 100%; padding-bottom: 16px;">
-        <p style="font-weight: bold; padding-right: 2rem;">${U}</p>
+        <p style="font-weight: bold; padding-right: 2rem;">${title}</p>
         <svg id="closeDrawer" class="xButton" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
             <path id="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>
     </div>
-    `}function XR(){let U=document.querySelector(".slideRight"),e=!1;function R(t){if(e=t,e){U.classList.add("slideRightOpen");return}U.classList.remove("slideRightOpen")}document.addEventListener("click",t=>{let r=t.target;if(r===document.querySelector("#menu")){R(!0);return}e&&!r.closest(".slideRight")&&R(!1)}),document.querySelector("#closeMenu").addEventListener("click",()=>{R(!1)}),document.querySelector("#learnButton").addEventListener("click",()=>{document.location.href="learn.html"}),document.querySelector("#playButton").addEventListener("click",()=>{document.location.href="play.html"}),document.querySelector("#trainButton").addEventListener("click",()=>{document.location.href="train.html"}),document.querySelector("#cubleButton").addEventListener("click",()=>{document.location.href="cuble.html"})}var CU=document.querySelector("canvas"),JR=CU.getContext("webgl"),dR=ZR(),L={solutionShown:!1,retried:!1,solved:!1,settingsOpen:!1,preRotation:"",algSet:null,algs:[],preAUF:"",postAUF:""};function RU(U,e){return e?`${e} ${U}`:U}function PU(U,e){return e?`${U} ${e}`:U}function pR(U,e){for(let R=0;R<e.length;R++){let t=U[e[R][0]].face;for(let r=1;r<e[R].length;r++)if(t!==U[e[R][r]].face)return!1}return!0}function wU(U,e){switch(e.name){case"CMLL":return pR(U,[[0,2,6,8],[9,15],[29,35],[36,42],[45,51]]);case"OLL":return pR(U,[[0,1,2,3,4,5,6,7,8],[10,11,13,14,16,17],[18,19,20,21,22,23,24,25,26],[27,28,30,31,33,34],[37,38,40,41,43,44],[46,47,489,50,52,53]]);case"PLL":case"ZBLL":return pR(U,[[0,1,2,3,4,5,6,7,8],[9,12,15],[29,32,35],[36,39,42],[45,48,51],[10,11,13,14,16,17],[18,19,20,21,22,23,24,25,26],[27,28,30,31,33,34],[37,38,40,41,43,44],[46,47,49,50,52,53]]);default:console.error("Not implemented yet:",e.name)}}function UU(){let U=document.querySelector("#rightDrawer");if(L.settingsOpen){let e=[{value:"",text:"White Green"},{value:"y'",text:"White Orange"},{value:"y2",text:"White Blue"},{value:"y",text:"White Red"},{value:"z2",text:"Yellow Green"},{value:"z2 y",text:"Yellow Orange"},{value:"x2",text:"Yellow Blue"},{value:"z2 y'",text:"Yellow Red"},{value:"x y2",text:"Green White"},{value:"x y",text:"Green Red"},{value:"x",text:"Green Yellow"},{value:"x y'",text:"Green Orange"},{value:"x'",text:"Blue White"},{value:"x' y",text:"Blue Red"},{value:"x' y2",text:"Blue Yellow"},{value:"x' y'",text:"Blue Orange"},{value:"z y",text:"Orange White"},{value:"z",text:"Orange Green"},{value:"z y'",text:"Orange Yellow"},{value:"z y2",text:"Orange Blue"},{value:"z' y'",text:"Red White"},{value:"z'",text:"Red Green"},{value:"z' y",text:"Red Yellow"},{value:"z' y2",text:"Red Blue"}],R="";e.forEach(t=>{let r=t.value===L.preRotation?"selected":"";R+=`<option value="${t.value}" ${r}>${t.text}</option>`}),U.innerHTML=`
-        ${$R("Settings")}
+    `;
+  }
+
+  // src/scripts/ui.ts
+  function addListenersForLeftModal() {
+    const drawer = document.querySelector(".slideRight");
+    let isOpen = false;
+    function updateDrawer(open2) {
+      isOpen = open2;
+      if (isOpen) {
+        drawer.classList.add("slideRightOpen");
+        return;
+      }
+      drawer.classList.remove("slideRightOpen");
+    }
+    document.addEventListener("click", (event) => {
+      const ele = event.target;
+      if (ele === document.querySelector("#menu")) {
+        updateDrawer(true);
+        return;
+      }
+      if (isOpen && !ele.closest(".slideRight")) {
+        updateDrawer(false);
+      }
+    });
+    document.querySelector("#closeMenu").addEventListener("click", () => {
+      updateDrawer(false);
+    });
+    document.querySelector("#learnButton").addEventListener("click", () => {
+      document.location.href = "learn.html";
+    });
+    document.querySelector("#playButton").addEventListener("click", () => {
+      document.location.href = "play.html";
+    });
+    document.querySelector("#trainButton").addEventListener("click", () => {
+      document.location.href = "train.html";
+    });
+    document.querySelector("#cubleButton").addEventListener("click", () => {
+      document.location.href = "cuble.html";
+    });
+  }
+
+  // src/scripts/train.ts
+  var canvas3 = document.querySelector("canvas");
+  var gl3 = canvas3.getContext("webgl");
+  var algData = require_alg_data();
+  var state = {
+    solutionShown: false,
+    retried: false,
+    solved: false,
+    settingsOpen: false,
+    preRotation: "",
+    algSet: null,
+    algs: [],
+    preAUF: "",
+    postAUF: ""
+  };
+  function applyPre(alg, auf) {
+    if (auf) {
+      return `${auf} ${alg}`;
+    }
+    return alg;
+  }
+  function applyPost(alg, auf) {
+    if (auf) {
+      return `${alg} ${auf}`;
+    }
+    return alg;
+  }
+  function matching(stickers2, shouldMatch) {
+    for (let i = 0; i < shouldMatch.length; i++) {
+      const first = stickers2[shouldMatch[i][0]].face;
+      for (let j = 1; j < shouldMatch[i].length; j++) {
+        if (first !== stickers2[shouldMatch[i][j]].face) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  function solved(stickers2, algSet) {
+    switch (algSet.name) {
+      case "CMLL":
+        return matching(stickers2, [
+          [0, 2, 6, 8],
+          [9, 15],
+          [29, 35],
+          [36, 42],
+          [45, 51]
+        ]);
+      case "OLL":
+        return matching(stickers2, [
+          [0, 1, 2, 3, 4, 5, 6, 7, 8],
+          [10, 11, 13, 14, 16, 17],
+          [18, 19, 20, 21, 22, 23, 24, 25, 26],
+          [27, 28, 30, 31, 33, 34],
+          [37, 38, 40, 41, 43, 44],
+          [46, 47, 489, 50, 52, 53]
+        ]);
+      case "PLL":
+      case "ZBLL":
+        return matching(stickers2, [
+          [0, 1, 2, 3, 4, 5, 6, 7, 8],
+          [9, 12, 15],
+          [29, 32, 35],
+          [36, 39, 42],
+          [45, 48, 51],
+          [10, 11, 13, 14, 16, 17],
+          [18, 19, 20, 21, 22, 23, 24, 25, 26],
+          [27, 28, 30, 31, 33, 34],
+          [37, 38, 40, 41, 43, 44],
+          [46, 47, 49, 50, 52, 53]
+        ]);
+      default:
+        console.error("Not implemented yet:", algSet.name);
+    }
+  }
+  function renderDrawer() {
+    const drawerEle = document.querySelector("#rightDrawer");
+    if (state.settingsOpen) {
+      const optionsData = [
+        { value: "", text: "White Green" },
+        { value: "y'", text: "White Orange" },
+        { value: "y2", text: "White Blue" },
+        { value: "y", text: "White Red" },
+        { value: "z2", text: "Yellow Green" },
+        { value: "z2 y", text: "Yellow Orange" },
+        { value: "x2", text: "Yellow Blue" },
+        { value: "z2 y'", text: "Yellow Red" },
+        { value: "x y2", text: "Green White" },
+        { value: "x y", text: "Green Red" },
+        { value: "x", text: "Green Yellow" },
+        { value: "x y'", text: "Green Orange" },
+        { value: "x'", text: "Blue White" },
+        { value: "x' y", text: "Blue Red" },
+        { value: "x' y2", text: "Blue Yellow" },
+        { value: "x' y'", text: "Blue Orange" },
+        { value: "z y", text: "Orange White" },
+        { value: "z", text: "Orange Green" },
+        { value: "z y'", text: "Orange Yellow" },
+        { value: "z y2", text: "Orange Blue" },
+        { value: "z' y'", text: "Red White" },
+        { value: "z'", text: "Red Green" },
+        { value: "z' y", text: "Red Yellow" },
+        { value: "z' y2", text: "Red Blue" }
+      ];
+      let optionsHTML = "";
+      optionsData.forEach((option) => {
+        const selected = option.value === state.preRotation ? "selected" : "";
+        optionsHTML += `<option value="${option.value}" ${selected}>${option.text}</option>`;
+      });
+      drawerEle.innerHTML = `
+        ${renderHeader("Settings")}
         <p>Cube Orientation</p>
         <select id="orientationSelect">
-            ${R}
+            ${optionsHTML}
         </select>
-        `,VR(U)}else yR(U)}function _U(){let U=NR("#scene");k.push(U),U.cube.solve(),jR(),XR(),document.addEventListener("keydown",F=>{F.key===" "?(F.preventDefault(),i()):F.key=="Backspace"?f():F.key=="Enter"?n():U.cube.matchKeyToTurn(F)&&wU(U.cube.stickers,L.algSet)&&(l(),L.solved=!0)});let e=document.querySelector("#alg-set-select");e.addEventListener("change",F=>{let u=F.target.value,D=R(u);c(D)}),dR.forEach(F=>{let u=document.createElement("option");u.textContent=F.name,u.value=F.name,e.appendChild(u)});function R(F){return dR.find(u=>u.name===F)}function t(){return["","U","U2","U'"][Math.floor(Math.random()*4)]}function r(){a();let F=L.algs[0].alg;L.preAUF=t(),F=RU(F,L.preAUF),L.postAUF=t(),F=PU(F,L.postAUF),U.cube.solve(),U.cube.execAlg(L.preRotation),U.cube.execAlgReverse(F)}function n(){L.solutionShown||L.retried||!L.solved?AR(L.algs):SR(L.algs),WR(L.algSet.name,L.algs),L.solutionShown=!1,L.retried=!1,L.solved=!1,r()}let o=document.querySelector("#solution-text");o.addEventListener("click",i);let s=["hover:cursor-pointer","hover:bg-neutral-800","hover:bg-opacity-75"];function i(){L.solutionShown=!0;let F=L.algs[0].alg;F=RU(F,L.preAUF),o.textContent=F,o.classList.remove(...s)}function a(){o.textContent="Show solution",o.classList.add(...s)}function l(){o.textContent="Solved!",o.classList.remove(...s)}function f(){L.retried=!0,r()}function c(F){L.algSet=F,F.cube=="2x2"?(k[0].cube.setNumOfLayers(2),k[0].buffers=Z(JR,k[0].cube,k[0].perspectiveMatrix),U.cube.solve()):F.cube=="3x3"&&(k[0].cube.setNumOfLayers(23),k[0].buffers=Z(JR,k[0].cube,k[0].perspectiveMatrix),U.cube.solve());let u=IR(F.name);u=u.filter(D=>F.algs.find(x=>D.alg===x)),F.algs.forEach(D=>{u.find(d=>d.alg===D)||u.push({score:0,alg:D})}),L.algs=u,r()}L.preRotation=HR(),a(),c(dR[0]),window.addEventListener("resize",()=>{UU()}),document.addEventListener("click",F=>{let u=F.target;u.id==="closeDrawer"?yR(document.querySelector("#rightDrawer")):u.id==="next"?n():u.id==="trainSettingsButton"?(L.settingsOpen=!0,UU()):u.id==="try-again"&&f()}),document.addEventListener("change",F=>{let u=F.target;u.id==="orientationSelect"&&(L.preRotation=u.value,r(),GR(u.value))})}_U();})();
+        `;
+      open(drawerEle);
+    } else {
+      close(drawerEle);
+    }
+  }
+  function main() {
+    let scene = newScene("#scene");
+    scenes.push(scene);
+    scene.cube.solve();
+    startLoop();
+    addListenersForLeftModal();
+    document.addEventListener("keydown", (event) => {
+      if (event.key === " ") {
+        event.preventDefault();
+        showSolution();
+      } else if (event.key == "Backspace") {
+        retry();
+      } else if (event.key == "Enter") {
+        nextAlg();
+      } else if (scene.cube.matchKeyToTurn(event)) {
+        if (solved(scene.cube.stickers, state.algSet)) {
+          showSolved();
+          state.solved = true;
+        }
+      }
+    });
+    const algSetSelect = document.querySelector("#alg-set-select");
+    algSetSelect.addEventListener("change", (event) => {
+      const setName = event.target.value;
+      const algSet = findAlgSet(setName);
+      renderAlgSet(algSet);
+    });
+    algData.forEach((algSet) => {
+      const option = document.createElement("option");
+      option.textContent = algSet.name;
+      option.value = algSet.name;
+      algSetSelect.appendChild(option);
+    });
+    function findAlgSet(set) {
+      return algData.find((algSet) => algSet.name === set);
+    }
+    function generateRandAUF() {
+      const options = ["", "U", "U2", "U'"];
+      return options[Math.floor(Math.random() * 4)];
+    }
+    function loadCurrAlg() {
+      hideSolution();
+      let alg = state.algs[0].alg;
+      state.preAUF = generateRandAUF();
+      alg = applyPre(alg, state.preAUF);
+      state.postAUF = generateRandAUF();
+      alg = applyPost(alg, state.postAUF);
+      scene.cube.solve();
+      scene.cube.execAlg(state.preRotation);
+      scene.cube.execAlgReverse(alg);
+    }
+    function nextAlg() {
+      if (state.solutionShown || state.retried || !state.solved) {
+        demoteAlg(state.algs);
+      } else {
+        promoteAlg(state.algs);
+      }
+      setAlgs(state.algSet.name, state.algs);
+      state.solutionShown = false;
+      state.retried = false;
+      state.solved = false;
+      loadCurrAlg();
+    }
+    const solutionText = document.querySelector("#solution-text");
+    solutionText.addEventListener("click", showSolution);
+    const toggleStyles = ["hover:cursor-pointer", "hover:bg-neutral-800", "hover:bg-opacity-75"];
+    function showSolution() {
+      state.solutionShown = true;
+      let alg = state.algs[0].alg;
+      alg = applyPre(alg, state.preAUF);
+      solutionText.textContent = alg;
+      solutionText.classList.remove(...toggleStyles);
+    }
+    function hideSolution() {
+      solutionText.textContent = "Show solution";
+      solutionText.classList.add(...toggleStyles);
+    }
+    function showSolved() {
+      solutionText.textContent = "Solved!";
+      solutionText.classList.remove(...toggleStyles);
+    }
+    function retry() {
+      state.retried = true;
+      loadCurrAlg();
+    }
+    function renderAlgSet(algSet) {
+      state.algSet = algSet;
+      if (algSet.cube == "2x2") {
+        scenes[0].cube.setNumOfLayers(2);
+        scenes[0].buffers = createBuffers(gl3, scenes[0].cube, scenes[0].perspectiveMatrix);
+        scene.cube.solve();
+      } else if (algSet.cube == "3x3") {
+        scenes[0].cube.setNumOfLayers(23);
+        scenes[0].buffers = createBuffers(gl3, scenes[0].cube, scenes[0].perspectiveMatrix);
+        scene.cube.solve();
+      }
+      let storedAlgs = getAlgs(algSet.name);
+      storedAlgs = storedAlgs.filter((storedAlg) => {
+        return algSet.algs.find((alg) => storedAlg.alg === alg);
+      });
+      algSet.algs.forEach((alg) => {
+        const found = storedAlgs.find((storedAlg) => storedAlg.alg === alg);
+        if (!found) {
+          storedAlgs.push({ score: 0, alg });
+        }
+      });
+      state.algs = storedAlgs;
+      loadCurrAlg();
+    }
+    state.preRotation = getOrientation();
+    hideSolution();
+    renderAlgSet(algData[0]);
+    window.addEventListener("resize", () => {
+      renderDrawer();
+    });
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.id === "closeDrawer") {
+        close(document.querySelector("#rightDrawer"));
+      } else if (target.id === "next") {
+        nextAlg();
+      } else if (target.id === "trainSettingsButton") {
+        state.settingsOpen = true;
+        renderDrawer();
+      } else if (target.id === "try-again") {
+        retry();
+      }
+    });
+    document.addEventListener("change", (event) => {
+      const target = event.target;
+      if (target.id === "orientationSelect") {
+        state.preRotation = target.value;
+        loadCurrAlg();
+        setOrientation(target.value);
+      }
+    });
+  }
+  main();
+})();
 //# sourceMappingURL=train.js.map

@@ -11,8 +11,10 @@
     },
     "files": [
         "./ui/src/scripts/cuble.ts",
-        "ui/src/scripts/learn.ts",
+        "ui/src/scripts/learn3x3.ts",
         "./ui/src/scripts/learn2x2.ts",
+        "./ui/src/scripts/learnF2L.ts",
+        "./ui/src/scripts/learnNotation.ts",
         "./ui/src/scripts/play.ts",
         "./ui/src/scripts/replay.ts",
         "./ui/src/scripts/train.ts",

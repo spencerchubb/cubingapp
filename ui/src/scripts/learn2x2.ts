@@ -47,7 +47,7 @@ let lessons: Lesson[] = [
             },
             {
                 setup: "F R' D'",
-                algorithm: "D R F",
+                algorithm: "D R F'",
                 directions: "Pair the white-orange-green and the white-blue-orange",
                 explanation: "Move the white-orange-green to the side, move it up, then pair it.",
             },
