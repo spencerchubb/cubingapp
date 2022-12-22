@@ -107,6 +107,10 @@ canvas {
             hsl(27deg 94% 31%) 100%);
 }
 
+.pulse {
+    animation: pulse 1s;
+}
+
 .glDiv {
     position: relative; 
     border-radius: 8px; 

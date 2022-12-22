@@ -696,7 +696,9 @@
     solve() {
       const arr = Array(stickers(this.layers));
       for (let i = 0; i < stickers(this.layers); i++) {
-        arr[i] = faceToColor(stickerToFace(i, this));
+        const face = stickerToFace(i, this);
+        this.stickers[i].face = face;
+        arr[i] = faceToColor(face);
       }
       this.setColors(arr);
     }

@@ -74,7 +74,9 @@ export class Cube {
     solve() {
         const arr = Array(stickers(this.layers));
         for (let i = 0; i < stickers(this.layers); i++) {
-            arr[i] = colors.faceToColor(stickerToFace(i, this));
+            const face = stickerToFace(i, this);
+            this.stickers[i].face = face;
+            arr[i] = colors.faceToColor(face);
         }
         this.setColors(arr);
     }

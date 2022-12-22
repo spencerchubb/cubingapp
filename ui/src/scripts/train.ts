@@ -30,7 +30,7 @@ const algData: AlgSet[] = require("./alg-data.json");
 type State = {
     page: "landing" | "train",
     user: CubingAppUser | null,
-    solutionShown: boolean,
+    showSolution: boolean,
     retried: boolean,
     solved: boolean,
     settingsOpen: boolean,
@@ -44,7 +44,7 @@ type State = {
 let state: State = {
     page: "landing",
     user: null,
-    solutionShown: false,
+    showSolution: false,
     retried: false,
     solved: false,
     settingsOpen: false,
@@ -207,16 +207,16 @@ function renderTrainPage() {
             // Prevent space from scrolling down
             event.preventDefault();
 
-            showSolution();
+            state.showSolution = true;
+            renderSolutionText();
         } else if (event.key == "Backspace") {
             retry();
         } else if (event.key == "Enter") {
             nextAlg();
         } else if (scene.cube.matchKeyToTurn(event)) {
             if (solved(scene.cube.stickers, state.algSet)) {
-                showSolved();
-
                 state.solved = true;
+                renderSolutionText();
             }
         }
     });
@@ -246,8 +246,6 @@ function renderTrainPage() {
     }
 
     function loadCurrAlg() {
-        hideSolution();
-
         let alg = state.algs[0].alg;
 
         state.preAUF = generateRandAUF();
@@ -267,43 +265,58 @@ function renderTrainPage() {
     }
 
     function nextAlg() {
-        if (state.solutionShown || state.retried || !state.solved) {
+        if (state.showSolution || state.retried || !state.solved) {
             demoteAlg(state.algs);
         } else {
             promoteAlg(state.algs);
         }
         setAlgs(state.algSet.name, state.algs);
-        state.solutionShown = false;
+        state.showSolution = false;
         state.retried = false;
         state.solved = false;
+        renderSolutionText();
         loadCurrAlg();
     }
 
     const solutionText: HTMLElement = document.querySelector("#solution-text");
-    solutionText.addEventListener("click", showSolution);
-    const toggleStyles = ["hover:cursor-pointer", "hover:bg-neutral-800", "hover:bg-opacity-75"]
-    function showSolution() {
-        state.solutionShown = true;
+    solutionText.addEventListener("click", () => {
+        state.showSolution = true;
+        renderSolutionText();
+    });
+    function renderSolutionText() {
+        if (state.solved) {
+            solutionText.textContent = "Solved!";
+            solutionText.className = "bg-gray-300";
 
-        let alg = state.algs[0].alg;
+            solutionText.style.transform = "scale(1.2)";
+            solutionText.style.transition = "all 0.2s ease-in-out";
+            setTimeout(() => {
+                solutionText.className = "bg-neutral-700";
+                solutionText.style.transform = "scale(1)";
+                solutionText.style.transition = "all 0.2s ease-out";
+            }, 200);
 
-        alg = applyPre(alg, state.preAUF);
+            return;
+        }
+        if (state.showSolution) {
+            let alg = state.algs[0].alg;
 
-        solutionText.textContent = alg;
-        solutionText.classList.remove(...toggleStyles);
-    }
-    function hideSolution() {
+            alg = applyPre(alg, state.preAUF);
+    
+            solutionText.textContent = alg;
+            solutionText.className = "bg-neutral-700";
+            return;
+        }
         solutionText.textContent = "Show solution";
-        solutionText.classList.add(...toggleStyles);
-    }
-    function showSolved() {
-        solutionText.textContent = "Solved!";
-        solutionText.classList.remove(...toggleStyles);
+        solutionText.className = "bg-neutral-700 hover:cursor-pointer hover:bg-neutral-800";
     }
 
     function retry() {
         state.retried = true;
         loadCurrAlg();
+
+        state.showSolution = false;
+        renderSolutionText();
     }
 
     function renderAlgSet(algSet: AlgSet) {
@@ -338,9 +351,10 @@ function renderTrainPage() {
         loadCurrAlg();
     }
 
-    // Initial render
+    state.showSolution = false;
+    renderSolutionText();
+
     state.preRotation = getOrientation();
-    hideSolution();
     renderAlgSet(algData[0]);
 
     window.addEventListener("resize", () => {
