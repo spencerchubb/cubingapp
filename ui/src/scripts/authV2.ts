@@ -146,7 +146,6 @@ function successfulSignIn(userCredential: UserCredential, callback: AuthCallback
             console.log(user)
             setUser(user.toJsonString());
             callback(user);
-            removeModal();
         });
 }
 
@@ -186,9 +185,8 @@ function _signInWithEmailAndPassword(email: string, password: string, callback: 
         });
 }
 
-export function signOut(callback: AuthCallback) {
+export function signOut() {
     const auth = _auth();
     auth.signOut();
     removeUser();
-    callback(null);
 }

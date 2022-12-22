@@ -6533,6 +6533,26 @@
     return authSingleton;
   };
 
+  // src/scripts/modal.ts
+  function renderModal() {
+    const bg = document.createElement("div");
+    const modal = document.createElement("div");
+    bg.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
+    bg.addEventListener("click", () => {
+      bg.remove();
+    });
+    modal.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
+    modal.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+    bg.appendChild(modal);
+    document.querySelector("body").appendChild(bg);
+    return [
+      modal,
+      () => bg.remove()
+    ];
+  }
+
   // src/scripts/store.ts
   var algs = "algs";
   var orientation = "orientation";
@@ -6556,6 +6576,9 @@
   }
   function getUser() {
     return localStorage.getItem(user);
+  }
+  function removeUser() {
+    localStorage.removeItem(user);
   }
   function setUser(value) {
     localStorage.setItem(user, value);
@@ -6595,7 +6618,6 @@
       this.uid = json.uid;
     }
   };
-  var removeModal;
   var errorText;
   function renderEmailInput() {
     return createElement("input", { type: "email", placeholder: "Email" });
@@ -6660,7 +6682,6 @@
       console.log(user2);
       setUser(user2.toJsonString());
       callback(user2);
-      removeModal();
     });
   }
   function _signInWithPopup(callback) {
@@ -6689,6 +6710,11 @@
       console.log(error.message);
       renderError("Sign in failed");
     });
+  }
+  function signOut2() {
+    const auth2 = auth();
+    auth2.signOut();
+    removeUser();
   }
 
   // src/scripts/colors.ts
@@ -8622,7 +8648,27 @@
         close(document.querySelector("#rightDrawer"));
       } else if (target.id === "next") {
         nextAlg();
-      } else if (target.id === "trainSettingsButton") {
+      } else if (target.id === "icon0") {
+        const [modal, removeModal] = renderModal();
+        setOptions(modal, {
+          children: [
+            createElement("p", {
+              innerHTML: `Signed in as ${state.user.email}`
+            }),
+            createElement("button", {
+              className: "btn-primary",
+              innerHTML: "Sign out",
+              onclick: () => {
+                signOut2();
+                removeModal();
+                state.page = "landing";
+                state.user = null;
+                chooseRender();
+              }
+            })
+          ]
+        });
+      } else if (target.id === "icon1") {
         state.settingsOpen = true;
         renderDrawer();
       } else if (target.id === "try-again") {

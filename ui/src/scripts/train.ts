@@ -6,9 +6,11 @@ import {
     renderGoogleSignInButton,
     renderPasswordInput,
     renderSignInButton,
+    signOut,
 } from "./authV2";
 import { createBuffers } from "./buffers";
 import { createElement, setOptions } from "./common/element";
+import { renderModal } from "./modal";
 import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
 import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
@@ -344,7 +346,28 @@ function renderTrainPage() {
             slide.close(document.querySelector("#rightDrawer"));
         } else if (target.id === "next") {
             nextAlg();
-        } else if (target.id === "trainSettingsButton") {
+        } else if (target.id === "icon0") {
+            const [modal, removeModal] = renderModal();
+            setOptions(modal, {
+                children: [
+                    createElement("p", {
+                        innerHTML: `Signed in as ${state.user.email}`
+                    }),
+                    createElement("button", {
+                        className: "btn-primary",
+                        innerHTML: "Sign out",
+                        onclick: () => {
+                            signOut();
+                            removeModal();
+                            
+                            state.page = "landing";
+                            state.user = null;
+                            chooseRender();
+                        },
+                    }),
+                ],
+            });
+        } else if (target.id === "icon1") {
             state.settingsOpen = true;
             renderDrawer();
         } else if (target.id === "try-again") {

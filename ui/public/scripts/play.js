@@ -7449,21 +7449,21 @@
 
   // src/scripts/modal.ts
   function renderModal() {
-    const background = document.createElement("div");
+    const bg = document.createElement("div");
     const modal2 = document.createElement("div");
-    background.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
-    background.addEventListener("click", () => {
-      background.remove();
+    bg.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
+    bg.addEventListener("click", () => {
+      bg.remove();
     });
     modal2.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
     modal2.addEventListener("click", (event) => {
       event.stopPropagation();
     });
-    background.appendChild(modal2);
-    document.querySelector("body").appendChild(background);
+    bg.appendChild(modal2);
+    document.querySelector("body").appendChild(bg);
     return [
       modal2,
-      () => background.remove()
+      () => bg.remove()
     ];
   }
 
