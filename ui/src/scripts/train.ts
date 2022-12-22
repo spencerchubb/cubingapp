@@ -1,5 +1,15 @@
+import {
+    CubingAppUser,
+    initialAuthCheck,
+    renderCreateAccountButton,
+    renderEmailInput,
+    renderGoogleSignInButton,
+    renderPasswordInput,
+    renderSignInButton,
+} from "./authV2";
 import { createBuffers } from "./buffers";
-import { loadSavedSettings, newScene, scenes, settings, startLoop } from "./scene";
+import { createElement, setOptions } from "./common/element";
+import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
 import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
@@ -13,7 +23,9 @@ type AlgSet = { cube: string, name: string, algs: string[] };
 
 const algData: AlgSet[] = require("./alg-data.json");
 
-type State =  {
+type State = {
+    page: "landing" | "train",
+    user: CubingAppUser | null,
     solutionShown: boolean,
     retried: boolean,
     solved: boolean,
@@ -26,6 +38,8 @@ type State =  {
 }
 
 let state: State = {
+    page: "landing",
+    user: null,
     solutionShown: false,
     retried: false,
     solved: false,
@@ -100,7 +114,7 @@ function solved(stickers: any[], algSet: AlgSet): boolean {
         // case "2x2 CLL":
         // case "2x2 EG1":
         // case "2x2 EG2":
-        default: 
+        default:
             console.error("Not implemented yet:", algSet.name);
     }
 }
@@ -146,14 +160,36 @@ function renderDrawer() {
             ${optionsHTML}
         </select>
         `
-        ;
+            ;
         slide.open(drawerEle);
     } else {
         slide.close(drawerEle);
     }
 }
 
-export function main() {
+function renderTrainPage() {
+    document.querySelector("#root").innerHTML = `
+    <div class="row slideWrapper">
+        <div class="col w-full h-full">
+            <div id="scene" class="glDiv mt-4"></div>
+            <p id="solution-text"
+                title="Press space to show solution"
+                class="bg-neutral-700 bg-opacity-75"
+                style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; border-radius: 8px;">
+                Show solution
+            </p>
+            <div class="row" style="margin-top: 1rem;">
+                <select id="alg-set-select"></select>
+                <div style="width: 24px;"></div>
+                <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
+                <div style="width: 24px;"></div>
+                <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
+            </div>
+        </div>
+        <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
+    </div>
+    `;
+
     let scene = newScene("#scene");
     scenes.push(scene);
     scene.cube.solve();
@@ -269,7 +305,7 @@ export function main() {
             scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
             scene.cube.solve();
         } else if (algSet.cube == "3x3") {
-            scenes[0].cube.setNumOfLayers(23);
+            scenes[0].cube.setNumOfLayers(3);
             scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
             scene.cube.solve();
         }
@@ -324,6 +360,127 @@ export function main() {
             setOrientation(target.value);
         }
     });
+}
+
+function renderLandingPage() {
+    const emailInput = renderEmailInput();
+    const passwordInput = renderPasswordInput();
+
+    const root = document.querySelector("#root") as HTMLElement;
+    root.innerHTML = "";
+    setOptions(root, {
+        className: "col w-full h-full overflow-x-hidden overflow-y-auto",
+        children: [
+            createElement("div", {
+                className: "flex flex-col w-full h-full p-4 max-w-xl",
+                children: [
+                    createElement("h1", {
+                        innerHTML: "Algorithm Trainer",
+                        className: "text-white",
+                    }),
+                    createElement("p", {
+                        innerHTML: "Learn algorithms at lightning speed",
+                        className: "text-gray-300 mt-4 font-bold",
+                    }),
+                    createElement("h2", {
+                        innerHTML: "1. Spaced Repetition",
+                        className: "text-white mt-4",
+                    }),
+                    createElement("p", {
+                        innerHTML: "This algorithm trainer uses spaced repetition to help you learn algorithms faster. Here is how it works:",
+                        className: "text-white mt-4",
+                    }),
+                    createElement("ul", {
+                        children: [
+                            createElement("li", {
+                                innerHTML: "Get an algorithm right, and you'll see it less often.",
+                                className: "text-white",
+                            }),
+                            createElement("li", {
+                                innerHTML: "Get an algorithm wrong, and you'll see it more often.",
+                                className: "text-white",
+                            }),
+                        ],
+                    }),
+                    createElement("h2", {
+                        innerHTML: "2. Virtual cube",
+                        className: "text-white mt-4",
+                    }),
+                    createElement("p", {
+                        innerHTML: "Virtual cubes are better because:",
+                        className: "text-white mt-4",
+                    }),
+                    createElement("ul", {
+                        children: [
+                            createElement("li", {
+                                innerHTML: "You'll never have to scramble a cube again",
+                                className: "text-white",
+                            }),
+                            createElement("li", {
+                                innerHTML: "You can practice anywhere, anytime",
+                                className: "text-white",
+                            }),
+                        ],
+                    }),
+                    state.user
+                        ? createElement("button", {
+                            innerHTML: "Get Started",
+                            className: "btn-primary",
+                            onclick: () => {
+                                state.page = "train";
+                                renderTrainPage();
+                            },
+                        })
+                        : createElement("div", {
+                            className: "self-center col rounded-xl shadow-md shadow-slate-400 p-4",
+                            children: [
+                                renderGoogleSignInButton(user => {
+                                    state.user = user;
+                                    renderLandingPage();
+                                }),
+                                createElement("div", { style: "height: 1rem" }),
+                                createElement("div", { className: "bg-gray-300 w-full h-0.5" }),
+                                createElement("div", { style: "height: 1rem" }),
+                                createElement("p", { innerHTML: "Or use email and password", style: "color: white;" }),
+                                createElement("div", { style: "height: 1rem" }),
+                                emailInput,
+                                createElement("div", { style: "height: 1rem" }),
+                                passwordInput,
+                                createElement("div", { style: "height: 1rem" }),
+                                createElement("div", {
+                                    className: "row",
+                                    children: [
+                                        renderCreateAccountButton(emailInput, passwordInput, user => {
+                                            state.user = user;
+                                            renderLandingPage();
+                                        }),
+                                        createElement("div", { style: "width: 1rem" }),
+                                        renderSignInButton(emailInput, passwordInput, user => {
+                                            state.user = user;
+                                            renderLandingPage();
+                                        }),
+                                    ],
+                                }),
+                            ],
+                        }),
+                    createElement("div", { style: "min-height: 1rem" }),
+                ],
+            }),
+        ],
+    });
+}
+
+function chooseRender() {
+    if (state.page === "landing") {
+        renderLandingPage();
+    } else if (state.page === "train") {
+        renderTrainPage();
+    }
+}
+
+function main() {
+    state.user = initialAuthCheck();
+    chooseRender();
 }
 
 main();

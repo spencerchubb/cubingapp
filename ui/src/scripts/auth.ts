@@ -1,6 +1,5 @@
 import { auth as _auth, url } from "./common/vars";
 import {
-    Auth,
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
@@ -75,7 +74,6 @@ function renderSignIn() {
         <p style="font-size: 1rem;">Sign in with Google</p>
     </div>
     `;
-    // googleSignInButton.className = "googleSignInButton";
     googleSignInButton.className = "mt-4 p-2 bg-white rounded-md shadow-lg border-solid border-gray-400 hover:cursor-pointer hover:bg-gray-200";
     googleSignInButton.addEventListener("click", () => {
         _signInWithPopup();

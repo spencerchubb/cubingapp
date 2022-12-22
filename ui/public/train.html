@@ -9,9 +9,9 @@
     <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
 </head>
 
-<body class="col" style="height: 100%;">
+<body class="col w-full h-full">
     <nav class="navbar" style="justify-content: space-between;">
-        <a class="hover:cursor-pointer  ml-4 hover:bg-slate-500 rounded-lg">
+        <a class="hover:cursor-pointer ml-4 hover:bg-slate-500 rounded-lg">
             <img id="menu" src="./images/menu.svg" alt="Menu">
         </a>
         <img id="trainSettingsButton" class="icon" src="./images/settings.svg" alt="Settings">
@@ -19,25 +19,7 @@
 
     <canvas></canvas>
 
-    <div class="row slideWrapper">
-        <div class="col w-full h-full">
-            <div id="scene" class="glDiv mt-4"></div>
-            <p id="solution-text"
-                title="Press space to show solution"
-                class="bg-neutral-700 bg-opacity-75"
-                style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; border-radius: 8px;">
-                Show solution
-            </p>
-            <div class="row" style="margin-top: 1rem;">
-                <select id="alg-set-select"></select>
-                <div style="width: 24px;"></div>
-                <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
-                <div style="width: 24px;"></div>
-                <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
-            </div>
-        </div>
-        <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
-    </div>
+    <div id="root"></div>
 
     <div class="slideRight">
         <div class="row" style="justify-content: space-between;">
