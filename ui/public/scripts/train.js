@@ -485,6 +485,7 @@
         {
           cube: "3x3",
           name: "CMLL",
+          inactive: [1, 3, 4, 5, 7, 12, 13, 14, 21, 22, 23, 30, 31, 32, 39, 48],
           algs: [
             "R U R' U R U2 R'",
             "R U R' U R' F R F' R U2 R'",
@@ -533,6 +534,7 @@
         {
           cube: "3x3",
           name: "OLL",
+          inactive: [9, 12, 15, 29, 32, 35, 36, 39, 42, 45, 48, 51],
           algs: [
             "R U2 R2 F R F' U2 R' F R F'",
             "L F L' U2 L F2 R' F2 R F' L'",
@@ -596,6 +598,7 @@
         {
           cube: "3x3",
           name: "PLL",
+          inactive: [],
           algs: [
             "R' F R' B2 R F' R' B2 R2",
             "R2 B2 R F R' B2 R F' R",
@@ -623,6 +626,7 @@
         {
           cube: "3x3",
           name: "ZBLL",
+          inactive: [],
           algs: [
             "R' D R D' R' D R U R' D' R D R' D' R",
             "R' U R U2 R' U' R U' R U R' U' R' U' R U R U' R'",
@@ -1101,6 +1105,7 @@
         {
           cube: "2x2",
           name: "2x2 CLL",
+          inactive: [],
           algs: [
             "R U R' U R U2 R'",
             "R U R' U R' F R F' R U2 R'",
@@ -1149,6 +1154,7 @@
         {
           cube: "2x2",
           name: "2x2 EG1",
+          inactive: [],
           algs: [
             "R' F R2 F' R2 U2 R",
             "R U R' F2 U F R U R'",
@@ -1197,6 +1203,7 @@
         {
           cube: "2x2",
           name: "2x2 EG2",
+          inactive: [],
           algs: [
             "F U' R2 U' R' U2 R U' R2 F'",
             "R U R' U R U2 R B2 R2",
@@ -6533,26 +6540,6 @@
     return authSingleton;
   };
 
-  // src/scripts/modal.ts
-  function renderModal() {
-    const bg = document.createElement("div");
-    const modal = document.createElement("div");
-    bg.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
-    bg.addEventListener("click", () => {
-      bg.remove();
-    });
-    modal.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
-    modal.addEventListener("click", (event) => {
-      event.stopPropagation();
-    });
-    bg.appendChild(modal);
-    document.querySelector("body").appendChild(bg);
-    return [
-      modal,
-      () => bg.remove()
-    ];
-  }
-
   // src/scripts/store.ts
   var algs = "algs";
   var orientation = "orientation";
@@ -6585,11 +6572,16 @@
   }
 
   // src/scripts/common/element.ts
+  function querySelector(selector, args) {
+    const ele = document.querySelector(selector);
+    return setOptions(ele, args);
+  }
   function createElement(tag, args) {
     const ele = document.createElement(tag);
     return setOptions(ele, args);
   }
   function setOptions(ele, args) {
+    ele.onclick = args.onclick;
     for (const key in args) {
       if (key === "children") {
         args.children.forEach((child) => {
@@ -6618,7 +6610,6 @@
       this.uid = json.uid;
     }
   };
-  var errorText;
   function renderEmailInput() {
     return createElement("input", { type: "email", placeholder: "Email" });
   }
@@ -6656,9 +6647,6 @@
         _signInWithPopup(callback);
       }
     });
-  }
-  function renderError(msg) {
-    errorText.textContent = msg;
   }
   function initialAuthCheck() {
     const userJsonString = getUser();
@@ -6699,7 +6687,6 @@
       successfulSignIn(userCredential, callback);
     }).catch((error) => {
       console.log(error.message);
-      renderError("Create account failed");
     });
   }
   function _signInWithEmailAndPassword(email, password, callback) {
@@ -6708,7 +6695,6 @@
       successfulSignIn(userCredential, callback);
     }).catch((error) => {
       console.log(error.message);
-      renderError("Sign in failed");
     });
   }
   function signOut2() {
@@ -6719,6 +6705,7 @@
 
   // src/scripts/colors.ts
   var WHITE = [1, 1, 1, 1];
+  var GRAY = [0.5, 0.5, 0.5, 1];
   var YELLOW = [1, 1, 0, 1];
   var GREEN = [0, 1, 0, 1];
   var BLUE = [0, 0, 1, 1];
@@ -7735,6 +7722,24 @@
     }
   }
 
+  // src/scripts/modal.ts
+  function renderModal() {
+    const modal = createElement("div", {
+      className: "col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",
+      onclick: (event) => {
+        event.stopPropagation();
+      }
+    });
+    const background = createElement("div", {
+      className: "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",
+      onclick: (event) => {
+        event.target.remove();
+      },
+      children: [modal]
+    });
+    return [modal, background];
+  }
+
   // src/scripts/common/spring.ts
   var k = 100;
   var f = 15;
@@ -8440,7 +8445,7 @@
           [18, 19, 20, 21, 22, 23, 24, 25, 26],
           [27, 28, 30, 31, 33, 34],
           [37, 38, 40, 41, 43, 44],
-          [46, 47, 489, 50, 52, 53]
+          [46, 47, 49, 50, 52, 53]
         ]);
       case "PLL":
       case "ZBLL":
@@ -8507,6 +8512,7 @@
     }
   }
   function renderTrainPage() {
+    querySelector("#iconContainer", { style: "display: flex;" });
     document.querySelector("#root").innerHTML = `
     <div class="row slideWrapper">
         <div class="col w-full h-full">
@@ -8532,7 +8538,6 @@
     scenes.push(scene);
     scene.cube.solve();
     startLoop();
-    addListenersForLeftModal();
     document.addEventListener("keydown", (event) => {
       if (event.key === " ") {
         event.preventDefault();
@@ -8576,6 +8581,9 @@
       alg = applyPost(alg, state.postAUF);
       scene.cube.solve();
       scene.cube.execAlg(state.preRotation);
+      state.algSet.inactive.forEach((stickerIdx) => {
+        setColor(scene.cube.stickers[stickerIdx], GRAY);
+      });
       scene.cube.execAlgReverse(alg);
     }
     function nextAlg() {
@@ -8649,18 +8657,19 @@
       } else if (target.id === "next") {
         nextAlg();
       } else if (target.id === "icon0") {
-        const [modal, removeModal] = renderModal();
+        const [modal, modalBg] = renderModal();
         setOptions(modal, {
           children: [
             createElement("p", {
-              innerHTML: `Signed in as ${state.user.email}`
+              innerHTML: `Signed in as ${state.user.email}`,
+              className: "mt-4"
             }),
             createElement("button", {
-              className: "btn-primary",
+              className: "btn-primary mt-4",
               innerHTML: "Sign out",
               onclick: () => {
                 signOut2();
-                removeModal();
+                modalBg.remove();
                 state.page = "landing";
                 state.user = null;
                 chooseRender();
@@ -8668,6 +8677,7 @@
             })
           ]
         });
+        document.body.appendChild(modalBg);
       } else if (target.id === "icon1") {
         state.settingsOpen = true;
         renderDrawer();
@@ -8685,6 +8695,7 @@
     });
   }
   function renderLandingPage() {
+    querySelector("#iconContainer", { style: "display: none;" });
     const emailInput = renderEmailInput();
     const passwordInput = renderPasswordInput();
     const root = document.querySelector("#root");
@@ -8796,6 +8807,7 @@
     }
   }
   function main() {
+    addListenersForLeftModal();
     state.user = initialAuthCheck();
     chooseRender();
   }

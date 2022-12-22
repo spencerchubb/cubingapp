@@ -6649,24 +6649,41 @@
   };
   var app = initializeApp(firebaseConfig);
 
+  // src/scripts/common/element.ts
+  function createElement(tag, args) {
+    const ele = document.createElement(tag);
+    return setOptions(ele, args);
+  }
+  function setOptions(ele, args) {
+    ele.onclick = args.onclick;
+    for (const key in args) {
+      if (key === "children") {
+        args.children.forEach((child) => {
+          ele.appendChild(child);
+        });
+      } else {
+        ele[key] = args[key];
+      }
+    }
+    return ele;
+  }
+
   // src/scripts/modal.ts
   function renderModal() {
-    const bg = document.createElement("div");
-    const modal = document.createElement("div");
-    bg.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
-    bg.addEventListener("click", () => {
-      bg.remove();
+    const modal = createElement("div", {
+      className: "col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",
+      onclick: (event) => {
+        event.stopPropagation();
+      }
     });
-    modal.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
-    modal.addEventListener("click", (event) => {
-      event.stopPropagation();
+    const background = createElement("div", {
+      className: "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",
+      onclick: (event) => {
+        event.target.remove();
+      },
+      children: [modal]
     });
-    bg.appendChild(modal);
-    document.querySelector("body").appendChild(bg);
-    return [
-      modal,
-      () => bg.remove()
-    ];
+    return [modal, background];
   }
 
   // src/scripts/replay.ts

@@ -125,6 +125,7 @@ function setupProblem(lesson: Lesson, problemIndex: number) {
     lesson.move = 0;
 }
 
+// TODO consider using the refactored function in common/determine_colors.ts
 function determineColors(lesson: Lesson): number[][] {
     const colors = Array(54); // hardcoded because we are using a 3x3x3 cube
 

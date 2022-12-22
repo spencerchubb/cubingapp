@@ -9,7 +9,9 @@ import {
     signOut,
 } from "./authV2";
 import { createBuffers } from "./buffers";
-import { createElement, setOptions } from "./common/element";
+import { GRAY } from "./colors";
+import { createElement, querySelector, setOptions } from "./common/element";
+import { setColor, Sticker } from "./cube";
 import { renderModal } from "./modal";
 import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
@@ -21,7 +23,7 @@ let canvas: HTMLCanvasElement = document.querySelector("canvas");
 let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
 type TrainingAlg = { score: number, alg: string }
-type AlgSet = { cube: string, name: string, algs: string[] };
+type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] };
 
 const algData: AlgSet[] = require("./alg-data.json");
 
@@ -67,7 +69,7 @@ function applyPost(alg: string, auf: string): string {
     return alg
 }
 
-function matching(stickers: any[], shouldMatch: number[][]): boolean {
+function matching(stickers: Sticker[], shouldMatch: number[][]): boolean {
     for (let i = 0; i < shouldMatch.length; i++) {
         const first = stickers[shouldMatch[i][0]].face;
         for (let j = 1; j < shouldMatch[i].length; j++) {
@@ -79,7 +81,7 @@ function matching(stickers: any[], shouldMatch: number[][]): boolean {
     return true;
 }
 
-function solved(stickers: any[], algSet: AlgSet): boolean {
+function solved(stickers: Sticker[], algSet: AlgSet): boolean {
     switch (algSet.name) {
         case "CMLL":
             return matching(stickers, [
@@ -96,7 +98,7 @@ function solved(stickers: any[], algSet: AlgSet): boolean {
                 [18, 19, 20, 21, 22, 23, 24, 25, 26],
                 [27, 28, 30, 31, 33, 34],
                 [37, 38, 40, 41, 43, 44],
-                [46, 47, 489, 50, 52, 53],
+                [46, 47, 49, 50, 52, 53],
             ]);
         // PLL and ZBLL have same logic
         case "PLL":
@@ -170,6 +172,8 @@ function renderDrawer() {
 }
 
 function renderTrainPage() {
+    querySelector("#iconContainer", { style: "display: flex;" });
+
     document.querySelector("#root").innerHTML = `
     <div class="row slideWrapper">
         <div class="col w-full h-full">
@@ -197,8 +201,6 @@ function renderTrainPage() {
     scene.cube.solve();
 
     startLoop();
-
-    addListenersForLeftModal();
 
     document.addEventListener('keydown', (event) => {
         if (event.key === " ") {
@@ -253,9 +255,14 @@ function renderTrainPage() {
 
         state.postAUF = generateRandAUF();
         alg = applyPost(alg, state.postAUF);
-
+        
         scene.cube.solve();
         scene.cube.execAlg(state.preRotation);
+
+        state.algSet.inactive.forEach(stickerIdx => {
+            setColor(scene.cube.stickers[stickerIdx], GRAY);
+        });
+
         scene.cube.execAlgReverse(alg);
     }
 
@@ -347,18 +354,19 @@ function renderTrainPage() {
         } else if (target.id === "next") {
             nextAlg();
         } else if (target.id === "icon0") {
-            const [modal, removeModal] = renderModal();
+            const [modal, modalBg] = renderModal();
             setOptions(modal, {
                 children: [
                     createElement("p", {
-                        innerHTML: `Signed in as ${state.user.email}`
+                        innerHTML: `Signed in as ${state.user.email}`,
+                        className: "mt-4",
                     }),
                     createElement("button", {
-                        className: "btn-primary",
+                        className: "btn-primary mt-4",
                         innerHTML: "Sign out",
                         onclick: () => {
                             signOut();
-                            removeModal();
+                            modalBg.remove();
                             
                             state.page = "landing";
                             state.user = null;
@@ -367,6 +375,7 @@ function renderTrainPage() {
                     }),
                 ],
             });
+            document.body.appendChild(modalBg);
         } else if (target.id === "icon1") {
             state.settingsOpen = true;
             renderDrawer();
@@ -386,6 +395,8 @@ function renderTrainPage() {
 }
 
 function renderLandingPage() {
+    querySelector("#iconContainer", { style: "display: none;" });
+
     const emailInput = renderEmailInput();
     const passwordInput = renderPasswordInput();
 
@@ -502,6 +513,8 @@ function chooseRender() {
 }
 
 function main() {
+    addListenersForLeftModal();
+
     state.user = initialAuthCheck();
     chooseRender();
 }

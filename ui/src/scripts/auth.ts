@@ -50,14 +50,14 @@ function setAuthListener(val) {
     authListener = val;
 }
 
-let modal: HTMLDivElement;
-let removeModal: () => void;
+let modal: HTMLElement;
+let modalBg: HTMLElement;
 let errorText;
 
 function renderSignIn() {
     const auth = _auth();
 
-    [modal, removeModal] = renderModal();
+    [modal, modalBg] = renderModal();
 
     errorText = document.createElement("p");
     const googleSignInButton = document.createElement("button");
@@ -146,7 +146,7 @@ function successfulSignIn(userCredential: UserCredential) {
             console.log(user)
             setUser(user.toJsonString());
             authListener();
-            removeModal();
+            modalBg.remove();
         });
 }
 

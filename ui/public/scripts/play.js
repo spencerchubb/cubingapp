@@ -7447,24 +7447,41 @@
     return authSingleton;
   };
 
+  // src/scripts/common/element.ts
+  function createElement(tag, args) {
+    const ele = document.createElement(tag);
+    return setOptions(ele, args);
+  }
+  function setOptions(ele, args) {
+    ele.onclick = args.onclick;
+    for (const key in args) {
+      if (key === "children") {
+        args.children.forEach((child) => {
+          ele.appendChild(child);
+        });
+      } else {
+        ele[key] = args[key];
+      }
+    }
+    return ele;
+  }
+
   // src/scripts/modal.ts
   function renderModal() {
-    const bg = document.createElement("div");
-    const modal2 = document.createElement("div");
-    bg.className = "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50";
-    bg.addEventListener("click", () => {
-      bg.remove();
+    const modal2 = createElement("div", {
+      className: "col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",
+      onclick: (event) => {
+        event.stopPropagation();
+      }
     });
-    modal2.className = "col fixed z-20 h-1/2 w-5/6 sm:w-1/2 bg-white rounded-lg";
-    modal2.addEventListener("click", (event) => {
-      event.stopPropagation();
+    const background = createElement("div", {
+      className: "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",
+      onclick: (event) => {
+        event.target.remove();
+      },
+      children: [modal2]
     });
-    bg.appendChild(modal2);
-    document.querySelector("body").appendChild(bg);
-    return [
-      modal2,
-      () => bg.remove()
-    ];
+    return [modal2, background];
   }
 
   // src/scripts/auth.ts
@@ -7489,11 +7506,11 @@
     authListener = val;
   }
   var modal;
-  var removeModal;
+  var modalBg;
   var errorText;
   function renderSignIn() {
     const auth2 = auth();
-    [modal, removeModal] = renderModal();
+    [modal, modalBg] = renderModal();
     errorText = document.createElement("p");
     const googleSignInButton = document.createElement("button");
     const divider = document.createElement("div");
@@ -7568,7 +7585,7 @@
       console.log(user2);
       setUser(user2.toJsonString());
       authListener();
-      removeModal();
+      modalBg.remove();
     });
   }
   function _signInWithPopup() {
@@ -7794,7 +7811,7 @@
       renderSignIn();
       return;
     }
-    const [modal2, removeModal2] = renderModal();
+    const [modal2, modalBg2] = renderModal();
     const email = document.createElement("p");
     const signOutButton = document.createElement("button");
     email.textContent = `Signed in as ${user2.email}`;
@@ -7806,7 +7823,7 @@
     signOutButton.textContent = "Sign Out";
     signOutButton.addEventListener("click", () => {
       signOut2();
-      removeModal2();
+      modalBg2.remove();
     });
     modal2.appendChild(email);
     modal2.appendChild(signOutButton);

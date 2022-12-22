@@ -3,7 +3,7 @@ type ElementOptions = {
     className?: string,
     id?: string,
     innerHTML?: string,
-    onclick?: () => void,
+    onclick?: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null,
     placeholder?: string,
     style?: string,
     type?: string,
@@ -20,6 +20,7 @@ export function createElement(tag: string, args: ElementOptions): HTMLElement {
 }
 
 export function setOptions(ele: HTMLElement, args: ElementOptions): HTMLElement {
+    ele.onclick = args.onclick;
     for (const key in args) {
         if (key === "children") {
             args.children.forEach(child => {

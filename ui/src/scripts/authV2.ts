@@ -34,46 +34,6 @@ export class CubingAppUser {
     }
 }
 
-let modal: HTMLDivElement;
-let removeModal: () => void;
-let errorText;
-
-export function renderSignIn(callback: AuthCallback) {
-    [modal, removeModal] = renderModal();
-
-    errorText = document.createElement("p");
-    const divider = document.createElement("div");
-    const buttonsDiv = document.createElement("div");
-
-    divider.innerHTML = `
-    <div style="margin-top: 1.5rem; width: 100%; height: 1px; background-color: grey;"></div>
-    <p style="margin-top: 0.5rem;">Or use email and password</p>
-    `;
-
-    const emailInput = renderEmailInput();
-    const passwordInput = renderPasswordInput();
-
-    emailInput.style.marginTop = "1rem";
-    passwordInput.style.marginTop = "1rem";
-
-    buttonsDiv.className = "row";
-    buttonsDiv.style.marginTop = "1rem";
-
-    const createAccountButton = renderCreateAccountButton(emailInput, passwordInput, callback);
-    const signInButton = renderSignInButton(emailInput, passwordInput, callback);
-
-    const googleSignInButton = renderGoogleSignInButton(callback);
-
-    buttonsDiv.appendChild(createAccountButton);
-    buttonsDiv.appendChild(signInButton);
-    modal.appendChild(googleSignInButton);
-    modal.appendChild(divider);
-    modal.appendChild(errorText);
-    modal.appendChild(emailInput);
-    modal.appendChild(passwordInput);
-    modal.appendChild(buttonsDiv);
-}
-
 export function renderEmailInput(): HTMLInputElement {
     return createElement("input", { type: "email", placeholder: "Email" }) as HTMLInputElement;
 }
@@ -115,10 +75,6 @@ export function renderGoogleSignInButton(callback: AuthCallback) {
             _signInWithPopup(callback);
         },
     });
-}
-
-function renderError(msg: string) {
-    errorText.textContent = msg;
 }
 
 export function initialAuthCheck(): CubingAppUser | null {
@@ -169,7 +125,7 @@ function _createUserWithEmailAndPassword(email: string, password: string, callba
         })
         .catch(error => {
             console.log(error.message);
-            renderError("Create account failed");
+            // TODO: handle error by passing something to callback
         });
 }
 
@@ -181,7 +137,7 @@ function _signInWithEmailAndPassword(email: string, password: string, callback: 
         })
         .catch(error => {
             console.log(error.message);
-            renderError("Sign in failed");
+            // TODO: handle error by passing something to callback
         });
 }
 

@@ -215,7 +215,7 @@ function renderProfile() {
         return;
     }
 
-    const [modal, removeModal] = renderModal();
+    const [modal, modalBg] = renderModal();
 
     const email = document.createElement("p");
     const signOutButton = document.createElement("button");
@@ -230,7 +230,7 @@ function renderProfile() {
     signOutButton.textContent = "Sign Out";
     signOutButton.addEventListener("click", () => {
         signOut();
-        removeModal();
+        modalBg.remove();
     });
 
     modal.appendChild(email);
