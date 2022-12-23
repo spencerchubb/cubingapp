@@ -1,3 +1,4 @@
+import { TrainingAlg } from "./api";
 import { randInt } from "./common/rand";
 
 /**
@@ -37,15 +38,10 @@ export function shuffle(array: any[]) {
     return series(n - 1) + n + 2;
 }
 
-type TrainingElement = {
-    alg: any
-    score: number,
-}
-
 /** Mutate algs in place */
-export function promoteAlg(algs: Array<TrainingElement>) {
-    algs[0].score++;
-    let position = series(algs[0].score);
+export function promoteAlg(algs: Array<TrainingAlg>) {
+    algs[0].Score++;
+    let position = series(algs[0].Score);
     const threeFourths = Math.ceil(algs.length * 3 / 4);
     if (position > threeFourths) {
         position = threeFourths + randInt(algs.length - threeFourths);
@@ -53,8 +49,8 @@ export function promoteAlg(algs: Array<TrainingElement>) {
     move(algs, position);
 }
 
-export function demoteAlg(algs: Array<TrainingElement>) {
-    algs[0].score = 0;
+export function demoteAlg(algs: Array<TrainingAlg>) {
+    algs[0].Score = 0;
     move(algs, series(0));
 }
 

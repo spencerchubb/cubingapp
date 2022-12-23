@@ -6540,20 +6540,31 @@
     return authSingleton;
   };
 
+  // src/scripts/api.ts
+  async function getTrainingAlgs(uid, set) {
+    console.log({ uid, set });
+    return fetch(`${url}/getTrainingAlgs`, {
+      method: "POST",
+      body: JSON.stringify({
+        Uid: uid,
+        Set: set
+      })
+    }).then((res) => res.json());
+  }
+  async function writeTrainingAlgs(uid, set, trainingAlgs) {
+    return fetch(`${url}/writeTrainingAlgs`, {
+      method: "POST",
+      body: JSON.stringify({
+        Uid: uid,
+        Set: set,
+        TrainingAlgs: trainingAlgs
+      })
+    }).then((res) => res.json());
+  }
+
   // src/scripts/store.ts
-  var algs = "algs";
   var orientation = "orientation";
   var user = "user";
-  function getAlgs(setName) {
-    const item = localStorage.getItem(algs + setName);
-    if (item) {
-      return JSON.parse(item);
-    }
-    return [];
-  }
-  function setAlgs(setName, value) {
-    localStorage.setItem(algs + setName, JSON.stringify(value));
-  }
   function getOrientation() {
     var _a;
     return (_a = localStorage.getItem(orientation)) != null ? _a : "";
@@ -6747,18 +6758,18 @@
     }
     return series(n - 1) + n + 2;
   }
-  function promoteAlg(algs2) {
-    algs2[0].score++;
-    let position = series(algs2[0].score);
-    const threeFourths = Math.ceil(algs2.length * 3 / 4);
+  function promoteAlg(algs) {
+    algs[0].Score++;
+    let position = series(algs[0].Score);
+    const threeFourths = Math.ceil(algs.length * 3 / 4);
     if (position > threeFourths) {
-      position = threeFourths + randInt(algs2.length - threeFourths);
+      position = threeFourths + randInt(algs.length - threeFourths);
     }
-    move(algs2, position);
+    move(algs, position);
   }
-  function demoteAlg(algs2) {
-    algs2[0].score = 0;
-    move(algs2, series(0));
+  function demoteAlg(algs) {
+    algs[0].Score = 0;
+    move(algs, series(0));
   }
   function move(arr, n) {
     const temp = arr[0];
@@ -8576,7 +8587,7 @@
       return options[Math.floor(Math.random() * 4)];
     }
     function loadCurrAlg() {
-      let alg = state.algs[0].alg;
+      let alg = state.algs[0].Alg;
       state.preAUF = generateRandAUF();
       alg = applyPre(alg, state.preAUF);
       state.postAUF = generateRandAUF();
@@ -8594,7 +8605,7 @@
       } else {
         promoteAlg(state.algs);
       }
-      setAlgs(state.algSet.name, state.algs);
+      writeTrainingAlgs(state.user.uid, state.algSet.name, state.algs);
       state.showSolution = false;
       state.retried = false;
       state.solved = false;
@@ -8620,7 +8631,7 @@
         return;
       }
       if (state.showSolution) {
-        let alg = state.algs[0].alg;
+        let alg = state.algs[0].Alg;
         alg = applyPre(alg, state.preAUF);
         solutionText.textContent = alg;
         solutionText.className = "bg-neutral-700";
@@ -8646,18 +8657,19 @@
         scenes[0].buffers = createBuffers(gl3, scenes[0].cube, scenes[0].perspectiveMatrix);
         scene.cube.solve();
       }
-      let storedAlgs = getAlgs(algSet.name);
-      storedAlgs = storedAlgs.filter((storedAlg) => {
-        return algSet.algs.find((alg) => storedAlg.alg === alg);
+      getTrainingAlgs(state.user.uid, algSet.name).then((data) => {
+        let filtered = data.TrainingAlgsRecord.TrainingAlgs.filter((storedAlg) => {
+          return algSet.algs.find((alg) => storedAlg.Alg === alg);
+        });
+        algSet.algs.forEach((alg) => {
+          const found = filtered.find((storedAlg) => storedAlg.Alg === alg);
+          if (!found) {
+            filtered.push({ Score: 0, Alg: alg });
+          }
+        });
+        state.algs = filtered;
+        loadCurrAlg();
       });
-      algSet.algs.forEach((alg) => {
-        const found = storedAlgs.find((storedAlg) => storedAlg.alg === alg);
-        if (!found) {
-          storedAlgs.push({ score: 0, alg });
-        }
-      });
-      state.algs = storedAlgs;
-      loadCurrAlg();
     }
     state.showSolution = false;
     renderSolutionText();

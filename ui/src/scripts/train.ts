@@ -1,3 +1,4 @@
+import { getTrainingAlgs, TrainingAlg, writeTrainingAlgs } from "./api";
 import {
     CubingAppUser,
     initialAuthCheck,
@@ -11,18 +12,18 @@ import {
 import { createBuffers } from "./buffers";
 import { GRAY } from "./colors";
 import { createElement, querySelector, setOptions } from "./common/element";
+import { url } from "./common/vars";
 import { setColor, Sticker } from "./cube";
 import { renderModal } from "./modal";
 import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
-import { getAlgs, getOrientation, setAlgs, setOrientation } from "./store";
+import { getOrientation, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
 
 let canvas: HTMLCanvasElement = document.querySelector("canvas");
 let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
-type TrainingAlg = { score: number, alg: string }
 type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] };
 
 const algData: AlgSet[] = require("./alg-data.json");
@@ -246,7 +247,7 @@ function renderTrainPage() {
     }
 
     function loadCurrAlg() {
-        let alg = state.algs[0].alg;
+        let alg = state.algs[0].Alg;
 
         state.preAUF = generateRandAUF();
         alg = applyPre(alg, state.preAUF);
@@ -270,7 +271,7 @@ function renderTrainPage() {
         } else {
             promoteAlg(state.algs);
         }
-        setAlgs(state.algSet.name, state.algs);
+        writeTrainingAlgs(state.user.uid, state.algSet.name, state.algs);
         state.showSolution = false;
         state.retried = false;
         state.solved = false;
@@ -299,7 +300,7 @@ function renderTrainPage() {
             return;
         }
         if (state.showSolution) {
-            let alg = state.algs[0].alg;
+            let alg = state.algs[0].Alg;
 
             alg = applyPre(alg, state.preAUF);
     
@@ -332,23 +333,24 @@ function renderTrainPage() {
             scene.cube.solve();
         }
 
-        // Remove elements from storedAlgs that are in storedAlgs but not in algs.
-        // Add elements to storedAlgs that are in algs but not in storedAlgs.
-        let storedAlgs: TrainingAlg[] = getAlgs(algSet.name);
-
-        storedAlgs = storedAlgs.filter(storedAlg => {
-            return algSet.algs.find(alg => storedAlg.alg === alg);
-        });
-        algSet.algs.forEach(alg => {
-            const found = storedAlgs.find(storedAlg => storedAlg.alg === alg);
-            if (!found) {
-                storedAlgs.push({ score: 0, alg });
-            }
-        });
-        state.algs = storedAlgs;
-
-        // When rendering an alg set, load the first alg automatically.
-        loadCurrAlg();
+        getTrainingAlgs(state.user.uid, algSet.name)
+            .then(data => {
+                // Remove elements from storedAlgs that are in stored algs but not in algs.
+                // Add elements to stored algs that are in algs but not in stored algs.
+                let filtered = data.TrainingAlgsRecord.TrainingAlgs.filter(storedAlg => {
+                    return algSet.algs.find(alg => storedAlg.Alg === alg);
+                });
+                algSet.algs.forEach(alg => {
+                    const found = filtered.find(storedAlg => storedAlg.Alg === alg);
+                    if (!found) {
+                        filtered.push({ Score: 0, Alg: alg });
+                    }
+                });
+                state.algs = filtered;
+        
+                // When rendering an alg set, load the first alg automatically.
+                loadCurrAlg();
+            });
     }
 
     state.showSolution = false;

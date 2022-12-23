@@ -2,25 +2,12 @@
  * LocalStorage functions
  */
 
-const algs = "algs";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
 const orientation = "orientation";
 const showBody = "showBody";
 const user = "user";
 const userID = "userID";
-
-export function getAlgs(setName: string) {
-    const item = localStorage.getItem(algs + setName);
-    if (item) {
-        return JSON.parse(item);
-    }
-    return [];
-}
-
-export function setAlgs(setName: string, value: any[]) {
-    localStorage.setItem(algs + setName, JSON.stringify(value));
-}
 
 export function getHintStickers() {
     return getBool(hintStickers) ?? true;
