@@ -7468,24 +7468,6 @@
     return ele;
   }
 
-  // src/scripts/modal.ts
-  function renderModal() {
-    const modal2 = createElement("div", {
-      className: "col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",
-      onclick: (event) => {
-        event.stopPropagation();
-      }
-    });
-    const background = createElement("div", {
-      className: "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",
-      onclick: (event) => {
-        event.target.remove();
-      },
-      children: [modal2]
-    });
-    return [modal2, background];
-  }
-
   // src/scripts/auth.ts
   var CubingAppUser = class {
     constructor() {
@@ -7502,121 +7484,97 @@
       this.uid = json.uid;
     }
   };
-  var user2;
-  var authListener;
-  function setAuthListener(val) {
-    authListener = val;
+  function renderEmailInput() {
+    return createElement("input", { type: "email", placeholder: "Email" });
   }
-  var modal;
-  var modalBg;
-  var errorText;
-  function renderSignIn() {
-    const auth2 = auth();
-    [modal, modalBg] = renderModal();
-    errorText = document.createElement("p");
-    const googleSignInButton = document.createElement("button");
-    const divider = document.createElement("div");
-    const emailInput = document.createElement("input");
-    const passwordInput = document.createElement("input");
-    const buttonsDiv = document.createElement("div");
-    const createAccountButton = document.createElement("button");
-    const signInButton = document.createElement("button");
-    googleSignInButton.innerHTML = `
-    <div class="row">
-        <svg style="width: 20px; height: 20px; margin-right: 0.6rem;" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path><path fill="none" d="M2 2h44v44H2z"></path></svg>
-        <p style="font-size: 1rem;">Sign in with Google</p>
-    </div>
-    `;
-    googleSignInButton.className = "mt-4 p-2 bg-white rounded-md shadow-lg border-solid border-gray-400 hover:cursor-pointer hover:bg-gray-200";
-    googleSignInButton.addEventListener("click", () => {
-      _signInWithPopup();
-    });
-    divider.innerHTML = `
-    <div style="margin-top: 1.5rem; width: 100%; height: 1px; background-color: grey;"></div>
-    <p style="margin-top: 0.5rem;">Or use email and password</p>
-    `;
-    emailInput.type = "email";
-    emailInput.placeholder = "Email";
-    emailInput.style.marginTop = "1rem";
-    passwordInput.type = "password";
-    passwordInput.placeholder = "Password";
-    passwordInput.style.marginTop = "1rem";
-    buttonsDiv.className = "row";
-    buttonsDiv.style.marginTop = "1rem";
-    createAccountButton.classList.add("btn-primary");
-    createAccountButton.style.marginRight = "12px";
-    createAccountButton.textContent = "Create Account";
-    createAccountButton.addEventListener("click", () => {
-      _createUserWithEmailAndPassword(emailInput.value, passwordInput.value);
-    });
-    signInButton.classList.add("btn-primary");
-    signInButton.textContent = "Sign In";
-    signInButton.addEventListener("click", () => {
-      _signInWithEmailAndPassword(emailInput.value, passwordInput.value);
-    });
-    buttonsDiv.appendChild(createAccountButton);
-    buttonsDiv.appendChild(signInButton);
-    modal.appendChild(googleSignInButton);
-    modal.appendChild(divider);
-    modal.appendChild(errorText);
-    modal.appendChild(emailInput);
-    modal.appendChild(passwordInput);
-    modal.appendChild(buttonsDiv);
+  function renderPasswordInput() {
+    return createElement("input", { type: "password", placeholder: "Password" });
   }
-  function renderError(msg) {
-    errorText.textContent = msg;
+  function renderCreateAccountButton(emailInput, passwordInput, callback) {
+    return createElement("button", {
+      className: "btn-primary",
+      innerHTML: "Create Account",
+      onclick: () => {
+        _createUserWithEmailAndPassword(emailInput.value, passwordInput.value, callback);
+      }
+    });
+  }
+  function renderSignInButton(emailInput, passwordInput, callback) {
+    return createElement("button", {
+      className: "btn-primary",
+      innerHTML: "Sign In",
+      onclick: () => {
+        _signInWithEmailAndPassword(emailInput.value, passwordInput.value, callback);
+      }
+    });
+  }
+  function renderGoogleSignInButton(callback) {
+    return createElement("button", {
+      className: "p-2 bg-white rounded-md shadow-lg border-solid border-gray-400 hover:cursor-pointer hover:bg-gray-200",
+      innerHTML: `
+        <div class="row">
+            <svg style="width: 20px; height: 20px; margin-right: 0.6rem;" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"></path><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path><path fill="none" d="M2 2h44v44H2z"></path></svg>
+            <p style="font-size: 1rem;">Sign in with Google</p>
+        </div>
+        `,
+      onclick: () => {
+        _signInWithPopup(callback);
+      }
+    });
   }
   function initialAuthCheck() {
     const userJsonString = getUser();
     if (userJsonString) {
-      user2 = new CubingAppUser();
-      user2.fromJsonString(userJsonString);
-      console.log(user2);
-      authListener();
+      const user3 = new CubingAppUser();
+      user3.fromJsonString(userJsonString);
+      console.log(user3);
+      return user3;
     }
+    return null;
   }
-  function successfulSignIn(userCredential) {
-    user2 = new CubingAppUser();
-    user2.email = userCredential.user.email;
+  function successfulSignIn(userCredential, callback) {
+    const user3 = new CubingAppUser();
+    user3.email = userCredential.user.email;
     fetch(`${url}/user`, {
       method: "POST",
-      body: JSON.stringify({ email: user2.email })
+      body: JSON.stringify({ email: user3.email })
     }).then((res) => res.json()).then((data) => {
       console.log(data);
-      user2.uid = data.Uid;
-      console.log(user2);
-      setUser(user2.toJsonString());
-      authListener();
-      modalBg.remove();
+      user3.uid = data.Uid;
+      console.log(user3);
+      setUser(user3.toJsonString());
+      callback(user3);
     });
   }
-  function _signInWithPopup() {
+  function _signInWithPopup(callback) {
     const auth2 = auth();
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth2, provider).then(successfulSignIn).catch((error) => {
+    signInWithPopup(auth2, provider).then((userCredential) => {
+      successfulSignIn(userCredential, callback);
+    }).catch((error) => {
       console.log(error);
     });
   }
-  function _createUserWithEmailAndPassword(email, password) {
+  function _createUserWithEmailAndPassword(email, password, callback) {
     const auth2 = auth();
-    createUserWithEmailAndPassword(auth2, email, password).then(successfulSignIn).catch((error) => {
+    createUserWithEmailAndPassword(auth2, email, password).then((userCredential) => {
+      successfulSignIn(userCredential, callback);
+    }).catch((error) => {
       console.log(error.message);
-      renderError("Create account failed");
     });
   }
-  function _signInWithEmailAndPassword(email, password) {
+  function _signInWithEmailAndPassword(email, password, callback) {
     const auth2 = auth();
-    signInWithEmailAndPassword(auth2, email, password).then(successfulSignIn).catch((error) => {
+    signInWithEmailAndPassword(auth2, email, password).then((userCredential) => {
+      successfulSignIn(userCredential, callback);
+    }).catch((error) => {
       console.log(error.message);
-      renderError("Sign in failed");
     });
   }
   function signOut2() {
     const auth2 = auth();
     auth2.signOut();
-    user2 = null;
     removeUser();
-    authListener();
   }
 
   // src/scripts/slide.ts
@@ -7652,10 +7610,28 @@
     </div>
     `;
   }
+  function renderHeader1(title) {
+    return createElement("div", {
+      className: "row",
+      style: "justify-content: space-between; width: 100%; padding-bottom: 16px;",
+      children: [
+        createElement("p", {
+          style: "font-weight: bold; padding-right: 2rem;",
+          innerHTML: title
+        }),
+        createElement("div", {
+          innerHTML: `<svg id="closeDrawer" class="xButton" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+                    <path id="closeDrawer" d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
+                </svg>`
+        })
+      ]
+    });
+  }
 
   // src/scripts/play.ts
   var canvas3 = document.querySelector("canvas");
   var gl3 = canvas3.getContext("webgl");
+  var user2;
   var drawerIndex;
   var solves = [];
   var solvesFetched = false;
@@ -7711,10 +7687,7 @@
     addIconListeners(1);
     addIconListeners(2);
     addIconListeners(3);
-    setAuthListener(() => {
-      renderDrawer(drawerIndex);
-    });
-    initialAuthCheck();
+    user2 = initialAuthCheck();
   }
   function addIconListeners(index) {
     const button = document.querySelector(`#icon${index}`);
@@ -7753,12 +7726,10 @@
       initialCubeState,
       moves
     };
-    console.log(solve);
     fetch(`${url}/addSolve`, {
       method: "POST",
       body: JSON.stringify(solve)
     }).then((res) => res.json()).then((data) => {
-      console.log(data);
       if (!data.Success)
         return;
       solves.push({
@@ -7785,17 +7756,15 @@
     startStop.title = "Press enter to start timer";
   }
   function renderDrawer(index) {
-    if (index == 0) {
-      renderProfile();
-      return;
-    }
     drawerIndex = index;
     const drawerEle = document.querySelector("#rightDrawer");
     if (index == -1) {
       close(drawerEle);
       return;
     }
-    if (index === 1) {
+    if (index == 0) {
+      renderProfile(drawerEle);
+    } else if (index === 1) {
       renderSolves(drawerEle);
     } else if (index === 2) {
       renderSettings(drawerEle);
@@ -7808,27 +7777,64 @@
     });
     open(drawerEle);
   }
-  function renderProfile() {
+  function renderProfile(drawerEle) {
+    drawerEle.innerHTML = "";
     if (!user2) {
-      renderSignIn();
+      const emailInput = renderEmailInput();
+      const passwordInput = renderPasswordInput();
+      setOptions(drawerEle, {
+        children: [
+          renderHeader1("Sign in"),
+          renderGoogleSignInButton((signedIn) => {
+            user2 = signedIn;
+            renderProfile(drawerEle);
+          }),
+          createElement("div", { style: "height: 1rem" }),
+          createElement("div", { className: "bg-gray-300 w-full h-0.5" }),
+          createElement("div", { style: "height: 1rem" }),
+          createElement("p", { innerHTML: "Or use email and password" }),
+          createElement("div", { style: "height: 1rem" }),
+          emailInput,
+          createElement("div", { style: "height: 1rem" }),
+          passwordInput,
+          createElement("div", { style: "height: 1rem" }),
+          createElement("div", {
+            className: "row",
+            children: [
+              renderCreateAccountButton(emailInput, passwordInput, (signedIn) => {
+                user2 = signedIn;
+                renderProfile(drawerEle);
+              }),
+              createElement("div", { style: "width: 1rem" }),
+              renderSignInButton(emailInput, passwordInput, (signedIn) => {
+                user2 = signedIn;
+                renderProfile(drawerEle);
+              })
+            ]
+          })
+        ]
+      });
       return;
     }
-    const [modal2, modalBg2] = renderModal();
-    const email = document.createElement("p");
-    const signOutButton = document.createElement("button");
-    email.textContent = `Signed in as ${user2.email}`;
-    email.style.marginTop = "1rem";
-    email.style.textAlign = "center";
-    email.style.wordBreak = "break-word";
-    signOutButton.className = "btn-primary";
-    signOutButton.style.marginTop = "1rem";
-    signOutButton.textContent = "Sign Out";
-    signOutButton.addEventListener("click", () => {
-      signOut2();
-      modalBg2.remove();
+    setOptions(drawerEle, {
+      children: [
+        renderHeader1("Profile"),
+        createElement("p", {
+          innerHTML: `Signed in as ${user2.email}`,
+          className: "mt-1"
+        }),
+        createElement("button", {
+          innerHTML: "Sign Out",
+          className: "btn-primary",
+          style: "margin-top: 1rem;",
+          onclick: () => {
+            user2 = null;
+            signOut2();
+            renderProfile(drawerEle);
+          }
+        })
+      ]
     });
-    modal2.appendChild(email);
-    modal2.appendChild(signOutButton);
   }
   async function renderSolves(drawerEle) {
     if (!user2) {
@@ -7837,7 +7843,7 @@
         <button id="signInToSave" class="btn-primary">Sign in to save and analyze your solves</button>
         `;
       document.querySelector("#signInToSave").addEventListener("click", () => {
-        renderSignIn();
+        renderProfile(drawerEle);
       });
       return;
     }
@@ -7852,7 +7858,6 @@
         body: JSON.stringify({ uid: user2.uid })
       });
       const json = await res.json();
-      console.log(json);
       if (!json.SolveRecords)
         return;
       solves = json.SolveRecords.map((record) => {
@@ -7862,7 +7867,6 @@
         };
       });
     }
-    console.log(solves);
     const solvesList = document.querySelector("#solvesList");
     for (let i = solves.length - 1; i >= 0; i--) {
       const solve = solves[i];

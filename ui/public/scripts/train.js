@@ -6542,7 +6542,6 @@
 
   // src/scripts/api.ts
   async function getTrainingAlgs(uid, set) {
-    console.log({ uid, set });
     return fetch(`${url}/getTrainingAlgs`, {
       method: "POST",
       body: JSON.stringify({
@@ -6605,7 +6604,7 @@
     return ele;
   }
 
-  // src/scripts/authV2.ts
+  // src/scripts/auth.ts
   var CubingAppUser = class {
     constructor() {
     }

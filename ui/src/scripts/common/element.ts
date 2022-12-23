@@ -1,12 +1,19 @@
 type ElementOptions = {
     children?: Node[],
     className?: string,
+    d?: string,
     id?: string,
     innerHTML?: string,
+    height?: string,
     onclick?: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null,
     placeholder?: string,
+    stroke?: string,
+    strokeWidth?: string,
     style?: string,
     type?: string,
+    viewBox?: string,
+    width?: string,
+    xmlns?: string,
 };
 
 export function querySelector(selector: string, args: ElementOptions): HTMLElement {

@@ -18,7 +18,6 @@ type GetTrainingAlgsResponse = {
 }
 
 export async function getTrainingAlgs(uid: number, set: string): Promise<GetTrainingAlgsResponse> {
-    console.log({ uid, set })
     return fetch(`${url}/getTrainingAlgs`, {
         method: "POST",
         body: JSON.stringify({

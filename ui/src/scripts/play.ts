@@ -4,15 +4,26 @@ import { addListenersForLeftModal } from "./ui";
 import { Timer } from "./timer";
 import * as store from "./store";
 import { url } from "./common/vars";
-import { initialAuthCheck, renderSignIn, setAuthListener, signOut, user } from "./auth";
+import {
+    CubingAppUser,
+    initialAuthCheck,
+    renderCreateAccountButton,
+    renderEmailInput,
+    renderGoogleSignInButton,
+    renderPasswordInput,
+    renderSignInButton,
+    signOut,
+} from "./auth";
 import { renderModal } from "./modal";
 import * as slide from "./slide";
 import { Move } from "./common/types";
 import { createBuffers } from "./buffers";
+import { createElement, setOptions } from "./common/element";
 
 let canvas: HTMLCanvasElement = document.querySelector("canvas");
 let gl: WebGLRenderingContext = canvas.getContext("webgl");
 
+let user: CubingAppUser | null;
 let drawerIndex;
 let solves: { id: number, time: number }[] = [];
 let solvesFetched: boolean = false;
@@ -29,7 +40,7 @@ function main() {
 
     loadSavedSettings();
     startLoop();
-    
+
     addListenersForLeftModal();
 
     const layerInput = document.querySelector("#layerInput") as HTMLInputElement;
@@ -88,11 +99,7 @@ function main() {
     addIconListeners(2);
     addIconListeners(3);
 
-    setAuthListener(() => {
-        renderDrawer(drawerIndex);
-    });
-
-    initialAuthCheck();
+    user = initialAuthCheck();
 }
 
 function addIconListeners(index: number) {
@@ -140,14 +147,12 @@ function handleStartStop(time: number) {
         initialCubeState,
         moves,
     };
-    console.log(solve);
     fetch(`${url}/addSolve`, {
         method: "POST",
         body: JSON.stringify(solve),
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             if (!data.Success) return;
             solves.push({
                 id: data.Id,
@@ -181,20 +186,18 @@ function renderStartStop(running: boolean) {
  * @param index Pass in -1 to close drawer, 0 to show Solves, 1 to show Settings, 2 to show Tips
  */
 function renderDrawer(index: number) {
-    if (index == 0) {
-        renderProfile();
-        return;
-    }
-
     drawerIndex = index;
 
     const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
+
     if (index == -1) {
         slide.close(drawerEle);
         return;
     }
 
-    if (index === 1) {
+    if (index == 0) {
+        renderProfile(drawerEle);
+    } else if (index === 1) {
         renderSolves(drawerEle);
     } else if (index === 2) {
         renderSettings(drawerEle);
@@ -209,32 +212,67 @@ function renderDrawer(index: number) {
     slide.open(drawerEle);
 }
 
-function renderProfile() {
+function renderProfile(drawerEle: HTMLElement) {
+    drawerEle.innerHTML = "";
+
     if (!user) {
-        renderSignIn();
+        const emailInput = renderEmailInput();
+        const passwordInput = renderPasswordInput();
+
+        setOptions(drawerEle, {
+            children: [
+                slide.renderHeader1("Sign in"),
+                renderGoogleSignInButton(signedIn => {
+                    user = signedIn;
+                    renderProfile(drawerEle);
+                }),
+                createElement("div", { style: "height: 1rem" }),
+                createElement("div", { className: "bg-gray-300 w-full h-0.5" }),
+                createElement("div", { style: "height: 1rem" }),
+                createElement("p", { innerHTML: "Or use email and password" }),
+                createElement("div", { style: "height: 1rem" }),
+                emailInput,
+                createElement("div", { style: "height: 1rem" }),
+                passwordInput,
+                createElement("div", { style: "height: 1rem" }),
+                createElement("div", {
+                    className: "row",
+                    children: [
+                        renderCreateAccountButton(emailInput, passwordInput, signedIn => {
+                            user = signedIn;
+                            renderProfile(drawerEle);
+                        }),
+                        createElement("div", { style: "width: 1rem" }),
+                        renderSignInButton(emailInput, passwordInput, signedIn => {
+                            user = signedIn;
+                            renderProfile(drawerEle);
+                        }),
+                    ],
+                }),
+            ],
+        });
         return;
     }
 
-    const [modal, modalBg] = renderModal();
-
-    const email = document.createElement("p");
-    const signOutButton = document.createElement("button");
-
-    email.textContent = `Signed in as ${user.email}`;
-    email.style.marginTop = "1rem";
-    email.style.textAlign = "center";
-    email.style.wordBreak = "break-word";
-
-    signOutButton.className = "btn-primary";
-    signOutButton.style.marginTop = "1rem";
-    signOutButton.textContent = "Sign Out";
-    signOutButton.addEventListener("click", () => {
-        signOut();
-        modalBg.remove();
+    setOptions(drawerEle, {
+        children: [
+            slide.renderHeader1("Profile"),
+            createElement("p", { 
+                innerHTML: `Signed in as ${user.email}`,
+                className: "mt-1",
+            }),
+            createElement("button", { 
+                innerHTML: "Sign Out",
+                className: "btn-primary",
+                style: "margin-top: 1rem;",
+                onclick: () => {
+                    user = null;
+                    signOut();
+                    renderProfile(drawerEle);
+                },
+            }),
+        ],
     });
-
-    modal.appendChild(email);
-    modal.appendChild(signOutButton);
 }
 
 async function renderSolves(drawerEle: HTMLElement) {
@@ -244,7 +282,7 @@ async function renderSolves(drawerEle: HTMLElement) {
         <button id="signInToSave" class="btn-primary">Sign in to save and analyze your solves</button>
         `;
         document.querySelector("#signInToSave").addEventListener("click", () => {
-            renderSignIn();
+            renderProfile(drawerEle);
         });
         return;
     }
@@ -261,10 +299,9 @@ async function renderSolves(drawerEle: HTMLElement) {
             body: JSON.stringify({ uid: user.uid }),
         });
         const json = await res.json();
-        console.log(json);
 
         if (!json.SolveRecords) return;
-        
+
         solves = json.SolveRecords.map((record: any) => {
             return {
                 id: record.Id,
@@ -272,7 +309,6 @@ async function renderSolves(drawerEle: HTMLElement) {
             };
         });
     }
-    console.log(solves);
 
     const solvesList = document.querySelector("#solvesList");
     for (let i = solves.length - 1; i >= 0; i--) {

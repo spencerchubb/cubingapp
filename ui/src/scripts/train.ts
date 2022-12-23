@@ -8,11 +8,10 @@ import {
     renderPasswordInput,
     renderSignInButton,
     signOut,
-} from "./authV2";
+} from "./auth";
 import { createBuffers } from "./buffers";
 import { GRAY } from "./colors";
 import { createElement, querySelector, setOptions } from "./common/element";
-import { url } from "./common/vars";
 import { setColor, Sticker } from "./cube";
 import { renderModal } from "./modal";
 import { newScene, scenes, startLoop } from "./scene";
