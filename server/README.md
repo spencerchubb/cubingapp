@@ -11,5 +11,9 @@
     - list databases on server
 - \dt
     - list tables in current database
+- \d tablename
+    - list columns in table
 - ss -nlt | grep 5432
 	- dump socket statistics and grep for port 5432 
+- \x
+    - toggle expanded display
