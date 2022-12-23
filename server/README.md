@@ -17,3 +17,5 @@
 	- dump socket statistics and grep for port 5432 
 - \x
     - toggle expanded display
+- \q
+    - quit psql
