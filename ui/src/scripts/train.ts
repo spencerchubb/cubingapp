@@ -91,6 +91,14 @@ function solved(stickers: Sticker[], algSet: AlgSet): boolean {
                 [36, 42],
                 [45, 51],
             ]);
+        case "F2L":
+            return matching(stickers, [
+                [18, 19, 20, 21, 22, 23, 24, 25, 26],
+                [10, 11, 13, 14, 16, 17],
+                [27, 28, 30, 31, 33, 34],
+                [37, 38, 40, 41, 43, 44],
+                [46, 47, 49, 50, 52, 53],
+            ]);
         case "OLL":
             return matching(stickers, [
                 [0, 1, 2, 3, 4, 5, 6, 7, 8],

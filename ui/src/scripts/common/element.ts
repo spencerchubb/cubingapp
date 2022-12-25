@@ -1,4 +1,5 @@
 type ElementOptions = {
+    alt?: string,
     children?: Node[],
     className?: string,
     d?: string,
@@ -7,6 +8,7 @@ type ElementOptions = {
     height?: string,
     onclick?: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null,
     placeholder?: string,
+    src?: string,
     stroke?: string,
     strokeWidth?: string,
     style?: string,
