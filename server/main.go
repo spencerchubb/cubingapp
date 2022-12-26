@@ -187,22 +187,23 @@ func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	var req GetTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
+	errorRes := GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{req.Uid, req.Set, []TrainingAlg{}}}
 	if err != nil {
-		writeJson(w, GenericResponse{false})
+		writeJson(w, errorRes)
 		return
 	}
 
 	sql := "select * from training_algs where uid = $1 and set = $2;"
 	row := queryRow(sql, req.Uid, req.Set)
 	if row == nil {
-		writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
+		writeJson(w, errorRes)
 		return
 	}
 
 	var res GetTrainingAlgsResponse
 	err = scan(row, &res.Id, &res.TrainingAlgsRecord.Uid, &res.TrainingAlgsRecord.Set, &res.TrainingAlgsRecord.TrainingAlgs)
 	if err != nil {
-		writeJson(w, GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{}})
+		writeJson(w, errorRes)
 		return
 	}
 
