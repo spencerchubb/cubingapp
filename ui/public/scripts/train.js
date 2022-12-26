@@ -8633,6 +8633,7 @@
     let scene = newScene("#scene");
     scenes.push(scene);
     scene.cube.solve();
+    scene.dragEnabled = true;
     startLoop();
     document.addEventListener("keydown", (event) => {
       if (event.key === " ") {
@@ -8826,11 +8827,7 @@
               className: "text-gray-300 mt-4 font-bold"
             }),
             createElement("h2", {
-              innerHTML: "1. Spaced Repetition",
-              className: "text-white mt-4"
-            }),
-            createElement("p", {
-              innerHTML: "This algorithm trainer uses spaced repetition to help you learn algorithms faster. Here is how it works:",
+              innerHTML: "1. Memorize faster",
               className: "text-white mt-4"
             }),
             createElement("ul", {
@@ -8847,6 +8844,10 @@
             }),
             createElement("h2", {
               innerHTML: "2. Virtual cube",
+              className: "text-white"
+            }),
+            createElement("p", {
+              innerHTML: "To turn the cube, you can click and drag. Or you can use a keyboard",
               className: "text-white mt-4"
             }),
             createElement("p", {

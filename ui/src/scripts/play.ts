@@ -14,7 +14,6 @@ import {
     renderSignInButton,
     signOut,
 } from "./auth";
-import { renderModal } from "./modal";
 import * as slide from "./slide";
 import { Move } from "./common/types";
 import { createBuffers } from "./buffers";
