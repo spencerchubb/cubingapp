@@ -426,10 +426,6 @@
   --tw-bg-opacity: 0.5;
 }
 
-.bg-opacity-75 {
-  --tw-bg-opacity: 0.75;
-}
-
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -492,11 +488,6 @@
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
-}
-
-.text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
 }
 
 .font-bold {
@@ -562,14 +553,6 @@
   transition-duration: 150ms;
 }
 
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
 * {
   box-sizing: border-box;
   font-family: Verdana, sans-serif;
@@ -616,15 +599,32 @@ td {
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   color: #fff;
-  background-color: #0d6efd;
-  border-color: transparent;
   font-family: Verdana, sans-serif;
   font-size: 1rem;
+  border: none;
+  background-color: #0d6efd;
 }
 
 .btn-primary:hover {
   cursor: pointer;
   background-color: #0e61dc;
+}
+
+.btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  color: #fff;
+  font-family: Verdana, sans-serif;
+  font-size: 1rem;
+  border: none;
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity));
+}
+
+.btn-secondary:hover {
+  cursor: pointer;
+  --tw-bg-opacity: 1;
+  background-color: rgb(38 38 38 / var(--tw-bg-opacity));
 }
 
 body {
@@ -851,6 +851,16 @@ canvas {
 .hover\:bg-neutral-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(38 38 38 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-green-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 128 61 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-opacity-10:hover {

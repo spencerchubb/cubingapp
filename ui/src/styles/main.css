@@ -47,15 +47,30 @@ td {
     padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     color: #fff;
-    background-color: #0d6efd;
-    border-color: transparent;
     font-family: Verdana, sans-serif;
     font-size: 1rem;
+    border: none;
+    background-color: #0d6efd;
 }
 
 .btn-primary:hover {
     cursor: pointer;
     background-color: #0e61dc;
+}
+
+.btn-secondary {
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 1rem;
+    border: none;
+    @apply bg-neutral-700;
+}
+
+.btn-secondary:hover {
+    cursor: pointer;
+    @apply bg-neutral-800;
 }
 
 body {

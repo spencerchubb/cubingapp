@@ -2,12 +2,29 @@
  * LocalStorage functions
  */
 
+const algSet = "algSet";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
 const orientation = "orientation";
 const showBody = "showBody";
 const user = "user";
 const userID = "userID";
+
+export function getAlgSet() {
+    return localStorage.getItem(algSet) ?? "";
+}
+
+export function setAlgSet(value: string) {
+    localStorage.setItem(algSet, value);
+}
+
+export function getAnimateTurns() {
+    return getBool(animateTurns) ?? true;
+}
+
+export function setAnimateTurns(value) {
+    setBool(animateTurns, value);
+}
 
 export function getHintStickers() {
     return getBool(hintStickers) ?? true;
@@ -31,14 +48,6 @@ export function getShowBody() {
 
 export function setShowBody(value) {
     setBool(showBody, value);
-}
-
-export function getAnimateTurns() {
-    return getBool(animateTurns) ?? true;
-}
-
-export function setAnimateTurns(value) {
-    setBool(animateTurns, value);
 }
 
 export function getUserID() {

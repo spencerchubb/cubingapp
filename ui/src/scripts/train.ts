@@ -11,12 +11,13 @@ import {
 } from "./auth";
 import { createBuffers } from "./buffers";
 import { GRAY } from "./colors";
+import { Component } from "./component";
 import { createElement, querySelector, setOptions } from "./common/element";
-import { setColor, Sticker } from "./cube";
+import { setColor } from "./cube";
 import { renderModal } from "./modal";
-import { newScene, scenes, startLoop } from "./scene";
+import { newScene, Scene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
-import { getOrientation, setOrientation } from "./store";
+import { getAlgSet, getOrientation, setAlgSet, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
 
@@ -28,11 +29,8 @@ type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] }
 const algData: AlgSet[] = require("./alg-data.json");
 
 type State = {
-    page: "landing" | "train",
     user: CubingAppUser | null,
     showSolution: boolean,
-    retried: boolean,
-    solved: boolean,
     settingsOpen: boolean,
     preRotation: string,
     algSet: AlgSet,
@@ -42,11 +40,8 @@ type State = {
 }
 
 let state: State = {
-    page: "landing",
     user: null,
     showSolution: false,
-    retried: false,
-    solved: false,
     settingsOpen: false,
     preRotation: "",
     algSet: null,
@@ -54,6 +49,10 @@ let state: State = {
     preAUF: "",
     postAUF: "",
 };
+
+function findAlgSet(name: string): AlgSet {
+    return algData.find(set => set.name === name);
+}
 
 function applyPre(alg: string, auf: string): string {
     if (auf) {
@@ -69,69 +68,7 @@ function applyPost(alg: string, auf: string): string {
     return alg
 }
 
-function matching(stickers: Sticker[], shouldMatch: number[][]): boolean {
-    for (let i = 0; i < shouldMatch.length; i++) {
-        const first = stickers[shouldMatch[i][0]].face;
-        for (let j = 1; j < shouldMatch[i].length; j++) {
-            if (first !== stickers[shouldMatch[i][j]].face) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-function solved(stickers: Sticker[], algSet: AlgSet): boolean {
-    switch (algSet.name) {
-        case "CMLL":
-            return matching(stickers, [
-                [0, 2, 6, 8],
-                [9, 15],
-                [29, 35],
-                [36, 42],
-                [45, 51],
-            ]);
-        case "F2L":
-            return matching(stickers, [
-                [18, 19, 20, 21, 22, 23, 24, 25, 26],
-                [10, 11, 13, 14, 16, 17],
-                [27, 28, 30, 31, 33, 34],
-                [37, 38, 40, 41, 43, 44],
-                [46, 47, 49, 50, 52, 53],
-            ]);
-        case "OLL":
-            return matching(stickers, [
-                [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                [10, 11, 13, 14, 16, 17],
-                [18, 19, 20, 21, 22, 23, 24, 25, 26],
-                [27, 28, 30, 31, 33, 34],
-                [37, 38, 40, 41, 43, 44],
-                [46, 47, 49, 50, 52, 53],
-            ]);
-        // PLL and ZBLL have same logic
-        case "PLL":
-        case "ZBLL":
-            return matching(stickers, [
-                [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                [9, 12, 15],
-                [29, 32, 35],
-                [36, 39, 42],
-                [45, 48, 51],
-                [10, 11, 13, 14, 16, 17],
-                [18, 19, 20, 21, 22, 23, 24, 25, 26],
-                [27, 28, 30, 31, 33, 34],
-                [37, 38, 40, 41, 43, 44],
-                [46, 47, 49, 50, 52, 53],
-            ]);
-        // case "2x2 CLL":
-        // case "2x2 EG1":
-        // case "2x2 EG2":
-        default:
-            console.error("Not implemented yet:", algSet.name);
-    }
-}
-
-function renderDrawer() {
+function renderDrawer(scene: Scene) {
     const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
     if (state.settingsOpen) {
         const optionsData = [
@@ -160,51 +97,228 @@ function renderDrawer() {
             { value: "z' y", text: "Red Yellow" },
             { value: "z' y2", text: "Red Blue" },
         ];
-        let optionsHTML = "";
-        optionsData.forEach(option => {
-            const selected = option.value === state.preRotation ? "selected" : "";
-            optionsHTML += `<option value="${option.value}" ${selected}>${option.text}</option>`;
+        setOptions(drawerEle, {
+            innerHTML: "",
+            children: [
+                slide.renderHeader1("Settings"),
+                createElement("p", {
+                    innerHTML: "Algorithm Set",
+                    className: "mt-4",
+                }),
+                createElement("select", {
+                    onchange: (e: Event) => {
+                        const setName = (e.target as HTMLSelectElement).value;
+                        state.algSet = findAlgSet(setName);
+                        setAlgSet(setName);
+                        changeAlgSet();
+                    },
+                    children: algData.map(algSet => {
+                        return createElement("option", {
+                            value: algSet.name,
+                            selected: algSet.name === state.algSet.name,
+                            innerHTML: algSet.name,
+                        });
+                    }),
+                }),
+                createElement("p", {
+                    innerHTML: "Orientation",
+                    className: "mt-4",
+                }),
+                createElement("select", {
+                    onchange: (e: Event) => {
+                        const preRotation = (e.target as HTMLSelectElement).value;
+                        state.preRotation = preRotation;
+                        setOrientation(preRotation);
+                        loadCurrAlg();
+                    },
+                    children: optionsData.map(option => {
+                        return createElement("option", {
+                            value: option.value,
+                            selected: option.value === state.preRotation,
+                            innerHTML: option.text,
+                        });
+                    }),
+                }),
+            ],
         });
-        drawerEle.innerHTML = `
-        ${slide.renderHeader("Settings")}
-        <p>Cube Orientation</p>
-        <select id="orientationSelect">
-            ${optionsHTML}
-        </select>
-        `
-            ;
         slide.open(drawerEle);
     } else {
         slide.close(drawerEle);
     }
 }
 
+function changeAlgSet() {
+    const algSet = state.algSet;
+    if (algSet.cube == "2x2") {
+        let scene = scenes[0];
+        scene.cube.setNumOfLayers(2);
+        scene.buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
+        scene.cube.solve();
+    } else if (algSet.cube == "3x3") {
+        let scene = scenes[0];
+        scene.cube.setNumOfLayers(3);
+        scene.buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
+        scene.cube.solve();
+    }
+
+    getTrainingAlgs(state.user.uid, algSet.name)
+        .then(data => {
+            // Remove elements from storedAlgs that are in stored algs but not in algs.
+            // Add elements to stored algs that are in algs but not in stored algs.
+            let filtered = data.TrainingAlgsRecord.TrainingAlgs.filter(storedAlg => {
+                return algSet.algs.find(alg => storedAlg.Alg === alg);
+            });
+            algSet.algs.forEach(alg => {
+                const found = filtered.find(storedAlg => storedAlg.Alg === alg);
+                if (!found) {
+                    filtered.push({ Score: 0, Alg: alg });
+                }
+            });
+            state.algs = filtered;
+
+            // When rendering an alg set, load the first alg automatically.
+            loadCurrAlg();
+        });
+}
+
+function generateRandAUF() {
+    const options = ["", "U", "U2", "U'"];
+    return options[Math.floor(Math.random() * 4)];
+}
+
+function loadCurrAlg() {
+    let alg = state.algs[0].Alg;
+
+    state.preAUF = generateRandAUF();
+    alg = applyPre(alg, state.preAUF);
+
+    state.postAUF = generateRandAUF();
+    alg = applyPost(alg, state.postAUF);
+
+    scenes[0].cube.solve();
+    scenes[0].cube.execAlg(state.preRotation);
+
+    state.algSet.inactive.forEach(stickerIdx => {
+        setColor(scenes[0].cube.stickers[stickerIdx], GRAY);
+    });
+
+    scenes[0].cube.execAlgReverse(alg);
+}
+
+function retry() {
+    state.showSolution = false;
+    loadCurrAlg();
+    renderTrainPage();
+}
+
+function nextAlg(promote: boolean) {
+    if (promote) {
+        promoteAlg(state.algs);
+    } else {
+        demoteAlg(state.algs);
+    }
+    writeTrainingAlgs(state.user.uid, state.algSet.name, state.algs);
+    state.showSolution = false;
+    loadCurrAlg();
+    renderTrainPage();
+}
+
+const sceneDiv = createElement("div", {
+    id: "scene",
+    className: "glDiv mt-4",
+});
+
+const showSolutionComponent = new Component<boolean>(
+    (prev, next) => prev !== next,
+    (showSolution) => showSolution
+        ? createElement("button", {
+            className: "btn-secondary mt-4",
+            onclick: () => {
+                state.showSolution = false;
+                renderTrainPage();
+            },
+            innerHTML: applyPre(state.algs[0].Alg, state.preAUF),
+        })
+        : createElement("button", {
+            className: "btn-primary mt-4",
+            title: "Press space to show solution",
+            onclick: () => {
+                state.showSolution = true;
+                renderTrainPage();
+            },
+            innerHTML: "Show solution",
+        }),
+);
+
+const retryAndSadAndHappy = createElement("div", {
+    className: "row mt-4 gap-6",
+    children: [
+        createElement("div", {
+            className: "bg-neutral-700 hover:bg-neutral-800 hover:cursor-pointer",
+            style: "width: 48px; height: 48px; padding: 4px; box-shadow: 0 0 4px black; border-radius: 50%;",
+            title: "Press backspace to retry the algorithm",
+            onclick: () => retry(),
+            innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50">
+                <path d="M 42,32 A 20,20,0,1,1,42,18"/>
+                <path fill="white" fill-opacity="1" d="M 44,22 L 34,17 L 45,12  Z"/>
+            </svg>`,
+        }),
+        createElement("div", {
+            className: "bg-red-500 hover:bg-red-700 hover:cursor-pointer",
+            style: "max-width: 48px; max-height: 48px; border: none; box-shadow: 0 0 4px black; border-radius: 50%",
+            onclick: () => nextAlg(false),
+            innerHTML: `<svg width="100%" height="100%" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+                <circle cx="25" cy="25" r="22" />
+                <circle cx="18" cy="20" r="3" />
+                <circle cx="32" cy="20" r="3" />
+                <path d="M 15,35 Q 25,28 35,35"/>
+            </svg>`,
+        }),
+        createElement("div", {
+            className: "bg-green-500 hover:bg-green-700 hover:cursor-pointer",
+            style: "max-width: 48px; max-height: 48px; border: none; box-shadow: 0 0 4px black; border-radius: 50%",
+            onclick: () => nextAlg(true),
+            innerHTML: `<svg width="100%" height="100%" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+                <circle cx="25" cy="25" r="22" />
+                <circle cx="18" cy="20" r="3" />
+                <circle cx="32" cy="20" r="3" />
+                <path d="M 15,33 Q 25,40 35,33"/>
+            </svg>`,
+        }),
+    ],
+});
+
 function renderTrainPage() {
+    let scene = scenes.length > 0 ? scenes[0] : null;
+
     querySelector("#iconContainer", { style: "display: flex;" });
 
-    document.querySelector("#root").innerHTML = `
-    <div class="row slideWrapper">
-        <div class="col w-full h-full">
-            <div id="scene" class="glDiv mt-4"></div>
-            <p id="solution-text"
-                title="Press space to show solution"
-                class="bg-neutral-700 bg-opacity-75"
-                style="margin-top: 1rem; color: white; font-size: 18px; padding: 8px; border-radius: 8px;">
-                Show solution
-            </p>
-            <div class="row" style="margin-top: 1rem;">
-                <select id="alg-set-select"></select>
-                <div style="width: 24px;"></div>
-                <button id="try-again" class="btn-primary" title="Press backspace to try again">Try Again</button>
-                <div style="width: 24px;"></div>
-                <button id="next" class="btn-primary" title="Press enter for next algorithm">Next</button>
-            </div>
-        </div>
-        <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
-    </div>
-    `;
+    querySelector("#root", {
+        innerHTML: "",
+        children: [
+            createElement("div", {
+                className: "row slideWrapper",
+                children: [
+                    createElement("div", {
+                        className: "col w-full h-full",
+                        children: [
+                            sceneDiv,
+                            showSolutionComponent.render(state.showSolution),
+                            retryAndSadAndHappy,
+                        ],
+                    }),
+                    createElement("div", {
+                        id: "rightDrawer",
+                        className: "slideLeft slideLeftClosed col",
+                    }),
+                ],
+            }),
+        ],
+    });
 
-    let scene = newScene("#scene");
+    if (scene) return;
+
+    scene = newScene("#scene");
     scenes.push(scene);
     scene.cube.solve();
     scene.dragEnabled = true;
@@ -213,170 +327,31 @@ function renderTrainPage() {
 
     document.addEventListener('keydown', (event) => {
         if (event.key === " ") {
-            // Prevent space from scrolling down
+            // Prevent space from causing the page to scroll down
             event.preventDefault();
 
             state.showSolution = true;
-            renderSolutionText();
+            renderTrainPage();
         } else if (event.key == "Backspace") {
             retry();
-        } else if (event.key == "Enter") {
-            nextAlg();
-        } else if (scene.cube.matchKeyToTurn(event)) {
-            if (solved(scene.cube.stickers, state.algSet)) {
-                state.solved = true;
-                renderSolutionText();
-            }
-        }
-    });
-
-    const algSetSelect = document.querySelector("#alg-set-select");
-    algSetSelect.addEventListener("change", (event) => {
-        const setName = (event.target as HTMLInputElement).value;
-        const algSet = findAlgSet(setName);
-        renderAlgSet(algSet);
-    });
-    algData.forEach(algSet => {
-        const option = document.createElement("option");
-        option.textContent = algSet.name;
-        option.value = algSet.name;
-        algSetSelect.appendChild(option);
-    });
-
-
-    // Iterate 'algData' and find the desired set. 
-    function findAlgSet(set: string) {
-        return algData.find(algSet => algSet.name === set);
-    }
-
-    function generateRandAUF() {
-        const options = ["", "U", "U2", "U'"];
-        return options[Math.floor(Math.random() * 4)];
-    }
-
-    function loadCurrAlg() {
-        let alg = state.algs[0].Alg;
-
-        state.preAUF = generateRandAUF();
-        alg = applyPre(alg, state.preAUF);
-
-        state.postAUF = generateRandAUF();
-        alg = applyPost(alg, state.postAUF);
-        
-        scene.cube.solve();
-        scene.cube.execAlg(state.preRotation);
-
-        state.algSet.inactive.forEach(stickerIdx => {
-            setColor(scene.cube.stickers[stickerIdx], GRAY);
-        });
-
-        scene.cube.execAlgReverse(alg);
-    }
-
-    function nextAlg() {
-        if (state.showSolution || state.retried || !state.solved) {
-            demoteAlg(state.algs);
-        } else {
-            promoteAlg(state.algs);
-        }
-        writeTrainingAlgs(state.user.uid, state.algSet.name, state.algs);
-        state.showSolution = false;
-        state.retried = false;
-        state.solved = false;
-        renderSolutionText();
-        loadCurrAlg();
-    }
-
-    const solutionText: HTMLElement = document.querySelector("#solution-text");
-    solutionText.addEventListener("click", () => {
-        state.showSolution = true;
-        renderSolutionText();
-    });
-    function renderSolutionText() {
-        if (state.solved) {
-            solutionText.textContent = "Solved!";
-            solutionText.className = "bg-gray-300";
-
-            solutionText.style.transform = "scale(1.2)";
-            solutionText.style.transition = "all 0.2s ease-in-out";
-            setTimeout(() => {
-                solutionText.className = "bg-neutral-700";
-                solutionText.style.transform = "scale(1)";
-                solutionText.style.transition = "all 0.2s ease-out";
-            }, 200);
-
+        } if (scene.cube.matchKeyToTurn(event)) {
             return;
         }
-        if (state.showSolution) {
-            let alg = state.algs[0].Alg;
+    });
 
-            alg = applyPre(alg, state.preAUF);
-    
-            solutionText.textContent = alg;
-            solutionText.className = "bg-neutral-700";
-            return;
-        }
-        solutionText.textContent = "Show solution";
-        solutionText.className = "bg-neutral-700 hover:cursor-pointer hover:bg-neutral-800";
-    }
-
-    function retry() {
-        state.retried = true;
-        loadCurrAlg();
-
-        state.showSolution = false;
-        renderSolutionText();
-    }
-
-    function renderAlgSet(algSet: AlgSet) {
-        state.algSet = algSet;
-
-        if (algSet.cube == "2x2") {
-            scenes[0].cube.setNumOfLayers(2);
-            scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
-            scene.cube.solve();
-        } else if (algSet.cube == "3x3") {
-            scenes[0].cube.setNumOfLayers(3);
-            scenes[0].buffers = createBuffers(gl, scenes[0].cube, scenes[0].perspectiveMatrix);
-            scene.cube.solve();
-        }
-
-        getTrainingAlgs(state.user.uid, algSet.name)
-            .then(data => {
-                // Remove elements from storedAlgs that are in stored algs but not in algs.
-                // Add elements to stored algs that are in algs but not in stored algs.
-                let filtered = data.TrainingAlgsRecord.TrainingAlgs.filter(storedAlg => {
-                    return algSet.algs.find(alg => storedAlg.Alg === alg);
-                });
-                algSet.algs.forEach(alg => {
-                    const found = filtered.find(storedAlg => storedAlg.Alg === alg);
-                    if (!found) {
-                        filtered.push({ Score: 0, Alg: alg });
-                    }
-                });
-                state.algs = filtered;
-        
-                // When rendering an alg set, load the first alg automatically.
-                loadCurrAlg();
-            });
-    }
-
-    state.showSolution = false;
-    renderSolutionText();
-
+    const storedAlgSet = getAlgSet();
+    state.algSet = findAlgSet(storedAlgSet) ?? algData[0];
     state.preRotation = getOrientation();
-    renderAlgSet(algData[0]);
+    changeAlgSet();
 
     window.addEventListener("resize", () => {
-        renderDrawer();
+        renderDrawer(scene);
     });
 
     document.addEventListener("click", (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         if (target.id === "closeDrawer") {
             slide.close(document.querySelector("#rightDrawer"));
-        } else if (target.id === "next") {
-            nextAlg();
         } else if (target.id === "icon0") {
             const [modal, modalBg] = renderModal();
             setOptions(modal, {
@@ -391,10 +366,9 @@ function renderTrainPage() {
                         onclick: () => {
                             signOut();
                             modalBg.remove();
-                            
-                            state.page = "landing";
+
                             state.user = null;
-                            chooseRender();
+                            renderLandingPage();
                         },
                     }),
                 ],
@@ -402,9 +376,7 @@ function renderTrainPage() {
             document.body.appendChild(modalBg);
         } else if (target.id === "icon1") {
             state.settingsOpen = true;
-            renderDrawer();
-        } else if (target.id === "try-again") {
-            retry();
+            renderDrawer(scene);
         }
     });
 
@@ -444,10 +416,6 @@ function renderLandingPage() {
                         innerHTML: "1. Memorize faster",
                         className: "text-white mt-4",
                     }),
-                    // createElement("p", {
-                    //     innerHTML: "This algorithm trainer uses spaced repetition to help you learn algorithms faster. Here is how it works:",
-                    //     className: "text-white mt-4",
-                    // }),
                     createElement("ul", {
                         children: [
                             createElement("li", {
@@ -489,7 +457,6 @@ function renderLandingPage() {
                             innerHTML: "Get Started",
                             className: "btn-primary",
                             onclick: () => {
-                                state.page = "train";
                                 renderTrainPage();
                             },
                         })
@@ -532,19 +499,12 @@ function renderLandingPage() {
     });
 }
 
-function chooseRender() {
-    if (state.page === "landing") {
-        renderLandingPage();
-    } else if (state.page === "train") {
-        renderTrainPage();
-    }
-}
 
 function main() {
     addListenersForLeftModal();
 
     state.user = initialAuthCheck();
-    chooseRender();
+    renderLandingPage();
 }
 
 main();
