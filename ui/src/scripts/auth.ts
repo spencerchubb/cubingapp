@@ -92,13 +92,11 @@ function successfulSignIn(userCredential: UserCredential, callback: AuthCallback
     user.email = userCredential.user.email;
     fetch(`${url}/user`, {
         method: "POST",
-        body: JSON.stringify({ email: user.email }),
+        body: JSON.stringify({ Email: user.email }),
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             user.uid = data.Uid;
-            console.log(user)
             setUser(user.toJsonString());
             callback(user);
         });
