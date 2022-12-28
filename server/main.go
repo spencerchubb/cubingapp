@@ -221,11 +221,12 @@ func user(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sql := "select * from users where email = $1;"
-	row := queryRow(sql, req.Email)
-	if row != nil {
-		var uid int
-		var email string
-		err := scan(row, &uid, &email)
+	var uid int
+	var email string
+	err = queryRow(sql, req.Email).Scan(&uid, &email)
+	if err == pgx.ErrNoRows {
+		sql = "insert into users (email) values ($1) returning uid;"
+		err = queryRow(sql, req.Email).Scan(&uid)
 		if err != nil {
 			writeJson(w, UserResponse{false, 0})
 			return
@@ -233,17 +234,8 @@ func user(w http.ResponseWriter, r *http.Request) {
 		writeJson(w, UserResponse{true, uid})
 		return
 	}
-
-	sql = "insert into users (email) values ($1) returning uid;"
-	row = queryRow(sql, req.Email)
-	if row == nil {
-		writeJson(w, UserResponse{false, 0})
-		return
-	}
-
-	var uid int
-	err = scan(row, &uid)
 	if err != nil {
+		fmt.Println("Scan failed:", err)
 		writeJson(w, UserResponse{false, 0})
 		return
 	}
