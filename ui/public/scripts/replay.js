@@ -1,4 +1,1811 @@
-(()=>{var vi=Object.create;var Tt=Object.defineProperty,Ii=Object.defineProperties,bi=Object.getOwnPropertyDescriptor,Ei=Object.getOwnPropertyDescriptors,Ti=Object.getOwnPropertyNames,En=Object.getOwnPropertySymbols,wi=Object.getPrototypeOf,wn=Object.prototype.hasOwnProperty,Si=Object.prototype.propertyIsEnumerable;var Tn=(n,e,t)=>e in n?Tt(n,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):n[e]=t,Sn=(n,e)=>{for(var t in e||(e={}))wn.call(e,t)&&Tn(n,t,e[t]);if(En)for(var t of En(e))Si.call(e,t)&&Tn(n,t,e[t]);return n},An=(n,e)=>Ii(n,Ei(e));var Ai=(n,e)=>()=>(e||n((e={exports:{}}).exports,e),e.exports);var ki=(n,e,t,r)=>{if(e&&typeof e=="object"||typeof e=="function")for(let i of Ti(e))!wn.call(n,i)&&i!==t&&Tt(n,i,{get:()=>e[i],enumerable:!(r=bi(e,i))||r.enumerable});return n};var Ri=(n,e,t)=>(t=n!=null?vi(wi(n)):{},ki(e||!n||!n.__esModule?Tt(t,"default",{value:n,enumerable:!0}):t,n));var Fr=Ai((Tc,ut)=>{var _r,yr,vr,Ir,br,Er,Tr,wr,Sr,ct,tn,Ar,kr,Rr,Ue,Or,Dr,Nr,Cr,Pr,Lr,xr,Mr,Ur,lt;(function(n){var e=typeof global=="object"?global:typeof self=="object"?self:typeof this=="object"?this:{};typeof define=="function"&&define.amd?define("tslib",["exports"],function(r){n(t(e,t(r)))}):typeof ut=="object"&&typeof ut.exports=="object"?n(t(e,t(ut.exports))):n(t(e));function t(r,i){return r!==e&&(typeof Object.create=="function"?Object.defineProperty(r,"__esModule",{value:!0}):r.__esModule=!0),function(s,o){return r[s]=i?i(s,o):o}}})(function(n){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(r,i){r.__proto__=i}||function(r,i){for(var s in i)Object.prototype.hasOwnProperty.call(i,s)&&(r[s]=i[s])};_r=function(r,i){if(typeof i!="function"&&i!==null)throw new TypeError("Class extends value "+String(i)+" is not a constructor or null");e(r,i);function s(){this.constructor=r}r.prototype=i===null?Object.create(i):(s.prototype=i.prototype,new s)},yr=Object.assign||function(r){for(var i,s=1,o=arguments.length;s<o;s++){i=arguments[s];for(var a in i)Object.prototype.hasOwnProperty.call(i,a)&&(r[a]=i[a])}return r},vr=function(r,i){var s={};for(var o in r)Object.prototype.hasOwnProperty.call(r,o)&&i.indexOf(o)<0&&(s[o]=r[o]);if(r!=null&&typeof Object.getOwnPropertySymbols=="function")for(var a=0,o=Object.getOwnPropertySymbols(r);a<o.length;a++)i.indexOf(o[a])<0&&Object.prototype.propertyIsEnumerable.call(r,o[a])&&(s[o[a]]=r[o[a]]);return s},Ir=function(r,i,s,o){var a=arguments.length,c=a<3?i:o===null?o=Object.getOwnPropertyDescriptor(i,s):o,l;if(typeof Reflect=="object"&&typeof Reflect.decorate=="function")c=Reflect.decorate(r,i,s,o);else for(var u=r.length-1;u>=0;u--)(l=r[u])&&(c=(a<3?l(c):a>3?l(i,s,c):l(i,s))||c);return a>3&&c&&Object.defineProperty(i,s,c),c},br=function(r,i){return function(s,o){i(s,o,r)}},Er=function(r,i){if(typeof Reflect=="object"&&typeof Reflect.metadata=="function")return Reflect.metadata(r,i)},Tr=function(r,i,s,o){function a(c){return c instanceof s?c:new s(function(l){l(c)})}return new(s||(s=Promise))(function(c,l){function u(p){try{d(o.next(p))}catch(m){l(m)}}function h(p){try{d(o.throw(p))}catch(m){l(m)}}function d(p){p.done?c(p.value):a(p.value).then(u,h)}d((o=o.apply(r,i||[])).next())})},wr=function(r,i){var s={label:0,sent:function(){if(c[0]&1)throw c[1];return c[1]},trys:[],ops:[]},o,a,c,l;return l={next:u(0),throw:u(1),return:u(2)},typeof Symbol=="function"&&(l[Symbol.iterator]=function(){return this}),l;function u(d){return function(p){return h([d,p])}}function h(d){if(o)throw new TypeError("Generator is already executing.");for(;s;)try{if(o=1,a&&(c=d[0]&2?a.return:d[0]?a.throw||((c=a.return)&&c.call(a),0):a.next)&&!(c=c.call(a,d[1])).done)return c;switch(a=0,c&&(d=[d[0]&2,c.value]),d[0]){case 0:case 1:c=d;break;case 4:return s.label++,{value:d[1],done:!1};case 5:s.label++,a=d[1],d=[0];continue;case 7:d=s.ops.pop(),s.trys.pop();continue;default:if(c=s.trys,!(c=c.length>0&&c[c.length-1])&&(d[0]===6||d[0]===2)){s=0;continue}if(d[0]===3&&(!c||d[1]>c[0]&&d[1]<c[3])){s.label=d[1];break}if(d[0]===6&&s.label<c[1]){s.label=c[1],c=d;break}if(c&&s.label<c[2]){s.label=c[2],s.ops.push(d);break}c[2]&&s.ops.pop(),s.trys.pop();continue}d=i.call(r,s)}catch(p){d=[6,p],a=0}finally{o=c=0}if(d[0]&5)throw d[1];return{value:d[0]?d[1]:void 0,done:!0}}},Sr=function(r,i){for(var s in r)s!=="default"&&!Object.prototype.hasOwnProperty.call(i,s)&&lt(i,r,s)},lt=Object.create?function(r,i,s,o){o===void 0&&(o=s);var a=Object.getOwnPropertyDescriptor(i,s);(!a||("get"in a?!i.__esModule:a.writable||a.configurable))&&(a={enumerable:!0,get:function(){return i[s]}}),Object.defineProperty(r,o,a)}:function(r,i,s,o){o===void 0&&(o=s),r[o]=i[s]},ct=function(r){var i=typeof Symbol=="function"&&Symbol.iterator,s=i&&r[i],o=0;if(s)return s.call(r);if(r&&typeof r.length=="number")return{next:function(){return r&&o>=r.length&&(r=void 0),{value:r&&r[o++],done:!r}}};throw new TypeError(i?"Object is not iterable.":"Symbol.iterator is not defined.")},tn=function(r,i){var s=typeof Symbol=="function"&&r[Symbol.iterator];if(!s)return r;var o=s.call(r),a,c=[],l;try{for(;(i===void 0||i-- >0)&&!(a=o.next()).done;)c.push(a.value)}catch(u){l={error:u}}finally{try{a&&!a.done&&(s=o.return)&&s.call(o)}finally{if(l)throw l.error}}return c},Ar=function(){for(var r=[],i=0;i<arguments.length;i++)r=r.concat(tn(arguments[i]));return r},kr=function(){for(var r=0,i=0,s=arguments.length;i<s;i++)r+=arguments[i].length;for(var o=Array(r),a=0,i=0;i<s;i++)for(var c=arguments[i],l=0,u=c.length;l<u;l++,a++)o[a]=c[l];return o},Rr=function(r,i,s){if(s||arguments.length===2)for(var o=0,a=i.length,c;o<a;o++)(c||!(o in i))&&(c||(c=Array.prototype.slice.call(i,0,o)),c[o]=i[o]);return r.concat(c||Array.prototype.slice.call(i))},Ue=function(r){return this instanceof Ue?(this.v=r,this):new Ue(r)},Or=function(r,i,s){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var o=s.apply(r,i||[]),a,c=[];return a={},l("next"),l("throw"),l("return"),a[Symbol.asyncIterator]=function(){return this},a;function l(f){o[f]&&(a[f]=function(y){return new Promise(function(v,S){c.push([f,y,v,S])>1||u(f,y)})})}function u(f,y){try{h(o[f](y))}catch(v){m(c[0][3],v)}}function h(f){f.value instanceof Ue?Promise.resolve(f.value.v).then(d,p):m(c[0][2],f)}function d(f){u("next",f)}function p(f){u("throw",f)}function m(f,y){f(y),c.shift(),c.length&&u(c[0][0],c[0][1])}},Dr=function(r){var i,s;return i={},o("next"),o("throw",function(a){throw a}),o("return"),i[Symbol.iterator]=function(){return this},i;function o(a,c){i[a]=r[a]?function(l){return(s=!s)?{value:Ue(r[a](l)),done:a==="return"}:c?c(l):l}:c}},Nr=function(r){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var i=r[Symbol.asyncIterator],s;return i?i.call(r):(r=typeof ct=="function"?ct(r):r[Symbol.iterator](),s={},o("next"),o("throw"),o("return"),s[Symbol.asyncIterator]=function(){return this},s);function o(c){s[c]=r[c]&&function(l){return new Promise(function(u,h){l=r[c](l),a(u,h,l.done,l.value)})}}function a(c,l,u,h){Promise.resolve(h).then(function(d){c({value:d,done:u})},l)}},Cr=function(r,i){return Object.defineProperty?Object.defineProperty(r,"raw",{value:i}):r.raw=i,r};var t=Object.create?function(r,i){Object.defineProperty(r,"default",{enumerable:!0,value:i})}:function(r,i){r.default=i};Pr=function(r){if(r&&r.__esModule)return r;var i={};if(r!=null)for(var s in r)s!=="default"&&Object.prototype.hasOwnProperty.call(r,s)&&lt(i,r,s);return t(i,r),i},Lr=function(r){return r&&r.__esModule?r:{default:r}},xr=function(r,i,s,o){if(s==="a"&&!o)throw new TypeError("Private accessor was defined without a getter");if(typeof i=="function"?r!==i||!o:!i.has(r))throw new TypeError("Cannot read private member from an object whose class did not declare it");return s==="m"?o:s==="a"?o.call(r):o?o.value:i.get(r)},Mr=function(r,i,s,o,a){if(o==="m")throw new TypeError("Private method is not writable");if(o==="a"&&!a)throw new TypeError("Private accessor was defined without a setter");if(typeof i=="function"?r!==i||!a:!i.has(r))throw new TypeError("Cannot write private member to an object whose class did not declare it");return o==="a"?a.call(r,s):a?a.value=s:i.set(r,s),s},Ur=function(r,i){if(i===null||typeof i!="object"&&typeof i!="function")throw new TypeError("Cannot use 'in' operator on non-object");return typeof r=="function"?i===r:r.has(i)},n("__extends",_r),n("__assign",yr),n("__rest",vr),n("__decorate",Ir),n("__param",br),n("__metadata",Er),n("__awaiter",Tr),n("__generator",wr),n("__exportStar",Sr),n("__createBinding",lt),n("__values",ct),n("__read",tn),n("__spread",Ar),n("__spreadArrays",kr),n("__spreadArray",Rr),n("__await",Ue),n("__asyncGenerator",Or),n("__asyncDelegator",Dr),n("__asyncValues",Nr),n("__makeTemplateObject",Cr),n("__importStar",Pr),n("__importDefault",Lr),n("__classPrivateFieldGet",xr),n("__classPrivateFieldSet",Mr),n("__classPrivateFieldIn",Ur)})});var Oi=[1,1,1,1];var Di=[1,1,0,1],Ni=[0,1,0,1],Ci=[0,0,1,1],Pi=[1,.5,0,1],Li=[1,0,0,1],Rn=[0,0,0,1],kn=[Oi,Ni,Di,Ci,Pi,Li];function wt(n){return(n<0||n>=kn.length)&&console.error("Invalid face: "+n),kn[n]}function St(n,e){return Math.floor(n/g(e.layers))}function Re(n){return Math.floor(Math.random()*n)}function On(n){let e=n.length;for(;e!=0;){let t=Re(e);e--;let r=n[t];n[t]=n[e],n[e]=r}return n}var re=0,ie=1,se=2,oe=3,ae=4,ce=5,Mi=[[re,oe,ae],[re,ce,oe],[re,ae,ie],[re,ie,ce],[se,ie,ae],[se,ce,ie],[se,ae,oe],[se,oe,ce]],Ui=[[re,oe],[re,ae],[re,ce],[re,ie],[ie,ae],[ie,ce],[se,ie],[se,ae],[se,ce],[se,oe],[oe,ae],[oe,ce]];function Cn(n){let e=Dn(12,2),t=Dn(8,3),r=At(8),i=At(12);for(;Nn(r)!==Nn(i);)r=At(8);let s=Array(54);for(let E=0;E<6;E++){let w=n.center(E);s[w]=E}let o=n.corners(0,0),a=n.corners(1,0),c=n.corners(2,0),l=n.corners(3,0),u=n.corners(4,0),h=n.corners(5,0),d=(E,w,P,L,V,D,H,ee,te)=>{let O=(W,ne)=>Mi[r[W]][(t[W]+ne)%3];s[E.topLeft]=O(w,D),s[E.topRight]=O(P,H),s[E.bottomLeft]=O(L,ee),s[E.bottomRight]=O(V,te)};d(o,0,1,2,3,0,0,0,0),d(a,2,3,4,5,2,1,1,2),d(c,4,5,6,7,0,0,0,0),d(l,6,7,0,1,2,1,1,2),d(u,0,2,6,4,2,1,1,2),d(h,3,1,5,7,2,1,1,2);let p=n.edges(0,0,0),m=n.edges(1,0,0),f=n.edges(2,0,0),y=n.edges(3,0,0),v=n.edges(4,0,0),S=n.edges(5,0,0),A=(E,w,P,L,V,D,H,ee,te)=>{let O=(W,ne)=>Ui[i[W]][(e[W]+ne)%2];s[E.top]=O(w,D),s[E.left]=O(P,H),s[E.right]=O(L,ee),s[E.bottom]=O(V,te)};return A(p,0,1,2,3,0,0,0,0),A(m,3,4,5,6,1,0,0,1),A(f,6,7,8,9,0,0,0,0),A(y,9,10,11,0,1,0,0,1),A(v,1,10,4,7,1,1,1,1),A(S,2,5,11,8,1,1,1,1),s}function Dn(n,e){let t=Array(n);for(let r=0;r<n;r++)t[r]=Re(e);for(;!Fi(t,e);){let r=Re(n);t[r]=Re(e)}return t}function Fi(n,e){let t=0;for(let r=0;r<n.length;r++)t+=n[r];return t%e===0}function At(n){let e=Array(n);for(let t=0;t<n;t++)e[t]=t;return On(e),e}function Nn(n){let e=[...n],t=!1;for(;;)if(e[0]===0){let r=e.findIndex((i,s)=>i!==s);if(r===-1)return t;e[0]=e[r],e[r]=0,t=!t}else{let r=e[0];e[0]=e[r],e[r]=r,t=!t}}var Bi=document.querySelector("canvas"),ye=Bi.getContext("webgl");function kt(n,e){let t=[e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3],e[0],e[1],e[2],e[3]];ye.bindBuffer(ye.ARRAY_BUFFER,n.buffer),ye.bufferData(ye.ARRAY_BUFFER,new Float32Array(t),ye.STATIC_DRAW)}function g(n){return n*n}function T(n){return Math.floor(n/2)}function ve(n){return n%2==0}function k(n){return n*n*6}var et=class{constructor(){this.animationQueue=[]}setColors(e){for(let t=0;t<k(this.layers);t++)kt(this.stickers[t],e[t])}solve(){let e=Array(k(this.layers));for(let t=0;t<k(this.layers);t++){let r=St(t,this);this.stickers[t].face=r,e[t]=wt(r)}this.setColors(e)}scramble(){if(this.layers===3){this.scramble3x3();return}this.naiveScramble()}scramble3x3(){let e=Cn(this);this.setCubeState(e)}naiveScramble(){let e=g(this.layers)*10;for(let t=0;t<e;t++){let r=Math.floor(Math.random()*3),i=Math.floor(Math.random()*this.layers),s=Math.floor(Math.random()*1)==0;this._matchTurn(r,i,s)}}setNumOfLayers(e){this.layers=e,this.stickers=Array(k(e)),this.underStickers=Array(k(e));for(let t=0;t<k(e);t++){let r=St(t,this);this.stickers[t]={face:r,buffer:ye.createBuffer()},this.underStickers[t]={face:r,buffer:ye.createBuffer()},kt(this.underStickers[t],Rn)}this.affectedStickers=Array(k(e)).fill(!1)}getCubeState(){return this.stickers.map(e=>e.face)}setCubeState(e){for(let t=0;t<k(this.layers);t++){let r=wt(e[t]);this.stickers[t].face=e[t],kt(this.stickers[t],r)}}resetAffectedStickers(){let e=Array(k(this.layers));this.affectedStickers=e.fill(this.layers===1)}pushAnimation(e,t,r){let i=t?-1:1,s=[0,0,0];s[e]=i,this.animationQueue.push({axis:s,stickers:r,stickersToAnimate:this.affectedStickers})}turn(e,t,r){this.resetAffectedStickers(),this.pushAnimation(e,r,[...this.stickers]),this._matchTurn(e,t,r)}sliceTurn(e,t){let r=Array(k(this.layers));this.affectedStickers=r.fill(!1),this.pushAnimation(e,t,[...this.stickers]);for(let i=1;i<this.layers-1;i++)this._matchTurn(e,i,t)}wideTurn(e,t,r){this.resetAffectedStickers(),this.pushAnimation(e,r,[...this.stickers]),this._matchTurn(e,t,r);for(let i=1;i<this.layers-1;i++)this._matchTurn(e,i,r)}cubeRotate(e,t){this.resetAffectedStickers(),this.pushAnimation(e,t,[...this.stickers]);for(let r=0;r<this.layers;r++)this._matchTurn(e,r,t)}_matchTurn(e,t,r){e==0?(this._turnXAxis(t,r),t==0?this._turnOuter(5,r):t==this.layers-1&&this._turnOuter(4,!r)):e==1?(this._turnYAxis(t,r),t==0?this._turnOuter(0,r):t==this.layers-1&&this._turnOuter(2,!r)):e==2?(this._turnZAxis(t,r),t==0?this._turnOuter(1,r):t==this.layers-1&&this._turnOuter(3,!r)):console.error(`Axis ${e} not recognized`)}_turnXAxis(e,t){for(let r=1;r<=this.layers;r++)this._cycle(t,0*g(this.layers)+g(this.layers)-r-e*this.layers,3*g(this.layers)+g(this.layers)-r-e*this.layers,2*g(this.layers)+g(this.layers)-r-e*this.layers,1*g(this.layers)+g(this.layers)-r-e*this.layers)}_turnYAxis(e,t){for(let r=0;r<this.layers;r++)this._cycle(t,1*g(this.layers)+r*this.layers+e,4*g(this.layers)+r*this.layers+e,3*g(this.layers)+(this.layers-r-1)*this.layers+(this.layers-1)-e,5*g(this.layers)+r*this.layers+e)}_turnZAxis(e,t){for(let r=0;r<this.layers;r++)this._cycle(t,0*g(this.layers)+(r+1)*this.layers-1-e,5*g(this.layers)+r+this.layers*e,2*g(this.layers)+(this.layers-r-1)*this.layers+e,4*g(this.layers)+g(this.layers)-(r+1)-e*this.layers)}_turnOuter(e,t){if(this.layers%2!=0){let r=this.center(e);this.affectedStickers[r]=!0}for(let r=0;r<Math.floor(this.layers/2);r++){let{topLeft:i,topRight:s,bottomLeft:o,bottomRight:a}=this.corners(e,r);this._cycle(t,i,s,a,o);let c=this.layers-2*(r+1);for(let l=0;l<c;l++){let{top:u,left:h,bottom:d,right:p}=this.edges(e,r,l);this._cycle(t,u,p,d,h)}}}_cycle(e,t,r,i,s){this.affectedStickers[t]=!0,this.affectedStickers[r]=!0,this.affectedStickers[i]=!0,this.affectedStickers[s]=!0,e?this._cycleHelper(t,r,i,s):this._cycleHelper(s,i,r,t)}_cycleHelper(e,t,r,i){let s=this.stickers[i];this.stickers[i]=this.stickers[r],this.stickers[r]=this.stickers[t],this.stickers[t]=this.stickers[e],this.stickers[e]=s}matchKeyToTurn(e){if(this.disableTurn||e.ctrlKey)return;switch(e.code){case"KeyN":return this.cubeRotate(0,!0),{notation:"x",rotate:!0};case"KeyB":return this.cubeRotate(0,!1),{notation:"x'",rotate:!0};case"Semicolon":return this.cubeRotate(1,!0),{notation:"y",rotate:!0};case"KeyA":return this.cubeRotate(1,!1),{notation:"y'",rotate:!0};case"KeyP":return this.cubeRotate(2,!0),{notation:"z",rotate:!0};case"KeyQ":return this.cubeRotate(2,!1),{notation:"z'",rotate:!0};case"KeyJ":return this.turn(1,0,!0),{notation:"U",turn:!0};case"KeyF":return this.turn(1,0,!1),{notation:"U'",turn:!0};case"KeyS":return this.turn(1,this.layers-1,!1),{notation:"D",turn:!0};case"KeyL":return this.turn(1,this.layers-1,!0),{notation:"D'",turn:!0};case"KeyH":return this.turn(2,0,!0),{notation:"F",turn:!0};case"KeyG":return this.turn(2,0,!1),{notation:"F'",turn:!0};case"KeyW":return this.turn(2,this.layers-1,!1),{notation:"B",turn:!0};case"KeyO":return this.turn(2,this.layers-1,!0),{notation:"B'",turn:!0};case"KeyD":return this.turn(0,this.layers-1,!1),{notation:"L",turn:!0};case"KeyE":return this.turn(0,this.layers-1,!0),{notation:"L'",turn:!0};case"KeyI":return this.turn(0,0,!0),{notation:"R",turn:!0};case"KeyK":return this.turn(0,0,!1),{notation:"R'",turn:!0};case"BracketLeft":return this.sliceTurn(0,!1),{notation:"M",turn:!0};case"Quote":return this.sliceTurn(0,!0),{notation:"M'",turn:!0};case"KeyC":return this.sliceTurn(1,!1),{notation:"E",turn:!0};case"Comma":return this.sliceTurn(1,!0),{notation:"E'",turn:!0};case"KeyY":return this.sliceTurn(2,!0),{notation:"S",turn:!0};case"KeyT":return this.sliceTurn(2,!1),{notation:"S'",turn:!0};case"KeyU":return this.wideTurn(0,0,!0),{notation:"r",turn:!0};case"KeyM":return this.wideTurn(0,0,!1),{notation:"r'",turn:!0};case"KeyV":return this.wideTurn(0,this.layers-1,!1),{notation:"l",turn:!0};case"KeyR":return this.wideTurn(0,this.layers-1,!0),{notation:"l'",turn:!0}}}stepAlgorithm(e,t){switch(e){case"x":this.cubeRotate(0,t);break;case"x'":this.cubeRotate(0,!t);break;case"x2":case"x2'":this.cubeRotate(0,t),this.cubeRotate(0,t);break;case"y":this.cubeRotate(1,t);break;case"y'":this.cubeRotate(1,!t);break;case"y2":case"y2'":this.cubeRotate(1,t),this.cubeRotate(1,t);break;case"z":this.cubeRotate(2,t);break;case"z'":this.cubeRotate(2,!t);break;case"z2":case"z2'":this.cubeRotate(2,t),this.cubeRotate(2,t);break;case"U":this.turn(1,0,t);break;case"U'":this.turn(1,0,!t);break;case"U2":case"U2'":this.turn(1,0,t),this.turn(1,0,t);break;case"u":this.wideTurn(1,0,t);break;case"u'":this.wideTurn(1,0,!t);break;case"u2":case"u2'":this.wideTurn(1,0,t),this.wideTurn(1,0,t);break;case"D":this.turn(1,this.layers-1,!t);break;case"D'":this.turn(1,this.layers-1,t);break;case"D2":case"D2'":this.turn(1,this.layers-1,t),this.turn(1,this.layers-1,t);break;case"d":this.wideTurn(1,this.layers-1,!t);break;case"d'":this.wideTurn(1,this.layers-1,t);break;case"d2":case"d2'":this.wideTurn(1,this.layers-1,t),this.wideTurn(1,this.layers-1,t);break;case"F":this.turn(2,0,t);break;case"F'":this.turn(2,0,!t);break;case"F2":case"F2'":this.turn(2,0,t),this.turn(2,0,t);break;case"f":this.wideTurn(2,0,t);break;case"f'":this.wideTurn(2,0,!t);break;case"f2":case"f2'":this.wideTurn(2,0,t),this.wideTurn(2,0,t);break;case"B":this.turn(2,this.layers-1,!t);break;case"B'":this.turn(2,this.layers-1,t);break;case"B2":case"B2'":this.turn(2,this.layers-1,t),this.turn(2,this.layers-1,t);break;case"b":this.wideTurn(2,this.layers-1,!t);break;case"b'":this.wideTurn(2,this.layers-1,t);break;case"b2":case"b2'":this.wideTurn(2,this.layers-1,t),this.wideTurn(2,this.layers-1,t);break;case"L":this.turn(0,this.layers-1,!t);break;case"L'":this.turn(0,this.layers-1,t);break;case"L2":case"L2'":this.turn(0,this.layers-1,t),this.turn(0,this.layers-1,t);break;case"l":this.wideTurn(0,this.layers-1,!t);break;case"l'":this.wideTurn(0,this.layers-1,t);break;case"l2":case"l2'":this.wideTurn(0,this.layers-1,t),this.wideTurn(0,this.layers-1,t);break;case"R":this.turn(0,0,t);break;case"R'":this.turn(0,0,!t);break;case"R2":case"R2'":this.turn(0,0,t),this.turn(0,0,t);break;case"r":this.wideTurn(0,0,t);break;case"r'":this.wideTurn(0,0,!t);break;case"r2":case"r2'":this.wideTurn(0,0,t),this.wideTurn(0,0,t);break;case"M":this.turn(0,1,!t);break;case"M'":this.turn(0,1,t);break;case"M2":case"M2'":this.sliceTurn(0,t),this.sliceTurn(0,t);break;case"E":this.sliceTurn(1,!t);break;case"E'":this.sliceTurn(1,t);break;case"E2":case"E2'":this.sliceTurn(1,t),this.sliceTurn(1,t);break;case"S":this.sliceTurn(2,t);break;case"S'":this.sliceTurn(2,!t);break;case"S2":case"S2'":this.sliceTurn(2,t);default:throw new Error("Invalid turn in algorithm: "+e)}}execAlg(e){if(!e)return;let t=e.split(" ");for(let r=0;r<t.length;r++)this.stepAlgorithm(t[r],!0);this.animationQueue=[]}execAlgReverse(e){if(!e)return;let t=e.split(" ");for(let r=t.length-1;r>=0;r--)this.stepAlgorithm(t[r],!1);this.animationQueue=[]}stickerIsOnFace(e,t){return t*g(this.layers)<=e&&e<(t+1)*g(this.layers)}center(e){return e*g(this.layers)+Math.floor(g(this.layers)/2)}corners(e,t){let r=e*g(this.layers);return{topLeft:r+(this.layers+1)*t,topRight:r+(this.layers-1)*(this.layers-t),bottomRight:r+(this.layers+1)*(this.layers-t-1),bottomLeft:r+(this.layers-1)*(t+1)}}edges(e,t,r){let i=this.corners(e,t),s=this.layers-2*(t+1);return{top:i.topLeft+this.layers*(r+1),left:i.topLeft+(s-r),right:i.topRight+r+1,bottom:i.bottomLeft+this.layers*(s-r)}}};function Pn(n,e,t){let r=Rt(e,1.01,.02),i=Rt(e,1,0),s=Rt(e,1.5,.02),o=Array(k(e.layers));for(let a=0;a<k(e.layers);a++){let c={positionBuffer:n.createBuffer(),noGapPositionBuffer:n.createBuffer(),hintPositionBuffer:n.createBuffer(),indexBuffer:n.createBuffer(),cart2d:[],positions:null},l=new Float32Array(12),u=new Float32Array(12),h=new Float32Array(12);for(let m=0;m<12;m++){let f=a*12+m;l[m]=r[f],u[m]=i[f],h[m]=s[f]}n.bindBuffer(n.ARRAY_BUFFER,c.positionBuffer),n.bufferData(n.ARRAY_BUFFER,l,n.STATIC_DRAW),c.positions=l,n.bindBuffer(n.ARRAY_BUFFER,c.noGapPositionBuffer),n.bufferData(n.ARRAY_BUFFER,u,n.STATIC_DRAW),n.bindBuffer(n.ARRAY_BUFFER,c.hintPositionBuffer),n.bufferData(n.ARRAY_BUFFER,h,n.STATIC_DRAW);let d=Array(16);tt(d,0,t,[u[0],u[1],u[2],1]),tt(d,4,t,[u[3],u[4],u[5],1]),tt(d,8,t,[u[6],u[7],u[8],1]),tt(d,12,t,[u[9],u[10],u[11],1]),c.cart2d=[d[0]/d[3],d[1]/d[3],d[4]/d[7],d[5]/d[7],d[8]/d[11],d[9]/d[11],d[12]/d[15],d[13]/d[15]];let p=[0,1,2,0,2,3];n.bindBuffer(n.ELEMENT_ARRAY_BUFFER,c.indexBuffer),n.bufferData(n.ELEMENT_ARRAY_BUFFER,new Uint16Array(p),n.STATIC_DRAW),o[a]=c}return o}function tt(n,e,t,r){let i=Array(4),s=r[0],o=r[1],a=r[2],c=r[3];n[e+0]=s*t[0]+o*t[4]+a*t[8]+c*t[12],n[e+1]=s*t[1]+o*t[5]+a*t[9]+c*t[13],n[e+2]=s*t[2]+o*t[6]+a*t[10]+c*t[14],n[e+3]=s*t[3]+o*t[7]+a*t[11]+c*t[15]}var Ln=12,Vi=4,Oe=3;function Rt(n,e,t){let r=g(n.layers)*Ln,i=Array(6*r);return Hi(i,0*r,n,1,e,t),Wi(i,1*r,n,0,e,t),ji(i,2*r,n,1,-e,t),zi(i,3*r,n,0,-e,t),qi(i,4*r,n,2,-e,t),Gi(i,5*r,n,2,e,t),i}function Hi(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=0;u<t.layers;u++)for(let h=0;h<t.layers;h++){let d=-1+1/t.layers+h*2/t.layers,p=-1+1/t.layers+u*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=-T(t.layers);c<=T(t.layers);c++)for(let l=-T(t.layers);l<=T(t.layers);l++)o[a]=[2*l/t.layers,2*c/t.layers,i],a++;N(n,e,t,o,r,s)}function Wi(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=0;u<t.layers;u++)for(let h=t.layers-1;h>=0;h--){let d=-1+1/t.layers+u*2/t.layers,p=-1+1/t.layers+h*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=-T(t.layers);c<=T(t.layers);c++)for(let l=T(t.layers);l>=-T(t.layers);l--)o[a]=[2*c/t.layers,2*l/t.layers,i],a++;N(n,e,t,o,r,s)}function ji(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=0;u<t.layers;u++)for(let h=t.layers-1;h>=0;h--){let d=-1+1/t.layers+h*2/t.layers,p=-1+1/t.layers+u*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=-T(t.layers);c<=T(t.layers);c++)for(let l=T(t.layers);l>=-T(t.layers);l--)o[a]=[2*l/t.layers,2*c/t.layers,i],a++;N(n,e,t,o,r,s)}function zi(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=0;u<t.layers;u++)for(let h=0;h<t.layers;h++){let d=-1+1/t.layers+u*2/t.layers,p=-1+1/t.layers+h*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=-T(t.layers);c<=T(t.layers);c++)for(let l=-T(t.layers);l<=T(t.layers);l++)o[a]=[2*c/t.layers,2*l/t.layers,i],a++;N(n,e,t,o,r,s)}function qi(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=0;u<t.layers;u++)for(let h=t.layers-1;h>=0;h--){let d=-1+1/t.layers+h*2/t.layers,p=-1+1/t.layers+u*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=-T(t.layers);c<=T(t.layers);c++)for(let l=T(t.layers);l>=-T(t.layers);l--)o[a]=[2*l/t.layers,2*c/t.layers,i],a++;N(n,e,t,o,r,s)}function Gi(n,e,t,r,i,s){if(ve(t.layers)){let c=Array(g(t.layers)),l=0;for(let u=t.layers-1;u>=0;u--)for(let h=t.layers-1;h>=0;h--){let d=-1+1/t.layers+h*2/t.layers,p=-1+1/t.layers+u*2/t.layers;c[l]=[d,p,i],l++}N(n,e,t,c,r,s);return}let o=Array(g(t.layers)),a=0;for(let c=T(t.layers);c>=-T(t.layers);c--)for(let l=T(t.layers);l>=-T(t.layers);l--)o[a]=[2*l/t.layers,2*c/t.layers,i],a++;N(n,e,t,o,r,s)}function N(n,e,t,r,i,s){for(let o=0;o<g(t.layers);o++){let a=r[o];$i(n,e+o*Ln,t,a[0],a[1],a[2],i,s)}}function $i(n,e,t,r,i,s,o,a){let c=1/t.layers-a,l=[[r-c,i-c,s],[r+c,i-c,s],[r+c,i+c,s],[r-c,i+c,s]];for(let u=0;u<Vi;u++){let h=l[u];n[e+u*Oe]=h[(o+0)%Oe],n[e+u*Oe+1]=h[(o+1)%Oe],n[e+u*Oe+2]=h[(o+2)%Oe]}}var nt=class{constructor(){this.position=0,this._velocity=200,this._acceleration=0,this.target=0}update(e){let t=-100*(this.position-this.target),r=-15*this._velocity;this._acceleration=t+r,this._velocity+=this._acceleration*e,this.position+=this._velocity*e}};function xn(n,e){return n/e*2-1}function Mn(n,e){return 1-n/e*2}function Ot(n,e,t,r){return n<t?(r-e)/(t-n):(e-r)/(n-t)}function De(n,e,t,r,i,s){return Math.abs(.5*(n*(r-s)+t*(s-e)+i*(e-r)))}function Ki(n,e){return n.layers-1-e%n.layers}function Dt(n,e){return n.layers-1-Math.floor(e/n.layers)}function Yi(n,e){return e%n.layers}function Nt(n,e){return n.layers-1-Math.floor((e-g(n.layers))/n.layers)}var rt=class{onPointerDown(e,t,r,i,s){this.numOfPointerMoves=0;let o=xn(e,r.clientWidth),a=Mn(t,r.clientHeight);this.xOnDown=o,this.yOnDown=a,[this.stickerOnDown,this.cart2dOnDown]=this._coordinatesToSticker(o,a,i,s);function c(f,y,v){return{x:s[f].cart2d[y],y:s[f].cart2d[v]}}if(this.stickerOnDown!==-1)return;let l=c(0,0,1),u=c(i.layers*(i.layers-1),6,7),h=c(i.layers-1,2,3),d=c(g(i.layers)-1,4,5),p=c(i.layers*(i.layers+1)-1,0,1),m=c(g(i.layers)*2-1,2,3);a>l.y&&o>l.x&&o<u.x?i.cubeRotate(0,!0):o<l.x&&a>h.y&&a<l.y?i.cubeRotate(2,!1):o>u.x&&a>d.y&&a<u.y?i.cubeRotate(2,!0):o<p.x&&a>p.y&&a<h.y?i.cubeRotate(1,!0):o>m.x&&a>m.y&&a<d.y?i.cubeRotate(1,!1):a<p.y&&o>p.x&&o<m.x&&i.cubeRotate(0,!1)}onPointerMove(e,t){this.numOfPointerMoves++,this.xOnMove=e,this.yOnMove=t}onPointerUp(e,t,r){if(this.numOfPointerMoves<2)return;let i,s;if(this.stickerOnDown!==-1&&(i=Ot(this.cart2dOnDown[0],this.cart2dOnDown[1],this.cart2dOnDown[4],this.cart2dOnDown[5]),s=Ot(this.cart2dOnDown[2],this.cart2dOnDown[3],this.cart2dOnDown[6],this.cart2dOnDown[7]),i<0)){let l=i;i=s,s=l}let o=xn(this.xOnMove,e.clientWidth),a=Mn(this.yOnMove,e.clientHeight),c=Ot(o,a,this.xOnDown,this.yOnDown);t.stickerIsOnFace(this.stickerOnDown,0)?o===this.xOnDown?t.turn(0,Dt(t,this.stickerOnDown),a>this.yOnDown):c>i?t.turn(0,Dt(t,this.stickerOnDown),o>this.xOnDown):c<s?t.turn(0,Dt(t,this.stickerOnDown),o<this.xOnDown):t.turn(2,Ki(t,this.stickerOnDown),o>this.xOnDown):t.stickerIsOnFace(this.stickerOnDown,1)&&(o===this.xOnDown?t.turn(0,Nt(t,this.stickerOnDown),a>this.yOnDown):c>i?t.turn(0,Nt(t,this.stickerOnDown),o>this.xOnDown):c<s?t.turn(0,Nt(t,this.stickerOnDown),o<this.xOnDown):t.turn(1,Yi(t,this.stickerOnDown),o<this.xOnDown))}_coordinatesToSticker(e,t,r,i){let s=o=>{if(!i[o].cart2d){console.error("cart2d is undefined");return}let a=i[o].cart2d,c=De(a[0],a[1],a[2],a[3],a[4],a[5])+De(a[0],a[1],a[4],a[5],a[6],a[7]),l=De(e,t,a[0],a[1],a[2],a[3])+De(e,t,a[2],a[3],a[4],a[5])+De(e,t,a[4],a[5],a[6],a[7])+De(e,t,a[6],a[7],a[0],a[1]),u=1e-5;if(Math.abs(c-l)<u)return[o,a]};for(let o=0;o<2*g(r.layers);o++){let a=s(o);if(a)return a}return[-1,void 0]}};function je(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}function Un(n,e,t,r,i){let s=1/Math.tan(e/2);if(n[0]=s/t,n[1]=0,n[2]=0,n[3]=0,n[4]=0,n[5]=s,n[6]=0,n[7]=0,n[8]=0,n[9]=0,n[11]=-1,n[12]=0,n[13]=0,n[15]=0,i!=null&&i!==1/0){let o=1/(r-i);n[10]=(i+r)*o,n[14]=2*i*r*o}else n[10]=-1,n[14]=-2*r;return n}function ze(n,e,t,r){let i=r[0],s=r[1],o=r[2],a=1/Math.hypot(i,s,o);i*=a,s*=a,o*=a;let c=Math.sin(t),l=Math.cos(t),u=1-l,h=e[0],d=e[1],p=e[2],m=e[3],f=e[4],y=e[5],v=e[6],S=e[7],A=e[8],E=e[9],w=e[10],P=e[11],L=i*i*u+l,V=s*i*u+o*c,D=o*i*u-s*c,H=i*s*u-o*c,ee=s*s*u+l,te=o*s*u+i*c,O=i*o*u+s*c,W=s*o*u-i*c,ne=o*o*u+l;return n[0]=h*L+f*V+A*D,n[1]=d*L+y*V+E*D,n[2]=p*L+v*V+w*D,n[3]=m*L+S*V+P*D,n[4]=h*H+f*ee+A*te,n[5]=d*H+y*ee+E*te,n[6]=p*H+v*ee+w*te,n[7]=m*H+S*ee+P*te,n[8]=h*O+f*W+A*ne,n[9]=d*O+y*W+E*ne,n[10]=p*O+v*W+w*ne,n[11]=m*O+S*W+P*ne,e!==n&&(n[12]=e[12],n[13]=e[13],n[14]=e[14],n[15]=e[15]),n}function Fn(n,e){let t=e[0],r=e[1],i=e[2];return n[12]+=n[0]*t+n[4]*r+n[7]*i,n[13]+=n[1]*t+n[5]*r+n[8]*i,n[14]+=n[2]*t+n[5]*r+n[9]*i,n[15]+=n[3]*t+n[6]*r+n[10]*i,n}function Ct(){let n;return e=>(n||(n=e()),n)}var x=document.querySelector("canvas"),I=x.getContext("webgl"),le=Zi(),j=[],qe={animateTurns:!0,hintStickers:!0,showBody:!0};var Bn=Date.now()*.001,Qi=3,Vn=!1;function Wn(){Vn||(Vn=!0,requestAnimationFrame(zn))}function jn(n){let e=document.querySelector(n),t=new et,r=new nt,i=es(e),s=new rt;t.setNumOfLayers(Qi);let o=Pn(I,t,i),a={div:e,cube:t,spring:r,buffers:o,perspectiveMatrix:i},c=(m,f)=>{!a.dragEnabled||s.onPointerDown(m,f,a.div,a.cube,a.buffers)},l=(m,f)=>{!a.dragEnabled||s.onPointerMove(m,f)},u=()=>{!a.dragEnabled||s.onPointerUp(a.div,a.cube,a.buffers)},h=m=>{let f=m.target.getBoundingClientRect(),y=m.touches[0].pageX-f.left,v=m.touches[0].pageY-f.top;return{x:y,y:v}},d=()=>{e.addEventListener("pointerdown",m=>c(m.offsetX,m.offsetY)),e.addEventListener("pointermove",m=>l(m.offsetX,m.offsetY)),e.addEventListener("pointerup",m=>u())},p=()=>{e.addEventListener("touchstart",m=>{let{x:f,y}=h(m);c(f,y)}),e.addEventListener("touchmove",m=>{let{x:f,y}=h(m);l(f,y)}),e.addEventListener("touchend",m=>{u()})};return window.PointerEvent?d():p(),a}function Zi(){let t=ts(I,`
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+
+  // ../node_modules/@firebase/auth/node_modules/tslib/tslib.js
+  var require_tslib = __commonJS({
+    "../node_modules/@firebase/auth/node_modules/tslib/tslib.js"(exports, module) {
+      var __extends2;
+      var __assign2;
+      var __rest2;
+      var __decorate2;
+      var __param2;
+      var __metadata2;
+      var __awaiter2;
+      var __generator2;
+      var __exportStar2;
+      var __values2;
+      var __read2;
+      var __spread2;
+      var __spreadArrays2;
+      var __spreadArray2;
+      var __await2;
+      var __asyncGenerator2;
+      var __asyncDelegator2;
+      var __asyncValues2;
+      var __makeTemplateObject2;
+      var __importStar2;
+      var __importDefault2;
+      var __classPrivateFieldGet2;
+      var __classPrivateFieldSet2;
+      var __classPrivateFieldIn2;
+      var __createBinding2;
+      (function(factory) {
+        var root = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
+        if (typeof define === "function" && define.amd) {
+          define("tslib", ["exports"], function(exports2) {
+            factory(createExporter(root, createExporter(exports2)));
+          });
+        } else if (typeof module === "object" && typeof module.exports === "object") {
+          factory(createExporter(root, createExporter(module.exports)));
+        } else {
+          factory(createExporter(root));
+        }
+        function createExporter(exports2, previous) {
+          if (exports2 !== root) {
+            if (typeof Object.create === "function") {
+              Object.defineProperty(exports2, "__esModule", { value: true });
+            } else {
+              exports2.__esModule = true;
+            }
+          }
+          return function(id, v) {
+            return exports2[id] = previous ? previous(id, v) : v;
+          };
+        }
+      })(function(exporter) {
+        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d, b) {
+          d.__proto__ = b;
+        } || function(d, b) {
+          for (var p in b)
+            if (Object.prototype.hasOwnProperty.call(b, p))
+              d[p] = b[p];
+        };
+        __extends2 = function(d, b) {
+          if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+          extendStatics(d, b);
+          function __() {
+            this.constructor = d;
+          }
+          d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+        __assign2 = Object.assign || function(t) {
+          for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s)
+              if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+          }
+          return t;
+        };
+        __rest2 = function(s, e) {
+          var t = {};
+          for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+              t[p] = s[p];
+          if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+              if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+            }
+          return t;
+        };
+        __decorate2 = function(decorators, target, key, desc) {
+          var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+          if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+            r = Reflect.decorate(decorators, target, key, desc);
+          else
+            for (var i = decorators.length - 1; i >= 0; i--)
+              if (d = decorators[i])
+                r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+          return c > 3 && r && Object.defineProperty(target, key, r), r;
+        };
+        __param2 = function(paramIndex, decorator) {
+          return function(target, key) {
+            decorator(target, key, paramIndex);
+          };
+        };
+        __metadata2 = function(metadataKey, metadataValue) {
+          if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+            return Reflect.metadata(metadataKey, metadataValue);
+        };
+        __awaiter2 = function(thisArg, _arguments, P, generator) {
+          function adopt(value) {
+            return value instanceof P ? value : new P(function(resolve) {
+              resolve(value);
+            });
+          }
+          return new (P || (P = Promise))(function(resolve, reject) {
+            function fulfilled(value) {
+              try {
+                step(generator.next(value));
+              } catch (e) {
+                reject(e);
+              }
+            }
+            function rejected(value) {
+              try {
+                step(generator["throw"](value));
+              } catch (e) {
+                reject(e);
+              }
+            }
+            function step(result) {
+              result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+            }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+          });
+        };
+        __generator2 = function(thisArg, body) {
+          var _ = { label: 0, sent: function() {
+            if (t[0] & 1)
+              throw t[1];
+            return t[1];
+          }, trys: [], ops: [] }, f2, y, t, g;
+          return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+            return this;
+          }), g;
+          function verb(n) {
+            return function(v) {
+              return step([n, v]);
+            };
+          }
+          function step(op) {
+            if (f2)
+              throw new TypeError("Generator is already executing.");
+            while (_)
+              try {
+                if (f2 = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+                  return t;
+                if (y = 0, t)
+                  op = [op[0] & 2, t.value];
+                switch (op[0]) {
+                  case 0:
+                  case 1:
+                    t = op;
+                    break;
+                  case 4:
+                    _.label++;
+                    return { value: op[1], done: false };
+                  case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [0];
+                    continue;
+                  case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                  default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                      _ = 0;
+                      continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                      _.label = op[1];
+                      break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                      _.label = t[1];
+                      t = op;
+                      break;
+                    }
+                    if (t && _.label < t[2]) {
+                      _.label = t[2];
+                      _.ops.push(op);
+                      break;
+                    }
+                    if (t[2])
+                      _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                }
+                op = body.call(thisArg, _);
+              } catch (e) {
+                op = [6, e];
+                y = 0;
+              } finally {
+                f2 = t = 0;
+              }
+            if (op[0] & 5)
+              throw op[1];
+            return { value: op[0] ? op[1] : void 0, done: true };
+          }
+        };
+        __exportStar2 = function(m, o) {
+          for (var p in m)
+            if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p))
+              __createBinding2(o, m, p);
+        };
+        __createBinding2 = Object.create ? function(o, m, k2, k22) {
+          if (k22 === void 0)
+            k22 = k2;
+          var desc = Object.getOwnPropertyDescriptor(m, k2);
+          if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+            desc = { enumerable: true, get: function() {
+              return m[k2];
+            } };
+          }
+          Object.defineProperty(o, k22, desc);
+        } : function(o, m, k2, k22) {
+          if (k22 === void 0)
+            k22 = k2;
+          o[k22] = m[k2];
+        };
+        __values2 = function(o) {
+          var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+          if (m)
+            return m.call(o);
+          if (o && typeof o.length === "number")
+            return {
+              next: function() {
+                if (o && i >= o.length)
+                  o = void 0;
+                return { value: o && o[i++], done: !o };
+              }
+            };
+          throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+        };
+        __read2 = function(o, n) {
+          var m = typeof Symbol === "function" && o[Symbol.iterator];
+          if (!m)
+            return o;
+          var i = m.call(o), r, ar = [], e;
+          try {
+            while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+              ar.push(r.value);
+          } catch (error) {
+            e = { error };
+          } finally {
+            try {
+              if (r && !r.done && (m = i["return"]))
+                m.call(i);
+            } finally {
+              if (e)
+                throw e.error;
+            }
+          }
+          return ar;
+        };
+        __spread2 = function() {
+          for (var ar = [], i = 0; i < arguments.length; i++)
+            ar = ar.concat(__read2(arguments[i]));
+          return ar;
+        };
+        __spreadArrays2 = function() {
+          for (var s = 0, i = 0, il = arguments.length; i < il; i++)
+            s += arguments[i].length;
+          for (var r = Array(s), k2 = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k2++)
+              r[k2] = a[j];
+          return r;
+        };
+        __spreadArray2 = function(to, from, pack) {
+          if (pack || arguments.length === 2)
+            for (var i = 0, l = from.length, ar; i < l; i++) {
+              if (ar || !(i in from)) {
+                if (!ar)
+                  ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+              }
+            }
+          return to.concat(ar || Array.prototype.slice.call(from));
+        };
+        __await2 = function(v) {
+          return this instanceof __await2 ? (this.v = v, this) : new __await2(v);
+        };
+        __asyncGenerator2 = function(thisArg, _arguments, generator) {
+          if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
+          var g = generator.apply(thisArg, _arguments || []), i, q = [];
+          return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+            return this;
+          }, i;
+          function verb(n) {
+            if (g[n])
+              i[n] = function(v) {
+                return new Promise(function(a, b) {
+                  q.push([n, v, a, b]) > 1 || resume(n, v);
+                });
+              };
+          }
+          function resume(n, v) {
+            try {
+              step(g[n](v));
+            } catch (e) {
+              settle(q[0][3], e);
+            }
+          }
+          function step(r) {
+            r.value instanceof __await2 ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
+          }
+          function fulfill(value) {
+            resume("next", value);
+          }
+          function reject(value) {
+            resume("throw", value);
+          }
+          function settle(f2, v) {
+            if (f2(v), q.shift(), q.length)
+              resume(q[0][0], q[0][1]);
+          }
+        };
+        __asyncDelegator2 = function(o) {
+          var i, p;
+          return i = {}, verb("next"), verb("throw", function(e) {
+            throw e;
+          }), verb("return"), i[Symbol.iterator] = function() {
+            return this;
+          }, i;
+          function verb(n, f2) {
+            i[n] = o[n] ? function(v) {
+              return (p = !p) ? { value: __await2(o[n](v)), done: n === "return" } : f2 ? f2(v) : v;
+            } : f2;
+          }
+        };
+        __asyncValues2 = function(o) {
+          if (!Symbol.asyncIterator)
+            throw new TypeError("Symbol.asyncIterator is not defined.");
+          var m = o[Symbol.asyncIterator], i;
+          return m ? m.call(o) : (o = typeof __values2 === "function" ? __values2(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+            return this;
+          }, i);
+          function verb(n) {
+            i[n] = o[n] && function(v) {
+              return new Promise(function(resolve, reject) {
+                v = o[n](v), settle(resolve, reject, v.done, v.value);
+              });
+            };
+          }
+          function settle(resolve, reject, d, v) {
+            Promise.resolve(v).then(function(v2) {
+              resolve({ value: v2, done: d });
+            }, reject);
+          }
+        };
+        __makeTemplateObject2 = function(cooked, raw) {
+          if (Object.defineProperty) {
+            Object.defineProperty(cooked, "raw", { value: raw });
+          } else {
+            cooked.raw = raw;
+          }
+          return cooked;
+        };
+        var __setModuleDefault = Object.create ? function(o, v) {
+          Object.defineProperty(o, "default", { enumerable: true, value: v });
+        } : function(o, v) {
+          o["default"] = v;
+        };
+        __importStar2 = function(mod) {
+          if (mod && mod.__esModule)
+            return mod;
+          var result = {};
+          if (mod != null) {
+            for (var k2 in mod)
+              if (k2 !== "default" && Object.prototype.hasOwnProperty.call(mod, k2))
+                __createBinding2(result, mod, k2);
+          }
+          __setModuleDefault(result, mod);
+          return result;
+        };
+        __importDefault2 = function(mod) {
+          return mod && mod.__esModule ? mod : { "default": mod };
+        };
+        __classPrivateFieldGet2 = function(receiver, state, kind, f2) {
+          if (kind === "a" && !f2)
+            throw new TypeError("Private accessor was defined without a getter");
+          if (typeof state === "function" ? receiver !== state || !f2 : !state.has(receiver))
+            throw new TypeError("Cannot read private member from an object whose class did not declare it");
+          return kind === "m" ? f2 : kind === "a" ? f2.call(receiver) : f2 ? f2.value : state.get(receiver);
+        };
+        __classPrivateFieldSet2 = function(receiver, state, value, kind, f2) {
+          if (kind === "m")
+            throw new TypeError("Private method is not writable");
+          if (kind === "a" && !f2)
+            throw new TypeError("Private accessor was defined without a setter");
+          if (typeof state === "function" ? receiver !== state || !f2 : !state.has(receiver))
+            throw new TypeError("Cannot write private member to an object whose class did not declare it");
+          return kind === "a" ? f2.call(receiver, value) : f2 ? f2.value = value : state.set(receiver, value), value;
+        };
+        __classPrivateFieldIn2 = function(state, receiver) {
+          if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function")
+            throw new TypeError("Cannot use 'in' operator on non-object");
+          return typeof state === "function" ? receiver === state : state.has(receiver);
+        };
+        exporter("__extends", __extends2);
+        exporter("__assign", __assign2);
+        exporter("__rest", __rest2);
+        exporter("__decorate", __decorate2);
+        exporter("__param", __param2);
+        exporter("__metadata", __metadata2);
+        exporter("__awaiter", __awaiter2);
+        exporter("__generator", __generator2);
+        exporter("__exportStar", __exportStar2);
+        exporter("__createBinding", __createBinding2);
+        exporter("__values", __values2);
+        exporter("__read", __read2);
+        exporter("__spread", __spread2);
+        exporter("__spreadArrays", __spreadArrays2);
+        exporter("__spreadArray", __spreadArray2);
+        exporter("__await", __await2);
+        exporter("__asyncGenerator", __asyncGenerator2);
+        exporter("__asyncDelegator", __asyncDelegator2);
+        exporter("__asyncValues", __asyncValues2);
+        exporter("__makeTemplateObject", __makeTemplateObject2);
+        exporter("__importStar", __importStar2);
+        exporter("__importDefault", __importDefault2);
+        exporter("__classPrivateFieldGet", __classPrivateFieldGet2);
+        exporter("__classPrivateFieldSet", __classPrivateFieldSet2);
+        exporter("__classPrivateFieldIn", __classPrivateFieldIn2);
+      });
+    }
+  });
+
+  // src/scripts/colors.ts
+  var WHITE = [1, 1, 1, 1];
+  var YELLOW = [1, 1, 0, 1];
+  var GREEN = [0, 1, 0, 1];
+  var BLUE = [0, 0, 1, 1];
+  var ORANGE = [1, 0.5, 0, 1];
+  var RED = [1, 0, 0, 1];
+  var BLACK = [0, 0, 0, 1];
+  var colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+  function faceToColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return colors[face];
+  }
+
+  // src/scripts/common/util.ts
+  function stickerToFace(sticker, cube) {
+    return Math.floor(sticker / sq(cube.layers));
+  }
+
+  // src/scripts/common/rand.ts
+  function randInt(int) {
+    return Math.floor(Math.random() * int);
+  }
+
+  // src/scripts/util.ts
+  function shuffle(array) {
+    let i = array.length;
+    while (i != 0) {
+      let r = randInt(i);
+      i--;
+      let temp = array[r];
+      array[r] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  }
+
+  // src/scripts/scramble.ts
+  var U = 0;
+  var F = 1;
+  var D = 2;
+  var B = 3;
+  var L = 4;
+  var R = 5;
+  var corners = [
+    [U, B, L],
+    [U, R, B],
+    [U, L, F],
+    [U, F, R],
+    [D, F, L],
+    [D, R, F],
+    [D, L, B],
+    [D, B, R]
+  ];
+  var edges = [
+    [U, B],
+    [U, L],
+    [U, R],
+    [U, F],
+    [F, L],
+    [F, R],
+    [D, F],
+    [D, L],
+    [D, R],
+    [D, B],
+    [B, L],
+    [B, R]
+  ];
+  function scramble3x3(cube) {
+    let eo = orientation(12, 2);
+    let co = orientation(8, 3);
+    let cp = permutation(8);
+    let ep = permutation(12);
+    while (permutationParity(cp) !== permutationParity(ep)) {
+      cp = permutation(8);
+    }
+    const stickers2 = Array(54);
+    for (let i = 0; i < 6; i++) {
+      const center = cube.center(i);
+      stickers2[center] = i;
+    }
+    let uCorners = cube.corners(0, 0);
+    let fCorners = cube.corners(1, 0);
+    let dCorners = cube.corners(2, 0);
+    let bCorners = cube.corners(3, 0);
+    let lCorners = cube.corners(4, 0);
+    let rCorners = cube.corners(5, 0);
+    const fill4C = (cIndices, c1, c2, c3, c4, co1, co2, co3, co4) => {
+      const corner = (ci, o) => corners[cp[ci]][(co[ci] + o) % 3];
+      stickers2[cIndices.topLeft] = corner(c1, co1);
+      stickers2[cIndices.topRight] = corner(c2, co2);
+      stickers2[cIndices.bottomLeft] = corner(c3, co3);
+      stickers2[cIndices.bottomRight] = corner(c4, co4);
+    };
+    fill4C(uCorners, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4C(fCorners, 2, 3, 4, 5, 2, 1, 1, 2);
+    fill4C(dCorners, 4, 5, 6, 7, 0, 0, 0, 0);
+    fill4C(bCorners, 6, 7, 0, 1, 2, 1, 1, 2);
+    fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
+    fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
+    const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
+      const edge = (ei, o) => edges[ep[ei]][(eo[ei] + o) % 2];
+      stickers2[eIndices.top] = edge(e1, eo1);
+      stickers2[eIndices.left] = edge(e2, eo2);
+      stickers2[eIndices.right] = edge(e3, eo3);
+      stickers2[eIndices.bottom] = edge(e4, eo4);
+    };
+    fill4E(uEdges, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4E(fEdges, 3, 4, 5, 6, 1, 0, 0, 1);
+    fill4E(dEdges, 6, 7, 8, 9, 0, 0, 0, 0);
+    fill4E(bEdges, 9, 10, 11, 0, 1, 0, 0, 1);
+    fill4E(lEdges, 1, 10, 4, 7, 1, 1, 1, 1);
+    fill4E(rEdges, 2, 5, 11, 8, 1, 1, 1, 1);
+    return stickers2;
+  }
+  function orientation(pieces, orientations) {
+    const o = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      o[i] = randInt(orientations);
+    }
+    while (!orientationValid(o, orientations)) {
+      const randPiece = randInt(pieces);
+      o[randPiece] = randInt(orientations);
+    }
+    return o;
+  }
+  function orientationValid(pieces, orientations) {
+    let sum = 0;
+    for (let i = 0; i < pieces.length; i++) {
+      sum += pieces[i];
+    }
+    return sum % orientations === 0;
+  }
+  function permutation(pieces) {
+    const p = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      p[i] = i;
+    }
+    shuffle(p);
+    return p;
+  }
+  function permutationParity(pieces) {
+    const cpy = [...pieces];
+    let parity = false;
+    while (true) {
+      if (cpy[0] === 0) {
+        const misplaced = cpy.findIndex((value, index) => value !== index);
+        if (misplaced === -1) {
+          return parity;
+        }
+        cpy[0] = cpy[misplaced];
+        cpy[misplaced] = 0;
+        parity = !parity;
+      } else {
+        const temp = cpy[0];
+        cpy[0] = cpy[temp];
+        cpy[temp] = temp;
+        parity = !parity;
+      }
+    }
+  }
+
+  // src/scripts/cube.ts
+  var canvas = document.querySelector("canvas");
+  var gl = canvas.getContext("webgl");
+  function setColor(sticker, color) {
+    const arr = [
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3]
+    ];
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+  }
+  function sq(x) {
+    return x * x;
+  }
+  function half(x) {
+    return Math.floor(x / 2);
+  }
+  function even(x) {
+    return x % 2 == 0;
+  }
+  function stickers(layers) {
+    return layers * layers * 6;
+  }
+  var Cube2 = class {
+    constructor() {
+      this.animationQueue = [];
+    }
+    setColors(colors2) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        setColor(this.stickers[i], colors2[i]);
+      }
+    }
+    solve() {
+      const arr = Array(stickers(this.layers));
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i].face = face;
+        arr[i] = faceToColor(face);
+      }
+      this.setColors(arr);
+    }
+    scramble() {
+      if (this.layers === 3) {
+        this.scramble3x3();
+        return;
+      }
+      this.naiveScramble();
+    }
+    scramble3x3() {
+      const state = scramble3x3(this);
+      this.setCubeState(state);
+    }
+    naiveScramble() {
+      let numTurns = sq(this.layers) * 10;
+      for (let i = 0; i < numTurns; i++) {
+        let axis = Math.floor(Math.random() * 3);
+        let layer = Math.floor(Math.random() * this.layers);
+        let clockwise = Math.floor(Math.random() * 1) == 0;
+        this._matchTurn(axis, layer, clockwise);
+      }
+    }
+    setNumOfLayers(num) {
+      this.layers = num;
+      this.stickers = Array(stickers(num));
+      this.underStickers = Array(stickers(num));
+      for (let i = 0; i < stickers(num); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        this.underStickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        setColor(this.underStickers[i], BLACK);
+      }
+      this.affectedStickers = Array(stickers(num)).fill(false);
+    }
+    getCubeState() {
+      return this.stickers.map((sticker) => sticker.face);
+    }
+    setCubeState(state) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const color = faceToColor(state[i]);
+        this.stickers[i].face = state[i];
+        setColor(this.stickers[i], color);
+      }
+    }
+    resetAffectedStickers() {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(this.layers === 1);
+    }
+    pushAnimation(axis, clockwise, prevStickers) {
+      let x = clockwise ? -1 : 1;
+      let rotationAxis = [0, 0, 0];
+      rotationAxis[axis] = x;
+      this.animationQueue.push({
+        axis: rotationAxis,
+        stickers: prevStickers,
+        stickersToAnimate: this.affectedStickers
+      });
+    }
+    turn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+    }
+    sliceTurn(axis, clockwise) {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(false);
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    wideTurn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    cubeRotate(axis, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 0; i < this.layers; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    _matchTurn(axis, layer, clockwise) {
+      if (axis == 0) {
+        this._turnXAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(5, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(4, !clockwise);
+        }
+      } else if (axis == 1) {
+        this._turnYAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(0, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(2, !clockwise);
+        }
+      } else if (axis == 2) {
+        this._turnZAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(1, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(3, !clockwise);
+        }
+      } else {
+        console.error(`Axis ${axis} not recognized`);
+      }
+    }
+    _turnXAxis(layer, clockwise) {
+      for (let i = 1; i <= this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          2 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          1 * sq(this.layers) + sq(this.layers) - i - layer * this.layers
+        );
+      }
+    }
+    _turnYAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          1 * sq(this.layers) + i * this.layers + layer,
+          4 * sq(this.layers) + i * this.layers + layer,
+          3 * sq(this.layers) + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+          5 * sq(this.layers) + i * this.layers + layer
+        );
+      }
+    }
+    _turnZAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
+          5 * sq(this.layers) + i + this.layers * layer,
+          2 * sq(this.layers) + (this.layers - i - 1) * this.layers + layer,
+          4 * sq(this.layers) + sq(this.layers) - (i + 1) - layer * this.layers
+        );
+      }
+    }
+    _turnOuter(face, clockwise) {
+      if (this.layers % 2 != 0) {
+        let center = this.center(face);
+        this.affectedStickers[center] = true;
+      }
+      for (let i = 0; i < Math.floor(this.layers / 2); i++) {
+        const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
+        this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
+        let numEdges = this.layers - 2 * (i + 1);
+        for (let j = 0; j < numEdges; j++) {
+          const { top, left, bottom, right } = this.edges(face, i, j);
+          this._cycle(clockwise, top, right, bottom, left);
+        }
+      }
+    }
+    _cycle(clockwise, i1, i2, i3, i4) {
+      this.affectedStickers[i1] = true;
+      this.affectedStickers[i2] = true;
+      this.affectedStickers[i3] = true;
+      this.affectedStickers[i4] = true;
+      if (clockwise) {
+        this._cycleHelper(i1, i2, i3, i4);
+      } else {
+        this._cycleHelper(i4, i3, i2, i1);
+      }
+    }
+    _cycleHelper(i1, i2, i3, i4) {
+      let temp = this.stickers[i4];
+      this.stickers[i4] = this.stickers[i3];
+      this.stickers[i3] = this.stickers[i2];
+      this.stickers[i2] = this.stickers[i1];
+      this.stickers[i1] = temp;
+    }
+    matchKeyToTurn(event) {
+      if (this.disableTurn)
+        return;
+      if (event.ctrlKey)
+        return;
+      return this.matchKeyCodeToTurn(event.code);
+    }
+    matchKeyCodeToTurn(code) {
+      switch (code) {
+        case "KeyN":
+          this.cubeRotate(0, true);
+          return { notation: "x", rotate: true };
+        case "KeyB":
+          this.cubeRotate(0, false);
+          return { notation: "x'", rotate: true };
+        case "Semicolon":
+          this.cubeRotate(1, true);
+          return { notation: "y", rotate: true };
+        case "KeyA":
+          this.cubeRotate(1, false);
+          return { notation: "y'", rotate: true };
+        case "KeyP":
+          this.cubeRotate(2, true);
+          return { notation: "z", rotate: true };
+        case "KeyQ":
+          this.cubeRotate(2, false);
+          return { notation: "z'", rotate: true };
+        case "KeyJ":
+          this.turn(1, 0, true);
+          return { notation: "U", turn: true };
+        case "KeyF":
+          this.turn(1, 0, false);
+          return { notation: "U'", turn: true };
+        case "KeyS":
+          this.turn(1, this.layers - 1, false);
+          return { notation: "D", turn: true };
+        case "KeyL":
+          this.turn(1, this.layers - 1, true);
+          return { notation: "D'", turn: true };
+        case "KeyH":
+          this.turn(2, 0, true);
+          return { notation: "F", turn: true };
+        case "KeyG":
+          this.turn(2, 0, false);
+          return { notation: "F'", turn: true };
+        case "KeyW":
+          this.turn(2, this.layers - 1, false);
+          return { notation: "B", turn: true };
+        case "KeyO":
+          this.turn(2, this.layers - 1, true);
+          return { notation: "B'", turn: true };
+        case "KeyD":
+          this.turn(0, this.layers - 1, false);
+          return { notation: "L", turn: true };
+        case "KeyE":
+          this.turn(0, this.layers - 1, true);
+          return { notation: "L'", turn: true };
+        case "KeyI":
+          this.turn(0, 0, true);
+          return { notation: "R", turn: true };
+        case "KeyK":
+          this.turn(0, 0, false);
+          return { notation: "R'", turn: true };
+        case "BracketLeft":
+          this.sliceTurn(0, false);
+          return { notation: "M", turn: true };
+        case "Quote":
+          this.sliceTurn(0, true);
+          return { notation: "M'", turn: true };
+        case "KeyC":
+          this.sliceTurn(1, false);
+          return { notation: "E", turn: true };
+        case "Comma":
+          this.sliceTurn(1, true);
+          return { notation: "E'", turn: true };
+        case "KeyY":
+          this.sliceTurn(2, true);
+          return { notation: "S", turn: true };
+        case "KeyT":
+          this.sliceTurn(2, false);
+          return { notation: "S'", turn: true };
+        case "KeyU":
+          this.wideTurn(0, 0, true);
+          return { notation: "r", turn: true };
+        case "KeyM":
+          this.wideTurn(0, 0, false);
+          return { notation: "r'", turn: true };
+        case "KeyV":
+          this.wideTurn(0, this.layers - 1, false);
+          return { notation: "l", turn: true };
+        case "KeyR":
+          this.wideTurn(0, this.layers - 1, true);
+          return { notation: "l'", turn: true };
+      }
+      return;
+    }
+    stepAlgorithm(move, forward) {
+      switch (move) {
+        case "x":
+          this.cubeRotate(0, forward);
+          break;
+        case "x'":
+          this.cubeRotate(0, !forward);
+          break;
+        case "x2":
+        case "x2'":
+          this.cubeRotate(0, forward);
+          this.cubeRotate(0, forward);
+          break;
+        case "y":
+          this.cubeRotate(1, forward);
+          break;
+        case "y'":
+          this.cubeRotate(1, !forward);
+          break;
+        case "y2":
+        case "y2'":
+          this.cubeRotate(1, forward);
+          this.cubeRotate(1, forward);
+          break;
+        case "z":
+          this.cubeRotate(2, forward);
+          break;
+        case "z'":
+          this.cubeRotate(2, !forward);
+          break;
+        case "z2":
+        case "z2'":
+          this.cubeRotate(2, forward);
+          this.cubeRotate(2, forward);
+          break;
+        case "U":
+          this.turn(1, 0, forward);
+          break;
+        case "U'":
+          this.turn(1, 0, !forward);
+          break;
+        case "U2":
+        case "U2'":
+          this.turn(1, 0, forward);
+          this.turn(1, 0, forward);
+          break;
+        case "u":
+          this.wideTurn(1, 0, forward);
+          break;
+        case "u'":
+          this.wideTurn(1, 0, !forward);
+          break;
+        case "u2":
+        case "u2'":
+          this.wideTurn(1, 0, forward);
+          this.wideTurn(1, 0, forward);
+          break;
+        case "D":
+          this.turn(1, this.layers - 1, !forward);
+          break;
+        case "D'":
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "D2":
+        case "D2'":
+          this.turn(1, this.layers - 1, forward);
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "d":
+          this.wideTurn(1, this.layers - 1, !forward);
+          break;
+        case "d'":
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "d2":
+        case "d2'":
+          this.wideTurn(1, this.layers - 1, forward);
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "F":
+          this.turn(2, 0, forward);
+          break;
+        case "F'":
+          this.turn(2, 0, !forward);
+          break;
+        case "F2":
+        case "F2'":
+          this.turn(2, 0, forward);
+          this.turn(2, 0, forward);
+          break;
+        case "f":
+          this.wideTurn(2, 0, forward);
+          break;
+        case "f'":
+          this.wideTurn(2, 0, !forward);
+          break;
+        case "f2":
+        case "f2'":
+          this.wideTurn(2, 0, forward);
+          this.wideTurn(2, 0, forward);
+          break;
+        case "B":
+          this.turn(2, this.layers - 1, !forward);
+          break;
+        case "B'":
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "B2":
+        case "B2'":
+          this.turn(2, this.layers - 1, forward);
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "b":
+          this.wideTurn(2, this.layers - 1, !forward);
+          break;
+        case "b'":
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "b2":
+        case "b2'":
+          this.wideTurn(2, this.layers - 1, forward);
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "L":
+          this.turn(0, this.layers - 1, !forward);
+          break;
+        case "L'":
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "L2":
+        case "L2'":
+          this.turn(0, this.layers - 1, forward);
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "l":
+          this.wideTurn(0, this.layers - 1, !forward);
+          break;
+        case "l'":
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "l2":
+        case "l2'":
+          this.wideTurn(0, this.layers - 1, forward);
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "R":
+          this.turn(0, 0, forward);
+          break;
+        case "R'":
+          this.turn(0, 0, !forward);
+          break;
+        case "R2":
+        case "R2'":
+          this.turn(0, 0, forward);
+          this.turn(0, 0, forward);
+          break;
+        case "r":
+          this.wideTurn(0, 0, forward);
+          break;
+        case "r'":
+          this.wideTurn(0, 0, !forward);
+          break;
+        case "r2":
+        case "r2'":
+          this.wideTurn(0, 0, forward);
+          this.wideTurn(0, 0, forward);
+          break;
+        case "M":
+          this.turn(0, 1, !forward);
+          break;
+        case "M'":
+          this.turn(0, 1, forward);
+          break;
+        case "M2":
+        case "M2'":
+          this.sliceTurn(0, forward);
+          this.sliceTurn(0, forward);
+          break;
+        case "E":
+          this.sliceTurn(1, !forward);
+          break;
+        case "E'":
+          this.sliceTurn(1, forward);
+          break;
+        case "E2":
+        case "E2'":
+          this.sliceTurn(1, forward);
+          this.sliceTurn(1, forward);
+          break;
+        case "S":
+          this.sliceTurn(2, forward);
+          break;
+        case "S'":
+          this.sliceTurn(2, !forward);
+          break;
+        case "S2":
+        case "S2'":
+          this.sliceTurn(2, forward);
+        default:
+          throw new Error("Invalid turn in algorithm: " + move);
+      }
+    }
+    execAlg(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = 0; i < moves.length; i++) {
+        this.stepAlgorithm(moves[i], true);
+      }
+      this.animationQueue = [];
+    }
+    execAlgReverse(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = moves.length - 1; i >= 0; i--) {
+        this.stepAlgorithm(moves[i], false);
+      }
+      this.animationQueue = [];
+    }
+    stickerIsOnFace(sticker, face) {
+      return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
+    }
+    center(face) {
+      return face * sq(this.layers) + Math.floor(sq(this.layers) / 2);
+    }
+    corners(face, layer) {
+      const offset = face * sq(this.layers);
+      return {
+        topLeft: offset + (this.layers + 1) * layer,
+        topRight: offset + (this.layers - 1) * (this.layers - layer),
+        bottomRight: offset + (this.layers + 1) * (this.layers - layer - 1),
+        bottomLeft: offset + (this.layers - 1) * (layer + 1)
+      };
+    }
+    edges(face, corner, edge) {
+      const corners2 = this.corners(face, corner);
+      let numEdges = this.layers - 2 * (corner + 1);
+      return {
+        top: corners2.topLeft + this.layers * (edge + 1),
+        left: corners2.topLeft + (numEdges - edge),
+        right: corners2.topRight + edge + 1,
+        bottom: corners2.bottomLeft + this.layers * (numEdges - edge)
+      };
+    }
+  };
+
+  // src/scripts/buffers.ts
+  function createBuffers(gl3, cube, perspectiveMatrix) {
+    let allPositions = makePositions(cube, 1.01, 0.02);
+    let allNoGapPositions = makePositions(cube, 1, 0);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
+    const objects = Array(stickers(cube.layers));
+    for (let i = 0; i < stickers(cube.layers); i++) {
+      let object = {
+        positionBuffer: gl3.createBuffer(),
+        noGapPositionBuffer: gl3.createBuffer(),
+        hintPositionBuffer: gl3.createBuffer(),
+        indexBuffer: gl3.createBuffer(),
+        cart2d: [],
+        positions: null
+      };
+      let positions = new Float32Array(12);
+      let noGapPos = new Float32Array(12);
+      let hintPos = new Float32Array(12);
+      for (let j = 0; j < 12; j++) {
+        let index = i * 12 + j;
+        positions[j] = allPositions[index];
+        noGapPos[j] = allNoGapPositions[index];
+        hintPos[j] = allHintPositions[index];
+      }
+      gl3.bindBuffer(gl3.ARRAY_BUFFER, object.positionBuffer);
+      gl3.bufferData(gl3.ARRAY_BUFFER, positions, gl3.STATIC_DRAW);
+      object.positions = positions;
+      gl3.bindBuffer(gl3.ARRAY_BUFFER, object.noGapPositionBuffer);
+      gl3.bufferData(gl3.ARRAY_BUFFER, noGapPos, gl3.STATIC_DRAW);
+      gl3.bindBuffer(gl3.ARRAY_BUFFER, object.hintPositionBuffer);
+      gl3.bufferData(gl3.ARRAY_BUFFER, hintPos, gl3.STATIC_DRAW);
+      const homo = Array(16);
+      multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+      multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+      multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+      multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+      object.cart2d = [
+        homo[0] / homo[3],
+        homo[1] / homo[3],
+        homo[4] / homo[7],
+        homo[5] / homo[7],
+        homo[8] / homo[11],
+        homo[9] / homo[11],
+        homo[12] / homo[15],
+        homo[13] / homo[15]
+      ];
+      const indices = [0, 1, 2, 0, 2, 3];
+      gl3.bindBuffer(gl3.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+      gl3.bufferData(gl3.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl3.STATIC_DRAW);
+      objects[i] = object;
+    }
+    return objects;
+  }
+  function multiply(arr, offset, a, b) {
+    const out = Array(4);
+    let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+  }
+  var perSticker = 12;
+  var verticesInSquare = 4;
+  var dimensions = 3;
+  function makePositions(cube, radius, gap) {
+    const perFace = sq(cube.layers) * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
+    return out;
+  }
+  function topFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function frontFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function bottomFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function backFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function leftFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function rightFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = cube.layers - 1; i >= 0; i--) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = half(cube.layers); i >= -half(cube.layers); i--) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function makeFace(arr, offset, cube, coords, a, gap) {
+    for (let i = 0; i < sq(cube.layers); i++) {
+      const temp = coords[i];
+      makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
+    }
+  }
+  function makeSticker(arr, offset, cube, x, y, r, a, gap) {
+    const s = 1 / cube.layers - gap;
+    const coords = [
+      [x - s, y - s, r],
+      [x + s, y - s, r],
+      [x + s, y + s, r],
+      [x - s, y + s, r]
+    ];
+    for (let i = 0; i < verticesInSquare; i++) {
+      const temp = coords[i];
+      arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+      arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+      arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
+    }
+  }
+
+  // src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
+  // src/scripts/dragDetector.ts
+  function xPixelToClip(val, canvasSize) {
+    return val / canvasSize * 2 - 1;
+  }
+  function yPixelToClip(val, canvasSize) {
+    return 1 - val / canvasSize * 2;
+  }
+  function calcSlope(x1, y1, x2, y2) {
+    if (x1 < x2) {
+      return (y2 - y1) / (x2 - x1);
+    }
+    return (y1 - y2) / (x1 - x2);
+  }
+  function areaTriangle(x1, y1, x2, y2, x3, y3) {
+    return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
+  }
+  function topRow(cube, sticker) {
+    return cube.layers - 1 - sticker % cube.layers;
+  }
+  function topColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
+  }
+  function frontRow(cube, sticker) {
+    return sticker % cube.layers;
+  }
+  function frontColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - sq(cube.layers)) / cube.layers);
+  }
+  var DragDetector = class {
+    onPointerDown(x, y, div, cube, buffers) {
+      this.numOfPointerMoves = 0;
+      const clipX = xPixelToClip(x, div.clientWidth);
+      const clipY = yPixelToClip(y, div.clientHeight);
+      this.xOnDown = clipX;
+      this.yOnDown = clipY;
+      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers);
+      function getXY(objectIndex, xIndex, yIndex) {
+        return {
+          x: buffers[objectIndex].cart2d[xIndex],
+          y: buffers[objectIndex].cart2d[yIndex]
+        };
+      }
+      if (this.stickerOnDown !== -1)
+        return;
+      const topLeft = getXY(0, 0, 1);
+      const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+      const left = getXY(cube.layers - 1, 2, 3);
+      const right = getXY(sq(cube.layers) - 1, 4, 5);
+      const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+      const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
+      if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+        cube.cubeRotate(0, true);
+      } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+        cube.cubeRotate(2, false);
+      } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+        cube.cubeRotate(2, true);
+      } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+        cube.cubeRotate(1, true);
+      } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+        cube.cubeRotate(1, false);
+      } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+        cube.cubeRotate(0, false);
+      }
+    }
+    onPointerMove(x, y) {
+      this.numOfPointerMoves++;
+      this.xOnMove = x;
+      this.yOnMove = y;
+    }
+    onPointerUp(div, cube, buffers) {
+      if (this.numOfPointerMoves < 2)
+        return;
+      let posSlope, negSlope;
+      if (this.stickerOnDown !== -1) {
+        posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
+        negSlope = calcSlope(this.cart2dOnDown[2], this.cart2dOnDown[3], this.cart2dOnDown[6], this.cart2dOnDown[7]);
+        if (posSlope < 0) {
+          const temp = posSlope;
+          posSlope = negSlope;
+          negSlope = temp;
+        }
+      }
+      const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
+      const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
+      const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
+      if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
+          }
+        }
+      } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
+          }
+        }
+      }
+    }
+    _coordinatesToSticker(x, y, cube, buffers) {
+      const coordinateIsInSticker = (i) => {
+        if (!buffers[i].cart2d) {
+          console.error("cart2d is undefined");
+          return;
+        }
+        const cart2d = buffers[i].cart2d;
+        const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
+        const sumAreaTriangles = areaTriangle(x, y, cart2d[0], cart2d[1], cart2d[2], cart2d[3]) + areaTriangle(x, y, cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(x, y, cart2d[4], cart2d[5], cart2d[6], cart2d[7]) + areaTriangle(x, y, cart2d[6], cart2d[7], cart2d[0], cart2d[1]);
+        const EPSILON = 1e-5;
+        if (Math.abs(areaQuadrilateral - sumAreaTriangles) < EPSILON) {
+          return [
+            i,
+            cart2d
+          ];
+        }
+        return void 0;
+      };
+      for (let i = 0; i < 2 * sq(cube.layers); i++) {
+        const output = coordinateIsInSticker(i);
+        if (output)
+          return output;
+      }
+      return [-1, void 0];
+    }
+  };
+
+  // src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+    return out;
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = 1 / Math.hypot(x, y, z);
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+    return out;
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
+  }
+
+  // src/scripts/common/singleton.ts
+  function singleton() {
+    let instance;
+    return (constructor) => {
+      if (!instance) {
+        instance = constructor();
+      }
+      return instance;
+    };
+  }
+
+  // src/scripts/scene.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
+  var programInfo = initPrograms();
+  var scenes = [];
+  var settings = {
+    animateTurns: true,
+    hintStickers: true,
+    showBody: true
+  };
+  var time = Date.now() * 1e-3;
+  var numLayers = 3;
+  var loopStarted = false;
+  function startLoop() {
+    if (loopStarted)
+      return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+  }
+  function newScene(selector) {
+    let div = document.querySelector(selector);
+    let cube = new Cube2();
+    let spring = new Spring();
+    let perspectiveMatrix = initPerspective(div);
+    let dragDetector = new DragDetector();
+    cube.setNumOfLayers(numLayers);
+    let buffers = createBuffers(gl2, cube, perspectiveMatrix);
+    let scene = {
+      div,
+      cube,
+      spring,
+      buffers,
+      perspectiveMatrix
+    };
+    const pointerdown = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
+    };
+    const pointermove = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerMove(offsetX, offsetY);
+    };
+    const pointerup = () => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
+    };
+    const calcOffset = (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.touches[0].pageX - rect.left;
+      const y = event.touches[0].pageY - rect.top;
+      return { x, y };
+    };
+    const addPointerListeners = () => {
+      div.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
+      div.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
+      div.addEventListener("pointerup", (event) => pointerup());
+    };
+    const addTouchListeners = () => {
+      div.addEventListener("touchstart", (event) => {
+        const { x, y } = calcOffset(event);
+        pointerdown(x, y);
+      });
+      div.addEventListener("touchmove", (event) => {
+        const { x, y } = calcOffset(event);
+        pointermove(x, y);
+      });
+      div.addEventListener("touchend", (event) => {
+        pointerup();
+      });
+    };
+    if (window.PointerEvent) {
+      addPointerListeners();
+    } else {
+      addTouchListeners();
+    }
+    return scene;
+  }
+  function initPrograms() {
+    const vertexShaderSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uTransformMatrix;
@@ -14,7 +1821,8 @@
         rotatedPos = uRotateMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
-    `,`
+    `;
+    const fragmentShaderSource = `
     // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
     varying lowp vec4 originalPos;
@@ -38,24 +1846,5014 @@
         if (rotatedPos.y < max && rotatedPos.z < max) return;
         discard;
     }
-    `);return I.useProgram(t),{attribLocations:{vertexPosition:I.getAttribLocation(t,"aVertexPosition"),vertexColor:I.getAttribLocation(t,"aVertexColor")},uniformLocations:{transformMatrix:I.getUniformLocation(t,"uTransformMatrix"),rotateMatrix:I.getUniformLocation(t,"uRotateMatrix")}}}function es(n){let e=je();return Un(e,50*Math.PI/180,n.clientWidth/n.clientHeight,.1,100),Fn(e,[0,0,-5]),ze(e,e,45*Math.PI/180,[1,0,0]),ze(e,e,0,[0,-1,0]),e}function Pt(n,e,t){t.bindBuffer(t.ARRAY_BUFFER,n),t.vertexAttribPointer(e.attribLocations.vertexPosition,3,t.FLOAT,!1,0,0),t.enableVertexAttribArray(e.attribLocations.vertexPosition)}function Lt(n,e,t){t.bindBuffer(t.ARRAY_BUFFER,n),t.vertexAttribPointer(e.attribLocations.vertexColor,4,t.FLOAT,!1,0,0),t.enableVertexAttribArray(e.attribLocations.vertexColor)}function xt(n){n.drawElements(n.TRIANGLES,6,n.UNSIGNED_SHORT,0)}function ts(n,e,t){let r=Hn(n,n.VERTEX_SHADER,e),i=Hn(n,n.FRAGMENT_SHADER,t),s=n.createProgram();return n.attachShader(s,r),n.attachShader(s,i),n.linkProgram(s),n.getProgramParameter(s,n.LINK_STATUS)?s:(alert("Unable to initialize the shader program: "+n.getProgramInfoLog(s)),null)}function Hn(n,e,t){let r=n.createShader(e);return n.shaderSource(r,t),n.compileShader(r),n.getShaderParameter(r,n.COMPILE_STATUS)?r:(alert("An error occurred compiling the shaders: "+n.getShaderInfoLog(r)),n.deleteShader(r),null)}function ns(){let n=x.clientWidth,e=x.clientHeight,t=x.width!==n||x.height!==e;return t&&(x.width=n,x.height=e),t}function zn(n){n*=.001;let e=n-Bn;Bn=n,ns(),I.enable(I.DEPTH_TEST),I.enable(I.SCISSOR_TEST),I.depthFunc(I.LEQUAL),I.clear(I.COLOR_BUFFER_BIT|I.DEPTH_BUFFER_BIT),x.style.transform=`translateY(${window.scrollY}px)`;for(let t=0;t<j.length;t++){let{cube:r,div:i,spring:s,buffers:o,perspectiveMatrix:a}=j[t],c=i.getBoundingClientRect();if(c.bottom<0||c.top>x.clientHeight||c.right<0||c.left>x.clientWidth)continue;let l=c.right-c.left,u=c.bottom-c.top,h=c.left,d=x.clientHeight-c.bottom;I.viewport(h,d,l,u),I.scissor(h,d,l,u),r.animationQueue[0]&&(s.target=r.animationQueue.length*90,s.update(e),s.position>=90&&(r.affectedStickers=Array(k(r.layers)).fill(!1),s.position=0,r.animationQueue.shift()));let p=r.animationQueue[0],m=rs(r),f=Ct(),y=Ct();for(let v=0;v<k(r.layers);v++){let S=o[v],A=p&&p.stickersToAnimate[v]&&qe.animateTurns?f(()=>ze(je(),a,s.position*Math.PI/180,p.axis)):a;I.uniformMatrix4fv(le.uniformLocations.transformMatrix,!1,A);let E=p&&p.stickersToAnimate[v]&&qe.animateTurns?y(()=>{let w=je();return ze(w,w,s.position*Math.PI/180,p.axis)}):je();I.uniformMatrix4fv(le.uniformLocations.rotateMatrix,!1,E),I.bindBuffer(I.ELEMENT_ARRAY_BUFFER,S.indexBuffer),qe.showBody&&(Pt(S.noGapPositionBuffer,le,I),Lt(r.underStickers[v].buffer,le,I),xt(I)),Pt(S.positionBuffer,le,I),Lt(m[v].buffer,le,I),xt(I),qe.hintStickers&&(Pt(S.hintPositionBuffer,le,I),Lt(m[v].buffer,le,I),xt(I))}}requestAnimationFrame(zn)}function rs(n){return qe.animateTurns&&n.animationQueue[0]?n.animationQueue[0].stickers:n.stickers}function qn(){let n=document.querySelector(".slideRight"),e=!1;function t(r){if(e=r,e){n.classList.add("slideRightOpen");return}n.classList.remove("slideRightOpen")}document.addEventListener("click",r=>{let i=r.target;if(i===document.querySelector("#menu")){t(!0);return}e&&!i.closest(".slideRight")&&t(!1)}),document.querySelector("#closeMenu").addEventListener("click",()=>{t(!1)}),document.querySelector("#learnButton").addEventListener("click",()=>{document.location.href="learn.html"}),document.querySelector("#playButton").addEventListener("click",()=>{document.location.href="play.html"}),document.querySelector("#trainButton").addEventListener("click",()=>{document.location.href="train.html"}),document.querySelector("#cubleButton").addEventListener("click",()=>{document.location.href="cuble.html"})}var $n=function(n){let e=[],t=0;for(let r=0;r<n.length;r++){let i=n.charCodeAt(r);i<128?e[t++]=i:i<2048?(e[t++]=i>>6|192,e[t++]=i&63|128):(i&64512)===55296&&r+1<n.length&&(n.charCodeAt(r+1)&64512)===56320?(i=65536+((i&1023)<<10)+(n.charCodeAt(++r)&1023),e[t++]=i>>18|240,e[t++]=i>>12&63|128,e[t++]=i>>6&63|128,e[t++]=i&63|128):(e[t++]=i>>12|224,e[t++]=i>>6&63|128,e[t++]=i&63|128)}return e},is=function(n){let e=[],t=0,r=0;for(;t<n.length;){let i=n[t++];if(i<128)e[r++]=String.fromCharCode(i);else if(i>191&&i<224){let s=n[t++];e[r++]=String.fromCharCode((i&31)<<6|s&63)}else if(i>239&&i<365){let s=n[t++],o=n[t++],a=n[t++],c=((i&7)<<18|(s&63)<<12|(o&63)<<6|a&63)-65536;e[r++]=String.fromCharCode(55296+(c>>10)),e[r++]=String.fromCharCode(56320+(c&1023))}else{let s=n[t++],o=n[t++];e[r++]=String.fromCharCode((i&15)<<12|(s&63)<<6|o&63)}}return e.join("")},Kn={byteToCharMap_:null,charToByteMap_:null,byteToCharMapWebSafe_:null,charToByteMapWebSafe_:null,ENCODED_VALS_BASE:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",get ENCODED_VALS(){return this.ENCODED_VALS_BASE+"+/="},get ENCODED_VALS_WEBSAFE(){return this.ENCODED_VALS_BASE+"-_."},HAS_NATIVE_SUPPORT:typeof atob=="function",encodeByteArray(n,e){if(!Array.isArray(n))throw Error("encodeByteArray takes an array as a parameter");this.init_();let t=e?this.byteToCharMapWebSafe_:this.byteToCharMap_,r=[];for(let i=0;i<n.length;i+=3){let s=n[i],o=i+1<n.length,a=o?n[i+1]:0,c=i+2<n.length,l=c?n[i+2]:0,u=s>>2,h=(s&3)<<4|a>>4,d=(a&15)<<2|l>>6,p=l&63;c||(p=64,o||(d=64)),r.push(t[u],t[h],t[d],t[p])}return r.join("")},encodeString(n,e){return this.HAS_NATIVE_SUPPORT&&!e?btoa(n):this.encodeByteArray($n(n),e)},decodeString(n,e){return this.HAS_NATIVE_SUPPORT&&!e?atob(n):is(this.decodeStringToByteArray(n,e))},decodeStringToByteArray(n,e){this.init_();let t=e?this.charToByteMapWebSafe_:this.charToByteMap_,r=[];for(let i=0;i<n.length;){let s=t[n.charAt(i++)],a=i<n.length?t[n.charAt(i)]:0;++i;let l=i<n.length?t[n.charAt(i)]:64;++i;let h=i<n.length?t[n.charAt(i)]:64;if(++i,s==null||a==null||l==null||h==null)throw Error();let d=s<<2|a>>4;if(r.push(d),l!==64){let p=a<<4&240|l>>2;if(r.push(p),h!==64){let m=l<<6&192|h;r.push(m)}}}return r},init_(){if(!this.byteToCharMap_){this.byteToCharMap_={},this.charToByteMap_={},this.byteToCharMapWebSafe_={},this.charToByteMapWebSafe_={};for(let n=0;n<this.ENCODED_VALS.length;n++)this.byteToCharMap_[n]=this.ENCODED_VALS.charAt(n),this.charToByteMap_[this.byteToCharMap_[n]]=n,this.byteToCharMapWebSafe_[n]=this.ENCODED_VALS_WEBSAFE.charAt(n),this.charToByteMapWebSafe_[this.byteToCharMapWebSafe_[n]]=n,n>=this.ENCODED_VALS_BASE.length&&(this.charToByteMap_[this.ENCODED_VALS_WEBSAFE.charAt(n)]=n,this.charToByteMapWebSafe_[this.ENCODED_VALS.charAt(n)]=n)}}},ss=function(n){let e=$n(n);return Kn.encodeByteArray(e,!0)},Ft=function(n){return ss(n).replace(/\./g,"")},Yn=function(n){try{return Kn.decodeString(n,!0)}catch(e){console.error("base64Decode failed: ",e)}return null};var it=class{constructor(){this.reject=()=>{},this.resolve=()=>{},this.promise=new Promise((e,t)=>{this.resolve=e,this.reject=t})}wrapCallback(e){return(t,r)=>{t?this.reject(t):this.resolve(r),typeof e=="function"&&(this.promise.catch(()=>{}),e.length===1?e(t):e(t,r))}}};function R(){return typeof navigator<"u"&&typeof navigator.userAgent=="string"?navigator.userAgent:""}function Jn(){return typeof window<"u"&&!!(window.cordova||window.phonegap||window.PhoneGap)&&/ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(R())}function Xn(){let n=typeof chrome=="object"?chrome.runtime:typeof browser=="object"?browser.runtime:void 0;return typeof n=="object"&&n.id!==void 0}function Qn(){return typeof navigator=="object"&&navigator.product==="ReactNative"}function Zn(){let n=R();return n.indexOf("MSIE ")>=0||n.indexOf("Trident/")>=0}function er(){return typeof indexedDB=="object"}function tr(){return new Promise((n,e)=>{try{let t=!0,r="validate-browser-context-for-indexeddb-analytics-module",i=self.indexedDB.open(r);i.onsuccess=()=>{i.result.close(),t||self.indexedDB.deleteDatabase(r),n(!0)},i.onupgradeneeded=()=>{t=!1},i.onerror=()=>{var s;e(((s=i.error)===null||s===void 0?void 0:s.message)||"")}}catch(t){e(t)}})}var os="FirebaseError",z=class extends Error{constructor(e,t,r){super(t),this.code=e,this.customData=r,this.name=os,Object.setPrototypeOf(this,z.prototype),Error.captureStackTrace&&Error.captureStackTrace(this,Y.prototype.create)}},Y=class{constructor(e,t,r){this.service=e,this.serviceName=t,this.errors=r}create(e,...t){let r=t[0]||{},i=`${this.service}/${e}`,s=this.errors[e],o=s?as(s,r):"Error",a=`${this.serviceName}: ${o} (${i}).`;return new z(i,a,r)}};function as(n,e){return n.replace(cs,(t,r)=>{let i=e[r];return i!=null?String(i):`<${r}?>`})}var cs=/\{\$([^}]+)}/g;function Ge(n,e){if(n===e)return!0;let t=Object.keys(n),r=Object.keys(e);for(let i of t){if(!r.includes(i))return!1;let s=n[i],o=e[i];if(Gn(s)&&Gn(o)){if(!Ge(s,o))return!1}else if(s!==o)return!1}for(let i of r)if(!t.includes(i))return!1;return!0}function Gn(n){return n!==null&&typeof n=="object"}function st(n){let e=[];for(let[t,r]of Object.entries(n))Array.isArray(r)?r.forEach(i=>{e.push(encodeURIComponent(t)+"="+encodeURIComponent(i))}):e.push(encodeURIComponent(t)+"="+encodeURIComponent(r));return e.length?"&"+e.join("&"):""}function Ne(n){let e={};return n.replace(/^\?/,"").split("&").forEach(r=>{if(r){let[i,s]=r.split("=");e[decodeURIComponent(i)]=decodeURIComponent(s)}}),e}function Ce(n){let e=n.indexOf("?");if(!e)return"";let t=n.indexOf("#",e);return n.substring(e,t>0?t:void 0)}function nr(n,e){let t=new Ut(n,e);return t.subscribe.bind(t)}var Ut=class{constructor(e,t){this.observers=[],this.unsubscribes=[],this.observerCount=0,this.task=Promise.resolve(),this.finalized=!1,this.onNoObservers=t,this.task.then(()=>{e(this)}).catch(r=>{this.error(r)})}next(e){this.forEachObserver(t=>{t.next(e)})}error(e){this.forEachObserver(t=>{t.error(e)}),this.close(e)}complete(){this.forEachObserver(e=>{e.complete()}),this.close()}subscribe(e,t,r){let i;if(e===void 0&&t===void 0&&r===void 0)throw new Error("Missing Observer.");ls(e,["next","error","complete"])?i=e:i={next:e,error:t,complete:r},i.next===void 0&&(i.next=Mt),i.error===void 0&&(i.error=Mt),i.complete===void 0&&(i.complete=Mt);let s=this.unsubscribeOne.bind(this,this.observers.length);return this.finalized&&this.task.then(()=>{try{this.finalError?i.error(this.finalError):i.complete()}catch(o){}}),this.observers.push(i),s}unsubscribeOne(e){this.observers===void 0||this.observers[e]===void 0||(delete this.observers[e],this.observerCount-=1,this.observerCount===0&&this.onNoObservers!==void 0&&this.onNoObservers(this))}forEachObserver(e){if(!this.finalized)for(let t=0;t<this.observers.length;t++)this.sendOne(t,e)}sendOne(e,t){this.task.then(()=>{if(this.observers!==void 0&&this.observers[e]!==void 0)try{t(this.observers[e])}catch(r){typeof console<"u"&&console.error&&console.error(r)}})}close(e){this.finalized||(this.finalized=!0,e!==void 0&&(this.finalError=e),this.task.then(()=>{this.observers=void 0,this.onNoObservers=void 0}))}};function ls(n,e){if(typeof n!="object"||n===null)return!1;for(let t of e)if(t in n&&typeof n[t]=="function")return!0;return!1}function Mt(){}var nc=4*60*60*1e3;function Pe(n){return n&&n._delegate?n._delegate:n}var q=class{constructor(e,t,r){this.name=e,this.instanceFactory=t,this.type=r,this.multipleInstances=!1,this.serviceProps={},this.instantiationMode="LAZY",this.onInstanceCreated=null}setInstantiationMode(e){return this.instantiationMode=e,this}setMultipleInstances(e){return this.multipleInstances=e,this}setServiceProps(e){return this.serviceProps=e,this}setInstanceCreatedCallback(e){return this.onInstanceCreated=e,this}};var Ie="[DEFAULT]";var Bt=class{constructor(e,t){this.name=e,this.container=t,this.component=null,this.instances=new Map,this.instancesDeferred=new Map,this.instancesOptions=new Map,this.onInitCallbacks=new Map}get(e){let t=this.normalizeInstanceIdentifier(e);if(!this.instancesDeferred.has(t)){let r=new it;if(this.instancesDeferred.set(t,r),this.isInitialized(t)||this.shouldAutoInitialize())try{let i=this.getOrInitializeService({instanceIdentifier:t});i&&r.resolve(i)}catch(i){}}return this.instancesDeferred.get(t).promise}getImmediate(e){var t;let r=this.normalizeInstanceIdentifier(e==null?void 0:e.identifier),i=(t=e==null?void 0:e.optional)!==null&&t!==void 0?t:!1;if(this.isInitialized(r)||this.shouldAutoInitialize())try{return this.getOrInitializeService({instanceIdentifier:r})}catch(s){if(i)return null;throw s}else{if(i)return null;throw Error(`Service ${this.name} is not available`)}}getComponent(){return this.component}setComponent(e){if(e.name!==this.name)throw Error(`Mismatching Component ${e.name} for Provider ${this.name}.`);if(this.component)throw Error(`Component for ${this.name} has already been provided`);if(this.component=e,!!this.shouldAutoInitialize()){if(ds(e))try{this.getOrInitializeService({instanceIdentifier:Ie})}catch(t){}for(let[t,r]of this.instancesDeferred.entries()){let i=this.normalizeInstanceIdentifier(t);try{let s=this.getOrInitializeService({instanceIdentifier:i});r.resolve(s)}catch(s){}}}}clearInstance(e=Ie){this.instancesDeferred.delete(e),this.instancesOptions.delete(e),this.instances.delete(e)}async delete(){let e=Array.from(this.instances.values());await Promise.all([...e.filter(t=>"INTERNAL"in t).map(t=>t.INTERNAL.delete()),...e.filter(t=>"_delete"in t).map(t=>t._delete())])}isComponentSet(){return this.component!=null}isInitialized(e=Ie){return this.instances.has(e)}getOptions(e=Ie){return this.instancesOptions.get(e)||{}}initialize(e={}){let{options:t={}}=e,r=this.normalizeInstanceIdentifier(e.instanceIdentifier);if(this.isInitialized(r))throw Error(`${this.name}(${r}) has already been initialized`);if(!this.isComponentSet())throw Error(`Component ${this.name} has not been registered yet`);let i=this.getOrInitializeService({instanceIdentifier:r,options:t});for(let[s,o]of this.instancesDeferred.entries()){let a=this.normalizeInstanceIdentifier(s);r===a&&o.resolve(i)}return i}onInit(e,t){var r;let i=this.normalizeInstanceIdentifier(t),s=(r=this.onInitCallbacks.get(i))!==null&&r!==void 0?r:new Set;s.add(e),this.onInitCallbacks.set(i,s);let o=this.instances.get(i);return o&&e(o,i),()=>{s.delete(e)}}invokeOnInitCallbacks(e,t){let r=this.onInitCallbacks.get(t);if(!!r)for(let i of r)try{i(e,t)}catch(s){}}getOrInitializeService({instanceIdentifier:e,options:t={}}){let r=this.instances.get(e);if(!r&&this.component&&(r=this.component.instanceFactory(this.container,{instanceIdentifier:us(e),options:t}),this.instances.set(e,r),this.instancesOptions.set(e,t),this.invokeOnInitCallbacks(r,e),this.component.onInstanceCreated))try{this.component.onInstanceCreated(this.container,e,r)}catch(i){}return r||null}normalizeInstanceIdentifier(e=Ie){return this.component?this.component.multipleInstances?e:Ie:e}shouldAutoInitialize(){return!!this.component&&this.component.instantiationMode!=="EXPLICIT"}};function us(n){return n===Ie?void 0:n}function ds(n){return n.instantiationMode==="EAGER"}var ot=class{constructor(e){this.name=e,this.providers=new Map}addComponent(e){let t=this.getProvider(e.name);if(t.isComponentSet())throw new Error(`Component ${e.name} has already been registered with ${this.name}`);t.setComponent(e)}addOrOverwriteComponent(e){this.getProvider(e.name).isComponentSet()&&this.providers.delete(e.name),this.addComponent(e)}getProvider(e){if(this.providers.has(e))return this.providers.get(e);let t=new Bt(e,this);return this.providers.set(e,t),t}getProviders(){return Array.from(this.providers.values())}};var hs=[],b;(function(n){n[n.DEBUG=0]="DEBUG",n[n.VERBOSE=1]="VERBOSE",n[n.INFO=2]="INFO",n[n.WARN=3]="WARN",n[n.ERROR=4]="ERROR",n[n.SILENT=5]="SILENT"})(b||(b={}));var fs={debug:b.DEBUG,verbose:b.VERBOSE,info:b.INFO,warn:b.WARN,error:b.ERROR,silent:b.SILENT},ps=b.INFO,ms={[b.DEBUG]:"log",[b.VERBOSE]:"log",[b.INFO]:"info",[b.WARN]:"warn",[b.ERROR]:"error"},gs=(n,e,...t)=>{if(e<n.logLevel)return;let r=new Date().toISOString(),i=ms[e];if(i)console[i](`[${r}]  ${n.name}:`,...t);else throw new Error(`Attempted to log a message with an invalid logType (value: ${e})`)},Le=class{constructor(e){this.name=e,this._logLevel=ps,this._logHandler=gs,this._userLogHandler=null,hs.push(this)}get logLevel(){return this._logLevel}set logLevel(e){if(!(e in b))throw new TypeError(`Invalid value "${e}" assigned to \`logLevel\``);this._logLevel=e}setLogLevel(e){this._logLevel=typeof e=="string"?fs[e]:e}get logHandler(){return this._logHandler}set logHandler(e){if(typeof e!="function")throw new TypeError("Value assigned to `logHandler` must be a function");this._logHandler=e}get userLogHandler(){return this._userLogHandler}set userLogHandler(e){this._userLogHandler=e}debug(...e){this._userLogHandler&&this._userLogHandler(this,b.DEBUG,...e),this._logHandler(this,b.DEBUG,...e)}log(...e){this._userLogHandler&&this._userLogHandler(this,b.VERBOSE,...e),this._logHandler(this,b.VERBOSE,...e)}info(...e){this._userLogHandler&&this._userLogHandler(this,b.INFO,...e),this._logHandler(this,b.INFO,...e)}warn(...e){this._userLogHandler&&this._userLogHandler(this,b.WARN,...e),this._logHandler(this,b.WARN,...e)}error(...e){this._userLogHandler&&this._userLogHandler(this,b.ERROR,...e),this._logHandler(this,b.ERROR,...e)}};var _s=(n,e)=>e.some(t=>n instanceof t),rr,ir;function ys(){return rr||(rr=[IDBDatabase,IDBObjectStore,IDBIndex,IDBCursor,IDBTransaction])}function vs(){return ir||(ir=[IDBCursor.prototype.advance,IDBCursor.prototype.continue,IDBCursor.prototype.continuePrimaryKey])}var sr=new WeakMap,Ht=new WeakMap,or=new WeakMap,Vt=new WeakMap,jt=new WeakMap;function Is(n){let e=new Promise((t,r)=>{let i=()=>{n.removeEventListener("success",s),n.removeEventListener("error",o)},s=()=>{t(G(n.result)),i()},o=()=>{r(n.error),i()};n.addEventListener("success",s),n.addEventListener("error",o)});return e.then(t=>{t instanceof IDBCursor&&sr.set(t,n)}).catch(()=>{}),jt.set(e,n),e}function bs(n){if(Ht.has(n))return;let e=new Promise((t,r)=>{let i=()=>{n.removeEventListener("complete",s),n.removeEventListener("error",o),n.removeEventListener("abort",o)},s=()=>{t(),i()},o=()=>{r(n.error||new DOMException("AbortError","AbortError")),i()};n.addEventListener("complete",s),n.addEventListener("error",o),n.addEventListener("abort",o)});Ht.set(n,e)}var Wt={get(n,e,t){if(n instanceof IDBTransaction){if(e==="done")return Ht.get(n);if(e==="objectStoreNames")return n.objectStoreNames||or.get(n);if(e==="store")return t.objectStoreNames[1]?void 0:t.objectStore(t.objectStoreNames[0])}return G(n[e])},set(n,e,t){return n[e]=t,!0},has(n,e){return n instanceof IDBTransaction&&(e==="done"||e==="store")?!0:e in n}};function ar(n){Wt=n(Wt)}function Es(n){return n===IDBDatabase.prototype.transaction&&!("objectStoreNames"in IDBTransaction.prototype)?function(e,...t){let r=n.call(at(this),e,...t);return or.set(r,e.sort?e.sort():[e]),G(r)}:vs().includes(n)?function(...e){return n.apply(at(this),e),G(sr.get(this))}:function(...e){return G(n.apply(at(this),e))}}function Ts(n){return typeof n=="function"?Es(n):(n instanceof IDBTransaction&&bs(n),_s(n,ys())?new Proxy(n,Wt):n)}function G(n){if(n instanceof IDBRequest)return Is(n);if(Vt.has(n))return Vt.get(n);let e=Ts(n);return e!==n&&(Vt.set(n,e),jt.set(e,n)),e}var at=n=>jt.get(n);function lr(n,e,{blocked:t,upgrade:r,blocking:i,terminated:s}={}){let o=indexedDB.open(n,e),a=G(o);return r&&o.addEventListener("upgradeneeded",c=>{r(G(o.result),c.oldVersion,c.newVersion,G(o.transaction))}),t&&o.addEventListener("blocked",()=>t()),a.then(c=>{s&&c.addEventListener("close",()=>s()),i&&c.addEventListener("versionchange",()=>i())}).catch(()=>{}),a}var ws=["get","getKey","getAll","getAllKeys","count"],Ss=["put","add","delete","clear"],zt=new Map;function cr(n,e){if(!(n instanceof IDBDatabase&&!(e in n)&&typeof e=="string"))return;if(zt.get(e))return zt.get(e);let t=e.replace(/FromIndex$/,""),r=e!==t,i=Ss.includes(t);if(!(t in(r?IDBIndex:IDBObjectStore).prototype)||!(i||ws.includes(t)))return;let s=async function(o,...a){let c=this.transaction(o,i?"readwrite":"readonly"),l=c.store;return r&&(l=l.index(a.shift())),(await Promise.all([l[t](...a),i&&c.done]))[0]};return zt.set(e,s),s}ar(n=>An(Sn({},n),{get:(e,t,r)=>cr(e,t)||n.get(e,t,r),has:(e,t)=>!!cr(e,t)||n.has(e,t)}));var Gt=class{constructor(e){this.container=e}getPlatformInfoString(){return this.container.getProviders().map(t=>{if(As(t)){let r=t.getImmediate();return`${r.library}/${r.version}`}else return null}).filter(t=>t).join(" ")}};function As(n){let e=n.getComponent();return(e==null?void 0:e.type)==="VERSION"}var $t="@firebase/app",ur="0.7.28";var Zt=new Le("@firebase/app"),ks="@firebase/app-compat",Rs="@firebase/analytics-compat",Os="@firebase/analytics",Ds="@firebase/app-check-compat",Ns="@firebase/app-check",Cs="@firebase/auth",Ps="@firebase/auth-compat",Ls="@firebase/database",xs="@firebase/database-compat",Ms="@firebase/functions",Us="@firebase/functions-compat",Fs="@firebase/installations",Bs="@firebase/installations-compat",Vs="@firebase/messaging",Hs="@firebase/messaging-compat",Ws="@firebase/performance",js="@firebase/performance-compat",zs="@firebase/remote-config",qs="@firebase/remote-config-compat",Gs="@firebase/storage",$s="@firebase/storage-compat",Ks="@firebase/firestore",Ys="@firebase/firestore-compat",Js="firebase",Xs="9.9.0";var Qs="[DEFAULT]",Zs={[$t]:"fire-core",[ks]:"fire-core-compat",[Os]:"fire-analytics",[Rs]:"fire-analytics-compat",[Ns]:"fire-app-check",[Ds]:"fire-app-check-compat",[Cs]:"fire-auth",[Ps]:"fire-auth-compat",[Ls]:"fire-rtdb",[xs]:"fire-rtdb-compat",[Ms]:"fire-fn",[Us]:"fire-fn-compat",[Fs]:"fire-iid",[Bs]:"fire-iid-compat",[Vs]:"fire-fcm",[Hs]:"fire-fcm-compat",[Ws]:"fire-perf",[js]:"fire-perf-compat",[zs]:"fire-rc",[qs]:"fire-rc-compat",[Gs]:"fire-gcs",[$s]:"fire-gcs-compat",[Ks]:"fire-fst",[Ys]:"fire-fst-compat","fire-js":"fire-js",[Js]:"fire-js-all"};var Kt=new Map,Yt=new Map;function eo(n,e){try{n.container.addComponent(e)}catch(t){Zt.debug(`Component ${e.name} failed to register with FirebaseApp ${n.name}`,t)}}function xe(n){let e=n.name;if(Yt.has(e))return Zt.debug(`There were multiple attempts to register component ${e}.`),!1;Yt.set(e,n);for(let t of Kt.values())eo(t,n);return!0}var to={["no-app"]:"No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",["bad-app-name"]:"Illegal App name: '{$appName}",["duplicate-app"]:"Firebase App named '{$appName}' already exists with different options or config",["app-deleted"]:"Firebase App named '{$appName}' already deleted",["invalid-app-argument"]:"firebase.{$appName}() takes either no argument or a Firebase App instance.",["invalid-log-argument"]:"First argument to `onLog` must be null or a function.",["storage-open"]:"Error thrown when opening storage. Original error: {$originalErrorMessage}.",["storage-get"]:"Error thrown when reading from storage. Original error: {$originalErrorMessage}.",["storage-set"]:"Error thrown when writing to storage. Original error: {$originalErrorMessage}.",["storage-delete"]:"Error thrown when deleting from storage. Original error: {$originalErrorMessage}."},Me=new Y("app","Firebase",to);var Jt=class{constructor(e,t,r){this._isDeleted=!1,this._options=Object.assign({},e),this._config=Object.assign({},t),this._name=t.name,this._automaticDataCollectionEnabled=t.automaticDataCollectionEnabled,this._container=r,this.container.addComponent(new q("app",()=>this,"PUBLIC"))}get automaticDataCollectionEnabled(){return this.checkDestroyed(),this._automaticDataCollectionEnabled}set automaticDataCollectionEnabled(e){this.checkDestroyed(),this._automaticDataCollectionEnabled=e}get name(){return this.checkDestroyed(),this._name}get options(){return this.checkDestroyed(),this._options}get config(){return this.checkDestroyed(),this._config}get container(){return this._container}get isDeleted(){return this._isDeleted}set isDeleted(e){this._isDeleted=e}checkDestroyed(){if(this.isDeleted)throw Me.create("app-deleted",{appName:this._name})}};var en=Xs;function pr(n,e={}){typeof e!="object"&&(e={name:e});let t=Object.assign({name:Qs,automaticDataCollectionEnabled:!1},e),r=t.name;if(typeof r!="string"||!r)throw Me.create("bad-app-name",{appName:String(r)});let i=Kt.get(r);if(i){if(Ge(n,i.options)&&Ge(t,i.config))return i;throw Me.create("duplicate-app",{appName:r})}let s=new ot(r);for(let a of Yt.values())s.addComponent(a);let o=new Jt(n,t,s);return Kt.set(r,o),o}function ue(n,e,t){var r;let i=(r=Zs[n])!==null&&r!==void 0?r:n;t&&(i+=`-${t}`);let s=i.match(/\s|\//),o=e.match(/\s|\//);if(s||o){let a=[`Unable to register library "${i}" with version "${e}":`];s&&a.push(`library name "${i}" contains illegal characters (whitespace or "/")`),s&&o&&a.push("and"),o&&a.push(`version name "${e}" contains illegal characters (whitespace or "/")`),Zt.warn(a.join(" "));return}xe(new q(`${i}-version`,()=>({library:i,version:e}),"VERSION"))}var no="firebase-heartbeat-database",ro=1,$e="firebase-heartbeat-store",qt=null;function mr(){return qt||(qt=lr(no,ro,{upgrade:(n,e)=>{switch(e){case 0:n.createObjectStore($e)}}}).catch(n=>{throw Me.create("storage-open",{originalErrorMessage:n.message})})),qt}async function io(n){var e;try{return(await mr()).transaction($e).objectStore($e).get(gr(n))}catch(t){throw Me.create("storage-get",{originalErrorMessage:(e=t)===null||e===void 0?void 0:e.message})}}async function dr(n,e){var t;try{let i=(await mr()).transaction($e,"readwrite");return await i.objectStore($e).put(e,gr(n)),i.done}catch(r){throw Me.create("storage-set",{originalErrorMessage:(t=r)===null||t===void 0?void 0:t.message})}}function gr(n){return`${n.name}!${n.options.appId}`}var so=1024,oo=30*24*60*60*1e3,Xt=class{constructor(e){this.container=e,this._heartbeatsCache=null;let t=this.container.getProvider("app").getImmediate();this._storage=new Qt(t),this._heartbeatsCachePromise=this._storage.read().then(r=>(this._heartbeatsCache=r,r))}async triggerHeartbeat(){let t=this.container.getProvider("platform-logger").getImmediate().getPlatformInfoString(),r=hr();if(this._heartbeatsCache===null&&(this._heartbeatsCache=await this._heartbeatsCachePromise),!(this._heartbeatsCache.lastSentHeartbeatDate===r||this._heartbeatsCache.heartbeats.some(i=>i.date===r)))return this._heartbeatsCache.heartbeats.push({date:r,agent:t}),this._heartbeatsCache.heartbeats=this._heartbeatsCache.heartbeats.filter(i=>{let s=new Date(i.date).valueOf();return Date.now()-s<=oo}),this._storage.overwrite(this._heartbeatsCache)}async getHeartbeatsHeader(){if(this._heartbeatsCache===null&&await this._heartbeatsCachePromise,this._heartbeatsCache===null||this._heartbeatsCache.heartbeats.length===0)return"";let e=hr(),{heartbeatsToSend:t,unsentEntries:r}=ao(this._heartbeatsCache.heartbeats),i=Ft(JSON.stringify({version:2,heartbeats:t}));return this._heartbeatsCache.lastSentHeartbeatDate=e,r.length>0?(this._heartbeatsCache.heartbeats=r,await this._storage.overwrite(this._heartbeatsCache)):(this._heartbeatsCache.heartbeats=[],this._storage.overwrite(this._heartbeatsCache)),i}};function hr(){return new Date().toISOString().substring(0,10)}function ao(n,e=so){let t=[],r=n.slice();for(let i of n){let s=t.find(o=>o.agent===i.agent);if(s){if(s.dates.push(i.date),fr(t)>e){s.dates.pop();break}}else if(t.push({agent:i.agent,dates:[i.date]}),fr(t)>e){t.pop();break}r=r.slice(1)}return{heartbeatsToSend:t,unsentEntries:r}}var Qt=class{constructor(e){this.app=e,this._canUseIndexedDBPromise=this.runIndexedDBEnvironmentCheck()}async runIndexedDBEnvironmentCheck(){return er()?tr().then(()=>!0).catch(()=>!1):!1}async read(){return await this._canUseIndexedDBPromise?await io(this.app)||{heartbeats:[]}:{heartbeats:[]}}async overwrite(e){var t;if(await this._canUseIndexedDBPromise){let i=await this.read();return dr(this.app,{lastSentHeartbeatDate:(t=e.lastSentHeartbeatDate)!==null&&t!==void 0?t:i.lastSentHeartbeatDate,heartbeats:e.heartbeats})}else return}async add(e){var t;if(await this._canUseIndexedDBPromise){let i=await this.read();return dr(this.app,{lastSentHeartbeatDate:(t=e.lastSentHeartbeatDate)!==null&&t!==void 0?t:i.lastSentHeartbeatDate,heartbeats:[...i.heartbeats,...e.heartbeats]})}else return}};function fr(n){return Ft(JSON.stringify({version:2,heartbeats:n})).length}function co(n){xe(new q("platform-logger",e=>new Gt(e),"PRIVATE")),xe(new q("heartbeat",e=>new Xt(e),"PRIVATE")),ue($t,ur,n),ue($t,ur,"esm2017"),ue("fire-js","")}co("");var lo="firebase",uo="9.9.0";ue(lo,uo,"app");var Br=Ri(Fr(),1),{__extends:wc,__assign:Sc,__rest:dt,__decorate:Ac,__param:kc,__metadata:Rc,__awaiter:Oc,__generator:Dc,__exportStar:Nc,__createBinding:Cc,__values:Pc,__read:Lc,__spread:xc,__spreadArrays:Mc,__spreadArray:Uc,__await:Fc,__asyncGenerator:Bc,__asyncDelegator:Vc,__asyncValues:Hc,__makeTemplateObject:Wc,__importStar:jc,__importDefault:zc,__classPrivateFieldGet:qc,__classPrivateFieldSet:Gc,__classPrivateFieldIn:$c}=Br.default;function Jr(){return{["dependent-sdk-initialized-before-auth"]:"Another Firebase SDK was initialized and is trying to use Auth before Auth is initialized. Please be sure to call `initializeAuth` or `getAuth` before starting any other Firebase SDK."}}var Xr=Jr,Qr=new Y("auth","Firebase",Jr());var Vr=new Le("@firebase/auth");function ht(n,...e){Vr.logLevel<=b.ERROR&&Vr.error(`Auth (${en}): ${n}`,...e)}function pe(n,...e){throw vn(n,...e)}function Ye(n,...e){return vn(n,...e)}function ho(n,e,t){let r=Object.assign(Object.assign({},Xr()),{[e]:t});return new Y("auth","Firebase",r).create(e,{appName:n.name})}function vn(n,...e){if(typeof n!="string"){let t=e[0],r=[...e.slice(1)];return r[0]&&(r[0].appName=n.name),n._errorFactory.create(t,...r)}return Qr.create(n,...e)}function _(n,e,...t){if(!n)throw vn(e,...t)}function $(n){let e="INTERNAL ASSERTION FAILED: "+n;throw ht(e),new Error(e)}function Ee(n,e){n||$(e)}var Hr=new Map;function be(n){Ee(n instanceof Function,"Expected a class definition");let e=Hr.get(n);return e?(Ee(e instanceof n,"Instance stored in cache mismatched with class"),e):(e=new n,Hr.set(n,e),e)}function fo(n,e){let t=(e==null?void 0:e.persistence)||[],r=(Array.isArray(t)?t:[t]).map(be);e!=null&&e.errorMap&&n._updateErrorMap(e.errorMap),n._initializeWithPersistence(r,e==null?void 0:e.popupRedirectResolver)}function po(){return Wr()==="http:"||Wr()==="https:"}function Wr(){var n;return typeof self<"u"&&((n=self.location)===null||n===void 0?void 0:n.protocol)||null}function mo(){return typeof navigator<"u"&&navigator&&"onLine"in navigator&&typeof navigator.onLine=="boolean"&&(po()||Xn()||"connection"in navigator)?navigator.onLine:!0}function go(){if(typeof navigator>"u")return null;let n=navigator;return n.languages&&n.languages[0]||n.language||null}var Te=class{constructor(e,t){this.shortDelay=e,this.longDelay=t,Ee(t>e,"Short delay should be less than long delay!"),this.isMobile=Jn()||Qn()}get(){return mo()?this.isMobile?this.longDelay:this.shortDelay:Math.min(5e3,this.shortDelay)}};function _o(n,e){Ee(n.emulator,"Emulator should always be set here");let{url:t}=n.emulator;return e?`${t}${e.startsWith("/")?e.slice(1):e}`:t}var ft=class{static initialize(e,t,r){this.fetchImpl=e,t&&(this.headersImpl=t),r&&(this.responseImpl=r)}static fetch(){if(this.fetchImpl)return this.fetchImpl;if(typeof self<"u"&&"fetch"in self)return self.fetch;$("Could not find fetch implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill")}static headers(){if(this.headersImpl)return this.headersImpl;if(typeof self<"u"&&"Headers"in self)return self.Headers;$("Could not find Headers implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill")}static response(){if(this.responseImpl)return this.responseImpl;if(typeof self<"u"&&"Response"in self)return self.Response;$("Could not find Response implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill")}};var yo={CREDENTIAL_MISMATCH:"custom-token-mismatch",MISSING_CUSTOM_TOKEN:"internal-error",INVALID_IDENTIFIER:"invalid-email",MISSING_CONTINUE_URI:"internal-error",INVALID_PASSWORD:"wrong-password",MISSING_PASSWORD:"internal-error",EMAIL_EXISTS:"email-already-in-use",PASSWORD_LOGIN_DISABLED:"operation-not-allowed",INVALID_IDP_RESPONSE:"invalid-credential",INVALID_PENDING_TOKEN:"invalid-credential",FEDERATED_USER_ID_ALREADY_LINKED:"credential-already-in-use",MISSING_REQ_TYPE:"internal-error",EMAIL_NOT_FOUND:"user-not-found",RESET_PASSWORD_EXCEED_LIMIT:"too-many-requests",EXPIRED_OOB_CODE:"expired-action-code",INVALID_OOB_CODE:"invalid-action-code",MISSING_OOB_CODE:"internal-error",CREDENTIAL_TOO_OLD_LOGIN_AGAIN:"requires-recent-login",INVALID_ID_TOKEN:"invalid-user-token",TOKEN_EXPIRED:"user-token-expired",USER_NOT_FOUND:"user-token-expired",TOO_MANY_ATTEMPTS_TRY_LATER:"too-many-requests",INVALID_CODE:"invalid-verification-code",INVALID_SESSION_INFO:"invalid-verification-id",INVALID_TEMPORARY_PROOF:"invalid-credential",MISSING_SESSION_INFO:"missing-verification-id",SESSION_EXPIRED:"code-expired",MISSING_ANDROID_PACKAGE_NAME:"missing-android-pkg-name",UNAUTHORIZED_DOMAIN:"unauthorized-continue-uri",INVALID_OAUTH_CLIENT_ID:"invalid-oauth-client-id",ADMIN_ONLY_OPERATION:"admin-restricted-operation",INVALID_MFA_PENDING_CREDENTIAL:"invalid-multi-factor-session",MFA_ENROLLMENT_NOT_FOUND:"multi-factor-info-not-found",MISSING_MFA_ENROLLMENT_ID:"missing-multi-factor-info",MISSING_MFA_PENDING_CREDENTIAL:"missing-multi-factor-session",SECOND_FACTOR_EXISTS:"second-factor-already-in-use",SECOND_FACTOR_LIMIT_EXCEEDED:"maximum-second-factor-count-exceeded",BLOCKING_FUNCTION_ERROR_RESPONSE:"internal-error"};var vo=new Te(3e4,6e4);function C(n,e){return n.tenantId&&!e.tenantId?Object.assign(Object.assign({},e),{tenantId:n.tenantId}):e}async function Z(n,e,t,r,i={}){return Zr(n,i,async()=>{let s={},o={};r&&(e==="GET"?o=r:s={body:JSON.stringify(r)});let a=st(Object.assign({key:n.config.apiKey},o)).slice(1),c=await n._getAdditionalHeaders();return c["Content-Type"]="application/json",n.languageCode&&(c["X-Firebase-Locale"]=n.languageCode),ft.fetch()(ei(n,n.config.apiHost,t,a),Object.assign({method:e,headers:c,referrerPolicy:"no-referrer"},s))})}async function Zr(n,e,t){n._canInitEmulator=!1;let r=Object.assign(Object.assign({},yo),e);try{let i=new sn(n),s=await Promise.race([t(),i.promise]);i.clearNetworkTimeout();let o=await s.json();if("needConfirmation"in o)throw Ke(n,"account-exists-with-different-credential",o);if(s.ok&&!("errorMessage"in o))return o;{let a=s.ok?o.errorMessage:o.error.message,[c,l]=a.split(" : ");if(c==="FEDERATED_USER_ID_ALREADY_LINKED")throw Ke(n,"credential-already-in-use",o);if(c==="EMAIL_EXISTS")throw Ke(n,"email-already-in-use",o);if(c==="USER_DISABLED")throw Ke(n,"user-disabled",o);let u=r[c]||c.toLowerCase().replace(/[_\s]+/g,"-");if(l)throw ho(n,u,l);pe(n,u)}}catch(i){if(i instanceof z)throw i;pe(n,"network-request-failed")}}async function ke(n,e,t,r,i={}){let s=await Z(n,e,t,r,i);return"mfaPendingCredential"in s&&pe(n,"multi-factor-auth-required",{_serverResponse:s}),s}function ei(n,e,t,r){let i=`${e}${t}?${r}`;return n.config.emulator?_o(n.config,i):`${n.config.apiScheme}://${i}`}var sn=class{constructor(e){this.auth=e,this.timer=null,this.promise=new Promise((t,r)=>{this.timer=setTimeout(()=>r(Ye(this.auth,"network-request-failed")),vo.get())})}clearNetworkTimeout(){clearTimeout(this.timer)}};function Ke(n,e,t){let r={appName:n.name};t.email&&(r.email=t.email),t.phoneNumber&&(r.phoneNumber=t.phoneNumber);let i=Ye(n,e,r);return i.customData._tokenResponse=t,i}async function Io(n,e){return Z(n,"POST","/v1/accounts:delete",e)}async function bo(n,e){return Z(n,"POST","/v1/accounts:lookup",e)}function Je(n){if(!!n)try{let e=new Date(Number(n));if(!isNaN(e.getTime()))return e.toUTCString()}catch(e){}}async function ti(n,e=!1){let t=Pe(n),r=await t.getIdToken(e),i=In(r);_(i&&i.exp&&i.auth_time&&i.iat,t.auth,"internal-error");let s=typeof i.firebase=="object"?i.firebase:void 0,o=s==null?void 0:s.sign_in_provider;return{claims:i,token:r,authTime:Je(nn(i.auth_time)),issuedAtTime:Je(nn(i.iat)),expirationTime:Je(nn(i.exp)),signInProvider:o||null,signInSecondFactor:(s==null?void 0:s.sign_in_second_factor)||null}}function nn(n){return Number(n)*1e3}function In(n){var e;let[t,r,i]=n.split(".");if(t===void 0||r===void 0||i===void 0)return ht("JWT malformed, contained fewer than 3 sections"),null;try{let s=Yn(r);return s?JSON.parse(s):(ht("Failed to decode base64 JWT payload"),null)}catch(s){return ht("Caught error parsing JWT payload as JSON",(e=s)===null||e===void 0?void 0:e.toString()),null}}function Eo(n){let e=In(n);return _(e,"internal-error"),_(typeof e.exp<"u","internal-error"),_(typeof e.iat<"u","internal-error"),Number(e.exp)-Number(e.iat)}async function Xe(n,e,t=!1){if(t)return e;try{return await e}catch(r){throw r instanceof z&&To(r)&&n.auth.currentUser===n&&await n.auth.signOut(),r}}function To({code:n}){return n==="auth/user-disabled"||n==="auth/user-token-expired"}var on=class{constructor(e){this.user=e,this.isRunning=!1,this.timerId=null,this.errorBackoff=3e4}_start(){this.isRunning||(this.isRunning=!0,this.schedule())}_stop(){!this.isRunning||(this.isRunning=!1,this.timerId!==null&&clearTimeout(this.timerId))}getInterval(e){var t;if(e){let r=this.errorBackoff;return this.errorBackoff=Math.min(this.errorBackoff*2,96e4),r}else{this.errorBackoff=3e4;let i=((t=this.user.stsTokenManager.expirationTime)!==null&&t!==void 0?t:0)-Date.now()-3e5;return Math.max(0,i)}}schedule(e=!1){if(!this.isRunning)return;let t=this.getInterval(e);this.timerId=setTimeout(async()=>{await this.iteration()},t)}async iteration(){var e;try{await this.user.getIdToken(!0)}catch(t){((e=t)===null||e===void 0?void 0:e.code)==="auth/network-request-failed"&&this.schedule(!0);return}this.schedule()}};var pt=class{constructor(e,t){this.createdAt=e,this.lastLoginAt=t,this._initializeTime()}_initializeTime(){this.lastSignInTime=Je(this.lastLoginAt),this.creationTime=Je(this.createdAt)}_copy(e){this.createdAt=e.createdAt,this.lastLoginAt=e.lastLoginAt,this._initializeTime()}toJSON(){return{createdAt:this.createdAt,lastLoginAt:this.lastLoginAt}}};async function mt(n){var e;let t=n.auth,r=await n.getIdToken(),i=await Xe(n,bo(t,{idToken:r}));_(i==null?void 0:i.users.length,t,"internal-error");let s=i.users[0];n._notifyReloadListener(s);let o=!((e=s.providerUserInfo)===null||e===void 0)&&e.length?So(s.providerUserInfo):[],a=wo(n.providerData,o),c=n.isAnonymous,l=!(n.email&&s.passwordHash)&&!(a!=null&&a.length),u=c?l:!1,h={uid:s.localId,displayName:s.displayName||null,photoURL:s.photoUrl||null,email:s.email||null,emailVerified:s.emailVerified||!1,phoneNumber:s.phoneNumber||null,tenantId:s.tenantId||null,providerData:a,metadata:new pt(s.createdAt,s.lastLoginAt),isAnonymous:u};Object.assign(n,h)}async function ni(n){let e=Pe(n);await mt(e),await e.auth._persistUserIfCurrent(e),e.auth._notifyListenersIfCurrent(e)}function wo(n,e){return[...n.filter(r=>!e.some(i=>i.providerId===r.providerId)),...e]}function So(n){return n.map(e=>{var{providerId:t}=e,r=dt(e,["providerId"]);return{providerId:t,uid:r.rawId||"",displayName:r.displayName||null,email:r.email||null,phoneNumber:r.phoneNumber||null,photoURL:r.photoUrl||null}})}async function Ao(n,e){let t=await Zr(n,{},async()=>{let r=st({grant_type:"refresh_token",refresh_token:e}).slice(1),{tokenApiHost:i,apiKey:s}=n.config,o=ei(n,i,"/v1/token",`key=${s}`),a=await n._getAdditionalHeaders();return a["Content-Type"]="application/x-www-form-urlencoded",ft.fetch()(o,{method:"POST",headers:a,body:r})});return{accessToken:t.access_token,expiresIn:t.expires_in,refreshToken:t.refresh_token}}var we=class{constructor(){this.refreshToken=null,this.accessToken=null,this.expirationTime=null}get isExpired(){return!this.expirationTime||Date.now()>this.expirationTime-3e4}updateFromServerResponse(e){_(e.idToken,"internal-error"),_(typeof e.idToken<"u","internal-error"),_(typeof e.refreshToken<"u","internal-error");let t="expiresIn"in e&&typeof e.expiresIn<"u"?Number(e.expiresIn):Eo(e.idToken);this.updateTokensAndExpiration(e.idToken,e.refreshToken,t)}async getToken(e,t=!1){return _(!this.accessToken||this.refreshToken,e,"user-token-expired"),!t&&this.accessToken&&!this.isExpired?this.accessToken:this.refreshToken?(await this.refresh(e,this.refreshToken),this.accessToken):null}clearRefreshToken(){this.refreshToken=null}async refresh(e,t){let{accessToken:r,refreshToken:i,expiresIn:s}=await Ao(e,t);this.updateTokensAndExpiration(r,i,Number(s))}updateTokensAndExpiration(e,t,r){this.refreshToken=t||null,this.accessToken=e||null,this.expirationTime=Date.now()+r*1e3}static fromJSON(e,t){let{refreshToken:r,accessToken:i,expirationTime:s}=t,o=new we;return r&&(_(typeof r=="string","internal-error",{appName:e}),o.refreshToken=r),i&&(_(typeof i=="string","internal-error",{appName:e}),o.accessToken=i),s&&(_(typeof s=="number","internal-error",{appName:e}),o.expirationTime=s),o}toJSON(){return{refreshToken:this.refreshToken,accessToken:this.accessToken,expirationTime:this.expirationTime}}_assign(e){this.accessToken=e.accessToken,this.refreshToken=e.refreshToken,this.expirationTime=e.expirationTime}_clone(){return Object.assign(new we,this.toJSON())}_performRefresh(){return $("not implemented")}};function de(n,e){_(typeof n=="string"||typeof n>"u","internal-error",{appName:e})}var J=class{constructor(e){var{uid:t,auth:r,stsTokenManager:i}=e,s=dt(e,["uid","auth","stsTokenManager"]);this.providerId="firebase",this.proactiveRefresh=new on(this),this.reloadUserInfo=null,this.reloadListener=null,this.uid=t,this.auth=r,this.stsTokenManager=i,this.accessToken=i.accessToken,this.displayName=s.displayName||null,this.email=s.email||null,this.emailVerified=s.emailVerified||!1,this.phoneNumber=s.phoneNumber||null,this.photoURL=s.photoURL||null,this.isAnonymous=s.isAnonymous||!1,this.tenantId=s.tenantId||null,this.providerData=s.providerData?[...s.providerData]:[],this.metadata=new pt(s.createdAt||void 0,s.lastLoginAt||void 0)}async getIdToken(e){let t=await Xe(this,this.stsTokenManager.getToken(this.auth,e));return _(t,this.auth,"internal-error"),this.accessToken!==t&&(this.accessToken=t,await this.auth._persistUserIfCurrent(this),this.auth._notifyListenersIfCurrent(this)),t}getIdTokenResult(e){return ti(this,e)}reload(){return ni(this)}_assign(e){this!==e&&(_(this.uid===e.uid,this.auth,"internal-error"),this.displayName=e.displayName,this.photoURL=e.photoURL,this.email=e.email,this.emailVerified=e.emailVerified,this.phoneNumber=e.phoneNumber,this.isAnonymous=e.isAnonymous,this.tenantId=e.tenantId,this.providerData=e.providerData.map(t=>Object.assign({},t)),this.metadata._copy(e.metadata),this.stsTokenManager._assign(e.stsTokenManager))}_clone(e){return new J(Object.assign(Object.assign({},this),{auth:e,stsTokenManager:this.stsTokenManager._clone()}))}_onReload(e){_(!this.reloadListener,this.auth,"internal-error"),this.reloadListener=e,this.reloadUserInfo&&(this._notifyReloadListener(this.reloadUserInfo),this.reloadUserInfo=null)}_notifyReloadListener(e){this.reloadListener?this.reloadListener(e):this.reloadUserInfo=e}_startProactiveRefresh(){this.proactiveRefresh._start()}_stopProactiveRefresh(){this.proactiveRefresh._stop()}async _updateTokensIfNecessary(e,t=!1){let r=!1;e.idToken&&e.idToken!==this.stsTokenManager.accessToken&&(this.stsTokenManager.updateFromServerResponse(e),r=!0),t&&await mt(this),await this.auth._persistUserIfCurrent(this),r&&this.auth._notifyListenersIfCurrent(this)}async delete(){let e=await this.getIdToken();return await Xe(this,Io(this.auth,{idToken:e})),this.stsTokenManager.clearRefreshToken(),this.auth.signOut()}toJSON(){return Object.assign(Object.assign({uid:this.uid,email:this.email||void 0,emailVerified:this.emailVerified,displayName:this.displayName||void 0,isAnonymous:this.isAnonymous,photoURL:this.photoURL||void 0,phoneNumber:this.phoneNumber||void 0,tenantId:this.tenantId||void 0,providerData:this.providerData.map(e=>Object.assign({},e)),stsTokenManager:this.stsTokenManager.toJSON(),_redirectEventId:this._redirectEventId},this.metadata.toJSON()),{apiKey:this.auth.config.apiKey,appName:this.auth.name})}get refreshToken(){return this.stsTokenManager.refreshToken||""}static _fromJSON(e,t){var r,i,s,o,a,c,l,u;let h=(r=t.displayName)!==null&&r!==void 0?r:void 0,d=(i=t.email)!==null&&i!==void 0?i:void 0,p=(s=t.phoneNumber)!==null&&s!==void 0?s:void 0,m=(o=t.photoURL)!==null&&o!==void 0?o:void 0,f=(a=t.tenantId)!==null&&a!==void 0?a:void 0,y=(c=t._redirectEventId)!==null&&c!==void 0?c:void 0,v=(l=t.createdAt)!==null&&l!==void 0?l:void 0,S=(u=t.lastLoginAt)!==null&&u!==void 0?u:void 0,{uid:A,emailVerified:E,isAnonymous:w,providerData:P,stsTokenManager:L}=t;_(A&&L,e,"internal-error");let V=we.fromJSON(this.name,L);_(typeof A=="string",e,"internal-error"),de(h,e.name),de(d,e.name),_(typeof E=="boolean",e,"internal-error"),_(typeof w=="boolean",e,"internal-error"),de(p,e.name),de(m,e.name),de(f,e.name),de(y,e.name),de(v,e.name),de(S,e.name);let D=new J({uid:A,auth:e,email:d,emailVerified:E,displayName:h,isAnonymous:w,photoURL:m,phoneNumber:p,tenantId:f,stsTokenManager:V,createdAt:v,lastLoginAt:S});return P&&Array.isArray(P)&&(D.providerData=P.map(H=>Object.assign({},H))),y&&(D._redirectEventId=y),D}static async _fromIdTokenResponse(e,t,r=!1){let i=new we;i.updateFromServerResponse(t);let s=new J({uid:t.localId,auth:e,stsTokenManager:i,isAnonymous:r});return await mt(s),s}};var gt=class{constructor(){this.type="NONE",this.storage={}}async _isAvailable(){return!0}async _set(e,t){this.storage[e]=t}async _get(e){let t=this.storage[e];return t===void 0?null:t}async _remove(e){delete this.storage[e]}_addListener(e,t){}_removeListener(e,t){}};gt.type="NONE";var an=gt;function rn(n,e,t){return`firebase:${n}:${e}:${t}`}var fe=class{constructor(e,t,r){this.persistence=e,this.auth=t,this.userKey=r;let{config:i,name:s}=this.auth;this.fullUserKey=rn(this.userKey,i.apiKey,s),this.fullPersistenceKey=rn("persistence",i.apiKey,s),this.boundEventHandler=t._onStorageEvent.bind(t),this.persistence._addListener(this.fullUserKey,this.boundEventHandler)}setCurrentUser(e){return this.persistence._set(this.fullUserKey,e.toJSON())}async getCurrentUser(){let e=await this.persistence._get(this.fullUserKey);return e?J._fromJSON(this.auth,e):null}removeCurrentUser(){return this.persistence._remove(this.fullUserKey)}savePersistenceForRedirect(){return this.persistence._set(this.fullPersistenceKey,this.persistence.type)}async setPersistence(e){if(this.persistence===e)return;let t=await this.getCurrentUser();if(await this.removeCurrentUser(),this.persistence=e,t)return this.setCurrentUser(t)}delete(){this.persistence._removeListener(this.fullUserKey,this.boundEventHandler)}static async create(e,t,r="authUser"){if(!t.length)return new fe(be(an),e,r);let i=(await Promise.all(t.map(async l=>{if(await l._isAvailable())return l}))).filter(l=>l),s=i[0]||be(an),o=rn(r,e.config.apiKey,e.name),a=null;for(let l of t)try{let u=await l._get(o);if(u){let h=J._fromJSON(e,u);l!==s&&(a=h),s=l;break}}catch(u){}let c=i.filter(l=>l._shouldAllowMigration);return!s._shouldAllowMigration||!c.length?new fe(s,e,r):(s=c[0],a&&await s._set(o,a.toJSON()),await Promise.all(t.map(async l=>{if(l!==s)try{await l._remove(o)}catch(u){}})),new fe(s,e,r))}};function jr(n){let e=n.toLowerCase();if(e.includes("opera/")||e.includes("opr/")||e.includes("opios/"))return"Opera";if(ii(e))return"IEMobile";if(e.includes("msie")||e.includes("trident/"))return"IE";if(e.includes("edge/"))return"Edge";if(ko(e))return"Firefox";if(e.includes("silk/"))return"Silk";if(oi(e))return"Blackberry";if(ai(e))return"Webos";if(ri(e))return"Safari";if((e.includes("chrome/")||Ro(e))&&!e.includes("edge/"))return"Chrome";if(si(e))return"Android";{let t=/([a-zA-Z\d\.]+)\/[a-zA-Z\d\.]*$/,r=n.match(t);if((r==null?void 0:r.length)===2)return r[1]}return"Other"}function ko(n=R()){return/firefox\//i.test(n)}function ri(n=R()){let e=n.toLowerCase();return e.includes("safari/")&&!e.includes("chrome/")&&!e.includes("crios/")&&!e.includes("android")}function Ro(n=R()){return/crios\//i.test(n)}function ii(n=R()){return/iemobile/i.test(n)}function si(n=R()){return/android/i.test(n)}function oi(n=R()){return/blackberry/i.test(n)}function ai(n=R()){return/webos/i.test(n)}function ci(n=R()){return/iphone|ipad|ipod/i.test(n)||/macintosh/i.test(n)&&/mobile/i.test(n)}function Oo(){return Zn()&&document.documentMode===10}function Do(n=R()){return ci(n)||si(n)||ai(n)||oi(n)||/windows phone/i.test(n)||ii(n)}function No(){try{return!!(window&&window!==window.top)}catch(n){return!1}}function li(n,e=[]){let t;switch(n){case"Browser":t=jr(R());break;case"Worker":t=`${jr(R())}-${n}`;break;default:t=n}let r=e.length?e.join(","):"FirebaseCore-web";return`${t}/JsCore/${en}/${r}`}var cn=class{constructor(e){this.auth=e,this.queue=[]}pushCallback(e,t){let r=s=>new Promise((o,a)=>{try{let c=e(s);o(c)}catch(c){a(c)}});r.onAbort=t,this.queue.push(r);let i=this.queue.length-1;return()=>{this.queue[i]=()=>Promise.resolve()}}async runMiddleware(e){var t;if(this.auth.currentUser===e)return;let r=[];try{for(let i of this.queue)await i(e),i.onAbort&&r.push(i.onAbort)}catch(i){r.reverse();for(let s of r)try{s()}catch(o){}throw this.auth._errorFactory.create("login-blocked",{originalMessage:(t=i)===null||t===void 0?void 0:t.message})}}};var ln=class{constructor(e,t,r){this.app=e,this.heartbeatServiceProvider=t,this.config=r,this.currentUser=null,this.emulatorConfig=null,this.operations=Promise.resolve(),this.authStateSubscription=new _t(this),this.idTokenSubscription=new _t(this),this.beforeStateQueue=new cn(this),this.redirectUser=null,this.isProactiveRefreshEnabled=!1,this._canInitEmulator=!0,this._isInitialized=!1,this._deleted=!1,this._initializationPromise=null,this._popupRedirectResolver=null,this._errorFactory=Qr,this.lastNotifiedUid=void 0,this.languageCode=null,this.tenantId=null,this.settings={appVerificationDisabledForTesting:!1},this.frameworks=[],this.name=e.name,this.clientVersion=r.sdkClientVersion}_initializeWithPersistence(e,t){return t&&(this._popupRedirectResolver=be(t)),this._initializationPromise=this.queue(async()=>{var r,i;if(!this._deleted&&(this.persistenceManager=await fe.create(this,e),!this._deleted)){if(!((r=this._popupRedirectResolver)===null||r===void 0)&&r._shouldInitProactively)try{await this._popupRedirectResolver._initialize(this)}catch(s){}await this.initializeCurrentUser(t),this.lastNotifiedUid=((i=this.currentUser)===null||i===void 0?void 0:i.uid)||null,!this._deleted&&(this._isInitialized=!0)}}),this._initializationPromise}async _onStorageEvent(){if(this._deleted)return;let e=await this.assertedPersistence.getCurrentUser();if(!(!this.currentUser&&!e)){if(this.currentUser&&e&&this.currentUser.uid===e.uid){this._currentUser._assign(e),await this.currentUser.getIdToken();return}await this._updateCurrentUser(e,!0)}}async initializeCurrentUser(e){var t;let r=await this.assertedPersistence.getCurrentUser(),i=r,s=!1;if(e&&this.config.authDomain){await this.getOrInitRedirectPersistenceManager();let o=(t=this.redirectUser)===null||t===void 0?void 0:t._redirectEventId,a=i==null?void 0:i._redirectEventId,c=await this.tryRedirectSignIn(e);(!o||o===a)&&(c==null?void 0:c.user)&&(i=c.user,s=!0)}if(!i)return this.directlySetCurrentUser(null);if(!i._redirectEventId){if(s)try{await this.beforeStateQueue.runMiddleware(i)}catch(o){i=r,this._popupRedirectResolver._overrideRedirectResult(this,()=>Promise.reject(o))}return i?this.reloadAndSetCurrentUserOrClear(i):this.directlySetCurrentUser(null)}return _(this._popupRedirectResolver,this,"argument-error"),await this.getOrInitRedirectPersistenceManager(),this.redirectUser&&this.redirectUser._redirectEventId===i._redirectEventId?this.directlySetCurrentUser(i):this.reloadAndSetCurrentUserOrClear(i)}async tryRedirectSignIn(e){let t=null;try{t=await this._popupRedirectResolver._completeRedirectFn(this,e,!0)}catch(r){await this._setRedirectUser(null)}return t}async reloadAndSetCurrentUserOrClear(e){var t;try{await mt(e)}catch(r){if(((t=r)===null||t===void 0?void 0:t.code)!=="auth/network-request-failed")return this.directlySetCurrentUser(null)}return this.directlySetCurrentUser(e)}useDeviceLanguage(){this.languageCode=go()}async _delete(){this._deleted=!0}async updateCurrentUser(e){let t=e?Pe(e):null;return t&&_(t.auth.config.apiKey===this.config.apiKey,this,"invalid-user-token"),this._updateCurrentUser(t&&t._clone(this))}async _updateCurrentUser(e,t=!1){if(!this._deleted)return e&&_(this.tenantId===e.tenantId,this,"tenant-id-mismatch"),t||await this.beforeStateQueue.runMiddleware(e),this.queue(async()=>{await this.directlySetCurrentUser(e),this.notifyAuthListeners()})}async signOut(){return await this.beforeStateQueue.runMiddleware(null),(this.redirectPersistenceManager||this._popupRedirectResolver)&&await this._setRedirectUser(null),this._updateCurrentUser(null,!0)}setPersistence(e){return this.queue(async()=>{await this.assertedPersistence.setPersistence(be(e))})}_getPersistence(){return this.assertedPersistence.persistence.type}_updateErrorMap(e){this._errorFactory=new Y("auth","Firebase",e())}onAuthStateChanged(e,t,r){return this.registerStateListener(this.authStateSubscription,e,t,r)}beforeAuthStateChanged(e,t){return this.beforeStateQueue.pushCallback(e,t)}onIdTokenChanged(e,t,r){return this.registerStateListener(this.idTokenSubscription,e,t,r)}toJSON(){var e;return{apiKey:this.config.apiKey,authDomain:this.config.authDomain,appName:this.name,currentUser:(e=this._currentUser)===null||e===void 0?void 0:e.toJSON()}}async _setRedirectUser(e,t){let r=await this.getOrInitRedirectPersistenceManager(t);return e===null?r.removeCurrentUser():r.setCurrentUser(e)}async getOrInitRedirectPersistenceManager(e){if(!this.redirectPersistenceManager){let t=e&&be(e)||this._popupRedirectResolver;_(t,this,"argument-error"),this.redirectPersistenceManager=await fe.create(this,[be(t._redirectPersistence)],"redirectUser"),this.redirectUser=await this.redirectPersistenceManager.getCurrentUser()}return this.redirectPersistenceManager}async _redirectUserForId(e){var t,r;return this._isInitialized&&await this.queue(async()=>{}),((t=this._currentUser)===null||t===void 0?void 0:t._redirectEventId)===e?this._currentUser:((r=this.redirectUser)===null||r===void 0?void 0:r._redirectEventId)===e?this.redirectUser:null}async _persistUserIfCurrent(e){if(e===this.currentUser)return this.queue(async()=>this.directlySetCurrentUser(e))}_notifyListenersIfCurrent(e){e===this.currentUser&&this.notifyAuthListeners()}_key(){return`${this.config.authDomain}:${this.config.apiKey}:${this.name}`}_startProactiveRefresh(){this.isProactiveRefreshEnabled=!0,this.currentUser&&this._currentUser._startProactiveRefresh()}_stopProactiveRefresh(){this.isProactiveRefreshEnabled=!1,this.currentUser&&this._currentUser._stopProactiveRefresh()}get _currentUser(){return this.currentUser}notifyAuthListeners(){var e,t;if(!this._isInitialized)return;this.idTokenSubscription.next(this.currentUser);let r=(t=(e=this.currentUser)===null||e===void 0?void 0:e.uid)!==null&&t!==void 0?t:null;this.lastNotifiedUid!==r&&(this.lastNotifiedUid=r,this.authStateSubscription.next(this.currentUser))}registerStateListener(e,t,r,i){if(this._deleted)return()=>{};let s=typeof t=="function"?t:t.next.bind(t),o=this._isInitialized?Promise.resolve():this._initializationPromise;return _(o,this,"internal-error"),o.then(()=>s(this.currentUser)),typeof t=="function"?e.addObserver(t,r,i):e.addObserver(t)}async directlySetCurrentUser(e){this.currentUser&&this.currentUser!==e&&(this._currentUser._stopProactiveRefresh(),e&&this.isProactiveRefreshEnabled&&e._startProactiveRefresh()),this.currentUser=e,e?await this.assertedPersistence.setCurrentUser(e):await this.assertedPersistence.removeCurrentUser()}queue(e){return this.operations=this.operations.then(e,e),this.operations}get assertedPersistence(){return _(this.persistenceManager,this,"internal-error"),this.persistenceManager}_logFramework(e){!e||this.frameworks.includes(e)||(this.frameworks.push(e),this.frameworks.sort(),this.clientVersion=li(this.config.clientPlatform,this._getFrameworks()))}_getFrameworks(){return this.frameworks}async _getAdditionalHeaders(){var e;let t={["X-Client-Version"]:this.clientVersion};this.app.options.appId&&(t["X-Firebase-gmpid"]=this.app.options.appId);let r=await((e=this.heartbeatServiceProvider.getImmediate({optional:!0}))===null||e===void 0?void 0:e.getHeartbeatsHeader());return r&&(t["X-Firebase-Client"]=r),t}};function ui(n){return Pe(n)}var _t=class{constructor(e){this.auth=e,this.observer=null,this.addObserver=nr(t=>this.observer=t)}get next(){return _(this.observer,this.auth,"internal-error"),this.observer.next.bind(this.observer)}};var Se=class{constructor(e,t){this.providerId=e,this.signInMethod=t}toJSON(){return $("not implemented")}_getIdTokenResponse(e){return $("not implemented")}_linkToIdToken(e,t){return $("not implemented")}_getReauthenticationResolver(e){return $("not implemented")}};async function Co(n,e){return Z(n,"POST","/v1/accounts:update",e)}async function Po(n,e){return ke(n,"POST","/v1/accounts:signInWithPassword",C(n,e))}async function Lo(n,e){return ke(n,"POST","/v1/accounts:signInWithEmailLink",C(n,e))}async function xo(n,e){return ke(n,"POST","/v1/accounts:signInWithEmailLink",C(n,e))}var me=class extends Se{constructor(e,t,r,i=null){super("password",r),this._email=e,this._password=t,this._tenantId=i}static _fromEmailAndPassword(e,t){return new me(e,t,"password")}static _fromEmailAndCode(e,t,r=null){return new me(e,t,"emailLink",r)}toJSON(){return{email:this._email,password:this._password,signInMethod:this.signInMethod,tenantId:this._tenantId}}static fromJSON(e){let t=typeof e=="string"?JSON.parse(e):e;if((t==null?void 0:t.email)&&(t==null?void 0:t.password)){if(t.signInMethod==="password")return this._fromEmailAndPassword(t.email,t.password);if(t.signInMethod==="emailLink")return this._fromEmailAndCode(t.email,t.password,t.tenantId)}return null}async _getIdTokenResponse(e){switch(this.signInMethod){case"password":return Po(e,{returnSecureToken:!0,email:this._email,password:this._password});case"emailLink":return Lo(e,{email:this._email,oobCode:this._password});default:pe(e,"internal-error")}}async _linkToIdToken(e,t){switch(this.signInMethod){case"password":return Co(e,{idToken:t,returnSecureToken:!0,email:this._email,password:this._password});case"emailLink":return xo(e,{idToken:t,email:this._email,oobCode:this._password});default:pe(e,"internal-error")}}_getReauthenticationResolver(e){return this._getIdTokenResponse(e)}};async function Fe(n,e){return ke(n,"POST","/v1/accounts:signInWithIdp",C(n,e))}var Mo="http://localhost",K=class extends Se{constructor(){super(...arguments),this.pendingToken=null}static _fromParams(e){let t=new K(e.providerId,e.signInMethod);return e.idToken||e.accessToken?(e.idToken&&(t.idToken=e.idToken),e.accessToken&&(t.accessToken=e.accessToken),e.nonce&&!e.pendingToken&&(t.nonce=e.nonce),e.pendingToken&&(t.pendingToken=e.pendingToken)):e.oauthToken&&e.oauthTokenSecret?(t.accessToken=e.oauthToken,t.secret=e.oauthTokenSecret):pe("argument-error"),t}toJSON(){return{idToken:this.idToken,accessToken:this.accessToken,secret:this.secret,nonce:this.nonce,pendingToken:this.pendingToken,providerId:this.providerId,signInMethod:this.signInMethod}}static fromJSON(e){let t=typeof e=="string"?JSON.parse(e):e,{providerId:r,signInMethod:i}=t,s=dt(t,["providerId","signInMethod"]);if(!r||!i)return null;let o=new K(r,i);return o.idToken=s.idToken||void 0,o.accessToken=s.accessToken||void 0,o.secret=s.secret,o.nonce=s.nonce,o.pendingToken=s.pendingToken||null,o}_getIdTokenResponse(e){let t=this.buildRequest();return Fe(e,t)}_linkToIdToken(e,t){let r=this.buildRequest();return r.idToken=t,Fe(e,r)}_getReauthenticationResolver(e){let t=this.buildRequest();return t.autoCreate=!1,Fe(e,t)}buildRequest(){let e={requestUri:Mo,returnSecureToken:!0};if(this.pendingToken)e.pendingToken=this.pendingToken;else{let t={};this.idToken&&(t.id_token=this.idToken),this.accessToken&&(t.access_token=this.accessToken),this.secret&&(t.oauth_token_secret=this.secret),t.providerId=this.providerId,this.nonce&&!this.pendingToken&&(t.nonce=this.nonce),e.postBody=st(t)}return e}};async function Uo(n,e){return Z(n,"POST","/v1/accounts:sendVerificationCode",C(n,e))}async function Fo(n,e){return ke(n,"POST","/v1/accounts:signInWithPhoneNumber",C(n,e))}async function Bo(n,e){let t=await ke(n,"POST","/v1/accounts:signInWithPhoneNumber",C(n,e));if(t.temporaryProof)throw Ke(n,"account-exists-with-different-credential",t);return t}var Vo={USER_NOT_FOUND:"user-not-found"};async function Ho(n,e){let t=Object.assign(Object.assign({},e),{operation:"REAUTH"});return ke(n,"POST","/v1/accounts:signInWithPhoneNumber",C(n,t),Vo)}var X=class extends Se{constructor(e){super("phone","phone"),this.params=e}static _fromVerification(e,t){return new X({verificationId:e,verificationCode:t})}static _fromTokenResponse(e,t){return new X({phoneNumber:e,temporaryProof:t})}_getIdTokenResponse(e){return Fo(e,this._makeVerificationRequest())}_linkToIdToken(e,t){return Bo(e,Object.assign({idToken:t},this._makeVerificationRequest()))}_getReauthenticationResolver(e){return Ho(e,this._makeVerificationRequest())}_makeVerificationRequest(){let{temporaryProof:e,phoneNumber:t,verificationId:r,verificationCode:i}=this.params;return e&&t?{temporaryProof:e,phoneNumber:t}:{sessionInfo:r,code:i}}toJSON(){let e={providerId:this.providerId};return this.params.phoneNumber&&(e.phoneNumber=this.params.phoneNumber),this.params.temporaryProof&&(e.temporaryProof=this.params.temporaryProof),this.params.verificationCode&&(e.verificationCode=this.params.verificationCode),this.params.verificationId&&(e.verificationId=this.params.verificationId),e}static fromJSON(e){typeof e=="string"&&(e=JSON.parse(e));let{verificationId:t,verificationCode:r,phoneNumber:i,temporaryProof:s}=e;return!r&&!t&&!i&&!s?null:new X({verificationId:t,verificationCode:r,phoneNumber:i,temporaryProof:s})}};function Wo(n){switch(n){case"recoverEmail":return"RECOVER_EMAIL";case"resetPassword":return"PASSWORD_RESET";case"signIn":return"EMAIL_SIGNIN";case"verifyEmail":return"VERIFY_EMAIL";case"verifyAndChangeEmail":return"VERIFY_AND_CHANGE_EMAIL";case"revertSecondFactorAddition":return"REVERT_SECOND_FACTOR_ADDITION";default:return null}}function jo(n){let e=Ne(Ce(n)).link,t=e?Ne(Ce(e)).deep_link_id:null,r=Ne(Ce(n)).deep_link_id;return(r?Ne(Ce(r)).link:null)||r||t||e||n}var Be=class{constructor(e){var t,r,i,s,o,a;let c=Ne(Ce(e)),l=(t=c.apiKey)!==null&&t!==void 0?t:null,u=(r=c.oobCode)!==null&&r!==void 0?r:null,h=Wo((i=c.mode)!==null&&i!==void 0?i:null);_(l&&u&&h,"argument-error"),this.apiKey=l,this.operation=h,this.code=u,this.continueUrl=(s=c.continueUrl)!==null&&s!==void 0?s:null,this.languageCode=(o=c.languageCode)!==null&&o!==void 0?o:null,this.tenantId=(a=c.tenantId)!==null&&a!==void 0?a:null}static parseLink(e){let t=jo(e);try{return new Be(t)}catch(r){return null}}};var ge=class{constructor(){this.providerId=ge.PROVIDER_ID}static credential(e,t){return me._fromEmailAndPassword(e,t)}static credentialWithLink(e,t){let r=Be.parseLink(t);return _(r,"argument-error"),me._fromEmailAndCode(e,r.code,r.tenantId)}};ge.PROVIDER_ID="password";ge.EMAIL_PASSWORD_SIGN_IN_METHOD="password";ge.EMAIL_LINK_SIGN_IN_METHOD="emailLink";var un=class{constructor(e){this.providerId=e,this.defaultLanguageCode=null,this.customParameters={}}setDefaultLanguage(e){this.defaultLanguageCode=e}setCustomParameters(e){return this.customParameters=e,this}getCustomParameters(){return this.customParameters}};var Ve=class extends un{constructor(){super(...arguments),this.scopes=[]}addScope(e){return this.scopes.includes(e)||this.scopes.push(e),this}getScopes(){return[...this.scopes]}};var M=class extends Ve{constructor(){super("facebook.com")}static credential(e){return K._fromParams({providerId:M.PROVIDER_ID,signInMethod:M.FACEBOOK_SIGN_IN_METHOD,accessToken:e})}static credentialFromResult(e){return M.credentialFromTaggedObject(e)}static credentialFromError(e){return M.credentialFromTaggedObject(e.customData||{})}static credentialFromTaggedObject({_tokenResponse:e}){if(!e||!("oauthAccessToken"in e)||!e.oauthAccessToken)return null;try{return M.credential(e.oauthAccessToken)}catch(t){return null}}};M.FACEBOOK_SIGN_IN_METHOD="facebook.com";M.PROVIDER_ID="facebook.com";var U=class extends Ve{constructor(){super("google.com"),this.addScope("profile")}static credential(e,t){return K._fromParams({providerId:U.PROVIDER_ID,signInMethod:U.GOOGLE_SIGN_IN_METHOD,idToken:e,accessToken:t})}static credentialFromResult(e){return U.credentialFromTaggedObject(e)}static credentialFromError(e){return U.credentialFromTaggedObject(e.customData||{})}static credentialFromTaggedObject({_tokenResponse:e}){if(!e)return null;let{oauthIdToken:t,oauthAccessToken:r}=e;if(!t&&!r)return null;try{return U.credential(t,r)}catch(i){return null}}};U.GOOGLE_SIGN_IN_METHOD="google.com";U.PROVIDER_ID="google.com";var F=class extends Ve{constructor(){super("github.com")}static credential(e){return K._fromParams({providerId:F.PROVIDER_ID,signInMethod:F.GITHUB_SIGN_IN_METHOD,accessToken:e})}static credentialFromResult(e){return F.credentialFromTaggedObject(e)}static credentialFromError(e){return F.credentialFromTaggedObject(e.customData||{})}static credentialFromTaggedObject({_tokenResponse:e}){if(!e||!("oauthAccessToken"in e)||!e.oauthAccessToken)return null;try{return F.credential(e.oauthAccessToken)}catch(t){return null}}};F.GITHUB_SIGN_IN_METHOD="github.com";F.PROVIDER_ID="github.com";var B=class extends Ve{constructor(){super("twitter.com")}static credential(e,t){return K._fromParams({providerId:B.PROVIDER_ID,signInMethod:B.TWITTER_SIGN_IN_METHOD,oauthToken:e,oauthTokenSecret:t})}static credentialFromResult(e){return B.credentialFromTaggedObject(e)}static credentialFromError(e){return B.credentialFromTaggedObject(e.customData||{})}static credentialFromTaggedObject({_tokenResponse:e}){if(!e)return null;let{oauthAccessToken:t,oauthTokenSecret:r}=e;if(!t||!r)return null;try{return B.credential(t,r)}catch(i){return null}}};B.TWITTER_SIGN_IN_METHOD="twitter.com";B.PROVIDER_ID="twitter.com";var _e=class{constructor(e){this.user=e.user,this.providerId=e.providerId,this._tokenResponse=e._tokenResponse,this.operationType=e.operationType}static async _fromIdTokenResponse(e,t,r,i=!1){let s=await J._fromIdTokenResponse(e,r,i),o=zr(r);return new _e({user:s,providerId:o,_tokenResponse:r,operationType:t})}static async _forOperation(e,t,r){await e._updateTokensIfNecessary(r,!0);let i=zr(r);return new _e({user:e,providerId:i,_tokenResponse:r,operationType:t})}};function zr(n){return n.providerId?n.providerId:"phoneNumber"in n?"phone":null}var He=class extends z{constructor(e,t,r,i){var s;super(t.code,t.message),this.operationType=r,this.user=i,Object.setPrototypeOf(this,He.prototype),this.customData={appName:e.name,tenantId:(s=e.tenantId)!==null&&s!==void 0?s:void 0,_serverResponse:t.customData._serverResponse,operationType:r}}static _fromErrorAndOperation(e,t,r,i){return new He(e,t,r,i)}};function di(n,e,t,r){return(e==="reauthenticate"?t._getReauthenticationResolver(n):t._getIdTokenResponse(n)).catch(s=>{throw s.code==="auth/multi-factor-auth-required"?He._fromErrorAndOperation(n,s,e,r):s})}async function zo(n,e,t=!1){let r=await Xe(n,e._linkToIdToken(n.auth,await n.getIdToken()),t);return _e._forOperation(n,"link",r)}async function qo(n,e,t=!1){var r;let{auth:i}=n,s="reauthenticate";try{let o=await Xe(n,di(i,s,e,n),t);_(o.idToken,i,"internal-error");let a=In(o.idToken);_(a,i,"internal-error");let{sub:c}=a;return _(n.uid===c,i,"user-mismatch"),_e._forOperation(n,s,o)}catch(o){throw((r=o)===null||r===void 0?void 0:r.code)==="auth/user-not-found"&&pe(i,"user-mismatch"),o}}async function Go(n,e,t=!1){let r="signIn",i=await di(n,r,e),s=await _e._fromIdTokenResponse(n,r,i);return t||await n._updateCurrentUser(s.user),s}function $o(n,e){return Z(n,"POST","/v2/accounts/mfaEnrollment:start",C(n,e))}function Ko(n,e){return Z(n,"POST","/v2/accounts/mfaEnrollment:finalize",C(n,e))}var yt="__sak";var vt=class{constructor(e,t){this.storageRetriever=e,this.type=t}_isAvailable(){try{return this.storage?(this.storage.setItem(yt,"1"),this.storage.removeItem(yt),Promise.resolve(!0)):Promise.resolve(!1)}catch(e){return Promise.resolve(!1)}}_set(e,t){return this.storage.setItem(e,JSON.stringify(t)),Promise.resolve()}_get(e){let t=this.storage.getItem(e);return Promise.resolve(t?JSON.parse(t):null)}_remove(e){return this.storage.removeItem(e),Promise.resolve()}get storage(){return this.storageRetriever()}};function Yo(){let n=R();return ri(n)||ci(n)}var Jo=1e3,Xo=10,dn=class extends vt{constructor(){super(()=>window.localStorage,"LOCAL"),this.boundEventHandler=(e,t)=>this.onStorageEvent(e,t),this.listeners={},this.localCache={},this.pollTimer=null,this.safariLocalStorageNotSynced=Yo()&&No(),this.fallbackToPolling=Do(),this._shouldAllowMigration=!0}forAllChangedKeys(e){for(let t of Object.keys(this.listeners)){let r=this.storage.getItem(t),i=this.localCache[t];r!==i&&e(t,i,r)}}onStorageEvent(e,t=!1){if(!e.key){this.forAllChangedKeys((o,a,c)=>{this.notifyListeners(o,c)});return}let r=e.key;if(t?this.detachListener():this.stopPolling(),this.safariLocalStorageNotSynced){let o=this.storage.getItem(r);if(e.newValue!==o)e.newValue!==null?this.storage.setItem(r,e.newValue):this.storage.removeItem(r);else if(this.localCache[r]===e.newValue&&!t)return}let i=()=>{let o=this.storage.getItem(r);!t&&this.localCache[r]===o||this.notifyListeners(r,o)},s=this.storage.getItem(r);Oo()&&s!==e.newValue&&e.newValue!==e.oldValue?setTimeout(i,Xo):i()}notifyListeners(e,t){this.localCache[e]=t;let r=this.listeners[e];if(r)for(let i of Array.from(r))i(t&&JSON.parse(t))}startPolling(){this.stopPolling(),this.pollTimer=setInterval(()=>{this.forAllChangedKeys((e,t,r)=>{this.onStorageEvent(new StorageEvent("storage",{key:e,oldValue:t,newValue:r}),!0)})},Jo)}stopPolling(){this.pollTimer&&(clearInterval(this.pollTimer),this.pollTimer=null)}attachListener(){window.addEventListener("storage",this.boundEventHandler)}detachListener(){window.removeEventListener("storage",this.boundEventHandler)}_addListener(e,t){Object.keys(this.listeners).length===0&&(this.fallbackToPolling?this.startPolling():this.attachListener()),this.listeners[e]||(this.listeners[e]=new Set,this.localCache[e]=this.storage.getItem(e)),this.listeners[e].add(t)}_removeListener(e,t){this.listeners[e]&&(this.listeners[e].delete(t),this.listeners[e].size===0&&delete this.listeners[e]),Object.keys(this.listeners).length===0&&(this.detachListener(),this.stopPolling())}async _set(e,t){await super._set(e,t),this.localCache[e]=JSON.stringify(t)}async _get(e){let t=await super._get(e);return this.localCache[e]=JSON.stringify(t),t}async _remove(e){await super._remove(e),delete this.localCache[e]}};dn.type="LOCAL";var hn=class extends vt{constructor(){super(()=>window.sessionStorage,"SESSION")}_addListener(e,t){}_removeListener(e,t){}};hn.type="SESSION";function Qo(n){return Promise.all(n.map(async e=>{try{let t=await e;return{fulfilled:!0,value:t}}catch(t){return{fulfilled:!1,reason:t}}}))}var We=class{constructor(e){this.eventTarget=e,this.handlersMap={},this.boundEventHandler=this.handleEvent.bind(this)}static _getInstance(e){let t=this.receivers.find(i=>i.isListeningto(e));if(t)return t;let r=new We(e);return this.receivers.push(r),r}isListeningto(e){return this.eventTarget===e}async handleEvent(e){let t=e,{eventId:r,eventType:i,data:s}=t.data,o=this.handlersMap[i];if(!(o!=null&&o.size))return;t.ports[0].postMessage({status:"ack",eventId:r,eventType:i});let a=Array.from(o).map(async l=>l(t.origin,s)),c=await Qo(a);t.ports[0].postMessage({status:"done",eventId:r,eventType:i,response:c})}_subscribe(e,t){Object.keys(this.handlersMap).length===0&&this.eventTarget.addEventListener("message",this.boundEventHandler),this.handlersMap[e]||(this.handlersMap[e]=new Set),this.handlersMap[e].add(t)}_unsubscribe(e,t){this.handlersMap[e]&&t&&this.handlersMap[e].delete(t),(!t||this.handlersMap[e].size===0)&&delete this.handlersMap[e],Object.keys(this.handlersMap).length===0&&this.eventTarget.removeEventListener("message",this.boundEventHandler)}};We.receivers=[];function hi(n="",e=10){let t="";for(let r=0;r<e;r++)t+=Math.floor(Math.random()*10);return n+t}var fn=class{constructor(e){this.target=e,this.handlers=new Set}removeMessageHandler(e){e.messageChannel&&(e.messageChannel.port1.removeEventListener("message",e.onMessage),e.messageChannel.port1.close()),this.handlers.delete(e)}async _send(e,t,r=50){let i=typeof MessageChannel<"u"?new MessageChannel:null;if(!i)throw new Error("connection_unavailable");let s,o;return new Promise((a,c)=>{let l=hi("",20);i.port1.start();let u=setTimeout(()=>{c(new Error("unsupported_event"))},r);o={messageChannel:i,onMessage(h){let d=h;if(d.data.eventId===l)switch(d.data.status){case"ack":clearTimeout(u),s=setTimeout(()=>{c(new Error("timeout"))},3e3);break;case"done":clearTimeout(s),a(d.data.response);break;default:clearTimeout(u),clearTimeout(s),c(new Error("invalid_response"));break}}},this.handlers.add(o),i.port1.addEventListener("message",o.onMessage),this.target.postMessage({eventType:e,eventId:l,data:t},[i.port2])}).finally(()=>{o&&this.removeMessageHandler(o)})}};function qr(){return window}function fi(){return typeof qr().WorkerGlobalScope<"u"&&typeof qr().importScripts=="function"}async function Zo(){if(!(navigator!=null&&navigator.serviceWorker))return null;try{return(await navigator.serviceWorker.ready).active}catch(n){return null}}function ea(){var n;return((n=navigator==null?void 0:navigator.serviceWorker)===null||n===void 0?void 0:n.controller)||null}function ta(){return fi()?self:null}var pi="firebaseLocalStorageDb",na=1,It="firebaseLocalStorage",mi="fbase_key",Ae=class{constructor(e){this.request=e}toPromise(){return new Promise((e,t)=>{this.request.addEventListener("success",()=>{e(this.request.result)}),this.request.addEventListener("error",()=>{t(this.request.error)})})}};function Et(n,e){return n.transaction([It],e?"readwrite":"readonly").objectStore(It)}function ra(){let n=indexedDB.deleteDatabase(pi);return new Ae(n).toPromise()}function pn(){let n=indexedDB.open(pi,na);return new Promise((e,t)=>{n.addEventListener("error",()=>{t(n.error)}),n.addEventListener("upgradeneeded",()=>{let r=n.result;try{r.createObjectStore(It,{keyPath:mi})}catch(i){t(i)}}),n.addEventListener("success",async()=>{let r=n.result;r.objectStoreNames.contains(It)?e(r):(r.close(),await ra(),e(await pn()))})})}async function Gr(n,e,t){let r=Et(n,!0).put({[mi]:e,value:t});return new Ae(r).toPromise()}async function ia(n,e){let t=Et(n,!1).get(e),r=await new Ae(t).toPromise();return r===void 0?null:r.value}function $r(n,e){let t=Et(n,!0).delete(e);return new Ae(t).toPromise()}var sa=800,oa=3,mn=class{constructor(){this.type="LOCAL",this._shouldAllowMigration=!0,this.listeners={},this.localCache={},this.pollTimer=null,this.pendingWrites=0,this.receiver=null,this.sender=null,this.serviceWorkerReceiverAvailable=!1,this.activeServiceWorker=null,this._workerInitializationPromise=this.initializeServiceWorkerMessaging().then(()=>{},()=>{})}async _openDb(){return this.db?this.db:(this.db=await pn(),this.db)}async _withRetries(e){let t=0;for(;;)try{let r=await this._openDb();return await e(r)}catch(r){if(t++>oa)throw r;this.db&&(this.db.close(),this.db=void 0)}}async initializeServiceWorkerMessaging(){return fi()?this.initializeReceiver():this.initializeSender()}async initializeReceiver(){this.receiver=We._getInstance(ta()),this.receiver._subscribe("keyChanged",async(e,t)=>({keyProcessed:(await this._poll()).includes(t.key)})),this.receiver._subscribe("ping",async(e,t)=>["keyChanged"])}async initializeSender(){var e,t;if(this.activeServiceWorker=await Zo(),!this.activeServiceWorker)return;this.sender=new fn(this.activeServiceWorker);let r=await this.sender._send("ping",{},800);!r||((e=r[0])===null||e===void 0?void 0:e.fulfilled)&&((t=r[0])===null||t===void 0?void 0:t.value.includes("keyChanged"))&&(this.serviceWorkerReceiverAvailable=!0)}async notifyServiceWorker(e){if(!(!this.sender||!this.activeServiceWorker||ea()!==this.activeServiceWorker))try{await this.sender._send("keyChanged",{key:e},this.serviceWorkerReceiverAvailable?800:50)}catch(t){}}async _isAvailable(){try{if(!indexedDB)return!1;let e=await pn();return await Gr(e,yt,"1"),await $r(e,yt),!0}catch(e){}return!1}async _withPendingWrite(e){this.pendingWrites++;try{await e()}finally{this.pendingWrites--}}async _set(e,t){return this._withPendingWrite(async()=>(await this._withRetries(r=>Gr(r,e,t)),this.localCache[e]=t,this.notifyServiceWorker(e)))}async _get(e){let t=await this._withRetries(r=>ia(r,e));return this.localCache[e]=t,t}async _remove(e){return this._withPendingWrite(async()=>(await this._withRetries(t=>$r(t,e)),delete this.localCache[e],this.notifyServiceWorker(e)))}async _poll(){let e=await this._withRetries(i=>{let s=Et(i,!1).getAll();return new Ae(s).toPromise()});if(!e)return[];if(this.pendingWrites!==0)return[];let t=[],r=new Set;for(let{fbase_key:i,value:s}of e)r.add(i),JSON.stringify(this.localCache[i])!==JSON.stringify(s)&&(this.notifyListeners(i,s),t.push(i));for(let i of Object.keys(this.localCache))this.localCache[i]&&!r.has(i)&&(this.notifyListeners(i,null),t.push(i));return t}notifyListeners(e,t){this.localCache[e]=t;let r=this.listeners[e];if(r)for(let i of Array.from(r))i(t)}startPolling(){this.stopPolling(),this.pollTimer=setInterval(async()=>this._poll(),sa)}stopPolling(){this.pollTimer&&(clearInterval(this.pollTimer),this.pollTimer=null)}_addListener(e,t){Object.keys(this.listeners).length===0&&this.startPolling(),this.listeners[e]||(this.listeners[e]=new Set,this._get(e)),this.listeners[e].add(t)}_removeListener(e,t){this.listeners[e]&&(this.listeners[e].delete(t),this.listeners[e].size===0&&delete this.listeners[e]),Object.keys(this.listeners).length===0&&this.stopPolling()}};mn.type="LOCAL";function aa(n,e){return Z(n,"POST","/v2/accounts/mfaSignIn:start",C(n,e))}function ca(n,e){return Z(n,"POST","/v2/accounts/mfaSignIn:finalize",C(n,e))}function la(n){return`__${n}${Math.floor(Math.random()*1e6)}`}var rl=la("rcb"),il=new Te(3e4,6e4);var ua="recaptcha";async function da(n,e,t){var r;let i=await t.verify();try{_(typeof i=="string",n,"argument-error"),_(t.type===ua,n,"argument-error");let s;if(typeof e=="string"?s={phoneNumber:e}:s=e,"session"in s){let o=s.session;if("phoneNumber"in s)return _(o.type==="enroll",n,"internal-error"),(await $o(n,{idToken:o.credential,phoneEnrollmentInfo:{phoneNumber:s.phoneNumber,recaptchaToken:i}})).phoneSessionInfo.sessionInfo;{_(o.type==="signin",n,"internal-error");let a=((r=s.multiFactorHint)===null||r===void 0?void 0:r.uid)||s.multiFactorUid;return _(a,n,"missing-multi-factor-info"),(await aa(n,{mfaPendingCredential:o.credential,mfaEnrollmentId:a,phoneSignInInfo:{recaptchaToken:i}})).phoneResponseInfo.sessionInfo}}else{let{sessionInfo:o}=await Uo(n,{phoneNumber:s.phoneNumber,recaptchaToken:i});return o}}finally{t._reset()}}var Q=class{constructor(e){this.providerId=Q.PROVIDER_ID,this.auth=ui(e)}verifyPhoneNumber(e,t){return da(this.auth,e,Pe(t))}static credential(e,t){return X._fromVerification(e,t)}static credentialFromResult(e){let t=e;return Q.credentialFromTaggedObject(t)}static credentialFromError(e){return Q.credentialFromTaggedObject(e.customData||{})}static credentialFromTaggedObject({_tokenResponse:e}){if(!e)return null;let{phoneNumber:t,temporaryProof:r}=e;return t&&r?X._fromTokenResponse(t,r):null}};Q.PROVIDER_ID="phone";Q.PHONE_SIGN_IN_METHOD="phone";var Qe=class extends Se{constructor(e){super("custom","custom"),this.params=e}_getIdTokenResponse(e){return Fe(e,this._buildIdpRequest())}_linkToIdToken(e,t){return Fe(e,this._buildIdpRequest(t))}_getReauthenticationResolver(e){return Fe(e,this._buildIdpRequest())}_buildIdpRequest(e){let t={requestUri:this.params.requestUri,sessionId:this.params.sessionId,postBody:this.params.postBody,tenantId:this.params.tenantId,pendingToken:this.params.pendingToken,returnSecureToken:!0,returnIdpCredential:!0};return e&&(t.idToken=e),t}};function ha(n){return Go(n.auth,new Qe(n),n.bypassAuthState)}function fa(n){let{auth:e,user:t}=n;return _(t,e,"internal-error"),qo(t,new Qe(n),n.bypassAuthState)}async function pa(n){let{auth:e,user:t}=n;return _(t,e,"internal-error"),zo(t,new Qe(n),n.bypassAuthState)}var gn=class{constructor(e,t,r,i,s=!1){this.auth=e,this.resolver=r,this.user=i,this.bypassAuthState=s,this.pendingPromise=null,this.eventManager=null,this.filter=Array.isArray(t)?t:[t]}execute(){return new Promise(async(e,t)=>{this.pendingPromise={resolve:e,reject:t};try{this.eventManager=await this.resolver._initialize(this.auth),await this.onExecution(),this.eventManager.registerConsumer(this)}catch(r){this.reject(r)}})}async onAuthEvent(e){let{urlResponse:t,sessionId:r,postBody:i,tenantId:s,error:o,type:a}=e;if(o){this.reject(o);return}let c={auth:this.auth,requestUri:t,sessionId:r,tenantId:s||void 0,postBody:i||void 0,user:this.user,bypassAuthState:this.bypassAuthState};try{this.resolve(await this.getIdpTask(a)(c))}catch(l){this.reject(l)}}onError(e){this.reject(e)}getIdpTask(e){switch(e){case"signInViaPopup":case"signInViaRedirect":return ha;case"linkViaPopup":case"linkViaRedirect":return pa;case"reauthViaPopup":case"reauthViaRedirect":return fa;default:pe(this.auth,"internal-error")}}resolve(e){Ee(this.pendingPromise,"Pending promise was never set"),this.pendingPromise.resolve(e),this.unregisterAndCleanUp()}reject(e){Ee(this.pendingPromise,"Pending promise was never set"),this.pendingPromise.reject(e),this.unregisterAndCleanUp()}unregisterAndCleanUp(){this.eventManager&&this.eventManager.unregisterConsumer(this),this.pendingPromise=null,this.cleanUp()}};var ma=new Te(2e3,1e4);var he=class extends gn{constructor(e,t,r,i,s){super(e,t,i,s),this.provider=r,this.authWindow=null,this.pollId=null,he.currentPopupAction&&he.currentPopupAction.cancel(),he.currentPopupAction=this}async executeNotNull(){let e=await this.execute();return _(e,this.auth,"internal-error"),e}async onExecution(){Ee(this.filter.length===1,"Popup operations only handle one event");let e=hi();this.authWindow=await this.resolver._openPopup(this.auth,this.provider,this.filter[0],e),this.authWindow.associatedEvent=e,this.resolver._originValidation(this.auth).catch(t=>{this.reject(t)}),this.resolver._isIframeWebStorageSupported(this.auth,t=>{t||this.reject(Ye(this.auth,"web-storage-unsupported"))}),this.pollUserCancellation()}get eventId(){var e;return((e=this.authWindow)===null||e===void 0?void 0:e.associatedEvent)||null}cancel(){this.reject(Ye(this.auth,"cancelled-popup-request"))}cleanUp(){this.authWindow&&this.authWindow.close(),this.pollId&&window.clearTimeout(this.pollId),this.authWindow=null,this.pollId=null,he.currentPopupAction=null}pollUserCancellation(){let e=()=>{var t,r;if(!((r=(t=this.authWindow)===null||t===void 0?void 0:t.window)===null||r===void 0)&&r.closed){this.pollId=window.setTimeout(()=>{this.pollId=null,this.reject(Ye(this.auth,"popup-closed-by-user"))},2e3);return}this.pollId=window.setTimeout(e,ma.get())};e()}};he.currentPopupAction=null;var sl=10*60*1e3;var ol=new Te(3e4,6e4);var al=new Te(5e3,15e3);var _n=class{constructor(e){this.factorId=e}_process(e,t,r){switch(t.type){case"enroll":return this._finalizeEnroll(e,t.credential,r);case"signin":return this._finalizeSignIn(e,t.credential);default:return $("unexpected MultiFactorSessionType")}}},Ze=class extends _n{constructor(e){super("phone"),this.credential=e}static _fromCredential(e){return new Ze(e)}_finalizeEnroll(e,t,r){return Ko(e,{idToken:t,displayName:r,phoneVerificationInfo:this.credential._makeVerificationRequest()})}_finalizeSignIn(e,t){return ca(e,{mfaPendingCredential:t,phoneVerificationInfo:this.credential._makeVerificationRequest()})}},bt=class{constructor(){}static assertion(e){return Ze._fromCredential(e)}};bt.FACTOR_ID="phone";var Kr="@firebase/auth",Yr="0.20.5";var yn=class{constructor(e){this.auth=e,this.internalListeners=new Map}getUid(){var e;return this.assertAuthConfigured(),((e=this.auth.currentUser)===null||e===void 0?void 0:e.uid)||null}async getToken(e){return this.assertAuthConfigured(),await this.auth._initializationPromise,this.auth.currentUser?{accessToken:await this.auth.currentUser.getIdToken(e)}:null}addAuthTokenListener(e){if(this.assertAuthConfigured(),this.internalListeners.has(e))return;let t=this.auth.onIdTokenChanged(r=>{var i;e(((i=r)===null||i===void 0?void 0:i.stsTokenManager.accessToken)||null)});this.internalListeners.set(e,t),this.updateProactiveRefresh()}removeAuthTokenListener(e){this.assertAuthConfigured();let t=this.internalListeners.get(e);!t||(this.internalListeners.delete(e),t(),this.updateProactiveRefresh())}assertAuthConfigured(){_(this.auth._initializationPromise,"dependent-sdk-initialized-before-auth")}updateProactiveRefresh(){this.internalListeners.size>0?this.auth._startProactiveRefresh():this.auth._stopProactiveRefresh()}};function ga(n){switch(n){case"Node":return"node";case"ReactNative":return"rn";case"Worker":return"webworker";case"Cordova":return"cordova";default:return}}function _a(n){xe(new q("auth",(e,{options:t})=>{let r=e.getProvider("app").getImmediate(),i=e.getProvider("heartbeat"),{apiKey:s,authDomain:o}=r.options;return((a,c)=>{_(s&&!s.includes(":"),"invalid-api-key",{appName:a.name}),_(!(o!=null&&o.includes(":")),"argument-error",{appName:a.name});let l={apiKey:s,authDomain:o,clientPlatform:n,apiHost:"identitytoolkit.googleapis.com",tokenApiHost:"securetoken.googleapis.com",apiScheme:"https",sdkClientVersion:li(n)},u=new ln(a,c,l);return fo(u,t),u})(r,i)},"PUBLIC").setInstantiationMode("EXPLICIT").setInstanceCreatedCallback((e,t,r)=>{e.getProvider("auth-internal").initialize()})),xe(new q("auth-internal",e=>{let t=ui(e.getProvider("auth").getImmediate());return(r=>new yn(r))(t)},"PRIVATE").setInstantiationMode("EXPLICIT")),ue(Kr,Yr,ga(n)),ue(Kr,Yr,"esm2017")}_a("Browser");var gi="https://api.cubingapp.com:3000",va={apiKey:"AIzaSyCnwuoBqAR6cx7uqzxf7iEC99sZf36sZZA",authDomain:"virtual-cube.firebaseapp.com",projectId:"virtual-cube",storageBucket:"virtual-cube.appspot.com",messagingSenderId:"371073332227",appId:"1:371073332227:web:c96d3137080aecfe634a36",measurementId:"G-YR33BDCQDY"},Ru=pr(va);function bn(n,e){let t=document.createElement(n);return Ia(t,e)}function Ia(n,e){for(let t in e)t==="children"?e.children.forEach(r=>{n.appendChild(r)}):n[t]=e[t];return n}function _i(){let n=bn("div",{className:"col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",onclick:t=>{t.stopPropagation()}}),e=bn("div",{className:"col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",onclick:t=>{t.target.remove()},children:[n]});return[n,e]}async function ba(){let n=jn("#scene");j.push(n),n.cube.solve(),Wn(),qn(),document.querySelector("#share").addEventListener("click",()=>{let s=document.location.href;navigator.clipboard.writeText(s).then(()=>{let[o,a]=_i();o.innerHTML=`
+    `;
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
+    return {
+      attribLocations: {
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
+      },
+      uniformLocations: {
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix"),
+        rotateMatrix: gl2.getUniformLocation(shaderProgram, "uRotateMatrix")
+      }
+    };
+  }
+  function initPerspective(element) {
+    let perspectiveMatrix = create();
+    perspective(
+      perspectiveMatrix,
+      50 * Math.PI / 180,
+      element.clientWidth / element.clientHeight,
+      0.1,
+      100
+    );
+    translate(
+      perspectiveMatrix,
+      [0, 0, -5]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      45 * Math.PI / 180,
+      [1, 0, 0]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      0,
+      [0, -1, 0]
+    );
+    return perspectiveMatrix;
+  }
+  function bindPosition(positionBuffer, programInfo2, gl3) {
+    gl3.bindBuffer(gl3.ARRAY_BUFFER, positionBuffer);
+    gl3.vertexAttribPointer(
+      programInfo2.attribLocations.vertexPosition,
+      3,
+      gl3.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl3.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexPosition
+    );
+  }
+  function bindColor(colorBuffer, programInfo2, gl3) {
+    gl3.bindBuffer(gl3.ARRAY_BUFFER, colorBuffer);
+    gl3.vertexAttribPointer(
+      programInfo2.attribLocations.vertexColor,
+      4,
+      gl3.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl3.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexColor
+    );
+  }
+  function drawElements(gl3) {
+    gl3.drawElements(
+      gl3.TRIANGLES,
+      6,
+      gl3.UNSIGNED_SHORT,
+      0
+    );
+  }
+  function initShaderProgram(gl3, vsSource, fsSource) {
+    const vertexShader = loadShader(gl3, gl3.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl3, gl3.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl3.createProgram();
+    gl3.attachShader(shaderProgram, vertexShader);
+    gl3.attachShader(shaderProgram, fragmentShader);
+    gl3.linkProgram(shaderProgram);
+    if (!gl3.getProgramParameter(shaderProgram, gl3.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl3.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+    return shaderProgram;
+  }
+  function loadShader(gl3, type, source) {
+    const shader = gl3.createShader(type);
+    gl3.shaderSource(shader, source);
+    gl3.compileShader(shader);
+    if (!gl3.getShaderParameter(shader, gl3.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl3.getShaderInfoLog(shader));
+      gl3.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+  function resizeCanvasToDisplaySize() {
+    const displayWidth = canvas2.clientWidth;
+    const displayHeight = canvas2.clientHeight;
+    const needResize = canvas2.width !== displayWidth || canvas2.height !== displayHeight;
+    if (needResize) {
+      canvas2.width = displayWidth;
+      canvas2.height = displayHeight;
+    }
+    return needResize;
+  }
+  function render(newTime) {
+    newTime *= 1e-3;
+    const dt = newTime - time;
+    time = newTime;
+    resizeCanvasToDisplaySize();
+    gl2.enable(gl2.DEPTH_TEST);
+    gl2.enable(gl2.SCISSOR_TEST);
+    gl2.depthFunc(gl2.LEQUAL);
+    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
+    canvas2.style.transform = `translateY(${window.scrollY}px)`;
+    for (let i = 0; i < scenes.length; i++) {
+      const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
+      const rect = div.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > canvas2.clientHeight || rect.right < 0 || rect.left > canvas2.clientWidth) {
+        continue;
+      }
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = canvas2.clientHeight - rect.bottom;
+      gl2.viewport(left, bottom, width, height);
+      gl2.scissor(left, bottom, width, height);
+      if (cube.animationQueue[0]) {
+        spring.target = cube.animationQueue.length * 90;
+        spring.update(dt);
+        if (spring.position >= 90) {
+          cube.affectedStickers = Array(stickers(cube.layers)).fill(false);
+          spring.position = 0;
+          cube.animationQueue.shift();
+        }
+      }
+      const animation = cube.animationQueue[0];
+      let stickers2 = chooseStickers(cube);
+      let _transformSingleton = singleton();
+      let _rotateSingleton = singleton();
+      for (let i2 = 0; i2 < stickers(cube.layers); i2++) {
+        let object = buffers[i2];
+        const transform = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _transformSingleton(() => {
+          return rotate(
+            create(),
+            perspectiveMatrix,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : perspectiveMatrix;
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          transform
+        );
+        const rotation = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _rotateSingleton(() => {
+          const rotateMat = create();
+          return rotate(
+            rotateMat,
+            rotateMat,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : create();
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.rotateMatrix,
+          false,
+          rotation
+        );
+        gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+        if (settings.showBody) {
+          bindPosition(object.noGapPositionBuffer, programInfo, gl2);
+          bindColor(cube.underStickers[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+        bindPosition(object.positionBuffer, programInfo, gl2);
+        bindColor(stickers2[i2].buffer, programInfo, gl2);
+        drawElements(gl2);
+        if (settings.hintStickers) {
+          bindPosition(object.hintPositionBuffer, programInfo, gl2);
+          bindColor(stickers2[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  function chooseStickers(cube) {
+    if (!settings.animateTurns) {
+      return cube.stickers;
+    }
+    if (cube.animationQueue[0]) {
+      return cube.animationQueue[0].stickers;
+    }
+    return cube.stickers;
+  }
+
+  // src/scripts/ui.ts
+  function addListenersForLeftModal() {
+    const drawer = document.querySelector(".slideRight");
+    let isOpen = false;
+    function updateDrawer(open) {
+      isOpen = open;
+      if (isOpen) {
+        drawer.classList.add("slideRightOpen");
+        return;
+      }
+      drawer.classList.remove("slideRightOpen");
+    }
+    document.addEventListener("click", (event) => {
+      const ele = event.target;
+      if (ele === document.querySelector("#menu")) {
+        updateDrawer(true);
+        return;
+      }
+      if (isOpen && !ele.closest(".slideRight")) {
+        updateDrawer(false);
+      }
+    });
+    document.querySelector("#closeMenu").addEventListener("click", () => {
+      updateDrawer(false);
+    });
+    document.querySelector("#learnButton").addEventListener("click", () => {
+      document.location.href = "learn.html";
+    });
+    document.querySelector("#playButton").addEventListener("click", () => {
+      document.location.href = "play.html";
+    });
+    document.querySelector("#trainButton").addEventListener("click", () => {
+      document.location.href = "train.html";
+    });
+    document.querySelector("#cubleButton").addEventListener("click", () => {
+      document.location.href = "cuble.html";
+    });
+  }
+
+  // ../node_modules/@firebase/util/dist/index.esm2017.js
+  var stringToByteArray$1 = function(str) {
+    const out = [];
+    let p = 0;
+    for (let i = 0; i < str.length; i++) {
+      let c = str.charCodeAt(i);
+      if (c < 128) {
+        out[p++] = c;
+      } else if (c < 2048) {
+        out[p++] = c >> 6 | 192;
+        out[p++] = c & 63 | 128;
+      } else if ((c & 64512) === 55296 && i + 1 < str.length && (str.charCodeAt(i + 1) & 64512) === 56320) {
+        c = 65536 + ((c & 1023) << 10) + (str.charCodeAt(++i) & 1023);
+        out[p++] = c >> 18 | 240;
+        out[p++] = c >> 12 & 63 | 128;
+        out[p++] = c >> 6 & 63 | 128;
+        out[p++] = c & 63 | 128;
+      } else {
+        out[p++] = c >> 12 | 224;
+        out[p++] = c >> 6 & 63 | 128;
+        out[p++] = c & 63 | 128;
+      }
+    }
+    return out;
+  };
+  var byteArrayToString = function(bytes) {
+    const out = [];
+    let pos = 0, c = 0;
+    while (pos < bytes.length) {
+      const c1 = bytes[pos++];
+      if (c1 < 128) {
+        out[c++] = String.fromCharCode(c1);
+      } else if (c1 > 191 && c1 < 224) {
+        const c2 = bytes[pos++];
+        out[c++] = String.fromCharCode((c1 & 31) << 6 | c2 & 63);
+      } else if (c1 > 239 && c1 < 365) {
+        const c2 = bytes[pos++];
+        const c3 = bytes[pos++];
+        const c4 = bytes[pos++];
+        const u = ((c1 & 7) << 18 | (c2 & 63) << 12 | (c3 & 63) << 6 | c4 & 63) - 65536;
+        out[c++] = String.fromCharCode(55296 + (u >> 10));
+        out[c++] = String.fromCharCode(56320 + (u & 1023));
+      } else {
+        const c2 = bytes[pos++];
+        const c3 = bytes[pos++];
+        out[c++] = String.fromCharCode((c1 & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+      }
+    }
+    return out.join("");
+  };
+  var base64 = {
+    byteToCharMap_: null,
+    charToByteMap_: null,
+    byteToCharMapWebSafe_: null,
+    charToByteMapWebSafe_: null,
+    ENCODED_VALS_BASE: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    get ENCODED_VALS() {
+      return this.ENCODED_VALS_BASE + "+/=";
+    },
+    get ENCODED_VALS_WEBSAFE() {
+      return this.ENCODED_VALS_BASE + "-_.";
+    },
+    HAS_NATIVE_SUPPORT: typeof atob === "function",
+    encodeByteArray(input, webSafe) {
+      if (!Array.isArray(input)) {
+        throw Error("encodeByteArray takes an array as a parameter");
+      }
+      this.init_();
+      const byteToCharMap = webSafe ? this.byteToCharMapWebSafe_ : this.byteToCharMap_;
+      const output = [];
+      for (let i = 0; i < input.length; i += 3) {
+        const byte1 = input[i];
+        const haveByte2 = i + 1 < input.length;
+        const byte2 = haveByte2 ? input[i + 1] : 0;
+        const haveByte3 = i + 2 < input.length;
+        const byte3 = haveByte3 ? input[i + 2] : 0;
+        const outByte1 = byte1 >> 2;
+        const outByte2 = (byte1 & 3) << 4 | byte2 >> 4;
+        let outByte3 = (byte2 & 15) << 2 | byte3 >> 6;
+        let outByte4 = byte3 & 63;
+        if (!haveByte3) {
+          outByte4 = 64;
+          if (!haveByte2) {
+            outByte3 = 64;
+          }
+        }
+        output.push(byteToCharMap[outByte1], byteToCharMap[outByte2], byteToCharMap[outByte3], byteToCharMap[outByte4]);
+      }
+      return output.join("");
+    },
+    encodeString(input, webSafe) {
+      if (this.HAS_NATIVE_SUPPORT && !webSafe) {
+        return btoa(input);
+      }
+      return this.encodeByteArray(stringToByteArray$1(input), webSafe);
+    },
+    decodeString(input, webSafe) {
+      if (this.HAS_NATIVE_SUPPORT && !webSafe) {
+        return atob(input);
+      }
+      return byteArrayToString(this.decodeStringToByteArray(input, webSafe));
+    },
+    decodeStringToByteArray(input, webSafe) {
+      this.init_();
+      const charToByteMap = webSafe ? this.charToByteMapWebSafe_ : this.charToByteMap_;
+      const output = [];
+      for (let i = 0; i < input.length; ) {
+        const byte1 = charToByteMap[input.charAt(i++)];
+        const haveByte2 = i < input.length;
+        const byte2 = haveByte2 ? charToByteMap[input.charAt(i)] : 0;
+        ++i;
+        const haveByte3 = i < input.length;
+        const byte3 = haveByte3 ? charToByteMap[input.charAt(i)] : 64;
+        ++i;
+        const haveByte4 = i < input.length;
+        const byte4 = haveByte4 ? charToByteMap[input.charAt(i)] : 64;
+        ++i;
+        if (byte1 == null || byte2 == null || byte3 == null || byte4 == null) {
+          throw Error();
+        }
+        const outByte1 = byte1 << 2 | byte2 >> 4;
+        output.push(outByte1);
+        if (byte3 !== 64) {
+          const outByte2 = byte2 << 4 & 240 | byte3 >> 2;
+          output.push(outByte2);
+          if (byte4 !== 64) {
+            const outByte3 = byte3 << 6 & 192 | byte4;
+            output.push(outByte3);
+          }
+        }
+      }
+      return output;
+    },
+    init_() {
+      if (!this.byteToCharMap_) {
+        this.byteToCharMap_ = {};
+        this.charToByteMap_ = {};
+        this.byteToCharMapWebSafe_ = {};
+        this.charToByteMapWebSafe_ = {};
+        for (let i = 0; i < this.ENCODED_VALS.length; i++) {
+          this.byteToCharMap_[i] = this.ENCODED_VALS.charAt(i);
+          this.charToByteMap_[this.byteToCharMap_[i]] = i;
+          this.byteToCharMapWebSafe_[i] = this.ENCODED_VALS_WEBSAFE.charAt(i);
+          this.charToByteMapWebSafe_[this.byteToCharMapWebSafe_[i]] = i;
+          if (i >= this.ENCODED_VALS_BASE.length) {
+            this.charToByteMap_[this.ENCODED_VALS_WEBSAFE.charAt(i)] = i;
+            this.charToByteMapWebSafe_[this.ENCODED_VALS.charAt(i)] = i;
+          }
+        }
+      }
+    }
+  };
+  var base64Encode = function(str) {
+    const utf8Bytes = stringToByteArray$1(str);
+    return base64.encodeByteArray(utf8Bytes, true);
+  };
+  var base64urlEncodeWithoutPadding = function(str) {
+    return base64Encode(str).replace(/\./g, "");
+  };
+  var base64Decode = function(str) {
+    try {
+      return base64.decodeString(str, true);
+    } catch (e) {
+      console.error("base64Decode failed: ", e);
+    }
+    return null;
+  };
+  var Deferred = class {
+    constructor() {
+      this.reject = () => {
+      };
+      this.resolve = () => {
+      };
+      this.promise = new Promise((resolve, reject) => {
+        this.resolve = resolve;
+        this.reject = reject;
+      });
+    }
+    wrapCallback(callback) {
+      return (error, value) => {
+        if (error) {
+          this.reject(error);
+        } else {
+          this.resolve(value);
+        }
+        if (typeof callback === "function") {
+          this.promise.catch(() => {
+          });
+          if (callback.length === 1) {
+            callback(error);
+          } else {
+            callback(error, value);
+          }
+        }
+      };
+    }
+  };
+  function getUA() {
+    if (typeof navigator !== "undefined" && typeof navigator["userAgent"] === "string") {
+      return navigator["userAgent"];
+    } else {
+      return "";
+    }
+  }
+  function isMobileCordova() {
+    return typeof window !== "undefined" && !!(window["cordova"] || window["phonegap"] || window["PhoneGap"]) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+  }
+  function isBrowserExtension() {
+    const runtime = typeof chrome === "object" ? chrome.runtime : typeof browser === "object" ? browser.runtime : void 0;
+    return typeof runtime === "object" && runtime.id !== void 0;
+  }
+  function isReactNative() {
+    return typeof navigator === "object" && navigator["product"] === "ReactNative";
+  }
+  function isIE() {
+    const ua = getUA();
+    return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
+  }
+  function isIndexedDBAvailable() {
+    return typeof indexedDB === "object";
+  }
+  function validateIndexedDBOpenable() {
+    return new Promise((resolve, reject) => {
+      try {
+        let preExist = true;
+        const DB_CHECK_NAME = "validate-browser-context-for-indexeddb-analytics-module";
+        const request = self.indexedDB.open(DB_CHECK_NAME);
+        request.onsuccess = () => {
+          request.result.close();
+          if (!preExist) {
+            self.indexedDB.deleteDatabase(DB_CHECK_NAME);
+          }
+          resolve(true);
+        };
+        request.onupgradeneeded = () => {
+          preExist = false;
+        };
+        request.onerror = () => {
+          var _a;
+          reject(((_a = request.error) === null || _a === void 0 ? void 0 : _a.message) || "");
+        };
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  var ERROR_NAME = "FirebaseError";
+  var FirebaseError = class extends Error {
+    constructor(code, message, customData) {
+      super(message);
+      this.code = code;
+      this.customData = customData;
+      this.name = ERROR_NAME;
+      Object.setPrototypeOf(this, FirebaseError.prototype);
+      if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, ErrorFactory.prototype.create);
+      }
+    }
+  };
+  var ErrorFactory = class {
+    constructor(service, serviceName, errors) {
+      this.service = service;
+      this.serviceName = serviceName;
+      this.errors = errors;
+    }
+    create(code, ...data) {
+      const customData = data[0] || {};
+      const fullCode = `${this.service}/${code}`;
+      const template = this.errors[code];
+      const message = template ? replaceTemplate(template, customData) : "Error";
+      const fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
+      const error = new FirebaseError(fullCode, fullMessage, customData);
+      return error;
+    }
+  };
+  function replaceTemplate(template, data) {
+    return template.replace(PATTERN, (_, key) => {
+      const value = data[key];
+      return value != null ? String(value) : `<${key}?>`;
+    });
+  }
+  var PATTERN = /\{\$([^}]+)}/g;
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
+    for (const k2 of aKeys) {
+      if (!bKeys.includes(k2)) {
+        return false;
+      }
+      const aProp = a[k2];
+      const bProp = b[k2];
+      if (isObject(aProp) && isObject(bProp)) {
+        if (!deepEqual(aProp, bProp)) {
+          return false;
+        }
+      } else if (aProp !== bProp) {
+        return false;
+      }
+    }
+    for (const k2 of bKeys) {
+      if (!aKeys.includes(k2)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function isObject(thing) {
+    return thing !== null && typeof thing === "object";
+  }
+  function querystring(querystringParams) {
+    const params = [];
+    for (const [key, value] of Object.entries(querystringParams)) {
+      if (Array.isArray(value)) {
+        value.forEach((arrayVal) => {
+          params.push(encodeURIComponent(key) + "=" + encodeURIComponent(arrayVal));
+        });
+      } else {
+        params.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+      }
+    }
+    return params.length ? "&" + params.join("&") : "";
+  }
+  function querystringDecode(querystring2) {
+    const obj = {};
+    const tokens = querystring2.replace(/^\?/, "").split("&");
+    tokens.forEach((token) => {
+      if (token) {
+        const [key, value] = token.split("=");
+        obj[decodeURIComponent(key)] = decodeURIComponent(value);
+      }
+    });
+    return obj;
+  }
+  function extractQuerystring(url2) {
+    const queryStart = url2.indexOf("?");
+    if (!queryStart) {
+      return "";
+    }
+    const fragmentStart = url2.indexOf("#", queryStart);
+    return url2.substring(queryStart, fragmentStart > 0 ? fragmentStart : void 0);
+  }
+  function createSubscribe(executor, onNoObservers) {
+    const proxy = new ObserverProxy(executor, onNoObservers);
+    return proxy.subscribe.bind(proxy);
+  }
+  var ObserverProxy = class {
+    constructor(executor, onNoObservers) {
+      this.observers = [];
+      this.unsubscribes = [];
+      this.observerCount = 0;
+      this.task = Promise.resolve();
+      this.finalized = false;
+      this.onNoObservers = onNoObservers;
+      this.task.then(() => {
+        executor(this);
+      }).catch((e) => {
+        this.error(e);
+      });
+    }
+    next(value) {
+      this.forEachObserver((observer) => {
+        observer.next(value);
+      });
+    }
+    error(error) {
+      this.forEachObserver((observer) => {
+        observer.error(error);
+      });
+      this.close(error);
+    }
+    complete() {
+      this.forEachObserver((observer) => {
+        observer.complete();
+      });
+      this.close();
+    }
+    subscribe(nextOrObserver, error, complete) {
+      let observer;
+      if (nextOrObserver === void 0 && error === void 0 && complete === void 0) {
+        throw new Error("Missing Observer.");
+      }
+      if (implementsAnyMethods(nextOrObserver, [
+        "next",
+        "error",
+        "complete"
+      ])) {
+        observer = nextOrObserver;
+      } else {
+        observer = {
+          next: nextOrObserver,
+          error,
+          complete
+        };
+      }
+      if (observer.next === void 0) {
+        observer.next = noop;
+      }
+      if (observer.error === void 0) {
+        observer.error = noop;
+      }
+      if (observer.complete === void 0) {
+        observer.complete = noop;
+      }
+      const unsub = this.unsubscribeOne.bind(this, this.observers.length);
+      if (this.finalized) {
+        this.task.then(() => {
+          try {
+            if (this.finalError) {
+              observer.error(this.finalError);
+            } else {
+              observer.complete();
+            }
+          } catch (e) {
+          }
+          return;
+        });
+      }
+      this.observers.push(observer);
+      return unsub;
+    }
+    unsubscribeOne(i) {
+      if (this.observers === void 0 || this.observers[i] === void 0) {
+        return;
+      }
+      delete this.observers[i];
+      this.observerCount -= 1;
+      if (this.observerCount === 0 && this.onNoObservers !== void 0) {
+        this.onNoObservers(this);
+      }
+    }
+    forEachObserver(fn) {
+      if (this.finalized) {
+        return;
+      }
+      for (let i = 0; i < this.observers.length; i++) {
+        this.sendOne(i, fn);
+      }
+    }
+    sendOne(i, fn) {
+      this.task.then(() => {
+        if (this.observers !== void 0 && this.observers[i] !== void 0) {
+          try {
+            fn(this.observers[i]);
+          } catch (e) {
+            if (typeof console !== "undefined" && console.error) {
+              console.error(e);
+            }
+          }
+        }
+      });
+    }
+    close(err) {
+      if (this.finalized) {
+        return;
+      }
+      this.finalized = true;
+      if (err !== void 0) {
+        this.finalError = err;
+      }
+      this.task.then(() => {
+        this.observers = void 0;
+        this.onNoObservers = void 0;
+      });
+    }
+  };
+  function implementsAnyMethods(obj, methods) {
+    if (typeof obj !== "object" || obj === null) {
+      return false;
+    }
+    for (const method of methods) {
+      if (method in obj && typeof obj[method] === "function") {
+        return true;
+      }
+    }
+    return false;
+  }
+  function noop() {
+  }
+  var MAX_VALUE_MILLIS = 4 * 60 * 60 * 1e3;
+  function getModularInstance(service) {
+    if (service && service._delegate) {
+      return service._delegate;
+    } else {
+      return service;
+    }
+  }
+
+  // ../node_modules/@firebase/component/dist/esm/index.esm2017.js
+  var Component = class {
+    constructor(name4, instanceFactory, type) {
+      this.name = name4;
+      this.instanceFactory = instanceFactory;
+      this.type = type;
+      this.multipleInstances = false;
+      this.serviceProps = {};
+      this.instantiationMode = "LAZY";
+      this.onInstanceCreated = null;
+    }
+    setInstantiationMode(mode) {
+      this.instantiationMode = mode;
+      return this;
+    }
+    setMultipleInstances(multipleInstances) {
+      this.multipleInstances = multipleInstances;
+      return this;
+    }
+    setServiceProps(props) {
+      this.serviceProps = props;
+      return this;
+    }
+    setInstanceCreatedCallback(callback) {
+      this.onInstanceCreated = callback;
+      return this;
+    }
+  };
+  var DEFAULT_ENTRY_NAME = "[DEFAULT]";
+  var Provider = class {
+    constructor(name4, container) {
+      this.name = name4;
+      this.container = container;
+      this.component = null;
+      this.instances = /* @__PURE__ */ new Map();
+      this.instancesDeferred = /* @__PURE__ */ new Map();
+      this.instancesOptions = /* @__PURE__ */ new Map();
+      this.onInitCallbacks = /* @__PURE__ */ new Map();
+    }
+    get(identifier) {
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+      if (!this.instancesDeferred.has(normalizedIdentifier)) {
+        const deferred = new Deferred();
+        this.instancesDeferred.set(normalizedIdentifier, deferred);
+        if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+          try {
+            const instance = this.getOrInitializeService({
+              instanceIdentifier: normalizedIdentifier
+            });
+            if (instance) {
+              deferred.resolve(instance);
+            }
+          } catch (e) {
+          }
+        }
+      }
+      return this.instancesDeferred.get(normalizedIdentifier).promise;
+    }
+    getImmediate(options) {
+      var _a;
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(options === null || options === void 0 ? void 0 : options.identifier);
+      const optional = (_a = options === null || options === void 0 ? void 0 : options.optional) !== null && _a !== void 0 ? _a : false;
+      if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+        try {
+          return this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier
+          });
+        } catch (e) {
+          if (optional) {
+            return null;
+          } else {
+            throw e;
+          }
+        }
+      } else {
+        if (optional) {
+          return null;
+        } else {
+          throw Error(`Service ${this.name} is not available`);
+        }
+      }
+    }
+    getComponent() {
+      return this.component;
+    }
+    setComponent(component) {
+      if (component.name !== this.name) {
+        throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+      }
+      if (this.component) {
+        throw Error(`Component for ${this.name} has already been provided`);
+      }
+      this.component = component;
+      if (!this.shouldAutoInitialize()) {
+        return;
+      }
+      if (isComponentEager(component)) {
+        try {
+          this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
+        } catch (e) {
+        }
+      }
+      for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+        try {
+          const instance = this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier
+          });
+          instanceDeferred.resolve(instance);
+        } catch (e) {
+        }
+      }
+    }
+    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
+      this.instancesDeferred.delete(identifier);
+      this.instancesOptions.delete(identifier);
+      this.instances.delete(identifier);
+    }
+    async delete() {
+      const services = Array.from(this.instances.values());
+      await Promise.all([
+        ...services.filter((service) => "INTERNAL" in service).map((service) => service.INTERNAL.delete()),
+        ...services.filter((service) => "_delete" in service).map((service) => service._delete())
+      ]);
+    }
+    isComponentSet() {
+      return this.component != null;
+    }
+    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
+      return this.instances.has(identifier);
+    }
+    getOptions(identifier = DEFAULT_ENTRY_NAME) {
+      return this.instancesOptions.get(identifier) || {};
+    }
+    initialize(opts = {}) {
+      const { options = {} } = opts;
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+      if (this.isInitialized(normalizedIdentifier)) {
+        throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+      }
+      if (!this.isComponentSet()) {
+        throw Error(`Component ${this.name} has not been registered yet`);
+      }
+      const instance = this.getOrInitializeService({
+        instanceIdentifier: normalizedIdentifier,
+        options
+      });
+      for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+        const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+        if (normalizedIdentifier === normalizedDeferredIdentifier) {
+          instanceDeferred.resolve(instance);
+        }
+      }
+      return instance;
+    }
+    onInit(callback, identifier) {
+      var _a;
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+      const existingCallbacks = (_a = this.onInitCallbacks.get(normalizedIdentifier)) !== null && _a !== void 0 ? _a : /* @__PURE__ */ new Set();
+      existingCallbacks.add(callback);
+      this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
+      const existingInstance = this.instances.get(normalizedIdentifier);
+      if (existingInstance) {
+        callback(existingInstance, normalizedIdentifier);
+      }
+      return () => {
+        existingCallbacks.delete(callback);
+      };
+    }
+    invokeOnInitCallbacks(instance, identifier) {
+      const callbacks = this.onInitCallbacks.get(identifier);
+      if (!callbacks) {
+        return;
+      }
+      for (const callback of callbacks) {
+        try {
+          callback(instance, identifier);
+        } catch (_a) {
+        }
+      }
+    }
+    getOrInitializeService({ instanceIdentifier, options = {} }) {
+      let instance = this.instances.get(instanceIdentifier);
+      if (!instance && this.component) {
+        instance = this.component.instanceFactory(this.container, {
+          instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
+          options
+        });
+        this.instances.set(instanceIdentifier, instance);
+        this.instancesOptions.set(instanceIdentifier, options);
+        this.invokeOnInitCallbacks(instance, instanceIdentifier);
+        if (this.component.onInstanceCreated) {
+          try {
+            this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
+          } catch (_a) {
+          }
+        }
+      }
+      return instance || null;
+    }
+    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
+      if (this.component) {
+        return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
+      } else {
+        return identifier;
+      }
+    }
+    shouldAutoInitialize() {
+      return !!this.component && this.component.instantiationMode !== "EXPLICIT";
+    }
+  };
+  function normalizeIdentifierForFactory(identifier) {
+    return identifier === DEFAULT_ENTRY_NAME ? void 0 : identifier;
+  }
+  function isComponentEager(component) {
+    return component.instantiationMode === "EAGER";
+  }
+  var ComponentContainer = class {
+    constructor(name4) {
+      this.name = name4;
+      this.providers = /* @__PURE__ */ new Map();
+    }
+    addComponent(component) {
+      const provider = this.getProvider(component.name);
+      if (provider.isComponentSet()) {
+        throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+      }
+      provider.setComponent(component);
+    }
+    addOrOverwriteComponent(component) {
+      const provider = this.getProvider(component.name);
+      if (provider.isComponentSet()) {
+        this.providers.delete(component.name);
+      }
+      this.addComponent(component);
+    }
+    getProvider(name4) {
+      if (this.providers.has(name4)) {
+        return this.providers.get(name4);
+      }
+      const provider = new Provider(name4, this);
+      this.providers.set(name4, provider);
+      return provider;
+    }
+    getProviders() {
+      return Array.from(this.providers.values());
+    }
+  };
+
+  // ../node_modules/@firebase/logger/dist/esm/index.esm2017.js
+  var instances = [];
+  var LogLevel;
+  (function(LogLevel2) {
+    LogLevel2[LogLevel2["DEBUG"] = 0] = "DEBUG";
+    LogLevel2[LogLevel2["VERBOSE"] = 1] = "VERBOSE";
+    LogLevel2[LogLevel2["INFO"] = 2] = "INFO";
+    LogLevel2[LogLevel2["WARN"] = 3] = "WARN";
+    LogLevel2[LogLevel2["ERROR"] = 4] = "ERROR";
+    LogLevel2[LogLevel2["SILENT"] = 5] = "SILENT";
+  })(LogLevel || (LogLevel = {}));
+  var levelStringToEnum = {
+    "debug": LogLevel.DEBUG,
+    "verbose": LogLevel.VERBOSE,
+    "info": LogLevel.INFO,
+    "warn": LogLevel.WARN,
+    "error": LogLevel.ERROR,
+    "silent": LogLevel.SILENT
+  };
+  var defaultLogLevel = LogLevel.INFO;
+  var ConsoleMethod = {
+    [LogLevel.DEBUG]: "log",
+    [LogLevel.VERBOSE]: "log",
+    [LogLevel.INFO]: "info",
+    [LogLevel.WARN]: "warn",
+    [LogLevel.ERROR]: "error"
+  };
+  var defaultLogHandler = (instance, logType, ...args) => {
+    if (logType < instance.logLevel) {
+      return;
+    }
+    const now = new Date().toISOString();
+    const method = ConsoleMethod[logType];
+    if (method) {
+      console[method](`[${now}]  ${instance.name}:`, ...args);
+    } else {
+      throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+    }
+  };
+  var Logger = class {
+    constructor(name4) {
+      this.name = name4;
+      this._logLevel = defaultLogLevel;
+      this._logHandler = defaultLogHandler;
+      this._userLogHandler = null;
+      instances.push(this);
+    }
+    get logLevel() {
+      return this._logLevel;
+    }
+    set logLevel(val) {
+      if (!(val in LogLevel)) {
+        throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
+      }
+      this._logLevel = val;
+    }
+    setLogLevel(val) {
+      this._logLevel = typeof val === "string" ? levelStringToEnum[val] : val;
+    }
+    get logHandler() {
+      return this._logHandler;
+    }
+    set logHandler(val) {
+      if (typeof val !== "function") {
+        throw new TypeError("Value assigned to `logHandler` must be a function");
+      }
+      this._logHandler = val;
+    }
+    get userLogHandler() {
+      return this._userLogHandler;
+    }
+    set userLogHandler(val) {
+      this._userLogHandler = val;
+    }
+    debug(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args);
+      this._logHandler(this, LogLevel.DEBUG, ...args);
+    }
+    log(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.VERBOSE, ...args);
+      this._logHandler(this, LogLevel.VERBOSE, ...args);
+    }
+    info(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args);
+      this._logHandler(this, LogLevel.INFO, ...args);
+    }
+    warn(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args);
+      this._logHandler(this, LogLevel.WARN, ...args);
+    }
+    error(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args);
+      this._logHandler(this, LogLevel.ERROR, ...args);
+    }
+  };
+
+  // ../node_modules/idb/build/wrap-idb-value.js
+  var instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+  var idbProxyableTypes;
+  var cursorAdvanceMethods;
+  function getIdbProxyableTypes() {
+    return idbProxyableTypes || (idbProxyableTypes = [
+      IDBDatabase,
+      IDBObjectStore,
+      IDBIndex,
+      IDBCursor,
+      IDBTransaction
+    ]);
+  }
+  function getCursorAdvanceMethods() {
+    return cursorAdvanceMethods || (cursorAdvanceMethods = [
+      IDBCursor.prototype.advance,
+      IDBCursor.prototype.continue,
+      IDBCursor.prototype.continuePrimaryKey
+    ]);
+  }
+  var cursorRequestMap = /* @__PURE__ */ new WeakMap();
+  var transactionDoneMap = /* @__PURE__ */ new WeakMap();
+  var transactionStoreNamesMap = /* @__PURE__ */ new WeakMap();
+  var transformCache = /* @__PURE__ */ new WeakMap();
+  var reverseTransformCache = /* @__PURE__ */ new WeakMap();
+  function promisifyRequest(request) {
+    const promise = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        request.removeEventListener("success", success);
+        request.removeEventListener("error", error);
+      };
+      const success = () => {
+        resolve(wrap(request.result));
+        unlisten();
+      };
+      const error = () => {
+        reject(request.error);
+        unlisten();
+      };
+      request.addEventListener("success", success);
+      request.addEventListener("error", error);
+    });
+    promise.then((value) => {
+      if (value instanceof IDBCursor) {
+        cursorRequestMap.set(value, request);
+      }
+    }).catch(() => {
+    });
+    reverseTransformCache.set(promise, request);
+    return promise;
+  }
+  function cacheDonePromiseForTransaction(tx) {
+    if (transactionDoneMap.has(tx))
+      return;
+    const done = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        tx.removeEventListener("complete", complete);
+        tx.removeEventListener("error", error);
+        tx.removeEventListener("abort", error);
+      };
+      const complete = () => {
+        resolve();
+        unlisten();
+      };
+      const error = () => {
+        reject(tx.error || new DOMException("AbortError", "AbortError"));
+        unlisten();
+      };
+      tx.addEventListener("complete", complete);
+      tx.addEventListener("error", error);
+      tx.addEventListener("abort", error);
+    });
+    transactionDoneMap.set(tx, done);
+  }
+  var idbProxyTraps = {
+    get(target, prop, receiver) {
+      if (target instanceof IDBTransaction) {
+        if (prop === "done")
+          return transactionDoneMap.get(target);
+        if (prop === "objectStoreNames") {
+          return target.objectStoreNames || transactionStoreNamesMap.get(target);
+        }
+        if (prop === "store") {
+          return receiver.objectStoreNames[1] ? void 0 : receiver.objectStore(receiver.objectStoreNames[0]);
+        }
+      }
+      return wrap(target[prop]);
+    },
+    set(target, prop, value) {
+      target[prop] = value;
+      return true;
+    },
+    has(target, prop) {
+      if (target instanceof IDBTransaction && (prop === "done" || prop === "store")) {
+        return true;
+      }
+      return prop in target;
+    }
+  };
+  function replaceTraps(callback) {
+    idbProxyTraps = callback(idbProxyTraps);
+  }
+  function wrapFunction(func) {
+    if (func === IDBDatabase.prototype.transaction && !("objectStoreNames" in IDBTransaction.prototype)) {
+      return function(storeNames, ...args) {
+        const tx = func.call(unwrap(this), storeNames, ...args);
+        transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
+        return wrap(tx);
+      };
+    }
+    if (getCursorAdvanceMethods().includes(func)) {
+      return function(...args) {
+        func.apply(unwrap(this), args);
+        return wrap(cursorRequestMap.get(this));
+      };
+    }
+    return function(...args) {
+      return wrap(func.apply(unwrap(this), args));
+    };
+  }
+  function transformCachableValue(value) {
+    if (typeof value === "function")
+      return wrapFunction(value);
+    if (value instanceof IDBTransaction)
+      cacheDonePromiseForTransaction(value);
+    if (instanceOfAny(value, getIdbProxyableTypes()))
+      return new Proxy(value, idbProxyTraps);
+    return value;
+  }
+  function wrap(value) {
+    if (value instanceof IDBRequest)
+      return promisifyRequest(value);
+    if (transformCache.has(value))
+      return transformCache.get(value);
+    const newValue = transformCachableValue(value);
+    if (newValue !== value) {
+      transformCache.set(value, newValue);
+      reverseTransformCache.set(newValue, value);
+    }
+    return newValue;
+  }
+  var unwrap = (value) => reverseTransformCache.get(value);
+
+  // ../node_modules/idb/build/index.js
+  function openDB(name4, version4, { blocked, upgrade, blocking, terminated } = {}) {
+    const request = indexedDB.open(name4, version4);
+    const openPromise = wrap(request);
+    if (upgrade) {
+      request.addEventListener("upgradeneeded", (event) => {
+        upgrade(wrap(request.result), event.oldVersion, event.newVersion, wrap(request.transaction));
+      });
+    }
+    if (blocked)
+      request.addEventListener("blocked", () => blocked());
+    openPromise.then((db) => {
+      if (terminated)
+        db.addEventListener("close", () => terminated());
+      if (blocking)
+        db.addEventListener("versionchange", () => blocking());
+    }).catch(() => {
+    });
+    return openPromise;
+  }
+  var readMethods = ["get", "getKey", "getAll", "getAllKeys", "count"];
+  var writeMethods = ["put", "add", "delete", "clear"];
+  var cachedMethods = /* @__PURE__ */ new Map();
+  function getMethod(target, prop) {
+    if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === "string")) {
+      return;
+    }
+    if (cachedMethods.get(prop))
+      return cachedMethods.get(prop);
+    const targetFuncName = prop.replace(/FromIndex$/, "");
+    const useIndex = prop !== targetFuncName;
+    const isWrite = writeMethods.includes(targetFuncName);
+    if (!(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))) {
+      return;
+    }
+    const method = async function(storeName, ...args) {
+      const tx = this.transaction(storeName, isWrite ? "readwrite" : "readonly");
+      let target2 = tx.store;
+      if (useIndex)
+        target2 = target2.index(args.shift());
+      return (await Promise.all([
+        target2[targetFuncName](...args),
+        isWrite && tx.done
+      ]))[0];
+    };
+    cachedMethods.set(prop, method);
+    return method;
+  }
+  replaceTraps((oldTraps) => __spreadProps(__spreadValues({}, oldTraps), {
+    get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
+    has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop)
+  }));
+
+  // ../node_modules/@firebase/app/dist/esm/index.esm2017.js
+  var PlatformLoggerServiceImpl = class {
+    constructor(container) {
+      this.container = container;
+    }
+    getPlatformInfoString() {
+      const providers = this.container.getProviders();
+      return providers.map((provider) => {
+        if (isVersionServiceProvider(provider)) {
+          const service = provider.getImmediate();
+          return `${service.library}/${service.version}`;
+        } else {
+          return null;
+        }
+      }).filter((logString) => logString).join(" ");
+    }
+  };
+  function isVersionServiceProvider(provider) {
+    const component = provider.getComponent();
+    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION";
+  }
+  var name$o = "@firebase/app";
+  var version$1 = "0.7.28";
+  var logger = new Logger("@firebase/app");
+  var name$n = "@firebase/app-compat";
+  var name$m = "@firebase/analytics-compat";
+  var name$l = "@firebase/analytics";
+  var name$k = "@firebase/app-check-compat";
+  var name$j = "@firebase/app-check";
+  var name$i = "@firebase/auth";
+  var name$h = "@firebase/auth-compat";
+  var name$g = "@firebase/database";
+  var name$f = "@firebase/database-compat";
+  var name$e = "@firebase/functions";
+  var name$d = "@firebase/functions-compat";
+  var name$c = "@firebase/installations";
+  var name$b = "@firebase/installations-compat";
+  var name$a = "@firebase/messaging";
+  var name$9 = "@firebase/messaging-compat";
+  var name$8 = "@firebase/performance";
+  var name$7 = "@firebase/performance-compat";
+  var name$6 = "@firebase/remote-config";
+  var name$5 = "@firebase/remote-config-compat";
+  var name$4 = "@firebase/storage";
+  var name$3 = "@firebase/storage-compat";
+  var name$2 = "@firebase/firestore";
+  var name$1 = "@firebase/firestore-compat";
+  var name = "firebase";
+  var version = "9.9.0";
+  var DEFAULT_ENTRY_NAME2 = "[DEFAULT]";
+  var PLATFORM_LOG_STRING = {
+    [name$o]: "fire-core",
+    [name$n]: "fire-core-compat",
+    [name$l]: "fire-analytics",
+    [name$m]: "fire-analytics-compat",
+    [name$j]: "fire-app-check",
+    [name$k]: "fire-app-check-compat",
+    [name$i]: "fire-auth",
+    [name$h]: "fire-auth-compat",
+    [name$g]: "fire-rtdb",
+    [name$f]: "fire-rtdb-compat",
+    [name$e]: "fire-fn",
+    [name$d]: "fire-fn-compat",
+    [name$c]: "fire-iid",
+    [name$b]: "fire-iid-compat",
+    [name$a]: "fire-fcm",
+    [name$9]: "fire-fcm-compat",
+    [name$8]: "fire-perf",
+    [name$7]: "fire-perf-compat",
+    [name$6]: "fire-rc",
+    [name$5]: "fire-rc-compat",
+    [name$4]: "fire-gcs",
+    [name$3]: "fire-gcs-compat",
+    [name$2]: "fire-fst",
+    [name$1]: "fire-fst-compat",
+    "fire-js": "fire-js",
+    [name]: "fire-js-all"
+  };
+  var _apps = /* @__PURE__ */ new Map();
+  var _components = /* @__PURE__ */ new Map();
+  function _addComponent(app2, component) {
+    try {
+      app2.container.addComponent(component);
+    } catch (e) {
+      logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app2.name}`, e);
+    }
+  }
+  function _registerComponent(component) {
+    const componentName = component.name;
+    if (_components.has(componentName)) {
+      logger.debug(`There were multiple attempts to register component ${componentName}.`);
+      return false;
+    }
+    _components.set(componentName, component);
+    for (const app2 of _apps.values()) {
+      _addComponent(app2, component);
+    }
+    return true;
+  }
+  var ERRORS = {
+    ["no-app"]: "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
+    ["bad-app-name"]: "Illegal App name: '{$appName}",
+    ["duplicate-app"]: "Firebase App named '{$appName}' already exists with different options or config",
+    ["app-deleted"]: "Firebase App named '{$appName}' already deleted",
+    ["invalid-app-argument"]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
+    ["invalid-log-argument"]: "First argument to `onLog` must be null or a function.",
+    ["storage-open"]: "Error thrown when opening storage. Original error: {$originalErrorMessage}.",
+    ["storage-get"]: "Error thrown when reading from storage. Original error: {$originalErrorMessage}.",
+    ["storage-set"]: "Error thrown when writing to storage. Original error: {$originalErrorMessage}.",
+    ["storage-delete"]: "Error thrown when deleting from storage. Original error: {$originalErrorMessage}."
+  };
+  var ERROR_FACTORY = new ErrorFactory("app", "Firebase", ERRORS);
+  var FirebaseAppImpl = class {
+    constructor(options, config, container) {
+      this._isDeleted = false;
+      this._options = Object.assign({}, options);
+      this._config = Object.assign({}, config);
+      this._name = config.name;
+      this._automaticDataCollectionEnabled = config.automaticDataCollectionEnabled;
+      this._container = container;
+      this.container.addComponent(new Component("app", () => this, "PUBLIC"));
+    }
+    get automaticDataCollectionEnabled() {
+      this.checkDestroyed();
+      return this._automaticDataCollectionEnabled;
+    }
+    set automaticDataCollectionEnabled(val) {
+      this.checkDestroyed();
+      this._automaticDataCollectionEnabled = val;
+    }
+    get name() {
+      this.checkDestroyed();
+      return this._name;
+    }
+    get options() {
+      this.checkDestroyed();
+      return this._options;
+    }
+    get config() {
+      this.checkDestroyed();
+      return this._config;
+    }
+    get container() {
+      return this._container;
+    }
+    get isDeleted() {
+      return this._isDeleted;
+    }
+    set isDeleted(val) {
+      this._isDeleted = val;
+    }
+    checkDestroyed() {
+      if (this.isDeleted) {
+        throw ERROR_FACTORY.create("app-deleted", { appName: this._name });
+      }
+    }
+  };
+  var SDK_VERSION = version;
+  function initializeApp(options, rawConfig = {}) {
+    if (typeof rawConfig !== "object") {
+      const name5 = rawConfig;
+      rawConfig = { name: name5 };
+    }
+    const config = Object.assign({ name: DEFAULT_ENTRY_NAME2, automaticDataCollectionEnabled: false }, rawConfig);
+    const name4 = config.name;
+    if (typeof name4 !== "string" || !name4) {
+      throw ERROR_FACTORY.create("bad-app-name", {
+        appName: String(name4)
+      });
+    }
+    const existingApp = _apps.get(name4);
+    if (existingApp) {
+      if (deepEqual(options, existingApp.options) && deepEqual(config, existingApp.config)) {
+        return existingApp;
+      } else {
+        throw ERROR_FACTORY.create("duplicate-app", { appName: name4 });
+      }
+    }
+    const container = new ComponentContainer(name4);
+    for (const component of _components.values()) {
+      container.addComponent(component);
+    }
+    const newApp = new FirebaseAppImpl(options, config, container);
+    _apps.set(name4, newApp);
+    return newApp;
+  }
+  function registerVersion(libraryKeyOrName, version4, variant) {
+    var _a;
+    let library = (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) !== null && _a !== void 0 ? _a : libraryKeyOrName;
+    if (variant) {
+      library += `-${variant}`;
+    }
+    const libraryMismatch = library.match(/\s|\//);
+    const versionMismatch = version4.match(/\s|\//);
+    if (libraryMismatch || versionMismatch) {
+      const warning = [
+        `Unable to register library "${library}" with version "${version4}":`
+      ];
+      if (libraryMismatch) {
+        warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
+      }
+      if (libraryMismatch && versionMismatch) {
+        warning.push("and");
+      }
+      if (versionMismatch) {
+        warning.push(`version name "${version4}" contains illegal characters (whitespace or "/")`);
+      }
+      logger.warn(warning.join(" "));
+      return;
+    }
+    _registerComponent(new Component(`${library}-version`, () => ({ library, version: version4 }), "VERSION"));
+  }
+  var DB_NAME = "firebase-heartbeat-database";
+  var DB_VERSION = 1;
+  var STORE_NAME = "firebase-heartbeat-store";
+  var dbPromise = null;
+  function getDbPromise() {
+    if (!dbPromise) {
+      dbPromise = openDB(DB_NAME, DB_VERSION, {
+        upgrade: (db, oldVersion) => {
+          switch (oldVersion) {
+            case 0:
+              db.createObjectStore(STORE_NAME);
+          }
+        }
+      }).catch((e) => {
+        throw ERROR_FACTORY.create("storage-open", {
+          originalErrorMessage: e.message
+        });
+      });
+    }
+    return dbPromise;
+  }
+  async function readHeartbeatsFromIndexedDB(app2) {
+    var _a;
+    try {
+      const db = await getDbPromise();
+      return db.transaction(STORE_NAME).objectStore(STORE_NAME).get(computeKey(app2));
+    } catch (e) {
+      throw ERROR_FACTORY.create("storage-get", {
+        originalErrorMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message
+      });
+    }
+  }
+  async function writeHeartbeatsToIndexedDB(app2, heartbeatObject) {
+    var _a;
+    try {
+      const db = await getDbPromise();
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const objectStore = tx.objectStore(STORE_NAME);
+      await objectStore.put(heartbeatObject, computeKey(app2));
+      return tx.done;
+    } catch (e) {
+      throw ERROR_FACTORY.create("storage-set", {
+        originalErrorMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message
+      });
+    }
+  }
+  function computeKey(app2) {
+    return `${app2.name}!${app2.options.appId}`;
+  }
+  var MAX_HEADER_BYTES = 1024;
+  var STORED_HEARTBEAT_RETENTION_MAX_MILLIS = 30 * 24 * 60 * 60 * 1e3;
+  var HeartbeatServiceImpl = class {
+    constructor(container) {
+      this.container = container;
+      this._heartbeatsCache = null;
+      const app2 = this.container.getProvider("app").getImmediate();
+      this._storage = new HeartbeatStorageImpl(app2);
+      this._heartbeatsCachePromise = this._storage.read().then((result) => {
+        this._heartbeatsCache = result;
+        return result;
+      });
+    }
+    async triggerHeartbeat() {
+      const platformLogger = this.container.getProvider("platform-logger").getImmediate();
+      const agent = platformLogger.getPlatformInfoString();
+      const date = getUTCDateString();
+      if (this._heartbeatsCache === null) {
+        this._heartbeatsCache = await this._heartbeatsCachePromise;
+      }
+      if (this._heartbeatsCache.lastSentHeartbeatDate === date || this._heartbeatsCache.heartbeats.some((singleDateHeartbeat) => singleDateHeartbeat.date === date)) {
+        return;
+      } else {
+        this._heartbeatsCache.heartbeats.push({ date, agent });
+      }
+      this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter((singleDateHeartbeat) => {
+        const hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
+        const now = Date.now();
+        return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
+      });
+      return this._storage.overwrite(this._heartbeatsCache);
+    }
+    async getHeartbeatsHeader() {
+      if (this._heartbeatsCache === null) {
+        await this._heartbeatsCachePromise;
+      }
+      if (this._heartbeatsCache === null || this._heartbeatsCache.heartbeats.length === 0) {
+        return "";
+      }
+      const date = getUTCDateString();
+      const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
+      const headerString = base64urlEncodeWithoutPadding(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
+      this._heartbeatsCache.lastSentHeartbeatDate = date;
+      if (unsentEntries.length > 0) {
+        this._heartbeatsCache.heartbeats = unsentEntries;
+        await this._storage.overwrite(this._heartbeatsCache);
+      } else {
+        this._heartbeatsCache.heartbeats = [];
+        void this._storage.overwrite(this._heartbeatsCache);
+      }
+      return headerString;
+    }
+  };
+  function getUTCDateString() {
+    const today = new Date();
+    return today.toISOString().substring(0, 10);
+  }
+  function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
+    const heartbeatsToSend = [];
+    let unsentEntries = heartbeatsCache.slice();
+    for (const singleDateHeartbeat of heartbeatsCache) {
+      const heartbeatEntry = heartbeatsToSend.find((hb) => hb.agent === singleDateHeartbeat.agent);
+      if (!heartbeatEntry) {
+        heartbeatsToSend.push({
+          agent: singleDateHeartbeat.agent,
+          dates: [singleDateHeartbeat.date]
+        });
+        if (countBytes(heartbeatsToSend) > maxSize) {
+          heartbeatsToSend.pop();
+          break;
+        }
+      } else {
+        heartbeatEntry.dates.push(singleDateHeartbeat.date);
+        if (countBytes(heartbeatsToSend) > maxSize) {
+          heartbeatEntry.dates.pop();
+          break;
+        }
+      }
+      unsentEntries = unsentEntries.slice(1);
+    }
+    return {
+      heartbeatsToSend,
+      unsentEntries
+    };
+  }
+  var HeartbeatStorageImpl = class {
+    constructor(app2) {
+      this.app = app2;
+      this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
+    }
+    async runIndexedDBEnvironmentCheck() {
+      if (!isIndexedDBAvailable()) {
+        return false;
+      } else {
+        return validateIndexedDBOpenable().then(() => true).catch(() => false);
+      }
+    }
+    async read() {
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return { heartbeats: [] };
+      } else {
+        const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
+        return idbHeartbeatObject || { heartbeats: [] };
+      }
+    }
+    async overwrite(heartbeatsObject) {
+      var _a;
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return;
+      } else {
+        const existingHeartbeatsObject = await this.read();
+        return writeHeartbeatsToIndexedDB(this.app, {
+          lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+          heartbeats: heartbeatsObject.heartbeats
+        });
+      }
+    }
+    async add(heartbeatsObject) {
+      var _a;
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return;
+      } else {
+        const existingHeartbeatsObject = await this.read();
+        return writeHeartbeatsToIndexedDB(this.app, {
+          lastSentHeartbeatDate: (_a = heartbeatsObject.lastSentHeartbeatDate) !== null && _a !== void 0 ? _a : existingHeartbeatsObject.lastSentHeartbeatDate,
+          heartbeats: [
+            ...existingHeartbeatsObject.heartbeats,
+            ...heartbeatsObject.heartbeats
+          ]
+        });
+      }
+    }
+  };
+  function countBytes(heartbeatsCache) {
+    return base64urlEncodeWithoutPadding(
+      JSON.stringify({ version: 2, heartbeats: heartbeatsCache })
+    ).length;
+  }
+  function registerCoreComponents(variant) {
+    _registerComponent(new Component("platform-logger", (container) => new PlatformLoggerServiceImpl(container), "PRIVATE"));
+    _registerComponent(new Component("heartbeat", (container) => new HeartbeatServiceImpl(container), "PRIVATE"));
+    registerVersion(name$o, version$1, variant);
+    registerVersion(name$o, version$1, "esm2017");
+    registerVersion("fire-js", "");
+  }
+  registerCoreComponents("");
+
+  // ../node_modules/firebase/app/dist/index.esm.js
+  var name2 = "firebase";
+  var version2 = "9.9.0";
+  registerVersion(name2, version2, "app");
+
+  // ../node_modules/@firebase/auth/node_modules/tslib/modules/index.js
+  var import_tslib = __toESM(require_tslib(), 1);
+  var {
+    __extends,
+    __assign,
+    __rest,
+    __decorate,
+    __param,
+    __metadata,
+    __awaiter,
+    __generator,
+    __exportStar,
+    __createBinding,
+    __values,
+    __read,
+    __spread,
+    __spreadArrays,
+    __spreadArray,
+    __await,
+    __asyncGenerator,
+    __asyncDelegator,
+    __asyncValues,
+    __makeTemplateObject,
+    __importStar,
+    __importDefault,
+    __classPrivateFieldGet,
+    __classPrivateFieldSet,
+    __classPrivateFieldIn
+  } = import_tslib.default;
+
+  // ../node_modules/@firebase/auth/dist/esm2017/index-90ebcfae.js
+  function _prodErrorMap() {
+    return {
+      ["dependent-sdk-initialized-before-auth"]: "Another Firebase SDK was initialized and is trying to use Auth before Auth is initialized. Please be sure to call `initializeAuth` or `getAuth` before starting any other Firebase SDK."
+    };
+  }
+  var prodErrorMap = _prodErrorMap;
+  var _DEFAULT_AUTH_ERROR_FACTORY = new ErrorFactory("auth", "Firebase", _prodErrorMap());
+  var logClient = new Logger("@firebase/auth");
+  function _logError(msg, ...args) {
+    if (logClient.logLevel <= LogLevel.ERROR) {
+      logClient.error(`Auth (${SDK_VERSION}): ${msg}`, ...args);
+    }
+  }
+  function _fail(authOrCode, ...rest) {
+    throw createErrorInternal(authOrCode, ...rest);
+  }
+  function _createError(authOrCode, ...rest) {
+    return createErrorInternal(authOrCode, ...rest);
+  }
+  function _errorWithCustomMessage(auth, code, message) {
+    const errorMap = Object.assign(Object.assign({}, prodErrorMap()), { [code]: message });
+    const factory = new ErrorFactory("auth", "Firebase", errorMap);
+    return factory.create(code, {
+      appName: auth.name
+    });
+  }
+  function createErrorInternal(authOrCode, ...rest) {
+    if (typeof authOrCode !== "string") {
+      const code = rest[0];
+      const fullParams = [...rest.slice(1)];
+      if (fullParams[0]) {
+        fullParams[0].appName = authOrCode.name;
+      }
+      return authOrCode._errorFactory.create(code, ...fullParams);
+    }
+    return _DEFAULT_AUTH_ERROR_FACTORY.create(authOrCode, ...rest);
+  }
+  function _assert(assertion, authOrCode, ...rest) {
+    if (!assertion) {
+      throw createErrorInternal(authOrCode, ...rest);
+    }
+  }
+  function debugFail(failure) {
+    const message = `INTERNAL ASSERTION FAILED: ` + failure;
+    _logError(message);
+    throw new Error(message);
+  }
+  function debugAssert(assertion, message) {
+    if (!assertion) {
+      debugFail(message);
+    }
+  }
+  var instanceCache = /* @__PURE__ */ new Map();
+  function _getInstance(cls) {
+    debugAssert(cls instanceof Function, "Expected a class definition");
+    let instance = instanceCache.get(cls);
+    if (instance) {
+      debugAssert(instance instanceof cls, "Instance stored in cache mismatched with class");
+      return instance;
+    }
+    instance = new cls();
+    instanceCache.set(cls, instance);
+    return instance;
+  }
+  function _initializeAuthInstance(auth, deps) {
+    const persistence = (deps === null || deps === void 0 ? void 0 : deps.persistence) || [];
+    const hierarchy = (Array.isArray(persistence) ? persistence : [persistence]).map(_getInstance);
+    if (deps === null || deps === void 0 ? void 0 : deps.errorMap) {
+      auth._updateErrorMap(deps.errorMap);
+    }
+    auth._initializeWithPersistence(hierarchy, deps === null || deps === void 0 ? void 0 : deps.popupRedirectResolver);
+  }
+  function _isHttpOrHttps() {
+    return _getCurrentScheme() === "http:" || _getCurrentScheme() === "https:";
+  }
+  function _getCurrentScheme() {
+    var _a;
+    return typeof self !== "undefined" && ((_a = self.location) === null || _a === void 0 ? void 0 : _a.protocol) || null;
+  }
+  function _isOnline() {
+    if (typeof navigator !== "undefined" && navigator && "onLine" in navigator && typeof navigator.onLine === "boolean" && (_isHttpOrHttps() || isBrowserExtension() || "connection" in navigator)) {
+      return navigator.onLine;
+    }
+    return true;
+  }
+  function _getUserLanguage() {
+    if (typeof navigator === "undefined") {
+      return null;
+    }
+    const navigatorLanguage = navigator;
+    return navigatorLanguage.languages && navigatorLanguage.languages[0] || navigatorLanguage.language || null;
+  }
+  var Delay = class {
+    constructor(shortDelay, longDelay) {
+      this.shortDelay = shortDelay;
+      this.longDelay = longDelay;
+      debugAssert(longDelay > shortDelay, "Short delay should be less than long delay!");
+      this.isMobile = isMobileCordova() || isReactNative();
+    }
+    get() {
+      if (!_isOnline()) {
+        return Math.min(5e3, this.shortDelay);
+      }
+      return this.isMobile ? this.longDelay : this.shortDelay;
+    }
+  };
+  function _emulatorUrl(config, path) {
+    debugAssert(config.emulator, "Emulator should always be set here");
+    const { url: url2 } = config.emulator;
+    if (!path) {
+      return url2;
+    }
+    return `${url2}${path.startsWith("/") ? path.slice(1) : path}`;
+  }
+  var FetchProvider = class {
+    static initialize(fetchImpl, headersImpl, responseImpl) {
+      this.fetchImpl = fetchImpl;
+      if (headersImpl) {
+        this.headersImpl = headersImpl;
+      }
+      if (responseImpl) {
+        this.responseImpl = responseImpl;
+      }
+    }
+    static fetch() {
+      if (this.fetchImpl) {
+        return this.fetchImpl;
+      }
+      if (typeof self !== "undefined" && "fetch" in self) {
+        return self.fetch;
+      }
+      debugFail("Could not find fetch implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+    static headers() {
+      if (this.headersImpl) {
+        return this.headersImpl;
+      }
+      if (typeof self !== "undefined" && "Headers" in self) {
+        return self.Headers;
+      }
+      debugFail("Could not find Headers implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+    static response() {
+      if (this.responseImpl) {
+        return this.responseImpl;
+      }
+      if (typeof self !== "undefined" && "Response" in self) {
+        return self.Response;
+      }
+      debugFail("Could not find Response implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+  };
+  var SERVER_ERROR_MAP = {
+    ["CREDENTIAL_MISMATCH"]: "custom-token-mismatch",
+    ["MISSING_CUSTOM_TOKEN"]: "internal-error",
+    ["INVALID_IDENTIFIER"]: "invalid-email",
+    ["MISSING_CONTINUE_URI"]: "internal-error",
+    ["INVALID_PASSWORD"]: "wrong-password",
+    ["MISSING_PASSWORD"]: "internal-error",
+    ["EMAIL_EXISTS"]: "email-already-in-use",
+    ["PASSWORD_LOGIN_DISABLED"]: "operation-not-allowed",
+    ["INVALID_IDP_RESPONSE"]: "invalid-credential",
+    ["INVALID_PENDING_TOKEN"]: "invalid-credential",
+    ["FEDERATED_USER_ID_ALREADY_LINKED"]: "credential-already-in-use",
+    ["MISSING_REQ_TYPE"]: "internal-error",
+    ["EMAIL_NOT_FOUND"]: "user-not-found",
+    ["RESET_PASSWORD_EXCEED_LIMIT"]: "too-many-requests",
+    ["EXPIRED_OOB_CODE"]: "expired-action-code",
+    ["INVALID_OOB_CODE"]: "invalid-action-code",
+    ["MISSING_OOB_CODE"]: "internal-error",
+    ["CREDENTIAL_TOO_OLD_LOGIN_AGAIN"]: "requires-recent-login",
+    ["INVALID_ID_TOKEN"]: "invalid-user-token",
+    ["TOKEN_EXPIRED"]: "user-token-expired",
+    ["USER_NOT_FOUND"]: "user-token-expired",
+    ["TOO_MANY_ATTEMPTS_TRY_LATER"]: "too-many-requests",
+    ["INVALID_CODE"]: "invalid-verification-code",
+    ["INVALID_SESSION_INFO"]: "invalid-verification-id",
+    ["INVALID_TEMPORARY_PROOF"]: "invalid-credential",
+    ["MISSING_SESSION_INFO"]: "missing-verification-id",
+    ["SESSION_EXPIRED"]: "code-expired",
+    ["MISSING_ANDROID_PACKAGE_NAME"]: "missing-android-pkg-name",
+    ["UNAUTHORIZED_DOMAIN"]: "unauthorized-continue-uri",
+    ["INVALID_OAUTH_CLIENT_ID"]: "invalid-oauth-client-id",
+    ["ADMIN_ONLY_OPERATION"]: "admin-restricted-operation",
+    ["INVALID_MFA_PENDING_CREDENTIAL"]: "invalid-multi-factor-session",
+    ["MFA_ENROLLMENT_NOT_FOUND"]: "multi-factor-info-not-found",
+    ["MISSING_MFA_ENROLLMENT_ID"]: "missing-multi-factor-info",
+    ["MISSING_MFA_PENDING_CREDENTIAL"]: "missing-multi-factor-session",
+    ["SECOND_FACTOR_EXISTS"]: "second-factor-already-in-use",
+    ["SECOND_FACTOR_LIMIT_EXCEEDED"]: "maximum-second-factor-count-exceeded",
+    ["BLOCKING_FUNCTION_ERROR_RESPONSE"]: "internal-error"
+  };
+  var DEFAULT_API_TIMEOUT_MS = new Delay(3e4, 6e4);
+  function _addTidIfNecessary(auth, request) {
+    if (auth.tenantId && !request.tenantId) {
+      return Object.assign(Object.assign({}, request), { tenantId: auth.tenantId });
+    }
+    return request;
+  }
+  async function _performApiRequest(auth, method, path, request, customErrorMap = {}) {
+    return _performFetchWithErrorHandling(auth, customErrorMap, async () => {
+      let body = {};
+      let params = {};
+      if (request) {
+        if (method === "GET") {
+          params = request;
+        } else {
+          body = {
+            body: JSON.stringify(request)
+          };
+        }
+      }
+      const query = querystring(Object.assign({ key: auth.config.apiKey }, params)).slice(1);
+      const headers = await auth._getAdditionalHeaders();
+      headers["Content-Type"] = "application/json";
+      if (auth.languageCode) {
+        headers["X-Firebase-Locale"] = auth.languageCode;
+      }
+      return FetchProvider.fetch()(_getFinalTarget(auth, auth.config.apiHost, path, query), Object.assign({
+        method,
+        headers,
+        referrerPolicy: "no-referrer"
+      }, body));
+    });
+  }
+  async function _performFetchWithErrorHandling(auth, customErrorMap, fetchFn) {
+    auth._canInitEmulator = false;
+    const errorMap = Object.assign(Object.assign({}, SERVER_ERROR_MAP), customErrorMap);
+    try {
+      const networkTimeout = new NetworkTimeout(auth);
+      const response = await Promise.race([
+        fetchFn(),
+        networkTimeout.promise
+      ]);
+      networkTimeout.clearNetworkTimeout();
+      const json = await response.json();
+      if ("needConfirmation" in json) {
+        throw _makeTaggedError(auth, "account-exists-with-different-credential", json);
+      }
+      if (response.ok && !("errorMessage" in json)) {
+        return json;
+      } else {
+        const errorMessage = response.ok ? json.errorMessage : json.error.message;
+        const [serverErrorCode, serverErrorMessage] = errorMessage.split(" : ");
+        if (serverErrorCode === "FEDERATED_USER_ID_ALREADY_LINKED") {
+          throw _makeTaggedError(auth, "credential-already-in-use", json);
+        } else if (serverErrorCode === "EMAIL_EXISTS") {
+          throw _makeTaggedError(auth, "email-already-in-use", json);
+        } else if (serverErrorCode === "USER_DISABLED") {
+          throw _makeTaggedError(auth, "user-disabled", json);
+        }
+        const authError = errorMap[serverErrorCode] || serverErrorCode.toLowerCase().replace(/[_\s]+/g, "-");
+        if (serverErrorMessage) {
+          throw _errorWithCustomMessage(auth, authError, serverErrorMessage);
+        } else {
+          _fail(auth, authError);
+        }
+      }
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        throw e;
+      }
+      _fail(auth, "network-request-failed");
+    }
+  }
+  async function _performSignInRequest(auth, method, path, request, customErrorMap = {}) {
+    const serverResponse = await _performApiRequest(auth, method, path, request, customErrorMap);
+    if ("mfaPendingCredential" in serverResponse) {
+      _fail(auth, "multi-factor-auth-required", {
+        _serverResponse: serverResponse
+      });
+    }
+    return serverResponse;
+  }
+  function _getFinalTarget(auth, host, path, query) {
+    const base = `${host}${path}?${query}`;
+    if (!auth.config.emulator) {
+      return `${auth.config.apiScheme}://${base}`;
+    }
+    return _emulatorUrl(auth.config, base);
+  }
+  var NetworkTimeout = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.timer = null;
+      this.promise = new Promise((_, reject) => {
+        this.timer = setTimeout(() => {
+          return reject(_createError(this.auth, "network-request-failed"));
+        }, DEFAULT_API_TIMEOUT_MS.get());
+      });
+    }
+    clearNetworkTimeout() {
+      clearTimeout(this.timer);
+    }
+  };
+  function _makeTaggedError(auth, code, response) {
+    const errorParams = {
+      appName: auth.name
+    };
+    if (response.email) {
+      errorParams.email = response.email;
+    }
+    if (response.phoneNumber) {
+      errorParams.phoneNumber = response.phoneNumber;
+    }
+    const error = _createError(auth, code, errorParams);
+    error.customData._tokenResponse = response;
+    return error;
+  }
+  async function deleteAccount(auth, request) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:delete", request);
+  }
+  async function getAccountInfo(auth, request) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:lookup", request);
+  }
+  function utcTimestampToDateString(utcTimestamp) {
+    if (!utcTimestamp) {
+      return void 0;
+    }
+    try {
+      const date = new Date(Number(utcTimestamp));
+      if (!isNaN(date.getTime())) {
+        return date.toUTCString();
+      }
+    } catch (e) {
+    }
+    return void 0;
+  }
+  async function getIdTokenResult(user, forceRefresh = false) {
+    const userInternal = getModularInstance(user);
+    const token = await userInternal.getIdToken(forceRefresh);
+    const claims = _parseToken(token);
+    _assert(claims && claims.exp && claims.auth_time && claims.iat, userInternal.auth, "internal-error");
+    const firebase = typeof claims.firebase === "object" ? claims.firebase : void 0;
+    const signInProvider = firebase === null || firebase === void 0 ? void 0 : firebase["sign_in_provider"];
+    return {
+      claims,
+      token,
+      authTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.auth_time)),
+      issuedAtTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.iat)),
+      expirationTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.exp)),
+      signInProvider: signInProvider || null,
+      signInSecondFactor: (firebase === null || firebase === void 0 ? void 0 : firebase["sign_in_second_factor"]) || null
+    };
+  }
+  function secondsStringToMilliseconds(seconds) {
+    return Number(seconds) * 1e3;
+  }
+  function _parseToken(token) {
+    var _a;
+    const [algorithm, payload, signature] = token.split(".");
+    if (algorithm === void 0 || payload === void 0 || signature === void 0) {
+      _logError("JWT malformed, contained fewer than 3 sections");
+      return null;
+    }
+    try {
+      const decoded = base64Decode(payload);
+      if (!decoded) {
+        _logError("Failed to decode base64 JWT payload");
+        return null;
+      }
+      return JSON.parse(decoded);
+    } catch (e) {
+      _logError("Caught error parsing JWT payload as JSON", (_a = e) === null || _a === void 0 ? void 0 : _a.toString());
+      return null;
+    }
+  }
+  function _tokenExpiresIn(token) {
+    const parsedToken = _parseToken(token);
+    _assert(parsedToken, "internal-error");
+    _assert(typeof parsedToken.exp !== "undefined", "internal-error");
+    _assert(typeof parsedToken.iat !== "undefined", "internal-error");
+    return Number(parsedToken.exp) - Number(parsedToken.iat);
+  }
+  async function _logoutIfInvalidated(user, promise, bypassAuthState = false) {
+    if (bypassAuthState) {
+      return promise;
+    }
+    try {
+      return await promise;
+    } catch (e) {
+      if (e instanceof FirebaseError && isUserInvalidated(e)) {
+        if (user.auth.currentUser === user) {
+          await user.auth.signOut();
+        }
+      }
+      throw e;
+    }
+  }
+  function isUserInvalidated({ code }) {
+    return code === `auth/${"user-disabled"}` || code === `auth/${"user-token-expired"}`;
+  }
+  var ProactiveRefresh = class {
+    constructor(user) {
+      this.user = user;
+      this.isRunning = false;
+      this.timerId = null;
+      this.errorBackoff = 3e4;
+    }
+    _start() {
+      if (this.isRunning) {
+        return;
+      }
+      this.isRunning = true;
+      this.schedule();
+    }
+    _stop() {
+      if (!this.isRunning) {
+        return;
+      }
+      this.isRunning = false;
+      if (this.timerId !== null) {
+        clearTimeout(this.timerId);
+      }
+    }
+    getInterval(wasError) {
+      var _a;
+      if (wasError) {
+        const interval = this.errorBackoff;
+        this.errorBackoff = Math.min(this.errorBackoff * 2, 96e4);
+        return interval;
+      } else {
+        this.errorBackoff = 3e4;
+        const expTime = (_a = this.user.stsTokenManager.expirationTime) !== null && _a !== void 0 ? _a : 0;
+        const interval = expTime - Date.now() - 3e5;
+        return Math.max(0, interval);
+      }
+    }
+    schedule(wasError = false) {
+      if (!this.isRunning) {
+        return;
+      }
+      const interval = this.getInterval(wasError);
+      this.timerId = setTimeout(async () => {
+        await this.iteration();
+      }, interval);
+    }
+    async iteration() {
+      var _a;
+      try {
+        await this.user.getIdToken(true);
+      } catch (e) {
+        if (((_a = e) === null || _a === void 0 ? void 0 : _a.code) === `auth/${"network-request-failed"}`) {
+          this.schedule(true);
+        }
+        return;
+      }
+      this.schedule();
+    }
+  };
+  var UserMetadata = class {
+    constructor(createdAt, lastLoginAt) {
+      this.createdAt = createdAt;
+      this.lastLoginAt = lastLoginAt;
+      this._initializeTime();
+    }
+    _initializeTime() {
+      this.lastSignInTime = utcTimestampToDateString(this.lastLoginAt);
+      this.creationTime = utcTimestampToDateString(this.createdAt);
+    }
+    _copy(metadata) {
+      this.createdAt = metadata.createdAt;
+      this.lastLoginAt = metadata.lastLoginAt;
+      this._initializeTime();
+    }
+    toJSON() {
+      return {
+        createdAt: this.createdAt,
+        lastLoginAt: this.lastLoginAt
+      };
+    }
+  };
+  async function _reloadWithoutSaving(user) {
+    var _a;
+    const auth = user.auth;
+    const idToken = await user.getIdToken();
+    const response = await _logoutIfInvalidated(user, getAccountInfo(auth, { idToken }));
+    _assert(response === null || response === void 0 ? void 0 : response.users.length, auth, "internal-error");
+    const coreAccount = response.users[0];
+    user._notifyReloadListener(coreAccount);
+    const newProviderData = ((_a = coreAccount.providerUserInfo) === null || _a === void 0 ? void 0 : _a.length) ? extractProviderData(coreAccount.providerUserInfo) : [];
+    const providerData = mergeProviderData(user.providerData, newProviderData);
+    const oldIsAnonymous = user.isAnonymous;
+    const newIsAnonymous = !(user.email && coreAccount.passwordHash) && !(providerData === null || providerData === void 0 ? void 0 : providerData.length);
+    const isAnonymous = !oldIsAnonymous ? false : newIsAnonymous;
+    const updates = {
+      uid: coreAccount.localId,
+      displayName: coreAccount.displayName || null,
+      photoURL: coreAccount.photoUrl || null,
+      email: coreAccount.email || null,
+      emailVerified: coreAccount.emailVerified || false,
+      phoneNumber: coreAccount.phoneNumber || null,
+      tenantId: coreAccount.tenantId || null,
+      providerData,
+      metadata: new UserMetadata(coreAccount.createdAt, coreAccount.lastLoginAt),
+      isAnonymous
+    };
+    Object.assign(user, updates);
+  }
+  async function reload(user) {
+    const userInternal = getModularInstance(user);
+    await _reloadWithoutSaving(userInternal);
+    await userInternal.auth._persistUserIfCurrent(userInternal);
+    userInternal.auth._notifyListenersIfCurrent(userInternal);
+  }
+  function mergeProviderData(original, newData) {
+    const deduped = original.filter((o) => !newData.some((n) => n.providerId === o.providerId));
+    return [...deduped, ...newData];
+  }
+  function extractProviderData(providers) {
+    return providers.map((_a) => {
+      var { providerId } = _a, provider = __rest(_a, ["providerId"]);
+      return {
+        providerId,
+        uid: provider.rawId || "",
+        displayName: provider.displayName || null,
+        email: provider.email || null,
+        phoneNumber: provider.phoneNumber || null,
+        photoURL: provider.photoUrl || null
+      };
+    });
+  }
+  async function requestStsToken(auth, refreshToken) {
+    const response = await _performFetchWithErrorHandling(auth, {}, async () => {
+      const body = querystring({
+        "grant_type": "refresh_token",
+        "refresh_token": refreshToken
+      }).slice(1);
+      const { tokenApiHost, apiKey } = auth.config;
+      const url2 = _getFinalTarget(auth, tokenApiHost, "/v1/token", `key=${apiKey}`);
+      const headers = await auth._getAdditionalHeaders();
+      headers["Content-Type"] = "application/x-www-form-urlencoded";
+      return FetchProvider.fetch()(url2, {
+        method: "POST",
+        headers,
+        body
+      });
+    });
+    return {
+      accessToken: response.access_token,
+      expiresIn: response.expires_in,
+      refreshToken: response.refresh_token
+    };
+  }
+  var StsTokenManager = class {
+    constructor() {
+      this.refreshToken = null;
+      this.accessToken = null;
+      this.expirationTime = null;
+    }
+    get isExpired() {
+      return !this.expirationTime || Date.now() > this.expirationTime - 3e4;
+    }
+    updateFromServerResponse(response) {
+      _assert(response.idToken, "internal-error");
+      _assert(typeof response.idToken !== "undefined", "internal-error");
+      _assert(typeof response.refreshToken !== "undefined", "internal-error");
+      const expiresIn = "expiresIn" in response && typeof response.expiresIn !== "undefined" ? Number(response.expiresIn) : _tokenExpiresIn(response.idToken);
+      this.updateTokensAndExpiration(response.idToken, response.refreshToken, expiresIn);
+    }
+    async getToken(auth, forceRefresh = false) {
+      _assert(!this.accessToken || this.refreshToken, auth, "user-token-expired");
+      if (!forceRefresh && this.accessToken && !this.isExpired) {
+        return this.accessToken;
+      }
+      if (this.refreshToken) {
+        await this.refresh(auth, this.refreshToken);
+        return this.accessToken;
+      }
+      return null;
+    }
+    clearRefreshToken() {
+      this.refreshToken = null;
+    }
+    async refresh(auth, oldToken) {
+      const { accessToken, refreshToken, expiresIn } = await requestStsToken(auth, oldToken);
+      this.updateTokensAndExpiration(accessToken, refreshToken, Number(expiresIn));
+    }
+    updateTokensAndExpiration(accessToken, refreshToken, expiresInSec) {
+      this.refreshToken = refreshToken || null;
+      this.accessToken = accessToken || null;
+      this.expirationTime = Date.now() + expiresInSec * 1e3;
+    }
+    static fromJSON(appName, object) {
+      const { refreshToken, accessToken, expirationTime } = object;
+      const manager = new StsTokenManager();
+      if (refreshToken) {
+        _assert(typeof refreshToken === "string", "internal-error", {
+          appName
+        });
+        manager.refreshToken = refreshToken;
+      }
+      if (accessToken) {
+        _assert(typeof accessToken === "string", "internal-error", {
+          appName
+        });
+        manager.accessToken = accessToken;
+      }
+      if (expirationTime) {
+        _assert(typeof expirationTime === "number", "internal-error", {
+          appName
+        });
+        manager.expirationTime = expirationTime;
+      }
+      return manager;
+    }
+    toJSON() {
+      return {
+        refreshToken: this.refreshToken,
+        accessToken: this.accessToken,
+        expirationTime: this.expirationTime
+      };
+    }
+    _assign(stsTokenManager) {
+      this.accessToken = stsTokenManager.accessToken;
+      this.refreshToken = stsTokenManager.refreshToken;
+      this.expirationTime = stsTokenManager.expirationTime;
+    }
+    _clone() {
+      return Object.assign(new StsTokenManager(), this.toJSON());
+    }
+    _performRefresh() {
+      return debugFail("not implemented");
+    }
+  };
+  function assertStringOrUndefined(assertion, appName) {
+    _assert(typeof assertion === "string" || typeof assertion === "undefined", "internal-error", { appName });
+  }
+  var UserImpl = class {
+    constructor(_a) {
+      var { uid, auth, stsTokenManager } = _a, opt = __rest(_a, ["uid", "auth", "stsTokenManager"]);
+      this.providerId = "firebase";
+      this.proactiveRefresh = new ProactiveRefresh(this);
+      this.reloadUserInfo = null;
+      this.reloadListener = null;
+      this.uid = uid;
+      this.auth = auth;
+      this.stsTokenManager = stsTokenManager;
+      this.accessToken = stsTokenManager.accessToken;
+      this.displayName = opt.displayName || null;
+      this.email = opt.email || null;
+      this.emailVerified = opt.emailVerified || false;
+      this.phoneNumber = opt.phoneNumber || null;
+      this.photoURL = opt.photoURL || null;
+      this.isAnonymous = opt.isAnonymous || false;
+      this.tenantId = opt.tenantId || null;
+      this.providerData = opt.providerData ? [...opt.providerData] : [];
+      this.metadata = new UserMetadata(opt.createdAt || void 0, opt.lastLoginAt || void 0);
+    }
+    async getIdToken(forceRefresh) {
+      const accessToken = await _logoutIfInvalidated(this, this.stsTokenManager.getToken(this.auth, forceRefresh));
+      _assert(accessToken, this.auth, "internal-error");
+      if (this.accessToken !== accessToken) {
+        this.accessToken = accessToken;
+        await this.auth._persistUserIfCurrent(this);
+        this.auth._notifyListenersIfCurrent(this);
+      }
+      return accessToken;
+    }
+    getIdTokenResult(forceRefresh) {
+      return getIdTokenResult(this, forceRefresh);
+    }
+    reload() {
+      return reload(this);
+    }
+    _assign(user) {
+      if (this === user) {
+        return;
+      }
+      _assert(this.uid === user.uid, this.auth, "internal-error");
+      this.displayName = user.displayName;
+      this.photoURL = user.photoURL;
+      this.email = user.email;
+      this.emailVerified = user.emailVerified;
+      this.phoneNumber = user.phoneNumber;
+      this.isAnonymous = user.isAnonymous;
+      this.tenantId = user.tenantId;
+      this.providerData = user.providerData.map((userInfo) => Object.assign({}, userInfo));
+      this.metadata._copy(user.metadata);
+      this.stsTokenManager._assign(user.stsTokenManager);
+    }
+    _clone(auth) {
+      return new UserImpl(Object.assign(Object.assign({}, this), { auth, stsTokenManager: this.stsTokenManager._clone() }));
+    }
+    _onReload(callback) {
+      _assert(!this.reloadListener, this.auth, "internal-error");
+      this.reloadListener = callback;
+      if (this.reloadUserInfo) {
+        this._notifyReloadListener(this.reloadUserInfo);
+        this.reloadUserInfo = null;
+      }
+    }
+    _notifyReloadListener(userInfo) {
+      if (this.reloadListener) {
+        this.reloadListener(userInfo);
+      } else {
+        this.reloadUserInfo = userInfo;
+      }
+    }
+    _startProactiveRefresh() {
+      this.proactiveRefresh._start();
+    }
+    _stopProactiveRefresh() {
+      this.proactiveRefresh._stop();
+    }
+    async _updateTokensIfNecessary(response, reload2 = false) {
+      let tokensRefreshed = false;
+      if (response.idToken && response.idToken !== this.stsTokenManager.accessToken) {
+        this.stsTokenManager.updateFromServerResponse(response);
+        tokensRefreshed = true;
+      }
+      if (reload2) {
+        await _reloadWithoutSaving(this);
+      }
+      await this.auth._persistUserIfCurrent(this);
+      if (tokensRefreshed) {
+        this.auth._notifyListenersIfCurrent(this);
+      }
+    }
+    async delete() {
+      const idToken = await this.getIdToken();
+      await _logoutIfInvalidated(this, deleteAccount(this.auth, { idToken }));
+      this.stsTokenManager.clearRefreshToken();
+      return this.auth.signOut();
+    }
+    toJSON() {
+      return Object.assign(Object.assign({
+        uid: this.uid,
+        email: this.email || void 0,
+        emailVerified: this.emailVerified,
+        displayName: this.displayName || void 0,
+        isAnonymous: this.isAnonymous,
+        photoURL: this.photoURL || void 0,
+        phoneNumber: this.phoneNumber || void 0,
+        tenantId: this.tenantId || void 0,
+        providerData: this.providerData.map((userInfo) => Object.assign({}, userInfo)),
+        stsTokenManager: this.stsTokenManager.toJSON(),
+        _redirectEventId: this._redirectEventId
+      }, this.metadata.toJSON()), {
+        apiKey: this.auth.config.apiKey,
+        appName: this.auth.name
+      });
+    }
+    get refreshToken() {
+      return this.stsTokenManager.refreshToken || "";
+    }
+    static _fromJSON(auth, object) {
+      var _a, _b, _c, _d, _e, _f, _g, _h;
+      const displayName = (_a = object.displayName) !== null && _a !== void 0 ? _a : void 0;
+      const email = (_b = object.email) !== null && _b !== void 0 ? _b : void 0;
+      const phoneNumber = (_c = object.phoneNumber) !== null && _c !== void 0 ? _c : void 0;
+      const photoURL = (_d = object.photoURL) !== null && _d !== void 0 ? _d : void 0;
+      const tenantId = (_e = object.tenantId) !== null && _e !== void 0 ? _e : void 0;
+      const _redirectEventId = (_f = object._redirectEventId) !== null && _f !== void 0 ? _f : void 0;
+      const createdAt = (_g = object.createdAt) !== null && _g !== void 0 ? _g : void 0;
+      const lastLoginAt = (_h = object.lastLoginAt) !== null && _h !== void 0 ? _h : void 0;
+      const { uid, emailVerified, isAnonymous, providerData, stsTokenManager: plainObjectTokenManager } = object;
+      _assert(uid && plainObjectTokenManager, auth, "internal-error");
+      const stsTokenManager = StsTokenManager.fromJSON(this.name, plainObjectTokenManager);
+      _assert(typeof uid === "string", auth, "internal-error");
+      assertStringOrUndefined(displayName, auth.name);
+      assertStringOrUndefined(email, auth.name);
+      _assert(typeof emailVerified === "boolean", auth, "internal-error");
+      _assert(typeof isAnonymous === "boolean", auth, "internal-error");
+      assertStringOrUndefined(phoneNumber, auth.name);
+      assertStringOrUndefined(photoURL, auth.name);
+      assertStringOrUndefined(tenantId, auth.name);
+      assertStringOrUndefined(_redirectEventId, auth.name);
+      assertStringOrUndefined(createdAt, auth.name);
+      assertStringOrUndefined(lastLoginAt, auth.name);
+      const user = new UserImpl({
+        uid,
+        auth,
+        email,
+        emailVerified,
+        displayName,
+        isAnonymous,
+        photoURL,
+        phoneNumber,
+        tenantId,
+        stsTokenManager,
+        createdAt,
+        lastLoginAt
+      });
+      if (providerData && Array.isArray(providerData)) {
+        user.providerData = providerData.map((userInfo) => Object.assign({}, userInfo));
+      }
+      if (_redirectEventId) {
+        user._redirectEventId = _redirectEventId;
+      }
+      return user;
+    }
+    static async _fromIdTokenResponse(auth, idTokenResponse, isAnonymous = false) {
+      const stsTokenManager = new StsTokenManager();
+      stsTokenManager.updateFromServerResponse(idTokenResponse);
+      const user = new UserImpl({
+        uid: idTokenResponse.localId,
+        auth,
+        stsTokenManager,
+        isAnonymous
+      });
+      await _reloadWithoutSaving(user);
+      return user;
+    }
+  };
+  var InMemoryPersistence = class {
+    constructor() {
+      this.type = "NONE";
+      this.storage = {};
+    }
+    async _isAvailable() {
+      return true;
+    }
+    async _set(key, value) {
+      this.storage[key] = value;
+    }
+    async _get(key) {
+      const value = this.storage[key];
+      return value === void 0 ? null : value;
+    }
+    async _remove(key) {
+      delete this.storage[key];
+    }
+    _addListener(_key, _listener) {
+      return;
+    }
+    _removeListener(_key, _listener) {
+      return;
+    }
+  };
+  InMemoryPersistence.type = "NONE";
+  var inMemoryPersistence = InMemoryPersistence;
+  function _persistenceKeyName(key, apiKey, appName) {
+    return `${"firebase"}:${key}:${apiKey}:${appName}`;
+  }
+  var PersistenceUserManager = class {
+    constructor(persistence, auth, userKey) {
+      this.persistence = persistence;
+      this.auth = auth;
+      this.userKey = userKey;
+      const { config, name: name4 } = this.auth;
+      this.fullUserKey = _persistenceKeyName(this.userKey, config.apiKey, name4);
+      this.fullPersistenceKey = _persistenceKeyName("persistence", config.apiKey, name4);
+      this.boundEventHandler = auth._onStorageEvent.bind(auth);
+      this.persistence._addListener(this.fullUserKey, this.boundEventHandler);
+    }
+    setCurrentUser(user) {
+      return this.persistence._set(this.fullUserKey, user.toJSON());
+    }
+    async getCurrentUser() {
+      const blob = await this.persistence._get(this.fullUserKey);
+      return blob ? UserImpl._fromJSON(this.auth, blob) : null;
+    }
+    removeCurrentUser() {
+      return this.persistence._remove(this.fullUserKey);
+    }
+    savePersistenceForRedirect() {
+      return this.persistence._set(this.fullPersistenceKey, this.persistence.type);
+    }
+    async setPersistence(newPersistence) {
+      if (this.persistence === newPersistence) {
+        return;
+      }
+      const currentUser = await this.getCurrentUser();
+      await this.removeCurrentUser();
+      this.persistence = newPersistence;
+      if (currentUser) {
+        return this.setCurrentUser(currentUser);
+      }
+    }
+    delete() {
+      this.persistence._removeListener(this.fullUserKey, this.boundEventHandler);
+    }
+    static async create(auth, persistenceHierarchy, userKey = "authUser") {
+      if (!persistenceHierarchy.length) {
+        return new PersistenceUserManager(_getInstance(inMemoryPersistence), auth, userKey);
+      }
+      const availablePersistences = (await Promise.all(persistenceHierarchy.map(async (persistence) => {
+        if (await persistence._isAvailable()) {
+          return persistence;
+        }
+        return void 0;
+      }))).filter((persistence) => persistence);
+      let selectedPersistence = availablePersistences[0] || _getInstance(inMemoryPersistence);
+      const key = _persistenceKeyName(userKey, auth.config.apiKey, auth.name);
+      let userToMigrate = null;
+      for (const persistence of persistenceHierarchy) {
+        try {
+          const blob = await persistence._get(key);
+          if (blob) {
+            const user = UserImpl._fromJSON(auth, blob);
+            if (persistence !== selectedPersistence) {
+              userToMigrate = user;
+            }
+            selectedPersistence = persistence;
+            break;
+          }
+        } catch (_a) {
+        }
+      }
+      const migrationHierarchy = availablePersistences.filter((p) => p._shouldAllowMigration);
+      if (!selectedPersistence._shouldAllowMigration || !migrationHierarchy.length) {
+        return new PersistenceUserManager(selectedPersistence, auth, userKey);
+      }
+      selectedPersistence = migrationHierarchy[0];
+      if (userToMigrate) {
+        await selectedPersistence._set(key, userToMigrate.toJSON());
+      }
+      await Promise.all(persistenceHierarchy.map(async (persistence) => {
+        if (persistence !== selectedPersistence) {
+          try {
+            await persistence._remove(key);
+          } catch (_a) {
+          }
+        }
+      }));
+      return new PersistenceUserManager(selectedPersistence, auth, userKey);
+    }
+  };
+  function _getBrowserName(userAgent) {
+    const ua = userAgent.toLowerCase();
+    if (ua.includes("opera/") || ua.includes("opr/") || ua.includes("opios/")) {
+      return "Opera";
+    } else if (_isIEMobile(ua)) {
+      return "IEMobile";
+    } else if (ua.includes("msie") || ua.includes("trident/")) {
+      return "IE";
+    } else if (ua.includes("edge/")) {
+      return "Edge";
+    } else if (_isFirefox(ua)) {
+      return "Firefox";
+    } else if (ua.includes("silk/")) {
+      return "Silk";
+    } else if (_isBlackBerry(ua)) {
+      return "Blackberry";
+    } else if (_isWebOS(ua)) {
+      return "Webos";
+    } else if (_isSafari(ua)) {
+      return "Safari";
+    } else if ((ua.includes("chrome/") || _isChromeIOS(ua)) && !ua.includes("edge/")) {
+      return "Chrome";
+    } else if (_isAndroid(ua)) {
+      return "Android";
+    } else {
+      const re = /([a-zA-Z\d\.]+)\/[a-zA-Z\d\.]*$/;
+      const matches = userAgent.match(re);
+      if ((matches === null || matches === void 0 ? void 0 : matches.length) === 2) {
+        return matches[1];
+      }
+    }
+    return "Other";
+  }
+  function _isFirefox(ua = getUA()) {
+    return /firefox\//i.test(ua);
+  }
+  function _isSafari(userAgent = getUA()) {
+    const ua = userAgent.toLowerCase();
+    return ua.includes("safari/") && !ua.includes("chrome/") && !ua.includes("crios/") && !ua.includes("android");
+  }
+  function _isChromeIOS(ua = getUA()) {
+    return /crios\//i.test(ua);
+  }
+  function _isIEMobile(ua = getUA()) {
+    return /iemobile/i.test(ua);
+  }
+  function _isAndroid(ua = getUA()) {
+    return /android/i.test(ua);
+  }
+  function _isBlackBerry(ua = getUA()) {
+    return /blackberry/i.test(ua);
+  }
+  function _isWebOS(ua = getUA()) {
+    return /webos/i.test(ua);
+  }
+  function _isIOS(ua = getUA()) {
+    return /iphone|ipad|ipod/i.test(ua) || /macintosh/i.test(ua) && /mobile/i.test(ua);
+  }
+  function _isIE10() {
+    return isIE() && document.documentMode === 10;
+  }
+  function _isMobileBrowser(ua = getUA()) {
+    return _isIOS(ua) || _isAndroid(ua) || _isWebOS(ua) || _isBlackBerry(ua) || /windows phone/i.test(ua) || _isIEMobile(ua);
+  }
+  function _isIframe() {
+    try {
+      return !!(window && window !== window.top);
+    } catch (e) {
+      return false;
+    }
+  }
+  function _getClientVersion(clientPlatform, frameworks = []) {
+    let reportedPlatform;
+    switch (clientPlatform) {
+      case "Browser":
+        reportedPlatform = _getBrowserName(getUA());
+        break;
+      case "Worker":
+        reportedPlatform = `${_getBrowserName(getUA())}-${clientPlatform}`;
+        break;
+      default:
+        reportedPlatform = clientPlatform;
+    }
+    const reportedFrameworks = frameworks.length ? frameworks.join(",") : "FirebaseCore-web";
+    return `${reportedPlatform}/${"JsCore"}/${SDK_VERSION}/${reportedFrameworks}`;
+  }
+  var AuthMiddlewareQueue = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.queue = [];
+    }
+    pushCallback(callback, onAbort) {
+      const wrappedCallback = (user) => new Promise((resolve, reject) => {
+        try {
+          const result = callback(user);
+          resolve(result);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      wrappedCallback.onAbort = onAbort;
+      this.queue.push(wrappedCallback);
+      const index = this.queue.length - 1;
+      return () => {
+        this.queue[index] = () => Promise.resolve();
+      };
+    }
+    async runMiddleware(nextUser) {
+      var _a;
+      if (this.auth.currentUser === nextUser) {
+        return;
+      }
+      const onAbortStack = [];
+      try {
+        for (const beforeStateCallback of this.queue) {
+          await beforeStateCallback(nextUser);
+          if (beforeStateCallback.onAbort) {
+            onAbortStack.push(beforeStateCallback.onAbort);
+          }
+        }
+      } catch (e) {
+        onAbortStack.reverse();
+        for (const onAbort of onAbortStack) {
+          try {
+            onAbort();
+          } catch (_) {
+          }
+        }
+        throw this.auth._errorFactory.create("login-blocked", { originalMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message });
+      }
+    }
+  };
+  var AuthImpl = class {
+    constructor(app2, heartbeatServiceProvider, config) {
+      this.app = app2;
+      this.heartbeatServiceProvider = heartbeatServiceProvider;
+      this.config = config;
+      this.currentUser = null;
+      this.emulatorConfig = null;
+      this.operations = Promise.resolve();
+      this.authStateSubscription = new Subscription(this);
+      this.idTokenSubscription = new Subscription(this);
+      this.beforeStateQueue = new AuthMiddlewareQueue(this);
+      this.redirectUser = null;
+      this.isProactiveRefreshEnabled = false;
+      this._canInitEmulator = true;
+      this._isInitialized = false;
+      this._deleted = false;
+      this._initializationPromise = null;
+      this._popupRedirectResolver = null;
+      this._errorFactory = _DEFAULT_AUTH_ERROR_FACTORY;
+      this.lastNotifiedUid = void 0;
+      this.languageCode = null;
+      this.tenantId = null;
+      this.settings = { appVerificationDisabledForTesting: false };
+      this.frameworks = [];
+      this.name = app2.name;
+      this.clientVersion = config.sdkClientVersion;
+    }
+    _initializeWithPersistence(persistenceHierarchy, popupRedirectResolver) {
+      if (popupRedirectResolver) {
+        this._popupRedirectResolver = _getInstance(popupRedirectResolver);
+      }
+      this._initializationPromise = this.queue(async () => {
+        var _a, _b;
+        if (this._deleted) {
+          return;
+        }
+        this.persistenceManager = await PersistenceUserManager.create(this, persistenceHierarchy);
+        if (this._deleted) {
+          return;
+        }
+        if ((_a = this._popupRedirectResolver) === null || _a === void 0 ? void 0 : _a._shouldInitProactively) {
+          try {
+            await this._popupRedirectResolver._initialize(this);
+          } catch (e) {
+          }
+        }
+        await this.initializeCurrentUser(popupRedirectResolver);
+        this.lastNotifiedUid = ((_b = this.currentUser) === null || _b === void 0 ? void 0 : _b.uid) || null;
+        if (this._deleted) {
+          return;
+        }
+        this._isInitialized = true;
+      });
+      return this._initializationPromise;
+    }
+    async _onStorageEvent() {
+      if (this._deleted) {
+        return;
+      }
+      const user = await this.assertedPersistence.getCurrentUser();
+      if (!this.currentUser && !user) {
+        return;
+      }
+      if (this.currentUser && user && this.currentUser.uid === user.uid) {
+        this._currentUser._assign(user);
+        await this.currentUser.getIdToken();
+        return;
+      }
+      await this._updateCurrentUser(user, true);
+    }
+    async initializeCurrentUser(popupRedirectResolver) {
+      var _a;
+      const previouslyStoredUser = await this.assertedPersistence.getCurrentUser();
+      let futureCurrentUser = previouslyStoredUser;
+      let needsTocheckMiddleware = false;
+      if (popupRedirectResolver && this.config.authDomain) {
+        await this.getOrInitRedirectPersistenceManager();
+        const redirectUserEventId = (_a = this.redirectUser) === null || _a === void 0 ? void 0 : _a._redirectEventId;
+        const storedUserEventId = futureCurrentUser === null || futureCurrentUser === void 0 ? void 0 : futureCurrentUser._redirectEventId;
+        const result = await this.tryRedirectSignIn(popupRedirectResolver);
+        if ((!redirectUserEventId || redirectUserEventId === storedUserEventId) && (result === null || result === void 0 ? void 0 : result.user)) {
+          futureCurrentUser = result.user;
+          needsTocheckMiddleware = true;
+        }
+      }
+      if (!futureCurrentUser) {
+        return this.directlySetCurrentUser(null);
+      }
+      if (!futureCurrentUser._redirectEventId) {
+        if (needsTocheckMiddleware) {
+          try {
+            await this.beforeStateQueue.runMiddleware(futureCurrentUser);
+          } catch (e) {
+            futureCurrentUser = previouslyStoredUser;
+            this._popupRedirectResolver._overrideRedirectResult(this, () => Promise.reject(e));
+          }
+        }
+        if (futureCurrentUser) {
+          return this.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+        } else {
+          return this.directlySetCurrentUser(null);
+        }
+      }
+      _assert(this._popupRedirectResolver, this, "argument-error");
+      await this.getOrInitRedirectPersistenceManager();
+      if (this.redirectUser && this.redirectUser._redirectEventId === futureCurrentUser._redirectEventId) {
+        return this.directlySetCurrentUser(futureCurrentUser);
+      }
+      return this.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+    }
+    async tryRedirectSignIn(redirectResolver) {
+      let result = null;
+      try {
+        result = await this._popupRedirectResolver._completeRedirectFn(this, redirectResolver, true);
+      } catch (e) {
+        await this._setRedirectUser(null);
+      }
+      return result;
+    }
+    async reloadAndSetCurrentUserOrClear(user) {
+      var _a;
+      try {
+        await _reloadWithoutSaving(user);
+      } catch (e) {
+        if (((_a = e) === null || _a === void 0 ? void 0 : _a.code) !== `auth/${"network-request-failed"}`) {
+          return this.directlySetCurrentUser(null);
+        }
+      }
+      return this.directlySetCurrentUser(user);
+    }
+    useDeviceLanguage() {
+      this.languageCode = _getUserLanguage();
+    }
+    async _delete() {
+      this._deleted = true;
+    }
+    async updateCurrentUser(userExtern) {
+      const user = userExtern ? getModularInstance(userExtern) : null;
+      if (user) {
+        _assert(user.auth.config.apiKey === this.config.apiKey, this, "invalid-user-token");
+      }
+      return this._updateCurrentUser(user && user._clone(this));
+    }
+    async _updateCurrentUser(user, skipBeforeStateCallbacks = false) {
+      if (this._deleted) {
+        return;
+      }
+      if (user) {
+        _assert(this.tenantId === user.tenantId, this, "tenant-id-mismatch");
+      }
+      if (!skipBeforeStateCallbacks) {
+        await this.beforeStateQueue.runMiddleware(user);
+      }
+      return this.queue(async () => {
+        await this.directlySetCurrentUser(user);
+        this.notifyAuthListeners();
+      });
+    }
+    async signOut() {
+      await this.beforeStateQueue.runMiddleware(null);
+      if (this.redirectPersistenceManager || this._popupRedirectResolver) {
+        await this._setRedirectUser(null);
+      }
+      return this._updateCurrentUser(null, true);
+    }
+    setPersistence(persistence) {
+      return this.queue(async () => {
+        await this.assertedPersistence.setPersistence(_getInstance(persistence));
+      });
+    }
+    _getPersistence() {
+      return this.assertedPersistence.persistence.type;
+    }
+    _updateErrorMap(errorMap) {
+      this._errorFactory = new ErrorFactory("auth", "Firebase", errorMap());
+    }
+    onAuthStateChanged(nextOrObserver, error, completed) {
+      return this.registerStateListener(this.authStateSubscription, nextOrObserver, error, completed);
+    }
+    beforeAuthStateChanged(callback, onAbort) {
+      return this.beforeStateQueue.pushCallback(callback, onAbort);
+    }
+    onIdTokenChanged(nextOrObserver, error, completed) {
+      return this.registerStateListener(this.idTokenSubscription, nextOrObserver, error, completed);
+    }
+    toJSON() {
+      var _a;
+      return {
+        apiKey: this.config.apiKey,
+        authDomain: this.config.authDomain,
+        appName: this.name,
+        currentUser: (_a = this._currentUser) === null || _a === void 0 ? void 0 : _a.toJSON()
+      };
+    }
+    async _setRedirectUser(user, popupRedirectResolver) {
+      const redirectManager = await this.getOrInitRedirectPersistenceManager(popupRedirectResolver);
+      return user === null ? redirectManager.removeCurrentUser() : redirectManager.setCurrentUser(user);
+    }
+    async getOrInitRedirectPersistenceManager(popupRedirectResolver) {
+      if (!this.redirectPersistenceManager) {
+        const resolver = popupRedirectResolver && _getInstance(popupRedirectResolver) || this._popupRedirectResolver;
+        _assert(resolver, this, "argument-error");
+        this.redirectPersistenceManager = await PersistenceUserManager.create(this, [_getInstance(resolver._redirectPersistence)], "redirectUser");
+        this.redirectUser = await this.redirectPersistenceManager.getCurrentUser();
+      }
+      return this.redirectPersistenceManager;
+    }
+    async _redirectUserForId(id) {
+      var _a, _b;
+      if (this._isInitialized) {
+        await this.queue(async () => {
+        });
+      }
+      if (((_a = this._currentUser) === null || _a === void 0 ? void 0 : _a._redirectEventId) === id) {
+        return this._currentUser;
+      }
+      if (((_b = this.redirectUser) === null || _b === void 0 ? void 0 : _b._redirectEventId) === id) {
+        return this.redirectUser;
+      }
+      return null;
+    }
+    async _persistUserIfCurrent(user) {
+      if (user === this.currentUser) {
+        return this.queue(async () => this.directlySetCurrentUser(user));
+      }
+    }
+    _notifyListenersIfCurrent(user) {
+      if (user === this.currentUser) {
+        this.notifyAuthListeners();
+      }
+    }
+    _key() {
+      return `${this.config.authDomain}:${this.config.apiKey}:${this.name}`;
+    }
+    _startProactiveRefresh() {
+      this.isProactiveRefreshEnabled = true;
+      if (this.currentUser) {
+        this._currentUser._startProactiveRefresh();
+      }
+    }
+    _stopProactiveRefresh() {
+      this.isProactiveRefreshEnabled = false;
+      if (this.currentUser) {
+        this._currentUser._stopProactiveRefresh();
+      }
+    }
+    get _currentUser() {
+      return this.currentUser;
+    }
+    notifyAuthListeners() {
+      var _a, _b;
+      if (!this._isInitialized) {
+        return;
+      }
+      this.idTokenSubscription.next(this.currentUser);
+      const currentUid = (_b = (_a = this.currentUser) === null || _a === void 0 ? void 0 : _a.uid) !== null && _b !== void 0 ? _b : null;
+      if (this.lastNotifiedUid !== currentUid) {
+        this.lastNotifiedUid = currentUid;
+        this.authStateSubscription.next(this.currentUser);
+      }
+    }
+    registerStateListener(subscription, nextOrObserver, error, completed) {
+      if (this._deleted) {
+        return () => {
+        };
+      }
+      const cb = typeof nextOrObserver === "function" ? nextOrObserver : nextOrObserver.next.bind(nextOrObserver);
+      const promise = this._isInitialized ? Promise.resolve() : this._initializationPromise;
+      _assert(promise, this, "internal-error");
+      promise.then(() => cb(this.currentUser));
+      if (typeof nextOrObserver === "function") {
+        return subscription.addObserver(nextOrObserver, error, completed);
+      } else {
+        return subscription.addObserver(nextOrObserver);
+      }
+    }
+    async directlySetCurrentUser(user) {
+      if (this.currentUser && this.currentUser !== user) {
+        this._currentUser._stopProactiveRefresh();
+        if (user && this.isProactiveRefreshEnabled) {
+          user._startProactiveRefresh();
+        }
+      }
+      this.currentUser = user;
+      if (user) {
+        await this.assertedPersistence.setCurrentUser(user);
+      } else {
+        await this.assertedPersistence.removeCurrentUser();
+      }
+    }
+    queue(action) {
+      this.operations = this.operations.then(action, action);
+      return this.operations;
+    }
+    get assertedPersistence() {
+      _assert(this.persistenceManager, this, "internal-error");
+      return this.persistenceManager;
+    }
+    _logFramework(framework) {
+      if (!framework || this.frameworks.includes(framework)) {
+        return;
+      }
+      this.frameworks.push(framework);
+      this.frameworks.sort();
+      this.clientVersion = _getClientVersion(this.config.clientPlatform, this._getFrameworks());
+    }
+    _getFrameworks() {
+      return this.frameworks;
+    }
+    async _getAdditionalHeaders() {
+      var _a;
+      const headers = {
+        ["X-Client-Version"]: this.clientVersion
+      };
+      if (this.app.options.appId) {
+        headers["X-Firebase-gmpid"] = this.app.options.appId;
+      }
+      const heartbeatsHeader = await ((_a = this.heartbeatServiceProvider.getImmediate({
+        optional: true
+      })) === null || _a === void 0 ? void 0 : _a.getHeartbeatsHeader());
+      if (heartbeatsHeader) {
+        headers["X-Firebase-Client"] = heartbeatsHeader;
+      }
+      return headers;
+    }
+  };
+  function _castAuth(auth) {
+    return getModularInstance(auth);
+  }
+  var Subscription = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.observer = null;
+      this.addObserver = createSubscribe((observer) => this.observer = observer);
+    }
+    get next() {
+      _assert(this.observer, this.auth, "internal-error");
+      return this.observer.next.bind(this.observer);
+    }
+  };
+  var AuthCredential = class {
+    constructor(providerId, signInMethod) {
+      this.providerId = providerId;
+      this.signInMethod = signInMethod;
+    }
+    toJSON() {
+      return debugFail("not implemented");
+    }
+    _getIdTokenResponse(_auth) {
+      return debugFail("not implemented");
+    }
+    _linkToIdToken(_auth, _idToken) {
+      return debugFail("not implemented");
+    }
+    _getReauthenticationResolver(_auth) {
+      return debugFail("not implemented");
+    }
+  };
+  async function updateEmailPassword(auth, request) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:update", request);
+  }
+  async function signInWithPassword(auth, request) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPassword", _addTidIfNecessary(auth, request));
+  }
+  async function signInWithEmailLink$1(auth, request) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithEmailLink", _addTidIfNecessary(auth, request));
+  }
+  async function signInWithEmailLinkForLinking(auth, request) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithEmailLink", _addTidIfNecessary(auth, request));
+  }
+  var EmailAuthCredential = class extends AuthCredential {
+    constructor(_email, _password, signInMethod, _tenantId = null) {
+      super("password", signInMethod);
+      this._email = _email;
+      this._password = _password;
+      this._tenantId = _tenantId;
+    }
+    static _fromEmailAndPassword(email, password) {
+      return new EmailAuthCredential(email, password, "password");
+    }
+    static _fromEmailAndCode(email, oobCode, tenantId = null) {
+      return new EmailAuthCredential(email, oobCode, "emailLink", tenantId);
+    }
+    toJSON() {
+      return {
+        email: this._email,
+        password: this._password,
+        signInMethod: this.signInMethod,
+        tenantId: this._tenantId
+      };
+    }
+    static fromJSON(json) {
+      const obj = typeof json === "string" ? JSON.parse(json) : json;
+      if ((obj === null || obj === void 0 ? void 0 : obj.email) && (obj === null || obj === void 0 ? void 0 : obj.password)) {
+        if (obj.signInMethod === "password") {
+          return this._fromEmailAndPassword(obj.email, obj.password);
+        } else if (obj.signInMethod === "emailLink") {
+          return this._fromEmailAndCode(obj.email, obj.password, obj.tenantId);
+        }
+      }
+      return null;
+    }
+    async _getIdTokenResponse(auth) {
+      switch (this.signInMethod) {
+        case "password":
+          return signInWithPassword(auth, {
+            returnSecureToken: true,
+            email: this._email,
+            password: this._password
+          });
+        case "emailLink":
+          return signInWithEmailLink$1(auth, {
+            email: this._email,
+            oobCode: this._password
+          });
+        default:
+          _fail(auth, "internal-error");
+      }
+    }
+    async _linkToIdToken(auth, idToken) {
+      switch (this.signInMethod) {
+        case "password":
+          return updateEmailPassword(auth, {
+            idToken,
+            returnSecureToken: true,
+            email: this._email,
+            password: this._password
+          });
+        case "emailLink":
+          return signInWithEmailLinkForLinking(auth, {
+            idToken,
+            email: this._email,
+            oobCode: this._password
+          });
+        default:
+          _fail(auth, "internal-error");
+      }
+    }
+    _getReauthenticationResolver(auth) {
+      return this._getIdTokenResponse(auth);
+    }
+  };
+  async function signInWithIdp(auth, request) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithIdp", _addTidIfNecessary(auth, request));
+  }
+  var IDP_REQUEST_URI$1 = "http://localhost";
+  var OAuthCredential = class extends AuthCredential {
+    constructor() {
+      super(...arguments);
+      this.pendingToken = null;
+    }
+    static _fromParams(params) {
+      const cred = new OAuthCredential(params.providerId, params.signInMethod);
+      if (params.idToken || params.accessToken) {
+        if (params.idToken) {
+          cred.idToken = params.idToken;
+        }
+        if (params.accessToken) {
+          cred.accessToken = params.accessToken;
+        }
+        if (params.nonce && !params.pendingToken) {
+          cred.nonce = params.nonce;
+        }
+        if (params.pendingToken) {
+          cred.pendingToken = params.pendingToken;
+        }
+      } else if (params.oauthToken && params.oauthTokenSecret) {
+        cred.accessToken = params.oauthToken;
+        cred.secret = params.oauthTokenSecret;
+      } else {
+        _fail("argument-error");
+      }
+      return cred;
+    }
+    toJSON() {
+      return {
+        idToken: this.idToken,
+        accessToken: this.accessToken,
+        secret: this.secret,
+        nonce: this.nonce,
+        pendingToken: this.pendingToken,
+        providerId: this.providerId,
+        signInMethod: this.signInMethod
+      };
+    }
+    static fromJSON(json) {
+      const obj = typeof json === "string" ? JSON.parse(json) : json;
+      const { providerId, signInMethod } = obj, rest = __rest(obj, ["providerId", "signInMethod"]);
+      if (!providerId || !signInMethod) {
+        return null;
+      }
+      const cred = new OAuthCredential(providerId, signInMethod);
+      cred.idToken = rest.idToken || void 0;
+      cred.accessToken = rest.accessToken || void 0;
+      cred.secret = rest.secret;
+      cred.nonce = rest.nonce;
+      cred.pendingToken = rest.pendingToken || null;
+      return cred;
+    }
+    _getIdTokenResponse(auth) {
+      const request = this.buildRequest();
+      return signInWithIdp(auth, request);
+    }
+    _linkToIdToken(auth, idToken) {
+      const request = this.buildRequest();
+      request.idToken = idToken;
+      return signInWithIdp(auth, request);
+    }
+    _getReauthenticationResolver(auth) {
+      const request = this.buildRequest();
+      request.autoCreate = false;
+      return signInWithIdp(auth, request);
+    }
+    buildRequest() {
+      const request = {
+        requestUri: IDP_REQUEST_URI$1,
+        returnSecureToken: true
+      };
+      if (this.pendingToken) {
+        request.pendingToken = this.pendingToken;
+      } else {
+        const postBody = {};
+        if (this.idToken) {
+          postBody["id_token"] = this.idToken;
+        }
+        if (this.accessToken) {
+          postBody["access_token"] = this.accessToken;
+        }
+        if (this.secret) {
+          postBody["oauth_token_secret"] = this.secret;
+        }
+        postBody["providerId"] = this.providerId;
+        if (this.nonce && !this.pendingToken) {
+          postBody["nonce"] = this.nonce;
+        }
+        request.postBody = querystring(postBody);
+      }
+      return request;
+    }
+  };
+  async function sendPhoneVerificationCode(auth, request) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:sendVerificationCode", _addTidIfNecessary(auth, request));
+  }
+  async function signInWithPhoneNumber$1(auth, request) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, request));
+  }
+  async function linkWithPhoneNumber$1(auth, request) {
+    const response = await _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, request));
+    if (response.temporaryProof) {
+      throw _makeTaggedError(auth, "account-exists-with-different-credential", response);
+    }
+    return response;
+  }
+  var VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_ = {
+    ["USER_NOT_FOUND"]: "user-not-found"
+  };
+  async function verifyPhoneNumberForExisting(auth, request) {
+    const apiRequest = Object.assign(Object.assign({}, request), { operation: "REAUTH" });
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, apiRequest), VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_);
+  }
+  var PhoneAuthCredential = class extends AuthCredential {
+    constructor(params) {
+      super("phone", "phone");
+      this.params = params;
+    }
+    static _fromVerification(verificationId, verificationCode) {
+      return new PhoneAuthCredential({ verificationId, verificationCode });
+    }
+    static _fromTokenResponse(phoneNumber, temporaryProof) {
+      return new PhoneAuthCredential({ phoneNumber, temporaryProof });
+    }
+    _getIdTokenResponse(auth) {
+      return signInWithPhoneNumber$1(auth, this._makeVerificationRequest());
+    }
+    _linkToIdToken(auth, idToken) {
+      return linkWithPhoneNumber$1(auth, Object.assign({ idToken }, this._makeVerificationRequest()));
+    }
+    _getReauthenticationResolver(auth) {
+      return verifyPhoneNumberForExisting(auth, this._makeVerificationRequest());
+    }
+    _makeVerificationRequest() {
+      const { temporaryProof, phoneNumber, verificationId, verificationCode } = this.params;
+      if (temporaryProof && phoneNumber) {
+        return { temporaryProof, phoneNumber };
+      }
+      return {
+        sessionInfo: verificationId,
+        code: verificationCode
+      };
+    }
+    toJSON() {
+      const obj = {
+        providerId: this.providerId
+      };
+      if (this.params.phoneNumber) {
+        obj.phoneNumber = this.params.phoneNumber;
+      }
+      if (this.params.temporaryProof) {
+        obj.temporaryProof = this.params.temporaryProof;
+      }
+      if (this.params.verificationCode) {
+        obj.verificationCode = this.params.verificationCode;
+      }
+      if (this.params.verificationId) {
+        obj.verificationId = this.params.verificationId;
+      }
+      return obj;
+    }
+    static fromJSON(json) {
+      if (typeof json === "string") {
+        json = JSON.parse(json);
+      }
+      const { verificationId, verificationCode, phoneNumber, temporaryProof } = json;
+      if (!verificationCode && !verificationId && !phoneNumber && !temporaryProof) {
+        return null;
+      }
+      return new PhoneAuthCredential({
+        verificationId,
+        verificationCode,
+        phoneNumber,
+        temporaryProof
+      });
+    }
+  };
+  function parseMode(mode) {
+    switch (mode) {
+      case "recoverEmail":
+        return "RECOVER_EMAIL";
+      case "resetPassword":
+        return "PASSWORD_RESET";
+      case "signIn":
+        return "EMAIL_SIGNIN";
+      case "verifyEmail":
+        return "VERIFY_EMAIL";
+      case "verifyAndChangeEmail":
+        return "VERIFY_AND_CHANGE_EMAIL";
+      case "revertSecondFactorAddition":
+        return "REVERT_SECOND_FACTOR_ADDITION";
+      default:
+        return null;
+    }
+  }
+  function parseDeepLink(url2) {
+    const link = querystringDecode(extractQuerystring(url2))["link"];
+    const doubleDeepLink = link ? querystringDecode(extractQuerystring(link))["deep_link_id"] : null;
+    const iOSDeepLink = querystringDecode(extractQuerystring(url2))["deep_link_id"];
+    const iOSDoubleDeepLink = iOSDeepLink ? querystringDecode(extractQuerystring(iOSDeepLink))["link"] : null;
+    return iOSDoubleDeepLink || iOSDeepLink || doubleDeepLink || link || url2;
+  }
+  var ActionCodeURL = class {
+    constructor(actionLink) {
+      var _a, _b, _c, _d, _e, _f;
+      const searchParams = querystringDecode(extractQuerystring(actionLink));
+      const apiKey = (_a = searchParams["apiKey"]) !== null && _a !== void 0 ? _a : null;
+      const code = (_b = searchParams["oobCode"]) !== null && _b !== void 0 ? _b : null;
+      const operation = parseMode((_c = searchParams["mode"]) !== null && _c !== void 0 ? _c : null);
+      _assert(apiKey && code && operation, "argument-error");
+      this.apiKey = apiKey;
+      this.operation = operation;
+      this.code = code;
+      this.continueUrl = (_d = searchParams["continueUrl"]) !== null && _d !== void 0 ? _d : null;
+      this.languageCode = (_e = searchParams["languageCode"]) !== null && _e !== void 0 ? _e : null;
+      this.tenantId = (_f = searchParams["tenantId"]) !== null && _f !== void 0 ? _f : null;
+    }
+    static parseLink(link) {
+      const actionLink = parseDeepLink(link);
+      try {
+        return new ActionCodeURL(actionLink);
+      } catch (_a) {
+        return null;
+      }
+    }
+  };
+  var EmailAuthProvider = class {
+    constructor() {
+      this.providerId = EmailAuthProvider.PROVIDER_ID;
+    }
+    static credential(email, password) {
+      return EmailAuthCredential._fromEmailAndPassword(email, password);
+    }
+    static credentialWithLink(email, emailLink) {
+      const actionCodeUrl = ActionCodeURL.parseLink(emailLink);
+      _assert(actionCodeUrl, "argument-error");
+      return EmailAuthCredential._fromEmailAndCode(email, actionCodeUrl.code, actionCodeUrl.tenantId);
+    }
+  };
+  EmailAuthProvider.PROVIDER_ID = "password";
+  EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD = "password";
+  EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD = "emailLink";
+  var FederatedAuthProvider = class {
+    constructor(providerId) {
+      this.providerId = providerId;
+      this.defaultLanguageCode = null;
+      this.customParameters = {};
+    }
+    setDefaultLanguage(languageCode) {
+      this.defaultLanguageCode = languageCode;
+    }
+    setCustomParameters(customOAuthParameters) {
+      this.customParameters = customOAuthParameters;
+      return this;
+    }
+    getCustomParameters() {
+      return this.customParameters;
+    }
+  };
+  var BaseOAuthProvider = class extends FederatedAuthProvider {
+    constructor() {
+      super(...arguments);
+      this.scopes = [];
+    }
+    addScope(scope) {
+      if (!this.scopes.includes(scope)) {
+        this.scopes.push(scope);
+      }
+      return this;
+    }
+    getScopes() {
+      return [...this.scopes];
+    }
+  };
+  var FacebookAuthProvider = class extends BaseOAuthProvider {
+    constructor() {
+      super("facebook.com");
+    }
+    static credential(accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: FacebookAuthProvider.PROVIDER_ID,
+        signInMethod: FacebookAuthProvider.FACEBOOK_SIGN_IN_METHOD,
+        accessToken
+      });
+    }
+    static credentialFromResult(userCredential) {
+      return FacebookAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    static credentialFromError(error) {
+      return FacebookAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse || !("oauthAccessToken" in tokenResponse)) {
+        return null;
+      }
+      if (!tokenResponse.oauthAccessToken) {
+        return null;
+      }
+      try {
+        return FacebookAuthProvider.credential(tokenResponse.oauthAccessToken);
+      } catch (_a) {
+        return null;
+      }
+    }
+  };
+  FacebookAuthProvider.FACEBOOK_SIGN_IN_METHOD = "facebook.com";
+  FacebookAuthProvider.PROVIDER_ID = "facebook.com";
+  var GoogleAuthProvider = class extends BaseOAuthProvider {
+    constructor() {
+      super("google.com");
+      this.addScope("profile");
+    }
+    static credential(idToken, accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: GoogleAuthProvider.PROVIDER_ID,
+        signInMethod: GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD,
+        idToken,
+        accessToken
+      });
+    }
+    static credentialFromResult(userCredential) {
+      return GoogleAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    static credentialFromError(error) {
+      return GoogleAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { oauthIdToken, oauthAccessToken } = tokenResponse;
+      if (!oauthIdToken && !oauthAccessToken) {
+        return null;
+      }
+      try {
+        return GoogleAuthProvider.credential(oauthIdToken, oauthAccessToken);
+      } catch (_a) {
+        return null;
+      }
+    }
+  };
+  GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD = "google.com";
+  GoogleAuthProvider.PROVIDER_ID = "google.com";
+  var GithubAuthProvider = class extends BaseOAuthProvider {
+    constructor() {
+      super("github.com");
+    }
+    static credential(accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: GithubAuthProvider.PROVIDER_ID,
+        signInMethod: GithubAuthProvider.GITHUB_SIGN_IN_METHOD,
+        accessToken
+      });
+    }
+    static credentialFromResult(userCredential) {
+      return GithubAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    static credentialFromError(error) {
+      return GithubAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse || !("oauthAccessToken" in tokenResponse)) {
+        return null;
+      }
+      if (!tokenResponse.oauthAccessToken) {
+        return null;
+      }
+      try {
+        return GithubAuthProvider.credential(tokenResponse.oauthAccessToken);
+      } catch (_a) {
+        return null;
+      }
+    }
+  };
+  GithubAuthProvider.GITHUB_SIGN_IN_METHOD = "github.com";
+  GithubAuthProvider.PROVIDER_ID = "github.com";
+  var TwitterAuthProvider = class extends BaseOAuthProvider {
+    constructor() {
+      super("twitter.com");
+    }
+    static credential(token, secret) {
+      return OAuthCredential._fromParams({
+        providerId: TwitterAuthProvider.PROVIDER_ID,
+        signInMethod: TwitterAuthProvider.TWITTER_SIGN_IN_METHOD,
+        oauthToken: token,
+        oauthTokenSecret: secret
+      });
+    }
+    static credentialFromResult(userCredential) {
+      return TwitterAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    static credentialFromError(error) {
+      return TwitterAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { oauthAccessToken, oauthTokenSecret } = tokenResponse;
+      if (!oauthAccessToken || !oauthTokenSecret) {
+        return null;
+      }
+      try {
+        return TwitterAuthProvider.credential(oauthAccessToken, oauthTokenSecret);
+      } catch (_a) {
+        return null;
+      }
+    }
+  };
+  TwitterAuthProvider.TWITTER_SIGN_IN_METHOD = "twitter.com";
+  TwitterAuthProvider.PROVIDER_ID = "twitter.com";
+  var UserCredentialImpl = class {
+    constructor(params) {
+      this.user = params.user;
+      this.providerId = params.providerId;
+      this._tokenResponse = params._tokenResponse;
+      this.operationType = params.operationType;
+    }
+    static async _fromIdTokenResponse(auth, operationType, idTokenResponse, isAnonymous = false) {
+      const user = await UserImpl._fromIdTokenResponse(auth, idTokenResponse, isAnonymous);
+      const providerId = providerIdForResponse(idTokenResponse);
+      const userCred = new UserCredentialImpl({
+        user,
+        providerId,
+        _tokenResponse: idTokenResponse,
+        operationType
+      });
+      return userCred;
+    }
+    static async _forOperation(user, operationType, response) {
+      await user._updateTokensIfNecessary(response, true);
+      const providerId = providerIdForResponse(response);
+      return new UserCredentialImpl({
+        user,
+        providerId,
+        _tokenResponse: response,
+        operationType
+      });
+    }
+  };
+  function providerIdForResponse(response) {
+    if (response.providerId) {
+      return response.providerId;
+    }
+    if ("phoneNumber" in response) {
+      return "phone";
+    }
+    return null;
+  }
+  var MultiFactorError = class extends FirebaseError {
+    constructor(auth, error, operationType, user) {
+      var _a;
+      super(error.code, error.message);
+      this.operationType = operationType;
+      this.user = user;
+      Object.setPrototypeOf(this, MultiFactorError.prototype);
+      this.customData = {
+        appName: auth.name,
+        tenantId: (_a = auth.tenantId) !== null && _a !== void 0 ? _a : void 0,
+        _serverResponse: error.customData._serverResponse,
+        operationType
+      };
+    }
+    static _fromErrorAndOperation(auth, error, operationType, user) {
+      return new MultiFactorError(auth, error, operationType, user);
+    }
+  };
+  function _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential, user) {
+    const idTokenProvider = operationType === "reauthenticate" ? credential._getReauthenticationResolver(auth) : credential._getIdTokenResponse(auth);
+    return idTokenProvider.catch((error) => {
+      if (error.code === `auth/${"multi-factor-auth-required"}`) {
+        throw MultiFactorError._fromErrorAndOperation(auth, error, operationType, user);
+      }
+      throw error;
+    });
+  }
+  async function _link$1(user, credential, bypassAuthState = false) {
+    const response = await _logoutIfInvalidated(user, credential._linkToIdToken(user.auth, await user.getIdToken()), bypassAuthState);
+    return UserCredentialImpl._forOperation(user, "link", response);
+  }
+  async function _reauthenticate(user, credential, bypassAuthState = false) {
+    var _a;
+    const { auth } = user;
+    const operationType = "reauthenticate";
+    try {
+      const response = await _logoutIfInvalidated(user, _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential, user), bypassAuthState);
+      _assert(response.idToken, auth, "internal-error");
+      const parsed = _parseToken(response.idToken);
+      _assert(parsed, auth, "internal-error");
+      const { sub: localId } = parsed;
+      _assert(user.uid === localId, auth, "user-mismatch");
+      return UserCredentialImpl._forOperation(user, operationType, response);
+    } catch (e) {
+      if (((_a = e) === null || _a === void 0 ? void 0 : _a.code) === `auth/${"user-not-found"}`) {
+        _fail(auth, "user-mismatch");
+      }
+      throw e;
+    }
+  }
+  async function _signInWithCredential(auth, credential, bypassAuthState = false) {
+    const operationType = "signIn";
+    const response = await _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential);
+    const userCredential = await UserCredentialImpl._fromIdTokenResponse(auth, operationType, response);
+    if (!bypassAuthState) {
+      await auth._updateCurrentUser(userCredential.user);
+    }
+    return userCredential;
+  }
+  function startEnrollPhoneMfa(auth, request) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:start", _addTidIfNecessary(auth, request));
+  }
+  function finalizeEnrollPhoneMfa(auth, request) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:finalize", _addTidIfNecessary(auth, request));
+  }
+  var STORAGE_AVAILABLE_KEY = "__sak";
+  var BrowserPersistenceClass = class {
+    constructor(storageRetriever, type) {
+      this.storageRetriever = storageRetriever;
+      this.type = type;
+    }
+    _isAvailable() {
+      try {
+        if (!this.storage) {
+          return Promise.resolve(false);
+        }
+        this.storage.setItem(STORAGE_AVAILABLE_KEY, "1");
+        this.storage.removeItem(STORAGE_AVAILABLE_KEY);
+        return Promise.resolve(true);
+      } catch (_a) {
+        return Promise.resolve(false);
+      }
+    }
+    _set(key, value) {
+      this.storage.setItem(key, JSON.stringify(value));
+      return Promise.resolve();
+    }
+    _get(key) {
+      const json = this.storage.getItem(key);
+      return Promise.resolve(json ? JSON.parse(json) : null);
+    }
+    _remove(key) {
+      this.storage.removeItem(key);
+      return Promise.resolve();
+    }
+    get storage() {
+      return this.storageRetriever();
+    }
+  };
+  function _iframeCannotSyncWebStorage() {
+    const ua = getUA();
+    return _isSafari(ua) || _isIOS(ua);
+  }
+  var _POLLING_INTERVAL_MS$1 = 1e3;
+  var IE10_LOCAL_STORAGE_SYNC_DELAY = 10;
+  var BrowserLocalPersistence = class extends BrowserPersistenceClass {
+    constructor() {
+      super(() => window.localStorage, "LOCAL");
+      this.boundEventHandler = (event, poll) => this.onStorageEvent(event, poll);
+      this.listeners = {};
+      this.localCache = {};
+      this.pollTimer = null;
+      this.safariLocalStorageNotSynced = _iframeCannotSyncWebStorage() && _isIframe();
+      this.fallbackToPolling = _isMobileBrowser();
+      this._shouldAllowMigration = true;
+    }
+    forAllChangedKeys(cb) {
+      for (const key of Object.keys(this.listeners)) {
+        const newValue = this.storage.getItem(key);
+        const oldValue = this.localCache[key];
+        if (newValue !== oldValue) {
+          cb(key, oldValue, newValue);
+        }
+      }
+    }
+    onStorageEvent(event, poll = false) {
+      if (!event.key) {
+        this.forAllChangedKeys((key2, _oldValue, newValue) => {
+          this.notifyListeners(key2, newValue);
+        });
+        return;
+      }
+      const key = event.key;
+      if (poll) {
+        this.detachListener();
+      } else {
+        this.stopPolling();
+      }
+      if (this.safariLocalStorageNotSynced) {
+        const storedValue2 = this.storage.getItem(key);
+        if (event.newValue !== storedValue2) {
+          if (event.newValue !== null) {
+            this.storage.setItem(key, event.newValue);
+          } else {
+            this.storage.removeItem(key);
+          }
+        } else if (this.localCache[key] === event.newValue && !poll) {
+          return;
+        }
+      }
+      const triggerListeners = () => {
+        const storedValue2 = this.storage.getItem(key);
+        if (!poll && this.localCache[key] === storedValue2) {
+          return;
+        }
+        this.notifyListeners(key, storedValue2);
+      };
+      const storedValue = this.storage.getItem(key);
+      if (_isIE10() && storedValue !== event.newValue && event.newValue !== event.oldValue) {
+        setTimeout(triggerListeners, IE10_LOCAL_STORAGE_SYNC_DELAY);
+      } else {
+        triggerListeners();
+      }
+    }
+    notifyListeners(key, value) {
+      this.localCache[key] = value;
+      const listeners = this.listeners[key];
+      if (listeners) {
+        for (const listener of Array.from(listeners)) {
+          listener(value ? JSON.parse(value) : value);
+        }
+      }
+    }
+    startPolling() {
+      this.stopPolling();
+      this.pollTimer = setInterval(() => {
+        this.forAllChangedKeys((key, oldValue, newValue) => {
+          this.onStorageEvent(
+            new StorageEvent("storage", {
+              key,
+              oldValue,
+              newValue
+            }),
+            true
+          );
+        });
+      }, _POLLING_INTERVAL_MS$1);
+    }
+    stopPolling() {
+      if (this.pollTimer) {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+      }
+    }
+    attachListener() {
+      window.addEventListener("storage", this.boundEventHandler);
+    }
+    detachListener() {
+      window.removeEventListener("storage", this.boundEventHandler);
+    }
+    _addListener(key, listener) {
+      if (Object.keys(this.listeners).length === 0) {
+        if (this.fallbackToPolling) {
+          this.startPolling();
+        } else {
+          this.attachListener();
+        }
+      }
+      if (!this.listeners[key]) {
+        this.listeners[key] = /* @__PURE__ */ new Set();
+        this.localCache[key] = this.storage.getItem(key);
+      }
+      this.listeners[key].add(listener);
+    }
+    _removeListener(key, listener) {
+      if (this.listeners[key]) {
+        this.listeners[key].delete(listener);
+        if (this.listeners[key].size === 0) {
+          delete this.listeners[key];
+        }
+      }
+      if (Object.keys(this.listeners).length === 0) {
+        this.detachListener();
+        this.stopPolling();
+      }
+    }
+    async _set(key, value) {
+      await super._set(key, value);
+      this.localCache[key] = JSON.stringify(value);
+    }
+    async _get(key) {
+      const value = await super._get(key);
+      this.localCache[key] = JSON.stringify(value);
+      return value;
+    }
+    async _remove(key) {
+      await super._remove(key);
+      delete this.localCache[key];
+    }
+  };
+  BrowserLocalPersistence.type = "LOCAL";
+  var BrowserSessionPersistence = class extends BrowserPersistenceClass {
+    constructor() {
+      super(() => window.sessionStorage, "SESSION");
+    }
+    _addListener(_key, _listener) {
+      return;
+    }
+    _removeListener(_key, _listener) {
+      return;
+    }
+  };
+  BrowserSessionPersistence.type = "SESSION";
+  function _allSettled(promises) {
+    return Promise.all(promises.map(async (promise) => {
+      try {
+        const value = await promise;
+        return {
+          fulfilled: true,
+          value
+        };
+      } catch (reason) {
+        return {
+          fulfilled: false,
+          reason
+        };
+      }
+    }));
+  }
+  var Receiver = class {
+    constructor(eventTarget) {
+      this.eventTarget = eventTarget;
+      this.handlersMap = {};
+      this.boundEventHandler = this.handleEvent.bind(this);
+    }
+    static _getInstance(eventTarget) {
+      const existingInstance = this.receivers.find((receiver) => receiver.isListeningto(eventTarget));
+      if (existingInstance) {
+        return existingInstance;
+      }
+      const newInstance = new Receiver(eventTarget);
+      this.receivers.push(newInstance);
+      return newInstance;
+    }
+    isListeningto(eventTarget) {
+      return this.eventTarget === eventTarget;
+    }
+    async handleEvent(event) {
+      const messageEvent = event;
+      const { eventId, eventType, data } = messageEvent.data;
+      const handlers = this.handlersMap[eventType];
+      if (!(handlers === null || handlers === void 0 ? void 0 : handlers.size)) {
+        return;
+      }
+      messageEvent.ports[0].postMessage({
+        status: "ack",
+        eventId,
+        eventType
+      });
+      const promises = Array.from(handlers).map(async (handler) => handler(messageEvent.origin, data));
+      const response = await _allSettled(promises);
+      messageEvent.ports[0].postMessage({
+        status: "done",
+        eventId,
+        eventType,
+        response
+      });
+    }
+    _subscribe(eventType, eventHandler) {
+      if (Object.keys(this.handlersMap).length === 0) {
+        this.eventTarget.addEventListener("message", this.boundEventHandler);
+      }
+      if (!this.handlersMap[eventType]) {
+        this.handlersMap[eventType] = /* @__PURE__ */ new Set();
+      }
+      this.handlersMap[eventType].add(eventHandler);
+    }
+    _unsubscribe(eventType, eventHandler) {
+      if (this.handlersMap[eventType] && eventHandler) {
+        this.handlersMap[eventType].delete(eventHandler);
+      }
+      if (!eventHandler || this.handlersMap[eventType].size === 0) {
+        delete this.handlersMap[eventType];
+      }
+      if (Object.keys(this.handlersMap).length === 0) {
+        this.eventTarget.removeEventListener("message", this.boundEventHandler);
+      }
+    }
+  };
+  Receiver.receivers = [];
+  function _generateEventId(prefix = "", digits = 10) {
+    let random = "";
+    for (let i = 0; i < digits; i++) {
+      random += Math.floor(Math.random() * 10);
+    }
+    return prefix + random;
+  }
+  var Sender = class {
+    constructor(target) {
+      this.target = target;
+      this.handlers = /* @__PURE__ */ new Set();
+    }
+    removeMessageHandler(handler) {
+      if (handler.messageChannel) {
+        handler.messageChannel.port1.removeEventListener("message", handler.onMessage);
+        handler.messageChannel.port1.close();
+      }
+      this.handlers.delete(handler);
+    }
+    async _send(eventType, data, timeout = 50) {
+      const messageChannel = typeof MessageChannel !== "undefined" ? new MessageChannel() : null;
+      if (!messageChannel) {
+        throw new Error("connection_unavailable");
+      }
+      let completionTimer;
+      let handler;
+      return new Promise((resolve, reject) => {
+        const eventId = _generateEventId("", 20);
+        messageChannel.port1.start();
+        const ackTimer = setTimeout(() => {
+          reject(new Error("unsupported_event"));
+        }, timeout);
+        handler = {
+          messageChannel,
+          onMessage(event) {
+            const messageEvent = event;
+            if (messageEvent.data.eventId !== eventId) {
+              return;
+            }
+            switch (messageEvent.data.status) {
+              case "ack":
+                clearTimeout(ackTimer);
+                completionTimer = setTimeout(() => {
+                  reject(new Error("timeout"));
+                }, 3e3);
+                break;
+              case "done":
+                clearTimeout(completionTimer);
+                resolve(messageEvent.data.response);
+                break;
+              default:
+                clearTimeout(ackTimer);
+                clearTimeout(completionTimer);
+                reject(new Error("invalid_response"));
+                break;
+            }
+          }
+        };
+        this.handlers.add(handler);
+        messageChannel.port1.addEventListener("message", handler.onMessage);
+        this.target.postMessage({
+          eventType,
+          eventId,
+          data
+        }, [messageChannel.port2]);
+      }).finally(() => {
+        if (handler) {
+          this.removeMessageHandler(handler);
+        }
+      });
+    }
+  };
+  function _window() {
+    return window;
+  }
+  function _isWorker() {
+    return typeof _window()["WorkerGlobalScope"] !== "undefined" && typeof _window()["importScripts"] === "function";
+  }
+  async function _getActiveServiceWorker() {
+    if (!(navigator === null || navigator === void 0 ? void 0 : navigator.serviceWorker)) {
+      return null;
+    }
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      return registration.active;
+    } catch (_a) {
+      return null;
+    }
+  }
+  function _getServiceWorkerController() {
+    var _a;
+    return ((_a = navigator === null || navigator === void 0 ? void 0 : navigator.serviceWorker) === null || _a === void 0 ? void 0 : _a.controller) || null;
+  }
+  function _getWorkerGlobalScope() {
+    return _isWorker() ? self : null;
+  }
+  var DB_NAME2 = "firebaseLocalStorageDb";
+  var DB_VERSION2 = 1;
+  var DB_OBJECTSTORE_NAME = "firebaseLocalStorage";
+  var DB_DATA_KEYPATH = "fbase_key";
+  var DBPromise = class {
+    constructor(request) {
+      this.request = request;
+    }
+    toPromise() {
+      return new Promise((resolve, reject) => {
+        this.request.addEventListener("success", () => {
+          resolve(this.request.result);
+        });
+        this.request.addEventListener("error", () => {
+          reject(this.request.error);
+        });
+      });
+    }
+  };
+  function getObjectStore(db, isReadWrite) {
+    return db.transaction([DB_OBJECTSTORE_NAME], isReadWrite ? "readwrite" : "readonly").objectStore(DB_OBJECTSTORE_NAME);
+  }
+  function _deleteDatabase() {
+    const request = indexedDB.deleteDatabase(DB_NAME2);
+    return new DBPromise(request).toPromise();
+  }
+  function _openDatabase() {
+    const request = indexedDB.open(DB_NAME2, DB_VERSION2);
+    return new Promise((resolve, reject) => {
+      request.addEventListener("error", () => {
+        reject(request.error);
+      });
+      request.addEventListener("upgradeneeded", () => {
+        const db = request.result;
+        try {
+          db.createObjectStore(DB_OBJECTSTORE_NAME, { keyPath: DB_DATA_KEYPATH });
+        } catch (e) {
+          reject(e);
+        }
+      });
+      request.addEventListener("success", async () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(DB_OBJECTSTORE_NAME)) {
+          db.close();
+          await _deleteDatabase();
+          resolve(await _openDatabase());
+        } else {
+          resolve(db);
+        }
+      });
+    });
+  }
+  async function _putObject(db, key, value) {
+    const request = getObjectStore(db, true).put({
+      [DB_DATA_KEYPATH]: key,
+      value
+    });
+    return new DBPromise(request).toPromise();
+  }
+  async function getObject(db, key) {
+    const request = getObjectStore(db, false).get(key);
+    const data = await new DBPromise(request).toPromise();
+    return data === void 0 ? null : data.value;
+  }
+  function _deleteObject(db, key) {
+    const request = getObjectStore(db, true).delete(key);
+    return new DBPromise(request).toPromise();
+  }
+  var _POLLING_INTERVAL_MS = 800;
+  var _TRANSACTION_RETRY_COUNT = 3;
+  var IndexedDBLocalPersistence = class {
+    constructor() {
+      this.type = "LOCAL";
+      this._shouldAllowMigration = true;
+      this.listeners = {};
+      this.localCache = {};
+      this.pollTimer = null;
+      this.pendingWrites = 0;
+      this.receiver = null;
+      this.sender = null;
+      this.serviceWorkerReceiverAvailable = false;
+      this.activeServiceWorker = null;
+      this._workerInitializationPromise = this.initializeServiceWorkerMessaging().then(() => {
+      }, () => {
+      });
+    }
+    async _openDb() {
+      if (this.db) {
+        return this.db;
+      }
+      this.db = await _openDatabase();
+      return this.db;
+    }
+    async _withRetries(op) {
+      let numAttempts = 0;
+      while (true) {
+        try {
+          const db = await this._openDb();
+          return await op(db);
+        } catch (e) {
+          if (numAttempts++ > _TRANSACTION_RETRY_COUNT) {
+            throw e;
+          }
+          if (this.db) {
+            this.db.close();
+            this.db = void 0;
+          }
+        }
+      }
+    }
+    async initializeServiceWorkerMessaging() {
+      return _isWorker() ? this.initializeReceiver() : this.initializeSender();
+    }
+    async initializeReceiver() {
+      this.receiver = Receiver._getInstance(_getWorkerGlobalScope());
+      this.receiver._subscribe("keyChanged", async (_origin, data) => {
+        const keys = await this._poll();
+        return {
+          keyProcessed: keys.includes(data.key)
+        };
+      });
+      this.receiver._subscribe("ping", async (_origin, _data) => {
+        return ["keyChanged"];
+      });
+    }
+    async initializeSender() {
+      var _a, _b;
+      this.activeServiceWorker = await _getActiveServiceWorker();
+      if (!this.activeServiceWorker) {
+        return;
+      }
+      this.sender = new Sender(this.activeServiceWorker);
+      const results = await this.sender._send("ping", {}, 800);
+      if (!results) {
+        return;
+      }
+      if (((_a = results[0]) === null || _a === void 0 ? void 0 : _a.fulfilled) && ((_b = results[0]) === null || _b === void 0 ? void 0 : _b.value.includes("keyChanged"))) {
+        this.serviceWorkerReceiverAvailable = true;
+      }
+    }
+    async notifyServiceWorker(key) {
+      if (!this.sender || !this.activeServiceWorker || _getServiceWorkerController() !== this.activeServiceWorker) {
+        return;
+      }
+      try {
+        await this.sender._send(
+          "keyChanged",
+          { key },
+          this.serviceWorkerReceiverAvailable ? 800 : 50
+        );
+      } catch (_a) {
+      }
+    }
+    async _isAvailable() {
+      try {
+        if (!indexedDB) {
+          return false;
+        }
+        const db = await _openDatabase();
+        await _putObject(db, STORAGE_AVAILABLE_KEY, "1");
+        await _deleteObject(db, STORAGE_AVAILABLE_KEY);
+        return true;
+      } catch (_a) {
+      }
+      return false;
+    }
+    async _withPendingWrite(write) {
+      this.pendingWrites++;
+      try {
+        await write();
+      } finally {
+        this.pendingWrites--;
+      }
+    }
+    async _set(key, value) {
+      return this._withPendingWrite(async () => {
+        await this._withRetries((db) => _putObject(db, key, value));
+        this.localCache[key] = value;
+        return this.notifyServiceWorker(key);
+      });
+    }
+    async _get(key) {
+      const obj = await this._withRetries((db) => getObject(db, key));
+      this.localCache[key] = obj;
+      return obj;
+    }
+    async _remove(key) {
+      return this._withPendingWrite(async () => {
+        await this._withRetries((db) => _deleteObject(db, key));
+        delete this.localCache[key];
+        return this.notifyServiceWorker(key);
+      });
+    }
+    async _poll() {
+      const result = await this._withRetries((db) => {
+        const getAllRequest = getObjectStore(db, false).getAll();
+        return new DBPromise(getAllRequest).toPromise();
+      });
+      if (!result) {
+        return [];
+      }
+      if (this.pendingWrites !== 0) {
+        return [];
+      }
+      const keys = [];
+      const keysInResult = /* @__PURE__ */ new Set();
+      for (const { fbase_key: key, value } of result) {
+        keysInResult.add(key);
+        if (JSON.stringify(this.localCache[key]) !== JSON.stringify(value)) {
+          this.notifyListeners(key, value);
+          keys.push(key);
+        }
+      }
+      for (const localKey of Object.keys(this.localCache)) {
+        if (this.localCache[localKey] && !keysInResult.has(localKey)) {
+          this.notifyListeners(localKey, null);
+          keys.push(localKey);
+        }
+      }
+      return keys;
+    }
+    notifyListeners(key, newValue) {
+      this.localCache[key] = newValue;
+      const listeners = this.listeners[key];
+      if (listeners) {
+        for (const listener of Array.from(listeners)) {
+          listener(newValue);
+        }
+      }
+    }
+    startPolling() {
+      this.stopPolling();
+      this.pollTimer = setInterval(async () => this._poll(), _POLLING_INTERVAL_MS);
+    }
+    stopPolling() {
+      if (this.pollTimer) {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+      }
+    }
+    _addListener(key, listener) {
+      if (Object.keys(this.listeners).length === 0) {
+        this.startPolling();
+      }
+      if (!this.listeners[key]) {
+        this.listeners[key] = /* @__PURE__ */ new Set();
+        void this._get(key);
+      }
+      this.listeners[key].add(listener);
+    }
+    _removeListener(key, listener) {
+      if (this.listeners[key]) {
+        this.listeners[key].delete(listener);
+        if (this.listeners[key].size === 0) {
+          delete this.listeners[key];
+        }
+      }
+      if (Object.keys(this.listeners).length === 0) {
+        this.stopPolling();
+      }
+    }
+  };
+  IndexedDBLocalPersistence.type = "LOCAL";
+  function startSignInPhoneMfa(auth, request) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaSignIn:start", _addTidIfNecessary(auth, request));
+  }
+  function finalizeSignInPhoneMfa(auth, request) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaSignIn:finalize", _addTidIfNecessary(auth, request));
+  }
+  function _generateCallbackName(prefix) {
+    return `__${prefix}${Math.floor(Math.random() * 1e6)}`;
+  }
+  var _JSLOAD_CALLBACK = _generateCallbackName("rcb");
+  var NETWORK_TIMEOUT_DELAY = new Delay(3e4, 6e4);
+  var RECAPTCHA_VERIFIER_TYPE = "recaptcha";
+  async function _verifyPhoneNumber(auth, options, verifier) {
+    var _a;
+    const recaptchaToken = await verifier.verify();
+    try {
+      _assert(typeof recaptchaToken === "string", auth, "argument-error");
+      _assert(verifier.type === RECAPTCHA_VERIFIER_TYPE, auth, "argument-error");
+      let phoneInfoOptions;
+      if (typeof options === "string") {
+        phoneInfoOptions = {
+          phoneNumber: options
+        };
+      } else {
+        phoneInfoOptions = options;
+      }
+      if ("session" in phoneInfoOptions) {
+        const session = phoneInfoOptions.session;
+        if ("phoneNumber" in phoneInfoOptions) {
+          _assert(session.type === "enroll", auth, "internal-error");
+          const response = await startEnrollPhoneMfa(auth, {
+            idToken: session.credential,
+            phoneEnrollmentInfo: {
+              phoneNumber: phoneInfoOptions.phoneNumber,
+              recaptchaToken
+            }
+          });
+          return response.phoneSessionInfo.sessionInfo;
+        } else {
+          _assert(session.type === "signin", auth, "internal-error");
+          const mfaEnrollmentId = ((_a = phoneInfoOptions.multiFactorHint) === null || _a === void 0 ? void 0 : _a.uid) || phoneInfoOptions.multiFactorUid;
+          _assert(mfaEnrollmentId, auth, "missing-multi-factor-info");
+          const response = await startSignInPhoneMfa(auth, {
+            mfaPendingCredential: session.credential,
+            mfaEnrollmentId,
+            phoneSignInInfo: {
+              recaptchaToken
+            }
+          });
+          return response.phoneResponseInfo.sessionInfo;
+        }
+      } else {
+        const { sessionInfo } = await sendPhoneVerificationCode(auth, {
+          phoneNumber: phoneInfoOptions.phoneNumber,
+          recaptchaToken
+        });
+        return sessionInfo;
+      }
+    } finally {
+      verifier._reset();
+    }
+  }
+  var PhoneAuthProvider = class {
+    constructor(auth) {
+      this.providerId = PhoneAuthProvider.PROVIDER_ID;
+      this.auth = _castAuth(auth);
+    }
+    verifyPhoneNumber(phoneOptions, applicationVerifier) {
+      return _verifyPhoneNumber(this.auth, phoneOptions, getModularInstance(applicationVerifier));
+    }
+    static credential(verificationId, verificationCode) {
+      return PhoneAuthCredential._fromVerification(verificationId, verificationCode);
+    }
+    static credentialFromResult(userCredential) {
+      const credential = userCredential;
+      return PhoneAuthProvider.credentialFromTaggedObject(credential);
+    }
+    static credentialFromError(error) {
+      return PhoneAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { phoneNumber, temporaryProof } = tokenResponse;
+      if (phoneNumber && temporaryProof) {
+        return PhoneAuthCredential._fromTokenResponse(phoneNumber, temporaryProof);
+      }
+      return null;
+    }
+  };
+  PhoneAuthProvider.PROVIDER_ID = "phone";
+  PhoneAuthProvider.PHONE_SIGN_IN_METHOD = "phone";
+  var IdpCredential = class extends AuthCredential {
+    constructor(params) {
+      super("custom", "custom");
+      this.params = params;
+    }
+    _getIdTokenResponse(auth) {
+      return signInWithIdp(auth, this._buildIdpRequest());
+    }
+    _linkToIdToken(auth, idToken) {
+      return signInWithIdp(auth, this._buildIdpRequest(idToken));
+    }
+    _getReauthenticationResolver(auth) {
+      return signInWithIdp(auth, this._buildIdpRequest());
+    }
+    _buildIdpRequest(idToken) {
+      const request = {
+        requestUri: this.params.requestUri,
+        sessionId: this.params.sessionId,
+        postBody: this.params.postBody,
+        tenantId: this.params.tenantId,
+        pendingToken: this.params.pendingToken,
+        returnSecureToken: true,
+        returnIdpCredential: true
+      };
+      if (idToken) {
+        request.idToken = idToken;
+      }
+      return request;
+    }
+  };
+  function _signIn(params) {
+    return _signInWithCredential(params.auth, new IdpCredential(params), params.bypassAuthState);
+  }
+  function _reauth(params) {
+    const { auth, user } = params;
+    _assert(user, auth, "internal-error");
+    return _reauthenticate(user, new IdpCredential(params), params.bypassAuthState);
+  }
+  async function _link(params) {
+    const { auth, user } = params;
+    _assert(user, auth, "internal-error");
+    return _link$1(user, new IdpCredential(params), params.bypassAuthState);
+  }
+  var AbstractPopupRedirectOperation = class {
+    constructor(auth, filter, resolver, user, bypassAuthState = false) {
+      this.auth = auth;
+      this.resolver = resolver;
+      this.user = user;
+      this.bypassAuthState = bypassAuthState;
+      this.pendingPromise = null;
+      this.eventManager = null;
+      this.filter = Array.isArray(filter) ? filter : [filter];
+    }
+    execute() {
+      return new Promise(async (resolve, reject) => {
+        this.pendingPromise = { resolve, reject };
+        try {
+          this.eventManager = await this.resolver._initialize(this.auth);
+          await this.onExecution();
+          this.eventManager.registerConsumer(this);
+        } catch (e) {
+          this.reject(e);
+        }
+      });
+    }
+    async onAuthEvent(event) {
+      const { urlResponse, sessionId, postBody, tenantId, error, type } = event;
+      if (error) {
+        this.reject(error);
+        return;
+      }
+      const params = {
+        auth: this.auth,
+        requestUri: urlResponse,
+        sessionId,
+        tenantId: tenantId || void 0,
+        postBody: postBody || void 0,
+        user: this.user,
+        bypassAuthState: this.bypassAuthState
+      };
+      try {
+        this.resolve(await this.getIdpTask(type)(params));
+      } catch (e) {
+        this.reject(e);
+      }
+    }
+    onError(error) {
+      this.reject(error);
+    }
+    getIdpTask(type) {
+      switch (type) {
+        case "signInViaPopup":
+        case "signInViaRedirect":
+          return _signIn;
+        case "linkViaPopup":
+        case "linkViaRedirect":
+          return _link;
+        case "reauthViaPopup":
+        case "reauthViaRedirect":
+          return _reauth;
+        default:
+          _fail(this.auth, "internal-error");
+      }
+    }
+    resolve(cred) {
+      debugAssert(this.pendingPromise, "Pending promise was never set");
+      this.pendingPromise.resolve(cred);
+      this.unregisterAndCleanUp();
+    }
+    reject(error) {
+      debugAssert(this.pendingPromise, "Pending promise was never set");
+      this.pendingPromise.reject(error);
+      this.unregisterAndCleanUp();
+    }
+    unregisterAndCleanUp() {
+      if (this.eventManager) {
+        this.eventManager.unregisterConsumer(this);
+      }
+      this.pendingPromise = null;
+      this.cleanUp();
+    }
+  };
+  var _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2e3, 1e4);
+  var PopupOperation = class extends AbstractPopupRedirectOperation {
+    constructor(auth, filter, provider, resolver, user) {
+      super(auth, filter, resolver, user);
+      this.provider = provider;
+      this.authWindow = null;
+      this.pollId = null;
+      if (PopupOperation.currentPopupAction) {
+        PopupOperation.currentPopupAction.cancel();
+      }
+      PopupOperation.currentPopupAction = this;
+    }
+    async executeNotNull() {
+      const result = await this.execute();
+      _assert(result, this.auth, "internal-error");
+      return result;
+    }
+    async onExecution() {
+      debugAssert(this.filter.length === 1, "Popup operations only handle one event");
+      const eventId = _generateEventId();
+      this.authWindow = await this.resolver._openPopup(
+        this.auth,
+        this.provider,
+        this.filter[0],
+        eventId
+      );
+      this.authWindow.associatedEvent = eventId;
+      this.resolver._originValidation(this.auth).catch((e) => {
+        this.reject(e);
+      });
+      this.resolver._isIframeWebStorageSupported(this.auth, (isSupported) => {
+        if (!isSupported) {
+          this.reject(_createError(this.auth, "web-storage-unsupported"));
+        }
+      });
+      this.pollUserCancellation();
+    }
+    get eventId() {
+      var _a;
+      return ((_a = this.authWindow) === null || _a === void 0 ? void 0 : _a.associatedEvent) || null;
+    }
+    cancel() {
+      this.reject(_createError(this.auth, "cancelled-popup-request"));
+    }
+    cleanUp() {
+      if (this.authWindow) {
+        this.authWindow.close();
+      }
+      if (this.pollId) {
+        window.clearTimeout(this.pollId);
+      }
+      this.authWindow = null;
+      this.pollId = null;
+      PopupOperation.currentPopupAction = null;
+    }
+    pollUserCancellation() {
+      const poll = () => {
+        var _a, _b;
+        if ((_b = (_a = this.authWindow) === null || _a === void 0 ? void 0 : _a.window) === null || _b === void 0 ? void 0 : _b.closed) {
+          this.pollId = window.setTimeout(() => {
+            this.pollId = null;
+            this.reject(_createError(this.auth, "popup-closed-by-user"));
+          }, 2e3);
+          return;
+        }
+        this.pollId = window.setTimeout(poll, _POLL_WINDOW_CLOSE_TIMEOUT.get());
+      };
+      poll();
+    }
+  };
+  PopupOperation.currentPopupAction = null;
+  var EVENT_DUPLICATION_CACHE_DURATION_MS = 10 * 60 * 1e3;
+  var NETWORK_TIMEOUT = new Delay(3e4, 6e4);
+  var PING_TIMEOUT = new Delay(5e3, 15e3);
+  var MultiFactorAssertionImpl = class {
+    constructor(factorId) {
+      this.factorId = factorId;
+    }
+    _process(auth, session, displayName) {
+      switch (session.type) {
+        case "enroll":
+          return this._finalizeEnroll(auth, session.credential, displayName);
+        case "signin":
+          return this._finalizeSignIn(auth, session.credential);
+        default:
+          return debugFail("unexpected MultiFactorSessionType");
+      }
+    }
+  };
+  var PhoneMultiFactorAssertionImpl = class extends MultiFactorAssertionImpl {
+    constructor(credential) {
+      super("phone");
+      this.credential = credential;
+    }
+    static _fromCredential(credential) {
+      return new PhoneMultiFactorAssertionImpl(credential);
+    }
+    _finalizeEnroll(auth, idToken, displayName) {
+      return finalizeEnrollPhoneMfa(auth, {
+        idToken,
+        displayName,
+        phoneVerificationInfo: this.credential._makeVerificationRequest()
+      });
+    }
+    _finalizeSignIn(auth, mfaPendingCredential) {
+      return finalizeSignInPhoneMfa(auth, {
+        mfaPendingCredential,
+        phoneVerificationInfo: this.credential._makeVerificationRequest()
+      });
+    }
+  };
+  var PhoneMultiFactorGenerator = class {
+    constructor() {
+    }
+    static assertion(credential) {
+      return PhoneMultiFactorAssertionImpl._fromCredential(credential);
+    }
+  };
+  PhoneMultiFactorGenerator.FACTOR_ID = "phone";
+  var name3 = "@firebase/auth";
+  var version3 = "0.20.5";
+  var AuthInterop = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.internalListeners = /* @__PURE__ */ new Map();
+    }
+    getUid() {
+      var _a;
+      this.assertAuthConfigured();
+      return ((_a = this.auth.currentUser) === null || _a === void 0 ? void 0 : _a.uid) || null;
+    }
+    async getToken(forceRefresh) {
+      this.assertAuthConfigured();
+      await this.auth._initializationPromise;
+      if (!this.auth.currentUser) {
+        return null;
+      }
+      const accessToken = await this.auth.currentUser.getIdToken(forceRefresh);
+      return { accessToken };
+    }
+    addAuthTokenListener(listener) {
+      this.assertAuthConfigured();
+      if (this.internalListeners.has(listener)) {
+        return;
+      }
+      const unsubscribe = this.auth.onIdTokenChanged((user) => {
+        var _a;
+        listener(((_a = user) === null || _a === void 0 ? void 0 : _a.stsTokenManager.accessToken) || null);
+      });
+      this.internalListeners.set(listener, unsubscribe);
+      this.updateProactiveRefresh();
+    }
+    removeAuthTokenListener(listener) {
+      this.assertAuthConfigured();
+      const unsubscribe = this.internalListeners.get(listener);
+      if (!unsubscribe) {
+        return;
+      }
+      this.internalListeners.delete(listener);
+      unsubscribe();
+      this.updateProactiveRefresh();
+    }
+    assertAuthConfigured() {
+      _assert(this.auth._initializationPromise, "dependent-sdk-initialized-before-auth");
+    }
+    updateProactiveRefresh() {
+      if (this.internalListeners.size > 0) {
+        this.auth._startProactiveRefresh();
+      } else {
+        this.auth._stopProactiveRefresh();
+      }
+    }
+  };
+  function getVersionForPlatform(clientPlatform) {
+    switch (clientPlatform) {
+      case "Node":
+        return "node";
+      case "ReactNative":
+        return "rn";
+      case "Worker":
+        return "webworker";
+      case "Cordova":
+        return "cordova";
+      default:
+        return void 0;
+    }
+  }
+  function registerAuth(clientPlatform) {
+    _registerComponent(new Component("auth", (container, { options: deps }) => {
+      const app2 = container.getProvider("app").getImmediate();
+      const heartbeatServiceProvider = container.getProvider("heartbeat");
+      const { apiKey, authDomain } = app2.options;
+      return ((app3, heartbeatServiceProvider2) => {
+        _assert(apiKey && !apiKey.includes(":"), "invalid-api-key", { appName: app3.name });
+        _assert(!(authDomain === null || authDomain === void 0 ? void 0 : authDomain.includes(":")), "argument-error", {
+          appName: app3.name
+        });
+        const config = {
+          apiKey,
+          authDomain,
+          clientPlatform,
+          apiHost: "identitytoolkit.googleapis.com",
+          tokenApiHost: "securetoken.googleapis.com",
+          apiScheme: "https",
+          sdkClientVersion: _getClientVersion(clientPlatform)
+        };
+        const authInstance = new AuthImpl(app3, heartbeatServiceProvider2, config);
+        _initializeAuthInstance(authInstance, deps);
+        return authInstance;
+      })(app2, heartbeatServiceProvider);
+    }, "PUBLIC").setInstantiationMode("EXPLICIT").setInstanceCreatedCallback((container, _instanceIdentifier, _instance) => {
+      const authInternalProvider = container.getProvider("auth-internal");
+      authInternalProvider.initialize();
+    }));
+    _registerComponent(new Component("auth-internal", (container) => {
+      const auth = _castAuth(container.getProvider("auth").getImmediate());
+      return ((auth2) => new AuthInterop(auth2))(auth);
+    }, "PRIVATE").setInstantiationMode("EXPLICIT"));
+    registerVersion(name3, version3, getVersionForPlatform(clientPlatform));
+    registerVersion(name3, version3, "esm2017");
+  }
+  registerAuth("Browser");
+
+  // src/scripts/common/vars.ts
+  var url = "https://api.cubingapp.com:3001";
+  var firebaseConfig = {
+    apiKey: "AIzaSyCnwuoBqAR6cx7uqzxf7iEC99sZf36sZZA",
+    authDomain: "virtual-cube.firebaseapp.com",
+    projectId: "virtual-cube",
+    storageBucket: "virtual-cube.appspot.com",
+    messagingSenderId: "371073332227",
+    appId: "1:371073332227:web:c96d3137080aecfe634a36",
+    measurementId: "G-YR33BDCQDY"
+  };
+  var app = initializeApp(firebaseConfig);
+
+  // src/scripts/common/element.ts
+  function createElement(tag, args) {
+    const ele = document.createElement(tag);
+    return setOptions(ele, args);
+  }
+  function setOptions(ele, args) {
+    for (const key in args) {
+      if (key === "children") {
+        args.children.forEach((child) => {
+          if (!child)
+            return;
+          ele.appendChild(child);
+        });
+      } else {
+        ele[key] = args[key];
+      }
+    }
+    return ele;
+  }
+
+  // src/scripts/modal.ts
+  function renderModal() {
+    const modal = createElement("div", {
+      className: "col fixed z-20 h-1/2 max-w-xl bg-white rounded-lg m-4 p-4",
+      onclick: (event) => {
+        event.stopPropagation();
+      }
+    });
+    const background = createElement("div", {
+      className: "col justify-center fixed z-10 w-screen h-screen bg-black bg-opacity-50",
+      onclick: (event) => {
+        event.target.remove();
+      },
+      children: [modal]
+    });
+    return [modal, background];
+  }
+
+  // src/scripts/replay.ts
+  async function main() {
+    let scene = newScene("#scene");
+    scenes.push(scene);
+    scene.cube.solve();
+    startLoop();
+    addListenersForLeftModal();
+    document.querySelector("#share").addEventListener("click", () => {
+      const url2 = document.location.href;
+      navigator.clipboard.writeText(url2).then(() => {
+        const [modal, removeModal] = renderModal();
+        modal.innerHTML = `
             <p style="font-weight: bold; padding-top: 1rem;">Link copied!</p>
             <p style="padding-top: 0.5rem;">Give the link to a friend</p>
             <p style="padding-top: 1rem; text-align: center;">${document.location}</p>
-            `})});let e=new URLSearchParams(window.location.search),t=parseInt(e.get("solve")),i=await(await fetch(`${gi}/getSolve`,{method:"POST",body:JSON.stringify({Id:t})})).json();console.log(i),Ea(i),yi()}function Ea(n){let e=n.SolveRecord.Solve;j[0].cube.setCubeState(e.InitialCubeState);let t=0,r,i=document.querySelector("#moveCounter");function s(f){r[t].style.background="",t=f,i.textContent=`${t} / ${e.Moves.length}`,r[t].style.background="green"}document.querySelector("#leftButton").addEventListener("click",f=>{t>0&&(j[0].cube.stepAlgorithm(e.Moves[t-1].Move,!1),s(t-1))}),document.querySelector("#rightButton").addEventListener("click",f=>{t<e.Moves.length&&(j[0].cube.stepAlgorithm(e.Moves[t].Move,!0),s(t+1))});let o,a,c=!0,l=document.querySelector("#playPause");l.addEventListener("click",()=>{if(!c){u();return}if(t===e.Moves.length)return;o=Date.now(),a=e.Moves[t].Time,c=!1,l.innerHTML=`
+            `;
+      });
+    });
+    const searchParams = new URLSearchParams(window.location.search);
+    const solveID = parseInt(searchParams.get("solve"));
+    const res = await fetch(`${url}/getSolve`, {
+      method: "POST",
+      body: JSON.stringify({ Id: solveID })
+    });
+    const solve = await res.json();
+    console.log(solve);
+    renderSolve(solve);
+    renderBasedOnWidth();
+  }
+  function renderSolve(solveResponse) {
+    const solve = solveResponse.SolveRecord.Solve;
+    scenes[0].cube.setCubeState(solve.InitialCubeState);
+    let moveIndex = 0;
+    let moveElements;
+    const moveCounter = document.querySelector("#moveCounter");
+    function updateMoveCounter(newMoveIndex) {
+      moveElements[moveIndex].style.background = "";
+      moveIndex = newMoveIndex;
+      moveCounter.textContent = `${moveIndex} / ${solve.Moves.length}`;
+      moveElements[moveIndex].style.background = "green";
+    }
+    document.querySelector("#leftButton").addEventListener("click", (event) => {
+      if (moveIndex > 0) {
+        scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex - 1].Move, false);
+        updateMoveCounter(moveIndex - 1);
+      }
+    });
+    document.querySelector("#rightButton").addEventListener("click", (event) => {
+      if (moveIndex < solve.Moves.length) {
+        scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
+        updateMoveCounter(moveIndex + 1);
+      }
+    });
+    let absoluteStartTime;
+    let relativeStartTime;
+    let paused = true;
+    const playPauseButton = document.querySelector("#playPause");
+    playPauseButton.addEventListener("click", () => {
+      if (!paused) {
+        pause();
+        return;
+      }
+      if (moveIndex === solve.Moves.length)
+        return;
+      absoluteStartTime = Date.now();
+      relativeStartTime = solve.Moves[moveIndex].Time;
+      paused = false;
+      playPauseButton.innerHTML = `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
             viewBox="0 0 54 54" xml:space="preserve"
             style="width: 40px; height: 40px; margin: 4px 8px;">
             <rect x="12" y="8" width="10" height="38" />
             <rect x="32" y="8" width="10" height="38" />
         </svg>
-        `;function f(){let v=(e.Moves[t].Time-a)*1e3-(Date.now()-o);setTimeout(y,v)}function y(){if(!c){if(j[0].cube.stepAlgorithm(e.Moves[t].Move,!0),s(t+1),t===e.Moves.length){u();return}f()}}f()});function u(){c=!0,l.innerHTML=`
+        `;
+      function _setTimeout() {
+        const ms = (solve.Moves[moveIndex].Time - relativeStartTime) * 1e3 - (Date.now() - absoluteStartTime);
+        setTimeout(step, ms);
+      }
+      function step() {
+        if (paused)
+          return;
+        scenes[0].cube.stepAlgorithm(solve.Moves[moveIndex].Move, true);
+        updateMoveCounter(moveIndex + 1);
+        if (moveIndex === solve.Moves.length) {
+          pause();
+          return;
+        }
+        _setTimeout();
+      }
+      _setTimeout();
+    });
+    function pause() {
+      paused = true;
+      playPauseButton.innerHTML = `
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white"
             viewBox="0 0 54 54" xml:space="preserve"
             style="width: 40px; height: 40px; margin: 4px 8px;">
             <polygon points="15,8 45,27 15,46" />
         </svg>
-        `}let h=document.querySelector("#solveData");function d(f,y,v){let S=document.createElement("tr"),A=document.createElement("td"),E=document.createElement("td");return S.appendChild(A),S.appendChild(E),A.innerHTML=y,E.innerHTML=v,S.addEventListener("click",()=>{if(f===t)return;let w=t;for(;w<f;)j[0].cube.stepAlgorithm(e.Moves[w].Move,!0),w++;for(;w>f;)w--,j[0].cube.stepAlgorithm(e.Moves[w].Move,!1);s(w)}),S}r=Array(e.Moves.length);let p=d(0,"0.00","Start");r[0]=p,e.Moves.forEach((f,y)=>{let v=d(y+1,f.Time.toFixed(2),f.Move);r[y+1]=v});let m=document.createDocumentFragment();r.forEach(f=>m.appendChild(f)),h.appendChild(m),s(0)}window.addEventListener("resize",()=>{yi()});function Ta(){return document.documentElement.clientWidth<725?"narrow":"wide"}function yi(){let n=Ta(),e=document.querySelector("#solveData");if(n==="narrow"){e.parentElement.parentElement.parentElement.style.overflowY="scroll",e.parentElement.parentElement.style.width="100%",e.parentElement.parentElement.style.overflowY="",e.parentElement.style.width="100%";return}e.parentElement.parentElement.parentElement.style.overflowY="",e.parentElement.parentElement.style.width="",e.parentElement.parentElement.style.overflowY="scroll",e.parentElement.style.width=""}ba();})();
+        `;
+    }
+    const solveData = document.querySelector("#solveData");
+    function buildRow(rowIndex, s1, s2) {
+      const tr2 = document.createElement("tr");
+      const td1 = document.createElement("td");
+      const td2 = document.createElement("td");
+      tr2.appendChild(td1);
+      tr2.appendChild(td2);
+      td1.innerHTML = s1;
+      td2.innerHTML = s2;
+      tr2.addEventListener("click", () => {
+        if (rowIndex === moveIndex)
+          return;
+        let newMoveIndex = moveIndex;
+        while (newMoveIndex < rowIndex) {
+          scenes[0].cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, true);
+          newMoveIndex++;
+        }
+        while (newMoveIndex > rowIndex) {
+          newMoveIndex--;
+          scenes[0].cube.stepAlgorithm(solve.Moves[newMoveIndex].Move, false);
+        }
+        updateMoveCounter(newMoveIndex);
+      });
+      return tr2;
+    }
+    moveElements = Array(solve.Moves.length);
+    const tr = buildRow(0, "0.00", "Start");
+    moveElements[0] = tr;
+    solve.Moves.forEach((move, i) => {
+      const tr2 = buildRow(i + 1, move.Time.toFixed(2), move.Move);
+      moveElements[i + 1] = tr2;
+    });
+    const fragment = document.createDocumentFragment();
+    moveElements.forEach((moveEle) => fragment.appendChild(moveEle));
+    solveData.appendChild(fragment);
+    updateMoveCounter(0);
+  }
+  window.addEventListener("resize", () => {
+    renderBasedOnWidth();
+  });
+  function determineLayoutType() {
+    const clientWidth = document.documentElement.clientWidth;
+    return clientWidth < 725 ? "narrow" : "wide";
+  }
+  function renderBasedOnWidth() {
+    const layoutType = determineLayoutType();
+    const solveData = document.querySelector("#solveData");
+    if (layoutType === "narrow") {
+      solveData.parentElement.parentElement.parentElement.style.overflowY = "scroll";
+      solveData.parentElement.parentElement.style.width = "100%";
+      solveData.parentElement.parentElement.style.overflowY = "";
+      solveData.parentElement.style.width = "100%";
+      return;
+    }
+    solveData.parentElement.parentElement.parentElement.style.overflowY = "";
+    solveData.parentElement.parentElement.style.width = "";
+    solveData.parentElement.parentElement.style.overflowY = "scroll";
+    solveData.parentElement.style.width = "";
+  }
+  main();
+})();
 /**
  * @license
  * Copyright 2017 Google LLC

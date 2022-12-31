@@ -81,7 +81,6 @@ export function initialAuthCheck(): CubingAppUser | null {
     if (userJsonString) {
         const user = new CubingAppUser();
         user.fromJsonString(userJsonString);
-        console.log(user);
         return user;
     }
     return null;

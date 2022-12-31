@@ -1,4 +1,1369 @@
-(()=>{var ye=[4,13,22,31,40,49],ct=[0,29,36],ut=[6,35,51],ht=[2,9,42],mt=[8,15,45],ft=[18,11,44],dt=[24,47,17],yt=[20,38,27],pt=[26,33,53],Rt=[3,32],Ut=[1,39],gt=[7,48],xt=[5,12],bt=[10,43],vt=[16,46],St=[21,14],Mt=[19,41],kt=[25,50],Lt=[23,30],Tt=[28,37],Ft=[34,52],pe=[...ct,...ut,...ht,...mt],Re=[...ft,...dt,...yt,...pt],Ue=[...Rt,...Ut,...gt,...xt],ge=[...bt,...vt,...Tt,...Ft],xe=[...St,...Mt,...kt,...Lt],ie=[...ye,...Ue],ae=[...ie,...pe],A=[...ae,...ge],be=[19,21,23,25],Z=[18,19,20,21,22,23,24,25,26],ve=[11,17,27,33,38,44,47,53],wt=[...xe,...Re],Se=[...A,...wt];var Bt=[1,1,1,1],_e=[.5,.5,.5,1],Et=[1,1,0,1],Pt=[0,1,0,1],Ct=[0,0,1,1],It=[1,.5,0,1],Ot=[1,0,0,1],He=[0,0,0,1],De=[Bt,Pt,Et,Ct,It,Ot];function J(r){return(r<0||r>=De.length)&&console.error("Invalid face: "+r),De[r]}function ee(r,t){return Math.floor(r/f(t.layers))}function B(r){return Math.floor(Math.random()*r)}function We(r){let t=r.length;for(;t!=0;){let e=B(t);t--;let n=r[e];r[e]=r[t],r[t]=n}return r}var H=0,z=1,W=2,q=3,G=4,K=5,Dt=[[H,q,G],[H,K,q],[H,G,z],[H,z,K],[W,z,G],[W,K,z],[W,G,q],[W,q,K]],_t=[[H,q],[H,G],[H,K],[H,z],[z,G],[z,K],[W,z],[W,G],[W,K],[W,q],[q,G],[q,K]];function Ke(r){let t=qe(12,2),e=qe(8,3),n=Me(8),s=Me(12);for(;Ge(n)!==Ge(s);)n=Me(8);let i=Array(54);for(let g=0;g<6;g++){let k=r.center(g);i[k]=g}let l=r.corners(0,0),a=r.corners(1,0),o=r.corners(2,0),c=r.corners(3,0),u=r.corners(4,0),m=r.corners(5,0),h=(g,k,Y,E,P,C,I,O,D)=>{let S=(w,_)=>Dt[n[w]][(e[w]+_)%3];i[g.topLeft]=S(k,C),i[g.topRight]=S(Y,I),i[g.bottomLeft]=S(E,O),i[g.bottomRight]=S(P,D)};h(l,0,1,2,3,0,0,0,0),h(a,2,3,4,5,2,1,1,2),h(o,4,5,6,7,0,0,0,0),h(c,6,7,0,1,2,1,1,2),h(u,0,2,6,4,2,1,1,2),h(m,3,1,5,7,2,1,1,2);let y=r.edges(0,0,0),d=r.edges(1,0,0),R=r.edges(2,0,0),v=r.edges(3,0,0),x=r.edges(4,0,0),F=r.edges(5,0,0),M=(g,k,Y,E,P,C,I,O,D)=>{let S=(w,_)=>_t[s[w]][(t[w]+_)%2];i[g.top]=S(k,C),i[g.left]=S(Y,I),i[g.right]=S(E,O),i[g.bottom]=S(P,D)};return M(y,0,1,2,3,0,0,0,0),M(d,3,4,5,6,1,0,0,1),M(R,6,7,8,9,0,0,0,0),M(v,9,10,11,0,1,0,0,1),M(x,1,10,4,7,1,1,1,1),M(F,2,5,11,8,1,1,1,1),i}function qe(r,t){let e=Array(r);for(let n=0;n<r;n++)e[n]=B(t);for(;!Ht(e,t);){let n=B(r);e[n]=B(t)}return e}function Ht(r,t){let e=0;for(let n=0;n<r.length;n++)e+=r[n];return e%t===0}function Me(r){let t=Array(r);for(let e=0;e<r;e++)t[e]=e;return We(t),t}function Ge(r){let t=[...r],e=!1;for(;;)if(t[0]===0){let n=t.findIndex((s,i)=>s!==i);if(n===-1)return e;t[0]=t[n],t[n]=0,e=!e}else{let n=t[0];t[0]=t[n],t[n]=n,e=!e}}var zt=document.querySelector("canvas"),$=zt.getContext("webgl");function ke(r,t){let e=[t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3]];$.bindBuffer($.ARRAY_BUFFER,r.buffer),$.bufferData($.ARRAY_BUFFER,new Float32Array(e),$.STATIC_DRAW)}function f(r){return r*r}function U(r){return Math.floor(r/2)}function Q(r){return r%2==0}function b(r){return r*r*6}var le=class{constructor(){this.animationQueue=[]}setColors(t){for(let e=0;e<b(this.layers);e++)ke(this.stickers[e],t[e])}solve(){let t=Array(b(this.layers));for(let e=0;e<b(this.layers);e++){let n=ee(e,this);this.stickers[e].face=n,t[e]=J(n)}this.setColors(t)}scramble(){if(this.layers===3){this.scramble3x3();return}this.naiveScramble()}scramble3x3(){let t=Ke(this);this.setCubeState(t)}naiveScramble(){let t=f(this.layers)*10;for(let e=0;e<t;e++){let n=Math.floor(Math.random()*3),s=Math.floor(Math.random()*this.layers),i=Math.floor(Math.random()*1)==0;this._matchTurn(n,s,i)}}setNumOfLayers(t){this.layers=t,this.stickers=Array(b(t)),this.underStickers=Array(b(t));for(let e=0;e<b(t);e++){let n=ee(e,this);this.stickers[e]={face:n,buffer:$.createBuffer()},this.underStickers[e]={face:n,buffer:$.createBuffer()},ke(this.underStickers[e],He)}this.affectedStickers=Array(b(t)).fill(!1)}getCubeState(){return this.stickers.map(t=>t.face)}setCubeState(t){for(let e=0;e<b(this.layers);e++){let n=J(t[e]);this.stickers[e].face=t[e],ke(this.stickers[e],n)}}resetAffectedStickers(){let t=Array(b(this.layers));this.affectedStickers=t.fill(this.layers===1)}pushAnimation(t,e,n){let s=e?-1:1,i=[0,0,0];i[t]=s,this.animationQueue.push({axis:i,stickers:n,stickersToAnimate:this.affectedStickers})}turn(t,e,n){this.resetAffectedStickers(),this.pushAnimation(t,n,[...this.stickers]),this._matchTurn(t,e,n)}sliceTurn(t,e){let n=Array(b(this.layers));this.affectedStickers=n.fill(!1),this.pushAnimation(t,e,[...this.stickers]);for(let s=1;s<this.layers-1;s++)this._matchTurn(t,s,e)}wideTurn(t,e,n){this.resetAffectedStickers(),this.pushAnimation(t,n,[...this.stickers]),this._matchTurn(t,e,n);for(let s=1;s<this.layers-1;s++)this._matchTurn(t,s,n)}cubeRotate(t,e){this.resetAffectedStickers(),this.pushAnimation(t,e,[...this.stickers]);for(let n=0;n<this.layers;n++)this._matchTurn(t,n,e)}_matchTurn(t,e,n){t==0?(this._turnXAxis(e,n),e==0?this._turnOuter(5,n):e==this.layers-1&&this._turnOuter(4,!n)):t==1?(this._turnYAxis(e,n),e==0?this._turnOuter(0,n):e==this.layers-1&&this._turnOuter(2,!n)):t==2?(this._turnZAxis(e,n),e==0?this._turnOuter(1,n):e==this.layers-1&&this._turnOuter(3,!n)):console.error(`Axis ${t} not recognized`)}_turnXAxis(t,e){for(let n=1;n<=this.layers;n++)this._cycle(e,0*f(this.layers)+f(this.layers)-n-t*this.layers,3*f(this.layers)+f(this.layers)-n-t*this.layers,2*f(this.layers)+f(this.layers)-n-t*this.layers,1*f(this.layers)+f(this.layers)-n-t*this.layers)}_turnYAxis(t,e){for(let n=0;n<this.layers;n++)this._cycle(e,1*f(this.layers)+n*this.layers+t,4*f(this.layers)+n*this.layers+t,3*f(this.layers)+(this.layers-n-1)*this.layers+(this.layers-1)-t,5*f(this.layers)+n*this.layers+t)}_turnZAxis(t,e){for(let n=0;n<this.layers;n++)this._cycle(e,0*f(this.layers)+(n+1)*this.layers-1-t,5*f(this.layers)+n+this.layers*t,2*f(this.layers)+(this.layers-n-1)*this.layers+t,4*f(this.layers)+f(this.layers)-(n+1)-t*this.layers)}_turnOuter(t,e){if(this.layers%2!=0){let n=this.center(t);this.affectedStickers[n]=!0}for(let n=0;n<Math.floor(this.layers/2);n++){let{topLeft:s,topRight:i,bottomLeft:l,bottomRight:a}=this.corners(t,n);this._cycle(e,s,i,a,l);let o=this.layers-2*(n+1);for(let c=0;c<o;c++){let{top:u,left:m,bottom:h,right:y}=this.edges(t,n,c);this._cycle(e,u,y,h,m)}}}_cycle(t,e,n,s,i){this.affectedStickers[e]=!0,this.affectedStickers[n]=!0,this.affectedStickers[s]=!0,this.affectedStickers[i]=!0,t?this._cycleHelper(e,n,s,i):this._cycleHelper(i,s,n,e)}_cycleHelper(t,e,n,s){let i=this.stickers[s];this.stickers[s]=this.stickers[n],this.stickers[n]=this.stickers[e],this.stickers[e]=this.stickers[t],this.stickers[t]=i}matchKeyToTurn(t){if(this.disableTurn||t.ctrlKey)return;switch(t.code){case"KeyN":return this.cubeRotate(0,!0),{notation:"x",rotate:!0};case"KeyB":return this.cubeRotate(0,!1),{notation:"x'",rotate:!0};case"Semicolon":return this.cubeRotate(1,!0),{notation:"y",rotate:!0};case"KeyA":return this.cubeRotate(1,!1),{notation:"y'",rotate:!0};case"KeyP":return this.cubeRotate(2,!0),{notation:"z",rotate:!0};case"KeyQ":return this.cubeRotate(2,!1),{notation:"z'",rotate:!0};case"KeyJ":return this.turn(1,0,!0),{notation:"U",turn:!0};case"KeyF":return this.turn(1,0,!1),{notation:"U'",turn:!0};case"KeyS":return this.turn(1,this.layers-1,!1),{notation:"D",turn:!0};case"KeyL":return this.turn(1,this.layers-1,!0),{notation:"D'",turn:!0};case"KeyH":return this.turn(2,0,!0),{notation:"F",turn:!0};case"KeyG":return this.turn(2,0,!1),{notation:"F'",turn:!0};case"KeyW":return this.turn(2,this.layers-1,!1),{notation:"B",turn:!0};case"KeyO":return this.turn(2,this.layers-1,!0),{notation:"B'",turn:!0};case"KeyD":return this.turn(0,this.layers-1,!1),{notation:"L",turn:!0};case"KeyE":return this.turn(0,this.layers-1,!0),{notation:"L'",turn:!0};case"KeyI":return this.turn(0,0,!0),{notation:"R",turn:!0};case"KeyK":return this.turn(0,0,!1),{notation:"R'",turn:!0};case"BracketLeft":return this.sliceTurn(0,!1),{notation:"M",turn:!0};case"Quote":return this.sliceTurn(0,!0),{notation:"M'",turn:!0};case"KeyC":return this.sliceTurn(1,!1),{notation:"E",turn:!0};case"Comma":return this.sliceTurn(1,!0),{notation:"E'",turn:!0};case"KeyY":return this.sliceTurn(2,!0),{notation:"S",turn:!0};case"KeyT":return this.sliceTurn(2,!1),{notation:"S'",turn:!0};case"KeyU":return this.wideTurn(0,0,!0),{notation:"r",turn:!0};case"KeyM":return this.wideTurn(0,0,!1),{notation:"r'",turn:!0};case"KeyV":return this.wideTurn(0,this.layers-1,!1),{notation:"l",turn:!0};case"KeyR":return this.wideTurn(0,this.layers-1,!0),{notation:"l'",turn:!0}}}stepAlgorithm(t,e){switch(t){case"x":this.cubeRotate(0,e);break;case"x'":this.cubeRotate(0,!e);break;case"x2":case"x2'":this.cubeRotate(0,e),this.cubeRotate(0,e);break;case"y":this.cubeRotate(1,e);break;case"y'":this.cubeRotate(1,!e);break;case"y2":case"y2'":this.cubeRotate(1,e),this.cubeRotate(1,e);break;case"z":this.cubeRotate(2,e);break;case"z'":this.cubeRotate(2,!e);break;case"z2":case"z2'":this.cubeRotate(2,e),this.cubeRotate(2,e);break;case"U":this.turn(1,0,e);break;case"U'":this.turn(1,0,!e);break;case"U2":case"U2'":this.turn(1,0,e),this.turn(1,0,e);break;case"u":this.wideTurn(1,0,e);break;case"u'":this.wideTurn(1,0,!e);break;case"u2":case"u2'":this.wideTurn(1,0,e),this.wideTurn(1,0,e);break;case"D":this.turn(1,this.layers-1,!e);break;case"D'":this.turn(1,this.layers-1,e);break;case"D2":case"D2'":this.turn(1,this.layers-1,e),this.turn(1,this.layers-1,e);break;case"d":this.wideTurn(1,this.layers-1,!e);break;case"d'":this.wideTurn(1,this.layers-1,e);break;case"d2":case"d2'":this.wideTurn(1,this.layers-1,e),this.wideTurn(1,this.layers-1,e);break;case"F":this.turn(2,0,e);break;case"F'":this.turn(2,0,!e);break;case"F2":case"F2'":this.turn(2,0,e),this.turn(2,0,e);break;case"f":this.wideTurn(2,0,e);break;case"f'":this.wideTurn(2,0,!e);break;case"f2":case"f2'":this.wideTurn(2,0,e),this.wideTurn(2,0,e);break;case"B":this.turn(2,this.layers-1,!e);break;case"B'":this.turn(2,this.layers-1,e);break;case"B2":case"B2'":this.turn(2,this.layers-1,e),this.turn(2,this.layers-1,e);break;case"b":this.wideTurn(2,this.layers-1,!e);break;case"b'":this.wideTurn(2,this.layers-1,e);break;case"b2":case"b2'":this.wideTurn(2,this.layers-1,e),this.wideTurn(2,this.layers-1,e);break;case"L":this.turn(0,this.layers-1,!e);break;case"L'":this.turn(0,this.layers-1,e);break;case"L2":case"L2'":this.turn(0,this.layers-1,e),this.turn(0,this.layers-1,e);break;case"l":this.wideTurn(0,this.layers-1,!e);break;case"l'":this.wideTurn(0,this.layers-1,e);break;case"l2":case"l2'":this.wideTurn(0,this.layers-1,e),this.wideTurn(0,this.layers-1,e);break;case"R":this.turn(0,0,e);break;case"R'":this.turn(0,0,!e);break;case"R2":case"R2'":this.turn(0,0,e),this.turn(0,0,e);break;case"r":this.wideTurn(0,0,e);break;case"r'":this.wideTurn(0,0,!e);break;case"r2":case"r2'":this.wideTurn(0,0,e),this.wideTurn(0,0,e);break;case"M":this.turn(0,1,!e);break;case"M'":this.turn(0,1,e);break;case"M2":case"M2'":this.sliceTurn(0,e),this.sliceTurn(0,e);break;case"E":this.sliceTurn(1,!e);break;case"E'":this.sliceTurn(1,e);break;case"E2":case"E2'":this.sliceTurn(1,e),this.sliceTurn(1,e);break;case"S":this.sliceTurn(2,e);break;case"S'":this.sliceTurn(2,!e);break;case"S2":case"S2'":this.sliceTurn(2,e);default:throw new Error("Invalid turn in algorithm: "+t)}}execAlg(t){if(!t)return;let e=t.split(" ");for(let n=0;n<e.length;n++)this.stepAlgorithm(e[n],!0);this.animationQueue=[]}execAlgReverse(t){if(!t)return;let e=t.split(" ");for(let n=e.length-1;n>=0;n--)this.stepAlgorithm(e[n],!1);this.animationQueue=[]}stickerIsOnFace(t,e){return e*f(this.layers)<=t&&t<(e+1)*f(this.layers)}center(t){return t*f(this.layers)+Math.floor(f(this.layers)/2)}corners(t,e){let n=t*f(this.layers);return{topLeft:n+(this.layers+1)*e,topRight:n+(this.layers-1)*(this.layers-e),bottomRight:n+(this.layers+1)*(this.layers-e-1),bottomLeft:n+(this.layers-1)*(e+1)}}edges(t,e,n){let s=this.corners(t,e),i=this.layers-2*(e+1);return{top:s.topLeft+this.layers*(n+1),left:s.topLeft+(i-n),right:s.topRight+n+1,bottom:s.bottomLeft+this.layers*(i-n)}}};function ue(r,t,e){let n=Le(t,1.01,.02),s=Le(t,1,0),i=Le(t,1.5,.02),l=Array(b(t.layers));for(let a=0;a<b(t.layers);a++){let o={positionBuffer:r.createBuffer(),noGapPositionBuffer:r.createBuffer(),hintPositionBuffer:r.createBuffer(),indexBuffer:r.createBuffer(),cart2d:[],positions:null},c=new Float32Array(12),u=new Float32Array(12),m=new Float32Array(12);for(let d=0;d<12;d++){let R=a*12+d;c[d]=n[R],u[d]=s[R],m[d]=i[R]}r.bindBuffer(r.ARRAY_BUFFER,o.positionBuffer),r.bufferData(r.ARRAY_BUFFER,c,r.STATIC_DRAW),o.positions=c,r.bindBuffer(r.ARRAY_BUFFER,o.noGapPositionBuffer),r.bufferData(r.ARRAY_BUFFER,u,r.STATIC_DRAW),r.bindBuffer(r.ARRAY_BUFFER,o.hintPositionBuffer),r.bufferData(r.ARRAY_BUFFER,m,r.STATIC_DRAW);let h=Array(16);ce(h,0,e,[u[0],u[1],u[2],1]),ce(h,4,e,[u[3],u[4],u[5],1]),ce(h,8,e,[u[6],u[7],u[8],1]),ce(h,12,e,[u[9],u[10],u[11],1]),o.cart2d=[h[0]/h[3],h[1]/h[3],h[4]/h[7],h[5]/h[7],h[8]/h[11],h[9]/h[11],h[12]/h[15],h[13]/h[15]];let y=[0,1,2,0,2,3];r.bindBuffer(r.ELEMENT_ARRAY_BUFFER,o.indexBuffer),r.bufferData(r.ELEMENT_ARRAY_BUFFER,new Uint16Array(y),r.STATIC_DRAW),l[a]=o}return l}function ce(r,t,e,n){let s=Array(4),i=n[0],l=n[1],a=n[2],o=n[3];r[t+0]=i*e[0]+l*e[4]+a*e[8]+o*e[12],r[t+1]=i*e[1]+l*e[5]+a*e[9]+o*e[13],r[t+2]=i*e[2]+l*e[6]+a*e[10]+o*e[14],r[t+3]=i*e[3]+l*e[7]+a*e[11]+o*e[15]}var je=12,Wt=4,V=3;function Le(r,t,e){let n=f(r.layers)*je,s=Array(6*n);return qt(s,0*n,r,1,t,e),Gt(s,1*n,r,0,t,e),Kt(s,2*n,r,1,-t,e),jt(s,3*n,r,0,-t,e),Nt(s,4*n,r,2,-t,e),Yt(s,5*n,r,2,t,e),s}function qt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=0;m<e.layers;m++){let h=-1+1/e.layers+m*2/e.layers,y=-1+1/e.layers+u*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=-U(e.layers);o<=U(e.layers);o++)for(let c=-U(e.layers);c<=U(e.layers);c++)l[a]=[2*c/e.layers,2*o/e.layers,s],a++;L(r,t,e,l,n,i)}function Gt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+u*2/e.layers,y=-1+1/e.layers+m*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=-U(e.layers);o<=U(e.layers);o++)for(let c=U(e.layers);c>=-U(e.layers);c--)l[a]=[2*o/e.layers,2*c/e.layers,s],a++;L(r,t,e,l,n,i)}function Kt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,y=-1+1/e.layers+u*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=-U(e.layers);o<=U(e.layers);o++)for(let c=U(e.layers);c>=-U(e.layers);c--)l[a]=[2*c/e.layers,2*o/e.layers,s],a++;L(r,t,e,l,n,i)}function jt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=0;m<e.layers;m++){let h=-1+1/e.layers+u*2/e.layers,y=-1+1/e.layers+m*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=-U(e.layers);o<=U(e.layers);o++)for(let c=-U(e.layers);c<=U(e.layers);c++)l[a]=[2*o/e.layers,2*c/e.layers,s],a++;L(r,t,e,l,n,i)}function Nt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,y=-1+1/e.layers+u*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=-U(e.layers);o<=U(e.layers);o++)for(let c=U(e.layers);c>=-U(e.layers);c--)l[a]=[2*c/e.layers,2*o/e.layers,s],a++;L(r,t,e,l,n,i)}function Yt(r,t,e,n,s,i){if(Q(e.layers)){let o=Array(f(e.layers)),c=0;for(let u=e.layers-1;u>=0;u--)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,y=-1+1/e.layers+u*2/e.layers;o[c]=[h,y,s],c++}L(r,t,e,o,n,i);return}let l=Array(f(e.layers)),a=0;for(let o=U(e.layers);o>=-U(e.layers);o--)for(let c=U(e.layers);c>=-U(e.layers);c--)l[a]=[2*c/e.layers,2*o/e.layers,s],a++;L(r,t,e,l,n,i)}function L(r,t,e,n,s,i){for(let l=0;l<f(e.layers);l++){let a=n[l];$t(r,t+l*je,e,a[0],a[1],a[2],s,i)}}function $t(r,t,e,n,s,i,l,a){let o=1/e.layers-a,c=[[n-o,s-o,i],[n+o,s-o,i],[n+o,s+o,i],[n-o,s+o,i]];for(let u=0;u<Wt;u++){let m=c[u];r[t+u*V]=m[(l+0)%V],r[t+u*V+1]=m[(l+1)%V],r[t+u*V+2]=m[(l+2)%V]}}var he=class{constructor(){this.position=0,this._velocity=200,this._acceleration=0,this.target=0}update(t){let e=-100*(this.position-this.target),n=-15*this._velocity;this._acceleration=e+n,this._velocity+=this._acceleration*t,this.position+=this._velocity*t}};function Ne(r,t){return r/t*2-1}function Ye(r,t){return 1-r/t*2}function Te(r,t,e,n){return r<e?(n-t)/(e-r):(t-n)/(r-e)}function X(r,t,e,n,s,i){return Math.abs(.5*(r*(n-i)+e*(i-t)+s*(t-n)))}function Qt(r,t){return r.layers-1-t%r.layers}function Fe(r,t){return r.layers-1-Math.floor(t/r.layers)}function Vt(r,t){return t%r.layers}function we(r,t){return r.layers-1-Math.floor((t-f(r.layers))/r.layers)}var me=class{onPointerDown(t,e,n,s,i){this.numOfPointerMoves=0;let l=Ne(t,n.clientWidth),a=Ye(e,n.clientHeight);this.xOnDown=l,this.yOnDown=a,[this.stickerOnDown,this.cart2dOnDown]=this._coordinatesToSticker(l,a,s,i);function o(R,v,x){return{x:i[R].cart2d[v],y:i[R].cart2d[x]}}if(this.stickerOnDown!==-1)return;let c=o(0,0,1),u=o(s.layers*(s.layers-1),6,7),m=o(s.layers-1,2,3),h=o(f(s.layers)-1,4,5),y=o(s.layers*(s.layers+1)-1,0,1),d=o(f(s.layers)*2-1,2,3);a>c.y&&l>c.x&&l<u.x?s.cubeRotate(0,!0):l<c.x&&a>m.y&&a<c.y?s.cubeRotate(2,!1):l>u.x&&a>h.y&&a<u.y?s.cubeRotate(2,!0):l<y.x&&a>y.y&&a<m.y?s.cubeRotate(1,!0):l>d.x&&a>d.y&&a<h.y?s.cubeRotate(1,!1):a<y.y&&l>y.x&&l<d.x&&s.cubeRotate(0,!1)}onPointerMove(t,e){this.numOfPointerMoves++,this.xOnMove=t,this.yOnMove=e}onPointerUp(t,e,n){if(this.numOfPointerMoves<2)return;let s,i;if(this.stickerOnDown!==-1&&(s=Te(this.cart2dOnDown[0],this.cart2dOnDown[1],this.cart2dOnDown[4],this.cart2dOnDown[5]),i=Te(this.cart2dOnDown[2],this.cart2dOnDown[3],this.cart2dOnDown[6],this.cart2dOnDown[7]),s<0)){let c=s;s=i,i=c}let l=Ne(this.xOnMove,t.clientWidth),a=Ye(this.yOnMove,t.clientHeight),o=Te(l,a,this.xOnDown,this.yOnDown);e.stickerIsOnFace(this.stickerOnDown,0)?l===this.xOnDown?e.turn(0,Fe(e,this.stickerOnDown),a>this.yOnDown):o>s?e.turn(0,Fe(e,this.stickerOnDown),l>this.xOnDown):o<i?e.turn(0,Fe(e,this.stickerOnDown),l<this.xOnDown):e.turn(2,Qt(e,this.stickerOnDown),l>this.xOnDown):e.stickerIsOnFace(this.stickerOnDown,1)&&(l===this.xOnDown?e.turn(0,we(e,this.stickerOnDown),a>this.yOnDown):o>s?e.turn(0,we(e,this.stickerOnDown),l>this.xOnDown):o<i?e.turn(0,we(e,this.stickerOnDown),l<this.xOnDown):e.turn(1,Vt(e,this.stickerOnDown),l<this.xOnDown))}_coordinatesToSticker(t,e,n,s){let i=l=>{if(!s[l].cart2d){console.error("cart2d is undefined");return}let a=s[l].cart2d,o=X(a[0],a[1],a[2],a[3],a[4],a[5])+X(a[0],a[1],a[4],a[5],a[6],a[7]),c=X(t,e,a[0],a[1],a[2],a[3])+X(t,e,a[2],a[3],a[4],a[5])+X(t,e,a[4],a[5],a[6],a[7])+X(t,e,a[6],a[7],a[0],a[1]),u=1e-5;if(Math.abs(o-c)<u)return[l,a]};for(let l=0;l<2*f(n.layers);l++){let a=i(l);if(a)return a}return[-1,void 0]}};function te(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}function $e(r,t,e,n,s){let i=1/Math.tan(t/2);if(r[0]=i/e,r[1]=0,r[2]=0,r[3]=0,r[4]=0,r[5]=i,r[6]=0,r[7]=0,r[8]=0,r[9]=0,r[11]=-1,r[12]=0,r[13]=0,r[15]=0,s!=null&&s!==1/0){let l=1/(n-s);r[10]=(s+n)*l,r[14]=2*s*n*l}else r[10]=-1,r[14]=-2*n;return r}function re(r,t,e,n){let s=n[0],i=n[1],l=n[2],a=1/Math.hypot(s,i,l);s*=a,i*=a,l*=a;let o=Math.sin(e),c=Math.cos(e),u=1-c,m=t[0],h=t[1],y=t[2],d=t[3],R=t[4],v=t[5],x=t[6],F=t[7],M=t[8],g=t[9],k=t[10],Y=t[11],E=s*s*u+c,P=i*s*u+l*o,C=l*s*u-i*o,I=s*i*u-l*o,O=i*i*u+c,D=l*i*u+s*o,S=s*l*u+i*o,w=i*l*u-s*o,_=l*l*u+c;return r[0]=m*E+R*P+M*C,r[1]=h*E+v*P+g*C,r[2]=y*E+x*P+k*C,r[3]=d*E+F*P+Y*C,r[4]=m*I+R*O+M*D,r[5]=h*I+v*O+g*D,r[6]=y*I+x*O+k*D,r[7]=d*I+F*O+Y*D,r[8]=m*S+R*w+M*_,r[9]=h*S+v*w+g*_,r[10]=y*S+x*w+k*_,r[11]=d*S+F*w+Y*_,t!==r&&(r[12]=t[12],r[13]=t[13],r[14]=t[14],r[15]=t[15]),r}function Qe(r,t){let e=t[0],n=t[1],s=t[2];return r[12]+=r[0]*e+r[4]*n+r[7]*s,r[13]+=r[1]*e+r[5]*n+r[8]*s,r[14]+=r[2]*e+r[5]*n+r[9]*s,r[15]+=r[3]*e+r[6]*n+r[10]*s,r}function Ae(){let r;return t=>(r||(r=t()),r)}var T=document.querySelector("canvas"),p=T.getContext("webgl"),j=er(),N=[],ne={animateTurns:!0,hintStickers:!0,showBody:!0};var Ve=Date.now()*.001,Jt=3,Xe=!1;function Je(){Xe||(Xe=!0,requestAnimationFrame(tt))}function et(r){let t=document.querySelector(r),e=new le,n=new he,s=tr(t),i=new me;e.setNumOfLayers(Jt);let l=ue(p,e,s),a={div:t,cube:e,spring:n,buffers:l,perspectiveMatrix:s},o=(d,R)=>{!a.dragEnabled||i.onPointerDown(d,R,a.div,a.cube,a.buffers)},c=(d,R)=>{!a.dragEnabled||i.onPointerMove(d,R)},u=()=>{!a.dragEnabled||i.onPointerUp(a.div,a.cube,a.buffers)},m=d=>{let R=d.target.getBoundingClientRect(),v=d.touches[0].pageX-R.left,x=d.touches[0].pageY-R.top;return{x:v,y:x}},h=()=>{t.addEventListener("pointerdown",d=>o(d.offsetX,d.offsetY)),t.addEventListener("pointermove",d=>c(d.offsetX,d.offsetY)),t.addEventListener("pointerup",d=>u())},y=()=>{t.addEventListener("touchstart",d=>{let{x:R,y:v}=m(d);o(R,v)}),t.addEventListener("touchmove",d=>{let{x:R,y:v}=m(d);c(R,v)}),t.addEventListener("touchend",d=>{u()})};return window.PointerEvent?h():y(),a}function er(){let e=rr(p,`
+(() => {
+  // src/scripts/pieceIndices.ts
+  var CENTERS = [4, 13, 22, 31, 40, 49];
+  var UBL = [0, 29, 36];
+  var URB = [6, 35, 51];
+  var ULF = [2, 9, 42];
+  var UFR = [8, 15, 45];
+  var DFL = [18, 11, 44];
+  var DRF = [24, 47, 17];
+  var DLB = [20, 38, 27];
+  var DBR = [26, 33, 53];
+  var UB = [3, 32];
+  var UL = [1, 39];
+  var UR = [7, 48];
+  var UF = [5, 12];
+  var FL = [10, 43];
+  var FR = [16, 46];
+  var DF = [21, 14];
+  var DL = [19, 41];
+  var DR = [25, 50];
+  var DB = [23, 30];
+  var BL = [28, 37];
+  var BR = [34, 52];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var eoll = [19, 21, 23, 25];
+  var oll = [18, 19, 20, 21, 22, 23, 24, 25, 26];
+  var cpll = [11, 17, 27, 33, 38, 44, 47, 53];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
+
+  // src/scripts/colors.ts
+  var WHITE = [1, 1, 1, 1];
+  var GRAY = [0.5, 0.5, 0.5, 1];
+  var YELLOW = [1, 1, 0, 1];
+  var GREEN = [0, 1, 0, 1];
+  var BLUE = [0, 0, 1, 1];
+  var ORANGE = [1, 0.5, 0, 1];
+  var RED = [1, 0, 0, 1];
+  var BLACK = [0, 0, 0, 1];
+  var colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+  function faceToColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return colors[face];
+  }
+
+  // src/scripts/common/util.ts
+  function stickerToFace(sticker, cube) {
+    return Math.floor(sticker / sq(cube.layers));
+  }
+
+  // src/scripts/common/rand.ts
+  function randInt(int) {
+    return Math.floor(Math.random() * int);
+  }
+
+  // src/scripts/util.ts
+  function shuffle(array) {
+    let i = array.length;
+    while (i != 0) {
+      let r = randInt(i);
+      i--;
+      let temp = array[r];
+      array[r] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  }
+
+  // src/scripts/scramble.ts
+  var U = 0;
+  var F = 1;
+  var D = 2;
+  var B = 3;
+  var L = 4;
+  var R = 5;
+  var corners = [
+    [U, B, L],
+    [U, R, B],
+    [U, L, F],
+    [U, F, R],
+    [D, F, L],
+    [D, R, F],
+    [D, L, B],
+    [D, B, R]
+  ];
+  var edges = [
+    [U, B],
+    [U, L],
+    [U, R],
+    [U, F],
+    [F, L],
+    [F, R],
+    [D, F],
+    [D, L],
+    [D, R],
+    [D, B],
+    [B, L],
+    [B, R]
+  ];
+  function scramble3x3(cube) {
+    let eo = orientation(12, 2);
+    let co = orientation(8, 3);
+    let cp = permutation(8);
+    let ep = permutation(12);
+    while (permutationParity(cp) !== permutationParity(ep)) {
+      cp = permutation(8);
+    }
+    const stickers2 = Array(54);
+    for (let i = 0; i < 6; i++) {
+      const center = cube.center(i);
+      stickers2[center] = i;
+    }
+    let uCorners = cube.corners(0, 0);
+    let fCorners = cube.corners(1, 0);
+    let dCorners = cube.corners(2, 0);
+    let bCorners = cube.corners(3, 0);
+    let lCorners = cube.corners(4, 0);
+    let rCorners = cube.corners(5, 0);
+    const fill4C = (cIndices, c1, c2, c3, c4, co1, co2, co3, co4) => {
+      const corner = (ci, o) => corners[cp[ci]][(co[ci] + o) % 3];
+      stickers2[cIndices.topLeft] = corner(c1, co1);
+      stickers2[cIndices.topRight] = corner(c2, co2);
+      stickers2[cIndices.bottomLeft] = corner(c3, co3);
+      stickers2[cIndices.bottomRight] = corner(c4, co4);
+    };
+    fill4C(uCorners, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4C(fCorners, 2, 3, 4, 5, 2, 1, 1, 2);
+    fill4C(dCorners, 4, 5, 6, 7, 0, 0, 0, 0);
+    fill4C(bCorners, 6, 7, 0, 1, 2, 1, 1, 2);
+    fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
+    fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
+    const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
+      const edge = (ei, o) => edges[ep[ei]][(eo[ei] + o) % 2];
+      stickers2[eIndices.top] = edge(e1, eo1);
+      stickers2[eIndices.left] = edge(e2, eo2);
+      stickers2[eIndices.right] = edge(e3, eo3);
+      stickers2[eIndices.bottom] = edge(e4, eo4);
+    };
+    fill4E(uEdges, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4E(fEdges, 3, 4, 5, 6, 1, 0, 0, 1);
+    fill4E(dEdges, 6, 7, 8, 9, 0, 0, 0, 0);
+    fill4E(bEdges, 9, 10, 11, 0, 1, 0, 0, 1);
+    fill4E(lEdges, 1, 10, 4, 7, 1, 1, 1, 1);
+    fill4E(rEdges, 2, 5, 11, 8, 1, 1, 1, 1);
+    return stickers2;
+  }
+  function orientation(pieces, orientations) {
+    const o = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      o[i] = randInt(orientations);
+    }
+    while (!orientationValid(o, orientations)) {
+      const randPiece = randInt(pieces);
+      o[randPiece] = randInt(orientations);
+    }
+    return o;
+  }
+  function orientationValid(pieces, orientations) {
+    let sum = 0;
+    for (let i = 0; i < pieces.length; i++) {
+      sum += pieces[i];
+    }
+    return sum % orientations === 0;
+  }
+  function permutation(pieces) {
+    const p = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      p[i] = i;
+    }
+    shuffle(p);
+    return p;
+  }
+  function permutationParity(pieces) {
+    const cpy = [...pieces];
+    let parity = false;
+    while (true) {
+      if (cpy[0] === 0) {
+        const misplaced = cpy.findIndex((value, index) => value !== index);
+        if (misplaced === -1) {
+          return parity;
+        }
+        cpy[0] = cpy[misplaced];
+        cpy[misplaced] = 0;
+        parity = !parity;
+      } else {
+        const temp = cpy[0];
+        cpy[0] = cpy[temp];
+        cpy[temp] = temp;
+        parity = !parity;
+      }
+    }
+  }
+
+  // src/scripts/cube.ts
+  var canvas = document.querySelector("canvas");
+  var gl = canvas.getContext("webgl");
+  function setColor(sticker, color) {
+    const arr = [
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3]
+    ];
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+  }
+  function sq(x) {
+    return x * x;
+  }
+  function half(x) {
+    return Math.floor(x / 2);
+  }
+  function even(x) {
+    return x % 2 == 0;
+  }
+  function stickers(layers) {
+    return layers * layers * 6;
+  }
+  var Cube2 = class {
+    constructor() {
+      this.animationQueue = [];
+    }
+    setColors(colors2) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        setColor(this.stickers[i], colors2[i]);
+      }
+    }
+    solve() {
+      const arr = Array(stickers(this.layers));
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i].face = face;
+        arr[i] = faceToColor(face);
+      }
+      this.setColors(arr);
+    }
+    scramble() {
+      if (this.layers === 3) {
+        this.scramble3x3();
+        return;
+      }
+      this.naiveScramble();
+    }
+    scramble3x3() {
+      const state = scramble3x3(this);
+      this.setCubeState(state);
+    }
+    naiveScramble() {
+      let numTurns = sq(this.layers) * 10;
+      for (let i = 0; i < numTurns; i++) {
+        let axis = Math.floor(Math.random() * 3);
+        let layer = Math.floor(Math.random() * this.layers);
+        let clockwise = Math.floor(Math.random() * 1) == 0;
+        this._matchTurn(axis, layer, clockwise);
+      }
+    }
+    setNumOfLayers(num) {
+      this.layers = num;
+      this.stickers = Array(stickers(num));
+      this.underStickers = Array(stickers(num));
+      for (let i = 0; i < stickers(num); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        this.underStickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        setColor(this.underStickers[i], BLACK);
+      }
+      this.affectedStickers = Array(stickers(num)).fill(false);
+    }
+    getCubeState() {
+      return this.stickers.map((sticker) => sticker.face);
+    }
+    setCubeState(state) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const color = faceToColor(state[i]);
+        this.stickers[i].face = state[i];
+        setColor(this.stickers[i], color);
+      }
+    }
+    resetAffectedStickers() {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(this.layers === 1);
+    }
+    pushAnimation(axis, clockwise, prevStickers) {
+      let x = clockwise ? -1 : 1;
+      let rotationAxis = [0, 0, 0];
+      rotationAxis[axis] = x;
+      this.animationQueue.push({
+        axis: rotationAxis,
+        stickers: prevStickers,
+        stickersToAnimate: this.affectedStickers
+      });
+    }
+    turn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+    }
+    sliceTurn(axis, clockwise) {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(false);
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    wideTurn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    cubeRotate(axis, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 0; i < this.layers; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    _matchTurn(axis, layer, clockwise) {
+      if (axis == 0) {
+        this._turnXAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(5, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(4, !clockwise);
+        }
+      } else if (axis == 1) {
+        this._turnYAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(0, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(2, !clockwise);
+        }
+      } else if (axis == 2) {
+        this._turnZAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(1, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(3, !clockwise);
+        }
+      } else {
+        console.error(`Axis ${axis} not recognized`);
+      }
+    }
+    _turnXAxis(layer, clockwise) {
+      for (let i = 1; i <= this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          2 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          1 * sq(this.layers) + sq(this.layers) - i - layer * this.layers
+        );
+      }
+    }
+    _turnYAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          1 * sq(this.layers) + i * this.layers + layer,
+          4 * sq(this.layers) + i * this.layers + layer,
+          3 * sq(this.layers) + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+          5 * sq(this.layers) + i * this.layers + layer
+        );
+      }
+    }
+    _turnZAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
+          5 * sq(this.layers) + i + this.layers * layer,
+          2 * sq(this.layers) + (this.layers - i - 1) * this.layers + layer,
+          4 * sq(this.layers) + sq(this.layers) - (i + 1) - layer * this.layers
+        );
+      }
+    }
+    _turnOuter(face, clockwise) {
+      if (this.layers % 2 != 0) {
+        let center = this.center(face);
+        this.affectedStickers[center] = true;
+      }
+      for (let i = 0; i < Math.floor(this.layers / 2); i++) {
+        const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
+        this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
+        let numEdges = this.layers - 2 * (i + 1);
+        for (let j = 0; j < numEdges; j++) {
+          const { top, left, bottom, right } = this.edges(face, i, j);
+          this._cycle(clockwise, top, right, bottom, left);
+        }
+      }
+    }
+    _cycle(clockwise, i1, i2, i3, i4) {
+      this.affectedStickers[i1] = true;
+      this.affectedStickers[i2] = true;
+      this.affectedStickers[i3] = true;
+      this.affectedStickers[i4] = true;
+      if (clockwise) {
+        this._cycleHelper(i1, i2, i3, i4);
+      } else {
+        this._cycleHelper(i4, i3, i2, i1);
+      }
+    }
+    _cycleHelper(i1, i2, i3, i4) {
+      let temp = this.stickers[i4];
+      this.stickers[i4] = this.stickers[i3];
+      this.stickers[i3] = this.stickers[i2];
+      this.stickers[i2] = this.stickers[i1];
+      this.stickers[i1] = temp;
+    }
+    matchKeyToTurn(event) {
+      if (this.disableTurn)
+        return;
+      if (event.ctrlKey)
+        return;
+      return this.matchKeyCodeToTurn(event.code);
+    }
+    matchKeyCodeToTurn(code) {
+      switch (code) {
+        case "KeyN":
+          this.cubeRotate(0, true);
+          return { notation: "x", rotate: true };
+        case "KeyB":
+          this.cubeRotate(0, false);
+          return { notation: "x'", rotate: true };
+        case "Semicolon":
+          this.cubeRotate(1, true);
+          return { notation: "y", rotate: true };
+        case "KeyA":
+          this.cubeRotate(1, false);
+          return { notation: "y'", rotate: true };
+        case "KeyP":
+          this.cubeRotate(2, true);
+          return { notation: "z", rotate: true };
+        case "KeyQ":
+          this.cubeRotate(2, false);
+          return { notation: "z'", rotate: true };
+        case "KeyJ":
+          this.turn(1, 0, true);
+          return { notation: "U", turn: true };
+        case "KeyF":
+          this.turn(1, 0, false);
+          return { notation: "U'", turn: true };
+        case "KeyS":
+          this.turn(1, this.layers - 1, false);
+          return { notation: "D", turn: true };
+        case "KeyL":
+          this.turn(1, this.layers - 1, true);
+          return { notation: "D'", turn: true };
+        case "KeyH":
+          this.turn(2, 0, true);
+          return { notation: "F", turn: true };
+        case "KeyG":
+          this.turn(2, 0, false);
+          return { notation: "F'", turn: true };
+        case "KeyW":
+          this.turn(2, this.layers - 1, false);
+          return { notation: "B", turn: true };
+        case "KeyO":
+          this.turn(2, this.layers - 1, true);
+          return { notation: "B'", turn: true };
+        case "KeyD":
+          this.turn(0, this.layers - 1, false);
+          return { notation: "L", turn: true };
+        case "KeyE":
+          this.turn(0, this.layers - 1, true);
+          return { notation: "L'", turn: true };
+        case "KeyI":
+          this.turn(0, 0, true);
+          return { notation: "R", turn: true };
+        case "KeyK":
+          this.turn(0, 0, false);
+          return { notation: "R'", turn: true };
+        case "BracketLeft":
+          this.sliceTurn(0, false);
+          return { notation: "M", turn: true };
+        case "Quote":
+          this.sliceTurn(0, true);
+          return { notation: "M'", turn: true };
+        case "KeyC":
+          this.sliceTurn(1, false);
+          return { notation: "E", turn: true };
+        case "Comma":
+          this.sliceTurn(1, true);
+          return { notation: "E'", turn: true };
+        case "KeyY":
+          this.sliceTurn(2, true);
+          return { notation: "S", turn: true };
+        case "KeyT":
+          this.sliceTurn(2, false);
+          return { notation: "S'", turn: true };
+        case "KeyU":
+          this.wideTurn(0, 0, true);
+          return { notation: "r", turn: true };
+        case "KeyM":
+          this.wideTurn(0, 0, false);
+          return { notation: "r'", turn: true };
+        case "KeyV":
+          this.wideTurn(0, this.layers - 1, false);
+          return { notation: "l", turn: true };
+        case "KeyR":
+          this.wideTurn(0, this.layers - 1, true);
+          return { notation: "l'", turn: true };
+      }
+      return;
+    }
+    stepAlgorithm(move, forward) {
+      switch (move) {
+        case "x":
+          this.cubeRotate(0, forward);
+          break;
+        case "x'":
+          this.cubeRotate(0, !forward);
+          break;
+        case "x2":
+        case "x2'":
+          this.cubeRotate(0, forward);
+          this.cubeRotate(0, forward);
+          break;
+        case "y":
+          this.cubeRotate(1, forward);
+          break;
+        case "y'":
+          this.cubeRotate(1, !forward);
+          break;
+        case "y2":
+        case "y2'":
+          this.cubeRotate(1, forward);
+          this.cubeRotate(1, forward);
+          break;
+        case "z":
+          this.cubeRotate(2, forward);
+          break;
+        case "z'":
+          this.cubeRotate(2, !forward);
+          break;
+        case "z2":
+        case "z2'":
+          this.cubeRotate(2, forward);
+          this.cubeRotate(2, forward);
+          break;
+        case "U":
+          this.turn(1, 0, forward);
+          break;
+        case "U'":
+          this.turn(1, 0, !forward);
+          break;
+        case "U2":
+        case "U2'":
+          this.turn(1, 0, forward);
+          this.turn(1, 0, forward);
+          break;
+        case "u":
+          this.wideTurn(1, 0, forward);
+          break;
+        case "u'":
+          this.wideTurn(1, 0, !forward);
+          break;
+        case "u2":
+        case "u2'":
+          this.wideTurn(1, 0, forward);
+          this.wideTurn(1, 0, forward);
+          break;
+        case "D":
+          this.turn(1, this.layers - 1, !forward);
+          break;
+        case "D'":
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "D2":
+        case "D2'":
+          this.turn(1, this.layers - 1, forward);
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "d":
+          this.wideTurn(1, this.layers - 1, !forward);
+          break;
+        case "d'":
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "d2":
+        case "d2'":
+          this.wideTurn(1, this.layers - 1, forward);
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "F":
+          this.turn(2, 0, forward);
+          break;
+        case "F'":
+          this.turn(2, 0, !forward);
+          break;
+        case "F2":
+        case "F2'":
+          this.turn(2, 0, forward);
+          this.turn(2, 0, forward);
+          break;
+        case "f":
+          this.wideTurn(2, 0, forward);
+          break;
+        case "f'":
+          this.wideTurn(2, 0, !forward);
+          break;
+        case "f2":
+        case "f2'":
+          this.wideTurn(2, 0, forward);
+          this.wideTurn(2, 0, forward);
+          break;
+        case "B":
+          this.turn(2, this.layers - 1, !forward);
+          break;
+        case "B'":
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "B2":
+        case "B2'":
+          this.turn(2, this.layers - 1, forward);
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "b":
+          this.wideTurn(2, this.layers - 1, !forward);
+          break;
+        case "b'":
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "b2":
+        case "b2'":
+          this.wideTurn(2, this.layers - 1, forward);
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "L":
+          this.turn(0, this.layers - 1, !forward);
+          break;
+        case "L'":
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "L2":
+        case "L2'":
+          this.turn(0, this.layers - 1, forward);
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "l":
+          this.wideTurn(0, this.layers - 1, !forward);
+          break;
+        case "l'":
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "l2":
+        case "l2'":
+          this.wideTurn(0, this.layers - 1, forward);
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "R":
+          this.turn(0, 0, forward);
+          break;
+        case "R'":
+          this.turn(0, 0, !forward);
+          break;
+        case "R2":
+        case "R2'":
+          this.turn(0, 0, forward);
+          this.turn(0, 0, forward);
+          break;
+        case "r":
+          this.wideTurn(0, 0, forward);
+          break;
+        case "r'":
+          this.wideTurn(0, 0, !forward);
+          break;
+        case "r2":
+        case "r2'":
+          this.wideTurn(0, 0, forward);
+          this.wideTurn(0, 0, forward);
+          break;
+        case "M":
+          this.turn(0, 1, !forward);
+          break;
+        case "M'":
+          this.turn(0, 1, forward);
+          break;
+        case "M2":
+        case "M2'":
+          this.sliceTurn(0, forward);
+          this.sliceTurn(0, forward);
+          break;
+        case "E":
+          this.sliceTurn(1, !forward);
+          break;
+        case "E'":
+          this.sliceTurn(1, forward);
+          break;
+        case "E2":
+        case "E2'":
+          this.sliceTurn(1, forward);
+          this.sliceTurn(1, forward);
+          break;
+        case "S":
+          this.sliceTurn(2, forward);
+          break;
+        case "S'":
+          this.sliceTurn(2, !forward);
+          break;
+        case "S2":
+        case "S2'":
+          this.sliceTurn(2, forward);
+        default:
+          throw new Error("Invalid turn in algorithm: " + move);
+      }
+    }
+    execAlg(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = 0; i < moves.length; i++) {
+        this.stepAlgorithm(moves[i], true);
+      }
+      this.animationQueue = [];
+    }
+    execAlgReverse(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = moves.length - 1; i >= 0; i--) {
+        this.stepAlgorithm(moves[i], false);
+      }
+      this.animationQueue = [];
+    }
+    stickerIsOnFace(sticker, face) {
+      return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
+    }
+    center(face) {
+      return face * sq(this.layers) + Math.floor(sq(this.layers) / 2);
+    }
+    corners(face, layer) {
+      const offset = face * sq(this.layers);
+      return {
+        topLeft: offset + (this.layers + 1) * layer,
+        topRight: offset + (this.layers - 1) * (this.layers - layer),
+        bottomRight: offset + (this.layers + 1) * (this.layers - layer - 1),
+        bottomLeft: offset + (this.layers - 1) * (layer + 1)
+      };
+    }
+    edges(face, corner, edge) {
+      const corners2 = this.corners(face, corner);
+      let numEdges = this.layers - 2 * (corner + 1);
+      return {
+        top: corners2.topLeft + this.layers * (edge + 1),
+        left: corners2.topLeft + (numEdges - edge),
+        right: corners2.topRight + edge + 1,
+        bottom: corners2.bottomLeft + this.layers * (numEdges - edge)
+      };
+    }
+  };
+
+  // src/scripts/buffers.ts
+  function createBuffers(gl4, cube, perspectiveMatrix) {
+    let allPositions = makePositions(cube, 1.01, 0.02);
+    let allNoGapPositions = makePositions(cube, 1, 0);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
+    const objects = Array(stickers(cube.layers));
+    for (let i = 0; i < stickers(cube.layers); i++) {
+      let object = {
+        positionBuffer: gl4.createBuffer(),
+        noGapPositionBuffer: gl4.createBuffer(),
+        hintPositionBuffer: gl4.createBuffer(),
+        indexBuffer: gl4.createBuffer(),
+        cart2d: [],
+        positions: null
+      };
+      let positions = new Float32Array(12);
+      let noGapPos = new Float32Array(12);
+      let hintPos = new Float32Array(12);
+      for (let j = 0; j < 12; j++) {
+        let index = i * 12 + j;
+        positions[j] = allPositions[index];
+        noGapPos[j] = allNoGapPositions[index];
+        hintPos[j] = allHintPositions[index];
+      }
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.positionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, positions, gl4.STATIC_DRAW);
+      object.positions = positions;
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.noGapPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, noGapPos, gl4.STATIC_DRAW);
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.hintPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, hintPos, gl4.STATIC_DRAW);
+      const homo = Array(16);
+      multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+      multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+      multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+      multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+      object.cart2d = [
+        homo[0] / homo[3],
+        homo[1] / homo[3],
+        homo[4] / homo[7],
+        homo[5] / homo[7],
+        homo[8] / homo[11],
+        homo[9] / homo[11],
+        homo[12] / homo[15],
+        homo[13] / homo[15]
+      ];
+      const indices = [0, 1, 2, 0, 2, 3];
+      gl4.bindBuffer(gl4.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+      gl4.bufferData(gl4.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl4.STATIC_DRAW);
+      objects[i] = object;
+    }
+    return objects;
+  }
+  function multiply(arr, offset, a, b) {
+    const out = Array(4);
+    let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+  }
+  var perSticker = 12;
+  var verticesInSquare = 4;
+  var dimensions = 3;
+  function makePositions(cube, radius, gap) {
+    const perFace = sq(cube.layers) * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
+    return out;
+  }
+  function topFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function frontFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function bottomFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function backFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function leftFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function rightFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = cube.layers - 1; i >= 0; i--) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = half(cube.layers); i >= -half(cube.layers); i--) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function makeFace(arr, offset, cube, coords, a, gap) {
+    for (let i = 0; i < sq(cube.layers); i++) {
+      const temp = coords[i];
+      makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
+    }
+  }
+  function makeSticker(arr, offset, cube, x, y, r, a, gap) {
+    const s = 1 / cube.layers - gap;
+    const coords = [
+      [x - s, y - s, r],
+      [x + s, y - s, r],
+      [x + s, y + s, r],
+      [x - s, y + s, r]
+    ];
+    for (let i = 0; i < verticesInSquare; i++) {
+      const temp = coords[i];
+      arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+      arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+      arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
+    }
+  }
+
+  // src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
+  // src/scripts/dragDetector.ts
+  function xPixelToClip(val, canvasSize) {
+    return val / canvasSize * 2 - 1;
+  }
+  function yPixelToClip(val, canvasSize) {
+    return 1 - val / canvasSize * 2;
+  }
+  function calcSlope(x1, y1, x2, y2) {
+    if (x1 < x2) {
+      return (y2 - y1) / (x2 - x1);
+    }
+    return (y1 - y2) / (x1 - x2);
+  }
+  function areaTriangle(x1, y1, x2, y2, x3, y3) {
+    return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
+  }
+  function topRow(cube, sticker) {
+    return cube.layers - 1 - sticker % cube.layers;
+  }
+  function topColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
+  }
+  function frontRow(cube, sticker) {
+    return sticker % cube.layers;
+  }
+  function frontColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - sq(cube.layers)) / cube.layers);
+  }
+  var DragDetector = class {
+    onPointerDown(x, y, div, cube, buffers) {
+      this.numOfPointerMoves = 0;
+      const clipX = xPixelToClip(x, div.clientWidth);
+      const clipY = yPixelToClip(y, div.clientHeight);
+      this.xOnDown = clipX;
+      this.yOnDown = clipY;
+      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers);
+      function getXY(objectIndex, xIndex, yIndex) {
+        return {
+          x: buffers[objectIndex].cart2d[xIndex],
+          y: buffers[objectIndex].cart2d[yIndex]
+        };
+      }
+      if (this.stickerOnDown !== -1)
+        return;
+      const topLeft = getXY(0, 0, 1);
+      const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+      const left = getXY(cube.layers - 1, 2, 3);
+      const right = getXY(sq(cube.layers) - 1, 4, 5);
+      const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+      const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
+      if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+        cube.cubeRotate(0, true);
+      } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+        cube.cubeRotate(2, false);
+      } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+        cube.cubeRotate(2, true);
+      } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+        cube.cubeRotate(1, true);
+      } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+        cube.cubeRotate(1, false);
+      } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+        cube.cubeRotate(0, false);
+      }
+    }
+    onPointerMove(x, y) {
+      this.numOfPointerMoves++;
+      this.xOnMove = x;
+      this.yOnMove = y;
+    }
+    onPointerUp(div, cube, buffers) {
+      if (this.numOfPointerMoves < 2)
+        return;
+      let posSlope, negSlope;
+      if (this.stickerOnDown !== -1) {
+        posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
+        negSlope = calcSlope(this.cart2dOnDown[2], this.cart2dOnDown[3], this.cart2dOnDown[6], this.cart2dOnDown[7]);
+        if (posSlope < 0) {
+          const temp = posSlope;
+          posSlope = negSlope;
+          negSlope = temp;
+        }
+      }
+      const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
+      const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
+      const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
+      if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
+          }
+        }
+      } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
+          }
+        }
+      }
+    }
+    _coordinatesToSticker(x, y, cube, buffers) {
+      const coordinateIsInSticker = (i) => {
+        if (!buffers[i].cart2d) {
+          console.error("cart2d is undefined");
+          return;
+        }
+        const cart2d = buffers[i].cart2d;
+        const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
+        const sumAreaTriangles = areaTriangle(x, y, cart2d[0], cart2d[1], cart2d[2], cart2d[3]) + areaTriangle(x, y, cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(x, y, cart2d[4], cart2d[5], cart2d[6], cart2d[7]) + areaTriangle(x, y, cart2d[6], cart2d[7], cart2d[0], cart2d[1]);
+        const EPSILON = 1e-5;
+        if (Math.abs(areaQuadrilateral - sumAreaTriangles) < EPSILON) {
+          return [
+            i,
+            cart2d
+          ];
+        }
+        return void 0;
+      };
+      for (let i = 0; i < 2 * sq(cube.layers); i++) {
+        const output = coordinateIsInSticker(i);
+        if (output)
+          return output;
+      }
+      return [-1, void 0];
+    }
+  };
+
+  // src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+    return out;
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = 1 / Math.hypot(x, y, z);
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+    return out;
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
+  }
+
+  // src/scripts/common/singleton.ts
+  function singleton() {
+    let instance;
+    return (constructor) => {
+      if (!instance) {
+        instance = constructor();
+      }
+      return instance;
+    };
+  }
+
+  // src/scripts/scene.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
+  var programInfo = initPrograms();
+  var scenes = [];
+  var settings = {
+    animateTurns: true,
+    hintStickers: true,
+    showBody: true
+  };
+  var time = Date.now() * 1e-3;
+  var numLayers = 3;
+  var loopStarted = false;
+  function startLoop() {
+    if (loopStarted)
+      return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+  }
+  function newScene(selector) {
+    let div = document.querySelector(selector);
+    let cube = new Cube2();
+    let spring = new Spring();
+    let perspectiveMatrix = initPerspective(div);
+    let dragDetector = new DragDetector();
+    cube.setNumOfLayers(numLayers);
+    let buffers = createBuffers(gl2, cube, perspectiveMatrix);
+    let scene = {
+      div,
+      cube,
+      spring,
+      buffers,
+      perspectiveMatrix
+    };
+    const pointerdown = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
+    };
+    const pointermove = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerMove(offsetX, offsetY);
+    };
+    const pointerup = () => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
+    };
+    const calcOffset = (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.touches[0].pageX - rect.left;
+      const y = event.touches[0].pageY - rect.top;
+      return { x, y };
+    };
+    const addPointerListeners = () => {
+      div.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
+      div.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
+      div.addEventListener("pointerup", (event) => pointerup());
+    };
+    const addTouchListeners = () => {
+      div.addEventListener("touchstart", (event) => {
+        const { x, y } = calcOffset(event);
+        pointerdown(x, y);
+      });
+      div.addEventListener("touchmove", (event) => {
+        const { x, y } = calcOffset(event);
+        pointermove(x, y);
+      });
+      div.addEventListener("touchend", (event) => {
+        pointerup();
+      });
+    };
+    if (window.PointerEvent) {
+      addPointerListeners();
+    } else {
+      addTouchListeners();
+    }
+    return scene;
+  }
+  function initPrograms() {
+    const vertexShaderSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uTransformMatrix;
@@ -14,7 +1379,8 @@
         rotatedPos = uRotateMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
-    `,`
+    `;
+    const fragmentShaderSource = `
     // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
     varying lowp vec4 originalPos;
@@ -38,5 +1404,769 @@
         if (rotatedPos.y < max && rotatedPos.z < max) return;
         discard;
     }
-    `);return p.useProgram(e),{attribLocations:{vertexPosition:p.getAttribLocation(e,"aVertexPosition"),vertexColor:p.getAttribLocation(e,"aVertexColor")},uniformLocations:{transformMatrix:p.getUniformLocation(e,"uTransformMatrix"),rotateMatrix:p.getUniformLocation(e,"uRotateMatrix")}}}function tr(r){let t=te();return $e(t,50*Math.PI/180,r.clientWidth/r.clientHeight,.1,100),Qe(t,[0,0,-5]),re(t,t,45*Math.PI/180,[1,0,0]),re(t,t,0,[0,-1,0]),t}function Be(r,t,e){e.bindBuffer(e.ARRAY_BUFFER,r),e.vertexAttribPointer(t.attribLocations.vertexPosition,3,e.FLOAT,!1,0,0),e.enableVertexAttribArray(t.attribLocations.vertexPosition)}function Ee(r,t,e){e.bindBuffer(e.ARRAY_BUFFER,r),e.vertexAttribPointer(t.attribLocations.vertexColor,4,e.FLOAT,!1,0,0),e.enableVertexAttribArray(t.attribLocations.vertexColor)}function Pe(r){r.drawElements(r.TRIANGLES,6,r.UNSIGNED_SHORT,0)}function rr(r,t,e){let n=Ze(r,r.VERTEX_SHADER,t),s=Ze(r,r.FRAGMENT_SHADER,e),i=r.createProgram();return r.attachShader(i,n),r.attachShader(i,s),r.linkProgram(i),r.getProgramParameter(i,r.LINK_STATUS)?i:(alert("Unable to initialize the shader program: "+r.getProgramInfoLog(i)),null)}function Ze(r,t,e){let n=r.createShader(t);return r.shaderSource(n,e),r.compileShader(n),r.getShaderParameter(n,r.COMPILE_STATUS)?n:(alert("An error occurred compiling the shaders: "+r.getShaderInfoLog(n)),r.deleteShader(n),null)}function nr(){let r=T.clientWidth,t=T.clientHeight,e=T.width!==r||T.height!==t;return e&&(T.width=r,T.height=t),e}function tt(r){r*=.001;let t=r-Ve;Ve=r,nr(),p.enable(p.DEPTH_TEST),p.enable(p.SCISSOR_TEST),p.depthFunc(p.LEQUAL),p.clear(p.COLOR_BUFFER_BIT|p.DEPTH_BUFFER_BIT),T.style.transform=`translateY(${window.scrollY}px)`;for(let e=0;e<N.length;e++){let{cube:n,div:s,spring:i,buffers:l,perspectiveMatrix:a}=N[e],o=s.getBoundingClientRect();if(o.bottom<0||o.top>T.clientHeight||o.right<0||o.left>T.clientWidth)continue;let c=o.right-o.left,u=o.bottom-o.top,m=o.left,h=T.clientHeight-o.bottom;p.viewport(m,h,c,u),p.scissor(m,h,c,u),n.animationQueue[0]&&(i.target=n.animationQueue.length*90,i.update(t),i.position>=90&&(n.affectedStickers=Array(b(n.layers)).fill(!1),i.position=0,n.animationQueue.shift()));let y=n.animationQueue[0],d=sr(n),R=Ae(),v=Ae();for(let x=0;x<b(n.layers);x++){let F=l[x],M=y&&y.stickersToAnimate[x]&&ne.animateTurns?R(()=>re(te(),a,i.position*Math.PI/180,y.axis)):a;p.uniformMatrix4fv(j.uniformLocations.transformMatrix,!1,M);let g=y&&y.stickersToAnimate[x]&&ne.animateTurns?v(()=>{let k=te();return re(k,k,i.position*Math.PI/180,y.axis)}):te();p.uniformMatrix4fv(j.uniformLocations.rotateMatrix,!1,g),p.bindBuffer(p.ELEMENT_ARRAY_BUFFER,F.indexBuffer),ne.showBody&&(Be(F.noGapPositionBuffer,j,p),Ee(n.underStickers[x].buffer,j,p),Pe(p)),Be(F.positionBuffer,j,p),Ee(d[x].buffer,j,p),Pe(p),ne.hintStickers&&(Be(F.hintPositionBuffer,j,p),Ee(d[x].buffer,j,p),Pe(p))}}requestAnimationFrame(tt)}function sr(r){return ne.animateTurns&&r.animationQueue[0]?r.animationQueue[0].stickers:r.stickers}var se=725,Ce=!1;function Ie(r){Ce=!0,r.style.display="flex",r.classList.add("slideLeftOpen"),document.documentElement.clientWidth<se?r.classList.add("slideLeftClosed"):r.classList.remove("slideLeftClosed")}function fe(r){Ce=!1,document.documentElement.clientWidth<se?(r.classList.add("slideLeftClosed"),r.classList.remove("slideLeftOpen"),r.style.display="flex"):r.style.display="none"}function Oe(r){Ce?fe(r):Ie(r)}function rt(){let r=document.querySelector(".slideRight"),t=!1;function e(n){if(t=n,t){r.classList.add("slideRightOpen");return}r.classList.remove("slideRightOpen")}document.addEventListener("click",n=>{let s=n.target;if(s===document.querySelector("#menu")){e(!0);return}t&&!s.closest(".slideRight")&&e(!1)}),document.querySelector("#closeMenu").addEventListener("click",()=>{e(!1)}),document.querySelector("#learnButton").addEventListener("click",()=>{document.location.href="learn.html"}),document.querySelector("#playButton").addEventListener("click",()=>{document.location.href="play.html"}),document.querySelector("#trainButton").addEventListener("click",()=>{document.location.href="train.html"}),document.querySelector("#cubleButton").addEventListener("click",()=>{document.location.href="cuble.html"})}var ir=document.querySelector("canvas"),ar=ir.getContext("webgl");function nt(r,t){rt(),lr(r,t),cr(r);for(let e=0;e<r.length;e++)st(r,t,e);oe(r),Je(),ur(),lt()}function st(r,t,e){let n=et(`#scene${e}`);N.push(n),n.cube.setNumOfLayers(t),n.buffers=ue(ar,N[0].cube,N[0].perspectiveMatrix);let s=r[e];if(s.cube=n.cube,s.move=0,s.practiceProblems)n.dragEnabled=!0,ot(s);else{let i=at(s);n.cube.setColors(i),n.cube.execAlg(s.setup)}}function oe(r){for(let t=0;t<r.length;t++){let e=r[t];if(e.practiceProblems&&e.showSolution){let i=e.practiceProblems[e.problemIndex];document.querySelector(`#problemText${t}`).textContent=i.explanation,document.querySelector(`#leftButton${t}`).style.display="",document.querySelector(`#rightButton${t}`).style.display="";let l=document.querySelector(`#moveCounter${t}`);l.style.display="";let a=de(e.algorithm);l.textContent=`${e.move} / ${a.length}`;continue}if(e.practiceProblems&&!e.showSolution){let i=e.practiceProblems[e.problemIndex];document.querySelector(`#problemText${t}`).textContent=i.directions,document.querySelector(`#leftButton${t}`).style.display="none",document.querySelector(`#rightButton${t}`).style.display="none",document.querySelector(`#moveCounter${t}`).style.display="none";continue}let n=document.querySelector(`#moveCounter${t}`),s=de(e.algorithm);n.textContent=`${e.move} / ${s.length}`}}function ot(r){let t=B(r.practiceProblems.length);for(;t===r.problemIndex;)t=B(r.practiceProblems.length);it(r,t)}function it(r,t){let e=r.practiceProblems[t];r.problemIndex=t,r.algorithm=r.practiceProblems[t].algorithm;let n=at(r);r.cube.setColors(n),r.cube.execAlg(e.setup),r.move=0}function at(r){let t=Array(54);r.activeStickers.forEach(e=>{t[e]=J(ee(e,r.cube))});for(let e=0;e<54;e++)t[e]||(t[e]=_e);return t}function lr(r,t){let e=document.querySelector("#lessonNavigator");e.addEventListener("click",n=>{let s=n.target;if(s.className==="lesson-p"){let i=parseInt(s.getAttribute("lesson-index"));st(r,t,i),document.documentElement.clientWidth<se&&fe(e)}}),document.querySelector("#openClose").addEventListener("click",n=>{Oe(e)}),document.querySelector("#close").addEventListener("click",n=>{Oe(e)})}function cr(r){let t="leftButton",e="rightButton",n="showSolution",s="next";document.addEventListener("click",i=>{let l=i.target;if(l.id.startsWith(t)){let a=parseInt(l.id.substring(t.length)),o=r[a];if(o.move<=0)return;o.move--;let c=de(o.algorithm);o.cube.stepAlgorithm(c[o.move],!1),oe(r)}else if(l.id.startsWith(e)){let a=parseInt(l.id.substring(e.length)),o=r[a],c=de(o.algorithm);if(o.move>=c.length)return;o.cube.stepAlgorithm(c[o.move],!0),o.move++,oe(r)}else if(l.id.startsWith(n)){let a=parseInt(l.id.substring(n.length)),o=r[a];o.showSolution=!0,N[a].dragEnabled=!1,it(o,o.problemIndex),oe(r)}else if(l.id.startsWith(s)){let a=parseInt(l.id.substring(s.length)),o=r[a];o.showSolution=!1,N[a].dragEnabled=!0,ot(o),oe(r)}})}function ur(){window.addEventListener("resize",()=>{lt()})}function lt(){let r=document.querySelector("#openClose"),t=document.querySelector("#close"),e=document.querySelector("#lessonNavigator");if(document.documentElement.clientWidth<se){r.style.display="inline-block",t.style.display="inline-block",fe(e);return}r.style.display="none",t.style.display="none",Ie(e)}function de(r){return(r||"").split(" ")}var hr=[{activeStickers:ye,setup:"",algorithm:"x x x x y y y y"},{activeStickers:[...pe,...Re],setup:"",algorithm:"x x x x y y y y"},{activeStickers:[...Ue,...ge,...xe],setup:"",algorithm:"x x x x y y y y"},{activeStickers:ie,setup:"",algorithm:"y y y y"},{activeStickers:ie,practiceProblems:[{setup:"F F D",algorithm:"D' F F",directions:"Solve the white-green edge",explanation:"To solve the white-green, line up the green, then line up the white."},{setup:"y U2 R' U2",algorithm:"U U R U U",directions:"Solve the white-green edge",explanation:"To insert the white green, move the top layer, move the white-green up, then fix the top layer."},{setup:"F' R' F",algorithm:"y D F' U' R U",directions:"Solve the white-red edge",explanation:"First we'll rotate the cube so red is in the front. Then we'll bring the white-red around to insert it."},{setup:"y' U R U' B'",algorithm:"y y F' U' R U",directions:"Solve the white-red edge",explanation:"The white-red is in the back, so first we'll rotate the cube. Then, move the white-red to the side and insert it."},{setup:"y U F' U'",algorithm:"y' U R U'",directions:"Solve the white-blue edge",explanation:"The white-blue is on the left, so first we'll rotate the cube. Then, insert it."},{setup:"y' L2 D2",algorithm:"D' D' L' L'",directions:"Solve the white-blue edge",explanation:"The white-blue is on the bottom right. To solve it, line up the blue, then line up the white."},{setup:"y2 R' U' R U",algorithm:"F F D R R",directions:"Solve the white-orange edge",explanation:"The white-orange is in another edge's position, so first, we'll take it out. Then line up the orange, then line up the white."},{setup:"L",algorithm:"L'",directions:"Solve the white-orange edge",explanation:"This is one of the easiest cases. The white-orange is only one move away."}]},{activeStickers:ae,setup:"",algorithm:"y y y y"},{activeStickers:ae,practiceProblems:[{setup:"z2 R U' R'",algorithm:"R U R'",directions:"Solve the white-green-orange corner",explanation:"Move corner up, move corner to the side, move back down"},{setup:"z2 y R U' R' U R U' R' U",algorithm:"R U R' U' R U R'",directions:"Solve the white-orange-blue corner",explanation:"Move corner up, move corner to the side, move back down. Repeat 1x"},{setup:"z2 y2 R U' R' U R U' R' U R U' R'",algorithm:"R U R' U' R U R' U' R U R'",directions:"Solve the white-blue-red corner",explanation:"Move corner up, move corner to the side, move back down. Repeat 3x"},{setup:"z2 y' R U' R' U R U' R' U R U' R' U R U' R'",algorithm:"R U R' U' R U R' U' R U R' U' R U R'",directions:"Solve the white-red-green corner",explanation:"Move corner up, move corner to the side, move back down. Repeat 4x"},{setup:"z2 R U' R' U R U' R' U R U' R' U R U' R' U R U' R'",algorithm:"R U R' U' R U R' U' R U R' U' R U R' U' R U R'",directions:"Solve the white-green-orange corner",explanation:"Move corner up, move corner to the side, move back down. Repeat 5x"}]},{activeStickers:A,setup:"z2",algorithm:"y y y y"},{activeStickers:A,practiceProblems:[{setup:"z2 F' U' F U R U R' U'",algorithm:"U R U' R' U' F' U F",directions:"Solve the green-orange edge",explanation:"Pair up the green-orange edge with the white-green-orange corner. Then insert the pair into the slot."},{setup:"z2 y F' U' F U R U R' U",algorithm:"U' R U' R' U' F' U F",directions:"Solve the orange-blue edge",explanation:"Pair up the orange-blue edge with the white-orange-blue corner. Then insert the pair into the slot."},{setup:"z2 y2 F' U' F U R U R' U2",algorithm:"U U R U' R' U' F' U F",directions:"Solve the blue-red edge",explanation:"Pair up the blue-red edge with the white-blue-red corner. Then insert the pair into the slot."},{setup:"z2 y' F' U' F U R U R'",algorithm:"R U' R' U' F' U F",directions:"Solve the red-green edge",explanation:"Pair up the red-green edge with the white-red-green corner. Then insert the pair into the slot."}]},{activeStickers:[...A,...be],setup:"z2",algorithm:"y y y y"},{activeStickers:[...A,...be],practiceProblems:[{setup:"z2 F U R U' R' F'",algorithm:"F R U R' U' F'",directions:"Solve the yellow cross",explanation:"When you have a horizontal bar, move the front layer, do some in-between moves, then fix the front layer."},{setup:"z2 y F U R U' R' F' U",algorithm:"U F R U R' U' F'",directions:"Solve the yellow cross",explanation:"Make the bar horizontal. Then move the front layer, do some in-between moves, then fix the front layer."},{setup:"z2 y F R U R' U' F' U'",algorithm:"U F U R U' R' F'",directions:"Solve the yellow cross",explanation:"Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."},{setup:"z2 y' F R U R' U' F' U2",algorithm:"U U F U R U' R' F'",directions:"Solve the yellow cross",explanation:"Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."},{setup:"z2 F U R U' R' F' U F R U R' U' F'",algorithm:"F U R U' R' F' U F R U R' U' F'",directions:"Solve the yellow cross",explanation:"When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."},{setup:"z2 y2 F U R U' R' F' U F R U R' U' F'",algorithm:"F U R U' R' F' U F R U R' U' F'",directions:"Solve the yellow cross",explanation:"When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."}]},{activeStickers:[...A,...Z],setup:"z2 R U2 R' U' R U' R'",algorithm:"R U R' U R U U R'"},{activeStickers:[...A,...Z],practiceProblems:[{setup:"z2 R U2 R' U' R U' R'",algorithm:"R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"If you have 1 yellow on top, bring the yellow to the front left, then do the Sune."},{setup:"z2 y R U R' U R U2 R' U'",algorithm:"U' R U R' U R U U R' U U R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"If you have 1 yellow on top, bring the yellow to the front left, then do the Sune. In this case, you have to do the Sune twice."},{setup:"z2 y2 R U2 R' U' R U R' U' R U' R'",algorithm:"R U R' U R U U R' R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"In this case, there are no yellows on top, and it kind of looks like an H. Do the Sune twice."},{setup:"z2 y' L F R' F' L' F R F' U2",algorithm:"R U R' U R U U R' R U R' U R U U R' R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"In this case, there are 2 yellows diagonal from each other. Do the Sune 3x."},{setup:"z2 F R' F' L F R F' L'",algorithm:"R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"In this case, there are two yellows on top and the other yellows are facing opposite directions. This requires doing Sune 3x."},{setup:"z2 y R U2 R D R' U2 R D' R2",algorithm:"R U R' U R U U R' U' R U R' U R U U R' U U R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"In this case, there are two yellows on top and the other yellows are facing the same direction. This requires doing Sune 3x."},{setup:"z2 y2 R U2 R2 U' R2 U' R2 U2 R",algorithm:"R U R' U R U U R' U' R U R' U R U U R'",directions:"Solve the yellow corners",explanation:"In this case, there are no yellows on top. This requires doing Sune 2x."}]},{activeStickers:[...A,...Z,...ve],setup:"z2 R2 B2 R F R' B2 R F' R",algorithm:"R' F R' B' B' R F' R' B' B' R R"},{activeStickers:[...A,...Z,...ve],practiceProblems:[{setup:"z2 U2 R2 B2 R F R' B2 R F' R U",algorithm:"U' R' F R' B' B' R F' R' B' B' R R U U",directions:"Solve the corners",explanation:"Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."},{setup:"z2 y U' R2 B2 R F R' B2 R F' R U2",algorithm:"U U R' F R' B' B' R F' R' B' B' R R U",directions:"Solve the corners",explanation:"Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."},{setup:"z2 y2 F R U' R' U' R U R' F' R U R' U' R' F R F'",algorithm:"R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U U",directions:"Solve the corners",explanation:"In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."},{setup:"z2 y' F R U' R' U' R U R' F' R U R' U' R' F R F' U'",algorithm:"R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U",directions:"Solve the corners",explanation:"In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."}]},{activeStickers:Se,setup:"z2 M' M' U' M U U M' U' M' M'",algorithm:"M' M' U M U U M' U M' M'"},{activeStickers:Se,practiceProblems:[{setup:"z2 U2 M' M' U' M U U M' U' M' M' U",algorithm:"U' M' M' U M U U M' U M' M' U U",directions:"Solve the cube",explanation:"Move the matching colors to back, use the last layer edges algorithm, then adjust the top layer."},{setup:"z2 y U' M' M' U M U U M' U M' M' U2",algorithm:"U U M' M' U M U U M' U M' M' M' M' U M U U M' U M' M' U",directions:"Solve the cube",explanation:"You have to use the algorithm twice for this case."},{setup:"z2 y2 M2 U' M2 U2 M2 U' M2 U'",algorithm:"M' M' U M U U M' U M' M' U M' M' U M U U M' U M' M'",directions:"Solve the cube",explanation:"You have to use the algorithm twice for this case."},{setup:"z2 y' M2 U' M2 U' M' U2 M2 U2 M' U",algorithm:"M' M' U M U U M' U M' M' U' M' M' U M U U M' U M' M' U U",directions:"Solve the cube",explanation:"You have to use the algorithm twice for this case."}]}];function mr(){nt(hr,3)}mr();})();
+    `;
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
+    return {
+      attribLocations: {
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
+      },
+      uniformLocations: {
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix"),
+        rotateMatrix: gl2.getUniformLocation(shaderProgram, "uRotateMatrix")
+      }
+    };
+  }
+  function initPerspective(element) {
+    let perspectiveMatrix = create();
+    perspective(
+      perspectiveMatrix,
+      50 * Math.PI / 180,
+      element.clientWidth / element.clientHeight,
+      0.1,
+      100
+    );
+    translate(
+      perspectiveMatrix,
+      [0, 0, -5]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      45 * Math.PI / 180,
+      [1, 0, 0]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      0,
+      [0, -1, 0]
+    );
+    return perspectiveMatrix;
+  }
+  function bindPosition(positionBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, positionBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexPosition,
+      3,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexPosition
+    );
+  }
+  function bindColor(colorBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, colorBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexColor,
+      4,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexColor
+    );
+  }
+  function drawElements(gl4) {
+    gl4.drawElements(
+      gl4.TRIANGLES,
+      6,
+      gl4.UNSIGNED_SHORT,
+      0
+    );
+  }
+  function initShaderProgram(gl4, vsSource, fsSource) {
+    const vertexShader = loadShader(gl4, gl4.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl4, gl4.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl4.createProgram();
+    gl4.attachShader(shaderProgram, vertexShader);
+    gl4.attachShader(shaderProgram, fragmentShader);
+    gl4.linkProgram(shaderProgram);
+    if (!gl4.getProgramParameter(shaderProgram, gl4.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl4.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+    return shaderProgram;
+  }
+  function loadShader(gl4, type, source) {
+    const shader = gl4.createShader(type);
+    gl4.shaderSource(shader, source);
+    gl4.compileShader(shader);
+    if (!gl4.getShaderParameter(shader, gl4.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl4.getShaderInfoLog(shader));
+      gl4.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+  function resizeCanvasToDisplaySize() {
+    const displayWidth = canvas2.clientWidth;
+    const displayHeight = canvas2.clientHeight;
+    const needResize = canvas2.width !== displayWidth || canvas2.height !== displayHeight;
+    if (needResize) {
+      canvas2.width = displayWidth;
+      canvas2.height = displayHeight;
+    }
+    return needResize;
+  }
+  function render(newTime) {
+    newTime *= 1e-3;
+    const dt = newTime - time;
+    time = newTime;
+    resizeCanvasToDisplaySize();
+    gl2.enable(gl2.DEPTH_TEST);
+    gl2.enable(gl2.SCISSOR_TEST);
+    gl2.depthFunc(gl2.LEQUAL);
+    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
+    canvas2.style.transform = `translateY(${window.scrollY}px)`;
+    for (let i = 0; i < scenes.length; i++) {
+      const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
+      const rect = div.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > canvas2.clientHeight || rect.right < 0 || rect.left > canvas2.clientWidth) {
+        continue;
+      }
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = canvas2.clientHeight - rect.bottom;
+      gl2.viewport(left, bottom, width, height);
+      gl2.scissor(left, bottom, width, height);
+      if (cube.animationQueue[0]) {
+        spring.target = cube.animationQueue.length * 90;
+        spring.update(dt);
+        if (spring.position >= 90) {
+          cube.affectedStickers = Array(stickers(cube.layers)).fill(false);
+          spring.position = 0;
+          cube.animationQueue.shift();
+        }
+      }
+      const animation = cube.animationQueue[0];
+      let stickers2 = chooseStickers(cube);
+      let _transformSingleton = singleton();
+      let _rotateSingleton = singleton();
+      for (let i2 = 0; i2 < stickers(cube.layers); i2++) {
+        let object = buffers[i2];
+        const transform = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _transformSingleton(() => {
+          return rotate(
+            create(),
+            perspectiveMatrix,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : perspectiveMatrix;
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          transform
+        );
+        const rotation = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _rotateSingleton(() => {
+          const rotateMat = create();
+          return rotate(
+            rotateMat,
+            rotateMat,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : create();
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.rotateMatrix,
+          false,
+          rotation
+        );
+        gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+        if (settings.showBody) {
+          bindPosition(object.noGapPositionBuffer, programInfo, gl2);
+          bindColor(cube.underStickers[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+        bindPosition(object.positionBuffer, programInfo, gl2);
+        bindColor(stickers2[i2].buffer, programInfo, gl2);
+        drawElements(gl2);
+        if (settings.hintStickers) {
+          bindPosition(object.hintPositionBuffer, programInfo, gl2);
+          bindColor(stickers2[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  function chooseStickers(cube) {
+    if (!settings.animateTurns) {
+      return cube.stickers;
+    }
+    if (cube.animationQueue[0]) {
+      return cube.animationQueue[0].stickers;
+    }
+    return cube.stickers;
+  }
+
+  // src/scripts/slide.ts
+  var NARROW = 725;
+  var opened = false;
+  function open(ele) {
+    opened = true;
+    ele.style.display = "flex";
+    ele.classList.add("slideLeftOpen");
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+    } else {
+      ele.classList.remove("slideLeftClosed");
+    }
+  }
+  function close(ele) {
+    opened = false;
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+      ele.classList.remove("slideLeftOpen");
+      ele.style.display = "flex";
+    } else {
+      ele.style.display = "none";
+    }
+  }
+  function toggle(ele) {
+    if (opened) {
+      close(ele);
+    } else {
+      open(ele);
+    }
+  }
+
+  // src/scripts/ui.ts
+  function addListenersForLeftModal() {
+    const drawer = document.querySelector(".slideRight");
+    let isOpen = false;
+    function updateDrawer(open2) {
+      isOpen = open2;
+      if (isOpen) {
+        drawer.classList.add("slideRightOpen");
+        return;
+      }
+      drawer.classList.remove("slideRightOpen");
+    }
+    document.addEventListener("click", (event) => {
+      const ele = event.target;
+      if (ele === document.querySelector("#menu")) {
+        updateDrawer(true);
+        return;
+      }
+      if (isOpen && !ele.closest(".slideRight")) {
+        updateDrawer(false);
+      }
+    });
+    document.querySelector("#closeMenu").addEventListener("click", () => {
+      updateDrawer(false);
+    });
+    document.querySelector("#learnButton").addEventListener("click", () => {
+      document.location.href = "learn.html";
+    });
+    document.querySelector("#playButton").addEventListener("click", () => {
+      document.location.href = "play.html";
+    });
+    document.querySelector("#trainButton").addEventListener("click", () => {
+      document.location.href = "train.html";
+    });
+    document.querySelector("#cubleButton").addEventListener("click", () => {
+      document.location.href = "cuble.html";
+    });
+  }
+
+  // src/scripts/learnBase.ts
+  var canvas3 = document.querySelector("canvas");
+  var gl3 = canvas3.getContext("webgl");
+  function initLearnPage(lessons2, layers) {
+    addListenersForLeftModal();
+    addLessonNavigatorListener(lessons2, layers);
+    addShowSolutionListeners(lessons2);
+    for (let i = 0; i < lessons2.length; i++) {
+      renderLesson(lessons2, layers, i);
+    }
+    render2(lessons2);
+    startLoop();
+    addResizeListener();
+    renderBasedOnWidth();
+  }
+  function renderLesson(lessons2, layers, i) {
+    const scene = newScene(`#scene${i}`);
+    scenes.push(scene);
+    scene.cube.setNumOfLayers(layers);
+    scene.buffers = createBuffers(gl3, scenes[0].cube, scenes[0].perspectiveMatrix);
+    const lesson = lessons2[i];
+    lesson.cube = scene.cube;
+    lesson.move = 0;
+    if (lesson.practiceProblems) {
+      scene.dragEnabled = true;
+      randomProblem(lesson);
+    } else {
+      const colors2 = determineColors(lesson);
+      scene.cube.setColors(colors2);
+      scene.cube.execAlg(lesson.setup);
+    }
+  }
+  function render2(lessons2) {
+    for (let i = 0; i < lessons2.length; i++) {
+      const lesson = lessons2[i];
+      if (lesson.practiceProblems && lesson.showSolution) {
+        const problem = lesson.practiceProblems[lesson.problemIndex];
+        document.querySelector(`#problemText${i}`).textContent = problem.explanation;
+        document.querySelector(`#leftButton${i}`).style.display = "";
+        document.querySelector(`#rightButton${i}`).style.display = "";
+        const moveCounter2 = document.querySelector(`#moveCounter${i}`);
+        moveCounter2.style.display = "";
+        const parsedAlg2 = parseMovesFromAlg(lesson.algorithm);
+        moveCounter2.textContent = `${lesson.move} / ${parsedAlg2.length}`;
+        continue;
+      }
+      if (lesson.practiceProblems && !lesson.showSolution) {
+        const problem = lesson.practiceProblems[lesson.problemIndex];
+        document.querySelector(`#problemText${i}`).textContent = problem.directions;
+        document.querySelector(`#leftButton${i}`).style.display = "none";
+        document.querySelector(`#rightButton${i}`).style.display = "none";
+        document.querySelector(`#moveCounter${i}`).style.display = "none";
+        continue;
+      }
+      const moveCounter = document.querySelector(`#moveCounter${i}`);
+      const parsedAlg = parseMovesFromAlg(lesson.algorithm);
+      moveCounter.textContent = `${lesson.move} / ${parsedAlg.length}`;
+    }
+  }
+  function randomProblem(lesson) {
+    let problemIndex = randInt(lesson.practiceProblems.length);
+    while (problemIndex === lesson.problemIndex) {
+      problemIndex = randInt(lesson.practiceProblems.length);
+    }
+    setupProblem(lesson, problemIndex);
+  }
+  function setupProblem(lesson, problemIndex) {
+    const problem = lesson.practiceProblems[problemIndex];
+    lesson.problemIndex = problemIndex;
+    lesson.algorithm = lesson.practiceProblems[problemIndex].algorithm;
+    const colors2 = determineColors(lesson);
+    lesson.cube.setColors(colors2);
+    lesson.cube.execAlg(problem.setup);
+    lesson.move = 0;
+  }
+  function determineColors(lesson) {
+    const colors2 = Array(54);
+    lesson.activeStickers.forEach((i) => {
+      colors2[i] = faceToColor(stickerToFace(i, lesson.cube));
+    });
+    for (let i = 0; i < 54; i++) {
+      if (colors2[i])
+        continue;
+      colors2[i] = GRAY;
+    }
+    return colors2;
+  }
+  function addLessonNavigatorListener(lessons2, layers) {
+    const lessonNavigator = document.querySelector("#lessonNavigator");
+    lessonNavigator.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.className === "lesson-p") {
+        const lessonIndex = parseInt(target.getAttribute("lesson-index"));
+        renderLesson(lessons2, layers, lessonIndex);
+        if (document.documentElement.clientWidth < NARROW) {
+          close(lessonNavigator);
+        }
+      }
+    });
+    document.querySelector("#openClose").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
+    document.querySelector("#close").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
+  }
+  function addShowSolutionListeners(lessons2) {
+    const leftButton = "leftButton";
+    const rightButton = "rightButton";
+    const showSolution = "showSolution";
+    const next = "next";
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.id.startsWith(leftButton)) {
+        const lessonIndex = parseInt(target.id.substring(leftButton.length));
+        const lesson = lessons2[lessonIndex];
+        if (lesson.move <= 0)
+          return;
+        lesson.move--;
+        const moves = parseMovesFromAlg(lesson.algorithm);
+        lesson.cube.stepAlgorithm(moves[lesson.move], false);
+        render2(lessons2);
+      } else if (target.id.startsWith(rightButton)) {
+        const lessonIndex = parseInt(target.id.substring(rightButton.length));
+        const lesson = lessons2[lessonIndex];
+        const moves = parseMovesFromAlg(lesson.algorithm);
+        if (lesson.move >= moves.length)
+          return;
+        lesson.cube.stepAlgorithm(moves[lesson.move], true);
+        lesson.move++;
+        render2(lessons2);
+      } else if (target.id.startsWith(showSolution)) {
+        const lessonIndex = parseInt(target.id.substring(showSolution.length));
+        const lesson = lessons2[lessonIndex];
+        lesson.showSolution = true;
+        scenes[lessonIndex].dragEnabled = false;
+        setupProblem(lesson, lesson.problemIndex);
+        render2(lessons2);
+      } else if (target.id.startsWith(next)) {
+        const lessonIndex = parseInt(target.id.substring(next.length));
+        const lesson = lessons2[lessonIndex];
+        lesson.showSolution = false;
+        scenes[lessonIndex].dragEnabled = true;
+        randomProblem(lesson);
+        render2(lessons2);
+      }
+    });
+  }
+  function addResizeListener() {
+    window.addEventListener("resize", () => {
+      renderBasedOnWidth();
+    });
+  }
+  function renderBasedOnWidth() {
+    const openClose = document.querySelector("#openClose");
+    const close2 = document.querySelector("#close");
+    const drawerEle = document.querySelector("#lessonNavigator");
+    if (document.documentElement.clientWidth < NARROW) {
+      openClose.style.display = "inline-block";
+      close2.style.display = "inline-block";
+      close(drawerEle);
+      return;
+    }
+    openClose.style.display = "none";
+    close2.style.display = "none";
+    open(drawerEle);
+  }
+  function parseMovesFromAlg(alg) {
+    return (alg || "").split(" ");
+  }
+
+  // src/scripts/learn3x3.ts
+  var lessons = [
+    {
+      activeStickers: CENTERS,
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: [...layer1Corners, ...layer2Corners],
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: [...layer1Edges, ...layer2Edges, ...layer3Edges],
+      setup: "",
+      algorithm: "x x x x y y y y"
+    },
+    {
+      activeStickers: cross,
+      setup: "",
+      algorithm: "y y y y"
+    },
+    {
+      activeStickers: cross,
+      practiceProblems: [
+        {
+          setup: "F F D",
+          algorithm: "D' F F",
+          directions: "Solve the white-green edge",
+          explanation: "To solve the white-green, line up the green, then line up the white."
+        },
+        {
+          setup: "y U2 R' U2",
+          algorithm: "U U R U U",
+          directions: "Solve the white-green edge",
+          explanation: "To insert the white green, move the top layer, move the white-green up, then fix the top layer."
+        },
+        {
+          setup: "F' R' F",
+          algorithm: "y D F' U' R U",
+          directions: "Solve the white-red edge",
+          explanation: "First we'll rotate the cube so red is in the front. Then we'll bring the white-red around to insert it."
+        },
+        {
+          setup: "y' U R U' B'",
+          algorithm: "y y F' U' R U",
+          directions: "Solve the white-red edge",
+          explanation: "The white-red is in the back, so first we'll rotate the cube. Then, move the white-red to the side and insert it."
+        },
+        {
+          setup: "y U F' U'",
+          algorithm: "y' U R U'",
+          directions: "Solve the white-blue edge",
+          explanation: "The white-blue is on the left, so first we'll rotate the cube. Then, insert it."
+        },
+        {
+          setup: "y' L2 D2",
+          algorithm: "D' D' L' L'",
+          directions: "Solve the white-blue edge",
+          explanation: "The white-blue is on the bottom right. To solve it, line up the blue, then line up the white."
+        },
+        {
+          setup: "y2 R' U' R U",
+          algorithm: "F F D R R",
+          directions: "Solve the white-orange edge",
+          explanation: "The white-orange is in another edge's position, so first, we'll take it out. Then line up the orange, then line up the white."
+        },
+        {
+          setup: "L",
+          algorithm: "L'",
+          directions: "Solve the white-orange edge",
+          explanation: "This is one of the easiest cases. The white-orange is only one move away."
+        }
+      ]
+    },
+    {
+      activeStickers: firstLayer,
+      setup: "",
+      algorithm: "y y y y"
+    },
+    {
+      activeStickers: firstLayer,
+      practiceProblems: [
+        {
+          setup: "z2 R U' R'",
+          algorithm: "R U R'",
+          directions: "Solve the white-green-orange corner",
+          explanation: "Move corner up, move corner to the side, move back down"
+        },
+        {
+          setup: "z2 y R U' R' U R U' R' U",
+          algorithm: "R U R' U' R U R'",
+          directions: "Solve the white-orange-blue corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 1x"
+        },
+        {
+          setup: "z2 y2 R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-blue-red corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 3x"
+        },
+        {
+          setup: "z2 y' R U' R' U R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-red-green corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 4x"
+        },
+        {
+          setup: "z2 R U' R' U R U' R' U R U' R' U R U' R' U R U' R'",
+          algorithm: "R U R' U' R U R' U' R U R' U' R U R' U' R U R'",
+          directions: "Solve the white-green-orange corner",
+          explanation: "Move corner up, move corner to the side, move back down. Repeat 5x"
+        }
+      ]
+    },
+    {
+      activeStickers: f2l,
+      setup: "z2",
+      algorithm: "y y y y"
+    },
+    {
+      activeStickers: f2l,
+      practiceProblems: [
+        {
+          setup: "z2 F' U' F U R U R' U'",
+          algorithm: "U R U' R' U' F' U F",
+          directions: "Solve the green-orange edge",
+          explanation: "Pair up the green-orange edge with the white-green-orange corner. Then insert the pair into the slot."
+        },
+        {
+          setup: "z2 y F' U' F U R U R' U",
+          algorithm: "U' R U' R' U' F' U F",
+          directions: "Solve the orange-blue edge",
+          explanation: "Pair up the orange-blue edge with the white-orange-blue corner. Then insert the pair into the slot."
+        },
+        {
+          setup: "z2 y2 F' U' F U R U R' U2",
+          algorithm: "U U R U' R' U' F' U F",
+          directions: "Solve the blue-red edge",
+          explanation: "Pair up the blue-red edge with the white-blue-red corner. Then insert the pair into the slot."
+        },
+        {
+          setup: "z2 y' F' U' F U R U R'",
+          algorithm: "R U' R' U' F' U F",
+          directions: "Solve the red-green edge",
+          explanation: "Pair up the red-green edge with the white-red-green corner. Then insert the pair into the slot."
+        }
+      ]
+    },
+    {
+      activeStickers: [...f2l, ...eoll],
+      setup: "z2",
+      algorithm: "y y y y"
+    },
+    {
+      activeStickers: [...f2l, ...eoll],
+      practiceProblems: [
+        {
+          setup: "z2 F U R U' R' F'",
+          algorithm: "F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have a horizontal bar, move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y F U R U' R' F' U",
+          algorithm: "U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Make the bar horizontal. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y F R U R' U' F' U'",
+          algorithm: "U F U R U' R' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 y' F R U R' U' F' U2",
+          algorithm: "U U F U R U' R' F'",
+          directions: "Solve the yellow cross",
+          explanation: "Move the L-shape to the top left. Then move the front layer, do some in-between moves, then fix the front layer."
+        },
+        {
+          setup: "z2 F U R U' R' F' U F R U R' U' F'",
+          algorithm: "F U R U' R' F' U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."
+        },
+        {
+          setup: "z2 y2 F U R U' R' F' U F R U R' U' F'",
+          algorithm: "F U R U' R' F' U F R U R' U' F'",
+          directions: "Solve the yellow cross",
+          explanation: "When you have the dot case, you combine the algorithms for the L-shape and horizontal bar cases."
+        }
+      ]
+    },
+    {
+      activeStickers: [...f2l, ...oll],
+      setup: "z2 R U2 R' U' R U' R'",
+      algorithm: "R U R' U R U U R'"
+    },
+    {
+      activeStickers: [...f2l, ...oll],
+      practiceProblems: [
+        {
+          setup: "z2 R U2 R' U' R U' R'",
+          algorithm: "R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune."
+        },
+        {
+          setup: "z2 y R U R' U R U2 R' U'",
+          algorithm: "U' R U R' U R U U R' U U R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "If you have 1 yellow on top, bring the yellow to the front left, then do the Sune. In this case, you have to do the Sune twice."
+        },
+        {
+          setup: "z2 y2 R U2 R' U' R U R' U' R U' R'",
+          algorithm: "R U R' U R U U R' R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "In this case, there are no yellows on top, and it kind of looks like an H. Do the Sune twice."
+        },
+        {
+          setup: "z2 y' L F R' F' L' F R F' U2",
+          algorithm: "R U R' U R U U R' R U R' U R U U R' R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "In this case, there are 2 yellows diagonal from each other. Do the Sune 3x."
+        },
+        {
+          setup: "z2 F R' F' L F R F' L'",
+          algorithm: "R U R' U R U U R' U R U R' U R U U R' U U R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "In this case, there are two yellows on top and the other yellows are facing opposite directions. This requires doing Sune 3x."
+        },
+        {
+          setup: "z2 y R U2 R D R' U2 R D' R2",
+          algorithm: "R U R' U R U U R' U' R U R' U R U U R' U U R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "In this case, there are two yellows on top and the other yellows are facing the same direction. This requires doing Sune 3x."
+        },
+        {
+          setup: "z2 y2 R U2 R2 U' R2 U' R2 U2 R",
+          algorithm: "R U R' U R U U R' U' R U R' U R U U R'",
+          directions: "Solve the yellow corners",
+          explanation: "In this case, there are no yellows on top. This requires doing Sune 2x."
+        }
+      ]
+    },
+    {
+      activeStickers: [...f2l, ...oll, ...cpll],
+      setup: "z2 R2 B2 R F R' B2 R F' R",
+      algorithm: "R' F R' B' B' R F' R' B' B' R R"
+    },
+    {
+      activeStickers: [...f2l, ...oll, ...cpll],
+      practiceProblems: [
+        {
+          setup: "z2 U2 R2 B2 R F R' B2 R F' R U",
+          algorithm: "U' R' F R' B' B' R F' R' B' B' R R U U",
+          directions: "Solve the corners",
+          explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."
+        },
+        {
+          setup: "z2 y U' R2 B2 R F R' B2 R F' R U2",
+          algorithm: "U U R' F R' B' B' R F' R' B' B' R R U",
+          directions: "Solve the corners",
+          explanation: "Move the matching corners to the back, use the last layer corners algorithm, then adjust the top layer."
+        },
+        {
+          setup: "z2 y2 F R U' R' U' R U R' F' R U R' U' R' F R F'",
+          algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U U",
+          directions: "Solve the corners",
+          explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."
+        },
+        {
+          setup: "z2 y' F R U' R' U' R U R' F' R U R' U' R' F R F' U'",
+          algorithm: "R' F R' B' B' R F' R' B' B' R R U R' F R' B' B' R F' R' B' B' R R U",
+          directions: "Solve the corners",
+          explanation: "In this case, there are no matching corners on any side. Use the last layer corners algorithm twice."
+        }
+      ]
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z2 M' M' U' M U U M' U' M' M'",
+      algorithm: "M' M' U M U U M' U M' M'"
+    },
+    {
+      activeStickers: allPieces,
+      practiceProblems: [
+        {
+          setup: "z2 U2 M' M' U' M U U M' U' M' M' U",
+          algorithm: "U' M' M' U M U U M' U M' M' U U",
+          directions: "Solve the cube",
+          explanation: "Move the matching colors to back, use the last layer edges algorithm, then adjust the top layer."
+        },
+        {
+          setup: "z2 y U' M' M' U M U U M' U M' M' U2",
+          algorithm: "U U M' M' U M U U M' U M' M' M' M' U M U U M' U M' M' U",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
+        },
+        {
+          setup: "z2 y2 M2 U' M2 U2 M2 U' M2 U'",
+          algorithm: "M' M' U M U U M' U M' M' U M' M' U M U U M' U M' M'",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
+        },
+        {
+          setup: "z2 y' M2 U' M2 U' M' U2 M2 U2 M' U",
+          algorithm: "M' M' U M U U M' U M' M' U' M' M' U M U U M' U M' M' U U",
+          directions: "Solve the cube",
+          explanation: "You have to use the algorithm twice for this case."
+        }
+      ]
+    }
+  ];
+  function main() {
+    initLearnPage(lessons, 3);
+  }
+  main();
+})();
 //# sourceMappingURL=learn3x3.js.map

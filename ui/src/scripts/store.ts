@@ -5,6 +5,7 @@
 const algSet = "algSet";
 const animateTurns = "animateTurns";
 const hintStickers = "hintStickers";
+const keyboard = "keyboard";
 const orientation = "orientation";
 const showBody = "showBody";
 const user = "user";
@@ -34,11 +35,19 @@ export function setHintStickers(value) {
     setBool(hintStickers, value);
 }
 
+export function getKeyboard() {
+    return getBool(keyboard) ?? false;
+}
+
+export function setKeyboard(value) {
+    setBool(keyboard, value);
+}
+
 export function getOrientation() {
     return localStorage.getItem(orientation) ?? "";
 }
 
-export function setOrientation(value: string) {
+export function setOrientation(value) {
     localStorage.setItem(orientation, value);
 }
 

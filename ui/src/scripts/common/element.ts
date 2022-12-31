@@ -1,5 +1,6 @@
 type ElementOptions = {
     alt?: string,
+    checked?: boolean | string,
     children?: Node[],
     className?: string,
     d?: string,
@@ -37,6 +38,7 @@ export function setOptions(ele: HTMLElement, args: ElementOptions): HTMLElement 
     for (const key in args) {
         if (key === "children") {
             args.children.forEach(child => {
+                if (!child) return;
                 ele.appendChild(child);
             });
         } else {

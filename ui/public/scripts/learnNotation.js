@@ -1,4 +1,1366 @@
-(()=>{var Xe=[4,13,22,31,40,49],Ze=[0,29,36],Je=[6,35,51],et=[2,9,42],tt=[8,15,45],rt=[18,11,44],nt=[24,47,17],st=[20,38,27],it=[26,33,53],ot=[3,32],at=[1,39],lt=[7,48],ct=[5,12],ut=[10,43],ht=[16,46],mt=[21,14],ft=[19,41],dt=[25,50],pt=[23,30],yt=[28,37],gt=[34,52],bt=[...Ze,...Je,...et,...tt],xt=[...rt,...nt,...st,...it],St=[...ot,...at,...lt,...ct],kt=[...ut,...ht,...yt,...gt],vt=[...mt,...ft,...dt,...pt],Lt=[...Xe,...St],Tt=[...Lt,...bt],Rt=[...Tt,...kt];var At=[...vt,...xt],y=[...Rt,...At];var Pt=[1,1,1,1],Ae=[.5,.5,.5,1],Bt=[1,1,0,1],Mt=[0,1,0,1],Ct=[0,0,1,1],Ot=[1,.5,0,1],It=[1,0,0,1],Ee=[0,0,0,1],Re=[Pt,Mt,Bt,Ct,Ot,It];function Z(r){return(r<0||r>=Re.length)&&console.error("Invalid face: "+r),Re[r]}function J(r,t){return Math.floor(r/f(t.layers))}function C(r){return Math.floor(Math.random()*r)}function Be(r){let t=r.length;for(;t!=0;){let e=C(t);t--;let n=r[e];r[e]=r[t],r[t]=n}return r}var H=0,W=1,q=2,G=3,K=4,N=5,Dt=[[H,G,K],[H,N,G],[H,K,W],[H,W,N],[q,W,K],[q,N,W],[q,K,G],[q,G,N]],Ft=[[H,G],[H,K],[H,N],[H,W],[W,K],[W,N],[q,W],[q,K],[q,N],[q,G],[G,K],[G,N]];function Oe(r){let t=Me(12,2),e=Me(8,3),n=me(8),s=me(12);for(;Ce(n)!==Ce(s);)n=me(8);let o=Array(54);for(let S=0;S<6;S++){let A=r.center(S);o[A]=S}let l=r.corners(0,0),a=r.corners(1,0),i=r.corners(2,0),c=r.corners(3,0),u=r.corners(4,0),m=r.corners(5,0),h=(S,A,z,O,I,D,F,w,_)=>{let T=(M,U)=>Dt[n[M]][(e[M]+U)%3];o[S.topLeft]=T(A,D),o[S.topRight]=T(z,F),o[S.bottomLeft]=T(O,w),o[S.bottomRight]=T(I,_)};h(l,0,1,2,3,0,0,0,0),h(a,2,3,4,5,2,1,1,2),h(i,4,5,6,7,0,0,0,0),h(c,6,7,0,1,2,1,1,2),h(u,0,2,6,4,2,1,1,2),h(m,3,1,5,7,2,1,1,2);let p=r.edges(0,0,0),d=r.edges(1,0,0),b=r.edges(2,0,0),L=r.edges(3,0,0),k=r.edges(4,0,0),B=r.edges(5,0,0),R=(S,A,z,O,I,D,F,w,_)=>{let T=(M,U)=>Ft[s[M]][(t[M]+U)%2];o[S.top]=T(A,D),o[S.left]=T(z,F),o[S.right]=T(O,w),o[S.bottom]=T(I,_)};return R(p,0,1,2,3,0,0,0,0),R(d,3,4,5,6,1,0,0,1),R(b,6,7,8,9,0,0,0,0),R(L,9,10,11,0,1,0,0,1),R(k,1,10,4,7,1,1,1,1),R(B,2,5,11,8,1,1,1,1),o}function Me(r,t){let e=Array(r);for(let n=0;n<r;n++)e[n]=C(t);for(;!wt(e,t);){let n=C(r);e[n]=C(t)}return e}function wt(r,t){let e=0;for(let n=0;n<r.length;n++)e+=r[n];return e%t===0}function me(r){let t=Array(r);for(let e=0;e<r;e++)t[e]=e;return Be(t),t}function Ce(r){let t=[...r],e=!1;for(;;)if(t[0]===0){let n=t.findIndex((s,o)=>s!==o);if(n===-1)return e;t[0]=t[n],t[n]=0,e=!e}else{let n=t[0];t[0]=t[n],t[n]=n,e=!e}}var _t=document.querySelector("canvas"),$=_t.getContext("webgl");function fe(r,t){let e=[t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3],t[0],t[1],t[2],t[3]];$.bindBuffer($.ARRAY_BUFFER,r.buffer),$.bufferData($.ARRAY_BUFFER,new Float32Array(e),$.STATIC_DRAW)}function f(r){return r*r}function x(r){return Math.floor(r/2)}function Q(r){return r%2==0}function v(r){return r*r*6}var ie=class{constructor(){this.animationQueue=[]}setColors(t){for(let e=0;e<v(this.layers);e++)fe(this.stickers[e],t[e])}solve(){let t=Array(v(this.layers));for(let e=0;e<v(this.layers);e++){let n=J(e,this);this.stickers[e].face=n,t[e]=Z(n)}this.setColors(t)}scramble(){if(this.layers===3){this.scramble3x3();return}this.naiveScramble()}scramble3x3(){let t=Oe(this);this.setCubeState(t)}naiveScramble(){let t=f(this.layers)*10;for(let e=0;e<t;e++){let n=Math.floor(Math.random()*3),s=Math.floor(Math.random()*this.layers),o=Math.floor(Math.random()*1)==0;this._matchTurn(n,s,o)}}setNumOfLayers(t){this.layers=t,this.stickers=Array(v(t)),this.underStickers=Array(v(t));for(let e=0;e<v(t);e++){let n=J(e,this);this.stickers[e]={face:n,buffer:$.createBuffer()},this.underStickers[e]={face:n,buffer:$.createBuffer()},fe(this.underStickers[e],Ee)}this.affectedStickers=Array(v(t)).fill(!1)}getCubeState(){return this.stickers.map(t=>t.face)}setCubeState(t){for(let e=0;e<v(this.layers);e++){let n=Z(t[e]);this.stickers[e].face=t[e],fe(this.stickers[e],n)}}resetAffectedStickers(){let t=Array(v(this.layers));this.affectedStickers=t.fill(this.layers===1)}pushAnimation(t,e,n){let s=e?-1:1,o=[0,0,0];o[t]=s,this.animationQueue.push({axis:o,stickers:n,stickersToAnimate:this.affectedStickers})}turn(t,e,n){this.resetAffectedStickers(),this.pushAnimation(t,n,[...this.stickers]),this._matchTurn(t,e,n)}sliceTurn(t,e){let n=Array(v(this.layers));this.affectedStickers=n.fill(!1),this.pushAnimation(t,e,[...this.stickers]);for(let s=1;s<this.layers-1;s++)this._matchTurn(t,s,e)}wideTurn(t,e,n){this.resetAffectedStickers(),this.pushAnimation(t,n,[...this.stickers]),this._matchTurn(t,e,n);for(let s=1;s<this.layers-1;s++)this._matchTurn(t,s,n)}cubeRotate(t,e){this.resetAffectedStickers(),this.pushAnimation(t,e,[...this.stickers]);for(let n=0;n<this.layers;n++)this._matchTurn(t,n,e)}_matchTurn(t,e,n){t==0?(this._turnXAxis(e,n),e==0?this._turnOuter(5,n):e==this.layers-1&&this._turnOuter(4,!n)):t==1?(this._turnYAxis(e,n),e==0?this._turnOuter(0,n):e==this.layers-1&&this._turnOuter(2,!n)):t==2?(this._turnZAxis(e,n),e==0?this._turnOuter(1,n):e==this.layers-1&&this._turnOuter(3,!n)):console.error(`Axis ${t} not recognized`)}_turnXAxis(t,e){for(let n=1;n<=this.layers;n++)this._cycle(e,0*f(this.layers)+f(this.layers)-n-t*this.layers,3*f(this.layers)+f(this.layers)-n-t*this.layers,2*f(this.layers)+f(this.layers)-n-t*this.layers,1*f(this.layers)+f(this.layers)-n-t*this.layers)}_turnYAxis(t,e){for(let n=0;n<this.layers;n++)this._cycle(e,1*f(this.layers)+n*this.layers+t,4*f(this.layers)+n*this.layers+t,3*f(this.layers)+(this.layers-n-1)*this.layers+(this.layers-1)-t,5*f(this.layers)+n*this.layers+t)}_turnZAxis(t,e){for(let n=0;n<this.layers;n++)this._cycle(e,0*f(this.layers)+(n+1)*this.layers-1-t,5*f(this.layers)+n+this.layers*t,2*f(this.layers)+(this.layers-n-1)*this.layers+t,4*f(this.layers)+f(this.layers)-(n+1)-t*this.layers)}_turnOuter(t,e){if(this.layers%2!=0){let n=this.center(t);this.affectedStickers[n]=!0}for(let n=0;n<Math.floor(this.layers/2);n++){let{topLeft:s,topRight:o,bottomLeft:l,bottomRight:a}=this.corners(t,n);this._cycle(e,s,o,a,l);let i=this.layers-2*(n+1);for(let c=0;c<i;c++){let{top:u,left:m,bottom:h,right:p}=this.edges(t,n,c);this._cycle(e,u,p,h,m)}}}_cycle(t,e,n,s,o){this.affectedStickers[e]=!0,this.affectedStickers[n]=!0,this.affectedStickers[s]=!0,this.affectedStickers[o]=!0,t?this._cycleHelper(e,n,s,o):this._cycleHelper(o,s,n,e)}_cycleHelper(t,e,n,s){let o=this.stickers[s];this.stickers[s]=this.stickers[n],this.stickers[n]=this.stickers[e],this.stickers[e]=this.stickers[t],this.stickers[t]=o}matchKeyToTurn(t){if(this.disableTurn||t.ctrlKey)return;switch(t.code){case"KeyN":return this.cubeRotate(0,!0),{notation:"x",rotate:!0};case"KeyB":return this.cubeRotate(0,!1),{notation:"x'",rotate:!0};case"Semicolon":return this.cubeRotate(1,!0),{notation:"y",rotate:!0};case"KeyA":return this.cubeRotate(1,!1),{notation:"y'",rotate:!0};case"KeyP":return this.cubeRotate(2,!0),{notation:"z",rotate:!0};case"KeyQ":return this.cubeRotate(2,!1),{notation:"z'",rotate:!0};case"KeyJ":return this.turn(1,0,!0),{notation:"U",turn:!0};case"KeyF":return this.turn(1,0,!1),{notation:"U'",turn:!0};case"KeyS":return this.turn(1,this.layers-1,!1),{notation:"D",turn:!0};case"KeyL":return this.turn(1,this.layers-1,!0),{notation:"D'",turn:!0};case"KeyH":return this.turn(2,0,!0),{notation:"F",turn:!0};case"KeyG":return this.turn(2,0,!1),{notation:"F'",turn:!0};case"KeyW":return this.turn(2,this.layers-1,!1),{notation:"B",turn:!0};case"KeyO":return this.turn(2,this.layers-1,!0),{notation:"B'",turn:!0};case"KeyD":return this.turn(0,this.layers-1,!1),{notation:"L",turn:!0};case"KeyE":return this.turn(0,this.layers-1,!0),{notation:"L'",turn:!0};case"KeyI":return this.turn(0,0,!0),{notation:"R",turn:!0};case"KeyK":return this.turn(0,0,!1),{notation:"R'",turn:!0};case"BracketLeft":return this.sliceTurn(0,!1),{notation:"M",turn:!0};case"Quote":return this.sliceTurn(0,!0),{notation:"M'",turn:!0};case"KeyC":return this.sliceTurn(1,!1),{notation:"E",turn:!0};case"Comma":return this.sliceTurn(1,!0),{notation:"E'",turn:!0};case"KeyY":return this.sliceTurn(2,!0),{notation:"S",turn:!0};case"KeyT":return this.sliceTurn(2,!1),{notation:"S'",turn:!0};case"KeyU":return this.wideTurn(0,0,!0),{notation:"r",turn:!0};case"KeyM":return this.wideTurn(0,0,!1),{notation:"r'",turn:!0};case"KeyV":return this.wideTurn(0,this.layers-1,!1),{notation:"l",turn:!0};case"KeyR":return this.wideTurn(0,this.layers-1,!0),{notation:"l'",turn:!0}}}stepAlgorithm(t,e){switch(t){case"x":this.cubeRotate(0,e);break;case"x'":this.cubeRotate(0,!e);break;case"x2":case"x2'":this.cubeRotate(0,e),this.cubeRotate(0,e);break;case"y":this.cubeRotate(1,e);break;case"y'":this.cubeRotate(1,!e);break;case"y2":case"y2'":this.cubeRotate(1,e),this.cubeRotate(1,e);break;case"z":this.cubeRotate(2,e);break;case"z'":this.cubeRotate(2,!e);break;case"z2":case"z2'":this.cubeRotate(2,e),this.cubeRotate(2,e);break;case"U":this.turn(1,0,e);break;case"U'":this.turn(1,0,!e);break;case"U2":case"U2'":this.turn(1,0,e),this.turn(1,0,e);break;case"u":this.wideTurn(1,0,e);break;case"u'":this.wideTurn(1,0,!e);break;case"u2":case"u2'":this.wideTurn(1,0,e),this.wideTurn(1,0,e);break;case"D":this.turn(1,this.layers-1,!e);break;case"D'":this.turn(1,this.layers-1,e);break;case"D2":case"D2'":this.turn(1,this.layers-1,e),this.turn(1,this.layers-1,e);break;case"d":this.wideTurn(1,this.layers-1,!e);break;case"d'":this.wideTurn(1,this.layers-1,e);break;case"d2":case"d2'":this.wideTurn(1,this.layers-1,e),this.wideTurn(1,this.layers-1,e);break;case"F":this.turn(2,0,e);break;case"F'":this.turn(2,0,!e);break;case"F2":case"F2'":this.turn(2,0,e),this.turn(2,0,e);break;case"f":this.wideTurn(2,0,e);break;case"f'":this.wideTurn(2,0,!e);break;case"f2":case"f2'":this.wideTurn(2,0,e),this.wideTurn(2,0,e);break;case"B":this.turn(2,this.layers-1,!e);break;case"B'":this.turn(2,this.layers-1,e);break;case"B2":case"B2'":this.turn(2,this.layers-1,e),this.turn(2,this.layers-1,e);break;case"b":this.wideTurn(2,this.layers-1,!e);break;case"b'":this.wideTurn(2,this.layers-1,e);break;case"b2":case"b2'":this.wideTurn(2,this.layers-1,e),this.wideTurn(2,this.layers-1,e);break;case"L":this.turn(0,this.layers-1,!e);break;case"L'":this.turn(0,this.layers-1,e);break;case"L2":case"L2'":this.turn(0,this.layers-1,e),this.turn(0,this.layers-1,e);break;case"l":this.wideTurn(0,this.layers-1,!e);break;case"l'":this.wideTurn(0,this.layers-1,e);break;case"l2":case"l2'":this.wideTurn(0,this.layers-1,e),this.wideTurn(0,this.layers-1,e);break;case"R":this.turn(0,0,e);break;case"R'":this.turn(0,0,!e);break;case"R2":case"R2'":this.turn(0,0,e),this.turn(0,0,e);break;case"r":this.wideTurn(0,0,e);break;case"r'":this.wideTurn(0,0,!e);break;case"r2":case"r2'":this.wideTurn(0,0,e),this.wideTurn(0,0,e);break;case"M":this.turn(0,1,!e);break;case"M'":this.turn(0,1,e);break;case"M2":case"M2'":this.sliceTurn(0,e),this.sliceTurn(0,e);break;case"E":this.sliceTurn(1,!e);break;case"E'":this.sliceTurn(1,e);break;case"E2":case"E2'":this.sliceTurn(1,e),this.sliceTurn(1,e);break;case"S":this.sliceTurn(2,e);break;case"S'":this.sliceTurn(2,!e);break;case"S2":case"S2'":this.sliceTurn(2,e);default:throw new Error("Invalid turn in algorithm: "+t)}}execAlg(t){if(!t)return;let e=t.split(" ");for(let n=0;n<e.length;n++)this.stepAlgorithm(e[n],!0);this.animationQueue=[]}execAlgReverse(t){if(!t)return;let e=t.split(" ");for(let n=e.length-1;n>=0;n--)this.stepAlgorithm(e[n],!1);this.animationQueue=[]}stickerIsOnFace(t,e){return e*f(this.layers)<=t&&t<(e+1)*f(this.layers)}center(t){return t*f(this.layers)+Math.floor(f(this.layers)/2)}corners(t,e){let n=t*f(this.layers);return{topLeft:n+(this.layers+1)*e,topRight:n+(this.layers-1)*(this.layers-e),bottomRight:n+(this.layers+1)*(this.layers-e-1),bottomLeft:n+(this.layers-1)*(e+1)}}edges(t,e,n){let s=this.corners(t,e),o=this.layers-2*(e+1);return{top:s.topLeft+this.layers*(n+1),left:s.topLeft+(o-n),right:s.topRight+n+1,bottom:s.bottomLeft+this.layers*(o-n)}}};function ae(r,t,e){let n=de(t,1.01,.02),s=de(t,1,0),o=de(t,1.5,.02),l=Array(v(t.layers));for(let a=0;a<v(t.layers);a++){let i={positionBuffer:r.createBuffer(),noGapPositionBuffer:r.createBuffer(),hintPositionBuffer:r.createBuffer(),indexBuffer:r.createBuffer(),cart2d:[],positions:null},c=new Float32Array(12),u=new Float32Array(12),m=new Float32Array(12);for(let d=0;d<12;d++){let b=a*12+d;c[d]=n[b],u[d]=s[b],m[d]=o[b]}r.bindBuffer(r.ARRAY_BUFFER,i.positionBuffer),r.bufferData(r.ARRAY_BUFFER,c,r.STATIC_DRAW),i.positions=c,r.bindBuffer(r.ARRAY_BUFFER,i.noGapPositionBuffer),r.bufferData(r.ARRAY_BUFFER,u,r.STATIC_DRAW),r.bindBuffer(r.ARRAY_BUFFER,i.hintPositionBuffer),r.bufferData(r.ARRAY_BUFFER,m,r.STATIC_DRAW);let h=Array(16);oe(h,0,e,[u[0],u[1],u[2],1]),oe(h,4,e,[u[3],u[4],u[5],1]),oe(h,8,e,[u[6],u[7],u[8],1]),oe(h,12,e,[u[9],u[10],u[11],1]),i.cart2d=[h[0]/h[3],h[1]/h[3],h[4]/h[7],h[5]/h[7],h[8]/h[11],h[9]/h[11],h[12]/h[15],h[13]/h[15]];let p=[0,1,2,0,2,3];r.bindBuffer(r.ELEMENT_ARRAY_BUFFER,i.indexBuffer),r.bufferData(r.ELEMENT_ARRAY_BUFFER,new Uint16Array(p),r.STATIC_DRAW),l[a]=i}return l}function oe(r,t,e,n){let s=Array(4),o=n[0],l=n[1],a=n[2],i=n[3];r[t+0]=o*e[0]+l*e[4]+a*e[8]+i*e[12],r[t+1]=o*e[1]+l*e[5]+a*e[9]+i*e[13],r[t+2]=o*e[2]+l*e[6]+a*e[10]+i*e[14],r[t+3]=o*e[3]+l*e[7]+a*e[11]+i*e[15]}var Ie=12,Ut=4,V=3;function de(r,t,e){let n=f(r.layers)*Ie,s=Array(6*n);return Ht(s,0*n,r,1,t,e),Wt(s,1*n,r,0,t,e),qt(s,2*n,r,1,-t,e),Gt(s,3*n,r,0,-t,e),Kt(s,4*n,r,2,-t,e),Nt(s,5*n,r,2,t,e),s}function Ht(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=0;m<e.layers;m++){let h=-1+1/e.layers+m*2/e.layers,p=-1+1/e.layers+u*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=-x(e.layers);i<=x(e.layers);i++)for(let c=-x(e.layers);c<=x(e.layers);c++)l[a]=[2*c/e.layers,2*i/e.layers,s],a++;E(r,t,e,l,n,o)}function Wt(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+u*2/e.layers,p=-1+1/e.layers+m*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=-x(e.layers);i<=x(e.layers);i++)for(let c=x(e.layers);c>=-x(e.layers);c--)l[a]=[2*i/e.layers,2*c/e.layers,s],a++;E(r,t,e,l,n,o)}function qt(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,p=-1+1/e.layers+u*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=-x(e.layers);i<=x(e.layers);i++)for(let c=x(e.layers);c>=-x(e.layers);c--)l[a]=[2*c/e.layers,2*i/e.layers,s],a++;E(r,t,e,l,n,o)}function Gt(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=0;m<e.layers;m++){let h=-1+1/e.layers+u*2/e.layers,p=-1+1/e.layers+m*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=-x(e.layers);i<=x(e.layers);i++)for(let c=-x(e.layers);c<=x(e.layers);c++)l[a]=[2*i/e.layers,2*c/e.layers,s],a++;E(r,t,e,l,n,o)}function Kt(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=0;u<e.layers;u++)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,p=-1+1/e.layers+u*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=-x(e.layers);i<=x(e.layers);i++)for(let c=x(e.layers);c>=-x(e.layers);c--)l[a]=[2*c/e.layers,2*i/e.layers,s],a++;E(r,t,e,l,n,o)}function Nt(r,t,e,n,s,o){if(Q(e.layers)){let i=Array(f(e.layers)),c=0;for(let u=e.layers-1;u>=0;u--)for(let m=e.layers-1;m>=0;m--){let h=-1+1/e.layers+m*2/e.layers,p=-1+1/e.layers+u*2/e.layers;i[c]=[h,p,s],c++}E(r,t,e,i,n,o);return}let l=Array(f(e.layers)),a=0;for(let i=x(e.layers);i>=-x(e.layers);i--)for(let c=x(e.layers);c>=-x(e.layers);c--)l[a]=[2*c/e.layers,2*i/e.layers,s],a++;E(r,t,e,l,n,o)}function E(r,t,e,n,s,o){for(let l=0;l<f(e.layers);l++){let a=n[l];jt(r,t+l*Ie,e,a[0],a[1],a[2],s,o)}}function jt(r,t,e,n,s,o,l,a){let i=1/e.layers-a,c=[[n-i,s-i,o],[n+i,s-i,o],[n+i,s+i,o],[n-i,s+i,o]];for(let u=0;u<Ut;u++){let m=c[u];r[t+u*V]=m[(l+0)%V],r[t+u*V+1]=m[(l+1)%V],r[t+u*V+2]=m[(l+2)%V]}}var le=class{constructor(){this.position=0,this._velocity=200,this._acceleration=0,this.target=0}update(t){let e=-100*(this.position-this.target),n=-15*this._velocity;this._acceleration=e+n,this._velocity+=this._acceleration*t,this.position+=this._velocity*t}};function De(r,t){return r/t*2-1}function Fe(r,t){return 1-r/t*2}function pe(r,t,e,n){return r<e?(n-t)/(e-r):(t-n)/(r-e)}function X(r,t,e,n,s,o){return Math.abs(.5*(r*(n-o)+e*(o-t)+s*(t-n)))}function Yt(r,t){return r.layers-1-t%r.layers}function ye(r,t){return r.layers-1-Math.floor(t/r.layers)}function zt(r,t){return t%r.layers}function ge(r,t){return r.layers-1-Math.floor((t-f(r.layers))/r.layers)}var ce=class{onPointerDown(t,e,n,s,o){this.numOfPointerMoves=0;let l=De(t,n.clientWidth),a=Fe(e,n.clientHeight);this.xOnDown=l,this.yOnDown=a,[this.stickerOnDown,this.cart2dOnDown]=this._coordinatesToSticker(l,a,s,o);function i(b,L,k){return{x:o[b].cart2d[L],y:o[b].cart2d[k]}}if(this.stickerOnDown!==-1)return;let c=i(0,0,1),u=i(s.layers*(s.layers-1),6,7),m=i(s.layers-1,2,3),h=i(f(s.layers)-1,4,5),p=i(s.layers*(s.layers+1)-1,0,1),d=i(f(s.layers)*2-1,2,3);a>c.y&&l>c.x&&l<u.x?s.cubeRotate(0,!0):l<c.x&&a>m.y&&a<c.y?s.cubeRotate(2,!1):l>u.x&&a>h.y&&a<u.y?s.cubeRotate(2,!0):l<p.x&&a>p.y&&a<m.y?s.cubeRotate(1,!0):l>d.x&&a>d.y&&a<h.y?s.cubeRotate(1,!1):a<p.y&&l>p.x&&l<d.x&&s.cubeRotate(0,!1)}onPointerMove(t,e){this.numOfPointerMoves++,this.xOnMove=t,this.yOnMove=e}onPointerUp(t,e,n){if(this.numOfPointerMoves<2)return;let s,o;if(this.stickerOnDown!==-1&&(s=pe(this.cart2dOnDown[0],this.cart2dOnDown[1],this.cart2dOnDown[4],this.cart2dOnDown[5]),o=pe(this.cart2dOnDown[2],this.cart2dOnDown[3],this.cart2dOnDown[6],this.cart2dOnDown[7]),s<0)){let c=s;s=o,o=c}let l=De(this.xOnMove,t.clientWidth),a=Fe(this.yOnMove,t.clientHeight),i=pe(l,a,this.xOnDown,this.yOnDown);e.stickerIsOnFace(this.stickerOnDown,0)?l===this.xOnDown?e.turn(0,ye(e,this.stickerOnDown),a>this.yOnDown):i>s?e.turn(0,ye(e,this.stickerOnDown),l>this.xOnDown):i<o?e.turn(0,ye(e,this.stickerOnDown),l<this.xOnDown):e.turn(2,Yt(e,this.stickerOnDown),l>this.xOnDown):e.stickerIsOnFace(this.stickerOnDown,1)&&(l===this.xOnDown?e.turn(0,ge(e,this.stickerOnDown),a>this.yOnDown):i>s?e.turn(0,ge(e,this.stickerOnDown),l>this.xOnDown):i<o?e.turn(0,ge(e,this.stickerOnDown),l<this.xOnDown):e.turn(1,zt(e,this.stickerOnDown),l<this.xOnDown))}_coordinatesToSticker(t,e,n,s){let o=l=>{if(!s[l].cart2d){console.error("cart2d is undefined");return}let a=s[l].cart2d,i=X(a[0],a[1],a[2],a[3],a[4],a[5])+X(a[0],a[1],a[4],a[5],a[6],a[7]),c=X(t,e,a[0],a[1],a[2],a[3])+X(t,e,a[2],a[3],a[4],a[5])+X(t,e,a[4],a[5],a[6],a[7])+X(t,e,a[6],a[7],a[0],a[1]),u=1e-5;if(Math.abs(i-c)<u)return[l,a]};for(let l=0;l<2*f(n.layers);l++){let a=o(l);if(a)return a}return[-1,void 0]}};function ee(){return[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}function we(r,t,e,n,s){let o=1/Math.tan(t/2);if(r[0]=o/e,r[1]=0,r[2]=0,r[3]=0,r[4]=0,r[5]=o,r[6]=0,r[7]=0,r[8]=0,r[9]=0,r[11]=-1,r[12]=0,r[13]=0,r[15]=0,s!=null&&s!==1/0){let l=1/(n-s);r[10]=(s+n)*l,r[14]=2*s*n*l}else r[10]=-1,r[14]=-2*n;return r}function te(r,t,e,n){let s=n[0],o=n[1],l=n[2],a=1/Math.hypot(s,o,l);s*=a,o*=a,l*=a;let i=Math.sin(e),c=Math.cos(e),u=1-c,m=t[0],h=t[1],p=t[2],d=t[3],b=t[4],L=t[5],k=t[6],B=t[7],R=t[8],S=t[9],A=t[10],z=t[11],O=s*s*u+c,I=o*s*u+l*i,D=l*s*u-o*i,F=s*o*u-l*i,w=o*o*u+c,_=l*o*u+s*i,T=s*l*u+o*i,M=o*l*u-s*i,U=l*l*u+c;return r[0]=m*O+b*I+R*D,r[1]=h*O+L*I+S*D,r[2]=p*O+k*I+A*D,r[3]=d*O+B*I+z*D,r[4]=m*F+b*w+R*_,r[5]=h*F+L*w+S*_,r[6]=p*F+k*w+A*_,r[7]=d*F+B*w+z*_,r[8]=m*T+b*M+R*U,r[9]=h*T+L*M+S*U,r[10]=p*T+k*M+A*U,r[11]=d*T+B*M+z*U,t!==r&&(r[12]=t[12],r[13]=t[13],r[14]=t[14],r[15]=t[15]),r}function _e(r,t){let e=t[0],n=t[1],s=t[2];return r[12]+=r[0]*e+r[4]*n+r[7]*s,r[13]+=r[1]*e+r[5]*n+r[8]*s,r[14]+=r[2]*e+r[5]*n+r[9]*s,r[15]+=r[3]*e+r[6]*n+r[10]*s,r}function be(){let r;return t=>(r||(r=t()),r)}var P=document.querySelector("canvas"),g=P.getContext("webgl"),j=Xt(),Y=[],re={animateTurns:!0,hintStickers:!0,showBody:!0};var Ue=Date.now()*.001,Vt=3,He=!1;function qe(){He||(He=!0,requestAnimationFrame(Ke))}function Ge(r){let t=document.querySelector(r),e=new ie,n=new le,s=Zt(t),o=new ce;e.setNumOfLayers(Vt);let l=ae(g,e,s),a={div:t,cube:e,spring:n,buffers:l,perspectiveMatrix:s},i=(d,b)=>{!a.dragEnabled||o.onPointerDown(d,b,a.div,a.cube,a.buffers)},c=(d,b)=>{!a.dragEnabled||o.onPointerMove(d,b)},u=()=>{!a.dragEnabled||o.onPointerUp(a.div,a.cube,a.buffers)},m=d=>{let b=d.target.getBoundingClientRect(),L=d.touches[0].pageX-b.left,k=d.touches[0].pageY-b.top;return{x:L,y:k}},h=()=>{t.addEventListener("pointerdown",d=>i(d.offsetX,d.offsetY)),t.addEventListener("pointermove",d=>c(d.offsetX,d.offsetY)),t.addEventListener("pointerup",d=>u())},p=()=>{t.addEventListener("touchstart",d=>{let{x:b,y:L}=m(d);i(b,L)}),t.addEventListener("touchmove",d=>{let{x:b,y:L}=m(d);c(b,L)}),t.addEventListener("touchend",d=>{u()})};return window.PointerEvent?h():p(),a}function Xt(){let e=Jt(g,`
+(() => {
+  // src/scripts/pieceIndices.ts
+  var CENTERS = [4, 13, 22, 31, 40, 49];
+  var UBL = [0, 29, 36];
+  var URB = [6, 35, 51];
+  var ULF = [2, 9, 42];
+  var UFR = [8, 15, 45];
+  var DFL = [18, 11, 44];
+  var DRF = [24, 47, 17];
+  var DLB = [20, 38, 27];
+  var DBR = [26, 33, 53];
+  var UB = [3, 32];
+  var UL = [1, 39];
+  var UR = [7, 48];
+  var UF = [5, 12];
+  var FL = [10, 43];
+  var FR = [16, 46];
+  var DF = [21, 14];
+  var DL = [19, 41];
+  var DR = [25, 50];
+  var DB = [23, 30];
+  var BL = [28, 37];
+  var BR = [34, 52];
+  var layer1Corners = [...UBL, ...URB, ...ULF, ...UFR];
+  var layer2Corners = [...DFL, ...DRF, ...DLB, ...DBR];
+  var layer1Edges = [...UB, ...UL, ...UR, ...UF];
+  var layer2Edges = [...FL, ...FR, ...BL, ...BR];
+  var layer3Edges = [...DF, ...DL, ...DR, ...DB];
+  var cross = [...CENTERS, ...layer1Edges];
+  var firstLayer = [...cross, ...layer1Corners];
+  var f2l = [...firstLayer, ...layer2Edges];
+  var lastLayer = [...layer3Edges, ...layer2Corners];
+  var allPieces = [...f2l, ...lastLayer];
+
+  // src/scripts/colors.ts
+  var WHITE = [1, 1, 1, 1];
+  var GRAY = [0.5, 0.5, 0.5, 1];
+  var YELLOW = [1, 1, 0, 1];
+  var GREEN = [0, 1, 0, 1];
+  var BLUE = [0, 0, 1, 1];
+  var ORANGE = [1, 0.5, 0, 1];
+  var RED = [1, 0, 0, 1];
+  var BLACK = [0, 0, 0, 1];
+  var colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
+  function faceToColor(face) {
+    if (face < 0 || face >= colors.length)
+      console.error("Invalid face: " + face);
+    return colors[face];
+  }
+
+  // src/scripts/common/util.ts
+  function stickerToFace(sticker, cube) {
+    return Math.floor(sticker / sq(cube.layers));
+  }
+
+  // src/scripts/common/rand.ts
+  function randInt(int) {
+    return Math.floor(Math.random() * int);
+  }
+
+  // src/scripts/util.ts
+  function shuffle(array) {
+    let i = array.length;
+    while (i != 0) {
+      let r = randInt(i);
+      i--;
+      let temp = array[r];
+      array[r] = array[i];
+      array[i] = temp;
+    }
+    return array;
+  }
+
+  // src/scripts/scramble.ts
+  var U = 0;
+  var F = 1;
+  var D = 2;
+  var B = 3;
+  var L = 4;
+  var R = 5;
+  var corners = [
+    [U, B, L],
+    [U, R, B],
+    [U, L, F],
+    [U, F, R],
+    [D, F, L],
+    [D, R, F],
+    [D, L, B],
+    [D, B, R]
+  ];
+  var edges = [
+    [U, B],
+    [U, L],
+    [U, R],
+    [U, F],
+    [F, L],
+    [F, R],
+    [D, F],
+    [D, L],
+    [D, R],
+    [D, B],
+    [B, L],
+    [B, R]
+  ];
+  function scramble3x3(cube) {
+    let eo = orientation(12, 2);
+    let co = orientation(8, 3);
+    let cp = permutation(8);
+    let ep = permutation(12);
+    while (permutationParity(cp) !== permutationParity(ep)) {
+      cp = permutation(8);
+    }
+    const stickers2 = Array(54);
+    for (let i = 0; i < 6; i++) {
+      const center = cube.center(i);
+      stickers2[center] = i;
+    }
+    let uCorners = cube.corners(0, 0);
+    let fCorners = cube.corners(1, 0);
+    let dCorners = cube.corners(2, 0);
+    let bCorners = cube.corners(3, 0);
+    let lCorners = cube.corners(4, 0);
+    let rCorners = cube.corners(5, 0);
+    const fill4C = (cIndices, c1, c2, c3, c4, co1, co2, co3, co4) => {
+      const corner = (ci, o) => corners[cp[ci]][(co[ci] + o) % 3];
+      stickers2[cIndices.topLeft] = corner(c1, co1);
+      stickers2[cIndices.topRight] = corner(c2, co2);
+      stickers2[cIndices.bottomLeft] = corner(c3, co3);
+      stickers2[cIndices.bottomRight] = corner(c4, co4);
+    };
+    fill4C(uCorners, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4C(fCorners, 2, 3, 4, 5, 2, 1, 1, 2);
+    fill4C(dCorners, 4, 5, 6, 7, 0, 0, 0, 0);
+    fill4C(bCorners, 6, 7, 0, 1, 2, 1, 1, 2);
+    fill4C(lCorners, 0, 2, 6, 4, 2, 1, 1, 2);
+    fill4C(rCorners, 3, 1, 5, 7, 2, 1, 1, 2);
+    let uEdges = cube.edges(0, 0, 0);
+    let fEdges = cube.edges(1, 0, 0);
+    let dEdges = cube.edges(2, 0, 0);
+    let bEdges = cube.edges(3, 0, 0);
+    let lEdges = cube.edges(4, 0, 0);
+    let rEdges = cube.edges(5, 0, 0);
+    const fill4E = (eIndices, e1, e2, e3, e4, eo1, eo2, eo3, eo4) => {
+      const edge = (ei, o) => edges[ep[ei]][(eo[ei] + o) % 2];
+      stickers2[eIndices.top] = edge(e1, eo1);
+      stickers2[eIndices.left] = edge(e2, eo2);
+      stickers2[eIndices.right] = edge(e3, eo3);
+      stickers2[eIndices.bottom] = edge(e4, eo4);
+    };
+    fill4E(uEdges, 0, 1, 2, 3, 0, 0, 0, 0);
+    fill4E(fEdges, 3, 4, 5, 6, 1, 0, 0, 1);
+    fill4E(dEdges, 6, 7, 8, 9, 0, 0, 0, 0);
+    fill4E(bEdges, 9, 10, 11, 0, 1, 0, 0, 1);
+    fill4E(lEdges, 1, 10, 4, 7, 1, 1, 1, 1);
+    fill4E(rEdges, 2, 5, 11, 8, 1, 1, 1, 1);
+    return stickers2;
+  }
+  function orientation(pieces, orientations) {
+    const o = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      o[i] = randInt(orientations);
+    }
+    while (!orientationValid(o, orientations)) {
+      const randPiece = randInt(pieces);
+      o[randPiece] = randInt(orientations);
+    }
+    return o;
+  }
+  function orientationValid(pieces, orientations) {
+    let sum = 0;
+    for (let i = 0; i < pieces.length; i++) {
+      sum += pieces[i];
+    }
+    return sum % orientations === 0;
+  }
+  function permutation(pieces) {
+    const p = Array(pieces);
+    for (let i = 0; i < pieces; i++) {
+      p[i] = i;
+    }
+    shuffle(p);
+    return p;
+  }
+  function permutationParity(pieces) {
+    const cpy = [...pieces];
+    let parity = false;
+    while (true) {
+      if (cpy[0] === 0) {
+        const misplaced = cpy.findIndex((value, index) => value !== index);
+        if (misplaced === -1) {
+          return parity;
+        }
+        cpy[0] = cpy[misplaced];
+        cpy[misplaced] = 0;
+        parity = !parity;
+      } else {
+        const temp = cpy[0];
+        cpy[0] = cpy[temp];
+        cpy[temp] = temp;
+        parity = !parity;
+      }
+    }
+  }
+
+  // src/scripts/cube.ts
+  var canvas = document.querySelector("canvas");
+  var gl = canvas.getContext("webgl");
+  function setColor(sticker, color) {
+    const arr = [
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3],
+      color[0],
+      color[1],
+      color[2],
+      color[3]
+    ];
+    gl.bindBuffer(gl.ARRAY_BUFFER, sticker.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+  }
+  function sq(x) {
+    return x * x;
+  }
+  function half(x) {
+    return Math.floor(x / 2);
+  }
+  function even(x) {
+    return x % 2 == 0;
+  }
+  function stickers(layers) {
+    return layers * layers * 6;
+  }
+  var Cube2 = class {
+    constructor() {
+      this.animationQueue = [];
+    }
+    setColors(colors2) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        setColor(this.stickers[i], colors2[i]);
+      }
+    }
+    solve() {
+      const arr = Array(stickers(this.layers));
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i].face = face;
+        arr[i] = faceToColor(face);
+      }
+      this.setColors(arr);
+    }
+    scramble() {
+      if (this.layers === 3) {
+        this.scramble3x3();
+        return;
+      }
+      this.naiveScramble();
+    }
+    scramble3x3() {
+      const state = scramble3x3(this);
+      this.setCubeState(state);
+    }
+    naiveScramble() {
+      let numTurns = sq(this.layers) * 10;
+      for (let i = 0; i < numTurns; i++) {
+        let axis = Math.floor(Math.random() * 3);
+        let layer = Math.floor(Math.random() * this.layers);
+        let clockwise = Math.floor(Math.random() * 1) == 0;
+        this._matchTurn(axis, layer, clockwise);
+      }
+    }
+    setNumOfLayers(num) {
+      this.layers = num;
+      this.stickers = Array(stickers(num));
+      this.underStickers = Array(stickers(num));
+      for (let i = 0; i < stickers(num); i++) {
+        const face = stickerToFace(i, this);
+        this.stickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        this.underStickers[i] = {
+          face,
+          buffer: gl.createBuffer()
+        };
+        setColor(this.underStickers[i], BLACK);
+      }
+      this.affectedStickers = Array(stickers(num)).fill(false);
+    }
+    getCubeState() {
+      return this.stickers.map((sticker) => sticker.face);
+    }
+    setCubeState(state) {
+      for (let i = 0; i < stickers(this.layers); i++) {
+        const color = faceToColor(state[i]);
+        this.stickers[i].face = state[i];
+        setColor(this.stickers[i], color);
+      }
+    }
+    resetAffectedStickers() {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(this.layers === 1);
+    }
+    pushAnimation(axis, clockwise, prevStickers) {
+      let x = clockwise ? -1 : 1;
+      let rotationAxis = [0, 0, 0];
+      rotationAxis[axis] = x;
+      this.animationQueue.push({
+        axis: rotationAxis,
+        stickers: prevStickers,
+        stickersToAnimate: this.affectedStickers
+      });
+    }
+    turn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+    }
+    sliceTurn(axis, clockwise) {
+      const arr = Array(stickers(this.layers));
+      this.affectedStickers = arr.fill(false);
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    wideTurn(axis, layer, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      this._matchTurn(axis, layer, clockwise);
+      for (let i = 1; i < this.layers - 1; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    cubeRotate(axis, clockwise) {
+      this.resetAffectedStickers();
+      this.pushAnimation(axis, clockwise, [...this.stickers]);
+      for (let i = 0; i < this.layers; i++) {
+        this._matchTurn(axis, i, clockwise);
+      }
+    }
+    _matchTurn(axis, layer, clockwise) {
+      if (axis == 0) {
+        this._turnXAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(5, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(4, !clockwise);
+        }
+      } else if (axis == 1) {
+        this._turnYAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(0, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(2, !clockwise);
+        }
+      } else if (axis == 2) {
+        this._turnZAxis(layer, clockwise);
+        if (layer == 0) {
+          this._turnOuter(1, clockwise);
+        } else if (layer == this.layers - 1) {
+          this._turnOuter(3, !clockwise);
+        }
+      } else {
+        console.error(`Axis ${axis} not recognized`);
+      }
+    }
+    _turnXAxis(layer, clockwise) {
+      for (let i = 1; i <= this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          2 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
+          1 * sq(this.layers) + sq(this.layers) - i - layer * this.layers
+        );
+      }
+    }
+    _turnYAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          1 * sq(this.layers) + i * this.layers + layer,
+          4 * sq(this.layers) + i * this.layers + layer,
+          3 * sq(this.layers) + (this.layers - i - 1) * this.layers + (this.layers - 1) - layer,
+          5 * sq(this.layers) + i * this.layers + layer
+        );
+      }
+    }
+    _turnZAxis(layer, clockwise) {
+      for (let i = 0; i < this.layers; i++) {
+        this._cycle(
+          clockwise,
+          0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
+          5 * sq(this.layers) + i + this.layers * layer,
+          2 * sq(this.layers) + (this.layers - i - 1) * this.layers + layer,
+          4 * sq(this.layers) + sq(this.layers) - (i + 1) - layer * this.layers
+        );
+      }
+    }
+    _turnOuter(face, clockwise) {
+      if (this.layers % 2 != 0) {
+        let center = this.center(face);
+        this.affectedStickers[center] = true;
+      }
+      for (let i = 0; i < Math.floor(this.layers / 2); i++) {
+        const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
+        this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
+        let numEdges = this.layers - 2 * (i + 1);
+        for (let j = 0; j < numEdges; j++) {
+          const { top, left, bottom, right } = this.edges(face, i, j);
+          this._cycle(clockwise, top, right, bottom, left);
+        }
+      }
+    }
+    _cycle(clockwise, i1, i2, i3, i4) {
+      this.affectedStickers[i1] = true;
+      this.affectedStickers[i2] = true;
+      this.affectedStickers[i3] = true;
+      this.affectedStickers[i4] = true;
+      if (clockwise) {
+        this._cycleHelper(i1, i2, i3, i4);
+      } else {
+        this._cycleHelper(i4, i3, i2, i1);
+      }
+    }
+    _cycleHelper(i1, i2, i3, i4) {
+      let temp = this.stickers[i4];
+      this.stickers[i4] = this.stickers[i3];
+      this.stickers[i3] = this.stickers[i2];
+      this.stickers[i2] = this.stickers[i1];
+      this.stickers[i1] = temp;
+    }
+    matchKeyToTurn(event) {
+      if (this.disableTurn)
+        return;
+      if (event.ctrlKey)
+        return;
+      return this.matchKeyCodeToTurn(event.code);
+    }
+    matchKeyCodeToTurn(code) {
+      switch (code) {
+        case "KeyN":
+          this.cubeRotate(0, true);
+          return { notation: "x", rotate: true };
+        case "KeyB":
+          this.cubeRotate(0, false);
+          return { notation: "x'", rotate: true };
+        case "Semicolon":
+          this.cubeRotate(1, true);
+          return { notation: "y", rotate: true };
+        case "KeyA":
+          this.cubeRotate(1, false);
+          return { notation: "y'", rotate: true };
+        case "KeyP":
+          this.cubeRotate(2, true);
+          return { notation: "z", rotate: true };
+        case "KeyQ":
+          this.cubeRotate(2, false);
+          return { notation: "z'", rotate: true };
+        case "KeyJ":
+          this.turn(1, 0, true);
+          return { notation: "U", turn: true };
+        case "KeyF":
+          this.turn(1, 0, false);
+          return { notation: "U'", turn: true };
+        case "KeyS":
+          this.turn(1, this.layers - 1, false);
+          return { notation: "D", turn: true };
+        case "KeyL":
+          this.turn(1, this.layers - 1, true);
+          return { notation: "D'", turn: true };
+        case "KeyH":
+          this.turn(2, 0, true);
+          return { notation: "F", turn: true };
+        case "KeyG":
+          this.turn(2, 0, false);
+          return { notation: "F'", turn: true };
+        case "KeyW":
+          this.turn(2, this.layers - 1, false);
+          return { notation: "B", turn: true };
+        case "KeyO":
+          this.turn(2, this.layers - 1, true);
+          return { notation: "B'", turn: true };
+        case "KeyD":
+          this.turn(0, this.layers - 1, false);
+          return { notation: "L", turn: true };
+        case "KeyE":
+          this.turn(0, this.layers - 1, true);
+          return { notation: "L'", turn: true };
+        case "KeyI":
+          this.turn(0, 0, true);
+          return { notation: "R", turn: true };
+        case "KeyK":
+          this.turn(0, 0, false);
+          return { notation: "R'", turn: true };
+        case "BracketLeft":
+          this.sliceTurn(0, false);
+          return { notation: "M", turn: true };
+        case "Quote":
+          this.sliceTurn(0, true);
+          return { notation: "M'", turn: true };
+        case "KeyC":
+          this.sliceTurn(1, false);
+          return { notation: "E", turn: true };
+        case "Comma":
+          this.sliceTurn(1, true);
+          return { notation: "E'", turn: true };
+        case "KeyY":
+          this.sliceTurn(2, true);
+          return { notation: "S", turn: true };
+        case "KeyT":
+          this.sliceTurn(2, false);
+          return { notation: "S'", turn: true };
+        case "KeyU":
+          this.wideTurn(0, 0, true);
+          return { notation: "r", turn: true };
+        case "KeyM":
+          this.wideTurn(0, 0, false);
+          return { notation: "r'", turn: true };
+        case "KeyV":
+          this.wideTurn(0, this.layers - 1, false);
+          return { notation: "l", turn: true };
+        case "KeyR":
+          this.wideTurn(0, this.layers - 1, true);
+          return { notation: "l'", turn: true };
+      }
+      return;
+    }
+    stepAlgorithm(move, forward) {
+      switch (move) {
+        case "x":
+          this.cubeRotate(0, forward);
+          break;
+        case "x'":
+          this.cubeRotate(0, !forward);
+          break;
+        case "x2":
+        case "x2'":
+          this.cubeRotate(0, forward);
+          this.cubeRotate(0, forward);
+          break;
+        case "y":
+          this.cubeRotate(1, forward);
+          break;
+        case "y'":
+          this.cubeRotate(1, !forward);
+          break;
+        case "y2":
+        case "y2'":
+          this.cubeRotate(1, forward);
+          this.cubeRotate(1, forward);
+          break;
+        case "z":
+          this.cubeRotate(2, forward);
+          break;
+        case "z'":
+          this.cubeRotate(2, !forward);
+          break;
+        case "z2":
+        case "z2'":
+          this.cubeRotate(2, forward);
+          this.cubeRotate(2, forward);
+          break;
+        case "U":
+          this.turn(1, 0, forward);
+          break;
+        case "U'":
+          this.turn(1, 0, !forward);
+          break;
+        case "U2":
+        case "U2'":
+          this.turn(1, 0, forward);
+          this.turn(1, 0, forward);
+          break;
+        case "u":
+          this.wideTurn(1, 0, forward);
+          break;
+        case "u'":
+          this.wideTurn(1, 0, !forward);
+          break;
+        case "u2":
+        case "u2'":
+          this.wideTurn(1, 0, forward);
+          this.wideTurn(1, 0, forward);
+          break;
+        case "D":
+          this.turn(1, this.layers - 1, !forward);
+          break;
+        case "D'":
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "D2":
+        case "D2'":
+          this.turn(1, this.layers - 1, forward);
+          this.turn(1, this.layers - 1, forward);
+          break;
+        case "d":
+          this.wideTurn(1, this.layers - 1, !forward);
+          break;
+        case "d'":
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "d2":
+        case "d2'":
+          this.wideTurn(1, this.layers - 1, forward);
+          this.wideTurn(1, this.layers - 1, forward);
+          break;
+        case "F":
+          this.turn(2, 0, forward);
+          break;
+        case "F'":
+          this.turn(2, 0, !forward);
+          break;
+        case "F2":
+        case "F2'":
+          this.turn(2, 0, forward);
+          this.turn(2, 0, forward);
+          break;
+        case "f":
+          this.wideTurn(2, 0, forward);
+          break;
+        case "f'":
+          this.wideTurn(2, 0, !forward);
+          break;
+        case "f2":
+        case "f2'":
+          this.wideTurn(2, 0, forward);
+          this.wideTurn(2, 0, forward);
+          break;
+        case "B":
+          this.turn(2, this.layers - 1, !forward);
+          break;
+        case "B'":
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "B2":
+        case "B2'":
+          this.turn(2, this.layers - 1, forward);
+          this.turn(2, this.layers - 1, forward);
+          break;
+        case "b":
+          this.wideTurn(2, this.layers - 1, !forward);
+          break;
+        case "b'":
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "b2":
+        case "b2'":
+          this.wideTurn(2, this.layers - 1, forward);
+          this.wideTurn(2, this.layers - 1, forward);
+          break;
+        case "L":
+          this.turn(0, this.layers - 1, !forward);
+          break;
+        case "L'":
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "L2":
+        case "L2'":
+          this.turn(0, this.layers - 1, forward);
+          this.turn(0, this.layers - 1, forward);
+          break;
+        case "l":
+          this.wideTurn(0, this.layers - 1, !forward);
+          break;
+        case "l'":
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "l2":
+        case "l2'":
+          this.wideTurn(0, this.layers - 1, forward);
+          this.wideTurn(0, this.layers - 1, forward);
+          break;
+        case "R":
+          this.turn(0, 0, forward);
+          break;
+        case "R'":
+          this.turn(0, 0, !forward);
+          break;
+        case "R2":
+        case "R2'":
+          this.turn(0, 0, forward);
+          this.turn(0, 0, forward);
+          break;
+        case "r":
+          this.wideTurn(0, 0, forward);
+          break;
+        case "r'":
+          this.wideTurn(0, 0, !forward);
+          break;
+        case "r2":
+        case "r2'":
+          this.wideTurn(0, 0, forward);
+          this.wideTurn(0, 0, forward);
+          break;
+        case "M":
+          this.turn(0, 1, !forward);
+          break;
+        case "M'":
+          this.turn(0, 1, forward);
+          break;
+        case "M2":
+        case "M2'":
+          this.sliceTurn(0, forward);
+          this.sliceTurn(0, forward);
+          break;
+        case "E":
+          this.sliceTurn(1, !forward);
+          break;
+        case "E'":
+          this.sliceTurn(1, forward);
+          break;
+        case "E2":
+        case "E2'":
+          this.sliceTurn(1, forward);
+          this.sliceTurn(1, forward);
+          break;
+        case "S":
+          this.sliceTurn(2, forward);
+          break;
+        case "S'":
+          this.sliceTurn(2, !forward);
+          break;
+        case "S2":
+        case "S2'":
+          this.sliceTurn(2, forward);
+        default:
+          throw new Error("Invalid turn in algorithm: " + move);
+      }
+    }
+    execAlg(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = 0; i < moves.length; i++) {
+        this.stepAlgorithm(moves[i], true);
+      }
+      this.animationQueue = [];
+    }
+    execAlgReverse(alg) {
+      if (!alg)
+        return;
+      let moves = alg.split(" ");
+      for (let i = moves.length - 1; i >= 0; i--) {
+        this.stepAlgorithm(moves[i], false);
+      }
+      this.animationQueue = [];
+    }
+    stickerIsOnFace(sticker, face) {
+      return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
+    }
+    center(face) {
+      return face * sq(this.layers) + Math.floor(sq(this.layers) / 2);
+    }
+    corners(face, layer) {
+      const offset = face * sq(this.layers);
+      return {
+        topLeft: offset + (this.layers + 1) * layer,
+        topRight: offset + (this.layers - 1) * (this.layers - layer),
+        bottomRight: offset + (this.layers + 1) * (this.layers - layer - 1),
+        bottomLeft: offset + (this.layers - 1) * (layer + 1)
+      };
+    }
+    edges(face, corner, edge) {
+      const corners2 = this.corners(face, corner);
+      let numEdges = this.layers - 2 * (corner + 1);
+      return {
+        top: corners2.topLeft + this.layers * (edge + 1),
+        left: corners2.topLeft + (numEdges - edge),
+        right: corners2.topRight + edge + 1,
+        bottom: corners2.bottomLeft + this.layers * (numEdges - edge)
+      };
+    }
+  };
+
+  // src/scripts/buffers.ts
+  function createBuffers(gl4, cube, perspectiveMatrix) {
+    let allPositions = makePositions(cube, 1.01, 0.02);
+    let allNoGapPositions = makePositions(cube, 1, 0);
+    let allHintPositions = makePositions(cube, 1.5, 0.02);
+    const objects = Array(stickers(cube.layers));
+    for (let i = 0; i < stickers(cube.layers); i++) {
+      let object = {
+        positionBuffer: gl4.createBuffer(),
+        noGapPositionBuffer: gl4.createBuffer(),
+        hintPositionBuffer: gl4.createBuffer(),
+        indexBuffer: gl4.createBuffer(),
+        cart2d: [],
+        positions: null
+      };
+      let positions = new Float32Array(12);
+      let noGapPos = new Float32Array(12);
+      let hintPos = new Float32Array(12);
+      for (let j = 0; j < 12; j++) {
+        let index = i * 12 + j;
+        positions[j] = allPositions[index];
+        noGapPos[j] = allNoGapPositions[index];
+        hintPos[j] = allHintPositions[index];
+      }
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.positionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, positions, gl4.STATIC_DRAW);
+      object.positions = positions;
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.noGapPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, noGapPos, gl4.STATIC_DRAW);
+      gl4.bindBuffer(gl4.ARRAY_BUFFER, object.hintPositionBuffer);
+      gl4.bufferData(gl4.ARRAY_BUFFER, hintPos, gl4.STATIC_DRAW);
+      const homo = Array(16);
+      multiply(homo, 0, perspectiveMatrix, [noGapPos[0], noGapPos[1], noGapPos[2], 1]);
+      multiply(homo, 4, perspectiveMatrix, [noGapPos[3], noGapPos[4], noGapPos[5], 1]);
+      multiply(homo, 8, perspectiveMatrix, [noGapPos[6], noGapPos[7], noGapPos[8], 1]);
+      multiply(homo, 12, perspectiveMatrix, [noGapPos[9], noGapPos[10], noGapPos[11], 1]);
+      object.cart2d = [
+        homo[0] / homo[3],
+        homo[1] / homo[3],
+        homo[4] / homo[7],
+        homo[5] / homo[7],
+        homo[8] / homo[11],
+        homo[9] / homo[11],
+        homo[12] / homo[15],
+        homo[13] / homo[15]
+      ];
+      const indices = [0, 1, 2, 0, 2, 3];
+      gl4.bindBuffer(gl4.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+      gl4.bufferData(gl4.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl4.STATIC_DRAW);
+      objects[i] = object;
+    }
+    return objects;
+  }
+  function multiply(arr, offset, a, b) {
+    const out = Array(4);
+    let b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    arr[offset + 0] = b0 * a[0] + b1 * a[4] + b2 * a[8] + b3 * a[12];
+    arr[offset + 1] = b0 * a[1] + b1 * a[5] + b2 * a[9] + b3 * a[13];
+    arr[offset + 2] = b0 * a[2] + b1 * a[6] + b2 * a[10] + b3 * a[14];
+    arr[offset + 3] = b0 * a[3] + b1 * a[7] + b2 * a[11] + b3 * a[15];
+  }
+  var perSticker = 12;
+  var verticesInSquare = 4;
+  var dimensions = 3;
+  function makePositions(cube, radius, gap) {
+    const perFace = sq(cube.layers) * perSticker;
+    const out = Array(6 * perFace);
+    topFace(out, 0 * perFace, cube, 1, radius, gap);
+    frontFace(out, 1 * perFace, cube, 0, radius, gap);
+    bottomFace(out, 2 * perFace, cube, 1, -radius, gap);
+    backFace(out, 3 * perFace, cube, 0, -radius, gap);
+    leftFace(out, 4 * perFace, cube, 2, -radius, gap);
+    rightFace(out, 5 * perFace, cube, 2, radius, gap);
+    return out;
+  }
+  function topFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function frontFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function bottomFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function backFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = 0; j < cube.layers; j++) {
+          const x = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = -half(cube.layers); j <= half(cube.layers); j++) {
+        coords[idx] = [2 * i / cube.layers, 2 * j / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function leftFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = 0; i < cube.layers; i++) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = -half(cube.layers); i <= half(cube.layers); i++) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function rightFace(arr, offset, cube, a, r, gap) {
+    if (even(cube.layers)) {
+      let coords2 = Array(sq(cube.layers));
+      let idx2 = 0;
+      for (let i = cube.layers - 1; i >= 0; i--) {
+        for (let j = cube.layers - 1; j >= 0; j--) {
+          const x = -1 + 1 / cube.layers + j * 2 / cube.layers;
+          const y = -1 + 1 / cube.layers + i * 2 / cube.layers;
+          coords2[idx2] = [x, y, r];
+          idx2++;
+        }
+      }
+      makeFace(arr, offset, cube, coords2, a, gap);
+      return;
+    }
+    let coords = Array(sq(cube.layers));
+    let idx = 0;
+    for (let i = half(cube.layers); i >= -half(cube.layers); i--) {
+      for (let j = half(cube.layers); j >= -half(cube.layers); j--) {
+        coords[idx] = [2 * j / cube.layers, 2 * i / cube.layers, r];
+        idx++;
+      }
+    }
+    makeFace(arr, offset, cube, coords, a, gap);
+  }
+  function makeFace(arr, offset, cube, coords, a, gap) {
+    for (let i = 0; i < sq(cube.layers); i++) {
+      const temp = coords[i];
+      makeSticker(arr, offset + i * perSticker, cube, temp[0], temp[1], temp[2], a, gap);
+    }
+  }
+  function makeSticker(arr, offset, cube, x, y, r, a, gap) {
+    const s = 1 / cube.layers - gap;
+    const coords = [
+      [x - s, y - s, r],
+      [x + s, y - s, r],
+      [x + s, y + s, r],
+      [x - s, y + s, r]
+    ];
+    for (let i = 0; i < verticesInSquare; i++) {
+      const temp = coords[i];
+      arr[offset + i * dimensions] = temp[(a + 0) % dimensions];
+      arr[offset + i * dimensions + 1] = temp[(a + 1) % dimensions];
+      arr[offset + i * dimensions + 2] = temp[(a + 2) % dimensions];
+    }
+  }
+
+  // src/scripts/common/spring.ts
+  var k = 100;
+  var f = 15;
+  var Spring = class {
+    constructor() {
+      this.position = 0;
+      this._velocity = 200;
+      this._acceleration = 0;
+      this.target = 0;
+    }
+    update(dt) {
+      const springF = -k * (this.position - this.target);
+      const dampingF = -f * this._velocity;
+      this._acceleration = springF + dampingF;
+      this._velocity += this._acceleration * dt;
+      this.position += this._velocity * dt;
+    }
+  };
+
+  // src/scripts/dragDetector.ts
+  function xPixelToClip(val, canvasSize) {
+    return val / canvasSize * 2 - 1;
+  }
+  function yPixelToClip(val, canvasSize) {
+    return 1 - val / canvasSize * 2;
+  }
+  function calcSlope(x1, y1, x2, y2) {
+    if (x1 < x2) {
+      return (y2 - y1) / (x2 - x1);
+    }
+    return (y1 - y2) / (x1 - x2);
+  }
+  function areaTriangle(x1, y1, x2, y2, x3, y3) {
+    return Math.abs(0.5 * (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)));
+  }
+  function topRow(cube, sticker) {
+    return cube.layers - 1 - sticker % cube.layers;
+  }
+  function topColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor(sticker / cube.layers);
+  }
+  function frontRow(cube, sticker) {
+    return sticker % cube.layers;
+  }
+  function frontColumn(cube, sticker) {
+    return cube.layers - 1 - Math.floor((sticker - sq(cube.layers)) / cube.layers);
+  }
+  var DragDetector = class {
+    onPointerDown(x, y, div, cube, buffers) {
+      this.numOfPointerMoves = 0;
+      const clipX = xPixelToClip(x, div.clientWidth);
+      const clipY = yPixelToClip(y, div.clientHeight);
+      this.xOnDown = clipX;
+      this.yOnDown = clipY;
+      [this.stickerOnDown, this.cart2dOnDown] = this._coordinatesToSticker(clipX, clipY, cube, buffers);
+      function getXY(objectIndex, xIndex, yIndex) {
+        return {
+          x: buffers[objectIndex].cart2d[xIndex],
+          y: buffers[objectIndex].cart2d[yIndex]
+        };
+      }
+      if (this.stickerOnDown !== -1)
+        return;
+      const topLeft = getXY(0, 0, 1);
+      const topRight = getXY(cube.layers * (cube.layers - 1), 6, 7);
+      const left = getXY(cube.layers - 1, 2, 3);
+      const right = getXY(sq(cube.layers) - 1, 4, 5);
+      const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
+      const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
+      if (clipY > topLeft.y && clipX > topLeft.x && clipX < topRight.x) {
+        cube.cubeRotate(0, true);
+      } else if (clipX < topLeft.x && clipY > left.y && clipY < topLeft.y) {
+        cube.cubeRotate(2, false);
+      } else if (clipX > topRight.x && clipY > right.y && clipY < topRight.y) {
+        cube.cubeRotate(2, true);
+      } else if (clipX < bottomLeft.x && clipY > bottomLeft.y && clipY < left.y) {
+        cube.cubeRotate(1, true);
+      } else if (clipX > bottomRight.x && clipY > bottomRight.y && clipY < right.y) {
+        cube.cubeRotate(1, false);
+      } else if (clipY < bottomLeft.y && clipX > bottomLeft.x && clipX < bottomRight.x) {
+        cube.cubeRotate(0, false);
+      }
+    }
+    onPointerMove(x, y) {
+      this.numOfPointerMoves++;
+      this.xOnMove = x;
+      this.yOnMove = y;
+    }
+    onPointerUp(div, cube, buffers) {
+      if (this.numOfPointerMoves < 2)
+        return;
+      let posSlope, negSlope;
+      if (this.stickerOnDown !== -1) {
+        posSlope = calcSlope(this.cart2dOnDown[0], this.cart2dOnDown[1], this.cart2dOnDown[4], this.cart2dOnDown[5]);
+        negSlope = calcSlope(this.cart2dOnDown[2], this.cart2dOnDown[3], this.cart2dOnDown[6], this.cart2dOnDown[7]);
+        if (posSlope < 0) {
+          const temp = posSlope;
+          posSlope = negSlope;
+          negSlope = temp;
+        }
+      }
+      const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
+      const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
+      const slope = calcSlope(xClip, yClip, this.xOnDown, this.yOnDown);
+      if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, topColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, topColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(2, topRow(cube, this.stickerOnDown), xClip > this.xOnDown);
+          }
+        }
+      } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
+        if (xClip === this.xOnDown) {
+          cube.turn(0, frontColumn(cube, this.stickerOnDown), yClip > this.yOnDown);
+        } else {
+          if (slope > posSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip > this.xOnDown);
+          } else if (slope < negSlope) {
+            cube.turn(0, frontColumn(cube, this.stickerOnDown), xClip < this.xOnDown);
+          } else {
+            cube.turn(1, frontRow(cube, this.stickerOnDown), xClip < this.xOnDown);
+          }
+        }
+      }
+    }
+    _coordinatesToSticker(x, y, cube, buffers) {
+      const coordinateIsInSticker = (i) => {
+        if (!buffers[i].cart2d) {
+          console.error("cart2d is undefined");
+          return;
+        }
+        const cart2d = buffers[i].cart2d;
+        const areaQuadrilateral = areaTriangle(cart2d[0], cart2d[1], cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(cart2d[0], cart2d[1], cart2d[4], cart2d[5], cart2d[6], cart2d[7]);
+        const sumAreaTriangles = areaTriangle(x, y, cart2d[0], cart2d[1], cart2d[2], cart2d[3]) + areaTriangle(x, y, cart2d[2], cart2d[3], cart2d[4], cart2d[5]) + areaTriangle(x, y, cart2d[4], cart2d[5], cart2d[6], cart2d[7]) + areaTriangle(x, y, cart2d[6], cart2d[7], cart2d[0], cart2d[1]);
+        const EPSILON = 1e-5;
+        if (Math.abs(areaQuadrilateral - sumAreaTriangles) < EPSILON) {
+          return [
+            i,
+            cart2d
+          ];
+        }
+        return void 0;
+      };
+      for (let i = 0; i < 2 * sq(cube.layers); i++) {
+        const output = coordinateIsInSticker(i);
+        if (output)
+          return output;
+      }
+      return [-1, void 0];
+    }
+  };
+
+  // src/scripts/glMatrix.ts
+  function create() {
+    return [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ];
+  }
+  function perspective(out, fovy, aspect, near, far) {
+    const f2 = 1 / Math.tan(fovy / 2);
+    out[0] = f2 / aspect;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = f2;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[11] = -1;
+    out[12] = 0;
+    out[13] = 0;
+    out[15] = 0;
+    if (far != null && far !== Infinity) {
+      const nf = 1 / (near - far);
+      out[10] = (far + near) * nf;
+      out[14] = 2 * far * near * nf;
+    } else {
+      out[10] = -1;
+      out[14] = -2 * near;
+    }
+    return out;
+  }
+  function rotate(out, a, rad, axis) {
+    let x = axis[0], y = axis[1], z = axis[2], len = 1 / Math.hypot(x, y, z);
+    x *= len;
+    y *= len;
+    z *= len;
+    let s = Math.sin(rad), c = Math.cos(rad), t = 1 - c, a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3], a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7], a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11], b00 = x * x * t + c, b01 = y * x * t + z * s, b02 = z * x * t - y * s, b10 = x * y * t - z * s, b11 = y * y * t + c, b12 = z * y * t + x * s, b20 = x * z * t + y * s, b21 = y * z * t - x * s, b22 = z * z * t + c;
+    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
+    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
+    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
+    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
+    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
+    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
+    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
+    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
+    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
+    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
+    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
+    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
+    if (a !== out) {
+      out[12] = a[12];
+      out[13] = a[13];
+      out[14] = a[14];
+      out[15] = a[15];
+    }
+    return out;
+  }
+  function translate(m, v) {
+    let x = v[0], y = v[1], z = v[2];
+    m[12] += m[0] * x + m[4] * y + m[7] * z;
+    m[13] += m[1] * x + m[5] * y + m[8] * z;
+    m[14] += m[2] * x + m[5] * y + m[9] * z;
+    m[15] += m[3] * x + m[6] * y + m[10] * z;
+    return m;
+  }
+
+  // src/scripts/common/singleton.ts
+  function singleton() {
+    let instance;
+    return (constructor) => {
+      if (!instance) {
+        instance = constructor();
+      }
+      return instance;
+    };
+  }
+
+  // src/scripts/scene.ts
+  var canvas2 = document.querySelector("canvas");
+  var gl2 = canvas2.getContext("webgl");
+  var programInfo = initPrograms();
+  var scenes = [];
+  var settings = {
+    animateTurns: true,
+    hintStickers: true,
+    showBody: true
+  };
+  var time = Date.now() * 1e-3;
+  var numLayers = 3;
+  var loopStarted = false;
+  function startLoop() {
+    if (loopStarted)
+      return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+  }
+  function newScene(selector) {
+    let div = document.querySelector(selector);
+    let cube = new Cube2();
+    let spring = new Spring();
+    let perspectiveMatrix = initPerspective(div);
+    let dragDetector = new DragDetector();
+    cube.setNumOfLayers(numLayers);
+    let buffers = createBuffers(gl2, cube, perspectiveMatrix);
+    let scene = {
+      div,
+      cube,
+      spring,
+      buffers,
+      perspectiveMatrix
+    };
+    const pointerdown = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
+    };
+    const pointermove = (offsetX, offsetY) => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerMove(offsetX, offsetY);
+    };
+    const pointerup = () => {
+      if (!scene.dragEnabled)
+        return;
+      dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
+    };
+    const calcOffset = (event) => {
+      const rect = event.target.getBoundingClientRect();
+      const x = event.touches[0].pageX - rect.left;
+      const y = event.touches[0].pageY - rect.top;
+      return { x, y };
+    };
+    const addPointerListeners = () => {
+      div.addEventListener("pointerdown", (event) => pointerdown(event.offsetX, event.offsetY));
+      div.addEventListener("pointermove", (event) => pointermove(event.offsetX, event.offsetY));
+      div.addEventListener("pointerup", (event) => pointerup());
+    };
+    const addTouchListeners = () => {
+      div.addEventListener("touchstart", (event) => {
+        const { x, y } = calcOffset(event);
+        pointerdown(x, y);
+      });
+      div.addEventListener("touchmove", (event) => {
+        const { x, y } = calcOffset(event);
+        pointermove(x, y);
+      });
+      div.addEventListener("touchend", (event) => {
+        pointerup();
+      });
+    };
+    if (window.PointerEvent) {
+      addPointerListeners();
+    } else {
+      addTouchListeners();
+    }
+    return scene;
+  }
+  function initPrograms() {
+    const vertexShaderSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
     uniform mat4 uTransformMatrix;
@@ -14,7 +1376,8 @@
         rotatedPos = uRotateMatrix * aVertexPosition;
         vColor = aVertexColor;
     }
-    `,`
+    `;
+    const fragmentShaderSource = `
     // variables shared between vertex and fragment shaders
     varying lowp vec4 vColor;
     varying lowp vec4 originalPos;
@@ -38,5 +1401,616 @@
         if (rotatedPos.y < max && rotatedPos.z < max) return;
         discard;
     }
-    `);return g.useProgram(e),{attribLocations:{vertexPosition:g.getAttribLocation(e,"aVertexPosition"),vertexColor:g.getAttribLocation(e,"aVertexColor")},uniformLocations:{transformMatrix:g.getUniformLocation(e,"uTransformMatrix"),rotateMatrix:g.getUniformLocation(e,"uRotateMatrix")}}}function Zt(r){let t=ee();return we(t,50*Math.PI/180,r.clientWidth/r.clientHeight,.1,100),_e(t,[0,0,-5]),te(t,t,45*Math.PI/180,[1,0,0]),te(t,t,0,[0,-1,0]),t}function xe(r,t,e){e.bindBuffer(e.ARRAY_BUFFER,r),e.vertexAttribPointer(t.attribLocations.vertexPosition,3,e.FLOAT,!1,0,0),e.enableVertexAttribArray(t.attribLocations.vertexPosition)}function Se(r,t,e){e.bindBuffer(e.ARRAY_BUFFER,r),e.vertexAttribPointer(t.attribLocations.vertexColor,4,e.FLOAT,!1,0,0),e.enableVertexAttribArray(t.attribLocations.vertexColor)}function ke(r){r.drawElements(r.TRIANGLES,6,r.UNSIGNED_SHORT,0)}function Jt(r,t,e){let n=We(r,r.VERTEX_SHADER,t),s=We(r,r.FRAGMENT_SHADER,e),o=r.createProgram();return r.attachShader(o,n),r.attachShader(o,s),r.linkProgram(o),r.getProgramParameter(o,r.LINK_STATUS)?o:(alert("Unable to initialize the shader program: "+r.getProgramInfoLog(o)),null)}function We(r,t,e){let n=r.createShader(t);return r.shaderSource(n,e),r.compileShader(n),r.getShaderParameter(n,r.COMPILE_STATUS)?n:(alert("An error occurred compiling the shaders: "+r.getShaderInfoLog(n)),r.deleteShader(n),null)}function er(){let r=P.clientWidth,t=P.clientHeight,e=P.width!==r||P.height!==t;return e&&(P.width=r,P.height=t),e}function Ke(r){r*=.001;let t=r-Ue;Ue=r,er(),g.enable(g.DEPTH_TEST),g.enable(g.SCISSOR_TEST),g.depthFunc(g.LEQUAL),g.clear(g.COLOR_BUFFER_BIT|g.DEPTH_BUFFER_BIT),P.style.transform=`translateY(${window.scrollY}px)`;for(let e=0;e<Y.length;e++){let{cube:n,div:s,spring:o,buffers:l,perspectiveMatrix:a}=Y[e],i=s.getBoundingClientRect();if(i.bottom<0||i.top>P.clientHeight||i.right<0||i.left>P.clientWidth)continue;let c=i.right-i.left,u=i.bottom-i.top,m=i.left,h=P.clientHeight-i.bottom;g.viewport(m,h,c,u),g.scissor(m,h,c,u),n.animationQueue[0]&&(o.target=n.animationQueue.length*90,o.update(t),o.position>=90&&(n.affectedStickers=Array(v(n.layers)).fill(!1),o.position=0,n.animationQueue.shift()));let p=n.animationQueue[0],d=tr(n),b=be(),L=be();for(let k=0;k<v(n.layers);k++){let B=l[k],R=p&&p.stickersToAnimate[k]&&re.animateTurns?b(()=>te(ee(),a,o.position*Math.PI/180,p.axis)):a;g.uniformMatrix4fv(j.uniformLocations.transformMatrix,!1,R);let S=p&&p.stickersToAnimate[k]&&re.animateTurns?L(()=>{let A=ee();return te(A,A,o.position*Math.PI/180,p.axis)}):ee();g.uniformMatrix4fv(j.uniformLocations.rotateMatrix,!1,S),g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,B.indexBuffer),re.showBody&&(xe(B.noGapPositionBuffer,j,g),Se(n.underStickers[k].buffer,j,g),ke(g)),xe(B.positionBuffer,j,g),Se(d[k].buffer,j,g),ke(g),re.hintStickers&&(xe(B.hintPositionBuffer,j,g),Se(d[k].buffer,j,g),ke(g))}}requestAnimationFrame(Ke)}function tr(r){return re.animateTurns&&r.animationQueue[0]?r.animationQueue[0].stickers:r.stickers}var ne=725,ve=!1;function Le(r){ve=!0,r.style.display="flex",r.classList.add("slideLeftOpen"),document.documentElement.clientWidth<ne?r.classList.add("slideLeftClosed"):r.classList.remove("slideLeftClosed")}function ue(r){ve=!1,document.documentElement.clientWidth<ne?(r.classList.add("slideLeftClosed"),r.classList.remove("slideLeftOpen"),r.style.display="flex"):r.style.display="none"}function Te(r){ve?ue(r):Le(r)}function Ne(){let r=document.querySelector(".slideRight"),t=!1;function e(n){if(t=n,t){r.classList.add("slideRightOpen");return}r.classList.remove("slideRightOpen")}document.addEventListener("click",n=>{let s=n.target;if(s===document.querySelector("#menu")){e(!0);return}t&&!s.closest(".slideRight")&&e(!1)}),document.querySelector("#closeMenu").addEventListener("click",()=>{e(!1)}),document.querySelector("#learnButton").addEventListener("click",()=>{document.location.href="learn.html"}),document.querySelector("#playButton").addEventListener("click",()=>{document.location.href="play.html"}),document.querySelector("#trainButton").addEventListener("click",()=>{document.location.href="train.html"}),document.querySelector("#cubleButton").addEventListener("click",()=>{document.location.href="cuble.html"})}var nr=document.querySelector("canvas"),sr=nr.getContext("webgl");function je(r,t){Ne(),ir(r,t),or(r);for(let e=0;e<r.length;e++)Ye(r,t,e);se(r),qe(),ar(),Ve()}function Ye(r,t,e){let n=Ge(`#scene${e}`);Y.push(n),n.cube.setNumOfLayers(t),n.buffers=ae(sr,Y[0].cube,Y[0].perspectiveMatrix);let s=r[e];if(s.cube=n.cube,s.move=0,s.practiceProblems)n.dragEnabled=!0,ze(s);else{let o=Qe(s);n.cube.setColors(o),n.cube.execAlg(s.setup)}}function se(r){for(let t=0;t<r.length;t++){let e=r[t];if(e.practiceProblems&&e.showSolution){let o=e.practiceProblems[e.problemIndex];document.querySelector(`#problemText${t}`).textContent=o.explanation,document.querySelector(`#leftButton${t}`).style.display="",document.querySelector(`#rightButton${t}`).style.display="";let l=document.querySelector(`#moveCounter${t}`);l.style.display="";let a=he(e.algorithm);l.textContent=`${e.move} / ${a.length}`;continue}if(e.practiceProblems&&!e.showSolution){let o=e.practiceProblems[e.problemIndex];document.querySelector(`#problemText${t}`).textContent=o.directions,document.querySelector(`#leftButton${t}`).style.display="none",document.querySelector(`#rightButton${t}`).style.display="none",document.querySelector(`#moveCounter${t}`).style.display="none";continue}let n=document.querySelector(`#moveCounter${t}`),s=he(e.algorithm);n.textContent=`${e.move} / ${s.length}`}}function ze(r){let t=C(r.practiceProblems.length);for(;t===r.problemIndex;)t=C(r.practiceProblems.length);$e(r,t)}function $e(r,t){let e=r.practiceProblems[t];r.problemIndex=t,r.algorithm=r.practiceProblems[t].algorithm;let n=Qe(r);r.cube.setColors(n),r.cube.execAlg(e.setup),r.move=0}function Qe(r){let t=Array(54);r.activeStickers.forEach(e=>{t[e]=Z(J(e,r.cube))});for(let e=0;e<54;e++)t[e]||(t[e]=Ae);return t}function ir(r,t){let e=document.querySelector("#lessonNavigator");e.addEventListener("click",n=>{let s=n.target;if(s.className==="lesson-p"){let o=parseInt(s.getAttribute("lesson-index"));Ye(r,t,o),document.documentElement.clientWidth<ne&&ue(e)}}),document.querySelector("#openClose").addEventListener("click",n=>{Te(e)}),document.querySelector("#close").addEventListener("click",n=>{Te(e)})}function or(r){let t="leftButton",e="rightButton",n="showSolution",s="next";document.addEventListener("click",o=>{let l=o.target;if(l.id.startsWith(t)){let a=parseInt(l.id.substring(t.length)),i=r[a];if(i.move<=0)return;i.move--;let c=he(i.algorithm);i.cube.stepAlgorithm(c[i.move],!1),se(r)}else if(l.id.startsWith(e)){let a=parseInt(l.id.substring(e.length)),i=r[a],c=he(i.algorithm);if(i.move>=c.length)return;i.cube.stepAlgorithm(c[i.move],!0),i.move++,se(r)}else if(l.id.startsWith(n)){let a=parseInt(l.id.substring(n.length)),i=r[a];i.showSolution=!0,Y[a].dragEnabled=!1,$e(i,i.problemIndex),se(r)}else if(l.id.startsWith(s)){let a=parseInt(l.id.substring(s.length)),i=r[a];i.showSolution=!1,Y[a].dragEnabled=!0,ze(i),se(r)}})}function ar(){window.addEventListener("resize",()=>{Ve()})}function Ve(){let r=document.querySelector("#openClose"),t=document.querySelector("#close"),e=document.querySelector("#lessonNavigator");if(document.documentElement.clientWidth<ne){r.style.display="inline-block",t.style.display="inline-block",ue(e);return}r.style.display="none",t.style.display="none",Le(e)}function he(r){return(r||"").split(" ")}var lr=[{activeStickers:y,setup:"U'",algorithm:"U"},{activeStickers:y,setup:"U",algorithm:"U'"},{activeStickers:y,setup:"D'",algorithm:"D"},{activeStickers:y,setup:"D",algorithm:"D'"},{activeStickers:y,setup:"R'",algorithm:"R"},{activeStickers:y,setup:"R",algorithm:"R'"},{activeStickers:y,setup:"L'",algorithm:"L"},{activeStickers:y,setup:"L",algorithm:"L'"},{activeStickers:y,setup:"F'",algorithm:"F"},{activeStickers:y,setup:"F",algorithm:"F'"},{activeStickers:y,setup:"B'",algorithm:"B"},{activeStickers:y,setup:"B",algorithm:"B'"},{activeStickers:y,setup:"B2 F2 L2 R2 D2 U2",algorithm:"U U D D R R L L F F B B"},{activeStickers:y,setup:"u'",algorithm:"u"},{activeStickers:y,setup:"d'",algorithm:"d"},{activeStickers:y,setup:"r'",algorithm:"r"},{activeStickers:y,setup:"l'",algorithm:"l"},{activeStickers:y,setup:"f'",algorithm:"f"},{activeStickers:y,setup:"b'",algorithm:"b"},{activeStickers:y,setup:"M'",algorithm:"M"},{activeStickers:y,setup:"M",algorithm:"M'"},{activeStickers:y,setup:"E'",algorithm:"E"},{activeStickers:y,setup:"E",algorithm:"E'"},{activeStickers:y,setup:"S'",algorithm:"S"},{activeStickers:y,setup:"S",algorithm:"S'"},{activeStickers:y,setup:"x'",algorithm:"x"},{activeStickers:y,setup:"x",algorithm:"x'"},{activeStickers:y,setup:"y'",algorithm:"y"},{activeStickers:y,setup:"y",algorithm:"y'"},{activeStickers:y,setup:"z'",algorithm:"z"},{activeStickers:y,setup:"z",algorithm:"z'"},{activeStickers:y,setup:"R U R' F' R U R' U' R' F R2 U' R' U'",algorithm:"R U R' F' R U R' U' R' F R2 U' R' U'"}];function cr(){je(lr,3)}cr();})();
+    `;
+    const shaderProgram = initShaderProgram(gl2, vertexShaderSource, fragmentShaderSource);
+    gl2.useProgram(shaderProgram);
+    return {
+      attribLocations: {
+        vertexPosition: gl2.getAttribLocation(shaderProgram, "aVertexPosition"),
+        vertexColor: gl2.getAttribLocation(shaderProgram, "aVertexColor")
+      },
+      uniformLocations: {
+        transformMatrix: gl2.getUniformLocation(shaderProgram, "uTransformMatrix"),
+        rotateMatrix: gl2.getUniformLocation(shaderProgram, "uRotateMatrix")
+      }
+    };
+  }
+  function initPerspective(element) {
+    let perspectiveMatrix = create();
+    perspective(
+      perspectiveMatrix,
+      50 * Math.PI / 180,
+      element.clientWidth / element.clientHeight,
+      0.1,
+      100
+    );
+    translate(
+      perspectiveMatrix,
+      [0, 0, -5]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      45 * Math.PI / 180,
+      [1, 0, 0]
+    );
+    rotate(
+      perspectiveMatrix,
+      perspectiveMatrix,
+      0,
+      [0, -1, 0]
+    );
+    return perspectiveMatrix;
+  }
+  function bindPosition(positionBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, positionBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexPosition,
+      3,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexPosition
+    );
+  }
+  function bindColor(colorBuffer, programInfo2, gl4) {
+    gl4.bindBuffer(gl4.ARRAY_BUFFER, colorBuffer);
+    gl4.vertexAttribPointer(
+      programInfo2.attribLocations.vertexColor,
+      4,
+      gl4.FLOAT,
+      false,
+      0,
+      0
+    );
+    gl4.enableVertexAttribArray(
+      programInfo2.attribLocations.vertexColor
+    );
+  }
+  function drawElements(gl4) {
+    gl4.drawElements(
+      gl4.TRIANGLES,
+      6,
+      gl4.UNSIGNED_SHORT,
+      0
+    );
+  }
+  function initShaderProgram(gl4, vsSource, fsSource) {
+    const vertexShader = loadShader(gl4, gl4.VERTEX_SHADER, vsSource);
+    const fragmentShader = loadShader(gl4, gl4.FRAGMENT_SHADER, fsSource);
+    const shaderProgram = gl4.createProgram();
+    gl4.attachShader(shaderProgram, vertexShader);
+    gl4.attachShader(shaderProgram, fragmentShader);
+    gl4.linkProgram(shaderProgram);
+    if (!gl4.getProgramParameter(shaderProgram, gl4.LINK_STATUS)) {
+      alert("Unable to initialize the shader program: " + gl4.getProgramInfoLog(shaderProgram));
+      return null;
+    }
+    return shaderProgram;
+  }
+  function loadShader(gl4, type, source) {
+    const shader = gl4.createShader(type);
+    gl4.shaderSource(shader, source);
+    gl4.compileShader(shader);
+    if (!gl4.getShaderParameter(shader, gl4.COMPILE_STATUS)) {
+      alert("An error occurred compiling the shaders: " + gl4.getShaderInfoLog(shader));
+      gl4.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+  function resizeCanvasToDisplaySize() {
+    const displayWidth = canvas2.clientWidth;
+    const displayHeight = canvas2.clientHeight;
+    const needResize = canvas2.width !== displayWidth || canvas2.height !== displayHeight;
+    if (needResize) {
+      canvas2.width = displayWidth;
+      canvas2.height = displayHeight;
+    }
+    return needResize;
+  }
+  function render(newTime) {
+    newTime *= 1e-3;
+    const dt = newTime - time;
+    time = newTime;
+    resizeCanvasToDisplaySize();
+    gl2.enable(gl2.DEPTH_TEST);
+    gl2.enable(gl2.SCISSOR_TEST);
+    gl2.depthFunc(gl2.LEQUAL);
+    gl2.clear(gl2.COLOR_BUFFER_BIT | gl2.DEPTH_BUFFER_BIT);
+    canvas2.style.transform = `translateY(${window.scrollY}px)`;
+    for (let i = 0; i < scenes.length; i++) {
+      const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
+      const rect = div.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > canvas2.clientHeight || rect.right < 0 || rect.left > canvas2.clientWidth) {
+        continue;
+      }
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = canvas2.clientHeight - rect.bottom;
+      gl2.viewport(left, bottom, width, height);
+      gl2.scissor(left, bottom, width, height);
+      if (cube.animationQueue[0]) {
+        spring.target = cube.animationQueue.length * 90;
+        spring.update(dt);
+        if (spring.position >= 90) {
+          cube.affectedStickers = Array(stickers(cube.layers)).fill(false);
+          spring.position = 0;
+          cube.animationQueue.shift();
+        }
+      }
+      const animation = cube.animationQueue[0];
+      let stickers2 = chooseStickers(cube);
+      let _transformSingleton = singleton();
+      let _rotateSingleton = singleton();
+      for (let i2 = 0; i2 < stickers(cube.layers); i2++) {
+        let object = buffers[i2];
+        const transform = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _transformSingleton(() => {
+          return rotate(
+            create(),
+            perspectiveMatrix,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : perspectiveMatrix;
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.transformMatrix,
+          false,
+          transform
+        );
+        const rotation = animation && animation.stickersToAnimate[i2] && settings.animateTurns ? _rotateSingleton(() => {
+          const rotateMat = create();
+          return rotate(
+            rotateMat,
+            rotateMat,
+            spring.position * Math.PI / 180,
+            animation.axis
+          );
+        }) : create();
+        gl2.uniformMatrix4fv(
+          programInfo.uniformLocations.rotateMatrix,
+          false,
+          rotation
+        );
+        gl2.bindBuffer(gl2.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
+        if (settings.showBody) {
+          bindPosition(object.noGapPositionBuffer, programInfo, gl2);
+          bindColor(cube.underStickers[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+        bindPosition(object.positionBuffer, programInfo, gl2);
+        bindColor(stickers2[i2].buffer, programInfo, gl2);
+        drawElements(gl2);
+        if (settings.hintStickers) {
+          bindPosition(object.hintPositionBuffer, programInfo, gl2);
+          bindColor(stickers2[i2].buffer, programInfo, gl2);
+          drawElements(gl2);
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  function chooseStickers(cube) {
+    if (!settings.animateTurns) {
+      return cube.stickers;
+    }
+    if (cube.animationQueue[0]) {
+      return cube.animationQueue[0].stickers;
+    }
+    return cube.stickers;
+  }
+
+  // src/scripts/slide.ts
+  var NARROW = 725;
+  var opened = false;
+  function open(ele) {
+    opened = true;
+    ele.style.display = "flex";
+    ele.classList.add("slideLeftOpen");
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+    } else {
+      ele.classList.remove("slideLeftClosed");
+    }
+  }
+  function close(ele) {
+    opened = false;
+    if (document.documentElement.clientWidth < NARROW) {
+      ele.classList.add("slideLeftClosed");
+      ele.classList.remove("slideLeftOpen");
+      ele.style.display = "flex";
+    } else {
+      ele.style.display = "none";
+    }
+  }
+  function toggle(ele) {
+    if (opened) {
+      close(ele);
+    } else {
+      open(ele);
+    }
+  }
+
+  // src/scripts/ui.ts
+  function addListenersForLeftModal() {
+    const drawer = document.querySelector(".slideRight");
+    let isOpen = false;
+    function updateDrawer(open2) {
+      isOpen = open2;
+      if (isOpen) {
+        drawer.classList.add("slideRightOpen");
+        return;
+      }
+      drawer.classList.remove("slideRightOpen");
+    }
+    document.addEventListener("click", (event) => {
+      const ele = event.target;
+      if (ele === document.querySelector("#menu")) {
+        updateDrawer(true);
+        return;
+      }
+      if (isOpen && !ele.closest(".slideRight")) {
+        updateDrawer(false);
+      }
+    });
+    document.querySelector("#closeMenu").addEventListener("click", () => {
+      updateDrawer(false);
+    });
+    document.querySelector("#learnButton").addEventListener("click", () => {
+      document.location.href = "learn.html";
+    });
+    document.querySelector("#playButton").addEventListener("click", () => {
+      document.location.href = "play.html";
+    });
+    document.querySelector("#trainButton").addEventListener("click", () => {
+      document.location.href = "train.html";
+    });
+    document.querySelector("#cubleButton").addEventListener("click", () => {
+      document.location.href = "cuble.html";
+    });
+  }
+
+  // src/scripts/learnBase.ts
+  var canvas3 = document.querySelector("canvas");
+  var gl3 = canvas3.getContext("webgl");
+  function initLearnPage(lessons2, layers) {
+    addListenersForLeftModal();
+    addLessonNavigatorListener(lessons2, layers);
+    addShowSolutionListeners(lessons2);
+    for (let i = 0; i < lessons2.length; i++) {
+      renderLesson(lessons2, layers, i);
+    }
+    render2(lessons2);
+    startLoop();
+    addResizeListener();
+    renderBasedOnWidth();
+  }
+  function renderLesson(lessons2, layers, i) {
+    const scene = newScene(`#scene${i}`);
+    scenes.push(scene);
+    scene.cube.setNumOfLayers(layers);
+    scene.buffers = createBuffers(gl3, scenes[0].cube, scenes[0].perspectiveMatrix);
+    const lesson = lessons2[i];
+    lesson.cube = scene.cube;
+    lesson.move = 0;
+    if (lesson.practiceProblems) {
+      scene.dragEnabled = true;
+      randomProblem(lesson);
+    } else {
+      const colors2 = determineColors(lesson);
+      scene.cube.setColors(colors2);
+      scene.cube.execAlg(lesson.setup);
+    }
+  }
+  function render2(lessons2) {
+    for (let i = 0; i < lessons2.length; i++) {
+      const lesson = lessons2[i];
+      if (lesson.practiceProblems && lesson.showSolution) {
+        const problem = lesson.practiceProblems[lesson.problemIndex];
+        document.querySelector(`#problemText${i}`).textContent = problem.explanation;
+        document.querySelector(`#leftButton${i}`).style.display = "";
+        document.querySelector(`#rightButton${i}`).style.display = "";
+        const moveCounter2 = document.querySelector(`#moveCounter${i}`);
+        moveCounter2.style.display = "";
+        const parsedAlg2 = parseMovesFromAlg(lesson.algorithm);
+        moveCounter2.textContent = `${lesson.move} / ${parsedAlg2.length}`;
+        continue;
+      }
+      if (lesson.practiceProblems && !lesson.showSolution) {
+        const problem = lesson.practiceProblems[lesson.problemIndex];
+        document.querySelector(`#problemText${i}`).textContent = problem.directions;
+        document.querySelector(`#leftButton${i}`).style.display = "none";
+        document.querySelector(`#rightButton${i}`).style.display = "none";
+        document.querySelector(`#moveCounter${i}`).style.display = "none";
+        continue;
+      }
+      const moveCounter = document.querySelector(`#moveCounter${i}`);
+      const parsedAlg = parseMovesFromAlg(lesson.algorithm);
+      moveCounter.textContent = `${lesson.move} / ${parsedAlg.length}`;
+    }
+  }
+  function randomProblem(lesson) {
+    let problemIndex = randInt(lesson.practiceProblems.length);
+    while (problemIndex === lesson.problemIndex) {
+      problemIndex = randInt(lesson.practiceProblems.length);
+    }
+    setupProblem(lesson, problemIndex);
+  }
+  function setupProblem(lesson, problemIndex) {
+    const problem = lesson.practiceProblems[problemIndex];
+    lesson.problemIndex = problemIndex;
+    lesson.algorithm = lesson.practiceProblems[problemIndex].algorithm;
+    const colors2 = determineColors(lesson);
+    lesson.cube.setColors(colors2);
+    lesson.cube.execAlg(problem.setup);
+    lesson.move = 0;
+  }
+  function determineColors(lesson) {
+    const colors2 = Array(54);
+    lesson.activeStickers.forEach((i) => {
+      colors2[i] = faceToColor(stickerToFace(i, lesson.cube));
+    });
+    for (let i = 0; i < 54; i++) {
+      if (colors2[i])
+        continue;
+      colors2[i] = GRAY;
+    }
+    return colors2;
+  }
+  function addLessonNavigatorListener(lessons2, layers) {
+    const lessonNavigator = document.querySelector("#lessonNavigator");
+    lessonNavigator.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.className === "lesson-p") {
+        const lessonIndex = parseInt(target.getAttribute("lesson-index"));
+        renderLesson(lessons2, layers, lessonIndex);
+        if (document.documentElement.clientWidth < NARROW) {
+          close(lessonNavigator);
+        }
+      }
+    });
+    document.querySelector("#openClose").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
+    document.querySelector("#close").addEventListener("click", (event) => {
+      toggle(lessonNavigator);
+    });
+  }
+  function addShowSolutionListeners(lessons2) {
+    const leftButton = "leftButton";
+    const rightButton = "rightButton";
+    const showSolution = "showSolution";
+    const next = "next";
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.id.startsWith(leftButton)) {
+        const lessonIndex = parseInt(target.id.substring(leftButton.length));
+        const lesson = lessons2[lessonIndex];
+        if (lesson.move <= 0)
+          return;
+        lesson.move--;
+        const moves = parseMovesFromAlg(lesson.algorithm);
+        lesson.cube.stepAlgorithm(moves[lesson.move], false);
+        render2(lessons2);
+      } else if (target.id.startsWith(rightButton)) {
+        const lessonIndex = parseInt(target.id.substring(rightButton.length));
+        const lesson = lessons2[lessonIndex];
+        const moves = parseMovesFromAlg(lesson.algorithm);
+        if (lesson.move >= moves.length)
+          return;
+        lesson.cube.stepAlgorithm(moves[lesson.move], true);
+        lesson.move++;
+        render2(lessons2);
+      } else if (target.id.startsWith(showSolution)) {
+        const lessonIndex = parseInt(target.id.substring(showSolution.length));
+        const lesson = lessons2[lessonIndex];
+        lesson.showSolution = true;
+        scenes[lessonIndex].dragEnabled = false;
+        setupProblem(lesson, lesson.problemIndex);
+        render2(lessons2);
+      } else if (target.id.startsWith(next)) {
+        const lessonIndex = parseInt(target.id.substring(next.length));
+        const lesson = lessons2[lessonIndex];
+        lesson.showSolution = false;
+        scenes[lessonIndex].dragEnabled = true;
+        randomProblem(lesson);
+        render2(lessons2);
+      }
+    });
+  }
+  function addResizeListener() {
+    window.addEventListener("resize", () => {
+      renderBasedOnWidth();
+    });
+  }
+  function renderBasedOnWidth() {
+    const openClose = document.querySelector("#openClose");
+    const close2 = document.querySelector("#close");
+    const drawerEle = document.querySelector("#lessonNavigator");
+    if (document.documentElement.clientWidth < NARROW) {
+      openClose.style.display = "inline-block";
+      close2.style.display = "inline-block";
+      close(drawerEle);
+      return;
+    }
+    openClose.style.display = "none";
+    close2.style.display = "none";
+    open(drawerEle);
+  }
+  function parseMovesFromAlg(alg) {
+    return (alg || "").split(" ");
+  }
+
+  // src/scripts/learnNotation.ts
+  var lessons = [
+    {
+      activeStickers: allPieces,
+      setup: "U'",
+      algorithm: "U"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "U",
+      algorithm: "U'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "D'",
+      algorithm: "D"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "D",
+      algorithm: "D'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "R'",
+      algorithm: "R"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "R",
+      algorithm: "R'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "L'",
+      algorithm: "L"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "L",
+      algorithm: "L'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "F'",
+      algorithm: "F"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "F",
+      algorithm: "F'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B'",
+      algorithm: "B"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B",
+      algorithm: "B'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "B2 F2 L2 R2 D2 U2",
+      algorithm: "U U D D R R L L F F B B"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "u'",
+      algorithm: "u"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "d'",
+      algorithm: "d"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "r'",
+      algorithm: "r"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "l'",
+      algorithm: "l"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "f'",
+      algorithm: "f"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "b'",
+      algorithm: "b"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "M'",
+      algorithm: "M"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "M",
+      algorithm: "M'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "E'",
+      algorithm: "E"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "E",
+      algorithm: "E'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "S'",
+      algorithm: "S"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "S",
+      algorithm: "S'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "x'",
+      algorithm: "x"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "x",
+      algorithm: "x'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "y'",
+      algorithm: "y"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "y",
+      algorithm: "y'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z'",
+      algorithm: "z"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "z",
+      algorithm: "z'"
+    },
+    {
+      activeStickers: allPieces,
+      setup: "R U R' F' R U R' U' R' F R2 U' R' U'",
+      algorithm: "R U R' F' R U R' U' R' F R2 U' R' U'"
+    }
+  ];
+  function main() {
+    initLearnPage(lessons, 3);
+  }
+  main();
+})();
 //# sourceMappingURL=learnNotation.js.map

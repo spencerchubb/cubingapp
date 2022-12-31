@@ -315,6 +315,16 @@ export class Cube {
         this.stickers[i1] = temp;
     }
 
+    matchKeyToTurn(event: KeyboardEvent) {
+        if (this.disableTurn) return;
+
+        // Don't turn if the user is holding down ctrl
+        // E.g., the user might be using Ctrl + Shift + R to refresh the page or Ctrl + Shift + I to open the dev tools
+        if (event.ctrlKey) return;
+
+        return this.matchKeyCodeToTurn(event.code);
+    }
+
     /**
      * Why use KeyboardEvent.code instead of KeyboardEvent.key?
      * 1) `key` is dependent on "the state of modifier keys such as Shift as well as the keyboard locale and layout."
@@ -323,15 +333,7 @@ export class Cube {
      * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
      * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
      */
-    matchKeyToTurn(event: KeyboardEvent) {
-        if (this.disableTurn) return;
-
-        // Don't turn if the user is holding down ctrl
-        // E.g., the user might be using Ctrl + Shift + R to refresh the page or Ctrl + Shift + I to open the dev tools
-        if (event.ctrlKey) return;
-
-        const code = event.code;
-
+    matchKeyCodeToTurn(code: string) {
         switch (code) {
             case "KeyN":
                 this.cubeRotate(0, true);

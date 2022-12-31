@@ -14,10 +14,11 @@ import { GRAY } from "./colors";
 import { Component } from "./component";
 import { createElement, querySelector, setOptions } from "./common/element";
 import { setColor } from "./cube";
+import { renderMobileKeyboard } from "./mobile_keyboard";
 import { renderModal } from "./modal";
 import { newScene, Scene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
-import { getAlgSet, getOrientation, setAlgSet, setOrientation } from "./store";
+import { getAlgSet, getKeyboard, getOrientation, setAlgSet, setKeyboard, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
 
@@ -29,6 +30,7 @@ type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] }
 const algData: AlgSet[] = require("./alg-data.json");
 
 type State = {
+    keyboard: boolean,
     user: CubingAppUser | null,
     showSolution: boolean,
     settingsOpen: boolean,
@@ -40,6 +42,7 @@ type State = {
 }
 
 let state: State = {
+    keyboard: getKeyboard(),
     user: null,
     showSolution: false,
     settingsOpen: false,
@@ -68,7 +71,7 @@ function applyPost(alg: string, auf: string): string {
     return alg
 }
 
-function renderDrawer(scene: Scene) {
+function renderDrawer() {
     const drawerEle: HTMLElement = document.querySelector("#rightDrawer");
     if (state.settingsOpen) {
         const optionsData = [
@@ -138,6 +141,20 @@ function renderDrawer(scene: Scene) {
                             innerHTML: option.text,
                         });
                     }),
+                }),
+                createElement("p", {
+                    innerHTML: "Keyboard",
+                    className: "mt-4",
+                }),
+                createElement("input", {
+                    type: "checkbox",
+                    checked: getKeyboard(),
+                    onchange: (e: Event) => {
+                        const checked = (e.target as HTMLInputElement).checked;
+                        setKeyboard(checked);
+                        state.keyboard = checked;
+                        renderTrainPage();
+                    },
                 }),
             ],
         });
@@ -288,6 +305,11 @@ const retryAndSadAndHappy = createElement("div", {
     ],
 });
 
+const rightDrawer = createElement("div", {
+    id: "rightDrawer",
+    className: "slideLeft slideLeftClosed col",
+});
+
 function renderTrainPage() {
     let scene = scenes.length > 0 ? scenes[0] : null;
 
@@ -305,12 +327,15 @@ function renderTrainPage() {
                             sceneDiv,
                             showSolutionComponent.render(state.showSolution),
                             retryAndSadAndHappy,
+                            createElement("div", { style: "flex-grow: 1" }),
+                            state.keyboard
+                                ? renderMobileKeyboard(code => {
+                                    scene.cube.matchKeyCodeToTurn(code);
+                                })
+                                : null,
                         ],
                     }),
-                    createElement("div", {
-                        id: "rightDrawer",
-                        className: "slideLeft slideLeftClosed col",
-                    }),
+                    rightDrawer,
                 ],
             }),
         ],
@@ -345,7 +370,7 @@ function renderTrainPage() {
     changeAlgSet();
 
     window.addEventListener("resize", () => {
-        renderDrawer(scene);
+        renderDrawer();
     });
 
     document.addEventListener("click", (event: MouseEvent) => {
@@ -376,7 +401,7 @@ function renderTrainPage() {
             document.body.appendChild(modalBg);
         } else if (target.id === "icon1") {
             state.settingsOpen = true;
-            renderDrawer(scene);
+            renderDrawer();
         }
     });
 
