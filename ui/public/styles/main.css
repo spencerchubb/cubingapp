@@ -336,10 +336,6 @@
   gap: 0.25rem;
 }
 
-.gap-4 {
-  gap: 1rem;
-}
-
 .self-center {
   align-self: center;
 }

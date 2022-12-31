@@ -36,11 +36,14 @@ export function setHintStickers(value) {
 }
 
 export function getKeyboard() {
-    return getBool(keyboard) ?? false;
+    const out = localStorage.getItem(keyboard) ?? "None";
+    if (out == "None" || out == "Show Keys" || out == "Show Moves") return out;
+    console.error("Invalid keyboard value: " + out);
+    return "None";
 }
 
 export function setKeyboard(value) {
-    setBool(keyboard, value);
+    localStorage.setItem(keyboard, value);
 }
 
 export function getOrientation() {

@@ -16,7 +16,7 @@ import { createElement, querySelector, setOptions } from "./common/element";
 import { setColor } from "./cube";
 import { renderMobileKeyboard } from "./mobile_keyboard";
 import { renderModal } from "./modal";
-import { newScene, Scene, scenes, startLoop } from "./scene";
+import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
 import { getAlgSet, getKeyboard, getOrientation, setAlgSet, setKeyboard, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
@@ -30,7 +30,7 @@ type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] }
 const algData: AlgSet[] = require("./alg-data.json");
 
 type State = {
-    keyboard: boolean,
+    keyboard: "None" | "Show Keys" | "Show Moves",
     user: CubingAppUser | null,
     showSolution: boolean,
     settingsOpen: boolean,
@@ -146,15 +146,24 @@ function renderDrawer() {
                     innerHTML: "Keyboard",
                     className: "mt-4",
                 }),
-                createElement("input", {
-                    type: "checkbox",
-                    checked: getKeyboard(),
+                createElement("select", {
                     onchange: (e: Event) => {
-                        const checked = (e.target as HTMLInputElement).checked;
-                        setKeyboard(checked);
-                        state.keyboard = checked;
+                        const value = (e.target as HTMLSelectElement).value;
+                        if (value != "None" && value != "Show Keys" && value != "Show Moves") {
+                            console.error("Invalid keyboard value: " + value);
+                            return;
+                        }
+                        setKeyboard(value);
+                        state.keyboard = value;
                         renderTrainPage();
                     },
+                    children: ["None", "Show Keys", "Show Moves"].map(option => {
+                        return createElement("option", {
+                            value: option,
+                            selected: option === state.keyboard,
+                            innerHTML: option,
+                        });
+                    }),
                 }),
             ],
         });
@@ -328,11 +337,9 @@ function renderTrainPage() {
                             showSolutionComponent.render(state.showSolution),
                             retryAndSadAndHappy,
                             createElement("div", { style: "flex-grow: 1" }),
-                            state.keyboard
-                                ? renderMobileKeyboard(code => {
-                                    scene.cube.matchKeyCodeToTurn(code);
-                                })
-                                : null,
+                            renderMobileKeyboard(state.keyboard, code => {
+                                scene.cube.matchKeyCodeToTurn(code);
+                            }),
                         ],
                     }),
                     rightDrawer,

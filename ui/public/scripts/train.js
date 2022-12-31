@@ -6651,10 +6651,14 @@
   }
   function getKeyboard() {
     var _a;
-    return (_a = getBool(keyboard)) != null ? _a : false;
+    const out = (_a = localStorage.getItem(keyboard)) != null ? _a : "None";
+    if (out == "None" || out == "Show Keys" || out == "Show Moves")
+      return out;
+    console.error("Invalid keyboard value: " + out);
+    return "None";
   }
   function setKeyboard(value) {
-    setBool(keyboard, value);
+    localStorage.setItem(keyboard, value);
   }
   function getOrientation() {
     var _a;
@@ -6671,15 +6675,6 @@
   }
   function setUser(value) {
     localStorage.setItem(user, value);
-  }
-  function getBool(key) {
-    const value = localStorage.getItem(key);
-    if (value === null)
-      return null;
-    return value == "1";
-  }
-  function setBool(key, value) {
-    localStorage.setItem(key, value ? "1" : "0");
   }
 
   // src/scripts/common/element.ts
@@ -7855,139 +7850,173 @@
     [
       {
         key: "Q",
-        code: "KeyQ"
+        code: "KeyQ",
+        move: "z'"
       },
       {
         key: "W",
-        code: "KeyW"
+        code: "KeyW",
+        move: "B"
       },
       {
         key: "E",
-        code: "KeyE"
+        code: "KeyE",
+        move: "L'"
       },
       {
         key: "R",
-        code: "KeyR"
+        code: "KeyR",
+        move: "l'"
       },
       {
         key: "T",
-        code: "KeyT"
+        code: "KeyT",
+        move: "S'"
       },
       {
-        key: "T",
-        code: "KeyT"
+        key: "Y",
+        code: "KeyY",
+        move: "S"
       },
       {
         key: "U",
-        code: "KeyU"
+        code: "KeyU",
+        move: "r"
       },
       {
         key: "I",
-        code: "KeyI"
+        code: "KeyI",
+        move: "R"
       },
       {
         key: "O",
-        code: "KeyO"
+        code: "KeyO",
+        move: "B'"
       },
       {
         key: "P",
-        code: "KeyP"
+        code: "KeyP",
+        move: "z"
       },
       {
         key: "[",
-        code: "BracketLeft"
+        code: "BracketLeft",
+        move: "M"
       }
     ],
     [
       {
         key: "A",
-        code: "KeyA"
+        code: "KeyA",
+        move: "y'"
       },
       {
         key: "S",
-        code: "KeyS"
+        code: "KeyS",
+        move: "D"
       },
       {
         key: "D",
-        code: "KeyD"
+        code: "KeyD",
+        move: "L"
       },
       {
         key: "F",
-        code: "KeyF"
+        code: "KeyF",
+        move: "U'"
       },
       {
         key: "G",
-        code: "KeyG"
+        code: "KeyG",
+        move: "F'"
       },
       {
         key: "H",
-        code: "KeyH"
+        code: "KeyH",
+        move: "F"
       },
       {
         key: "J",
-        code: "KeyJ"
+        code: "KeyJ",
+        move: "U"
       },
       {
         key: "K",
-        code: "KeyK"
+        code: "KeyK",
+        move: "R'"
       },
       {
         key: "L",
-        code: "KeyL"
+        code: "KeyL",
+        move: "D'"
       },
       {
         key: ";",
-        code: "Semicolon"
+        code: "Semicolon",
+        move: "y"
       },
       {
         key: "'",
-        code: "Quote"
+        code: "Quote",
+        move: "M'"
       }
     ],
     [
       {
         key: "Z",
-        code: "KeyZ"
+        code: "KeyZ",
+        move: ""
       },
       {
         key: "X",
-        code: "KeyX"
+        code: "KeyX",
+        move: ""
       },
       {
         key: "C",
-        code: "KeyC"
+        code: "KeyC",
+        move: "E"
       },
       {
         key: "V",
-        code: "KeyV"
+        code: "KeyV",
+        move: "l"
       },
       {
         key: "B",
-        code: "KeyB"
+        code: "KeyB",
+        move: "x'"
       },
       {
         key: "N",
-        code: "KeyN"
+        code: "KeyN",
+        move: "x"
       },
       {
         key: "M",
-        code: "KeyM"
+        code: "KeyM",
+        move: "r'"
       },
       {
         key: ",",
-        code: "Comma"
+        code: "Comma",
+        move: "E'"
       },
       {
         key: ".",
-        code: "Period"
+        code: "Period",
+        move: ""
       },
       {
         key: "/",
-        code: "Slash"
+        code: "Slash",
+        move: ""
       }
     ]
   ];
-  function renderMobileKeyboard(onClickKey) {
+  function renderMobileKeyboard(type, onClickKey) {
+    if (type === "None")
+      return;
     return createElement("div", {
       className: "col gap-1",
       style: "margin: 8px; max-width: 512px;",
@@ -8005,10 +8034,10 @@
             createElement("div", { style: `width: ${i * 0.5}rem;` }),
             ...row.map((key) => {
               return createElement("div", {
-                className: "text-white p-2 bg-gray-700 rounded-md",
-                style: "font-family: monospace; font-size: 1.5rem;",
+                className: "col justify-center text-white bg-gray-700 rounded-md",
+                style: "width: 28px; height: 40px; font-size: 16px; user-select: none;",
                 value: key.code,
-                innerHTML: key.key
+                innerHTML: type === "Show Keys" ? key.key : key.move
               });
             })
           ]
@@ -8795,15 +8824,24 @@
             innerHTML: "Keyboard",
             className: "mt-4"
           }),
-          createElement("input", {
-            type: "checkbox",
-            checked: getKeyboard(),
+          createElement("select", {
             onchange: (e) => {
-              const checked = e.target.checked;
-              setKeyboard(checked);
-              state.keyboard = checked;
+              const value = e.target.value;
+              if (value != "None" && value != "Show Keys" && value != "Show Moves") {
+                console.error("Invalid keyboard value: " + value);
+                return;
+              }
+              setKeyboard(value);
+              state.keyboard = value;
               renderTrainPage();
-            }
+            },
+            children: ["None", "Show Keys", "Show Moves"].map((option) => {
+              return createElement("option", {
+                value: option,
+                selected: option === state.keyboard,
+                innerHTML: option
+              });
+            })
           })
         ]
       });
@@ -8953,9 +8991,9 @@
                 showSolutionComponent.render(state.showSolution),
                 retryAndSadAndHappy,
                 createElement("div", { style: "flex-grow: 1" }),
-                state.keyboard ? renderMobileKeyboard((code) => {
+                renderMobileKeyboard(state.keyboard, (code) => {
                   scene.cube.matchKeyCodeToTurn(code);
-                }) : null
+                })
               ]
             }),
             rightDrawer
