@@ -190,9 +190,10 @@ export function renderMobileKeyboard(type: "None" | "Show Keys" | "Show Moves", 
                 children: [
                     createElement("div", { style: `width: ${i * 0.5}rem;` }),
                     ...row.map((key) => {
-                        return createElement("div", {
+                        // This needs to be a button so Chrome doesn't trigger Touch to Search.
+                        return createElement("button", {
                             className: "col justify-center text-white bg-gray-700 rounded-md",
-                            style: "width: 28px; height: 40px; font-size: 16px; user-select: none;",
+                            style: "width: 28px; height: 40px; font-size: 16px; border: none;",
                             value: key.code,
                             innerHTML: type === "Show Keys" ? key.key : key.move,
                         });
