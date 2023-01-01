@@ -337,8 +337,8 @@ function renderTrainPage() {
                             showSolutionComponent.render(state.showSolution),
                             retryAndSadAndHappy,
                             createElement("div", { style: "flex-grow: 1" }),
-                            renderMobileKeyboard(state.keyboard, code => {
-                                scene.cube.matchKeyCodeToTurn(code);
+                            renderMobileKeyboard(state.keyboard, move => {
+                                scene.cube.stepAlgorithm(move, true);
                             }),
                         ],
                     }),
