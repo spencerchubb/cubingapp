@@ -12,8 +12,15 @@ type Solve struct {
 	Moves            []Move
 }
 
+type AlgSet struct {
+	Cube     string   `json:"cube"`
+	Name     string   `json:"name"`
+	Inactive []int    `json:"inactive"`
+	Algs     []string `json:"algs"`
+}
+
 type GenericResponse struct {
-	Success bool
+	Success bool `json:"success"`
 }
 
 type SolveRecord struct {
@@ -55,15 +62,36 @@ type TrainingAlgsRecord struct {
 	TrainingAlgs []TrainingAlg
 }
 
-type GetTrainingAlgsRequest struct {
-	Uid int
-	Set string
+type CreateTrainingAlgsRequest struct {
+	Uid              int           `json:"uid"`
+	Set              string        `json:"set"`
+	TrainingAlgs     []TrainingAlg `json:"trainingAlgs"`
+	Cube             string        `json:"cube"`
+	InactiveStickers []int         `json:"inactiveStickers"`
 }
 
+type CreateTrainingAlgsResponse struct {
+	Success bool `json:"success"`
+	Id      int  `json:"id"`
+}
+
+type UpdateTrainingAlgsRequest struct {
+	Id           int           `json:"id"`
+	TrainingAlgs []TrainingAlg `json:"trainingAlgs"`
+}
+
+type GetTrainingAlgsRequest struct {
+	Uid int    `json:"uid"`
+	Set string `json:"set"`
+}
+
+// Return id if it existed in database, and set id to -1 if it didn't
 type GetTrainingAlgsResponse struct {
-	Success            bool
-	Id                 int
-	TrainingAlgsRecord TrainingAlgsRecord
+	Success          bool          `json:"success"`
+	Id               int           `json:"id"`
+	TrainingAlgs     []TrainingAlg `json:"trainingAlgs"`
+	Cube             string        `json:"cube"`
+	InactiveStickers []int         `json:"inactiveStickers"`
 }
 
 type UserRequest struct {

@@ -161,8 +161,8 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	writeJson(w, GetSolvesResponse{true, arr})
 }
 
-func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
-	var req TrainingAlgsRecord
+func createTrainingAlgs(w http.ResponseWriter, r *http.Request) {
+	var req CreateTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		writeJson(w, GenericResponse{false})
@@ -170,12 +170,31 @@ func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sql := `
-	insert into training_algs (uid, "set", training_algs)
-	values ($1, $2, $3)
-	on conflict (uid, "set") 
-	do update set training_algs = $3;
+	insert into training_algs (uid, "set", training_algs, cube, inactive_stickers)
+	values ($1, $2, $3, $4, $5)
+	returning id;
 	`
-	err = exec(sql, req.Uid, req.Set, req.TrainingAlgs)
+	row := queryRow(sql, req.Uid, req.Set, req.TrainingAlgs, req.Cube, req.InactiveStickers)
+	var id int
+	err = scan(row, &id)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	writeJson(w, CreateTrainingAlgsResponse{true, id})
+}
+
+func updateTrainingAlgs(w http.ResponseWriter, r *http.Request) {
+	var req UpdateTrainingAlgsRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	sql := `update training_algs set training_algs = $2 where id = $1;`
+	err = exec(sql, req.Id, req.TrainingAlgs)
 	if err != nil {
 		writeJson(w, GenericResponse{false})
 		return
@@ -184,24 +203,63 @@ func writeTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	writeJson(w, GenericResponse{true})
 }
 
+func readAlgsFromJson(fileName string) []AlgSet {
+	file, err := os.Open(fileName)
+	if err != nil {
+		fmt.Println("readJsonFile:", err)
+		return []AlgSet{}
+	}
+	defer file.Close()
+
+	decoder := json.NewDecoder(file)
+	var algSets []AlgSet
+	err = decoder.Decode(&algSets)
+	if err != nil {
+		fmt.Println("readJsonFile:", err)
+		return []AlgSet{}
+	}
+
+	return algSets
+}
+
+func findAlgSet(algSets []AlgSet, setName string) AlgSet {
+	for _, algSet := range algSets {
+		if algSet.Name == setName {
+			return algSet
+		}
+	}
+	return AlgSet{}
+}
+
+func initZeroScores(algSet AlgSet) []TrainingAlg {
+	out := make([]TrainingAlg, len(algSet.Algs))
+	for i, alg := range algSet.Algs {
+		out[i] = TrainingAlg{0, alg}
+	}
+	return out
+}
+
 func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	var req GetTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
-	errorRes := GetTrainingAlgsResponse{false, 0, TrainingAlgsRecord{req.Uid, req.Set, []TrainingAlg{}}}
+	errorRes := GetTrainingAlgsResponse{false, -1, []TrainingAlg{}, "", []int{}}
 	if err != nil {
 		writeJson(w, errorRes)
 		return
 	}
 
-	sql := "select * from training_algs where uid = $1 and set = $2;"
+	sql := "select id, training_algs, cube, inactive_stickers from training_algs where uid = $1 and set = $2;"
+	var res GetTrainingAlgsResponse
 	row := queryRow(sql, req.Uid, req.Set)
-	if row == nil {
-		writeJson(w, errorRes)
+	err = scan(row, &res.Id, &res.TrainingAlgs, &res.Cube, &res.InactiveStickers)
+	if err == pgx.ErrNoRows {
+		algs := readAlgsFromJson("../algs/algs.json")
+		algSet := findAlgSet(algs, req.Set)
+		trainingAlgs := initZeroScores(algSet)
+		res = GetTrainingAlgsResponse{true, -1, trainingAlgs, algSet.Cube, algSet.Inactive}
+		writeJson(w, res)
 		return
 	}
-
-	var res GetTrainingAlgsResponse
-	err = scan(row, &res.Id, &res.TrainingAlgsRecord.Uid, &res.TrainingAlgsRecord.Set, &res.TrainingAlgsRecord.TrainingAlgs)
 	if err != nil {
 		writeJson(w, errorRes)
 		return
@@ -267,7 +325,8 @@ func main() {
 	handleFunc("/addSolve", addSolve)
 	handleFunc("/getSolve", getSolve)
 	handleFunc("/getSolves", getSolves)
-	handleFunc("/writeTrainingAlgs", writeTrainingAlgs)
+	handleFunc("/createTrainingAlgs", createTrainingAlgs)
+	handleFunc("/updateTrainingAlgs", updateTrainingAlgs)
 	handleFunc("/getTrainingAlgs", getTrainingAlgs)
 	handleFunc("/user", user)
 

@@ -19,3 +19,5 @@
     - toggle expanded display
 - \q
     - quit psql
+- ls /var/log/postgresql
+    - go to log directory

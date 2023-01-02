@@ -12,6 +12,8 @@ CREATE TABLE "training_algs" (
   "uid" integer NOT NULL,
   "set" varchar(255) NOT NULL,
   "training_algs" json,
+  "cube" varchar(255),
+  "inactive_stickers" integer[],
   unique ("uid", "set")
 );
 
