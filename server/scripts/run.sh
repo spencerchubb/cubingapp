@@ -21,4 +21,4 @@ export PATH=$PATH:/usr/local/go/bin
 echo $LOG_FILE
 
 # Start the server, and keep it running even if the terminal is closed
-nohup go run ../ > $logFile &
+nohup go run ../ > $LOG_FILE &

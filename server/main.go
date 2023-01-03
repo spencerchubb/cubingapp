@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -310,7 +311,7 @@ func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)
 }
 
 func main() {
-	fmt.Printf("Attempting to connect to postgres...\n")
+	fmt.Println(time.Now().String())
 	var err error
 	conn, err = pgxpool.New(context.Background(), pgUrl)
 	if err != nil {
