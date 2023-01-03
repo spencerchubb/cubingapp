@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$DIR="/etc/postgresql/12/main"
+DIR="/etc/postgresql/14/main"
 
 sudo mkdir -p $DIR
 sudo cp ./pg_hba.conf "$DIR/pg_hba.conf"
