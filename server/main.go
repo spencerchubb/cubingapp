@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -160,6 +161,32 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJson(w, GetSolvesResponse{true, arr})
+}
+
+func solve(w http.ResponseWriter, r *http.Request) {
+	var req SolveRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	httpRes, err := http.Get("http://localhost:4000/solve/" + req.Cube)
+	if err != nil {
+		fmt.Println("solve http.Get:", err)
+		writeJson(w, GenericResponse{false})
+		return
+	}
+	defer httpRes.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(httpRes.Body)
+	if err != nil {
+		fmt.Println("solve ioutil.ReadAll:", err)
+		writeJson(w, GenericResponse{false})
+		return
+	}
+	bodyString := string(bodyBytes)
+
+	writeJson(w, SolveResponse{true, bodyString})
 }
 
 func createTrainingAlgs(w http.ResponseWriter, r *http.Request) {
@@ -326,6 +353,7 @@ func main() {
 	handleFunc("/addSolve", addSolve)
 	handleFunc("/getSolve", getSolve)
 	handleFunc("/getSolves", getSolves)
+	handleFunc("/solve", solve)
 	handleFunc("/createTrainingAlgs", createTrainingAlgs)
 	handleFunc("/updateTrainingAlgs", updateTrainingAlgs)
 	handleFunc("/getTrainingAlgs", getTrainingAlgs)

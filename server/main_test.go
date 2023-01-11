@@ -40,7 +40,7 @@ func post(t *testing.T, url string, v any) (*http.Response, error) {
 	}
 	res, err := http.Post(url, "", reader)
 	if err != nil {
-		t.Errorf("POST failed\n")
+		t.Errorf("POST failed: %v", err)
 	}
 	return res, err
 }
@@ -132,6 +132,21 @@ func TestAddAndGetSolves(t *testing.T) {
 	}
 }
 
+func TestSolve(t *testing.T) {
+	facelets := "DUUBULDBFRBFRRULLLBRDFFFBLURDBFDFDRFRULBLUFDURRBLBDUDL"
+	res, err := post(t, serverUrl("solve"), SolveRequest{facelets})
+	if err != nil {
+		return
+	}
+
+	var solveResponse SolveResponse
+	unmarshal(res.Body, &solveResponse)
+
+	assert.True(t, solveResponse.Success)
+	
+	fmt.Println(solveResponse.Solution)
+}
+
 func TestTrainingAlgs(t *testing.T) {
 	conn, err := connect(t)
 	if err != nil {
@@ -167,7 +182,7 @@ func TestTrainingAlgs(t *testing.T) {
 	var getTrainingAlgsResponse GetTrainingAlgsResponse
 	unmarshal(res.Body, &getTrainingAlgsResponse)
 	assert.True(t, getTrainingAlgsResponse.Success)
-	assert.Equal(t, mockTrainingAlgsRecord, getTrainingAlgsResponse.TrainingAlgsRecord)
+	assert.Equal(t, mockTrainingAlgsRecord, getTrainingAlgsResponse.TrainingAlgs)
 }
 
 func TestUser(t *testing.T) {

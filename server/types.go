@@ -51,6 +51,15 @@ type GetSolvesResponse struct {
 	SolveRecords []SolveRecord
 }
 
+type SolveRequest struct {
+	Cube string `json:"cube"`
+}
+
+type SolveResponse struct {
+	Success  bool   `json:"success"`
+	Solution string `json:"solution"`
+}
+
 type TrainingAlg struct {
 	Score int
 	Alg   string

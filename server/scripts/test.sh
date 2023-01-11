@@ -2,14 +2,10 @@
 
 export PATH=$PATH:/usr/local/go/bin
 
+# This is needed so it doesn't throw an error about gcc being missing
+export CGO_ENABLED=0
+
 source ../.env-dev
 
-./kill_port.sh $SERVER_PORT
-
-# Start the server and put it in the background
-go run ../ &
-
-# Start the tests
-go test ../
-
-./kill_port.sh 3000
+# Run tests and pass all arguments
+go test ../ $@
