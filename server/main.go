@@ -233,11 +233,11 @@ func updateTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 
 func readAlgsFromJson(fileName string) []AlgSet {
 	file, err := os.Open(fileName)
+	defer file.Close()
 	if err != nil {
 		fmt.Println("readJsonFile:", err)
 		return []AlgSet{}
 	}
-	defer file.Close()
 
 	decoder := json.NewDecoder(file)
 	var algSets []AlgSet
