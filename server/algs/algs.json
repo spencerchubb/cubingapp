@@ -128,6 +128,7 @@
         "cube": "3x3",
         "name": "OLL",
         "inactive": [9,12,15,29,32,35,36,39,42,45,48,51],
+        "onlyOrientation": [0,1,2,3,8,9,10,11],
         "algs": [
             "R U2 R2 F R F' U2 R' F R F'",
             "L F L' U2 L F2 R' F2 R F' L'",

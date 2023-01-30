@@ -19,8 +19,10 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.9.0 h1:73kH8U+JUqXU8lRuOHeVHaa/SZPifC7BkcraZVejAe8=
 github.com/rogpeppe/go-internal v1.9.0/go.mod h1:WtVeX8xhTBvf0smdhujwtBcq4Qrzq/fJaraNFVN+nFs=
-github.com/spencerchubb/kociemba v0.0.5 h1:VbFWhbrmzveQopLE1aHiDFbLmJrTRGLfv6Q7r1KnaRk=
-github.com/spencerchubb/kociemba v0.0.5/go.mod h1:ggUuZfmD5dpEGkH291F0560GyebFSdznkWDGsJdR3Mc=
+github.com/spencerchubb/solver v0.0.7 h1:R037iZIt2T5TNW4+v8SqgZ4HczdhhPG0xYpA9+F7UKM=
+github.com/spencerchubb/solver v0.0.7/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
+github.com/spencerchubb/solver v0.0.8 h1:OYHxeJ4Z7MPIw0v7uKHk3DJwWWZftzY9p3pSmkJwBVM=
+github.com/spencerchubb/solver v0.0.8/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
