@@ -61,6 +61,7 @@ type SetScrambles struct {
 	Scrambles []Scrambles `json:"scrambles"`
 }
 
+// TODO replace with readJsonFile due to redundancy
 func readAlgsFromJson(fileName string) []AlgSet {
 	file, err := os.Open(fileName)
 	defer file.Close()

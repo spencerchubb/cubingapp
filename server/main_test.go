@@ -125,7 +125,7 @@ func TestAddAndGetSolves(t *testing.T) {
 	}
 	var getSolvesResponse GetSolvesResponse
 	unmarshal(res.Body, &getSolvesResponse)
-	assert.True(t, getSolvesResponse.Success) 
+	assert.True(t, getSolvesResponse.Success)
 
 	for i := 0; i < 3; i++ {
 		assert.Equal(t, mockSolve, getSolvesResponse.SolveRecords[i].Solve)
@@ -143,7 +143,7 @@ func TestSolve(t *testing.T) {
 	unmarshal(res.Body, &solveResponse)
 
 	assert.True(t, solveResponse.Success)
-	
+
 	fmt.Println(solveResponse.Solution)
 }
 
@@ -167,7 +167,7 @@ func TestTrainingAlgs(t *testing.T) {
 
 	res, err := post(t, serverUrl("writeTrainingAlgs"), mockTrainingAlgsRecord)
 	if err != nil {
-		return 
+		return
 	}
 
 	var response GenericResponse
@@ -196,7 +196,7 @@ func TestUser(t *testing.T) {
 
 	res, err := post(t, serverUrl("user"), UserRequest{"example@gmail.com"})
 	if err != nil {
-		return 
+		return
 	}
 
 	var response UserResponse

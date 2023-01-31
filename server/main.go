@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -62,6 +61,34 @@ func scan(row pgx.Row, dest ...any) error {
 
 func hello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello world!\n")
+}
+
+func getScramble(w http.ResponseWriter, r *http.Request) {
+	var getScrambleRequest GetScrambleRequest
+	err := unmarshal(r.Body, &getScrambleRequest)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+	}
+
+	var setScrambles SetScrambles
+	fileName := fmt.Sprintf("../algs/scrambles/%s.json", getScrambleRequest.SetName)
+	err = readJsonFile(fileName, &setScrambles)
+	if err != nil {
+		fmt.Println(err)
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	for _, algScrambles := range setScrambles.Scrambles {
+		if algScrambles.Alg != getScrambleRequest.Alg {
+			continue
+		}
+		scramble := randElement(algScrambles.Scrambles)
+		writeJson(w, GetScrambleResponse{true, scramble})
+		return
+	}
+
+	writeJson(w, GenericResponse{false})
 }
 
 func addSolve(w http.ResponseWriter, r *http.Request) {
@@ -161,32 +188,6 @@ func getSolves(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJson(w, GetSolvesResponse{true, arr})
-}
-
-func solve(w http.ResponseWriter, r *http.Request) {
-	var req SolveRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		writeJson(w, GenericResponse{false})
-		return
-	}
-
-	httpRes, err := http.Get("http://localhost:4000/solve/" + req.Cube)
-	if err != nil {
-		fmt.Println("solve http.Get:", err)
-		writeJson(w, GenericResponse{false})
-		return
-	}
-	defer httpRes.Body.Close()
-	bodyBytes, err := ioutil.ReadAll(httpRes.Body)
-	if err != nil {
-		fmt.Println("solve ioutil.ReadAll:", err)
-		writeJson(w, GenericResponse{false})
-		return
-	}
-	bodyString := string(bodyBytes)
-
-	writeJson(w, SolveResponse{true, bodyString})
 }
 
 func createTrainingAlgs(w http.ResponseWriter, r *http.Request) {
@@ -332,6 +333,7 @@ func user(w http.ResponseWriter, r *http.Request) {
 // Set up endpoint and enable CORS
 func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
 	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("Endpoint hit: %s\n", pattern)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		handler(w, r)
 	})
@@ -350,10 +352,10 @@ func main() {
 
 	fmt.Printf("Starting server\n")
 	handleFunc("/", hello)
+	handleFunc("/getScramble", getScramble)
 	handleFunc("/addSolve", addSolve)
 	handleFunc("/getSolve", getSolve)
 	handleFunc("/getSolves", getSolves)
-	handleFunc("/solve", solve)
 	handleFunc("/createTrainingAlgs", createTrainingAlgs)
 	handleFunc("/updateTrainingAlgs", updateTrainingAlgs)
 	handleFunc("/getTrainingAlgs", getTrainingAlgs)

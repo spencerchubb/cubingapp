@@ -13,10 +13,22 @@ type Solve struct {
 }
 
 type AlgSet struct {
-	Cube     string   `json:"cube"`
-	Name     string   `json:"name"`
-	Inactive []int    `json:"inactive"`
-	Algs     []string `json:"algs"`
+	Cube            string   `json:"cube"`
+	Name            string   `json:"name"`
+	Inactive        []int    `json:"inactive"`
+	OnlyOrientation []int    `json:"onlyOrientation"`
+	Disregard       []int    `json:"disregard"`
+	Algs            []string `json:"algs"`
+}
+
+type Scrambles struct {
+	Alg       string   `json:"alg"`
+	Scrambles []string `json:"scrambles"`
+}
+
+type SetScrambles struct {
+	SetName   string      `json:"setName"`
+	Scrambles []Scrambles `json:"scrambles"`
 }
 
 type GenericResponse struct {
@@ -26,6 +38,16 @@ type GenericResponse struct {
 type SolveRecord struct {
 	Id    int
 	Solve Solve
+}
+
+type GetScrambleRequest struct {
+	SetName string
+	Alg     string
+}
+
+type GetScrambleResponse struct {
+	Success  bool
+	Scramble string
 }
 
 type AddSolveResponse struct {
@@ -49,15 +71,6 @@ type GetSolvesRequest struct {
 type GetSolvesResponse struct {
 	Success      bool
 	SolveRecords []SolveRecord
-}
-
-type SolveRequest struct {
-	Cube string `json:"cube"`
-}
-
-type SolveResponse struct {
-	Success  bool   `json:"success"`
-	Solution string `json:"solution"`
 }
 
 type TrainingAlg struct {

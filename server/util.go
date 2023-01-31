@@ -30,3 +30,18 @@ func getEnv(key string) string {
 	}
 	return env
 }
+
+func readJsonFile(fileName string, v any) error {
+	file, err := os.Open(fileName)
+	defer file.Close()
+	if err != nil {
+		return fmt.Errorf("readJsonFile Open: %v", err)
+	}
+
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(v)
+	if err != nil {
+		return fmt.Errorf("readJsonFile Decode: %v", err)
+	}
+	return nil
+}
