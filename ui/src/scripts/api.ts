@@ -11,10 +11,26 @@ type TrainingAlgsRecord = {
     TrainingAlgs: TrainingAlg[],
 };
 
+type GetScrambleResponse = {
+    err: string,
+    scramble: string,
+}
+
 type GetTrainingAlgsResponse = {
     Success: boolean,
     Id: number,
     TrainingAlgsRecord: TrainingAlgsRecord,
+}
+
+export async function getScramble(setName: string, alg: string): Promise<GetScrambleResponse> {
+    return fetch(`${url}/getScramble`, {
+        method: "POST",
+        body: JSON.stringify({
+            setName,
+            alg,
+        }),
+    })
+        .then(res => res.json());
 }
 
 export async function getTrainingAlgs(uid: number, set: string): Promise<GetTrainingAlgsResponse> {

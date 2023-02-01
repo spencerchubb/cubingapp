@@ -2,7 +2,7 @@
 admin/raw.json
 
 target/
-public/dist/
+ui/public/scripts/
 
 # Logs
 logs
