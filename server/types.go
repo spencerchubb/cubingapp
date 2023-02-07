@@ -41,13 +41,13 @@ type SolveRecord struct {
 }
 
 type GetScrambleRequest struct {
-	SetName string
-	Alg     string
+	SetName string `json:"setName"`
+	Alg     string `json:"alg"`
 }
 
 type GetScrambleResponse struct {
-	Success  bool
-	Scramble string
+	Err      string `json:"err"`
+	Scramble string `json:"scramble"`
 }
 
 type AddSolveResponse struct {
@@ -117,10 +117,10 @@ type GetTrainingAlgsResponse struct {
 }
 
 type UserRequest struct {
-	Email string
+	Email string `json:"email"`
 }
 
 type UserResponse struct {
-	Success bool
-	Uid     int
+	Success bool `json:"success"`
+	Uid     int  `json:"uid"`
 }
