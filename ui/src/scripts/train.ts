@@ -1,4 +1,4 @@
-import { getTrainingAlgs, TrainingAlg, writeTrainingAlgs } from "./api";
+import { getScramble, getTrainingAlgs, TrainingAlg, writeTrainingAlgs } from "./api";
 import {
     CubingAppUser,
     initialAuthCheck,
@@ -14,11 +14,10 @@ import { GRAY } from "./colors";
 import { Component } from "./component";
 import { createElement, querySelector, setOptions } from "./common/element";
 import { setColor } from "./cube";
-import { renderMobileKeyboard } from "./mobile_keyboard";
 import { renderModal } from "./modal";
 import { newScene, scenes, startLoop } from "./scene";
 import * as slide from "./slide";
-import { getAlgSet, getKeyboard, getOrientation, setAlgSet, setKeyboard, setOrientation } from "./store";
+import { getAlgSet, getOrientation, setAlgSet, setOrientation } from "./store";
 import { addListenersForLeftModal } from "./ui";
 import { promoteAlg, demoteAlg } from "./util";
 
@@ -30,7 +29,6 @@ type AlgSet = { cube: string, name: string, inactive: number[], algs: string[] }
 const algData: AlgSet[] = require("./alg-data.json");
 
 type State = {
-    keyboard: "None" | "Show Keys" | "Show Moves",
     user: CubingAppUser | null,
     showSolution: boolean,
     settingsOpen: boolean,
@@ -39,10 +37,10 @@ type State = {
     algs: TrainingAlg[],
     preAUF: string,
     postAUF: string,
+    scramble: string,
 }
 
 let state: State = {
-    keyboard: getKeyboard(),
     user: null,
     showSolution: false,
     settingsOpen: false,
@@ -51,6 +49,7 @@ let state: State = {
     algs: [],
     preAUF: "",
     postAUF: "",
+    scramble: "",
 };
 
 function findAlgSet(name: string): AlgSet {
@@ -146,25 +145,6 @@ function renderDrawer() {
                     innerHTML: "Keyboard",
                     className: "mt-4",
                 }),
-                createElement("select", {
-                    onchange: (e: Event) => {
-                        const value = (e.target as HTMLSelectElement).value;
-                        if (value != "None" && value != "Show Keys" && value != "Show Moves") {
-                            console.error("Invalid keyboard value: " + value);
-                            return;
-                        }
-                        setKeyboard(value);
-                        state.keyboard = value;
-                        renderTrainPage();
-                    },
-                    children: ["None", "Show Keys", "Show Moves"].map(option => {
-                        return createElement("option", {
-                            value: option,
-                            selected: option === state.keyboard,
-                            innerHTML: option,
-                        });
-                    }),
-                }),
             ],
         });
         slide.open(drawerEle);
@@ -173,7 +153,7 @@ function renderDrawer() {
     }
 }
 
-function changeAlgSet() {
+async function changeAlgSet() {
     const algSet = state.algSet;
     if (algSet.cube == "2x2") {
         let scene = scenes[0];
@@ -187,24 +167,11 @@ function changeAlgSet() {
         scene.cube.solve();
     }
 
-    getTrainingAlgs(state.user.uid, algSet.name)
-        .then(data => {
-            // Remove elements from storedAlgs that are in stored algs but not in algs.
-            // Add elements to stored algs that are in algs but not in stored algs.
-            let filtered = data.TrainingAlgsRecord.TrainingAlgs.filter(storedAlg => {
-                return algSet.algs.find(alg => storedAlg.Alg === alg);
-            });
-            algSet.algs.forEach(alg => {
-                const found = filtered.find(storedAlg => storedAlg.Alg === alg);
-                if (!found) {
-                    filtered.push({ Score: 0, Alg: alg });
-                }
-            });
-            state.algs = filtered;
+    const data = await getTrainingAlgs(state.user.uid, algSet.name);
+    state.algs = data.trainingAlgs;
 
-            // When rendering an alg set, load the first alg automatically.
-            loadCurrAlg();
-        });
+    // When rendering an alg set, load the first alg automatically.
+    loadCurrAlg();
 }
 
 function generateRandAUF() {
@@ -229,6 +196,8 @@ function loadCurrAlg() {
     });
 
     scenes[0].cube.execAlgReverse(alg);
+
+    state.scramble = "";
 }
 
 function retry() {
@@ -253,28 +222,6 @@ const sceneDiv = createElement("div", {
     id: "scene",
     className: "glDiv mt-4",
 });
-
-const showSolutionComponent = new Component<boolean>(
-    (prev, next) => prev !== next,
-    (showSolution) => showSolution
-        ? createElement("button", {
-            className: "btn-secondary mt-4",
-            onclick: () => {
-                state.showSolution = false;
-                renderTrainPage();
-            },
-            innerHTML: applyPre(state.algs[0].Alg, state.preAUF),
-        })
-        : createElement("button", {
-            className: "btn-primary mt-4",
-            title: "Press space to show solution",
-            onclick: () => {
-                state.showSolution = true;
-                renderTrainPage();
-            },
-            innerHTML: "Show solution",
-        }),
-);
 
 const retryAndSadAndHappy = createElement("div", {
     className: "row mt-4 gap-6",
@@ -314,12 +261,54 @@ const retryAndSadAndHappy = createElement("div", {
     ],
 });
 
+const showSolutionComponent = new Component<boolean>(
+    (showSolution) => showSolution
+        ? createElement("button", {
+            className: "btn-secondary mt-4",
+            onclick: () => {
+                state.showSolution = false;
+                renderTrainPage();
+            },
+            innerHTML: applyPre(state.algs[0].Alg, state.preAUF),
+        })
+        : createElement("button", {
+            className: "btn-primary mt-4",
+            title: "Press space to show solution",
+            onclick: () => {
+                state.showSolution = true;
+                renderTrainPage();
+            },
+            innerHTML: "Show solution",
+        }),
+);
+
+type ScrambleComponentState = {
+    show?: boolean,
+    scramble?: string,
+}
+const scrambleComponent = new Component<ScrambleComponentState>(
+    state => {
+        console.log(state);
+        if (!state.show) {
+            return null;
+        }
+        if (!state.scramble) {
+            return createElement("p", {
+                innerHTML: "Loading...",
+            });
+        }
+        return createElement("p", {
+            innerHTML: state.scramble,
+        });
+    },
+);
+
 const rightDrawer = createElement("div", {
     id: "rightDrawer",
     className: "slideLeft slideLeftClosed col",
 });
 
-function renderTrainPage() {
+async function renderTrainPage() {
     let scene = scenes.length > 0 ? scenes[0] : null;
 
     querySelector("#iconContainer", { style: "display: flex;" });
@@ -334,12 +323,9 @@ function renderTrainPage() {
                         className: "col w-full h-full",
                         children: [
                             sceneDiv,
-                            showSolutionComponent.render(state.showSolution),
                             retryAndSadAndHappy,
-                            createElement("div", { style: "flex-grow: 1" }),
-                            renderMobileKeyboard(state.keyboard, move => {
-                                scene.cube.stepAlgorithm(move, true);
-                            }),
+                            showSolutionComponent.render(state.showSolution),
+                            scrambleComponent.render({ show: true, scramble: state.scramble }),
                         ],
                     }),
                     rightDrawer,
@@ -374,7 +360,17 @@ function renderTrainPage() {
     const storedAlgSet = getAlgSet();
     state.algSet = findAlgSet(storedAlgSet) ?? algData[0];
     state.preRotation = getOrientation();
-    changeAlgSet();
+    await changeAlgSet();
+
+    console.log(state.algSet, state.algs);
+    getScramble(state.algSet.name, state.algs[0].Alg).then(res => {
+        if (res.err) {
+            console.error(res.err);
+            return;
+        }
+        state.scramble = res.scramble;
+        renderTrainPage();
+    });
 
     window.addEventListener("resize", () => {
         renderDrawer();
@@ -531,6 +527,9 @@ function renderLandingPage() {
     });
 }
 
+export function getAlgSetNames(): string[] {
+    return algData.map(algSet => algSet.name);
+}
 
 function main() {
     addListenersForLeftModal();

@@ -6,7 +6,7 @@ export {
     auth,
 };
 
-const url = "https://34.206.229.198:3001";
+const url = "https://api.cubingapp.com:3001";
 
 // https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {

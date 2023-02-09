@@ -14,6 +14,13 @@ type GetTrainingAlgsResponse = {
     success: boolean,
     id: number,
     trainingAlgs: TrainingAlg[],
+    cube: string,
+    inactiveStickers: number[],
+}
+
+type CreateTrainingAlgsResponse = {
+    success: boolean,
+    id: number,
 }
 
 type UserResponse = {
@@ -25,12 +32,22 @@ export async function getScramble(setName: string, alg: string): Promise<GetScra
     return post("/getScramble", { setName, alg });
 }
 
-export async function getTrainingAlgs(Uid: number, Set: string): Promise<GetTrainingAlgsResponse> {
-    return post("/getTrainingAlgs", { Uid, Set });
+export async function getTrainingAlgs(uid: number, set: string): Promise<GetTrainingAlgsResponse> {
+    return post("/getTrainingAlgs", { uid, set });
 }
 
-export async function writeTrainingAlgs(Uid: number, Set: string, TrainingAlgs: TrainingAlg[]): Promise<void> {
-    return post("/writeTrainingAlgs", { Uid, Set, TrainingAlgs });
+export async function createTrainingAlgs(
+    uid: number,
+    set: string,
+    trainingAlgs: TrainingAlg[],
+    cube: string,
+    inactiveStickers: number[],
+): Promise<CreateTrainingAlgsResponse> {
+    return post("/createTrainingAlgs", { uid, set, trainingAlgs, cube, inactiveStickers });
+}
+
+export async function updateTrainingAlgs(id: number, trainingAlgs: TrainingAlg[]): Promise<void> {
+    return post("/updateTrainingAlgs", { id, trainingAlgs });
 }
 
 export async function user(email: string): Promise<UserResponse> {
@@ -38,6 +55,7 @@ export async function user(email: string): Promise<UserResponse> {
 }
 
 async function post(endpoint: string, bodyObj: any): Promise<any> {
+    console.log({ endpoint });
     return fetch(`${url}${endpoint}`, {
         method: "POST",
         body: JSON.stringify(bodyObj),

@@ -1,0 +1,27 @@
+
+<svg
+   viewBox="0 0 100 100"
+   stroke-width="3"
+   stroke="black"
+   xmlns="http://www.w3.org/2000/svg">
+   <defs>
+      <radialGradient id="GradientGreen">
+         <stop stop-color="#00ff00" offset="30%" />
+         <stop stop-color="#009900" offset="100%" />
+      </radialGradient>
+      <radialGradient id="GradientRed">
+         <stop stop-color="#ff0000" offset="30%" />
+         <stop stop-color="#990000" offset="100%" />
+      </radialGradient>
+      <radialGradient id="GradientWhite">
+         <stop stop-color="#ffffff" offset="30%" />
+         <stop stop-color="#999999" offset="100%" />
+      </radialGradient>
+   </defs>
+   <path fill="url(#GradientGreen)"
+      d="M 5 42 q 0,-8 10,-3 l 22,8 q 8,5 8,15 l 0,25 q 0,15 -10,10 l -20,-10 q -10,-5 -10,-10 l 0,-35"/>
+   <path fill="url(#GradientRed)"
+      d="M 95 42 q 0,-8 -10,-3 l -22,8 q -8,5 -8,15 l 0,25 q 0,15 10,10 l 20,-10 q 10,-5 10,-10 l 0,-35"/>
+   <path fill="url(#GradientWhite)"
+      d="M 45,5 q 5,-2 10,0 l 34,12 q 8,5 0,10 l -34,12 q -5,2 -10,0 l -35,-12 q -8,-5 0,-10 l 35,-12"/>
+</svg>
