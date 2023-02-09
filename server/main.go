@@ -59,6 +59,12 @@ func scan(row pgx.Row, dest ...any) error {
 	return nil
 }
 
+func root(w http.ResponseWriter, r *http.Request) {
+	msg := fmt.Sprintf("Invalid endpoint hit: %s", r.URL);
+	fmt.Println(msg)
+	io.WriteString(w, msg)
+}
+
 func hello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello world!\n")
 }
@@ -75,7 +81,8 @@ func getScramble(w http.ResponseWriter, r *http.Request) {
 	err = readJsonFile(fileName, &setScrambles)
 	if err != nil {
 		fmt.Println(err)
-		writeJson(w, GenericResponse{false})
+		errMsg := fmt.Sprintf("No scrambles for this set: %s", getScrambleRequest.SetName)
+		writeJson(w, GetScrambleResponse{errMsg, ""})
 		return
 	}
 
@@ -84,11 +91,12 @@ func getScramble(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 		scramble := randElement(algScrambles.Scrambles)
-		writeJson(w, GetScrambleResponse{true, scramble})
+		writeJson(w, GetScrambleResponse{"", scramble})
 		return
 	}
 
-	writeJson(w, GenericResponse{false})
+	errMsg := fmt.Sprintf("No scramble for this alg: %s", getScrambleRequest.Alg)
+	writeJson(w, GetScrambleResponse{errMsg, ""})
 }
 
 func addSolve(w http.ResponseWriter, r *http.Request) {
@@ -351,7 +359,8 @@ func main() {
 	defer conn.Close()
 
 	fmt.Printf("Starting server\n")
-	handleFunc("/", hello)
+	handleFunc("/", root)
+	handleFunc("/hello", hello)
 	handleFunc("/getScramble", getScramble)
 	handleFunc("/addSolve", addSolve)
 	handleFunc("/getSolve", getSolve)
