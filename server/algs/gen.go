@@ -8,17 +8,25 @@ import (
 	"github.com/spencerchubb/solver"
 )
 
+var algSetsToGen = []string{"PLL"}
+
 func main() {
 	algSets := readAlgsFromJson("./algs.json")
 	for _, algSet := range algSets {
-		// if algSet.Name != "OLL" {
-		// 	continue;
-		// }
-		if algSet.Name != "PLL" {
+		if !contains(algSetsToGen, algSet.Name) {
 			continue
 		}
 		generateScramblesForAlgSet(algSet)
 	}
+}
+
+func contains[T comparable](s []T, e T) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
 }
 
 func generateScramblesForAlgSet(algSet AlgSet) {
@@ -40,7 +48,7 @@ func generateScramblesForAlgSet(algSet AlgSet) {
 		alg := solver.StringToAlg(algStr)
 		alg = solver.InvertAlgorithm(alg)
 		solver.PerformAlgorithm(&start, alg)
-		scramblesForAlg := solver.Solve(start, end, []byte{0, 1, 2, 3, 4, 5, 15, 16, 17}, 10, 10_000, false)
+		scramblesForAlg := solver.Solve(end, start, []byte{0, 1, 2, 3, 4, 5, 15, 16, 17}, 10, 10_000, false)
 		allScrambles.Scrambles = append(allScrambles.Scrambles, Scrambles{algStr, scramblesForAlg})
 	}
 	fileName := fmt.Sprintf("./scrambles/%s.json", algSet.Name)

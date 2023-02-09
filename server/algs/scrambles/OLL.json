@@ -1,1 +1,881 @@
-{"setName":"OLL","scrambles":[{"alg":"R U2 R2 F R F' U2 R' F R F'","scrambles":["R U2 R2 F R F' U2 R' F R F'","R U2 R2 F R F' U2 R' F R F' U'","U F' U2 F2 R' F' R U2 F R' F' R","U F' U2 F2 R' F' R U2 F R' F' R U'","R U2 R2 F R F' U2 R' F R F' U2","U2 R U2 R2 F R F' U2 R' F R F'","U2 R U2 R2 F R F' U2 R' F R F' U'","U2 R U2 R2 F R F' U2 R' F R F' U2","U F' U2 F2 R' F' R U2 F R' F' R U2","R U2 R2 F R F' U2 R' F R F' U","U2 R U2 R2 F R F' U2 R' F R F' U"]},{"alg":"L F L' U2 L F2 R' F2 R F' L'","scrambles":["U F R' F' R U2 F R' F' R2 U2 R'","U F R' F' R U2 F R' F' R2 U2 R' U'","U F R' F' R U2 F R' F' R2 U2 R' U2","U2 R' F R F' U2 R' F R F2 U2 F","U2 R' F R F' U2 R' F R F2 U2 F U'","U2 R' F R F' U2 R' F R F2 U2 F U2","U2 R' F R F' U2 R' F R F2 U2 F U","U F R' F' R U2 F R' F' R2 U2 R' U","R U R' F' U F U F R' F' R2 U2 R'","U F U F R' F' R2 U2 R' U2 R U R' F'"]},{"alg":"M R U R' U L F2 L' U M'","scrambles":["F R2 F2 U2 F R F' U2 F2 R2 F' U'","U R' F2 R2 U2 R' F R U2 R2 F2 R","F R2 F2 U2 F R F' U2 F2 R2 F' U2","U R' F2 R2 U2 R' F R U2 R2 F2 R U2","F R2 F2 U2 F R F' U2 F2 R2 F' U","U R' F2 R2 U2 R' F R U2 R2 F2 R U","U2 R' U' F' U F R F R U R' U' F'","F U2 F R' F' R U R U R' U F'","F U2 F R' F' R U R U R' U F' U'","F U2 F R' F' R U R U R' U F' U2","F U2 F R' F' R U R U R' U F' U"]},{"alg":"M U' L F2 L' U' R U' R' M'","scrambles":["U2 F R2 F2 U2 F R' F' U2 F2 R2 F'","U2 F R2 F2 U2 F R' F' U2 F2 R2 F' U'","U2 F R2 F2 U2 F R' F' U2 F2 R2 F' U","U' R' F2 R2 U2 R' F' R U2 R2 F2 R","U' R' F2 R2 U2 R' F' R U2 R2 F2 R U'","U' R' F2 R2 U2 R' F' R U2 R2 F2 R U2","U F U' R U' R' U' R' F R F' U2 F'","F R U' R2 F' U' F U R2 U2 R' U' F'","U' R' U2 R' F R F' U' F' U' F U' R","U F U R U' R' F' R' F' U' F U R"]},{"alg":"R' F2 L F L' F R","scrambles":["U F' U' F2 R' F' R2 U' R'","R' U' R' F R F2 U F R","U F' U' F2 R' F' R2 U' R' U'","U F' U' F2 R' F' R2 U' R' U2","U F' U' F2 R' F' R2 U' R' U","R' U' R' F R F2 U F R U'","R' U' R' F R F2 U F R U2","R' U' R' F R F2 U F R U","U' R U R2 F R F' U' F' U2 F","R' F' U F U2 F' U2 F U R","U' R' F' U F U' F' U2 F U R"]},{"alg":"L F2 R' F' R F' L'","scrambles":["U2 R U R2 F R F2 U F","U2 R U R2 F R F2 U F U'","U2 R U R2 F R F2 U F U2","U2 R U R2 F R F2 U F U","U' F U F R' F' R2 U' R' F'","U' F U F R' F' R2 U' R' F' U'","U' F U F R' F' R2 U' R' F' U2","U' F U F R' F' R2 U' R' F' U","F R U' R' U R U2 R' U' F'","U' F R U' R' U2 R U2 R' U' F'"]},{"alg":"L F R' F R F2 L'","scrambles":["F R' F' R U2 R U2 R'","F R' F' R U2 R U2 R' U'","F R' F' R U2 R U2 R' U2","F R' F' R U2 R U2 R' U","U' F' U2 F U2 F R' F' R","U' F' U2 F U2 F R' F' R U'","U' F' U2 F U2 F R' F' R U2","U' F R U R2 F R F' U' F'","U' F R U R2 F R F' U' F' U'","U' F R U R2 F R F' U' F' U2","U' F R U R2 F R F' U' F' U"]},{"alg":"R' F' L F' L' F2 R","scrambles":["R U2 R' U2 R' F R F'","U' R' F R F' U2 F' U2 F","R U2 R' U2 R' F R F' U'","R U2 R' U2 R' F R F' U2","R U2 R' U2 R' F R F' U","R' F' U' F2 R' F' R U R","U' R' F R F' U2 F' U2 F U'","R' F' U' F2 R' F' R U R U'","U' R' F R F' U2 F' U2 F U2","R' F' U' F2 R' F' R U R U2"]},{"alg":"R U R' U' R' F R2 U R' U' F'","scrambles":["R' U' R F R' F' U F R F'","F' U' F2 R U R' F2 U F2 U2 F'","R U R' U' R' F R2 U R' U' F'","R' U' F' U F U' R U' R' U2 R","R' U' R F R' F' U F R F' U'","R' U' R F R' F' U F R F' U2","R' U' R F R' F' U F R F' U","R U R' U' R' F R2 U R' U' F' U'","F' U' F2 R U R' F2 U F2 U2 F' U'","U F' U' F U' F R' F' R F' U2 F","U F' U' F U' F R' F' R F' U2 F U'"]},{"alg":"R U R' U R' F R F' R U2 R'","scrambles":["R U R' U R' F R F' R U2 R'","U F U F' R' F R U' R' F' R","U F U F' R' F R U' R' F' R U'","U F U F' R' F R U' R' F' R U2","U F U F' R' F R U' R' F' R U","U F U R U' R' U F' U F U2 F'","U F U R U' R' U F' U F U2 F' U'","U F' U' F U F R' F2 U' F U R","U R U R2 F' U' F R2 U' R2 U2 R","R U R' U R' F R F' R U2 R' U'"]},{"alg":"M R U R' U R U2 R' U M'","scrambles":["U' R' F' U' F2 R' F' R2 U' R' U2 R","U' R' F' U' F2 R' F' R2 U' R' U2 R U'","U' R' F' U' F2 R' F' R2 U' R' U2 R U2","U' R' F' U' F2 R' F' R2 U' R' U2 R U","U' F R U' R2 U2 R2 U R2 U R U' F'","U F2 U R' F' R F' R' F' R F2 U' F2","F2 U2 F U R U' R' U' F' U2 F U' F","F' U' F' U' F2 R' F' R2 U' R' U' F","F' U2 R2 F2 R F R' F R F R U2 F","F' U' F' U' F2 R' F' R2 U' R' U' F U'","F' U' F' U' F2 R' F' R2 U' R' U' F U2","F' U' F' U' F2 R' F' R2 U' R' U' F U"]},{"alg":"M' R' U' R U' R' U2 R U' M","scrambles":["U2 F R U R2 F R F2 U F U2 F'","U2 F R U R2 F R F2 U F U2 F' U'","U2 F R U R2 F R F2 U F U2 F' U2","U2 F R U R2 F R F2 U F U2 F' U","F R2 F2 U2 R2 F R F' R U2 F2 R2 F'","U2 F2 U F2 R' F R F R' F R U' F2","U' R' F R F R2 F2 U2 F' U2 F' R2 F2","F' U2 R' F2 U F2 U' F2 U' R U' F","F' U2 F R' F U F2 U F2 U' R U' F'","F R' F R2 F U2 F' R2 F' R F2 U2 F"]},{"alg":"F U R U' R2 F' R U R U' R'","scrambles":["F U R U2 R' U' R U R' F'","F U R U2 R' U' R U R' F' U'","F U R U2 R' U' R U R' F' U2","F U R U2 R' U' R U R' F' U","F U R U2 R' F R' F' R U F'","F U R U' R2 F' R U R U' R'","U2 F R U R2 U' R F' R' U R","U' F R' F' U' F R F' R' U R","F U R U2 R' F R' F' R U F' U'","F U R U' R2 F' R U R U' R' U'"]},{"alg":"R' F R U R' F' R F U' F'","scrambles":["R' F R U R' F' R F U' F'","U R' F' U' F2 U F' R F U' F'","R' F R U R' F' R F U' F' U'","R' F R U R' F' R F U' F' U2","R' F R U R' F' R F U' F' U","U' R' U' F' U2 F U F' U' F R","U R' F' U' F2 U F' R F U' F' U'","U' R' U' F' U2 F U F' U' F R U'","U R' F' U' F2 U F' R F U' F' U2","U R' F' U' F2 U F' R F U' F' U"]},{"alg":"R' F' R L' U' L U R' F R","scrambles":["U2 F U2 F2 U' F2 R U' R' F2 U F","U2 F U2 F2 U' F2 R U' R' F2 U F U'","U2 F U2 F2 U' F2 R U' R' F2 U F U2","U2 F U2 F2 U' F2 R U' R' F2 U F U","F U R U' R' F' R' U' F' U F R","F U R U' R' F' R' U' F' U F R U'","F U R U' R' F' R' U' F' U F R U2","F U R U' R' F' R' U' F' U F R U","U F R F' U' F U F R2 F' R U' F'","U F R' F' U' F U R F' U F U2 F'"]},{"alg":"L F L' R U R' U' L F' L'","scrambles":["U R' U2 R2 U R2 F' U F R2 U' R'","U R' U2 R2 U R2 F' U F R2 U' R' U'","U R' U2 R2 U R2 F' U F R2 U' R' U2","U R' U2 R2 U R2 F' U F R2 U' R' U","U F U2 R' U' F R F' R' U R U2 F'","U' R' U' F' U F R F U R U' R' F'","F R2 U R2 F R F2 U F U2 R' F'","F R2 U R U' R' U F R2 F' U' R' F'","F R2 U R2 F R F2 U F U2 R' F' U'","F R2 U R2 F R F2 U F U2 R' F' U2","F R2 U R2 F R F2 U F U2 R' F' U"]},{"alg":"F R' F' R U S' R U' R' S","scrambles":["U F R U2 R2 U' F' U F R U2 F'","U F R U2 R2 U' F' U F R U2 F' U'","U F R U2 R2 U' F' U F R U2 F' U2","U F R U2 R2 U' F' U F R U2 F' U","U' R' F' U2 F2 U R U' R' F' U2 R","U' R' F' U2 F2 U R U' R' F' U2 R U'","U' R' F' U2 F2 U R U' R' F' U2 R U2","U' R' F' U2 F2 U R U' R' F' U2 R U","F U R' U' F' U F R2 U R' U' F'","F U R' U' F' U F R2 U R' U' F' U'","F U R' U' F' U F R2 U R' U' F' U2","F U R' U' F' U F R2 U R' U' F' U"]},{"alg":"R U2 R2 F R F' U2 M' U R U' r'","scrambles":["U R U2 R' F' U2 F R U' R2 F R F'","R' F R F2 U' F R U2 R' F' U2 F","F' U2 F R U2 R' F' U F2 R' F' R","F' U2 F R U2 R' F' U F2 R' F' R U'","F' U2 F R U2 R' F' U F2 R' F' R U2","F' U2 F R U2 R' F' U F2 R' F' R U","U F R' F' R2 U R' F' U2 F R U2 R'","R' U' F R' F2 U' F U R2 U2 R' U' R","R' U' F' U F2 R U R' F' R F U' F'","R' U' R F R' F' U F R2 U R' U' F'"]},{"alg":"S' R U R' S U' R' F R F'","scrambles":["U2 F U2 R' F' U' F U R2 U2 R' F'","U2 F U2 R' F' U' F U R2 U2 R' F' U'","U2 F U2 R' F' U' F U R2 U2 R' F' U2","U2 F U2 R' F' U' F U R2 U2 R' F' U","U' R' U2 F R U R' U' F2 U2 F R","U' R' U2 F R U R' U' F2 U2 F R U'","U' R' U2 F R U R' U' F2 U2 F R U2","U' R' U2 F R U R' U' F2 U2 F R U","U F U R U' R2 F' U' F U R U' F'","F R' F' R U2 R U' R2 F R F2 U F"]},{"alg":"S R' U' R U R U R U' R' S'","scrambles":["F2 U2 F R2 U2 F2 R F2 U2 R2 F' U2 F2 U'","F2 U2 F R2 U2 F2 R' F2 U2 R2 F' U2 F2 U'","U F2 U2 F R2 U2 F2 R' F2 U2 R2 F' U2 F2","U F2 U2 F R2 U2 F2 R F2 U2 R2 F' U2 F2","F2 U2 F' R2 U2 F2 R F2 U2 R2 F U2 F2 U'","F2 U2 F' R2 U2 F2 R' F2 U2 R2 F U2 F2 U'","U F2 U2 F' R2 U2 F2 R' F2 U2 R2 F U2 F2","U F2 U2 F' R2 U2 F2 R F2 U2 R2 F U2 F2","F2 R2 U2 F R2 F2 R F2 R2 F' U2 R2 F2 U'","F2 R2 U2 F R2 F2 R' F2 R2 F' U2 R2 F2 U'","U F2 R2 U2 F R2 F2 R' F2 R2 F' U2 R2 F2","U F2 R2 U2 F R2 F2 R F2 R2 F' U2 R2 F2"]},{"alg":"R U R' U R U' R' U R U2 R'","scrambles":["F U2 F' U' F U F' U' F U' F'","F' U2 F U F' U' F U F' U F","R U R' U R U' R' U R U2 R'","R' U' R U' R' U R U' R' U2 R","F U2 F' U' F U F' U' F U' F' U'","U F U F' U F U' F' U F U2 F'","U F U F' U F U' F' U F U2 F' U'","F R2 F2 U2 F R2 F' U2 F2 R2 F' U'","F' U2 F U F' U' F U F' U F U'","U F' U' F U' F' U F U' F' U2 F","U F' U' F U' F' U F U' F' U2 F U'"]},{"alg":"R U2 R2 U' R2 U' R2 U2 R","scrambles":["R U2 R2 U' R2 U' R2 U2 R","R' U2 R2 U R2 U R2 U2 R'","U F U2 F2 U' F2 U' F2 U2 F","U F U2 F2 U' F2 U' F2 U2 F U'","U F' U2 F2 U F2 U F2 U2 F'","U F' U2 F2 U F2 U F2 U2 F' U'","R' U2 R2 U R2 U R2 U2 R' U'","R U2 R2 U' R2 U' R2 U2 R U'","U F' U2 F2 U F2 U F2 U2 F' U2","U F U2 F2 U' F2 U' F2 U2 F U2"]},{"alg":"R2 D' R U2 R' D R U2 R","scrambles":["R' U F U' F' U' R F U2 F'","R' U2 R F U' R' U' R U F'","R' U2 R F' R' F U2 F' R F","U' F U2 F' R F R' U2 R F' R'","R2 F2 R2 U2 R U2 R F2 R' U2 R'","U' F U2 F' R' U F U F' U' R","R' U F U' F' U' R F U2 F' U'","R' U F U' F' U' R F U2 F' U2","R' U F U' F' U' R F U2 F' U","R' U2 R U F U' R' U2 R U F'"]},{"alg":"L F R' F' L' F R F'","scrambles":["R' U' R F R' U R U' F'","U F U F' R' F U' F' U R","R' U' R F R' U R U' F' U'","U F U F' R' F U' F' U R U'","R' U' R F R' U R U' F' U2","U F U F' R' F U' F' U R U2","R' U' R F R' U R U' F' U","U F U F' R' F U' F' U R U","U' R F R' U R F' R' F U' F'","U R' U F U2 F' U' R F U' F'"]},{"alg":"F' L F R' F' L' F R","scrambles":["U F U R' U' R F' R' U R","U R' U' F U F' R F U' F'","U R' U' F U F' R F U' F' U'","U F U R' U' R F' R' U R U'","U R' U' F U F' R F U' F' U2","U F U R' U' R F' R' U R U2","U R' U' F U F' R F U' F' U","U F U R' U' R F' R' U R U","U F R U' R' U' R U2 R' U' F'","U R' U' R F U' R' U2 R U F'"]},{"alg":"R U2 R' U' R U' R'","scrambles":["F' U' F U' F' U2 F","R U2 R' U' R U' R'","U F U2 F' U' F U' F'","U F U2 F' U' F U' F' U'","F' U' F U' F' U2 F U'","R U2 R' U' R U' R' U'","U F U2 F' U' F U' F' U2","F' U' F U' F' U2 F U2","R U2 R' U' R U' R' U2","U F U2 F' U' F U' F' U"]},{"alg":"R U R' U R U2 R'","scrambles":["F' U2 F U F' U F","R U R' U R U2 R'","U F U F' U F U2 F'","U F U F' U F U2 F' U'","F' U2 F U F' U F U'","R U R' U R U2 R' U'","U F U F' U F U2 F' U2","F' U2 F U F' U F U2","R U R' U R U2 R' U2","U F U F' U F U2 F' U"]},{"alg":"r U R' U' r' R U R U' R'","scrambles":["F2 U F R' F' R2 U' R2 F' R F'","R2 U' R' F R F2 U F2 R F' R","F2 U F R' F' R2 U' R2 F' R F' U'","U F2 U' F' R' F' R2 U' R2 F' R F","U F2 U' F' R' F' R2 U' R2 F' R F U'","U R F R' F2 U' F2 R' F' R' U' R2","U R F R' F2 U' F2 R' F' R' U' R2 U'","R2 U' R' F R F2 U F2 R F' R U'","U R' F R' F2 U' F2 R' F' R U R2","U R' F R' F2 U' F2 R' F' R U R2 U'"]},{"alg":"R U R' U' R U' R' F' U' F R U R'","scrambles":["U F R' U' R2 U' R2 U2 R U' F'","R' U2 R2 U R' U' R' U2 F R F'","R' F R' F2 U F U F' U' F R2","U F R' U' R2 U' R2 U2 R U' F' U'","U F R' U' R2 U' R2 U2 R U' F' U2","U F R' U' R2 U' R2 U2 R U' F' U","R' U2 R2 U R' U' R' U2 F R F' U'","U R2 U' R F R' U R2 U' R' F' R","R' F R' F2 U F U F' U' F R2 U'","R' U' F' U2 F U F' U2 F U R U'"]},{"alg":"F R' F R2 U' R' U' R U R' F2","scrambles":["F R' F R2 U' R' U' R U R' F2","U' R' F U F2 U F2 U2 F' U R","F U2 F2 U' F U F U2 R' F' R","F U R U2 R' U' R U2 R' U' F' U'","F R' F R2 U' R' U' R U R' F2 U'","U' R' F U F2 U F2 U2 F' U R U'","F U2 F2 U' F U F U2 R' F' R U'","F U R U2 R' U' R U2 R' U' F' U2","F R' F R2 U' R' U' R U R' F2 U2","U' R' F U F2 U F2 U2 F' U R U2"]},{"alg":"R' U' F U R U' R' F' R","scrambles":["R' U' F U R U' R' F' R","R' U' F U R U' R' F' R U'","R' U' F U R U' R' F' R U2","R' U' F U R U' R' F' R U","F' U2 F2 U R U' R' F2 U F","F' U2 F2 U R U' R' F2 U F U'","F' U2 F2 U R U' R' F2 U F U2","F' U2 F2 U R U' R' F2 U F U","U F' U2 F U R U' R' F' U F","R' F R F' U R U R' F' U2 F"]},{"alg":"L U F' U' L' U L F L'","scrambles":["U' F U R' U' F' U F R F'","U' F U R' U' F' U F R F' U'","U' F U R' U' F' U F R F' U2","U' F U R' U' F' U F R F' U","U F R' F' U' F U R2 U' R' F'","U' R U2 R2 U' F' U F R2 U' R'","U2 R U2 R' U' F' U F R U' R'","U F U R U R' U' F' U2 F U F'","U F U R U R' U' F' U2 F U F' U'","U F R' F' U' F U R2 U' R' F' U'"]},{"alg":"R U R' U' R' F R F'","scrambles":["R U R' U' R' F R F'","F R F U F' R' F U' F2","R U R' U' R' F R F' U'","R U R' U' R' F R F' U2","R U R' U' R' F R F' U","R2 U R2 U' R' F R2 F' R'","U F' U' F U F R' F' R","F R U' R' U R U R' F' U'","F R F U F' R' F U' F2 U'","U F2 U' F2 U F R' F2 R F"]},{"alg":"R U R2 U' R' F R U R U' F'","scrambles":["R U R2 U' R' F R U R U' F'","F' U2 F2 U R U' R2 F' R2 U' R'","R U R2 U' R' F R U R U' F' U'","F' U2 F2 U R U' R2 F' R2 U' R' U'","R U R2 U' R' F R U R U' F' U2","F' U2 F2 U R U' R2 F' R2 U' R' U2","R U R2 U' R' F R U R U' F' U","U' F' U' F2 U F R' F' U' F' U R","U' F' U' F2 U F R' F' U' F' U R U'","U' F' U' F2 U F R' F' U' F' U R U2"]},{"alg":"R U2 R2 F R F' R U2 R'","scrambles":["F' U2 F2 R' F' R F' U2 F","R U2 R2 F R F' R U2 R'","F' U2 F2 R' F' R F' U2 F U'","R U2 R2 F R F' R U2 R' U'","F' U2 F2 R' F' R F' U2 F U2","R U2 R2 F R F' R U2 R' U2","F' U2 F2 R' F' R F' U2 F U","R U2 R2 F R F' R U2 R' U","U F U R' F R F2 U F U2 F'","U' R' U' F R' F' R2 U' R' U2 R"]},{"alg":"L' U' L U' L' U L U L F' L' F","scrambles":["U' R U R2 F' U' F U R2 U2 R'","R' U' R U' R' U2 F' U' F U R","R' F' U' F2 U R U' R' F' R","R' F' U' F2 U R U' R' F' R U'","R' F' U' F2 U R U' R' F' R U2","R' F' U' F2 U R U' R' F' R U","U F' U' F U' R U' R' U2 F' U F","U F' U' F U' R U' R' U2 F' U F U'","U' R U R2 F' U' F U R2 U2 R' U'","R' U' R U' R' U2 F' U' F U R U'"]},{"alg":"F R' F' R U R U' R'","scrambles":["F R' F' R U R U' R'","F R' F' R U R U' R' U'","F R' F' R U R U' R' U2","F R' F' R U R U' R' U","F2 U F' R F U' F' R' F'","R' F R F' U' F' U F","F' R' F2 R F' U' F2 U F2","R F R2 F' R U R2 U' R2","R' F R F' U' F' U F U'","R' F R F' U' F' U F U2","R' F R F' U' F' U F U"]},{"alg":"R U R' U R U' R' U' R' F R F'","scrambles":["U' F R U R2 U' F' U F R F'","F' U' F2 R U R' U' F2 U2 F","F' U' F2 R U R' U' F2 U2 F U'","F' U' F2 R U R' U' F2 U2 F U2","F' U' F2 R U R' U' F2 U2 F U","R' U' F' U F U2 R U R' U R","U' F R U R2 U' F' U F R F' U'","U F' U' F U R U2 R' U' F' U' F","U F' U' F U R U2 R' U' F' U' F U'","U F' U' F U2 R U R' U F' U F"]},{"alg":"L F' L' U' L U F U' L'","scrambles":["U' F R' F' U' F U R U' F'","U' F R' F' U' F U R U' F' U'","U' F R' F' U' F U R U' F' U2","U' F R' F' U' F U R U' F' U","F R U' R' F' U' F2 R' F' R F'","U2 R U R' F' U' F U R U2 R'","F R U' R' F' U' F2 R' F' R F' U'","U2 R U R' F' U' F U R U2 R' U'","F R U' R' F' U' F2 R' F' R F' U2","U2 R U R' F' U' F U R U2 R' U2","U2 R U R' F' U' F U R U2 R' U"]},{"alg":"R' F R U R' U' F' U R","scrambles":["R' F R U R' U' F' U R","R' F R U R' U' F' U R U'","R' F R U R' U' F' U R U2","R' F R U R' U' F' U R U","U F' U' F R U R' U' F' U2 F","F R U R' F' R' F U' F' U R","R' F R' F' R2 U' R' F' U' F R","U F' U' F R U R' U' F' U2 F U'","U F' U' F R U R' U' F' U2 F U2","U F' U' F R U R' U' F' U2 F U"]},{"alg":"R U R' U R U2 R' F R U R' U' F'","scrambles":["U F R2 F2 U R' U R U2 F2 R2 F'","U F R2 F2 U R' U R U2 F2 R2 F' U'","U F R2 F2 U R' U R U2 F2 R2 F' U2","U' F U' F' U2 F U R U' R' U' F'","U' F U' F' U2 F U R U' R' U' F' U'","U' F U' F' U2 F U R U' R' U' F' U2","U' F U' F' U2 F U R U' R' U' F' U","U F R2 F2 U R' U R U2 F2 R2 F' U","F U R' U' R2 U' R2 U2 R2 U2 R' U' F'","R' F R F' U2 F U F2 U F2 U2 F'"]},{"alg":"R' U' R U' R' U2 R F R U R' U' F'","scrambles":["R' F2 R2 U' F U' F' U2 R2 F2 R","R' F2 R2 U' F U' F' U2 R2 F2 R U'","U2 R' U R U2 R' U' F' U F U R","U2 R' U R U2 R' U' F' U F U R U'","U2 R' U R U2 R' U' F' U F U R U2","R' F2 R2 U' F U' F' U2 R2 F2 R U2","U2 R' U R U2 R' U' F' U F U R U","R' F2 R2 U' F U' F' U2 R2 F2 R U","U2 F' U2 F U F' U F2 R U R' U' F'","R F2 R2 F2 U' F U' F' U2 F2 R2 F2 R'"]},{"alg":"F' U' L' U L F","scrambles":["U' R' U' F' U F R","U' R' U' F' U F R U'","U' R' U' F' U F R U2","U' R' U' F' U F R U","R' U' F R' F' R U R","R' U' F R' F' R U R U'","R' U' F R' F' R U R U2","R' U' F R' F' R U R U","R' U2 R U R' F' U F R","U R U R' F' U2 F R U' R'"]},{"alg":"F U R U' R' F'","scrambles":["F U R U' R' F'","F U R U' R' F' U'","F U R U' R' F' U2","F U R U' R' F' U","U' F U R' F R F' U' F'","U' F U R' F R F' U' F' U'","U F R U' R' U2 R U R' F'","U' F U R' F R F' U' F' U2","U F R U' R' U2 R U R' F' U2","U2 F' U' F R U2 R' F' U F","U2 F' U' F R U2 R' F' U F U'"]},{"alg":"F R U R' U' F'","scrambles":["F R U R' U' F'","F R U R' U' F' U'","F R U R' U' F' U2","F R U R' U' F' U","U R' F' U' F U R","U R' F' U' F U R U'","U R' F' U' F U R U2","U R' F' U' F U R U","F2 R U' R' U R U R2 F' R F'","U2 F' U2 F R U' R' U2 F' U F"]},{"alg":"R' U' R' F R F' U R","scrambles":["U F U F R' F' R U' F'","R' U' R' F R F' U R","R' U' R' F R F' U R U'","R' U' R' F R F' U R U2","R' U' R' F R F' U R U","R' F' U' F R U' R' U2 R","U F U F R' F' R U' F' U'","U F U F R' F' R U' F' U2","U F U F R' F' R U' F' U","U F R U R' F' U F U2 F'","U F R U R' F' U F U2 F' U'"]},{"alg":"R' U' R' F R F' R' F R F' U R","scrambles":["U' R' F' U' F U F' U' F U R","U' R' F' U' F U F' U' F U R U'","U' R' F' U' F U F' U' F U R U2","U' R' F' U' F U F' U' F U R U","U' R' F R U2 F' U' F U' F2 U2 F","U' R' F R U2 F' U' F U' F2 U2 F U'","U' R' F R U2 F' U' F U' F2 U2 F U2","U' R' F R U2 F' U' F U' F2 U2 F U","U F' U' F U' F' U2 F2 R U R' U' F'","F' U2 F R' F R U F2 U F2 U2 F'"]},{"alg":"F R U R' U' R U R' U' F'","scrambles":["F R U R' U' R U R' U' F'","F R U R' U' R U R' U' F' U'","F R U R' U' R U R' U' F' U2","F R U R' U' R U R' U' F' U","F R' F' U2 R U R' U R2 U2 R'","F R' F' U2 R U R' U R2 U2 R' U'","F R' F' U2 R U R' U R2 U2 R' U2","F R' F' U2 R U R' U R2 U2 R' U","U' F U F R' F' R F R' F' R U' F'","F R U' R2 F2 R U2 R U2 R' F2 U' F'"]},{"alg":"L F' L2 B L2 F L2 B' L","scrambles":["U2 R F' U2 F U2 F R2 F' R","U2 R F' U2 F U2 F R2 F' R U'","U2 R F' U2 F U2 F R2 F' R U2","U' F R' F2 R U2 R U2 R' F","U' F R' F2 R U2 R U2 R' F U'","U' F R' F2 R U2 R U2 R' F U2","U' F R' F2 R U2 R U2 R' F U","U2 R F' U2 F U2 F R2 F' R U","U F' U' F2 R' F' R U' R' F R F'","U F' U' F2 R' F' R U' R' F R F' U'"]},{"alg":"R' F R2 B' R2 F' R2 B R'","scrambles":["R' F R2 F' U2 F' U2 F R'","U F' R U2 R' U2 R' F2 R F'","U F' R U2 R' U2 R' F2 R F' U'","R' F R2 F' U2 F' U2 F R' U'","U F' R U2 R' U2 R' F2 R F' U2","R' F R2 F' U2 F' U2 F R' U2","U F' R U2 R' U2 R' F2 R F' U","R' F R2 F' U2 F' U2 F R' U","U2 R U R2 F R F' U F R' F' R","U2 R U R2 F R F' U F R' F' R U'"]},{"alg":"F U R U' R' U R U' R' F'","scrambles":["F U R U' R' U R U' R' F'","F U R U' R' U R U' R' F' U'","F U R U' R' U R U' R' F' U2","F U R U' R' U R U' R' F' U","F U F R' F' R F' U F U2 F'","F' U2 F U2 F U R' U' F' U R","U R' U' F' U F U' F' U F R","F U F R' F' R F' U F U2 F' U'","F' U2 F U R U2 R' U' F' U2 F U'","U R U2 R' U2 R' U' F U R U' F'","U R U2 R' U2 R' U' F U R U' F' U'"]},{"alg":"R U R' U R U' B U' B' R'","scrambles":["U' F R U R' U F' U' F U' F'","U F U F' U F U' R U' R' F'","U2 R' F' U' F U' R U R' U R","R' U' R U' R' U F' U F R","R' U' R U' R' U F' U F R U'","R' U' R U' R' U F' U F R U2","R' U' R U' R' U F' U F R U","U' F R U R' U F' U' F U' F' U'","U F U F' U F U' R U' R' F' U'","U F U F' U F U' R U' R' F' U2","U F U F' U F U' R U' R' F' U"]},{"alg":"R' F' L F' L' F L F' L' F2 R","scrambles":["U R' F R F' U' F R' F' R2 U' R'","U R' F R F' U' F R' F' R2 U' R' U'","U R' F R F' U' F R' F' R2 U' R' U2","U R' F R F' U' F R' F' R2 U' R' U","F R U' R2 F' R U2 R U2 R' F U' F'","F R U R' U' R U' R' U R U R' F'","U F R U' R' U F' U' F2 R' F' R F'","U2 F U' R' F R F2 U' F2 R' F' R F'","F R U R' U' R F U F' R' F U' F2","F R' F' U' F2 R' U' R' U R U R F2"]},{"alg":"L F R' F R F' R' F R F2 L'","scrambles":["U2 F R' F' R U R' F R F2 U F","U2 F R' F' R U R' F R F2 U F U'","U2 F R' F' R U R' F R F2 U F U2","U2 F R' F' R U R' F R F2 U F U","R' U' F R' F' R2 F R' U R U' F'","U' R U2 R' U2 R' U' F U R2 U' R' F'","F R U2 F' U R' U R U2 F R' U' F'","F U F2 R U2 R' U2 R' F2 R2 U R' F'","F2 U2 R' F' R F2 U F2 U F U2 F","F2 U2 R' F' R F2 U F2 U F U2 F U'","F2 U2 R' F' R F2 U F2 U F U2 F U2","F2 U2 R' F' R F2 U F2 U F U2 F U"]},{"alg":"R' F R U R U' R2 F' R2 U' R' U R U R'","scrambles":["F' U2 F2 U F' U F U2 R' F' R","U R U2 R2 U' R U' R' U2 F R F'","U R U2 R2 U' R U' R' U2 F R F' U'","F' U2 F2 U F' U F U2 R' F' R U'","U R U2 R2 U' R U' R' U2 F R F' U2","U2 F' U2 F2 U F' U F U2 R' F' R","U2 F' U2 F2 U F' U F U2 R' F' R U'","F' U2 F2 U F' U F U2 R' F' R U2","U2 F' U2 F2 U F' U F U2 R' F' R U2","U R U2 R2 U' R U' R' U2 F R F' U"]},{"alg":"R' F' R U' L' U L U' L' U L R' F R","scrambles":["F U F' R' U' F' U F R U2 F U2 F'","F U R' U2 R' U R' U' R U2 R U F'","F2 R F2 U' R' U R U F2 R2 F' R F'","R' F R F' U2 R U' R' U F' U2 F","U2 R' F R F' U2 R U' R' U F' U2 F","F' U' F2 R U' R' U2 R U R' F2 U2 F","U F R' F' R U2 F' U F U' R U2 R'","U' F R' F' R U2 F' U F U' R U2 R'","R F U R' U2 R' U2 R' U2 R2 U F' R'","F R U R' U2 R' U2 R U F' R' U R"]},{"alg":"S R' F R S' R' F' R","scrambles":["F U F R U R' U' F2 U2 F U F'","F U F R U R' U' F2 U2 F U F' U'","F U F R U R' U' F2 U2 F U F' U2","F U F R U R' U' F2 U2 F U F' U","U F2 R' F' R F' U2 F R U' R' U' F'","U' F2 R' F' R F' U2 F R U' R' U' F'","F U R U R' F' U2 F R' F R F2","F U R U R' F' U2 F R' F R F2 U'","F U R U R' F' U2 F R' F R F2 U2","F U R U R' F' U2 F R' F R F2 U"]}]}
+{
+    "setName": "OLL",
+    "scrambles": [
+        {
+            "alg": "R U2 R2 F R F' U2 R' F R F'",
+            "scrambles": [
+                "F R' F' R U2 F R' F' R2 U2 R'",
+                "U F R' F' R U2 F R' F' R2 U2 R'",
+                "R' F R F' U2 R' F R F2 U2 F U'",
+                "U R' F R F' U2 R' F R F2 U2 F U'",
+                "U2 F R' F' R U2 F R' F' R2 U2 R'",
+                "F R' F' R U2 F R' F' R2 U2 R' U2",
+                "U F R' F' R U2 F R' F' R2 U2 R' U2",
+                "U2 F R' F' R U2 F R' F' R2 U2 R' U2",
+                "U2 R' F R F' U2 R' F R F2 U2 F U'",
+                "U' F R' F' R U2 F R' F' R2 U2 R'",
+                "U' F R' F' R U2 F R' F' R2 U2 R' U2"
+            ]
+        },
+        {
+            "alg": "L F L' U2 L F2 R' F2 R F' L'",
+            "scrambles": [
+                "R U2 R2 F R F' U2 R' F R F' U'",
+                "U R U2 R2 F R F' U2 R' F R F' U'",
+                "U2 R U2 R2 F R F' U2 R' F R F' U'",
+                "F' U2 F2 R' F' R U2 F R' F' R U2",
+                "U F' U2 F2 R' F' R U2 F R' F' R U2",
+                "U2 F' U2 F2 R' F' R U2 F R' F' R U2",
+                "U' F' U2 F2 R' F' R U2 F R' F' R U2",
+                "U' R U2 R2 F R F' U2 R' F R F' U'",
+                "R U2 R2 F R F' U' F' U' F R U' R'",
+                "F R U' R' U2 R U2 R2 F R F' U' F' U'"
+            ]
+        },
+        {
+            "alg": "M R U R' U L F2 L' U M'",
+            "scrambles": [
+                "U F R2 F2 U2 F R' F' U2 F2 R2 F'",
+                "R' F2 R2 U2 R' F' R U2 R2 F2 R U'",
+                "U2 F R2 F2 U2 F R' F' U2 F2 R2 F'",
+                "U2 R' F2 R2 U2 R' F' R U2 R2 F2 R U'",
+                "U' F R2 F2 U2 F R' F' U2 F2 R2 F'",
+                "U' R' F2 R2 U2 R' F' R U2 R2 F2 R U'",
+                "F U R U' R' F' R' F' U' F U R U2",
+                "F U' R U' R' U' R' F R F' U2 F'",
+                "U F U' R U' R' U' R' F R F' U2 F'",
+                "U2 F U' R U' R' U' R' F R F' U2 F'",
+                "U' F U' R U' R' U' R' F R F' U2 F'"
+            ]
+        },
+        {
+            "alg": "M U' L F2 L' U' R U' R' M'",
+            "scrambles": [
+                "F R2 F2 U2 F R F' U2 F2 R2 F' U2",
+                "U F R2 F2 U2 F R F' U2 F2 R2 F' U2",
+                "U' F R2 F2 U2 F R F' U2 F2 R2 F' U2",
+                "R' F2 R2 U2 R' F R U2 R2 F2 R U",
+                "U R' F2 R2 U2 R' F R U2 R2 F2 R U",
+                "U2 R' F2 R2 U2 R' F R U2 R2 F2 R U",
+                "F U2 F R' F' R U R U R' U F' U'",
+                "F U R U2 R2 U' F' U F R2 U R' F'",
+                "R' U F' U F U F R' F' R U2 R U",
+                "R' U' F' U F R F R U R' U' F' U'"
+            ]
+        },
+        {
+            "alg": "R' F2 L F L' F R",
+            "scrambles": [
+                "R U R2 F R F2 U F U'",
+                "R' F' U' F2 R' F' R U R",
+                "U R U R2 F R F2 U F U'",
+                "U2 R U R2 F R F2 U F U'",
+                "U' R U R2 F R F2 U F U'",
+                "U R' F' U' F2 R' F' R U R",
+                "U2 R' F' U' F2 R' F' R U R",
+                "U' R' F' U' F2 R' F' R U R",
+                "F' U2 F U F R' F' R2 U' R' U",
+                "R' U' F' U2 F U2 F' U' F R",
+                "R' U' F' U2 F U F' U' F R U"
+            ]
+        },
+        {
+            "alg": "L F2 R' F' R F' L'",
+            "scrambles": [
+                "F' U' F2 R' F' R2 U' R' U2",
+                "U F' U' F2 R' F' R2 U' R' U2",
+                "U2 F' U' F2 R' F' R2 U' R' U2",
+                "U' F' U' F2 R' F' R2 U' R' U2",
+                "F R U R2 F R F' U' F' U",
+                "U F R U R2 F R F' U' F' U",
+                "U2 F R U R2 F R F' U' F' U",
+                "U' F R U R2 F R F' U' F' U",
+                "F U R U2 R' U' R U R' F'",
+                "F U R U2 R' U2 R U R' F' U"
+            ]
+        },
+        {
+            "alg": "L F R' F R F2 L'",
+            "scrambles": [
+                "R U2 R' U2 R' F R F'",
+                "U R U2 R' U2 R' F R F'",
+                "U2 R U2 R' U2 R' F R F'",
+                "U' R U2 R' U2 R' F R F'",
+                "R' F R F' U2 F' U2 F U",
+                "U R' F R F' U2 F' U2 F U",
+                "U2 R' F R F' U2 F' U2 F U",
+                "F U F R' F' R2 U' R' F' U",
+                "U F U F R' F' R2 U' R' F' U",
+                "U2 F U F R' F' R2 U' R' F' U",
+                "U' F U F R' F' R2 U' R' F' U"
+            ]
+        },
+        {
+            "alg": "R' F' L F' L' F2 R",
+            "scrambles": [
+                "F R' F' R U2 R U2 R'",
+                "F' U2 F U2 F R' F' R U",
+                "U F R' F' R U2 R U2 R'",
+                "U2 F R' F' R U2 R U2 R'",
+                "U' F R' F' R U2 R U2 R'",
+                "R' U' R' F R F2 U F R",
+                "U F' U2 F U2 F R' F' R U",
+                "U R' U' R' F R F2 U F R",
+                "U2 F' U2 F U2 F R' F' R U",
+                "U2 R' U' R' F R F2 U F R"
+            ]
+        },
+        {
+            "alg": "R U R' U' R' F R2 U R' U' F'",
+            "scrambles": [
+                "F R' F' U' F R F' R' U R",
+                "F U2 F2 U' F2 R U' R' F2 U F",
+                "F U R U' R2 F' R U R U' R'",
+                "R' U2 R U R' U F' U' F U R",
+                "U F R' F' U' F R F' R' U R",
+                "U2 F R' F' U' F R F' R' U R",
+                "U' F R' F' U' F R F' R' U R",
+                "U F U R U' R2 F' R U R U' R'",
+                "U F U2 F2 U' F2 R U' R' F2 U F",
+                "F' U2 F R' F R F' U F' U F U'",
+                "U F' U2 F R' F R F' U F' U F U'"
+            ]
+        },
+        {
+            "alg": "R U R' U R' F R F' R U2 R'",
+            "scrambles": [
+                "R U2 R' F R' F' R U' R U' R'",
+                "R' F R U R' F' R F U' F' U'",
+                "U R' F R U R' F' R F U' F' U'",
+                "U2 R' F R U R' F' R F U' F' U'",
+                "U' R' F R U R' F' R F U' F' U'",
+                "F U2 F' U' F U' R U R' U' F' U'",
+                "U F U2 F' U' F U' R U R' U' F' U'",
+                "R' U' F' U F2 R F' U' F' U F U'",
+                "R' U2 R2 U R2 F' U F R2 U' R' U'",
+                "U R U2 R' F R' F' R U' R U' R'"
+            ]
+        },
+        {
+            "alg": "M R U R' U R U2 R' U M'",
+            "scrambles": [
+                "R' U2 R U R2 F R F2 U F R U",
+                "U R' U2 R U R2 F R F2 U F R U",
+                "U2 R' U2 R U R2 F R F2 U F R U",
+                "U' R' U2 R U R2 F R F2 U F R U",
+                "F U R' U' R2 U' R2 U2 R2 U R' F' U",
+                "F2 U F2 R' F R F R' F R U' F2 U'",
+                "F' U F' U2 F U R U R' U' F' U2 F2",
+                "F' U R U R2 F R F2 U F U F",
+                "F' U2 R' F' R' F' R F' R' F2 R2 U2 F",
+                "U F' U R U R2 F R F2 U F U F",
+                "U2 F' U R U R2 F R F2 U F U F",
+                "U' F' U R U R2 F R F2 U F U F"
+            ]
+        },
+        {
+            "alg": "M' R' U' R U' R' U2 R U' M",
+            "scrambles": [
+                "F U2 F' U' F2 R' F' R2 U' R' F' U2",
+                "U F U2 F' U' F2 R' F' R2 U' R' F' U2",
+                "U2 F U2 F' U' F2 R' F' R2 U' R' F' U2",
+                "U' F U2 F' U' F2 R' F' R2 U' R' F' U2",
+                "F R2 F2 U2 R' F R' F' R2 U2 F2 R2 F'",
+                "F2 U R' F' R F' R' F' R F2 U' F2 U2",
+                "F2 R2 F U2 F U2 F2 R2 F' R' F' R U",
+                "F' U R' U F2 U F2 U' F2 R U2 F",
+                "F U R' U F2 U' F2 U' F' R F' U2 F",
+                "F' U2 F2 R' F R2 F U2 F' R2 F' R F'"
+            ]
+        },
+        {
+            "alg": "F U R U' R2 F' R U R U' R'",
+            "scrambles": [
+                "F R U' R' U R U2 R' U' F'",
+                "U F R U' R' U R U2 R' U' F'",
+                "U2 F R U' R' U R U2 R' U' F'",
+                "U' F R U' R' U R U2 R' U' F'",
+                "F U' R' F R F' R U2 R' U' F'",
+                "R U R' U' R' F R2 U R' U' F'",
+                "R' U' R F R' U R2 U' R' F' U2",
+                "R' U' R F R' F' U F R F' U",
+                "U F U' R' F R F' R U2 R' U' F'",
+                "U R U R' U' R' F R2 U R' U' F'"
+            ]
+        },
+        {
+            "alg": "R' F R U R' F' R F U' F'",
+            "scrambles": [
+                "F U F' R' F R U' R' F' R",
+                "F U F' R' F U' F2 U F R U'",
+                "U F U F' R' F R U' R' F' R",
+                "U2 F U F' R' F R U' R' F' R",
+                "U' F U F' R' F R U' R' F' R",
+                "R' F' U F U' F' U2 F U R U",
+                "U F U F' R' F U' F2 U F R U'",
+                "U R' F' U F U' F' U2 F U R U",
+                "U2 F U F' R' F U' F2 U F R U'",
+                "U' F U F' R' F U' F2 U F R U'"
+            ]
+        },
+        {
+            "alg": "R' F' R L' U' L U R' F R",
+            "scrambles": [
+                "F' U' F2 R U R' F2 U F2 U2 F' U2",
+                "U F' U' F2 R U R' F2 U F2 U2 F' U2",
+                "U2 F' U' F2 R U R' F2 U F2 U2 F' U2",
+                "U' F' U' F2 R U R' F2 U F2 U2 F' U2",
+                "R' F' U' F U R F R U R' U' F'",
+                "U R' F' U' F U R F R U R' U' F'",
+                "U2 R' F' U' F U R F R U R' U' F'",
+                "U' R' F' U' F U R F R U R' U' F'",
+                "F U R' F R2 F' U' F' U F R' F' U'",
+                "F U2 F' U' F R' U' F' U F R F' U'"
+            ]
+        },
+        {
+            "alg": "L F L' R U R' U' L F' L'",
+            "scrambles": [
+                "R U R2 F' U' F R2 U' R2 U2 R U'",
+                "U R U R2 F' U' F R2 U' R2 U2 R U'",
+                "U2 R U R2 F' U' F R2 U' R2 U2 R U'",
+                "U' R U R2 F' U' F R2 U' R2 U2 R U'",
+                "F U2 R' U' R F R' F' U R U2 F' U'",
+                "F R U R' U' F' R' F' U' F U R U",
+                "F R U2 F' U' F2 R' F' R2 U' R2 F'",
+                "F R U F R2 F' U' R U R' U' R2 F'",
+                "U F R U2 F' U' F2 R' F' R2 U' R2 F'",
+                "U2 F R U2 F' U' F2 R' F' R2 U' R2 F'",
+                "U' F R U2 F' U' F2 R' F' R2 U' R2 F'"
+            ]
+        },
+        {
+            "alg": "F R' F' R U S' R U' R' S",
+            "scrambles": [
+                "F U2 R' F' U' F U R2 U2 R' F' U'",
+                "U F U2 R' F' U' F U R2 U2 R' F' U'",
+                "U2 F U2 R' F' U' F U R2 U2 R' F' U'",
+                "U' F U2 R' F' U' F U R2 U2 R' F' U'",
+                "R' U2 F R U R' U' F2 U2 F R U",
+                "U R' U2 F R U R' U' F2 U2 F R U",
+                "U2 R' U2 F R U R' U' F2 U2 F R U",
+                "U' R' U2 F R U R' U' F2 U2 F R U",
+                "F U R U' R2 F' U' F U R U' F'",
+                "U F U R U' R2 F' U' F U R U' F'",
+                "U2 F U R U' R2 F' U' F U R U' F'",
+                "U' F U R U' R2 F' U' F U R U' F'"
+            ]
+        },
+        {
+            "alg": "R U2 R2 F R F' U2 M' U R U' r'",
+            "scrambles": [
+                "F R' F' R2 U R' F' U2 F R U2 R' U'",
+                "R' F R F2 U' F R U2 R' F' U2 F",
+                "U R' F R F2 U' F R U2 R' F' U2 F",
+                "U2 R' F R F2 U' F R U2 R' F' U2 F",
+                "U' R' F R F2 U' F R U2 R' F' U2 F",
+                "F' U2 F R U2 R' F' U F2 R' F' R",
+                "R U2 R' F' U2 F R U' R2 F R F' U'",
+                "R' U R U2 R2 U' F' U F2 R F' U R",
+                "F U F' R' F R U' R' F2 U' F U R",
+                "F U R U' R2 F' U' F R F' R' U R"
+            ]
+        },
+        {
+            "alg": "S' R U R' S U' R' F R F'",
+            "scrambles": [
+                "F R U2 R2 U' F' U F R U2 F' U2",
+                "U F R U2 R2 U' F' U F R U2 F' U2",
+                "U2 F R U2 R2 U' F' U F R U2 F' U2",
+                "U' F R U2 R2 U' F' U F R U2 F' U2",
+                "R' F' U2 F2 U R U' R' F' U2 R U",
+                "U R' F' U2 F2 U R U' R' F' U2 R U",
+                "U2 R' F' U2 F2 U R U' R' F' U2 R U",
+                "U' R' F' U2 F2 U R U' R' F' U2 R U",
+                "F U R' U' F' U F R2 U R' U' F' U'",
+                "F' U' F2 R' F' R2 U R' U2 R' F R F'"
+            ]
+        },
+        {
+            "alg": "S R' U' R U R U R U' R' S'",
+            "scrambles": [
+                "F2 U2 F R2 U2 F2 R F2 U2 R2 F' U2 F2 U'",
+                "F2 U2 F R2 U2 F2 R' F2 U2 R2 F' U2 F2 U'",
+                "U F2 U2 F R2 U2 F2 R' F2 U2 R2 F' U2 F2",
+                "U F2 U2 F R2 U2 F2 R F2 U2 R2 F' U2 F2",
+                "F2 U2 F' R2 U2 F2 R F2 U2 R2 F U2 F2 U'",
+                "F2 U2 F' R2 U2 F2 R' F2 U2 R2 F U2 F2 U'",
+                "U F2 U2 F' R2 U2 F2 R' F2 U2 R2 F U2 F2",
+                "U F2 U2 F' R2 U2 F2 R F2 U2 R2 F U2 F2",
+                "F2 R2 U2 F R2 F2 R F2 R2 F' U2 R2 F2 U'",
+                "F2 R2 U2 F R2 F2 R' F2 R2 F' U2 R2 F2 U'",
+                "U F2 R2 U2 F R2 F2 R' F2 R2 F' U2 R2 F2",
+                "U F2 R2 U2 F R2 F2 R F2 R2 F' U2 R2 F2"
+            ]
+        },
+        {
+            "alg": "R U R' U R U' R' U R U2 R'",
+            "scrambles": [
+                "F U F' U F U' F' U F U2 F'",
+                "F' U' F U' F' U F U' F' U2 F",
+                "R U2 R' U' R U R' U' R U' R'",
+                "R' U2 R U R' U' R U R' U R",
+                "F U2 F' U' F U F' U' F U' F' U'",
+                "U F U F' U F U' F' U F U2 F'",
+                "U F U2 F' U' F U F' U' F U' F' U'",
+                "U F R2 F2 U2 F R2 F' U2 F2 R2 F'",
+                "F' U2 F U F' U' F U F' U F U'",
+                "U F' U2 F U F' U' F U F' U F U'",
+                "U F' U' F U' F' U F U' F' U2 F"
+            ]
+        },
+        {
+            "alg": "R U2 R2 U' R2 U' R2 U2 R",
+            "scrambles": [
+                "R U2 R2 U' R2 U' R2 U2 R",
+                "R' U2 R2 U R2 U R2 U2 R'",
+                "F' U2 F2 U F2 U F2 U2 F' U'",
+                "F U2 F2 U' F2 U' F2 U2 F U'",
+                "U F U2 F2 U' F2 U' F2 U2 F U'",
+                "U F' U2 F2 U F2 U F2 U2 F' U'",
+                "U R U2 R2 U' R2 U' R2 U2 R",
+                "U R' U2 R2 U R2 U R2 U2 R'",
+                "U2 F U2 F2 U' F2 U' F2 U2 F U'",
+                "U2 F' U2 F2 U F2 U F2 U2 F' U'"
+            ]
+        },
+        {
+            "alg": "R2 D' R U2 R' D R U2 R",
+            "scrambles": [
+                "F U2 F' R' U F U F' U' R",
+                "F U' R' U R U F' R' U2 R",
+                "F' R' F U2 F' R F R' U2 R",
+                "R F R' U2 R F' R' F U2 F' U",
+                "R U2 R F2 R' U2 R' U2 R2 F2 R2",
+                "U F U2 F' R' U F U F' U' R",
+                "U2 F U2 F' R' U F U F' U' R",
+                "U' F U2 F' R' U F U F' U' R",
+                "R' U F U' F' U' R F U2 F' U",
+                "F U' R' U2 R U F' U' R' U2 R"
+            ]
+        },
+        {
+            "alg": "L F R' F' L' F R F'",
+            "scrambles": [
+                "F U R' U' R F' R' U R",
+                "R' U' F U F' R F U' F' U'",
+                "U F U R' U' R F' R' U R",
+                "U R' U' F U F' R F U' F' U'",
+                "U2 F U R' U' R F' R' U R",
+                "U2 R' U' F U F' R F U' F' U'",
+                "U' F U R' U' R F' R' U R",
+                "U' R' U' F U F' R F U' F' U'",
+                "F U F' R F R' U' R F' R' U",
+                "F U F' R' U F U2 F' U' R U'"
+            ]
+        },
+        {
+            "alg": "F' L F R' F' L' F R",
+            "scrambles": [
+                "R' U' R F R' U R U' F' U'",
+                "F U F' R' F U' F' U R U'",
+                "U F U F' R' F U' F' U R U'",
+                "U R' U' R F R' U R U' F' U'",
+                "U2 F U F' R' F U' F' U R U'",
+                "U2 R' U' R F R' U R U' F' U'",
+                "U' F U F' R' F U' F' U R U'",
+                "U' R' U' R F R' U R U' F' U'",
+                "F U R U2 R' U R U R' F' U'",
+                "F U' R' U2 R U F' R' U R U'"
+            ]
+        },
+        {
+            "alg": "R U2 R' U' R U' R'",
+            "scrambles": [
+                "F' U2 F U F' U F",
+                "R U R' U R U2 R'",
+                "F U F' U F U2 F' U'",
+                "U F U F' U F U2 F' U'",
+                "U F' U2 F U F' U F",
+                "U R U R' U R U2 R'",
+                "U2 F U F' U F U2 F' U'",
+                "U2 F' U2 F U F' U F",
+                "U2 R U R' U R U2 R'",
+                "U' F U F' U F U2 F' U'"
+            ]
+        },
+        {
+            "alg": "R U R' U R U2 R'",
+            "scrambles": [
+                "F' U' F U' F' U2 F",
+                "R U2 R' U' R U' R'",
+                "F U2 F' U' F U' F' U'",
+                "U F U2 F' U' F U' F' U'",
+                "U F' U' F U' F' U2 F",
+                "U R U2 R' U' R U' R'",
+                "U2 F U2 F' U' F U' F' U'",
+                "U2 F' U' F U' F' U2 F",
+                "U2 R U2 R' U' R U' R'",
+                "U' F U2 F' U' F U' F' U'"
+            ]
+        },
+        {
+            "alg": "r U R' U' r' R U R U' R'",
+            "scrambles": [
+                "F R' F R2 U R2 F R F' U' F2",
+                "R' F R' F2 U' F2 R' F' R U R2",
+                "U F R' F R2 U R2 F R F' U' F2",
+                "F' R' F R2 U R2 F R F U F2 U'",
+                "U F' R' F R2 U R2 F R F U F2 U'",
+                "R2 U R F R F2 U F2 R F' R' U'",
+                "U R2 U R F R F2 U F2 R F' R' U'",
+                "R2 U' R' F R F2 U F2 R F' R U'",
+                "U R2 U' R' F R F2 U F2 R F' R U'",
+                "U R' F R' F2 U' F2 R' F' R U R2"
+            ]
+        },
+        {
+            "alg": "R U R' U' R U' R' F' U' F R U R'",
+            "scrambles": [
+                "F U R' U2 R2 U R2 U R F' U'",
+                "F R' F' U2 R U R U' R2 U2 R",
+                "R2 F' U F U' F' U' F2 R F' R",
+                "U F U R' U2 R2 U R2 U R F' U'",
+                "U2 F U R' U2 R2 U R2 U R F' U'",
+                "U' F U R' U2 R2 U R2 U R F' U'",
+                "U F R' F' U2 R U R U' R2 U2 R",
+                "R' F R U R2 U' R F' R' U R2 U'",
+                "U R2 F' U F U' F' U' F2 R F' R",
+                "U R' U' F' U2 F U' F' U2 F U R"
+            ]
+        },
+        {
+            "alg": "F R' F R2 U' R' U' R U R' F2",
+            "scrambles": [
+                "F2 R U' R' U R U R2 F' R F'",
+                "R' U' F U2 F2 U' F2 U' F' R U",
+                "R' F R U2 F' U' F' U F2 U2 F'",
+                "U F U R U2 R' U R U2 R' U' F'",
+                "U F2 R U' R' U R U R2 F' R F'",
+                "U R' U' F U2 F2 U' F2 U' F' R U",
+                "U R' F R U2 F' U' F' U F2 U2 F'",
+                "U2 F U R U2 R' U R U2 R' U' F'",
+                "U2 F2 R U' R' U R U R2 F' R F'",
+                "U2 R' U' F U2 F2 U' F2 U' F' R U"
+            ]
+        },
+        {
+            "alg": "R' U' F U R U' R' F' R",
+            "scrambles": [
+                "R' F R U R' U' F' U R",
+                "U R' F R U R' U' F' U R",
+                "U2 R' F R U R' U' F' U R",
+                "U' R' F R U R' U' F' U R",
+                "F' U' F2 R U R' U' F2 U2 F",
+                "U F' U' F2 R U R' U' F2 U2 F",
+                "U2 F' U' F2 R U R' U' F2 U2 F",
+                "U' F' U' F2 R U R' U' F2 U2 F",
+                "F' U' F R U R' U' F' U2 F U'",
+                "F' U2 F R U' R' U' F R' F' R"
+            ]
+        },
+        {
+            "alg": "L U F' U' L' U L F L'",
+            "scrambles": [
+                "F R' F' U' F U R U' F' U",
+                "U F R' F' U' F U R U' F' U",
+                "U2 F R' F' U' F U R U' F' U",
+                "U' F R' F' U' F U R U' F' U",
+                "F R U R2 U' F' U F R F' U'",
+                "R U R2 F' U' F U R2 U2 R' U",
+                "R U R' F' U' F U R U2 R' U2",
+                "F U' F' U2 F U R U' R' U' F' U'",
+                "U F U' F' U2 F U R U' R' U' F' U'",
+                "U F R U R2 U' F' U F R F' U'"
+            ]
+        },
+        {
+            "alg": "R U R' U' R' F R F'",
+            "scrambles": [
+                "F R' F' R U R U' R'",
+                "F2 U F' R F U' F' R' F'",
+                "U F R' F' R U R U' R'",
+                "U2 F R' F' R U R U' R'",
+                "U' F R' F' R U R U' R'",
+                "R F R2 F' R U R2 U' R2",
+                "R' F R F' U' F' U F U'",
+                "U F R U' R' U' R U R' F'",
+                "U F2 U F' R F U' F' R' F'",
+                "F' R' F2 R F' U' F2 U F2 U'"
+            ]
+        },
+        {
+            "alg": "R U R2 U' R' F R U R U' F'",
+            "scrambles": [
+                "F U R' U' R' F' R U R2 U' R'",
+                "R U R2 F R2 U R' U' F2 U2 F",
+                "U F U R' U' R' F' R U R2 U' R'",
+                "U R U R2 F R2 U R' U' F2 U2 F",
+                "U2 F U R' U' R' F' R U R2 U' R'",
+                "U2 R U R2 F R2 U R' U' F2 U2 F",
+                "U' F U R' U' R' F' R U R2 U' R'",
+                "R' U' F U F R F' U' F2 U F U",
+                "U R' U' F U F R F' U' F2 U F U",
+                "U2 R' U' F U F R F' U' F2 U F U"
+            ]
+        },
+        {
+            "alg": "R U2 R2 F R F' R U2 R'",
+            "scrambles": [
+                "F' U2 F R' F R F2 U2 F",
+                "R U2 R' F R' F' R2 U2 R'",
+                "U F' U2 F R' F R F2 U2 F",
+                "U R U2 R' F R' F' R2 U2 R'",
+                "U2 F' U2 F R' F R F2 U2 F",
+                "U2 R U2 R' F R' F' R2 U2 R'",
+                "U' F' U2 F R' F R F2 U2 F",
+                "U' R U2 R' F R' F' R2 U2 R'",
+                "F U2 F' U' F2 R' F' R U' F' U'",
+                "R' U2 R U R2 F R F' U R U"
+            ]
+        },
+        {
+            "alg": "L' U' L U' L' U L U L F' L' F",
+            "scrambles": [
+                "R U2 R2 U' F' U F R2 U' R' U",
+                "R' U' F' U F U2 R U R' U R",
+                "R' F R U R' U' F2 U F R",
+                "U R' F R U R' U' F2 U F R",
+                "U2 R' F R U R' U' F2 U F R",
+                "U' R' F R U R' U' F2 U F R",
+                "F' U' F U2 R U R' U F' U F U'",
+                "U F' U' F U2 R U R' U F' U F U'",
+                "U R U2 R2 U' F' U F R2 U' R' U",
+                "U R' U' F' U F U2 R U R' U R"
+            ]
+        },
+        {
+            "alg": "F R' F' R U R U' R'",
+            "scrambles": [
+                "R U R' U' R' F R F'",
+                "U R U R' U' R' F R F'",
+                "U2 R U R' U' R' F R F'",
+                "U' R U R' U' R' F R F'",
+                "F R F U F' R' F U' F2",
+                "F' U' F U F R' F' R",
+                "F2 U' F2 U F R' F2 R F",
+                "R2 U R2 U' R' F R2 F' R'",
+                "U F' U' F U F R' F' R",
+                "U2 F' U' F U F R' F' R",
+                "U' F' U' F U F R' F' R"
+            ]
+        },
+        {
+            "alg": "R U R' U R U' R' U' R' F R F'",
+            "scrambles": [
+                "F R' F' U' F U R2 U' R' F' U",
+                "F' U2 F2 U R U' R' F2 U F",
+                "U F' U2 F2 U R U' R' F2 U F",
+                "U2 F' U2 F2 U R U' R' F2 U F",
+                "U' F' U2 F2 U R U' R' F2 U F",
+                "R' U' R U' R' U2 F' U' F U R",
+                "U F R' F' U' F U R2 U' R' F' U",
+                "F' U F U R U2 R' U' F' U F U'",
+                "U F' U F U R U2 R' U' F' U F U'",
+                "F' U' F U' R U' R' U2 F' U F U'"
+            ]
+        },
+        {
+            "alg": "L F' L' U' L U F U' L'",
+            "scrambles": [
+                "F U R' U' F' U F R F' U",
+                "U F U R' U' F' U F R F' U",
+                "U2 F U R' U' F' U F R F' U",
+                "U' F U R' U' F' U F R F' U",
+                "F R' F R F2 U F R U R' F'",
+                "R U2 R' U' F' U F R U' R' U2",
+                "U F R' F R F2 U F R U R' F'",
+                "U R U2 R' U' F' U F R U' R' U2",
+                "U2 F R' F R F2 U F R U R' F'",
+                "U2 R U2 R' U' F' U F R U' R' U2",
+                "U' R U2 R' U' F' U F R U' R' U2"
+            ]
+        },
+        {
+            "alg": "R' F R U R' U' F' U R",
+            "scrambles": [
+                "R' U' F U R U' R' F' R",
+                "U R' U' F U R U' R' F' R",
+                "U2 R' U' F U R U' R' F' R",
+                "U' R' U' F U R U' R' F' R",
+                "F' U2 F U R U' R' F' U F U'",
+                "R' U' F U F' R F R U' R' F'",
+                "R' F' U F R U R2 F R F' R",
+                "U F' U2 F U R U' R' F' U F U'",
+                "U2 F' U2 F U R U' R' F' U F U'",
+                "U' F' U2 F U R U' R' F' U F U'"
+            ]
+        },
+        {
+            "alg": "R U R' U R U2 R' F R U R' U' F'",
+            "scrambles": [
+                "F R2 F2 U2 R' U' R U' F2 R2 F' U'",
+                "U F R2 F2 U2 R' U' R U' F2 R2 F' U'",
+                "U2 F R2 F2 U2 R' U' R U' F2 R2 F' U'",
+                "F U R U R' U' F' U2 F U F' U",
+                "U F U R U R' U' F' U2 F U F' U",
+                "U2 F U R U R' U' F' U2 F U F' U",
+                "U' F U R U R' U' F' U2 F U F' U",
+                "U' F R2 F2 U2 R' U' R U' F2 R2 F' U'",
+                "F U R U2 R2 U2 R2 U R2 U R U' F'",
+                "F U2 F2 U' F2 U' F' U2 F R' F' R"
+            ]
+        },
+        {
+            "alg": "R' U' R U' R' U2 R F R U R' U' F'",
+            "scrambles": [
+                "R' F2 R2 U2 F U F' U R2 F2 R",
+                "U R' F2 R2 U2 F U F' U R2 F2 R",
+                "R' U' F' U' F U R U2 R' U' R U2",
+                "U R' U' F' U' F U R U2 R' U' R U2",
+                "U2 R' U' F' U' F U R U2 R' U' R U2",
+                "U2 R' F2 R2 U2 F U F' U R2 F2 R",
+                "U' R' U' F' U' F U R U2 R' U' R U2",
+                "U' R' F2 R2 U2 F U F' U R2 F2 R",
+                "F U R U' R' F2 U' F U' F' U2 F U2",
+                "R F2 R2 F2 U2 F U F' U F2 R2 F2 R'"
+            ]
+        },
+        {
+            "alg": "F' U' L' U L F",
+            "scrambles": [
+                "R' F' U' F U R U",
+                "U R' F' U' F U R U",
+                "U2 R' F' U' F U R U",
+                "U' R' F' U' F U R U",
+                "R' U' R' F R F' U R",
+                "U R' U' R' F R F' U R",
+                "U2 R' U' R' F R F' U R",
+                "U' R' U' R' F R F' U R",
+                "R' F' U' F R U' R' U2 R",
+                "R U R' F' U2 F R U' R' U'"
+            ]
+        },
+        {
+            "alg": "F U R U' R' F'",
+            "scrambles": [
+                "F R U R' U' F'",
+                "U F R U R' U' F'",
+                "U2 F R U R' U' F'",
+                "U' F R U R' U' F'",
+                "F U F R' F' R U' F' U",
+                "U F U F R' F' R U' F' U",
+                "F R U' R' U2 R U R' F' U'",
+                "U2 F U F R' F' R U' F' U",
+                "U2 F R U' R' U2 R U R' F' U'",
+                "F' U' F R U2 R' F' U F U2",
+                "U F' U' F R U2 R' F' U F U2"
+            ]
+        },
+        {
+            "alg": "F R U R' U' F'",
+            "scrambles": [
+                "F U R U' R' F'",
+                "U F U R U' R' F'",
+                "U2 F U R U' R' F'",
+                "U' F U R U' R' F'",
+                "R' U' F' U F R U'",
+                "U R' U' F' U F R U'",
+                "U2 R' U' F' U F R U'",
+                "U' R' U' F' U F R U'",
+                "F R' F R2 U' R' U' R U R' F2",
+                "F' U' F U2 R U R' F' U2 F U2"
+            ]
+        },
+        {
+            "alg": "R' U' R' F R F' U R",
+            "scrambles": [
+                "F U R' F R F' U' F' U'",
+                "R' U' F R' F' R U R",
+                "U R' U' F R' F' R U R",
+                "U2 R' U' F R' F' R U R",
+                "U' R' U' F R' F' R U R",
+                "R' U2 R U R' F' U F R",
+                "U F U R' F R F' U' F' U'",
+                "U2 F U R' F R F' U' F' U'",
+                "U' F U R' F R F' U' F' U'",
+                "F U2 F' U' F R U' R' F' U'",
+                "U F U2 F' U' F R U' R' F' U'"
+            ]
+        },
+        {
+            "alg": "R' U' R' F R F' R' F R F' U R",
+            "scrambles": [
+                "R' U' F' U F U' F' U F R U",
+                "U R' U' F' U F U' F' U F R U",
+                "U2 R' U' F' U F U' F' U F R U",
+                "U' R' U' F' U F U' F' U F R U",
+                "F' U2 F2 U F' U F U2 R' F' R U",
+                "U F' U2 F2 U F' U F U2 R' F' R U",
+                "U2 F' U2 F2 U F' U F U2 R' F' R U",
+                "U' F' U2 F2 U F' U F U2 R' F' R U",
+                "F U R U' R' F2 U2 F U F' U F U'",
+                "F U2 F2 U' F2 U' R' F' R F' U2 F"
+            ]
+        },
+        {
+            "alg": "F R U R' U' R U R' U' F'",
+            "scrambles": [
+                "F U R U' R' U R U' R' F'",
+                "U F U R U' R' U R U' R' F'",
+                "U2 F U R U' R' U R U' R' F'",
+                "U' F U R U' R' U R U' R' F'",
+                "R U2 R2 U' R U' R' U2 F R F'",
+                "U R U2 R2 U' R U' R' U2 F R F'",
+                "U2 R U2 R2 U' R U' R' U2 F R F'",
+                "U' R U2 R2 U' R U' R' U2 F R F'",
+                "F U R' F R F' R' F R F' U' F' U",
+                "F U F2 R U2 R' U2 R' F2 R2 U R' F'"
+            ]
+        },
+        {
+            "alg": "L F' L2 B L2 F L2 B' L",
+            "scrambles": [
+                "R' F R2 F' U2 F' U2 F R' U2",
+                "U R' F R2 F' U2 F' U2 F R' U2",
+                "U2 R' F R2 F' U2 F' U2 F R' U2",
+                "F' R U2 R' U2 R' F2 R F' U",
+                "U F' R U2 R' U2 R' F2 R F' U",
+                "U2 F' R U2 R' U2 R' F2 R F' U",
+                "U' F' R U2 R' U2 R' F2 R F' U",
+                "U' R' F R2 F' U2 F' U2 F R' U2",
+                "F R' F' R U R' F R F2 U F U'",
+                "U F R' F' R U R' F R F2 U F U'"
+            ]
+        },
+        {
+            "alg": "R' F R2 B' R2 F' R2 B R'",
+            "scrambles": [
+                "R F' U2 F U2 F R2 F' R",
+                "F R' F2 R U2 R U2 R' F U'",
+                "U F R' F2 R U2 R U2 R' F U'",
+                "U R F' U2 F U2 F R2 F' R",
+                "U2 F R' F2 R U2 R U2 R' F U'",
+                "U2 R F' U2 F U2 F R2 F' R",
+                "U' F R' F2 R U2 R U2 R' F U'",
+                "U' R F' U2 F U2 F R2 F' R",
+                "R' F R F' U' F R' F' R2 U' R' U2",
+                "U R' F R F' U' F R' F' R2 U' R' U2"
+            ]
+        },
+        {
+            "alg": "F U R U' R' U R U' R' F'",
+            "scrambles": [
+                "F R U R' U' R U R' U' F'",
+                "U F R U R' U' R U R' U' F'",
+                "U2 F R U R' U' R U R' U' F'",
+                "U' F R U R' U' R U R' U' F'",
+                "F U2 F' U' F R' F R F' U' F'",
+                "R' U' F U R U' F' U2 F' U2 F",
+                "R' F' U' F U F' U' F U R U'",
+                "U F U2 F' U' F R' F R F' U' F'",
+                "U F' U2 F U R U2 R' U' F' U2 F",
+                "F U R' U' F' U R U2 R U2 R' U'",
+                "U F U R' U' F' U R U2 R U2 R' U'"
+            ]
+        },
+        {
+            "alg": "R U R' U R U' B U' B' R'",
+            "scrambles": [
+                "F U F' U F U' R U' R' F' U",
+                "F R U R' U F' U' F U' F' U'",
+                "R' F' U' F U' R U R' U R",
+                "U R' F' U' F U' R U R' U R",
+                "U2 R' F' U' F U' R U R' U R",
+                "U' R' F' U' F U' R U R' U R",
+                "R' U' R U' R' U F' U F R U2",
+                "U F R U R' U F' U' F U' F' U'",
+                "U2 F R U R' U F' U' F U' F' U'",
+                "U' F R U R' U F' U' F U' F' U'",
+                "U F U F' U F U' R U' R' F' U"
+            ]
+        },
+        {
+            "alg": "R' F' L F' L' F L F' L' F2 R",
+            "scrambles": [
+                "R U R2 F R F' U F R' F' R U'",
+                "U R U R2 F R F' U F R' F' R U'",
+                "U2 R U R2 F R F' U F R' F' R U'",
+                "U' R U R2 F R F' U F R' F' R U'",
+                "F U F' R U2 R' U2 R' F R2 U R' F'",
+                "F R U' R' U' R U R' U R U' R' F'",
+                "F R' F R F2 U F U' R U R' F' U'",
+                "F R' F R F2 U F2 R' F' R U F' U2",
+                "F2 U F' R F U' F' R' U R U' R' F'",
+                "F2 R' U' R' U' R U R F2 U F R F'"
+            ]
+        },
+        {
+            "alg": "L F R' F R F' R' F R F2 L'",
+            "scrambles": [
+                "F' U' F2 R' F' R U' R' F R F' U2",
+                "U F' U' F2 R' F' R U' R' F R F' U2",
+                "U2 F' U' F2 R' F' R U' R' F R F' U2",
+                "U' F' U' F2 R' F' R U' R' F R F' U2",
+                "F U R' U' R F' R2 F R F' U R",
+                "F R U R2 U' F' U R U2 R U2 R' U",
+                "F U R F' U2 R' U' R U' F U2 R' F'",
+                "F R U' R2 F2 R U2 R U2 R' F2 U' F'",
+                "F' U2 F' U' F2 U' F2 R' F R U2 F2",
+                "U F' U2 F' U' F2 U' F2 R' F R U2 F2",
+                "U2 F' U2 F' U' F2 U' F2 R' F R U2 F2",
+                "U' F' U2 F' U' F2 U' F2 R' F R U2 F2"
+            ]
+        },
+        {
+            "alg": "R' F R U R U' R2 F' R2 U' R' U R U R'",
+            "scrambles": [
+                "R' F R U2 F' U' F U' F2 U2 F",
+                "F R' F' U2 R U R' U R2 U2 R' U'",
+                "U F R' F' U2 R U R' U R2 U2 R' U'",
+                "U R' F R U2 F' U' F U' F2 U2 F",
+                "U2 F R' F' U2 R U R' U R2 U2 R' U'",
+                "R' F R U2 F' U' F U' F2 U2 F U2",
+                "U R' F R U2 F' U' F U' F2 U2 F U2",
+                "U2 R' F R U2 F' U' F U' F2 U2 F",
+                "U2 R' F R U2 F' U' F U' F2 U2 F U2",
+                "U' F R' F' U2 R U R' U R2 U2 R' U'"
+            ]
+        },
+        {
+            "alg": "R' F' R U' L' U L U' L' U L R' F R",
+            "scrambles": [
+                "F U2 F' U2 R' F' U' F U R F U' F'",
+                "F U' R' U2 R' U R U' R U2 R U' F'",
+                "F R' F R2 F2 U' R' U' R U F2 R' F2",
+                "F' U2 F U' R U R' U2 F R' F' R",
+                "F' U2 F U' R U R' U2 F R' F' R U2",
+                "F' U2 F2 R U' R' U2 R U R' F2 U F",
+                "R U2 R' U F' U' F U2 R' F R F' U'",
+                "R U2 R' U F' U' F U2 R' F R F' U",
+                "R F U' R2 U2 R U2 R U2 R U' F' R'",
+                "R' U' R F U' R' U2 R U2 R U' R' F'"
+            ]
+        },
+        {
+            "alg": "S R' F R S' R' F' R",
+            "scrambles": [
+                "F U' F' U2 F2 U R U' R' F' U' F'",
+                "U F U' F' U2 F2 U R U' R' F' U' F'",
+                "U2 F U' F' U2 F2 U R U' R' F' U' F'",
+                "U' F U' F' U2 F2 U R U' R' F' U' F'",
+                "F2 R' F' R F' U2 F R U' R' U' F'",
+                "U F2 R' F' R F' U2 F R U' R' U' F'",
+                "U2 F2 R' F' R F' U2 F R U' R' U' F'",
+                "U' F2 R' F' R F' U2 F R U' R' U' F'",
+                "F U R U R' F' U2 F R' F R F2 U'",
+                "F U R U R' F' U2 F R' F R F2 U"
+            ]
+        }
+    ]
+}
