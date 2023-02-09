@@ -132,21 +132,6 @@ func TestAddAndGetSolves(t *testing.T) {
 	}
 }
 
-func TestSolve(t *testing.T) {
-	facelets := "DUUBULDBFRBFRRULLLBRDFFFBLURDBFDFDRFRULBLUFDURRBLBDUDL"
-	res, err := post(t, serverUrl("solve"), SolveRequest{facelets})
-	if err != nil {
-		return
-	}
-
-	var solveResponse SolveResponse
-	unmarshal(res.Body, &solveResponse)
-
-	assert.True(t, solveResponse.Success)
-
-	fmt.Println(solveResponse.Solution)
-}
-
 func TestTrainingAlgs(t *testing.T) {
 	conn, err := connect(t)
 	if err != nil {

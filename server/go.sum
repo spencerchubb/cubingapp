@@ -23,6 +23,10 @@ github.com/spencerchubb/solver v0.0.7 h1:R037iZIt2T5TNW4+v8SqgZ4HczdhhPG0xYpA9+F
 github.com/spencerchubb/solver v0.0.7/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
 github.com/spencerchubb/solver v0.0.8 h1:OYHxeJ4Z7MPIw0v7uKHk3DJwWWZftzY9p3pSmkJwBVM=
 github.com/spencerchubb/solver v0.0.8/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
+github.com/spencerchubb/solver v0.0.9 h1:Kx6mrvZzxSRIbuW8bMHvHPlxjR3LGYkcPfbxwjOFTmE=
+github.com/spencerchubb/solver v0.0.9/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
+github.com/spencerchubb/solver v0.1.0 h1:ovocEjLaTgtXXNNfjmYT9k/0JVl1YQCQ0jBj2xu62nU=
+github.com/spencerchubb/solver v0.1.0/go.mod h1:EcnJkg86WYdjVe+7KGzVPXx50+mha274LkCuq7tB+co=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=

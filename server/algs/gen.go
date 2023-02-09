@@ -11,7 +11,10 @@ import (
 func main() {
 	algSets := readAlgsFromJson("./algs.json")
 	for _, algSet := range algSets {
-		if algSet.Name != "OLL" {
+		// if algSet.Name != "OLL" {
+		// 	continue;
+		// }
+		if algSet.Name != "PLL" {
 			continue
 		}
 		generateScramblesForAlgSet(algSet)
@@ -20,8 +23,8 @@ func main() {
 
 func generateScramblesForAlgSet(algSet AlgSet) {
 	allScrambles := SetScrambles{SetName: algSet.Name}
-	for i, alg := range algSet.Algs {
-		fmt.Printf("%d/%d: %s\n", i+1, len(algSet.Algs), alg)
+	for i, algStr := range algSet.Algs {
+		fmt.Printf("%d/%d: %s\n", i+1, len(algSet.Algs), algStr)
 		start := solver.NewCube()
 		end := solver.NewCube()
 
@@ -34,9 +37,11 @@ func generateScramblesForAlgSet(algSet AlgSet) {
 			end.SetDisregard(algSet.Disregard)
 		}
 
+		alg := solver.StringToAlg(algStr)
+		alg = solver.InvertAlgorithm(alg)
 		solver.PerformAlgorithm(&start, alg)
 		scramblesForAlg := solver.Solve(start, end, []byte{0, 1, 2, 3, 4, 5, 15, 16, 17}, 10, 10_000, false)
-		allScrambles.Scrambles = append(allScrambles.Scrambles, Scrambles{alg, scramblesForAlg})
+		allScrambles.Scrambles = append(allScrambles.Scrambles, Scrambles{algStr, scramblesForAlg})
 	}
 	fileName := fmt.Sprintf("./scrambles/%s.json", algSet.Name)
 	writeScramblesToJson(fileName, allScrambles)
