@@ -177,6 +177,7 @@ export function getAlgSetNames(): string[] {
     return Object.keys(algData);
 }
 
+// TODO onlyOrientation and disregard
 export function getScramble(alg: string): string {
     return scramble(alg, "U,U',F,F',R,R'", [], []);
 }

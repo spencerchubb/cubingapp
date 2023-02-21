@@ -26,6 +26,8 @@
   import SideNav from "./lib/components/SideNav.svelte";
   import { scramble as getScramble } from "@spencerchubb/solver";
 
+  // TODO enable keyboard turns
+
   let user = initialAuthCheck();
   let email = "";
   let password = "";

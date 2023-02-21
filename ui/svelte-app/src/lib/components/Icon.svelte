@@ -1,33 +1,34 @@
 <script>
     export let name;
+    export let stroke = "white";
     let icons = {
-        happy: `<svg width="100%" height="100%" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+        happy: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
             <circle cx="25" cy="25" r="22" />
             <circle cx="18" cy="20" r="3" />
             <circle cx="32" cy="20" r="3" />
             <path d="M 15,33 Q 25,40 35,33"/>
         </svg>`,
-        menu: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        menu: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
             <line x1="3" y1="7" x2="21" y2="7"></line>
             <line x1="3" y1="13" x2="21" y2="13"></line>
             <line x1="3" y1="19" x2="21" y2="19"></line>
         </svg>`,
-        profile: `<svg x="0px" y="0px" stroke="white" fill="white" viewBox="0 0 54 54" xml:space="preserve">
+        profile: `<svg x="0px" y="0px" stroke="${stroke}" fill="white" viewBox="0 0 54 54" xml:space="preserve">
             <circle style="stroke-width: 3; fill-opacity: 0; opacity: 1;" cx="26.5" cy="26.5" r="24" />
             <circle style="stroke-width: 3; fill-opacity: 0; opacity: 1;" cx="26.5" cy="20" r="10" />
             <path fill="none" stroke="white" stroke-width="3" d="M 8,42 Q 12,28 20,28 M 45,42 Q 41,28 33,28 "/>
         </svg>`,
-        retry: `<svg width="100%" height="100%" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50">
+        retry: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50">
             <path d="M 42,32 A 20,20,0,1,1,42,18"/>
             <path fill="white" fill-opacity="1" d="M 44,22 L 34,17 L 45,12  Z"/>
         </svg>`,
-        sad: `<svg width="100%" height="100%" stroke="white" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+        sad: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
             <circle cx="25" cy="25" r="22" />
             <circle cx="18" cy="20" r="3" />
             <circle cx="32" cy="20" r="3" />
             <path d="M 15,35 Q 25,28 35,35"/>
         </svg>`,
-        settings: `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" stroke="white" fill="white" viewBox="0 0 54 54" xml:space="preserve">
+        settings: `<svg x="0px" y="0px" stroke="${stroke}" fill="white" viewBox="0 0 54 54" xml:space="preserve">
         <path d="M51.22,21h-5.052c-0.812,0-1.481-0.447-1.792-1.197s-0.153-1.54,0.42-2.114l3.572-3.571
             c0.525-0.525,0.814-1.224,0.814-1.966c0-0.743-0.289-1.441-0.814-1.967l-4.553-4.553c-1.05-1.05-2.881-1.052-3.933,0l-3.571,3.571
             c-0.574,0.573-1.366,0.733-2.114,0.421C33.447,9.313,33,8.644,33,7.832V2.78C33,1.247,31.753,0,30.22,0H23.78
@@ -53,7 +54,7 @@
             l-3.572,3.571c-1.148,1.148-1.476,2.794-0.854,4.294c0.621,1.5,2.016,2.432,3.64,2.432h5.052C51.65,23,52,23.35,52,23.78V30.22z"/>
             <path d="M27,18c-4.963,0-9,4.037-9,9s4.037,9,9,9s9-4.037,9-9S31.963,18,27,18z M27,34c-3.859,0-7-3.141-7-7s3.141-7,7-7s7,3.141,7,7S30.859,34,27,34z"/>
         </svg>`,
-        x: `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
+        x: `<svg width="24" height="24" viewBox="0 0 24 24" stroke="${stroke}">
             <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>`,
     };
@@ -71,5 +72,8 @@
         outline: none;
         padding: 0;
         cursor: pointer;
+
+        /* Remove extra space between inline-block elements */
+        font-size: 0;
     }
 </style>
