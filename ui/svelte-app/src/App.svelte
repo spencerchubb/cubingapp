@@ -16,7 +16,6 @@
     nextAlg,
     setScene,
   } from "./lib/scripts/train";
-  import { getScramble } from "./lib/scripts/api";
   import {
     getAlgSet,
     getShowScramble,
@@ -25,6 +24,7 @@
   } from "./lib/scripts/store";
   import SideNavButton from "./lib/components/SideNavButton.svelte";
   import SideNav from "./lib/components/SideNav.svelte";
+  import { scramble as getScramble } from "@spencerchubb/solver";
 
   let user = initialAuthCheck();
   let email = "";
@@ -59,18 +59,8 @@
   function maybeLoadScramble() {
     if (!showScramble) return;
 
-    if (currAlgSet !== "OLL" && currAlgSet !== "PLL") {
-      scramble = `${currAlgSet} doesn't have scrambles yet, sorry!`;
-      return;
-    }
-
-    getScramble(currAlgSet, currAlg).then((res) => {
-      if (res.err) {
-        console.error(res.err);
-        return;
-      }
-      scramble = applyAUFsBackwards(res.scramble);
-    });
+    let rawScramble = getScramble(currAlg, "U,U',F,F',R,R'", [], []);
+    scramble = applyAUFsBackwards(rawScramble);
   }
 
   let sideNavOpen = false;

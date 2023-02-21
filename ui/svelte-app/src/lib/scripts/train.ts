@@ -8,6 +8,8 @@ import { promoteAlg, demoteAlg } from "./util";
 import { algData } from "./algData";
 import { randInt } from "./common/rand";
 
+import { scramble } from "@spencerchubb/solver";
+
 type State = {
     scene: Scene,
     setName: string,
@@ -173,4 +175,8 @@ export async function nextAlg(promote: boolean, uid: number, setName: string): P
 
 export function getAlgSetNames(): string[] {
     return Object.keys(algData);
+}
+
+export function getScramble(alg: string): string {
+    return scramble(alg, "U,U',F,F',R,R'", [], []);
 }

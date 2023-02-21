@@ -5,11 +5,6 @@ export type TrainingAlg = {
     Alg: string,
 }
 
-type GetScrambleResponse = {
-    err: string,
-    scramble: string,
-}
-
 type GetTrainingAlgsResponse = {
     success: boolean,
     id: number,
@@ -26,10 +21,6 @@ type CreateTrainingAlgsResponse = {
 type UserResponse = {
     success: boolean,
     uid: number
-}
-
-export async function getScramble(setName: string, alg: string): Promise<GetScrambleResponse> {
-    return post("/getScramble", { setName, alg });
 }
 
 export async function getTrainingAlgs(uid: number, set: string): Promise<GetTrainingAlgsResponse> {
