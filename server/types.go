@@ -16,8 +16,9 @@ type AlgSet struct {
 	Cube            string   `json:"cube"`
 	Name            string   `json:"name"`
 	Inactive        []int    `json:"inactive"`
-	OnlyOrientation []int    `json:"onlyOrientation"`
+	Moves           []int    `json:"moves"`
 	Disregard       []int    `json:"disregard"`
+	OnlyOrientation []int    `json:"onlyOrientation"`
 	Algs            []string `json:"algs"`
 }
 
@@ -111,9 +112,7 @@ type GetTrainingAlgsRequest struct {
 type GetTrainingAlgsResponse struct {
 	Success          bool          `json:"success"`
 	Id               int           `json:"id"`
-	TrainingAlgs     []TrainingAlg `json:"trainingAlgs"`
-	Cube             string        `json:"cube"`
-	InactiveStickers []int         `json:"inactiveStickers"`
+	AlgSet           AlgSet        `json:"algSet"`
 }
 
 type UserRequest struct {

@@ -279,7 +279,7 @@ func initZeroScores(algSet AlgSet) []TrainingAlg {
 func getTrainingAlgs(w http.ResponseWriter, r *http.Request) {
 	var req GetTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
-	errorRes := GetTrainingAlgsResponse{false, -1, []TrainingAlg{}, "", []int{}}
+	errorRes := GetTrainingAlgsResponse{false, -1, AlgSet{}}
 	if err != nil {
 		writeJson(w, errorRes)
 		return
