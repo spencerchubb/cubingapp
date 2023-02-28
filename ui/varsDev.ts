@@ -2,11 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 export {
+    log,
     url,
     auth,
 };
 
-const url = "https://api.cubingapp.com:3001";
+const log = console.log;
+const url = "http://localhost:3000";
 
 // https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {

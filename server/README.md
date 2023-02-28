@@ -21,3 +21,7 @@
     - quit psql
 - ls /var/log/postgresql
     - go to log directory
+
+## Install postgres on Windows
+- https://www.postgresql.org/download/windows/
+- https://www.enterprisedb.com/downloads/postgres-postgresql-downloads

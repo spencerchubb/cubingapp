@@ -1,35 +1,26 @@
-import { createTrainingAlgs, getTrainingAlgs, TrainingAlg, updateTrainingAlgs } from "./api";
+import { algData } from "./algData";
+import * as AlgSetAPI from "./api/algSet";
 import { createBuffers } from "./buffers";
 import { GRAY } from "./colors";
+import { randElement, randInt } from "./common/rand";
 import { setColor } from "./cube";
 import type { Scene } from "./scene";
 import { promoteAlg, demoteAlg } from "./util";
-
-import { algData } from "./algData";
-import { randInt } from "./common/rand";
 
 import { scramble } from "@spencerchubb/solver";
 
 type State = {
     scene: Scene,
-    setName: string,
+    algSet: AlgSetAPI.AlgSet,
     preRotation: string,
-    algSetID: number,
-    trainingAlgs: TrainingAlg[],
-    cube: string,
-    inactiveStickers: number[],
     preAUF: string,
     postAUF: string,
 }
 
 let state: State = {
     scene: null,
-    setName: null,
+    algSet: null,
     preRotation: "",
-    algSetID: null,
-    trainingAlgs: null,
-    cube: null,
-    inactiveStickers: null,
     preAUF: "",
     postAUF: "",
 };
@@ -106,6 +97,19 @@ export function setScene(scene: Scene) {
     state.scene = scene;
 }
 
+function getFirstAlg(): string {
+    const trainingAlgs = state.algSet.trainingAlgs;
+    if (trainingAlgs && trainingAlgs.length > 0) {
+        return trainingAlgs[0].Alg;
+    }
+    console.log("No algs to load", trainingAlgs);
+    return "";
+}
+
+function deepCopy(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 export async function loadCurrAlg(uid: number, setName: string): Promise<string> {
     const scene = state.scene;
     if (!scene) {
@@ -113,29 +117,22 @@ export async function loadCurrAlg(uid: number, setName: string): Promise<string>
         return;
     }
 
-    if (state.setName !== setName) {
-        state.setName = setName;
-        const res = await getTrainingAlgs(uid, setName);
-        state.algSetID = res.id;
-        state.trainingAlgs = res.trainingAlgs;
+    // If there is no algSet or the algSet is for a different set, load a new algSet
+    if (!state.algSet || state.algSet.name !== setName) {
+        state.algSet = await AlgSetAPI.get(uid, setName);
 
-        if (algData[setName].cube == "2x2") {
+        if (state.algSet.cube == "2x2") {
             scene.cube.setNumOfLayers(2);
             scene.buffers = createBuffers(scene);
             scene.cube.solve();
-        } else if (algData[setName].cube == "3x3") {
+        } else if (state.algSet.cube == "3x3") {
             scene.cube.setNumOfLayers(3);
             scene.buffers = createBuffers(scene);
             scene.cube.solve();
         }
     }
 
-    if (!state.trainingAlgs || state.trainingAlgs.length == 0) {
-        console.error("No algs to load");
-        return;
-    }
-
-    let alg = state.trainingAlgs[0].Alg;
+    let alg = getFirstAlg();
 
     state.preAUF = generateRandAUF();
     state.postAUF = generateRandAUF();
@@ -143,7 +140,7 @@ export async function loadCurrAlg(uid: number, setName: string): Promise<string>
     scene.cube.solve();
     scene.cube.execAlg(state.preRotation);
 
-    algData[setName].inactive.forEach(stickerIdx => {
+    state.algSet.inactive.forEach(stickerIdx => {
         setColor(scene.cube.stickers[stickerIdx], GRAY);
     });
 
@@ -154,20 +151,18 @@ export async function loadCurrAlg(uid: number, setName: string): Promise<string>
 
 export async function nextAlg(promote: boolean, uid: number, setName: string): Promise<string> {
     if (promote) {
-        promoteAlg(state.trainingAlgs);
+        promoteAlg(state.algSet.trainingAlgs);
     } else {
-        demoteAlg(state.trainingAlgs);
+        demoteAlg(state.algSet.trainingAlgs);
     }
 
-    if (state.algSetID === -1) {
-        const res = await createTrainingAlgs(uid, setName, state.trainingAlgs, state.cube, state.inactiveStickers);
-        if (res.success) {
-            state.algSetID = res.id;
-        } else {
-            console.error("Failed to create training algs");
-        }
+    if (state.algSet.id === -1) {
+        const { trainingAlgs, cube, inactive, moves, disregard, onlyOrientation } = state.algSet;
+        const res = await AlgSetAPI.create(uid, setName, trainingAlgs, cube, inactive, moves, disregard, onlyOrientation);
+        state.algSet.id = res.id;
     } else {
-        updateTrainingAlgs(state.algSetID, state.trainingAlgs);
+        const { id, trainingAlgs } = state.algSet;
+        AlgSetAPI.update(id, trainingAlgs);
     }
 
     return loadCurrAlg(uid, setName);
@@ -177,7 +172,13 @@ export function getAlgSetNames(): string[] {
     return Object.keys(algData);
 }
 
-// TODO onlyOrientation and disregard
-export function getScramble(alg: string): string {
-    return scramble(alg, "U,U',F,F',R,R'", [], []);
+export async function getScramble(): Promise<string> {
+    let alg = getFirstAlg();
+    const scrambles = await scramble({
+        alg,
+        moves: "U U' F F' R R'",
+        disregard: state.algSet.disregard,
+        onlyOrientation: state.algSet.onlyOrientation,
+    });
+    return randElement(scrambles);
 }

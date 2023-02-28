@@ -64,7 +64,6 @@ export function setShowBody(value) {
 }
 
 export function getShowScramble() {
-    console.log("getShowScramble");
     return getBool(showScramble) ?? false;
 }
 

@@ -2,10 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 export {
+    log,
     url,
     auth,
 };
 
+const log = () => {};
 const url = "https://api.cubingapp.com:3000";
 
 // https://firebase.google.com/docs/web/learn-more#config-object

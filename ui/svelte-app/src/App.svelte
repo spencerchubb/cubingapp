@@ -12,6 +12,7 @@
     applyAUFs,
     applyAUFsBackwards,
     getAlgSetNames,
+    getScramble,
     loadCurrAlg,
     nextAlg,
     setScene,
@@ -24,7 +25,6 @@
   } from "./lib/scripts/store";
   import SideNavButton from "./lib/components/SideNavButton.svelte";
   import SideNav from "./lib/components/SideNav.svelte";
-  import { scramble as getScramble } from "@spencerchubb/solver";
 
   // TODO enable keyboard turns
 
@@ -56,13 +56,15 @@
   }
 
   let showScramble = getShowScramble();
-  let scramble: string = "";
+  let scramble: string = "loading...";
 
   function maybeLoadScramble() {
     if (!showScramble) return;
 
-    let rawScramble = getScramble(currAlg, "U,U',F,F',R,R'", [], []);
-    scramble = applyAUFsBackwards(rawScramble);
+    scramble = "loading...";
+    getScramble().then(rawScramble => {
+      scramble = applyAUFsBackwards(rawScramble);
+    });
   }
 
   let sideNavOpen = false;
@@ -156,7 +158,9 @@
           onSceneInitialized={(scene) => {
             setScene(scene);
 
-            currAlgSet = getAlgSet() ?? algSetNames[0];
+            currAlgSet = getAlgSet();
+            if (!currAlgSet) currAlgSet = algSetNames[0];
+            console.log({ currAlgSet });
             loadCurrAlg(user.uid, currAlgSet).then((res) => {
               currAlg = res;
               maybeLoadScramble();

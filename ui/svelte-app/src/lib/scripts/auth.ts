@@ -1,4 +1,5 @@
-import { auth as _auth, url } from "./common/vars";
+import * as UserAPI from "./api/user";
+import { auth as _auth, log } from "./common/vars";
 import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
@@ -76,29 +77,32 @@ export function renderGoogleSignInButton(callback: AuthCallback) {
     });
 }
 
+function logSignIn(user: CubingAppUser) {
+    log("Signed in as " + user.email + " with uid " + user.uid);
+}
+
 export function initialAuthCheck(): CubingAppUser | null {
     const userJsonString = getUser();
-    if (userJsonString) {
-        const user = new CubingAppUser();
-        user.fromJsonString(userJsonString);
-        return user;
+    if (!userJsonString) return null;
+    const user = new CubingAppUser();
+    user.fromJsonString(userJsonString);
+    if (!user.email || !user.uid) {
+        removeUser();
+        return null;
     }
-    return null;
+    logSignIn(user);
+    return user;
 }
 
 function successfulSignIn(userCredential: UserCredential, callback: AuthCallback) {
     const user = new CubingAppUser();
     user.email = userCredential.user.email;
-    fetch(`${url}/user`, {
-        method: "POST",
-        body: JSON.stringify({ Email: user.email }),
-    })
-        .then(res => res.json())
-        .then(data => {
-            user.uid = data.Uid;
-            setUser(user.toJsonString());
-            callback(user);
-        });
+    UserAPI.user(user.email).then(data => {
+        user.uid = data.uid;
+        setUser(user.toJsonString());
+        logSignIn(user);
+        callback(user);
+    });
 }
 
 export function _signInWithPopup(callback: AuthCallback) {
