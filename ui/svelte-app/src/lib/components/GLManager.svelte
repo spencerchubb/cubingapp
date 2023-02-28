@@ -6,9 +6,10 @@
 
     let canvas;
     let div;
+    let scene: Scene;
 
     onMount(() => {
-        const scene = newScene(div, canvas);
+        scene = newScene(div, canvas);
         scenes.push(scene);
 
         scene.cube.solve();
@@ -19,6 +20,12 @@
         onSceneInitialized(scene);
     });
 </script>
+
+<svelte:window on:keydown={(event) => {
+    if (!scene) return;
+
+    scene.cube.matchKeyToTurn(event);
+}}/>
 
 <div class={$$props.class}>
     <canvas bind:this={canvas}></canvas>
