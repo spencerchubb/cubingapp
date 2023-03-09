@@ -106,10 +106,6 @@ function getFirstAlg(): string {
     return "";
 }
 
-function deepCopy(obj: any) {
-    return JSON.parse(JSON.stringify(obj));
-}
-
 export async function loadCurrAlg(uid: number, setName: string): Promise<string> {
     const scene = state.scene;
     if (!scene) {
@@ -144,7 +140,8 @@ export async function loadCurrAlg(uid: number, setName: string): Promise<string>
         setColor(scene.cube.stickers[stickerIdx], GRAY);
     });
 
-    scene.cube.execAlgReverse(alg);
+    let algWithAUFs = applyAUFs(alg);
+    scene.cube.execAlgReverse(algWithAUFs);
 
     return alg;
 }

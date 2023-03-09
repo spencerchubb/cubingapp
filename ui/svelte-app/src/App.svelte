@@ -160,7 +160,6 @@
 
             currAlgSet = getAlgSet();
             if (!currAlgSet) currAlgSet = algSetNames[0];
-            console.log({ currAlgSet });
             loadCurrAlg(user.uid, currAlgSet).then((res) => {
               currAlg = res;
               maybeLoadScramble();

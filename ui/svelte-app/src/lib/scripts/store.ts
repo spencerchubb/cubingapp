@@ -10,7 +10,6 @@ const orientation = "orientation";
 const showBody = "showBody";
 const showScramble = "showScramble";
 const user = "user";
-const userID = "userID";
 
 export function getAlgSet() {
     return localStorage.getItem(algSet) ?? "";
@@ -69,14 +68,6 @@ export function getShowScramble() {
 
 export function setShowScramble(value) {
     setBool(showScramble, value);
-}
-
-export function getUserID() {
-    return getInt(userID);
-}
-
-export function setUserID(value) {
-    localStorage.setItem(userID, value);
 }
 
 export function getUser() {

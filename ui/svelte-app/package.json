@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "build": "cp ../varsProd.ts src/lib/scripts/vars.ts && vite build",
+    "build:watch": "cp ../varsDev.ts src/lib/scripts/vars.ts && vite build --watch",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },

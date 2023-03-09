@@ -13,7 +13,7 @@ import { createElement } from "./common/element";
 export type AuthCallback = (user: CubingAppUser | null) => void;
 
 export class CubingAppUser {
-    email: string | null;
+    email: string;
     uid: number;
 
     constructor() { }
@@ -34,6 +34,7 @@ export class CubingAppUser {
     }
 }
 
+// TODO get rid of these render functions
 export function renderEmailInput(): HTMLInputElement {
     return createElement("input", { type: "email", placeholder: "Email" }) as HTMLInputElement;
 }

@@ -7,7 +7,6 @@ CREATE TABLE "solves" (
   "moves" json
 );
 
--- change training_algs to alg_sets
 CREATE TABLE "alg_sets" (
   "id" serial PRIMARY KEY NOT NULL,
   "uid" integer NOT NULL,
