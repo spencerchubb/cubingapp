@@ -7,7 +7,8 @@ export {
     auth,
 };
 
-const log = () => {};
+type Log = (message?: any, ...optionalParams: any[]) => void;
+const log: Log = () => {};
 const url = "https://api.cubingapp.com:3000";
 
 // https://firebase.google.com/docs/web/learn-more#config-object

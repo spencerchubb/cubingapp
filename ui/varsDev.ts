@@ -7,7 +7,8 @@ export {
     auth,
 };
 
-const log = console.log;
+type Log = (message?: any, ...optionalParams: any[]) => void;
+const log: Log = console.log;
 const url = "http://localhost:3000";
 
 // https://firebase.google.com/docs/web/learn-more#config-object

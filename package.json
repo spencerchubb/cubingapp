@@ -4,7 +4,7 @@
 	"description": "Rubik's Cube",
 	"main": "index.js",
 	"scripts": {
-		"emulate": "firebase emulators:start --only auth",
+		"emulate": "firebase emulators:start",
 		"jest": "jest",
 		"tailwind": "tailwindcss -i ./ui/src/styles/main.css -o ./ui/public/styles/main.css --watch"
 	},
