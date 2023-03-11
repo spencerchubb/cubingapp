@@ -1,4 +1,4 @@
-import type { TrainingAlg } from "./api";
+import type { TrainingAlg } from "./api/algSet";
 import { randInt } from "./common/rand";
 
 /**
@@ -31,7 +31,7 @@ export function shuffle(array: any[]) {
 /**
  * Series produces 2, 5, 9, 14, 20, 27, 35, 44, 54, 65, 77, 80...
  */
- export function series(n: number) {
+export function series(n: number) {
     if (n <= 0) {
         return 2;
     }

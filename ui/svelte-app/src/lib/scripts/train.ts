@@ -6,6 +6,7 @@ import { randElement, randInt } from "./common/rand";
 import { setColor } from "./cube";
 import type { Scene } from "./scene";
 import { promoteAlg, demoteAlg } from "./util";
+import { CasesTodayStore } from "./store";
 
 import { scramble } from "@spencerchubb/solver";
 
@@ -161,6 +162,8 @@ export async function nextAlg(promote: boolean, uid: number, setName: string): P
         const { id, trainingAlgs } = state.algSet;
         AlgSetAPI.update(id, trainingAlgs);
     }
+    
+    incrementCasesToday();
 
     return loadCurrAlg(uid, setName);
 }
@@ -178,4 +181,28 @@ export async function getScramble(): Promise<string> {
         onlyOrientation: state.algSet.onlyOrientation,
     });
     return randElement(scrambles);
+}
+
+function sameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate();
+}
+
+export function getCasesToday(): number {
+    const casesToday = CasesTodayStore.get();
+    const today = new Date();
+    // today.setDate(today.getDate() + 1); // set today to tomorrow for testing
+    if (!sameDay(casesToday.date, today)) {
+        console.log("different day")
+        return 0;
+    }
+    console.log("same day")
+    return casesToday.count;
+}
+
+function incrementCasesToday() {
+    const casesToday = CasesTodayStore.get();
+    casesToday.count++;
+    CasesTodayStore.set(casesToday);
 }

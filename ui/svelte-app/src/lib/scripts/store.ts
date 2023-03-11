@@ -4,6 +4,7 @@
 
 const algSet = "algSet";
 const animateTurns = "animateTurns";
+const casesToday = "casesToday";
 const hintStickers = "hintStickers";
 const keyboard = "keyboard";
 const orientation = "orientation";
@@ -26,6 +27,31 @@ export function getAnimateTurns() {
 export function setAnimateTurns(value) {
     setBool(animateTurns, value);
 }
+
+type CasesToday = {
+    date: Date;
+    count: number;
+}
+
+export let CasesTodayStore = {
+    get: (): CasesToday => {
+        const value = localStorage.getItem(casesToday);
+        if (value) {
+            const json = JSON.parse(value);
+            return {
+                date: new Date(json.date),
+                count: json.count,
+            };
+        }
+        return {
+            date: new Date(),
+            count: 0,
+        };
+    },
+    set: (value: CasesToday) => {
+        localStorage.setItem(casesToday, JSON.stringify(value));
+    },
+};
 
 export function getHintStickers() {
     return getBool(hintStickers) ?? true;

@@ -12,6 +12,7 @@
     applyAUFs,
     applyAUFsBackwards,
     getAlgSetNames,
+    getCasesToday,
     getScramble,
     loadCurrAlg,
     nextAlg,
@@ -25,8 +26,6 @@
   } from "./lib/scripts/store";
   import SideNavButton from "./lib/components/SideNavButton.svelte";
   import SideNav from "./lib/components/SideNav.svelte";
-
-  // TODO enable keyboard turns
 
   let user = initialAuthCheck();
   let email = "";
@@ -66,6 +65,8 @@
       scramble = applyAUFsBackwards(rawScramble);
     });
   }
+
+  let casesToday: number = getCasesToday();
 
   let sideNavOpen = false;
 </script>
@@ -193,6 +194,7 @@
                 nextAlg(false, user.uid, currAlgSet).then((res) => {
                   currAlg = res;
                   showSolution = false;
+                  casesToday = getCasesToday();
                   maybeLoadScramble();
                 });
               }}
@@ -209,6 +211,7 @@
                 nextAlg(true, user.uid, currAlgSet).then((res) => {
                   currAlg = res;
                   showSolution = false;
+                  casesToday = getCasesToday();
                   maybeLoadScramble();
                 });
               }}
@@ -225,6 +228,7 @@
         {#if showScramble}
           <p class="mt-4 text-white">scramble: {scramble}</p>
         {/if}
+        <p class="mt-4 text-white">cases today: {casesToday}</p>
       </div>
       {#if drawerIndex === 0}
         <Drawer title="Profile" close={() => toggleDrawer(0)}>
