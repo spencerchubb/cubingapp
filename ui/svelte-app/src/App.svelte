@@ -24,8 +24,8 @@
     setAlgSet,
     setShowScramble,
   } from "./lib/scripts/store";
-  import SideNavButton from "./lib/components/SideNavButton.svelte";
   import SideNav from "./lib/components/SideNav.svelte";
+    import Hoverable from "./lib/components/Hoverable.svelte";
 
   let user = initialAuthCheck();
   let email = "";
@@ -71,23 +71,26 @@
   let sideNavOpen = false;
 </script>
 
-<main class="col w-full h-full">
+<main class="col">
   <nav class="navbar" style="justify-content: space-between;">
-    <SideNavButton on:click={() => sideNavOpen = true} />
+    <Icon
+      class="icon"
+      style="padding: 8px;"
+      name="menu"
+      on:click={() => sideNavOpen = true}
+    />
     {#if page === "train"}
       <div id="iconContainer" class="row">
         <Icon
           class="icon"
           style="padding: 8px;"
           name="profile"
-          alt="Profile"
           on:click={() => toggleDrawer(0)}
         />
         <Icon
           class="icon"
           style="padding: 8px;"
           name="settings"
-          alt="Settings"
           on:click={() => toggleDrawer(1)}
         />
       </div>
@@ -96,32 +99,41 @@
   <div class="row w-full h-full">
     {#if page === "landing"}
       <div class="col w-full h-full">
-        <h1 class="text-white mt-4">Algorithm Trainer</h1>
-        <p class="text-gray-300 mt-4 font-bold">
+        <div style="height: 8px"></div>
+        <h1>Algorithm Trainer</h1>
+        <div style="height: 16px"></div>
+        <p style="color: var(--gray-300); font-weight: bold;">
           Learn algorithms at lightning speed
         </p>
+        <div style="height: 16px"></div>
         <div>
-          <h2 class="text-white mt-4">1. Memorize faster</h2>
+          <h2>1. Memorize faster</h2>
+          <div style="height: 8px"></div>
           <ul>
-            <li class="text-white">
+            <li>
               Get an algorithm right, and you'll see it less often.
             </li>
-            <li class="text-white">
+            <div style="height: 8px"></div>
+            <li>
               Get an algorithm wrong, and you'll see it more often.
             </li>
           </ul>
-          <h2 class="text-white">2. Virtual Cube</h2>
-          <p class="text-white mt-4">Virtual cubes are better because:</p>
+          <div style="height: 16px"></div>
+          <h2>2. Virtual Cube</h2>
+          <div style="height: 8px"></div>
+          <p>Virtual cubes are better because:</p>
+          <div style="height: 8px"></div>
           <ul>
-            <li class="text-white">
+            <li>
               You'll never have to scramble a cube again
             </li>
-            <li class="text-white">You can practice anywhere, anytime</li>
+            <div style="height: 8px"></div>
+            <li>You can practice anywhere, anytime</li>
           </ul>
         </div>
+        <div style="height: 24px;"></div>
         {#if user}
           <button
-            class="btn btn-primary mt-4"
             on:click={() => (page = "train")}
           >
             Start Training
@@ -132,10 +144,15 @@
             style="border-radius: 16px; padding: 16px; box-shadow: 0 0 4px lightgray;"
           >
             <ButtonGoogleSignIn callback={(newUser) => (user = newUser)} />
-            <div class="w-full mt-4 bg-white" style="height: 2px;" />
-            <p class="text-white mt-4">Or use email and password</p>
+            <div style="height: 16px;"></div>
+            <div style="width: 100%; height: 2px; background-color: var(--gray-600);" />
+            <div style="height: 16px;"></div>
+            <p>Or use email and password</p>
+            <div style="height: 12px;"></div>
             <InputEmail class="mt-4" bind:value={email} />
+            <div style="height: 16px;"></div>
             <InputPassword class="mt-4" bind:value={password} />
+            <div style="height: 32px;"></div>
             <div class="row mt-4">
               <ButtonCreateAccount
                 {email}
@@ -154,8 +171,8 @@
       </div>
     {:else if page === "train"}
       <div class="col w-full h-full">
+        <div style="height: 16px;"></div>
         <GLManager
-          class="mt-4"
           onSceneInitialized={(scene) => {
             setScene(scene);
 
@@ -167,14 +184,16 @@
             });
           }}
         />
-        <div class="row mt-4" style="gap: 16px;">
-          <div
-            class="bg-neutral-700 hover:bg-neutral-800 hover:cursor-pointer"
-            style="max-width: 48px; max-height: 48px; padding: 2px; box-shadow: 0 0 4px black; border-radius: 50%;"
-          >
+        <div style="height: 16px"></div>
+        <div class="row" style="gap: 16px;">
+          <Hoverable background="var(--gray-500)" hovBackground="var(--gray-700)" borderRadius="8px">
             <Icon
               name="retry"
-              alt="Retry Algorithm"
+              style="
+              max-width: 48px;
+              max-height: 48px;
+              padding: 2px;
+              box-shadow: 0 0 4px var(--gray-400);"
               on:click={() => {
                 loadCurrAlg(user.uid, currAlgSet).then((res) => {
                   currAlg = res;
@@ -182,14 +201,15 @@
                 });
               }}
             />
-          </div>
-          <div
-            class="bg-red-500 hover:bg-red-700 hover:cursor-pointer"
-            style="max-width: 48px; max-height: 48px; padding: 2px; box-shadow: 0 0 4px black; border-radius: 50%;"
-          >
+          </Hoverable>
+          <Hoverable background="var(--red-500)" hovBackground="var(--red-700)" borderRadius="8px">
             <Icon
               name="sad"
-              alt="Got algorithm wrong"
+              style="
+              max-width: 48px;
+              max-height: 48px;
+              padding: 2px;
+              box-shadow: 0 0 4px var(--gray-400);"
               on:click={() => {
                 nextAlg(false, user.uid, currAlgSet).then((res) => {
                   currAlg = res;
@@ -199,14 +219,15 @@
                 });
               }}
             />
-          </div>
-          <div
-            class="bg-green-500 hover:bg-green-700 hover:cursor-pointer"
-            style="max-width: 48px; max-height: 48px; padding: 2px; box-shadow: 0 0 4px black; border-radius: 50%;"
-          >
+          </Hoverable>
+          <Hoverable background="var(--green-500)" hovBackground="var(--green-700)" borderRadius="8px">
             <Icon
               name="happy"
-              alt="Got algorithm right"
+              style="
+              max-width: 48px;
+              max-height: 48px;
+              padding: 2px;
+              box-shadow: 0 0 4px var(--gray-400);"
               on:click={() => {
                 nextAlg(true, user.uid, currAlgSet).then((res) => {
                   currAlg = res;
@@ -216,9 +237,10 @@
                 });
               }}
             />
-          </div>
+          </Hoverable>
         </div>
-        <button class="mt-4" on:click={() => (showSolution = !showSolution)}>
+        <div style="height: 16px"></div>
+        <button class="btn-primary" on:click={() => (showSolution = !showSolution)}>
           {#if showSolution}
             solution: {applyAUFs(currAlg)}
           {:else}
@@ -226,9 +248,10 @@
           {/if}
         </button>
         {#if showScramble}
-          <p class="mt-4 text-white">scramble: {scramble}</p>
+          <p>scramble: {scramble}</p>
         {/if}
-        <p class="mt-4 text-white">cases today: {casesToday}</p>
+        <div style="height: 16px"></div>
+        <p>cases today: {casesToday}</p>
       </div>
       {#if drawerIndex === 0}
         <Drawer title="Profile" close={() => toggleDrawer(0)}>
@@ -281,3 +304,17 @@
   </div>
   <SideNav open={sideNavOpen} onClose={() => (sideNavOpen = false)} />
 </main>
+
+<style>
+  :global(.icon) {
+    width: 48px;
+    height: 48px;
+    padding: 8px;
+    touch-action: none;
+  }
+
+  :global(.icon:hover) {
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+  }
+</style>

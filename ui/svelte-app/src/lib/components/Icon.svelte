@@ -9,9 +9,9 @@
             <path d="M 15,33 Q 25,40 35,33"/>
         </svg>`,
         menu: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-            <line x1="3" y1="7" x2="21" y2="7"></line>
-            <line x1="3" y1="13" x2="21" y2="13"></line>
-            <line x1="3" y1="19" x2="21" y2="19"></line>
+            <line x1="3" y1="4" x2="21" y2="4"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="20" x2="21" y2="20"></line>
         </svg>`,
         profile: `<svg x="0px" y="0px" stroke="${stroke}" fill="white" viewBox="0 0 54 54" xml:space="preserve">
             <circle style="stroke-width: 3; fill-opacity: 0; opacity: 1;" cx="26.5" cy="26.5" r="24" />
@@ -61,19 +61,22 @@
     let displayIcon = icons[name];
 </script>
 
-<button class={$$props.class} style={$$props.style} on:click>
+<button
+    on:click
+    class={$$props.class}
+    style={$$props.style}
+>
     {@html displayIcon}
 </button>
 
 <style>
     button {
-        background: none;
+        background: transparent;
         border: none;
         outline: none;
-        padding: 0;
         cursor: pointer;
 
-        /* Remove extra space between inline-block elements */
+        /* Remove extra space at the bottom of inline elements */
         font-size: 0;
     }
 </style>

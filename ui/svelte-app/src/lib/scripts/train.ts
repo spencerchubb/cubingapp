@@ -194,10 +194,8 @@ export function getCasesToday(): number {
     const today = new Date();
     // today.setDate(today.getDate() + 1); // set today to tomorrow for testing
     if (!sameDay(casesToday.date, today)) {
-        console.log("different day")
         return 0;
     }
-    console.log("same day")
     return casesToday.count;
 }
 

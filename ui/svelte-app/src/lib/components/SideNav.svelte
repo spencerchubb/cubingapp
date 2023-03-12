@@ -1,4 +1,8 @@
 <script lang="ts">
+    import Hoverable from "./Hoverable.svelte";
+    import Icon from "./Icon.svelte";
+
+
     export let open: boolean;
     export let onClose = () => {};
 
@@ -10,29 +14,38 @@
 <div {style}>
     <div class="row" style="justify-content: space-between; padding: 8px;">
         <h5 style="color: white; font-size: 1.2rem;">Menu</h5>
-        <!-- TODO refactor to use Hoverable -->
-        <button class="xButton" on:click={onClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="white">
-                <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-            </svg>
-        </button>
+        <Hoverable hovBackground="#444" borderRadius="4px">
+            <Icon
+                name="x"
+                on:click={onClose}
+                style="padding: 4px;"
+            />
+        </Hoverable>
     </div>
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column; padding: 0 8px;">
         <div style="height: 8px;"></div>
-        <a class="btn-primary" href="learn.html">
-            Learn
+        <a href="learn.html">
+            <button style="width: 100%;">
+                Learn
+            </button>
         </a>
         <div style="height: 8px;"></div>
-        <a class="btn-primary" href="play.html">
-            Play
+        <a href="play.html">
+            <button style="width: 100%;">
+                Play
+            </button>
         </a>
         <div style="height: 8px;"></div>
-        <a class="btn-primary" href="train.html">
-            Train
+        <a href="train.html">
+            <button style="width: 100%;">
+                Train
+            </button>
         </a>
         <div style="height: 8px;"></div>
-        <a class="btn-primary" href="cuble.html">
-            Cuble
+        <a href="cuble.html">
+            <button style="width: 100%;">
+                Cuble
+            </button>
         </a>
     </div>
 </div>

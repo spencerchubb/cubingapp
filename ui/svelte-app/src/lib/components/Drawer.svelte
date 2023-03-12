@@ -9,12 +9,10 @@
 <div class="drawer">
     <div class="drawer-header">
         <p>{title}</p>
-        <Hoverable backgroundColor="#444" borderRadius="4px">
+        <Hoverable hovBackground="#444" borderRadius="4px">
             <Icon
                 name="x"
-                alt="Close"
-                stroke="white"
-                style="padding: 2px;"
+                style="padding: 4px;"
                 on:click={() => close()}
             />
         </Hoverable>
