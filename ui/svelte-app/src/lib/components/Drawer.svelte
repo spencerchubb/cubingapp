@@ -9,7 +9,7 @@
 <div class="drawer">
     <div class="drawer-header">
         <p>{title}</p>
-        <Hoverable hovBackground="#444" borderRadius="4px">
+        <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
             <Icon
                 name="x"
                 style="padding: 4px;"
@@ -27,7 +27,7 @@
         width: 300px;
         min-width: 300px;
         height: 100%;
-        background-color: #2f2f32;
+        background-color: var(--gray-700);
         color: white;
         box-shadow: 0 0 10px 0 var(--slate-500);
     }
@@ -45,19 +45,8 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #464649;
-        padding: 12px;
-    }
-
-    :global(.close-icon) {
-        stroke: white;
-        color: white;
-        /* fixes extra vertical space */
-        font-size: 0;
-    }
-    :global(.close-icon:hover) {
-        cursor: pointer;
-        border-radius: 4px;
-        background-color: #444;
+        border-bottom: 1px solid var(--gray-600);
+        height: 48px;
+        padding: 0 12px;
     }
 </style>

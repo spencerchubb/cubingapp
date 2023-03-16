@@ -71,7 +71,7 @@
   let sideNavOpen = false;
 </script>
 
-<main class="col">
+<main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
     <Icon
       class="icon"
@@ -96,13 +96,21 @@
       </div>
     {/if}
   </nav>
-  <div class="row w-full h-full">
+  <div
+    class="row"
+    style="
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+    position: relative;"
+  >
     {#if page === "landing"}
       <div class="col w-full h-full">
         <div style="height: 8px"></div>
         <h1>Algorithm Trainer</h1>
         <div style="height: 16px"></div>
-        <p style="color: var(--gray-300); font-weight: bold;">
+        <p class="text-gradient" style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));">
           Learn algorithms at lightning speed
         </p>
         <div style="height: 16px"></div>
@@ -121,14 +129,12 @@
           <div style="height: 16px"></div>
           <h2>2. Virtual Cube</h2>
           <div style="height: 8px"></div>
-          <p>Virtual cubes are better because:</p>
-          <div style="height: 8px"></div>
           <ul>
             <li>
-              You'll never have to scramble a cube again
+              Never scramble a cube again
             </li>
             <div style="height: 8px"></div>
-            <li>You can practice anywhere, anytime</li>
+            <li>Practice anywhere, anytime</li>
           </ul>
         </div>
         <div style="height: 24px;"></div>
@@ -153,7 +159,7 @@
             <div style="height: 16px;"></div>
             <InputPassword class="mt-4" bind:value={password} />
             <div style="height: 32px;"></div>
-            <div class="row mt-4">
+            <div class="row">
               <ButtonCreateAccount
                 {email}
                 {password}
@@ -170,7 +176,7 @@
         {/if}
       </div>
     {:else if page === "train"}
-      <div class="col w-full h-full">
+      <div class="col" style="width: 100%; height: 100%;">
         <div style="height: 16px;"></div>
         <GLManager
           onSceneInitialized={(scene) => {
@@ -239,7 +245,7 @@
             />
           </Hoverable>
         </div>
-        <div style="height: 16px"></div>
+        <div style="height: 16px;"></div>
         <button class="btn-primary" on:click={() => (showSolution = !showSolution)}>
           {#if showSolution}
             solution: {applyAUFs(currAlg)}
@@ -248,10 +254,12 @@
           {/if}
         </button>
         {#if showScramble}
+          <div style="height: 16px;"></div>
           <p>scramble: {scramble}</p>
         {/if}
-        <div style="height: 16px"></div>
+        <div style="flex-grow: 1;"></div>
         <p>cases today: {casesToday}</p>
+        <div style="height: 16px"></div>
       </div>
       {#if drawerIndex === 0}
         <Drawer title="Profile" close={() => toggleDrawer(0)}>

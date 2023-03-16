@@ -6,7 +6,7 @@
     export let open: boolean;
     export let onClose = () => {};
 
-    $: style = `position: fixed; top: 0; left: 0; width: 300px; height: 100%; background-color: #2f2f32; z-index: 10; ${open
+    $: style = `position: fixed; top: 0; left: 0; width: 300px; height: 100%; background-color: var(--gray-700); z-index: 10; ${open
         ? "transform: translateX(0); transition: transform 0.3s ease-in-out"
         : "transform: translateX(-100%); transition: transform 0.3s ease-in-out"}`;
 </script>
@@ -14,7 +14,7 @@
 <div {style}>
     <div class="row" style="justify-content: space-between; padding: 8px;">
         <h5 style="color: white; font-size: 1.2rem;">Menu</h5>
-        <Hoverable hovBackground="#444" borderRadius="4px">
+        <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
             <Icon
                 name="x"
                 on:click={onClose}
