@@ -11,6 +11,7 @@
   import {
     applyAUFs,
     applyAUFsBackwards,
+    computeStats,
     getAlgSetNames,
     getCasesToday,
     getScramble,
@@ -25,7 +26,7 @@
     setShowScramble,
   } from "./lib/scripts/store";
   import SideNav from "./lib/components/SideNav.svelte";
-    import Hoverable from "./lib/components/Hoverable.svelte";
+  import Hoverable from "./lib/components/Hoverable.svelte";
 
   let user = initialAuthCheck();
   let email = "";
@@ -84,14 +85,20 @@
         <Icon
           class="icon"
           style="padding: 8px;"
-          name="profile"
+          name="chart"
           on:click={() => toggleDrawer(0)}
         />
         <Icon
           class="icon"
           style="padding: 8px;"
-          name="settings"
+          name="profile"
           on:click={() => toggleDrawer(1)}
+        />
+        <Icon
+          class="icon"
+          style="padding: 8px;"
+          name="settings"
+          on:click={() => toggleDrawer(2)}
         />
       </div>
     {/if}
@@ -262,7 +269,28 @@
         <div style="height: 16px"></div>
       </div>
       {#if drawerIndex === 0}
-        <Drawer title="Profile" close={() => toggleDrawer(0)}>
+        <Drawer title="Stats" close={() => toggleDrawer(-1)}>
+          <table style="margin: 16px auto;">
+            <thead>
+              <tr>
+                <th>repetitions</th>
+                <th>algs</th>
+                <th>%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {#each computeStats() as dataPoint}
+                <tr>
+                  <td>{dataPoint.reps}</td>
+                  <td>{dataPoint.algs}</td>
+                  <td>{dataPoint.ratio}%</td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </Drawer>
+      {:else if drawerIndex === 1}
+        <Drawer title="Profile" close={() => toggleDrawer(-1)}>
           <div style="padding: 12px;">
             <p>signed in as {user.email}</p>
             <button
@@ -277,8 +305,8 @@
             </button>
           </div>
         </Drawer>
-      {:else if drawerIndex === 1}
-        <Drawer title="Settings" close={() => toggleDrawer(1)}>
+      {:else if drawerIndex === 2}
+        <Drawer title="Settings" close={() => toggleDrawer(-1)}>
           <div style="padding: 16px;">
             <p>algorithm set</p>
             <select

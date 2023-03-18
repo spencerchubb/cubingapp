@@ -29,23 +29,17 @@ export function setAnimateTurns(value) {
 }
 
 type CasesToday = {
-    date: Date;
     count: number;
+    msSinceEpoch: number;
 }
 
 export let CasesTodayStore = {
     get: (): CasesToday => {
         const value = localStorage.getItem(casesToday);
-        if (value) {
-            const json = JSON.parse(value);
-            return {
-                date: new Date(json.date),
-                count: json.count,
-            };
-        }
+        if (value) return JSON.parse(value);
         return {
-            date: new Date(),
             count: 0,
+            msSinceEpoch: Date.now(),
         };
     },
     set: (value: CasesToday) => {

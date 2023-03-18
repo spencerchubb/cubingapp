@@ -2,6 +2,10 @@
     export let name;
     export let stroke = "white";
     let icons = {
+        chart: `<svg x="0px" y="0px" stroke="white" fill="white" stroke-width="5" viewBox="0 0 100 100" xml:space="preserve">
+            <circle style="fill-opacity: 0; opacity: 1;" cx="50" cy="50" r="48" />
+            <path fill="none" stroke="white" stroke-linecap="round" d="M 25, 75 L 42 40 L 58 60 L 75 25 "/>
+        </svg>`,
         happy: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
             <circle cx="25" cy="25" r="22" />
             <circle cx="18" cy="20" r="3" />

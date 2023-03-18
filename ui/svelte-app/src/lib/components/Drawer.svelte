@@ -17,9 +17,7 @@
             />
         </Hoverable>
     </div>
-    <div class="drawer-body">
-        <slot />
-    </div>
+    <slot />
 </div>
 
 <style>
@@ -30,12 +28,14 @@
         background-color: var(--gray-700);
         color: white;
         box-shadow: 0 0 10px 0 var(--slate-500);
+        overflow-y: auto;
     }
 
     @media (max-width: 768px) {
         .drawer {
             position: absolute;
             top: 0;
+            bottom: 0;
             right: 0;
         }
     }

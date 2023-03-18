@@ -98,6 +98,29 @@ export function setScene(scene: Scene) {
     state.scene = scene;
 }
 
+export function getTrainingAlgs(): AlgSetAPI.TrainingAlg[] {
+    return state.algSet.trainingAlgs;
+}
+
+/**
+ * Returns the percentage of algs that have that number of reps.
+ * For example, if it returns [0.5, 0.25, 0.25], then 50% of the algs have 0 reps,
+ * 25% have 1 rep, and 25% have 2 reps.
+ */
+export function computeStats(): { reps: number, algs: number, ratio: number }[] {
+    const trainingAlgs = state.algSet.trainingAlgs;
+    const numReps = trainingAlgs.map(alg => alg.Score);
+    const maxReps = Math.max(...numReps);
+    const stats = new Array(maxReps + 1).fill(0);
+    numReps.forEach(reps => stats[reps]++);
+    return stats.map((count, i) => ({
+        reps: i,
+        algs: count,
+        // round to 2 decimals and return as a percentage
+        ratio: Math.round((count / trainingAlgs.length) * 100),
+    }));
+}
+
 function getFirstAlg(): string {
     const trainingAlgs = state.algSet.trainingAlgs;
     if (trainingAlgs && trainingAlgs.length > 0) {
@@ -191,10 +214,14 @@ function sameDay(date1: Date, date2: Date): boolean {
 
 export function getCasesToday(): number {
     const casesToday = CasesTodayStore.get();
+    const date = new Date(casesToday.msSinceEpoch);
     const today = new Date();
-    // today.setDate(today.getDate() + 1); // set today to tomorrow for testing
-    if (!sameDay(casesToday.date, today)) {
-        return 0;
+    today.setDate(today.getDate() + 1); // set today to tomorrow for testing
+    if (!sameDay(date, today)) {
+        console.log("Resetting cases today")
+        casesToday.count = 0;
+        casesToday.msSinceEpoch = today.getTime();
+        CasesTodayStore.set(casesToday);
     }
     return casesToday.count;
 }
