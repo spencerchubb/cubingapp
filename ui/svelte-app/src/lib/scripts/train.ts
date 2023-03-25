@@ -6,24 +6,25 @@ import { randElement, randInt } from "./common/rand";
 import { setColor } from "./cube";
 import type { Scene } from "./scene";
 import { promoteAlg, demoteAlg } from "./util";
-import { CasesTodayStore } from "./store";
+import { CasesTodayStore, OrientationStore } from "./store";
 
 import { scramble } from "@spencerchubb/solver";
+import { log } from "./common/vars";
 
 type State = {
     scene: Scene,
     algSet: AlgSetAPI.AlgSet,
-    preRotation: string,
     preAUF: string,
     postAUF: string,
+    orientation: string,
 }
 
 let state: State = {
     scene: null,
     algSet: null,
-    preRotation: "",
     preAUF: "",
     postAUF: "",
+    orientation: OrientationStore.get(),
 };
 
 export function applyAUFs(alg: string): string {
@@ -122,43 +123,45 @@ export function computeStats(): { reps: number, algs: number, ratio: number }[] 
 }
 
 function getFirstAlg(): string {
-    const trainingAlgs = state.algSet.trainingAlgs;
-    if (trainingAlgs && trainingAlgs.length > 0) {
-        return trainingAlgs[0].Alg;
+    if (!state.algSet?.trainingAlgs) {
+        log("No alg set loaded");
+        return "";
     }
-    console.log("No algs to load", trainingAlgs);
-    return "";
+    const trainingAlgs = state.algSet.trainingAlgs;
+    return trainingAlgs[0].Alg;
 }
 
-export async function loadCurrAlg(uid: number, setName: string): Promise<string> {
+export async function setAlgSet(uid: number, setName: string) {
     const scene = state.scene;
     if (!scene) {
         console.error("Scene not set. Have you called setScene()?");
         return;
     }
 
-    // If there is no algSet or the algSet is for a different set, load a new algSet
-    if (!state.algSet || state.algSet.name !== setName) {
-        state.algSet = await AlgSetAPI.get(uid, setName);
+    if (state.algSet?.name === setName) return;
 
-        if (state.algSet.cube == "2x2") {
-            scene.cube.setNumOfLayers(2);
-            scene.buffers = createBuffers(scene);
-            scene.cube.solve();
-        } else if (state.algSet.cube == "3x3") {
-            scene.cube.setNumOfLayers(3);
-            scene.buffers = createBuffers(scene);
-            scene.cube.solve();
-        }
+    state.algSet = await AlgSetAPI.get(uid, setName);
+
+    if (state.algSet.cube == "2x2") {
+        scene.cube.setNumOfLayers(2);
+        scene.buffers = createBuffers(scene);
+        scene.cube.solve();
+    } else if (state.algSet.cube == "3x3") {
+        scene.cube.setNumOfLayers(3);
+        scene.buffers = createBuffers(scene);
+        scene.cube.solve();
     }
+}
 
+export function loadCurrAlg(): string {
     let alg = getFirstAlg();
 
     state.preAUF = generateRandAUF();
     state.postAUF = generateRandAUF();
 
+    const scene = state.scene;
     scene.cube.solve();
-    scene.cube.execAlg(state.preRotation);
+    scene.cube.execAlg(state.orientation);
 
     state.algSet.inactive.forEach(stickerIdx => {
         setColor(scene.cube.stickers[stickerIdx], GRAY);
@@ -188,7 +191,7 @@ export async function nextAlg(promote: boolean, uid: number, setName: string): P
     
     incrementCasesToday();
 
-    return loadCurrAlg(uid, setName);
+    return loadCurrAlg();
 }
 
 export function getAlgSetNames(): string[] {
@@ -216,9 +219,9 @@ export function getCasesToday(): number {
     const casesToday = CasesTodayStore.get();
     const date = new Date(casesToday.msSinceEpoch);
     const today = new Date();
-    today.setDate(today.getDate() + 1); // set today to tomorrow for testing
+    // today.setDate(today.getDate() + 1); // set today to tomorrow for testing
     if (!sameDay(date, today)) {
-        console.log("Resetting cases today")
+        log("Resetting cases today")
         casesToday.count = 0;
         casesToday.msSinceEpoch = today.getTime();
         CasesTodayStore.set(casesToday);
@@ -231,3 +234,43 @@ function incrementCasesToday() {
     casesToday.count++;
     CasesTodayStore.set(casesToday);
 }
+
+export const orientationOptions: {
+    label: string,
+    value: string,
+}[] = [
+    { label: "white green", value: "" },
+    { label: "white orange", value: "y'" },
+    { label: "white blue", value: "y2" },
+    { label: "white red", value: "y" },
+    { label: "yellow green", value: "z2" },
+    { label: "yellow orange", value: "z2 y" },
+    { label: "yellow blue", value: "z2 y2" },
+    { label: "yellow red", value: "z2 y'" },
+    { label: "green yellow", value: "x" },
+    { label: "green orange", value: "x y'" },
+    { label: "green white", value: "x y2" },
+    { label: "green red", value: "x y" },
+    { label: "blue white", value: "x'" },
+    { label: "blue orange", value: "x' y'" },
+    { label: "blue yellow", value: "x' y2" },
+    { label: "blue red", value: "x' y" },
+    { label: "orange green", value: "z" },
+    { label: "orange yellow", value: "z y'" },
+    { label: "orange blue", value: "z y2" },
+    { label: "orange white", value: "z y" },
+    { label: "red green", value: "z'" },
+    { label: "red white", value: "z' y'" },
+    { label: "red blue", value: "z' y2" },
+    { label: "red yellow", value: "z' y" },
+];
+
+export let Orientation = {
+    get: OrientationStore.get,
+    set: (orientation: string) => {
+        state.orientation = orientation;
+        OrientationStore.set(orientation);
+
+        loadCurrAlg();
+    },
+};

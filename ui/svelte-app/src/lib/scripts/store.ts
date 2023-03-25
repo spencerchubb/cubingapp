@@ -12,12 +12,9 @@ const showBody = "showBody";
 const showScramble = "showScramble";
 const user = "user";
 
-export function getAlgSet() {
-    return localStorage.getItem(algSet) ?? "";
-}
-
-export function setAlgSet(value: string) {
-    localStorage.setItem(algSet, value);
+export const AlgSetStore = {
+    get: (): string => localStorage.getItem(algSet) ?? "",
+    set: (value: string) => localStorage.setItem(algSet, value),
 }
 
 export function getAnimateTurns() {
@@ -33,7 +30,7 @@ type CasesToday = {
     msSinceEpoch: number;
 }
 
-export let CasesTodayStore = {
+export const CasesTodayStore = {
     get: (): CasesToday => {
         const value = localStorage.getItem(casesToday);
         if (value) return JSON.parse(value);
@@ -66,13 +63,14 @@ export function setKeyboard(value) {
     localStorage.setItem(keyboard, value);
 }
 
-export function getOrientation() {
-    return localStorage.getItem(orientation) ?? "";
-}
-
-export function setOrientation(value) {
-    localStorage.setItem(orientation, value);
-}
+export let OrientationStore = {
+    get: (): string => {
+        return localStorage.getItem(orientation) ?? "";
+    },
+    set: (value: string) => {
+        localStorage.setItem(orientation, value);
+    },
+};
 
 export function getShowBody() {
     return getBool(showBody) ?? true;

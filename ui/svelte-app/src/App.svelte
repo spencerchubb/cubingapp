@@ -17,12 +17,14 @@
     getScramble,
     loadCurrAlg,
     nextAlg,
+    Orientation,
+    orientationOptions,
+    setAlgSet,
     setScene,
   } from "./lib/scripts/train";
   import {
-    getAlgSet,
+    AlgSetStore,
     getShowScramble,
-    setAlgSet,
     setShowScramble,
   } from "./lib/scripts/store";
   import SideNav from "./lib/components/SideNav.svelte";
@@ -49,10 +51,12 @@
   const algSetNames = getAlgSetNames();
   let currAlgSet: string;
   let currAlg: string;
-  if (currAlgSet) {
-    loadCurrAlg(user.uid, currAlgSet).then((res) => {
-      currAlg = res;
-    });
+
+  let orientation = Orientation.get();
+
+  function onChangeOrientation(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    Orientation.set(value);
   }
 
   let showScramble = getShowScramble();
@@ -189,10 +193,10 @@
           onSceneInitialized={(scene) => {
             setScene(scene);
 
-            currAlgSet = getAlgSet();
+            currAlgSet = AlgSetStore.get();
             if (!currAlgSet) currAlgSet = algSetNames[0];
-            loadCurrAlg(user.uid, currAlgSet).then((res) => {
-              currAlg = res;
+            setAlgSet(user.uid, currAlgSet).then(() => {
+              currAlg = loadCurrAlg();
               maybeLoadScramble();
             });
           }}
@@ -208,10 +212,8 @@
               padding: 2px;
               box-shadow: 0 0 4px var(--gray-400);"
               on:click={() => {
-                loadCurrAlg(user.uid, currAlgSet).then((res) => {
-                  currAlg = res;
-                  showSolution = false;
-                });
+                currAlg = loadCurrAlg();
+                showSolution = false;
               }}
             />
           </Hoverable>
@@ -312,15 +314,25 @@
             <select
               bind:value={currAlgSet}
               on:change={() => {
-                loadCurrAlg(user.uid, currAlgSet).then((res) => {
-                  currAlg = res;
+                setAlgSet(user.uid, currAlgSet).then(() => {
+                  currAlg = loadCurrAlg();
                   maybeLoadScramble();
-                });
-                setAlgSet(currAlgSet);
+                })
+                AlgSetStore.set(currAlgSet);
               }}
             >
               {#each algSetNames as algSetName}
                 <option>{algSetName}</option>
+              {/each}
+            </select>
+            <div style="height: 16px;" />
+            <p>orientation</p>
+            <select
+              bind:value={orientation}
+              on:change={onChangeOrientation}
+            >
+              {#each orientationOptions as option}
+                <option value={option.value}>{option.label}</option>
               {/each}
             </select>
             <div style="height: 16px;" />
