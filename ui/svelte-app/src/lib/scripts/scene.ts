@@ -27,8 +27,6 @@ export type Scene = {
     gl: WebGLRenderingContext,
     cube: Cube,
     spring: Spring,
-    buffers: BufferObject[],
-    perspectiveMatrix: number[],
     dragEnabled?: boolean,
 };
 export let scenes: Scene[] = [];
@@ -63,27 +61,23 @@ export function newScene(div: HTMLElement, newCanvas: HTMLCanvasElement): Scene 
         programInfo = initPrograms();
     }
 
-    let cube = new Cube(gl);
-    let spring = new Spring();
     let perspectiveMatrix = initPerspective(div);
+    let cube = new Cube(gl, perspectiveMatrix);
+    let spring = new Spring();
     let dragDetector = new DragDetector();
 
     cube.setNumOfLayers(numLayers);
-
-    let buffers = createBuffers({ gl, cube, perspectiveMatrix });
 
     let scene: Scene = {
         div,
         gl,
         cube,
         spring,
-        buffers,
-        perspectiveMatrix,
     };
 
     const pointerdown = (offsetX, offsetY) => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube, scene.buffers);
+        dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube);
     }
 
     const pointermove = (offsetX, offsetY) => {
@@ -93,7 +87,7 @@ export function newScene(div: HTMLElement, newCanvas: HTMLCanvasElement): Scene 
 
     const pointerup = () => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerUp(scene.div, scene.cube, scene.buffers);
+        dragDetector.onPointerUp(scene.div, scene.cube);
     }
 
     const calcOffset = (event) => {
@@ -326,7 +320,7 @@ function render(newTime: number) {
     canvas.style.transform = `translateY(${window.scrollY}px)`;
 
     for (let i = 0; i < scenes.length; i++) {
-        const { cube, div, spring, buffers, perspectiveMatrix } = scenes[i];
+        const { cube, div, spring } = scenes[i];
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -363,19 +357,19 @@ function render(newTime: number) {
 
 
         for (let i = 0; i < numStickers(cube.layers); i++) {
-            let object = buffers[i];
+            let object = cube.buffers[i];
 
             // Rotate if the sticker is affected by the animation and if the user wants to animate
             const transform = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
                 ? _transformSingleton(() => {
                     return glMat.rotate(
                         glMat.create(),
-                        perspectiveMatrix,
+                        cube.perspectiveMatrix,
                         spring.position * Math.PI / 180,
                         animation.axis
                     );
                 })
-                : perspectiveMatrix;
+                : cube.perspectiveMatrix;
 
             gl.uniformMatrix4fv(
                 programInfo.uniformLocations.transformMatrix,

@@ -144,11 +144,11 @@ export async function setAlgSet(uid: number, setName: string) {
 
     if (state.algSet.cube == "2x2") {
         scene.cube.setNumOfLayers(2);
-        scene.buffers = createBuffers(scene);
+        // scene.buffers = createBuffers(scene);
         scene.cube.solve();
     } else if (state.algSet.cube == "3x3") {
         scene.cube.setNumOfLayers(3);
-        scene.buffers = createBuffers(scene);
+        // scene.buffers = createBuffers(scene);
         scene.cube.solve();
     }
 }

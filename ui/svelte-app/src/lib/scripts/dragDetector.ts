@@ -1,4 +1,4 @@
-import { BufferObject } from "./buffers";
+import type { BufferObject } from "./buffers";
 import { Cube, sq } from "./cube";
 
 /**
@@ -54,7 +54,9 @@ export class DragDetector {
     /**
      * x and y are pixel values.
      */
-    onPointerDown(x: number, y: number, div: HTMLElement, cube: Cube, buffers: BufferObject[]) {
+    onPointerDown(x: number, y: number, div: HTMLElement, cube: Cube) {
+        const buffers = cube.buffers;
+
         this.numOfPointerMoves = 0;
 
         const clipX = xPixelToClip(x, div.clientWidth);
@@ -103,7 +105,7 @@ export class DragDetector {
         this.yOnMove = y;
     }
 
-    onPointerUp(div: HTMLElement, cube: Cube, buffers: BufferObject[]) {
+    onPointerUp(div: HTMLElement, cube: Cube) {
         // Do nothing if the pointer movement was tiny.
         if (this.numOfPointerMoves < 2) return;
 

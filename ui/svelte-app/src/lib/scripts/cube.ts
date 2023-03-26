@@ -1,3 +1,4 @@
+import { BufferObject, createBuffers } from "./buffers";
 import * as colors from "./colors";
 import { stickerToFace } from "./common/util";
 import { scramble3x3 } from "./scramble";
@@ -60,9 +61,16 @@ export class Cube {
     clockwise: boolean;
     animationQueue: AnimationData[];
 
-    constructor(newGL: WebGLRenderingContext) {
+    gl: WebGLRenderingContext;
+    perspectiveMatrix: number[];
+    buffers: BufferObject[];
+
+    constructor(newGL: WebGLRenderingContext, perspectiveMatrix: number[]) {
         gl = newGL;
         this.animationQueue = [];
+
+        this.gl = newGL;
+        this.perspectiveMatrix = perspectiveMatrix;
     }
 
     setColors(colors: number[][]) {
@@ -96,7 +104,7 @@ export class Cube {
 
     /**
      * Perform an imperfect scramble.
-     * I will eventually deprecate this, but this was easier to implement.
+     * I would like to have random state scrambles eventually, but this was easier to implement.
      */
     naiveScramble() {
         let numTurns = sq(this.layers) * 10;
@@ -129,6 +137,8 @@ export class Cube {
         }
 
         this.affectedStickers = Array(stickers(num)).fill(false);
+
+        this.buffers = createBuffers(this);
     }
 
     /**
