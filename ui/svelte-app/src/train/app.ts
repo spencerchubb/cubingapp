@@ -1,15 +1,12 @@
-import { algData } from "./algData";
-import * as AlgSetAPI from "./api/algSet";
-import { createBuffers } from "./buffers";
-import { GRAY } from "./colors";
-import { randElement, randInt } from "./common/rand";
-import { setColor } from "./cube";
-import type { Scene } from "./scene";
-import { promoteAlg, demoteAlg } from "./util";
-import { CasesTodayStore, OrientationStore } from "./store";
+import { algData } from "../lib/scripts/algData";
+import * as AlgSetAPI from "../lib/scripts/api/algSet";
+import { randElement, randInt } from "../lib/scripts/common/rand";
+import { GRAY, Scene, setColor } from "../lib/scripts/rubiks-viz";
+import { promoteAlg, demoteAlg } from "../lib/scripts/util";
+import { CasesTodayStore, OrientationStore } from "../lib/scripts/store";
 
 import { scramble } from "@spencerchubb/solver";
-import { log } from "./common/vars";
+import { log } from "../lib/scripts/common/vars";
 
 type State = {
     scene: Scene,
@@ -161,14 +158,14 @@ export function loadCurrAlg(): string {
 
     const scene = state.scene;
     scene.cube.solve();
-    scene.cube.execAlg(state.orientation);
+    scene.cube.performAlg(state.orientation);
 
     state.algSet.inactive.forEach(stickerIdx => {
         setColor(scene.cube.stickers[stickerIdx], GRAY);
     });
 
     let algWithAUFs = applyAUFs(alg);
-    scene.cube.execAlgReverse(algWithAUFs);
+    scene.cube.performAlgReverse(algWithAUFs);
 
     return alg;
 }

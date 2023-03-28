@@ -1,33 +1,28 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { type Scene, newScene, scenes, startLoop } from "../scripts/scene";
+    import { type Scene, newScene } from "../scripts/rubiks-viz";
 
     export let onSceneInitialized: (scene: Scene) => void;
 
-    let canvas;
     let div;
     let scene: Scene;
 
     onMount(() => {
-        scene = newScene(div, canvas);
-        scenes.push(scene);
-
-        scene.cube.solve();
-        scene.dragEnabled = true;
-
-        startLoop();
+        scene = newScene(div);
 
         onSceneInitialized(scene);
     });
 </script>
 
-<svelte:window on:keydown={(event) => {
-    if (!scene) return;
-
-    scene.cube.matchKeyToTurn(event);
-}}/>
-
 <div class={$$props.class}>
-    <canvas bind:this={canvas}></canvas>
-    <div bind:this={div} class="glDiv"></div>
+    <div bind:this={div} class="gl-div"></div>
 </div>
+
+<style>
+    .gl-div {
+        width: 320px;
+        height: 320px;
+        border-radius: 8px;
+        box-shadow: 0 0 4px 2px var(--gray-600);
+    }
+</style>

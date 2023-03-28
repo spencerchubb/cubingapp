@@ -1,13 +1,49 @@
-import { BufferObject, createBuffers } from "./buffers";
-import { Spring } from "./common/spring";
 import { Cube, stickers as numStickers } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
-import { singleton } from "./common/singleton";
-import * as store from "./store";
+import { singleton } from "./singleton";
+import { Spring } from "./spring";
 
-let canvas: HTMLCanvasElement;
-let gl: WebGLRenderingContext;
+export {
+    newScene,
+    type Scene,
+    scenes,
+};
+
+let canvas: HTMLCanvasElement = initCanvas();
+let gl: WebGLRenderingContext = initGL(canvas);
+let programInfo: ProgramInfo = initProgramInfo(gl);
+
+function initCanvas() {
+    const canvas = document.createElement("canvas");
+    /*
+    * This is 'fixed' because if it were 'absolute', then the layout would be broken 
+    * when inside a div with position: relative.
+    */
+    canvas.style.position = "fixed";
+    canvas.style.display = "block";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+    canvas.style.zIndex = "-1";
+    document.body.appendChild(canvas);
+
+    // Add key listener inside this if statement so that it is only added once.
+    document.addEventListener("keydown", (e) => {
+        scenes.forEach(scene => {
+            if (!scene.keysEnabled) return;
+
+            scene.cube.matchKeyToTurn(e);
+        });
+    });
+
+    return canvas;
+}
+
+function initGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
+    return canvas.getContext("webgl");
+}
 
 type ProgramInfo = {
     attribLocations: {
@@ -20,113 +56,7 @@ type ProgramInfo = {
     },
 };
 
-let programInfo: ProgramInfo;
-
-export type Scene = {
-    div: HTMLElement,
-    gl: WebGLRenderingContext,
-    cube: Cube,
-    spring: Spring,
-    dragEnabled?: boolean,
-};
-export let scenes: Scene[] = [];
-
-export let settings = {
-    animateTurns: true,
-    hintStickers: true,
-    showBody: true,
-}
-
-export function loadSavedSettings() {
-    settings.animateTurns = store.getAnimateTurns();
-    settings.hintStickers = store.getHintStickers();
-    settings.showBody = store.getShowBody();
-}
-
-let time: number = Date.now() * 0.001;
-
-let numLayers: number = 3;
-
-let loopStarted = false;
-export function startLoop() {
-    if (loopStarted) return;
-    loopStarted = true;
-    requestAnimationFrame(render);
-}
-
-export function newScene(div: HTMLElement, newCanvas: HTMLCanvasElement): Scene {
-    if (!gl) {
-        canvas = newCanvas;
-        gl = canvas.getContext("webgl");
-        programInfo = initPrograms();
-    }
-
-    let perspectiveMatrix = initPerspective(div);
-    let cube = new Cube(gl, perspectiveMatrix);
-    let spring = new Spring();
-    let dragDetector = new DragDetector();
-
-    cube.setNumOfLayers(numLayers);
-
-    let scene: Scene = {
-        div,
-        gl,
-        cube,
-        spring,
-    };
-
-    const pointerdown = (offsetX, offsetY) => {
-        if (!scene.dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, scene.div, scene.cube);
-    }
-
-    const pointermove = (offsetX, offsetY) => {
-        if (!scene.dragEnabled) return;
-        dragDetector.onPointerMove(offsetX, offsetY);
-    }
-
-    const pointerup = () => {
-        if (!scene.dragEnabled) return;
-        dragDetector.onPointerUp(scene.div, scene.cube);
-    }
-
-    const calcOffset = (event) => {
-        const rect = event.target.getBoundingClientRect();
-        const x = event.touches[0].pageX - rect.left;
-        const y = event.touches[0].pageY - rect.top;
-        return { x, y };
-    }
-
-    const addPointerListeners = () => {
-        div.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
-        div.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
-        div.addEventListener("pointerup", event => pointerup());
-    }
-
-    const addTouchListeners = () => {
-        div.addEventListener("touchstart", event => {
-            const { x, y } = calcOffset(event);
-            pointerdown(x, y);
-        });
-        div.addEventListener("touchmove", event => {
-            const { x, y } = calcOffset(event);
-            pointermove(x, y);
-        });
-        div.addEventListener("touchend", event => {
-            pointerup();
-        });
-    }
-
-    if (window.PointerEvent) {
-        addPointerListeners();
-    } else {
-        addTouchListeners();
-    }
-
-    return scene;
-}
-
-function initPrograms() {
+function initProgramInfo(gl: WebGLRenderingContext): ProgramInfo {
     const vertexShaderSource = `
     attribute vec4 aVertexPosition;
     attribute vec4 aVertexColor;
@@ -185,6 +115,105 @@ function initPrograms() {
             rotateMatrix: gl.getUniformLocation(shaderProgram, 'uRotateMatrix'),
         }
     }
+}
+
+type Scene = {
+    cube: Cube,
+    dragEnabled: boolean,
+    keysEnabled: boolean,
+};
+
+type InternalScene = {
+    cube: Cube,
+    div: HTMLElement,
+    spring: Spring,
+};
+
+let scenes: Scene[] = [];
+let internalScenes: InternalScene[] = [];
+
+let time: number = Date.now() * 0.001;
+
+let loopStarted = false;
+function startLoop() {
+    if (loopStarted) return;
+    loopStarted = true;
+    requestAnimationFrame(render);
+}
+
+function newScene(div: HTMLElement, layers: number = 3): Scene {
+    let perspectiveMatrix = initPerspective(div);
+
+    let cube = new Cube(gl, perspectiveMatrix);
+    cube.setNumOfLayers(layers);
+
+    let spring = new Spring();
+    let dragDetector = new DragDetector();
+
+    let scene: Scene = {
+        cube,
+        dragEnabled: true,
+        keysEnabled: true,
+    };
+
+    let internalScene: InternalScene = {
+        cube,
+        div,
+        spring,
+    }
+
+    const pointerdown = (offsetX, offsetY) => {
+        if (!scene.dragEnabled) return;
+        dragDetector.onPointerDown(offsetX, offsetY, div, scene.cube);
+    }
+
+    const pointermove = (offsetX, offsetY) => {
+        if (!scene.dragEnabled) return;
+        dragDetector.onPointerMove(offsetX, offsetY);
+    }
+
+    const pointerup = () => {
+        if (!scene.dragEnabled) return;
+        dragDetector.onPointerUp(div, scene.cube);
+    }
+
+    const calcOffset = (event) => {
+        const rect = event.target.getBoundingClientRect();
+        const x = event.touches[0].pageX - rect.left;
+        const y = event.touches[0].pageY - rect.top;
+        return { x, y };
+    }
+
+    const addPointerListeners = () => {
+        div.addEventListener("pointerdown", event => pointerdown(event.offsetX, event.offsetY));
+        div.addEventListener("pointermove", event => pointermove(event.offsetX, event.offsetY));
+        div.addEventListener("pointerup", () => pointerup());
+    }
+
+    const addTouchListeners = () => {
+        div.addEventListener("touchstart", event => {
+            const { x, y } = calcOffset(event);
+            pointerdown(x, y);
+        });
+        div.addEventListener("touchmove", event => {
+            const { x, y } = calcOffset(event);
+            pointermove(x, y);
+        });
+        div.addEventListener("touchend", () => {
+            pointerup();
+        });
+    }
+
+    if (window.PointerEvent) {
+        addPointerListeners();
+    } else {
+        addTouchListeners();
+    }
+
+    scenes.push(scene);
+    internalScenes.push(internalScene);
+    startLoop();
+    return scene;
 }
 
 function initPerspective(element: HTMLElement) {
@@ -316,11 +345,8 @@ function render(newTime: number) {
     gl.depthFunc(gl.LEQUAL); // Near things obscure far things
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // move the canvas to top of the current scroll position
-    canvas.style.transform = `translateY(${window.scrollY}px)`;
-
     for (let i = 0; i < scenes.length; i++) {
-        const { cube, div, spring } = scenes[i];
+        const { cube, div, spring } = internalScenes[i];
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -355,12 +381,11 @@ function render(newTime: number) {
         let _transformSingleton = singleton<number[]>();
         let _rotateSingleton = singleton<number[]>();
 
-
         for (let i = 0; i < numStickers(cube.layers); i++) {
             let object = cube.buffers[i];
 
             // Rotate if the sticker is affected by the animation and if the user wants to animate
-            const transform = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
+            const transform = (animation && animation.stickersToAnimate[i])
                 ? _transformSingleton(() => {
                     return glMat.rotate(
                         glMat.create(),
@@ -377,7 +402,7 @@ function render(newTime: number) {
                 transform,
             );
 
-            const rotation = (animation && animation.stickersToAnimate[i] && settings.animateTurns)
+            const rotation = (animation && animation.stickersToAnimate[i])
                 ? _rotateSingleton(() => {
                     const rotateMat = glMat.create();
                     return glMat.rotate(
@@ -397,21 +422,17 @@ function render(newTime: number) {
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, object.indexBuffer);
 
-            if (settings.showBody) {
-                bindPosition(object.noGapPositionBuffer, programInfo, gl);
-                bindColor(cube.underStickers[i].buffer, programInfo, gl);
-                drawElements(gl);
-            }
-
             bindPosition(object.positionBuffer, programInfo, gl);
             bindColor(stickers[i].buffer, programInfo, gl);
             drawElements(gl);
 
-            if (settings.hintStickers) {
-                bindPosition(object.hintPositionBuffer, programInfo, gl);
-                bindColor(stickers[i].buffer, programInfo, gl);
-                drawElements(gl);
-            }
+            bindPosition(object.noGapPositionBuffer, programInfo, gl);
+            bindColor(cube.underStickers[i].buffer, programInfo, gl);
+            drawElements(gl);
+
+            bindPosition(object.hintPositionBuffer, programInfo, gl);
+            bindColor(stickers[i].buffer, programInfo, gl);
+            drawElements(gl);
         }
     }
 
@@ -419,11 +440,6 @@ function render(newTime: number) {
 }
 
 function chooseStickers(cube: Cube) {
-    // If user doesn't want animations, go straight to the current stickers
-    if (!settings.animateTurns) {
-        return cube.stickers;
-    }
-
     // If there is an animation queued, animate the one at the front of the queue
     if (cube.animationQueue[0]) {
         return cube.animationQueue[0].stickers;

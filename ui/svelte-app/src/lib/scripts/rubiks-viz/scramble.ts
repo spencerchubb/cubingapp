@@ -1,5 +1,4 @@
-import { shuffle } from "./util";
-import { randInt } from "./common/rand";
+import { randInt, shuffle } from "./rand";
 import type { Cube } from "./cube";
 
 const U = 0;
@@ -126,8 +125,9 @@ function orientationValid(pieces: number[], orientations: number) {
 }
 
 /**
- * Returns 2 things: 1) an array of numbers spanning he range [0, pieces), in random order, 
- * and 2) a boolean indicating whether an array of pieces has permutation parity.
+ * Returns
+ * 1) an array of numbers spanning the range [0, pieces), in random order
+ * 2) a boolean indicating whether an array of pieces has permutation parity
  */
 function permutation(pieces: number) {
     const p: number[] = Array(pieces);

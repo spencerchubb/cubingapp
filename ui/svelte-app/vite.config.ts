@@ -15,6 +15,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        play: resolve(__dirname, 'play.html'),
         train: resolve(__dirname, 'train.html'),
       },
     },

@@ -4,7 +4,6 @@
 
 
     export let open: boolean;
-    export let onClose = () => {};
 
     $: style = `position: fixed; top: 0; left: 0; width: 300px; height: 100%; background-color: var(--gray-700); z-index: 10; ${open
         ? "transform: translateX(0); transition: transform 0.3s ease-in-out"
@@ -17,7 +16,7 @@
         <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
             <Icon
                 name="x"
-                on:click={onClose}
+                on:click={() => open = false}
                 style="padding: 4px;"
             />
         </Hoverable>

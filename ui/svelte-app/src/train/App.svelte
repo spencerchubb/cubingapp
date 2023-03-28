@@ -1,13 +1,13 @@
 <script lang="ts">
-  import ButtonCreateAccount from "./lib/components/auth/ButtonCreateAccount.svelte";
-  import ButtonSignIn from "./lib/components/auth/ButtonSignIn.svelte";
-  import ButtonGoogleSignIn from "./lib/components/auth/ButtonGoogleSignIn.svelte";
-  import InputEmail from "./lib/components/auth/InputEmail.svelte";
-  import InputPassword from "./lib/components/auth/InputPassword.svelte";
-  import Drawer from "./lib/components/Drawer.svelte";
-  import GLManager from "./lib/components/GLManager.svelte";
-  import Icon from "./lib/components/Icon.svelte";
-  import { initialAuthCheck, signOut } from "./lib/scripts/auth";
+  import ButtonCreateAccount from "../lib/components/auth/ButtonCreateAccount.svelte";
+  import ButtonSignIn from "../lib/components/auth/ButtonSignIn.svelte";
+  import ButtonGoogleSignIn from "../lib/components/auth/ButtonGoogleSignIn.svelte";
+  import InputEmail from "../lib/components/auth/InputEmail.svelte";
+  import InputPassword from "../lib/components/auth/InputPassword.svelte";
+  import Drawer from "../lib/components/Drawer.svelte";
+  import GLManager from "../lib/components/GLManager.svelte";
+  import Icon from "../lib/components/Icon.svelte";
+  import { initialAuthCheck, signOut } from "../lib/scripts/auth";
   import {
     applyAUFs,
     applyAUFsBackwards,
@@ -21,14 +21,14 @@
     orientationOptions,
     setAlgSet,
     setScene,
-  } from "./lib/scripts/train";
+  } from "./app";
   import {
     AlgSetStore,
     getShowScramble,
     setShowScramble,
-  } from "./lib/scripts/store";
-  import SideNav from "./lib/components/SideNav.svelte";
-  import Hoverable from "./lib/components/Hoverable.svelte";
+  } from "../lib/scripts/store";
+  import SideNav from "../lib/components/SideNav.svelte";
+  import Hoverable from "../lib/components/Hoverable.svelte";
 
   let user = initialAuthCheck();
   let email = "";
@@ -114,11 +114,11 @@
     align-items: start;
     width: 100%;
     height: 100%;
-    position: relative;"
+    position: relative;
+    padding: 16px;"
   >
     {#if page === "landing"}
       <div class="col w-full h-full">
-        <div style="height: 8px"></div>
         <h1>Algorithm Trainer</h1>
         <div style="height: 16px"></div>
         <p class="text-gradient" style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));">
@@ -350,7 +350,7 @@
       {/if}
     {/if}
   </div>
-  <SideNav open={sideNavOpen} onClose={() => (sideNavOpen = false)} />
+  <SideNav bind:open={sideNavOpen} />
 </main>
 
 <style>

@@ -94,7 +94,6 @@ export function createBuffers(cube: Cube): BufferObject[] {
  * @param b second operand, 4x1 matrix
  */
 function multiply(arr: number[], offset: number, a: number[], b: number[]) {
-    const out = Array(4);
     let b0 = b[0],
         b1 = b[1],
         b2 = b[2],

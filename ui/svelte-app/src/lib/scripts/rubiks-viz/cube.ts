@@ -1,6 +1,5 @@
 import { BufferObject, createBuffers } from "./buffers";
 import * as colors from "./colors";
-import { stickerToFace } from "./common/util";
 import { scramble3x3 } from "./scramble";
 
 let gl: WebGLRenderingContext;
@@ -82,7 +81,7 @@ export class Cube {
     solve() {
         const arr = Array(stickers(this.layers));
         for (let i = 0; i < stickers(this.layers); i++) {
-            const face = stickerToFace(i, this);
+            const face = this.stickerToFace(i);
             this.stickers[i].face = face;
             arr[i] = colors.faceToColor(face);
         }
@@ -112,7 +111,7 @@ export class Cube {
             let axis = Math.floor(Math.random() * 3);
             let layer = Math.floor(Math.random() * this.layers);
             let clockwise = Math.floor(Math.random() * 1) == 0.0;
-            this._matchTurn(axis, layer, clockwise);
+            this.matchTurn(axis, layer, clockwise);
         }
     }
 
@@ -122,7 +121,7 @@ export class Cube {
         this.stickers = Array(stickers(num));
         this.underStickers = Array(stickers(num));
         for (let i = 0; i < stickers(num); i++) {
-            const face = stickerToFace(i, this);
+            const face = this.stickerToFace(i);
 
             this.stickers[i] = {
                 face: face,
@@ -139,6 +138,7 @@ export class Cube {
         this.affectedStickers = Array(stickers(num)).fill(false);
 
         this.buffers = createBuffers(this);
+        this.solve();
     }
 
     /**
@@ -163,14 +163,14 @@ export class Cube {
         }
     }
 
-    resetAffectedStickers() {
+    private resetAffectedStickers() {
         // If numOfLayers === 1, make all stickers true.
         // Everything should be affected for 1x1.
         const arr = Array(stickers(this.layers));
         this.affectedStickers = arr.fill(this.layers === 1);
     }
 
-    pushAnimation(axis, clockwise, prevStickers) {
+    private pushAnimation(axis, clockwise, prevStickers) {
         let x = clockwise ? -1 : 1;
         let rotationAxis = [0, 0, 0];
         rotationAxis[axis] = x;
@@ -187,28 +187,28 @@ export class Cube {
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        this._matchTurn(axis, layer, clockwise);
+        this.matchTurn(axis, layer, clockwise);
     }
 
-    sliceTurn(axis, clockwise) {
+    private sliceTurn(axis, clockwise) {
         const arr = Array(stickers(this.layers));
         this.affectedStickers = arr.fill(false);
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         for (let i = 1; i < this.layers - 1; i++) {
-            this._matchTurn(axis, i, clockwise);
+            this.matchTurn(axis, i, clockwise);
         }
     }
 
-    wideTurn(axis, layer, clockwise) {
+    private wideTurn(axis, layer, clockwise) {
         this.resetAffectedStickers();
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        this._matchTurn(axis, layer, clockwise);
+        this.matchTurn(axis, layer, clockwise);
         for (let i = 1; i < this.layers - 1; i++) {
-            this._matchTurn(axis, i, clockwise);
+            this.matchTurn(axis, i, clockwise);
         }
     }
 
@@ -218,40 +218,40 @@ export class Cube {
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
         for (let i = 0; i < this.layers; i++) {
-            this._matchTurn(axis, i, clockwise);
+            this.matchTurn(axis, i, clockwise);
         }
     }
 
-    _matchTurn(axis, layer, clockwise) {
+    private matchTurn(axis, layer, clockwise) {
         if (axis == 0) {
-            this._turnXAxis(layer, clockwise);
+            this.turnXAxis(layer, clockwise);
             if (layer == 0) {
-                this._turnOuter(5, clockwise);
+                this.turnOuter(5, clockwise);
             } else if (layer == this.layers - 1) {
-                this._turnOuter(4, !clockwise);
+                this.turnOuter(4, !clockwise);
             }
         } else if (axis == 1) {
-            this._turnYAxis(layer, clockwise);
+            this.turnYAxis(layer, clockwise);
             if (layer == 0) {
-                this._turnOuter(0, clockwise);
+                this.turnOuter(0, clockwise);
             } else if (layer == this.layers - 1) {
-                this._turnOuter(2, !clockwise);
+                this.turnOuter(2, !clockwise);
             }
         } else if (axis == 2) {
-            this._turnZAxis(layer, clockwise);
+            this.turnZAxis(layer, clockwise);
             if (layer == 0) {
-                this._turnOuter(1, clockwise);
+                this.turnOuter(1, clockwise);
             } else if (layer == this.layers - 1) {
-                this._turnOuter(3, !clockwise);
+                this.turnOuter(3, !clockwise);
             }
         } else {
             console.error(`Axis ${axis} not recognized`);
         }
     }
 
-    _turnXAxis(layer, clockwise) {
+    private turnXAxis(layer, clockwise) {
         for (let i = 1; i <= this.layers; i++) {
-            this._cycle(
+            this.cycle(
                 clockwise,
                 0 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
                 3 * sq(this.layers) + sq(this.layers) - i - layer * this.layers,
@@ -261,9 +261,9 @@ export class Cube {
         }
     }
 
-    _turnYAxis(layer, clockwise) {
+    private turnYAxis(layer, clockwise) {
         for (let i = 0; i < this.layers; i++) {
-            this._cycle(
+            this.cycle(
                 clockwise,
                 1 * sq(this.layers) + i * this.layers + layer,
                 4 * sq(this.layers) + i * this.layers + layer,
@@ -273,9 +273,9 @@ export class Cube {
         }
     }
 
-    _turnZAxis(layer, clockwise) {
+    private turnZAxis(layer, clockwise) {
         for (let i = 0; i < this.layers; i++) {
-            this._cycle(
+            this.cycle(
                 clockwise,
                 0 * sq(this.layers) + (i + 1) * this.layers - 1 - layer,
                 5 * sq(this.layers) + i + this.layers * layer,
@@ -285,7 +285,7 @@ export class Cube {
         }
     }
 
-    _turnOuter(face, clockwise) {
+    private turnOuter(face, clockwise) {
         if (this.layers % 2 != 0) {
             let center = this.center(face);
             this.affectedStickers[center] = true;
@@ -294,30 +294,30 @@ export class Cube {
         for (let i = 0; i < Math.floor(this.layers / 2); i++) {
             const { topLeft, topRight, bottomLeft, bottomRight } = this.corners(face, i);
 
-            this._cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
+            this.cycle(clockwise, topLeft, topRight, bottomRight, bottomLeft);
 
             let numEdges = this.layers - 2 * (i + 1);
             for (let j = 0; j < numEdges; j++) {
                 const { top, left, bottom, right } = this.edges(face, i, j);
-                this._cycle(clockwise, top, right, bottom, left);
+                this.cycle(clockwise, top, right, bottom, left);
             }
         }
     }
 
-    _cycle(clockwise, i1, i2, i3, i4) {
+    private cycle(clockwise, i1, i2, i3, i4) {
         this.affectedStickers[i1] = true;
         this.affectedStickers[i2] = true;
         this.affectedStickers[i3] = true;
         this.affectedStickers[i4] = true;
 
         if (clockwise) {
-            this._cycleHelper(i1, i2, i3, i4);
+            this.cycleHelper(i1, i2, i3, i4);
         } else {
-            this._cycleHelper(i4, i3, i2, i1);
+            this.cycleHelper(i4, i3, i2, i1);
         }
     }
 
-    _cycleHelper(i1, i2, i3, i4) {
+    private cycleHelper(i1, i2, i3, i4) {
         let temp = this.stickers[i4];
         this.stickers[i4] = this.stickers[i3];
         this.stickers[i3] = this.stickers[i2];
@@ -326,11 +326,11 @@ export class Cube {
     }
 
     matchKeyToTurn(event: KeyboardEvent) {
-        if (this.disableTurn) return;
+        if (this.disableTurn) return undefined;
 
         // Don't turn if the user is holding down ctrl
         // E.g., the user might be using Ctrl + Shift + R to refresh the page or Ctrl + Shift + I to open the dev tools
-        if (event.ctrlKey) return;
+        if (event.ctrlKey) return undefined;
 
         return this.matchKeyCodeToTurn(event.code);
     }
@@ -431,10 +431,10 @@ export class Cube {
                 return { notation: "l'", turn: true };
         }
 
-        return;
+        return undefined;
     }
 
-    stepAlgorithm(move: string, forward: boolean) {
+    performMove(move: string, forward: boolean) {
         switch (move) {
             case "x":
                 this.cubeRotate(0, forward);
@@ -637,24 +637,24 @@ export class Cube {
         }
     }
 
-    execAlg(alg: string) {
+    performAlg(alg: string) {
         if (!alg) return;
 
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
-            this.stepAlgorithm(moves[i], true);
+            this.performMove(moves[i], true);
         }
 
         // Clear the animation queue so that all the turns don't get animated
         this.animationQueue = [];
     }
 
-    execAlgReverse(alg: string) {
+    performAlgReverse(alg: string) {
         if (!alg) return;
 
         let moves = alg.split(" ");
         for (let i = moves.length - 1; i >= 0; i--) {
-            this.stepAlgorithm(moves[i], false);
+            this.performMove(moves[i], false);
         }
 
         // Clear the animation queue so that all the turns don't get animated
@@ -663,6 +663,10 @@ export class Cube {
 
     stickerIsOnFace(sticker: number, face: number) {
         return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
+    }
+
+    stickerToFace(sticker: number) {
+        return Math.floor(sticker / sq(this.layers));
     }
 
     center(face: number) {

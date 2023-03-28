@@ -160,7 +160,7 @@ export class DragDetector {
         const coordinateIsInSticker = i => {
             if (!buffers[i].cart2d) {
                 console.error("cart2d is undefined");
-                return;
+                return undefined;
             }
             const cart2d = buffers[i].cart2d;
             // Determine if coordinate is in convex quadrilateral

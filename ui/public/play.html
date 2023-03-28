@@ -1,98 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/main.css">
     <title>Cubing | Play</title>
-    <link rel="icon" href="./images/favicon.svg" type="image/x-icon">
-</head>
-
-<body style="display: flex; flex-direction: row;">
-    <div class="col w-full h-full">
-        <nav class="navbar justify-between">
-            <a class="hover:cursor-pointer ml-4 hover:bg-slate-500 rounded-lg">
-                <img id="menu" src="./images/menu.svg" alt="Menu">
-            </a>
-            <div class="row" style="height: 48px; align-items: start;">
-                <div class="col" style="width: 48px;">
-                    <img id="icon0" class="icon" src="./images/profile.svg" alt="Profile">
-                    <div id="label0" class="label">
-                        <p>Profile</p>
-                    </div>
-                </div>
-                <div class="col" style="width: 48px;">
-                    <img id="icon1" class="icon" src="./images/times.svg" alt="Times">
-                    <div id="label1" class="label">
-                        <p>Solves</p>
-                    </div>
-                </div>
-                <div class="col" style="width: 48px;">
-                    <img id="icon2" class="icon" src="./images/settings.svg" alt="Settings">
-                    <div id="label2" class="label">
-                        <p>Settings</p>
-                    </div>
-                </div>
-                <div class="col" style="width: 48px;">
-                    <img id="icon3" class="icon" src="./images/i.svg" alt="Tips">
-                    <div id="label3" class="label">
-                        <p>Tips</p>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <canvas></canvas>
-        
-        <div class="row slideWrapper">
-            <div class="col w-full h-full">
-                <div class="row mt-4">
-                    <!-- Default value is 3 for a 3x3 Rubik's Cube -->
-                    <input id="layerInput" class="w-16 py-0.5 px-1" type="number" value="3" min="1" max="9">
-                    <div style="width: 24px;"></div>
-                    <button id="solve" class="btn-primary">Solve</button>
-                    <div style="width: 24px;"></div>
-                    <button id="scramble" class="btn-primary">Scramble</button>
-                </div>
-                <div id="scene" class="glDiv mt-4"></div>
-                <p id="time" class="text-white text-4xl mt-4">0.00</p>
-                <button id="startStop" class="btn-primary" style="margin-top: 0.5rem;" title="Press enter to start">Start</button>
-            </div>
-            <div id="rightDrawer" class="slideLeft slideLeftClosed col"></div>
-        </div>
-    </div>
-
-    <div class="slideRight">
-        <div class="row" style="justify-content: space-between;">
-            <h5 style="font-size: 1.2rem;">Menu</h5>
-            <button id="closeMenu" class="xButton">
-                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="black">
-                    <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
-                </svg>
-            </button>
-        </div>
-        <div style="display: flex; flex-direction: column;">
-            <div style="height: 16px;"></div>
-            <button id="learnButton" class="btn-primary">
-                Learn
-            </button>
-            <div style="height: 8px;"></div>
-            <button id="playButton" class="btn-primary">
-                Play
-            </button>
-            <div style="height: 8px;"></div>
-            <button id="trainButton" class="btn-primary">
-                Train
-            </button>
-            <div style="height: 8px;"></div>
-            <button id="cubleButton" class="btn-primary">
-                Cuble
-            </button>
-        </div>
-    </div>
-
-    <script src="./scripts/play.js"></script>
-</body>
-
+    <link rel="icon" href="/assets/favicon-1aa53463.svg" type="image/x-icon">
+    <script type="module" crossorigin src="/assets/play-bed39735.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/SideNav-6d2c542d.js">
+    <link rel="stylesheet" href="/assets/SideNav-50daf719.css">
+    <link rel="stylesheet" href="/assets/play-c7458174.css">
+  </head>
+  <body>
+    <div id="app" style="width: 100%; height: 100%;"></div>
+    
+  </body>
 </html>
