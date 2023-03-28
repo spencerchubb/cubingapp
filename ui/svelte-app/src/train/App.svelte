@@ -114,11 +114,13 @@
     align-items: start;
     width: 100%;
     height: 100%;
-    position: relative;
-    padding: 16px;"
+    position: relative;"
   >
     {#if page === "landing"}
-      <div class="col w-full h-full">
+      <div
+        class="col w-full h-full"
+        style="padding: 16px;"
+      >
         <h1>Algorithm Trainer</h1>
         <div style="height: 16px"></div>
         <p class="text-gradient" style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));">
