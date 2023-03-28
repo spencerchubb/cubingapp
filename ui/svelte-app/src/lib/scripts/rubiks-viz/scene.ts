@@ -210,6 +210,10 @@ function newScene(div: HTMLElement, layers: number = 3): Scene {
         addTouchListeners();
     }
 
+    // We do not want the browser to cancel the pointer during pointermove events on the canvas.
+    // See here: https://developer.mozilla.org/en-US/docs/Web/API/Element/pointermove_event 
+    div.style.touchAction = "none";
+
     scenes.push(scene);
     internalScenes.push(internalScene);
     startLoop();
