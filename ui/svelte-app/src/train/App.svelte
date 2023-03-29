@@ -29,6 +29,7 @@
   } from "../lib/scripts/store";
   import SideNav from "../lib/components/SideNav.svelte";
   import Hoverable from "../lib/components/Hoverable.svelte";
+    import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 
   let user = initialAuthCheck();
   let email = "";
@@ -78,29 +79,21 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <Icon
-      class="icon"
-      style="padding: 8px;"
+    <NavBarIcon
       name="menu"
       on:click={() => sideNavOpen = true}
     />
     {#if page === "train"}
       <div id="iconContainer" class="row">
-        <Icon
-          class="icon"
-          style="padding: 8px;"
+        <NavBarIcon
           name="chart"
           on:click={() => toggleDrawer(0)}
         />
-        <Icon
-          class="icon"
-          style="padding: 8px;"
+        <NavBarIcon
           name="profile"
           on:click={() => toggleDrawer(1)}
         />
-        <Icon
-          class="icon"
-          style="padding: 8px;"
+        <NavBarIcon
           name="settings"
           on:click={() => toggleDrawer(2)}
         />
@@ -354,17 +347,3 @@
   </div>
   <SideNav bind:open={sideNavOpen} />
 </main>
-
-<style>
-  :global(.icon) {
-    width: 48px;
-    height: 48px;
-    padding: 8px;
-    touch-action: none;
-  }
-
-  :global(.icon:hover) {
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-  }
-</style>

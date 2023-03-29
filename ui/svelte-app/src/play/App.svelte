@@ -10,6 +10,7 @@
   import SideNav from "../lib/components/SideNav.svelte";
   import type { Scene } from "../lib/scripts/rubiks-viz";
     import { onPressTimerButton, setCallback } from "./app";
+    import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 
   let scene: Scene;
 
@@ -27,9 +28,7 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <Icon
-      class="icon"
-      style="padding: 8px;"
+    <NavBarIcon
       name="menu"
       on:click={() => (sideNavOpen = true)}
     />
