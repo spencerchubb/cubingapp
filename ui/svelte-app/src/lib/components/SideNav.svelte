@@ -1,16 +1,38 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import Hoverable from "./Hoverable.svelte";
     import Icon from "./Icon.svelte";
 
-
     export let open: boolean;
+
+    let timeOpened: number;
+    $: if (open) {
+        timeOpened = Date.now();
+    }
 
     $: style = `position: fixed; top: 0; left: 0; width: 300px; height: 100%; background-color: var(--gray-700); z-index: 10; ${open
         ? "transform: translateX(0); transition: transform 0.3s ease-in-out"
         : "transform: translateX(-100%); transition: transform 0.3s ease-in-out"}`;
+
+    const id = "side-nav";
+
+    onMount(() => {
+        document.addEventListener("click", (event) => {
+            // Prevent the menu from closing if it was just opened
+            let elapsed = Date.now() - timeOpened;
+            if (elapsed < 100) {
+                return;
+            }
+
+            const closest = event.target instanceof HTMLElement && event.target.closest(`#${id}`);
+            if (open && !closest) {
+                open = false;
+            }
+        });
+    })
 </script>
 
-<div {style}>
+<div {id} {style}>
     <div class="row" style="justify-content: space-between; padding: 8px;">
         <h5 style="color: white; font-size: 1.2rem;">Menu</h5>
         <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
