@@ -1,6 +1,12 @@
 export {};
 
 let callback: (state) => void;
+
+export function setCallback(_callback: (state) => void) {
+    callback = _callback;
+    return state;
+}
+
 let state = {
     timerButtonText: "Start",
     timerText: "0.00",
@@ -8,11 +14,6 @@ let state = {
 let running = false;
 let time: number;
 let interval;
-
-export function setCallback(_callback: (state) => void) {
-    callback = _callback;
-    return state;
-}
 
 export function onPressTimerButton() {
     running = !running;

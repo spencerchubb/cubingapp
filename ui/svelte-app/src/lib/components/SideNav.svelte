@@ -24,8 +24,8 @@
                 return;
             }
 
-            const closest = event.target instanceof HTMLElement && event.target.closest(`#${id}`);
-            if (open && !closest) {
+            const insideNav = (event.target as HTMLElement).closest(`#${id}`);
+            if (open && !insideNav) {
                 open = false;
             }
         });
@@ -35,13 +35,12 @@
 <div {id} {style}>
     <div class="row" style="justify-content: space-between; padding: 8px;">
         <h5 style="color: white; font-size: 1.2rem;">Menu</h5>
-        <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
-            <Icon
-                name="x"
-                on:click={() => open = false}
-                style="padding: 4px;"
-            />
-        </Hoverable>
+        <Icon
+            name="x"
+            class="x-icon"
+            on:click={() => open = false}
+            style="padding: 4px;"
+        />
     </div>
     <div style="display: flex; flex-direction: column; padding: 0 8px;">
         <div style="height: 8px;"></div>
@@ -70,3 +69,10 @@
         </a>
     </div>
 </div>
+
+<style>
+    :global(.x-icon) {
+        background: var(--gray-500);
+        border-radius: 4px;
+    }
+</style>

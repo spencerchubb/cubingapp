@@ -65,8 +65,18 @@ type CreateTrainingAlgsResponse struct {
 	Id      int  `json:"id"`
 }
 
+type CreatePrebuiltTrainingAlgsRequest struct {
+	Uid int    `json:"uid"`
+	Set string `json:"set"`
+}
+
+type DeleteTrainingAlgsRequest struct {
+	Id int `json:"id"`
+}
+
 type UpdateTrainingAlgsRequest struct {
 	Id           int                  `json:"id"`
+	Set          string               `json:"set"`
 	TrainingAlgs []server.TrainingAlg `json:"trainingAlgs"`
 }
 

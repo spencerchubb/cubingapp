@@ -1,32 +1,46 @@
 <script>
     export let name;
+    export let fill = "white";
     export let stroke = "white";
     let icons = {
-        chart: `<svg x="0px" y="0px" stroke="white" fill="white" stroke-width="5" viewBox="0 0 100 100" xml:space="preserve">
+        chart: `<svg x="0px" y="0px" stroke="white" fill="white" stroke-width="5" viewBox="0 0 100 100">
             <circle style="fill-opacity: 0; opacity: 1;" cx="50" cy="50" r="48" />
             <path fill="none" stroke="white" stroke-linecap="round" d="M 25, 75 L 42 40 L 58 60 L 75 25 "/>
         </svg>`,
-        happy: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+        edit: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>`,
+        happy: `<svg stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
             <circle cx="25" cy="25" r="22" />
             <circle cx="18" cy="20" r="3" />
             <circle cx="32" cy="20" r="3" />
             <path d="M 15,33 Q 25,40 35,33"/>
         </svg>`,
-        menu: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        menu: `<svg viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
             <line x1="3" y1="4" x2="21" y2="4"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="20" x2="21" y2="20"></line>
+        </svg>`,
+        more: `<svg viewBox="0 0 100 100" fill="${fill}">
+            <circle cx="15" cy="50" r="10" />
+            <circle cx="50" cy="50" r="10" />
+            <circle cx="85" cy="50" r="10" />
+        </svg>`,
+        plus: `<svg stroke="${stroke}" fill="white" x="0" y="0" viewBox="0 0 100 100" stroke-width="10" stroke-linecap="round">
+            <line x1="50" y1="5" x2="50" y2="95" />
+            <line x1="5" y1="50" x2="95" y2="50" />
         </svg>`,
         profile: `<svg x="0px" y="0px" stroke="${stroke}" fill="white" viewBox="0 0 54 54" xml:space="preserve">
             <circle style="stroke-width: 3; fill-opacity: 0; opacity: 1;" cx="26.5" cy="26.5" r="24" />
             <circle style="stroke-width: 3; fill-opacity: 0; opacity: 1;" cx="26.5" cy="20" r="10" />
             <path fill="none" stroke="white" stroke-width="3" d="M 8,42 Q 12,28 20,28 M 45,42 Q 41,28 33,28 "/>
         </svg>`,
-        retry: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50">
+        retry: `<svg stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50">
             <path d="M 42,32 A 20,20,0,1,1,42,18"/>
             <path fill="white" fill-opacity="1" d="M 44,22 L 34,17 L 45,12  Z"/>
         </svg>`,
-        sad: `<svg width="100%" height="100%" stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
+        sad: `<svg stroke="${stroke}" stroke-width="3" fill-opacity="0" viewBox="0 0 50 50" xml:space="preserve">
             <circle cx="25" cy="25" r="22" />
             <circle cx="18" cy="20" r="3" />
             <circle cx="32" cy="20" r="3" />
@@ -58,7 +72,7 @@
             l-3.572,3.571c-1.148,1.148-1.476,2.794-0.854,4.294c0.621,1.5,2.016,2.432,3.64,2.432h5.052C51.65,23,52,23.35,52,23.78V30.22z"/>
             <path d="M27,18c-4.963,0-9,4.037-9,9s4.037,9,9,9s9-4.037,9-9S31.963,18,27,18z M27,34c-3.859,0-7-3.141-7-7s3.141-7,7-7s7,3.141,7,7S30.859,34,27,34z"/>
         </svg>`,
-        x: `<svg width="24" height="24" viewBox="0 0 24 24" stroke="${stroke}">
+        x: `<svg viewBox="0 0 24 24" stroke="${stroke}">
             <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>`,
     };
@@ -67,6 +81,7 @@
 
 <button
     on:click
+    id={$$props.id}
     class={$$props.class}
     style={$$props.style}
 >
@@ -78,9 +93,16 @@
         background: transparent;
         border: none;
         outline: none;
+        padding: 0;
         cursor: pointer;
 
         /* Remove extra space at the bottom of inline elements */
         font-size: 0;
+    }
+
+    :global(svg) {
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 </style>

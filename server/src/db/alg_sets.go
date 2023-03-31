@@ -37,6 +37,15 @@ func (db DB) CreateAlgSet(uid int, set string, trainingAlgs []TrainingAlg, cube 
 	return id, nil
 }
 
+func (db DB) DeleteAlgSet(id int) error {
+	sql := "delete from alg_sets where id = $1;"
+	_, err := db.Conn.Exec(context.Background(), sql, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (db DB) GetAlgSet(uid int, set string) (AlgSetsRow, error) {
 	sql := `select * from alg_sets where uid = $1 and "set" = $2;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid, set)
@@ -48,9 +57,33 @@ func (db DB) GetAlgSet(uid int, set string) (AlgSetsRow, error) {
 	return algSet, nil
 }
 
-func (db DB) UpdateAlgSet(id int, trainingAlgs []TrainingAlg) error {
-	sql := "update alg_sets set training_algs = $2 where id = $1;"
-	_, err := db.Conn.Exec(context.Background(), sql, id, trainingAlgs)
+func (db DB) GetAlgSets(uid int) ([]AlgSetsRow, error) {
+	sql := `select * from alg_sets where uid = $1;`
+	rows, err := db.Conn.Query(context.Background(), sql, uid)
+	if err != nil {
+		return []AlgSetsRow{}, err
+	}
+	defer rows.Close()
+
+	var algSets []AlgSetsRow
+	for rows.Next() {
+		var algSet AlgSetsRow
+		err := rows.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Cube, &algSet.Inactive, &algSet.Moves, &algSet.Disregard, &algSet.OnlyOrientation)
+		if err != nil {
+			return []AlgSetsRow{}, err
+		}
+		algSets = append(algSets, algSet)
+	}
+	return algSets, nil
+}
+
+func (db DB) UpdateAlgSet(id int, set string, trainingAlgs []TrainingAlg) error {
+	sql := `
+	update alg_sets
+	set "set" = $2, training_algs = $3
+	where id = $1;
+	`
+	_, err := db.Conn.Exec(context.Background(), sql, id, set, trainingAlgs)
 	if err != nil {
 		return err
 	}

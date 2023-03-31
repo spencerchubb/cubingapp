@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Hoverable from "./Hoverable.svelte";
     import Icon from "./Icon.svelte";
 
     export let title: string;
@@ -9,15 +8,20 @@
 <div class="drawer">
     <div class="drawer-header">
         <p>{title}</p>
-        <Hoverable hovBackground="var(--gray-500)" borderRadius="4px">
-            <Icon
-                name="x"
-                style="padding: 4px;"
-                on:click={() => close()}
-            />
-        </Hoverable>
+        <Icon
+            name="x"
+            class="x-icon"
+            style="padding: 4px;"
+            on:click={() => close()}
+        />
     </div>
-    <slot />
+    <div
+        style="
+        overflow-y: auto;
+        height: calc(100vh - 96px);"
+    >
+        <slot />
+    </div>
 </div>
 
 <style>
@@ -28,7 +32,6 @@
         background-color: var(--gray-700);
         color: white;
         box-shadow: 0 0 10px 0 var(--slate-500);
-        overflow-y: auto;
     }
 
     @media (max-width: 768px) {
@@ -48,5 +51,15 @@
         border-bottom: 1px solid var(--gray-600);
         height: 48px;
         padding: 0 12px;
+    }
+
+    :global(.x-icon) {
+        width: 32px;
+        height: 32px;
+    }
+    
+    :global(.x-icon):hover {
+        background-color: var(--gray-500);
+        border-radius: 4px;
     }
 </style>

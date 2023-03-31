@@ -93,6 +93,46 @@ func initZeroScores(algs []string) []server.TrainingAlg {
 	return out
 }
 
+func createPrebuiltAlgSet(w http.ResponseWriter, r *http.Request) {
+	var req CreatePrebuiltTrainingAlgsRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	algs := readAlgsFromJson("../algs/algs.json")
+	algSet := findAlgSet(algs, req.Set)
+	trainingAlgs := initZeroScores(algSet.Algs)
+
+	id, err := db.CreateAlgSet(req.Uid, req.Set, trainingAlgs, algSet.Cube, algSet.Inactive, algSet.Moves, algSet.Disregard, algSet.OnlyOrientation)
+	if err != nil {
+		writeJson(w, nil)
+		return
+	}
+
+	algSet.TrainingAlgs = trainingAlgs
+	algSet.Id = id
+	writeJson(w, algSet)
+}
+
+func deleteAlgSet(w http.ResponseWriter, r *http.Request) {
+	var req DeleteTrainingAlgsRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	err = db.DeleteAlgSet(req.Id)
+	if err != nil {
+		writeJson(w, GenericResponse{false})
+		return
+	}
+
+	writeJson(w, GenericResponse{true})
+}
+
 func getAlgSet(w http.ResponseWriter, r *http.Request) {
 	var req GetTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
@@ -119,6 +159,23 @@ func getAlgSet(w http.ResponseWriter, r *http.Request) {
 	writeJson(w, row)
 }
 
+func getAlgSets(w http.ResponseWriter, r *http.Request) {
+	var req GetTrainingAlgsRequest
+	err := unmarshal(r.Body, &req)
+	if err != nil {
+		writeJson(w, nil)
+		return
+	}
+
+	rows, err := db.GetAlgSets(req.Uid)
+	if err != nil {
+		writeJson(w, nil)
+		return
+	}
+
+	writeJson(w, rows)
+}
+
 func updateAlgSet(w http.ResponseWriter, r *http.Request) {
 	var req UpdateTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
@@ -127,7 +184,7 @@ func updateAlgSet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.UpdateAlgSet(req.Id, req.TrainingAlgs)
+	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
 	if err != nil {
 		writeJson(w, nil)
 		return
@@ -247,7 +304,10 @@ func main() {
 	handleFunc("/", root)
 	handleFunc("/hello", hello)
 	handleFunc("/createAlgSet", createAlgSet)
+	handleFunc("/createPrebuiltAlgSet", createPrebuiltAlgSet)
+	handleFunc("/deleteAlgSet", deleteAlgSet)
 	handleFunc("/getAlgSet", getAlgSet)
+	handleFunc("/getAlgSets", getAlgSets)
 	handleFunc("/updateAlgSet", updateAlgSet)
 	handleFunc("/addSolve", addSolve)
 	handleFunc("/getSolve", getSolve)

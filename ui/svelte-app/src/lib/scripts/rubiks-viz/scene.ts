@@ -32,7 +32,7 @@ function initCanvas() {
     // Add key listener inside this if statement so that it is only added once.
     document.addEventListener("keydown", (e) => {
         scenes.forEach(scene => {
-            if (!scene.keysEnabled) return;
+            if (!scene.enableKey(e)) return;
 
             scene.cube.matchKeyToTurn(e);
         });
@@ -120,7 +120,7 @@ function initProgramInfo(gl: WebGLRenderingContext): ProgramInfo {
 type Scene = {
     cube: Cube,
     dragEnabled: boolean,
-    keysEnabled: boolean,
+    enableKey: (event: KeyboardEvent) => boolean,
 };
 
 type InternalScene = {
@@ -153,7 +153,7 @@ function newScene(div: HTMLElement, layers: number = 3): Scene {
     let scene: Scene = {
         cube,
         dragEnabled: true,
-        keysEnabled: true,
+        enableKey: (_) => true,
     };
 
     let internalScene: InternalScene = {

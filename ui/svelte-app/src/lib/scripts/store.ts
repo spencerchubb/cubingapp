@@ -13,8 +13,8 @@ const showScramble = "showScramble";
 const user = "user";
 
 export const AlgSetStore = {
-    get: (): string => localStorage.getItem(algSet) ?? "",
-    set: (value: string) => localStorage.setItem(algSet, value),
+    get: (): number => getInt(algSet) ?? -1,
+    set: (value: number) => setInt(algSet, value),
 }
 
 export function getAnimateTurns() {
@@ -80,12 +80,9 @@ export function setShowBody(value) {
     setBool(showBody, value);
 }
 
-export function getShowScramble() {
-    return getBool(showScramble) ?? false;
-}
-
-export function setShowScramble(value) {
-    setBool(showScramble, value);
+export const ShowScrambleStore = {
+    get: (): boolean => getBool(showScramble) ?? false,
+    set: (value: boolean) => setBool(showScramble, value),
 }
 
 export function getUser() {
@@ -120,6 +117,10 @@ function getInt(key: string) {
     const value = localStorage.getItem(key);
     if (value === null) return null;
     return parseInt(value);
+}
+
+function setInt(key: string, value: number) {
+    localStorage.setItem(key, value.toString());
 }
 
 /**

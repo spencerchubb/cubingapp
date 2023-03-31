@@ -33,10 +33,22 @@ export async function create(
     return post("/createAlgSet", { uid, set, trainingAlgs, cube, inactiveStickers, moves, disregard, onlyOrientation });
 }
 
+export async function createPrebuilt(uid: number, set: string): Promise<AlgSet> {
+    return post("/createPrebuiltAlgSet", { uid, set });
+}
+
+export async function deleteSet(id: number): Promise<void> {
+    return post("/deleteAlgSet", { id });
+}
+
 export async function get(uid: number, set: string): Promise<AlgSet> {
     return post("/getAlgSet", { uid, set });
 }
 
-export async function update(id: number, trainingAlgs: TrainingAlg[]): Promise<void> {
-    return post("/updateAlgSet", { id, trainingAlgs });
+export async function getAll(uid: number): Promise<AlgSet[]> {
+    return post("/getAlgSets", { uid });
+}
+
+export async function update(id: number, set: string, trainingAlgs: TrainingAlg[]): Promise<void> {
+    return post("/updateAlgSet", { id, set, trainingAlgs });
 }

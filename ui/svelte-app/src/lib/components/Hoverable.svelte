@@ -1,20 +1,22 @@
 <script lang="ts">
     export let background = "transparent";
     export let borderRadius = "inherit";
+    export let cursor = "inherit";
     export let hovBackground = "transparent";
 
     let vars = `
     --background: ${background};
     --border-radius: ${borderRadius};
+    --cursor: ${cursor};
     --hov-background: ${hovBackground};
     `;
 </script>
 
 <div
-    class={"hoverable " + $$props.class}
-    style={vars + $$props.style}
+    class={"hoverable " + ($$props.class || "")}
+    style={vars + ($$props.style || "")}
 >
-    <slot/>
+    <slot />
 </div>
 
 <style>
@@ -27,5 +29,6 @@
 
     .hoverable:hover {
         background: var(--hov-background);
+        cursor: var(--cursor);
     }
 </style>

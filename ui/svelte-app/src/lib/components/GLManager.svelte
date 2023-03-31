@@ -9,6 +9,12 @@
 
     onMount(() => {
         scene = newScene(div);
+        scene.enableKey = (event: KeyboardEvent) => {
+            const target = event.target as HTMLElement;
+            return target.tagName !== "INPUT" 
+                && target.tagName !== "TEXTAREA" 
+                && target.tagName !== "SELECT";
+        }
 
         onSceneInitialized(scene);
     });

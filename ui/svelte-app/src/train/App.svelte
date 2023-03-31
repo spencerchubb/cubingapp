@@ -7,31 +7,36 @@
   import Drawer from "../lib/components/Drawer.svelte";
   import GLManager from "../lib/components/GLManager.svelte";
   import Icon from "../lib/components/Icon.svelte";
-  import { initialAuthCheck, signOut } from "../lib/scripts/auth";
   import {
-    applyAUFs,
-    applyAUFsBackwards,
     computeStats,
     getAlgSetNames,
     getCasesToday,
     getScramble,
+    initApp,
     loadCurrAlg,
     nextAlg,
+    onAddAlgorithm,
+    onChangeAlgorithm,
+    onClickAlgorithm,
+    onClickSolutionButton,
+    onDeleteAlgorithm,
+    onSaveAlgorithm,
+    onSignIn,
+    onSignOut,
     Orientation,
     orientationOptions,
     setAlgSet,
+    setCallback,
     setScene,
-  } from "./app";
-  import {
-    AlgSetStore,
-    getShowScramble,
     setShowScramble,
-  } from "../lib/scripts/store";
+    setUIState,
+  } from "./app";
   import SideNav from "../lib/components/SideNav.svelte";
-  import Hoverable from "../lib/components/Hoverable.svelte";
-    import NavBarIcon from "../lib/components/NavBarIcon.svelte";
+  import NavBarIcon from "../lib/components/NavBarIcon.svelte";
+  import Modal from "../lib/components/Modal.svelte";
+  import { onMount } from "svelte";
+  import { AlgSetLogic, preBuiltSets } from "./algSet";
 
-  let user = initialAuthCheck();
   let email = "";
   let password = "";
 
@@ -60,21 +65,21 @@
     Orientation.set(value);
   }
 
-  let showScramble = getShowScramble();
-  let scramble: string = "loading...";
-
-  function maybeLoadScramble() {
-    if (!showScramble) return;
-
-    scramble = "loading...";
-    getScramble().then(rawScramble => {
-      scramble = applyAUFsBackwards(rawScramble);
-    });
-  }
-
   let casesToday: number = getCasesToday();
 
   let sideNavOpen = false;
+
+  let state = setCallback(newState => {
+    state = newState;
+  });
+  const algSetLogic = new AlgSetLogic(newState => {
+    state = Object.assign(state, newState);
+    setUIState(state);
+  });
+
+  onMount(() => {
+    initApp();
+  });
 </script>
 
 <main class="col" style="width: 100%; height: 100%;">
@@ -144,7 +149,7 @@
           </ul>
         </div>
         <div style="height: 24px;"></div>
-        {#if user}
+        {#if state.user}
           <button
             on:click={() => (page = "train")}
           >
@@ -155,7 +160,7 @@
             class="col"
             style="border-radius: 16px; padding: 16px; box-shadow: 0 0 4px lightgray;"
           >
-            <ButtonGoogleSignIn callback={(newUser) => (user = newUser)} />
+            <ButtonGoogleSignIn callback={user => onSignIn(user)} />
             <div style="height: 16px;"></div>
             <div style="width: 100%; height: 2px; background-color: var(--gray-600);" />
             <div style="height: 16px;"></div>
@@ -169,13 +174,13 @@
               <ButtonCreateAccount
                 {email}
                 {password}
-                callback={(newUser) => (user = newUser)}
+                callback={user => onSignIn(user)}
               />
               <div style="width: 16px;" />
               <ButtonSignIn
                 {email}
                 {password}
-                callback={(newUser) => (user = newUser)}
+                callback={user => onSignIn(user)}
               />
             </div>
           </div>
@@ -188,78 +193,71 @@
           onSceneInitialized={(scene) => {
             setScene(scene);
 
-            currAlgSet = AlgSetStore.get();
-            if (!currAlgSet) currAlgSet = algSetNames[0];
-            setAlgSet(user.uid, currAlgSet).then(() => {
-              currAlg = loadCurrAlg();
-              maybeLoadScramble();
-            });
+            console.log(state.algSet);
+            if (state.algSet) {
+              loadCurrAlg();
+            } else {
+              algSetLogic.displayChooseAlgSet();
+            }
           }}
         />
         <div style="height: 16px"></div>
         <div class="row" style="gap: 16px;">
-          <Hoverable background="var(--gray-500)" hovBackground="var(--gray-700)" borderRadius="8px">
-            <Icon
-              name="retry"
-              style="
-              max-width: 48px;
-              max-height: 48px;
-              padding: 2px;
-              box-shadow: 0 0 4px var(--gray-400);"
-              on:click={() => {
-                currAlg = loadCurrAlg();
+          <Icon
+            name="retry"
+            id="retry-icon"
+            style="
+            width: 48px;
+            height: 48px;
+            padding: 2px;
+            box-shadow: 0 0 4px var(--gray-400);"
+            on:click={() => {
+              currAlg = loadCurrAlg();
+              showSolution = false;
+            }}
+          />
+          <Icon
+            name="sad"
+            id="sad-icon"
+            style="
+            width: 48px;
+            height: 48px;
+            padding: 2px;
+            box-shadow: 0 0 4px var(--gray-400);"
+            on:click={() => {
+              nextAlg(false, currAlgSet).then((res) => {
+                currAlg = res;
                 showSolution = false;
-              }}
-            />
-          </Hoverable>
-          <Hoverable background="var(--red-500)" hovBackground="var(--red-700)" borderRadius="8px">
-            <Icon
-              name="sad"
-              style="
-              max-width: 48px;
-              max-height: 48px;
-              padding: 2px;
-              box-shadow: 0 0 4px var(--gray-400);"
-              on:click={() => {
-                nextAlg(false, user.uid, currAlgSet).then((res) => {
-                  currAlg = res;
-                  showSolution = false;
-                  casesToday = getCasesToday();
-                  maybeLoadScramble();
-                });
-              }}
-            />
-          </Hoverable>
-          <Hoverable background="var(--green-500)" hovBackground="var(--green-700)" borderRadius="8px">
-            <Icon
-              name="happy"
-              style="
-              max-width: 48px;
-              max-height: 48px;
-              padding: 2px;
-              box-shadow: 0 0 4px var(--gray-400);"
-              on:click={() => {
-                nextAlg(true, user.uid, currAlgSet).then((res) => {
-                  currAlg = res;
-                  showSolution = false;
-                  casesToday = getCasesToday();
-                  maybeLoadScramble();
-                });
-              }}
-            />
-          </Hoverable>
+                casesToday = getCasesToday();
+                getScramble();
+              });
+            }}
+          />
+          <Icon
+            name="happy"
+            id="happy-icon"
+            style="
+            width: 48px;
+            height: 48px;
+            padding: 2px;
+            box-shadow: 0 0 4px var(--gray-400);"
+            on:click={() => {
+              nextAlg(true, currAlgSet).then((res) => {
+                currAlg = res;
+                showSolution = false;
+                casesToday = getCasesToday();
+                getScramble();
+              });
+            }}
+          />
         </div>
         <div style="height: 16px;"></div>
-        <button class="btn-primary" on:click={() => (showSolution = !showSolution)}>
-          {#if showSolution}
-            solution: {applyAUFs(currAlg)}
-          {:else}
-            show solution
-          {/if}
+        <button class="btn-primary" on:click={() => onClickSolutionButton()}>
+          {state.solutionButtonText}
         </button>
-        {#if showScramble}
+        {#if state.showScramble}
           <div style="height: 16px;"></div>
-          <p>scramble: {scramble}</p>
+          <p>scramble: {state.scramble || "loading..."}</p>
         {/if}
         <div style="flex-grow: 1;"></div>
         <p>cases today: {casesToday}</p>
@@ -289,13 +287,12 @@
       {:else if drawerIndex === 1}
         <Drawer title="Profile" close={() => toggleDrawer(-1)}>
           <div style="padding: 12px;">
-            <p>signed in as {user.email}</p>
+            <p>signed in as {state.user.email}</p>
             <button
               class="btn-primary"
               on:click={() => {
-                signOut();
                 page = "landing";
-                user = null;
+                onSignOut();
               }}
             >
               Sign Out
@@ -305,21 +302,12 @@
       {:else if drawerIndex === 2}
         <Drawer title="Settings" close={() => toggleDrawer(-1)}>
           <div style="padding: 16px;">
-            <p>algorithm set</p>
-            <select
-              bind:value={currAlgSet}
-              on:change={() => {
-                setAlgSet(user.uid, currAlgSet).then(() => {
-                  currAlg = loadCurrAlg();
-                  maybeLoadScramble();
-                })
-                AlgSetStore.set(currAlgSet);
-              }}
+            <p>algorithm set: {state.algSet?.name ?? "none"}</p>
+            <button
+              on:click={() => algSetLogic.displayChooseAlgSet()}
             >
-              {#each algSetNames as algSetName}
-                <option>{algSetName}</option>
-              {/each}
-            </select>
+              choose alg set
+            </button>
             <div style="height: 16px;" />
             <p>orientation</p>
             <select
@@ -334,16 +322,192 @@
             <p>show scramble</p>
             <input
               type="checkbox"
-              bind:checked={showScramble}
+              bind:checked={state.showScramble}
               on:change={() => {
-                maybeLoadScramble();
-                setShowScramble(showScramble);
+                setShowScramble(state.showScramble);
+                getScramble();
               }}
             />
+            <div style="height: 16px;" />
+            <div class="row">
+              <p>algorithms</p>
+              <Icon
+                name="plus"
+                id="plus-icon"
+                style="
+                width: 24px; 
+                height: 24px; 
+                padding: 4px; 
+                margin-left: 4px;"
+                on:click={() => onAddAlgorithm()}
+              />
+            </div>
+            {#each (state.algSet?.trainingAlgs ?? []) as alg, i}
+              <button
+                class="alg-list-item"
+                style="
+                border-top: solid 1px var(--gray-500); 
+                border-radius: 0;
+                width: 100%;
+                padding: 4px;
+                text-align: left;"
+                on:click={() => onClickAlgorithm(i)}
+              >
+                <p>{alg.Alg}</p>
+              </button>
+            {/each}
           </div>
         </Drawer>
       {/if}
     {/if}
   </div>
   <SideNav bind:open={sideNavOpen} />
+  <Modal
+    title={state.modalType}
+    bind:open={state.modalOpen}
+  >
+    {#if state.modalType === "choose alg set"}
+      <div
+        class="col"
+        style="padding: 16px; gap: 16px;"
+      >
+        <p style="font-weight: bold;">pre-built sets</p>
+        <div 
+          style="
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;"
+        >
+          {#each preBuiltSets as set}
+            <button
+              on:click={() => {
+                algSetLogic.createPrebuiltAlgSet(state.user.uid, set, state.algSets).then(() => {
+                  setAlgSet();
+                  loadCurrAlg();
+                });
+              }}
+            >
+              {set}
+            </button>
+          {/each}
+        </div>
+        <p style="font-weight: bold;">your sets</p>
+        {#if !state.algSets || state.algSets.length === 0}
+          <p style="font-style: italic;">you don't have any sets yet</p>
+        {:else}
+          <div style="width: 100%; max-width: 300px;">
+            {#each state.algSets as algSet}
+              <button
+                class="row alg-list-item"
+                style="
+                width: 100%;
+                border-top: solid 1px var(--gray-500);
+                padding: 4px;"
+                on:click={() => {
+                  algSetLogic.chooseAlgSet(algSet.id, state.algSets);
+                  setAlgSet();
+                  loadCurrAlg();
+                }}
+              >
+                <p style="font-size: 1.2rem;">{algSet.name}</p>
+                <div style="flex-grow: 1;"></div>
+                <Icon
+                  name="edit"
+                  style="width: 30px; height: 30px; padding: 4px;"
+                  on:click={() => algSetLogic.editAlgSet(algSet.id, state.algSets)}
+                />
+                <div style="width: 16px;"></div>
+                <Icon
+                  name="x"
+                  style="width: 30px; height: 30px; padding: 4px;"
+                  on:click={() => algSetLogic.deleteAlgSet(algSet.id, state.algSets, state.algSet)}
+                />
+              </button>
+            {/each}
+          </div>
+        {/if}
+        <button
+          on:click={() => algSetLogic.createCustomSet()}
+        >new custom set</button>
+      </div>
+    {:else if state.modalType === "edit alg set"}
+      <div
+        class="col"
+        style="padding: 16px; gap: 16px;"
+      >
+        <input type="text" bind:value={state.algSetEditing.name} />
+
+        <button
+          on:click={() => algSetLogic.saveAlgSet(state.algSetEditing.id, state.algSetEditing.name, state.algSetEditing.trainingAlgs, state.algSets)}
+        >save</button>
+      </div>
+    {:else if state.modalType === "edit alg"}
+      <div
+        class="col"
+        style="padding: 16px; gap: 16px;"
+      >
+        <input
+          type="text"
+          style="width: 300px"
+          bind:value={state.selectedAlg.Alg}
+          on:change={onChangeAlgorithm}
+        />
+        <div class="row" style="gap: 16px;">
+          <button
+            class="btn-gray"
+            on:click={() => onDeleteAlgorithm()}
+          >Delete</button>
+          <button
+            on:click={() => onSaveAlgorithm()}
+          >Save</button>
+        </div>
+      </div>
+    {/if}
+  </Modal>
 </main>
+
+<style>
+  :global(#retry-icon) {
+    background: var(--gray-500);
+  }
+
+  :global(#retry-icon:hover) {
+    background: var(--gray-700);
+  }
+
+  :global(#sad-icon) {
+    background: var(--red-500);
+  }
+
+  :global(#sad-icon:hover) {
+    background: var(--red-700);
+  }
+
+  :global(#happy-icon) {
+    background: var(--green-500);
+  }
+
+  :global(#happy-icon:hover) {
+    background: var(--green-700);
+  }
+
+  :global(#plus-icon:hover) {
+    background: inherit;
+  }
+
+  :global(#plus-icon:hover) {
+    background: var(--gray-500);
+    border-radius: 50%;
+  }
+
+  .alg-list-item {
+    background-color: inherit;
+  }
+  
+  .alg-list-item:hover {
+    background-color: var(--gray-800);
+    box-shadow: inset 0 0 4px var(--gray-400);
+    cursor: pointer;
+  }
+</style>
