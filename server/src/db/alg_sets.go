@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 type TrainingAlg struct {
@@ -26,7 +27,10 @@ type AlgSetsRow struct {
 }
 
 func (db DB) CreateAlgSet(uid int, set string, trainingAlgs []TrainingAlg, cube string, inactive []int, moves string, disregard []int, onlyOrientation []int) (int, error) {
-	sql := "insert into alg_sets (uid, set, training_algs, cube, inactive_stickers, moves, disregard, only_orientation) values ($1, $2, $3, $4, $5, $6, $7, $8) returning id;"
+	sql := `
+	insert into alg_sets (uid, set, training_algs, cube, inactive_stickers, moves, disregard, only_orientation) 
+	values ($1, $2, $3, $4, $5, $6, $7, $8) 
+	returning id;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid, set, trainingAlgs, cube, inactive, moves, disregard, onlyOrientation)
 	var id int
 	err := row.Scan(&id)
@@ -38,38 +42,50 @@ func (db DB) CreateAlgSet(uid int, set string, trainingAlgs []TrainingAlg, cube 
 }
 
 func (db DB) DeleteAlgSet(id int) error {
-	sql := "delete from alg_sets where id = $1;"
-	_, err := db.Conn.Exec(context.Background(), sql, id)
+	sql := `
+	update alg_sets
+	set "deleted" = $2
+	where id = $1;
+	`
+	_, err := db.Conn.Exec(context.Background(), sql, id, time.Now())
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	return nil
 }
 
 func (db DB) GetAlgSet(uid int, set string) (AlgSetsRow, error) {
-	sql := `select * from alg_sets where uid = $1 and "set" = $2;`
+	sql := `
+	select * from alg_sets 
+	where uid = $1 and "set" = $2;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid, set)
 	var algSet AlgSetsRow
 	err := row.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Cube, &algSet.Inactive, &algSet.Moves, &algSet.Disregard, &algSet.OnlyOrientation)
 	if err != nil {
+		fmt.Println(err)
 		return AlgSetsRow{}, err
 	}
 	return algSet, nil
 }
 
 func (db DB) GetAlgSets(uid int) ([]AlgSetsRow, error) {
-	sql := `select * from alg_sets where uid = $1;`
+	sql := `
+	select id, uid, "set", training_algs, cube, inactive_stickers, moves, disregard, only_orientation from alg_sets
+	where uid = $1 and deleted is null;`
 	rows, err := db.Conn.Query(context.Background(), sql, uid)
+	defer rows.Close()
 	if err != nil {
+		fmt.Println(err)
 		return []AlgSetsRow{}, err
 	}
-	defer rows.Close()
 
 	var algSets []AlgSetsRow
 	for rows.Next() {
 		var algSet AlgSetsRow
 		err := rows.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Cube, &algSet.Inactive, &algSet.Moves, &algSet.Disregard, &algSet.OnlyOrientation)
 		if err != nil {
+			fmt.Println(err)
 			return []AlgSetsRow{}, err
 		}
 		algSets = append(algSets, algSet)
@@ -85,6 +101,7 @@ func (db DB) UpdateAlgSet(id int, set string, trainingAlgs []TrainingAlg) error 
 	`
 	_, err := db.Conn.Exec(context.Background(), sql, id, set, trainingAlgs)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	return nil

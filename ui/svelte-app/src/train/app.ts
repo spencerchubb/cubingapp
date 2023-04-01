@@ -68,12 +68,11 @@ let uiState: UIState = {
 
 export async function initApp() {
     uiState.user = initialAuthCheck();
-    if (!uiState.user) return;
+    if (!uiState.user) {};
 
     uiState.algSets = await AlgSetAPI.getAll(uiState.user.uid);
     if (!uiState.algSets) {
-        // setModal("choose alg set");
-        // callback(uiState);
+        callback(uiState);
         return;
     }
     const algSetId = AlgSetStore.get();

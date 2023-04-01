@@ -277,7 +277,9 @@ func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)
 }
 
 func listenAndServe() error {
-	addr := fmt.Sprintf(":%s", serverPort)
+	killPort(serverPort)
+
+	addr := fmt.Sprintf("127.0.0.1:%s", serverPort)
 	fmt.Println("Listening on", addr)
 
 	if mode == "dev" {

@@ -17,7 +17,7 @@ CREATE TABLE "alg_sets" (
   "moves" varchar(255),
   "disregard" integer[],
   "only_orientation" integer[],
-  unique ("uid", "set")
+  "deleted" timestamp
 );
 
 CREATE TABLE "users" (

@@ -14,8 +14,6 @@ else
     exit 1
 fi
 
-./kill_port.sh $SERVER_PORT
-
 export PATH=$PATH:/usr/local/go/bin
 
 echo $LOG_FILE
