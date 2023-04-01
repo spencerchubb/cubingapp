@@ -282,13 +282,15 @@ func listenAndServe() error {
 	var addr string
 	if mode == "dev" {
 		addr = fmt.Sprintf("127.0.0.1:%s", serverPort)
+		fmt.Printf("Server started on port %s\n", serverPort)
 		return http.ListenAndServe(addr, nil)
 	}
 
 	addr = fmt.Sprintf(":%s", serverPort)
 	fullchain := "/etc/letsencrypt/live/cubingapp.com/fullchain.pem"
 	privkey := "/etc/letsencrypt/live/cubingapp.com/privkey.pem"
-	return http.ListenAndServeTLS(":3000", fullchain, privkey, nil)
+	fmt.Printf("Server started on port %s\n", serverPort)
+	return http.ListenAndServeTLS(addr, fullchain, privkey, nil)
 }
 
 func main() {
@@ -324,5 +326,4 @@ func main() {
 		fmt.Printf("Error starting server: %s\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Server started on port %s\n", serverPort)
 }
