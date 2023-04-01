@@ -279,16 +279,16 @@ func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)
 func listenAndServe() error {
 	killPort(serverPort)
 
-	addr := fmt.Sprintf("127.0.0.1:%s", serverPort)
-	fmt.Println("Listening on", addr)
-
+	var addr string
 	if mode == "dev" {
+		addr = fmt.Sprintf("127.0.0.1:%s", serverPort)
 		return http.ListenAndServe(addr, nil)
 	}
 
+	addr = fmt.Sprintf(":%s", serverPort)
 	fullchain := "/etc/letsencrypt/live/cubingapp.com/fullchain.pem"
 	privkey := "/etc/letsencrypt/live/cubingapp.com/privkey.pem"
-	return http.ListenAndServeTLS(addr, fullchain, privkey, nil)
+	return http.ListenAndServeTLS(":3000", fullchain, privkey, nil)
 }
 
 func main() {
@@ -319,8 +319,10 @@ func main() {
 	err = listenAndServe()
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("Server closed\n")
+		os.Exit(1)
 	} else if err != nil {
 		fmt.Printf("Error starting server: %s\n", err)
 		os.Exit(1)
 	}
+	fmt.Printf("Server started on port %s\n", serverPort)
 }
