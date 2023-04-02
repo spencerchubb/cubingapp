@@ -193,7 +193,6 @@
           onSceneInitialized={(scene) => {
             setScene(scene);
 
-            console.log(state.algSet);
             if (state.algSet) {
               loadCurrAlg();
             } else {
