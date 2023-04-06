@@ -1,12 +1,5 @@
 <script lang="ts">
-  import Drawer from "../lib/components/Drawer.svelte";
   import GLManager from "../lib/components/GLManager.svelte";
-  import Icon from "../lib/components/Icon.svelte";
-  import {
-    AlgSetStore,
-    getShowScramble,
-    setShowScramble,
-  } from "../lib/scripts/store";
   import SideNav from "../lib/components/SideNav.svelte";
   import type { Scene } from "../lib/scripts/rubiks-viz";
     import { onPressTimerButton, setCallback } from "./app";

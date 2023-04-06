@@ -36,13 +36,12 @@
   import Modal from "../lib/components/Modal.svelte";
   import { onMount } from "svelte";
   import { AlgSetLogic, preBuiltSets } from "./algSet";
+    import Faq from "./Faq.svelte";
 
   let email = "";
   let password = "";
 
   let page: "landing" | "train" = "landing";
-
-  let showSolution = false;
 
   let drawerIndex = -1;
 
@@ -112,43 +111,20 @@
     align-items: start;
     width: 100%;
     height: 100%;
-    position: relative;"
+    position: relative;
+    overflow-y: auto;"
   >
     {#if page === "landing"}
       <div
         class="col w-full h-full"
         style="padding: 16px;"
       >
-        <h1>Algorithm Trainer</h1>
+        <h1>Learn OLL, PLL, CLL and more</h1>
         <div style="height: 16px"></div>
         <p class="text-gradient" style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));">
-          Learn algorithms at lightning speed
+          Memorize algs in half the time
         </p>
         <div style="height: 16px"></div>
-        <div>
-          <h2>1. Memorize faster</h2>
-          <div style="height: 8px"></div>
-          <ul>
-            <li>
-              Get an algorithm right, and you'll see it less often.
-            </li>
-            <div style="height: 8px"></div>
-            <li>
-              Get an algorithm wrong, and you'll see it more often.
-            </li>
-          </ul>
-          <div style="height: 16px"></div>
-          <h2>2. Virtual Cube</h2>
-          <div style="height: 8px"></div>
-          <ul>
-            <li>
-              Never scramble a cube again
-            </li>
-            <div style="height: 8px"></div>
-            <li>Practice anywhere, anytime</li>
-          </ul>
-        </div>
-        <div style="height: 24px;"></div>
         {#if state.user}
           <button
             on:click={() => (page = "train")}
@@ -185,6 +161,10 @@
             </div>
           </div>
         {/if}
+        <div style="height: 16px;"></div>
+        <div style="width: 100%; height: 1px; background-color: var(--gray-600);" />
+        <div style="height: 16px;"></div>
+        <Faq />
       </div>
     {:else if page === "train"}
       <div class="col" style="width: 100%; height: 100%;">
@@ -212,7 +192,6 @@
             box-shadow: 0 0 4px var(--gray-400);"
             on:click={() => {
               currAlg = loadCurrAlg();
-              showSolution = false;
             }}
           />
           <Icon
@@ -226,7 +205,6 @@
             on:click={() => {
               nextAlg(false, currAlgSet).then((res) => {
                 currAlg = res;
-                showSolution = false;
                 casesToday = getCasesToday();
                 getScramble();
               });
@@ -243,7 +221,6 @@
             on:click={() => {
               nextAlg(true, currAlgSet).then((res) => {
                 currAlg = res;
-                showSolution = false;
                 casesToday = getCasesToday();
                 getScramble();
               });
@@ -502,6 +479,7 @@
 
   .alg-list-item {
     background-color: inherit;
+    border-radius: 0;
   }
   
   .alg-list-item:hover {

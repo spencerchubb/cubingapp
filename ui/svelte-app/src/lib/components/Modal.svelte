@@ -42,7 +42,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: var(--gray-700);
-        box-shadow: 0 0 32px 16px var(--gray-900);
+        box-shadow: 0 0 8px 4px var(--gray-600);
         border-radius: 16px;
         display: flex;
         flex-direction: column;

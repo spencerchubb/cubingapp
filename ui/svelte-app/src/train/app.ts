@@ -304,7 +304,8 @@ export function loadCurrAlg(): string {
     let alg = getFirstAlg();
     if (!alg) return;
 
-    uiState.scramble = "";
+    state.showSolution = false;
+    uiState.solutionButtonText = "show solution";
     callback(uiState);
     getScramble();
 
@@ -353,11 +354,14 @@ export function getAlgSetNames(): string[] {
 
 export async function getScramble(): Promise<void> {
     if (!uiState.showScramble) return;
+
+    uiState.scramble = "loading...";
+    callback(uiState);
     
     let alg = getFirstAlg();
     const scrambles = await scramble({
         alg,
-        moves: "U U' F F' R R'",
+        moves: uiState.algSet.moves,
         disregard: uiState.algSet.disregard,
         onlyOrientation: uiState.algSet.onlyOrientation,
     });
