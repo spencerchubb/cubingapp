@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Hoverable from "./Hoverable.svelte";
     import Icon from "./Icon.svelte";
 
     export let open: boolean;
@@ -72,7 +71,13 @@
 
 <style>
     :global(.x-icon) {
-        background: var(--gray-500);
+        background: inherit;
         border-radius: 4px;
+        width: 32px;
+        height: 32px;
+    }
+
+    :global(.x-icon:hover) {
+        background: var(--gray-500);
     }
 </style>

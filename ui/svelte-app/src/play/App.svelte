@@ -84,6 +84,7 @@
 </main>
 
 <style>
+  /* TODO see if I can remove these */
   :global(.icon) {
     width: 48px;
     height: 48px;
