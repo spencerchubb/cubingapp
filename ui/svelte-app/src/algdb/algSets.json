@@ -1,0 +1,42 @@
+[
+    {
+        "name": "2x2 CLL",
+        "numAlgs": 42,
+        "puzzle": "2x2"
+    },
+    {
+        "name": "2x2 EG1",
+        "numAlgs": 42,
+        "puzzle": "2x2"
+    },
+    {
+        "name": "2x2 EG2",
+        "numAlgs": 42,
+        "puzzle": "2x2"
+    },
+    {
+        "name": "CMLL",
+        "numAlgs": 42,
+        "puzzle": "3x3"
+    },
+    {
+        "name": "F2L",
+        "numAlgs": 69,
+        "puzzle": "3x3"
+    },
+    {
+        "name": "OLL",
+        "numAlgs": 57,
+        "puzzle": "3x3"
+    },
+    {
+        "name": "PLL",
+        "numAlgs": 21,
+        "puzzle": "3x3"
+    },
+    {
+        "name": "ZBLL",
+        "numAlgs": 472,
+        "puzzle": "3x3"
+    }
+]

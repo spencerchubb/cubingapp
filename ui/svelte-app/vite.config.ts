@@ -11,10 +11,10 @@ export default defineConfig({
     topLevelAwait(),
     wasm(),
   ],
-  // specify train.html as the entry point
   build: {
     rollupOptions: {
       input: {
+        algdb: resolve(__dirname, 'algdb.html'),
         play: resolve(__dirname, 'play.html'),
         recon: resolve(__dirname, 'recon.html'),
         train: resolve(__dirname, 'train.html'),

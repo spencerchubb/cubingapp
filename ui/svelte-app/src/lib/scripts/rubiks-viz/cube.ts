@@ -435,6 +435,11 @@ export class Cube {
     }
 
     performMove(move: string, forward: boolean) {
+        if (!move) {
+            console.log("Empty move. Skipping.");
+            return;
+        }
+
         switch (move) {
             case "x":
                 this.cubeRotate(0, forward);
@@ -638,7 +643,10 @@ export class Cube {
     }
 
     performAlg(alg: string) {
-        if (!alg) return;
+        if (!alg) {
+            console.log("Empty alg. Skipping.");
+            return;
+        }
 
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
@@ -650,7 +658,10 @@ export class Cube {
     }
 
     performAlgReverse(alg: string) {
-        if (!alg) return;
+        if (!alg) {
+            console.log("Empty alg. Skipping.");
+            return;
+        }
 
         let moves = alg.split(" ");
         for (let i = moves.length - 1; i >= 0; i--) {
