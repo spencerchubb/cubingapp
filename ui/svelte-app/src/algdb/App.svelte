@@ -72,7 +72,7 @@
                 {alg.name}
               </p>
               {#each alg.algs as alg1}
-                <p>{alg1}</p>
+                <p class="alg-list-item">{alg1}</p>
               {/each}
             </div>
           </div>
@@ -119,5 +119,14 @@
 
   .card:hover {
     background: var(--gray-600);
+  }
+
+  .alg-list-item {
+    padding: 4px 0;
+    width: 100%;
+  }
+
+  .alg-list-item:not(:last-child) {
+    border-bottom: solid 1px var(--gray-500);
   }
 </style>

@@ -63,45 +63,38 @@ export function renderCubes() {
     if (!shouldRenderCubes || !state.algs || state.algs.length === 0) return;
     shouldRenderCubes = false;
 
-    // Wrap in setTimeout so the code doesn't block the UI
-    // setTimeout(() => {
-        const algSet = algSets.find(algSet => algSet.name === state.algSetName);
-        const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
+    const algSet = algSets.find(algSet => algSet.name === state.algSetName);
+    const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
 
-        for (let i = 0; i < state.algs.length; i++) {
-            if (renderedCubes[i]) continue;
-            
-            let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
-            if (!inViewport(sceneDiv)) {
-                // console.log(`Skipping scene${i} because it's not in viewport`);
-                continue;
-            }
-
-            renderedCubes[i] = true;
-
-            const alg = state.algs[i];
-            if (!sceneDiv) {
-                console.error(`Could not find scene${i}`);
-                continue;
-            }
-            const scene = newScene(sceneDiv, numLayers);
-            scene.enableKey = () => false;
-            scene.dragEnabled = false;
-
-            const firstAlg = alg.algs[0];
-            scene.cube.performAlgReverse(firstAlg);
+    for (let i = 0; i < state.algs.length; i++) {
+        if (renderedCubes[i]) continue;
+        
+        let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
+        if (!inViewport(sceneDiv)) {
+            // console.log(`Skipping scene${i} because it's not in viewport`);
+            continue;
         }
-    // }, 0);
+
+        renderedCubes[i] = true;
+
+        const alg = state.algs[i];
+        if (!sceneDiv) {
+            console.error(`Could not find scene${i}`);
+            continue;
+        }
+        const scene = newScene(sceneDiv, numLayers);
+        scene.enableKey = () => false;
+        scene.dragEnabled = false;
+
+        const firstAlg = alg.algs[0];
+        scene.cube.performAlgReverse(firstAlg);
+    }
 }
 
 export function onScroll() {
-    console.log("scrolled");
     shouldRenderCubes = true;
     renderCubes();
 }
-
-// document.addEventListener("scroll", onScroll, { passive: true });
-// document.addEventListener("wheel", onScroll, { passive: true });
 
 /**
  * Returns true if any part of `ele` is in the viewport.
