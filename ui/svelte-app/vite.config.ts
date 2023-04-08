@@ -15,6 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         algdb: resolve(__dirname, 'algdb.html'),
+        index: resolve(__dirname, 'index.html'),
         play: resolve(__dirname, 'play.html'),
         recon: resolve(__dirname, 'recon.html'),
         train: resolve(__dirname, 'train.html'),

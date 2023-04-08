@@ -100,7 +100,7 @@
             style="
             font-size: 1.5rem;"
           >
-            {algSet.numAlgs} algs
+            {algSet.cases} cases
           </p>
         </a>
       {/each}

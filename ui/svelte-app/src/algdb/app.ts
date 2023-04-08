@@ -17,7 +17,7 @@ type Alg = {
 
 type AlgSet = {
     name: string,
-    numAlgs: number,
+    cases: number,
     puzzle: string,
 }
 
