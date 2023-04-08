@@ -1,7 +1,7 @@
 import { newScene } from '../lib/scripts/rubiks-viz';
 import algSets from './algSets.json';
 
-export {};
+export { };
 
 let callback: (state) => void;
 
@@ -35,6 +35,9 @@ let state: State = {
 
 let shouldRenderCubes = false;
 
+// A dictionary of booleans.
+let renderedCubes = {};
+
 export function getAlgSetUrl(algSet: string): string {
     const url = new URL(document.URL);
     url.searchParams.set("set", algSet);
@@ -59,15 +62,24 @@ export async function selectAlgSet() {
 export function renderCubes() {
     if (!shouldRenderCubes || !state.algs || state.algs.length === 0) return;
     shouldRenderCubes = false;
-    
+
     // Wrap in setTimeout so the code doesn't block the UI
-    setTimeout(() => {
+    // setTimeout(() => {
         const algSet = algSets.find(algSet => algSet.name === state.algSetName);
         const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
 
         for (let i = 0; i < state.algs.length; i++) {
-            const alg = state.algs[i];
+            if (renderedCubes[i]) continue;
+            
             let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
+            if (!inViewport(sceneDiv)) {
+                // console.log(`Skipping scene${i} because it's not in viewport`);
+                continue;
+            }
+
+            renderedCubes[i] = true;
+
+            const alg = state.algs[i];
             if (!sceneDiv) {
                 console.error(`Could not find scene${i}`);
                 continue;
@@ -75,9 +87,26 @@ export function renderCubes() {
             const scene = newScene(sceneDiv, numLayers);
             scene.enableKey = () => false;
             scene.dragEnabled = false;
-            
+
             const firstAlg = alg.algs[0];
             scene.cube.performAlgReverse(firstAlg);
         }
-    }, 0);
+    // }, 0);
+}
+
+export function onScroll() {
+    console.log("scrolled");
+    shouldRenderCubes = true;
+    renderCubes();
+}
+
+// document.addEventListener("scroll", onScroll, { passive: true });
+// document.addEventListener("wheel", onScroll, { passive: true });
+
+/**
+ * Returns true if any part of `ele` is in the viewport.
+ */
+function inViewport(ele: HTMLElement): boolean {
+    const rect = ele.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom >= 0;
 }

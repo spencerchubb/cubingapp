@@ -1,6 +1,6 @@
 <script lang="ts">
   import SideNav from "../lib/components/SideNav.svelte";
-  import { getAlgSetUrl, renderCubes, selectAlgSet, setCallback } from "./app";
+  import { getAlgSetUrl, onScroll, renderCubes, selectAlgSet, setCallback } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
   import { afterUpdate, onMount } from "svelte";
   import Spinner from "../lib/components/Spinner.svelte";
@@ -36,6 +36,9 @@
     gap: 16px;
     padding: 16px;
     overflow-y: auto;"
+    on:scroll={() => {
+      onScroll();
+    }}
   >
     {#if state.algSetName}
       <h1>{state.algSetName}</h1>
@@ -54,13 +57,14 @@
           >
             <div 
               id="scene{i}"
-              style="width: 150px; height: 150px;"
+              style="width: 150px; height: 150px; min-width: 150px; min-height: 150px;"
             ></div>
             <div
               class="col"
               style="
               padding: 16px;
-              align-items: start;"
+              align-items: start;
+              flex-shrink: 1;"
             >
               <p
                 style="font-weight: bold;"

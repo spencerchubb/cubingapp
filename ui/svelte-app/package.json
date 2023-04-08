@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cp ../varsProd.ts src/lib/scripts/common/vars.ts && vite build",
     "buildDev": "cp ../varsDev.ts src/lib/scripts/common/vars.ts && vite build --mode development --watch",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
