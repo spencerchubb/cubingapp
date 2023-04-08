@@ -2,8 +2,8 @@
   import GLManager from "../lib/components/GLManager.svelte";
   import SideNav from "../lib/components/SideNav.svelte";
   import type { Scene } from "../lib/scripts/rubiks-viz";
-    import { onPressTimerButton, setCallback } from "./app";
-    import NavBarIcon from "../lib/components/NavBarIcon.svelte";
+  import { onPressTimerButton, setCallback } from "./app";
+  import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 
   let scene: Scene;
 

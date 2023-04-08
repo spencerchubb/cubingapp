@@ -79,7 +79,8 @@
         {/each}
       {/if}
     {:else}
-      <h1>Cubing Algorithm Database</h1>
+      <h1>Alg Database</h1>
+      <p style="font-style: italic;">Open source database with 800+ vetted algorithms</p>
       {#each state.algSets as algSet}
         <a
           style="
