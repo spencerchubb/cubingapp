@@ -20,10 +20,10 @@
             <circle cx="32" cy="20" r="3" />
             <path d="M 15,33 Q 25,40 35,33"/>
         </svg>`,
-        menu: `<svg viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-            <line x1="3" y1="4" x2="21" y2="4"></line>
+        menu: `<svg viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+            <line x1="3" y1="5" x2="21" y2="5"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="20" x2="21" y2="20"></line>
+            <line x1="3" y1="19" x2="21" y2="19"></line>
         </svg>`,
         more: `<svg viewBox="0 0 100 100" fill="${fill}">
             <circle cx="15" cy="50" r="10" />
