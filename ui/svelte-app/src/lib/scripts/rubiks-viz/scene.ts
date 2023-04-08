@@ -162,6 +162,42 @@ function newScene(div: HTMLElement, layers: number = 3): Scene {
         spring,
     }
 
+    addDragListeners(div, dragDetector, scene);
+
+    scenes.push(scene);
+    internalScenes.push(internalScene);
+    startLoop();
+    return scene;
+}
+
+function initPerspective(element: HTMLElement) {
+    let perspectiveMatrix = glMat.create();
+
+    glMat.perspective(perspectiveMatrix,
+        50 * Math.PI / 180, // field of view
+        element.clientWidth / element.clientHeight, // aspect
+        0.1, // z near
+        100.0); // z far
+
+    glMat.translate(perspectiveMatrix,
+        [0.0, 0.0, -5.0]);
+
+    glMat.rotate(perspectiveMatrix,
+        perspectiveMatrix,
+        45 * Math.PI / 180,
+        [1, 0, 0],
+    );
+
+    glMat.rotate(perspectiveMatrix,
+        perspectiveMatrix,
+        0,
+        [0, -1, 0],
+    );
+
+    return perspectiveMatrix;
+}
+
+function addDragListeners(div: HTMLElement, dragDetector: DragDetector, scene: Scene) {
     const pointerdown = (offsetX, offsetY) => {
         if (!scene.dragEnabled) return;
         dragDetector.onPointerDown(offsetX, offsetY, div, scene.cube);
@@ -213,38 +249,6 @@ function newScene(div: HTMLElement, layers: number = 3): Scene {
     // We do not want the browser to cancel the pointer during pointermove events on the canvas.
     // See here: https://developer.mozilla.org/en-US/docs/Web/API/Element/pointermove_event 
     div.style.touchAction = "none";
-
-    scenes.push(scene);
-    internalScenes.push(internalScene);
-    startLoop();
-    return scene;
-}
-
-function initPerspective(element: HTMLElement) {
-    let perspectiveMatrix = glMat.create();
-
-    glMat.perspective(perspectiveMatrix,
-        50 * Math.PI / 180, // field of view
-        element.clientWidth / element.clientHeight, // aspect
-        0.1, // z near
-        100.0); // z far
-
-    glMat.translate(perspectiveMatrix,
-        [0.0, 0.0, -5.0]);
-
-    glMat.rotate(perspectiveMatrix,
-        perspectiveMatrix,
-        45 * Math.PI / 180,
-        [1, 0, 0],
-    );
-
-    glMat.rotate(perspectiveMatrix,
-        perspectiveMatrix,
-        0,
-        [0, -1, 0],
-    );
-
-    return perspectiveMatrix;
 }
 
 function bindPosition(positionBuffer: WebGLBuffer, programInfo: ProgramInfo, gl: WebGLRenderingContext) {

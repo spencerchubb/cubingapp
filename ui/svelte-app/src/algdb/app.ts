@@ -18,7 +18,6 @@ type Alg = {
 type AlgSet = {
     name: string,
     numAlgs: number,
-    // TOOD: make this "2x2" | "3x3"
     puzzle: string,
 }
 
@@ -33,6 +32,8 @@ let state: State = {
     algSets: algSets,
     algSetName: new URL(document.URL).searchParams.get("set"),
 };
+
+let shouldRenderCubes = false;
 
 export function getAlgSetUrl(algSet: string): string {
     const url = new URL(document.URL);
@@ -50,29 +51,33 @@ export async function selectAlgSet() {
 
     state.algs = json;
     state.algSetName = algSet;
+    shouldRenderCubes = true;
     callback(state);
 }
 
+// Do this lazily because it's slow af on mobile
 export function renderCubes() {
-    if (!state.algs) return;
+    if (!shouldRenderCubes || !state.algs || state.algs.length === 0) return;
+    shouldRenderCubes = false;
+    
+    // Wrap in setTimeout so the code doesn't block the UI
+    setTimeout(() => {
+        const algSet = algSets.find(algSet => algSet.name === state.algSetName);
+        const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
 
-    const algSet = algSets.find(algSet => algSet.name === state.algSetName);
-    const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
-
-    for (let i = 0; i < state.algs.length; i++) {
-        const alg = state.algs[i];
-        let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
-        if (!sceneDiv) {
-            console.error(`Could not find scene${i}`);
-            continue;
+        for (let i = 0; i < state.algs.length; i++) {
+            const alg = state.algs[i];
+            let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
+            if (!sceneDiv) {
+                console.error(`Could not find scene${i}`);
+                continue;
+            }
+            const scene = newScene(sceneDiv, numLayers);
+            scene.enableKey = () => false;
+            scene.dragEnabled = false;
+            
+            const firstAlg = alg.algs[0];
+            scene.cube.performAlgReverse(firstAlg);
         }
-        const scene = newScene(sceneDiv);
-        scene.enableKey = () => false;
-        scene.dragEnabled = false;
-        scene.cube.setNumOfLayers(numLayers);
-        scene.cube.solve();
-        
-        const firstAlg = alg.algs[0];
-        scene.cube.performAlgReverse(firstAlg);
-    }
+    }, 0);
 }

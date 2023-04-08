@@ -13,10 +13,15 @@ export type BufferObject = {
 
 type Axis = 0 | 1 | 2;
 
+const cache = {};
+
 export function createBuffers(cube: Cube): BufferObject[] {
     const layers = cube.layers;
     const gl = cube.gl;
     const perspectiveMatrix = cube.perspectiveMatrix;
+
+    const cacheKey = `${layers}-${perspectiveMatrix}`;
+    if (cache[cacheKey]) return cache[cacheKey];
 
     // Vertex positions with gap between stickers
     let allPositions = makePositions(layers, 1.01, 0.02)
@@ -82,6 +87,7 @@ export function createBuffers(cube: Cube): BufferObject[] {
         objects[i] = object;
     }
 
+    cache[cacheKey] = objects;
     return objects;
 }
 
