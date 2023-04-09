@@ -1,3 +1,5 @@
+import type { Scene } from "../lib/scripts/rubiks-viz";
+
 export {};
 
 let callback: (state) => void;
@@ -10,6 +12,7 @@ export function setCallback(_callback: (state) => void) {
 let state = {
     timerButtonText: "Start",
     timerText: "0.00",
+    algToPerform: "",
 };
 let running = false;
 let time: number;
@@ -34,4 +37,8 @@ export function onPressTimerButton() {
 
 export function getTimeText(): string {
     return time.toFixed(2);
+}
+
+export function performAlg(scene: Scene) {
+    scene.cube.performAlg(state.algToPerform);
 }

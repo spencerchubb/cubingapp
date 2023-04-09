@@ -57,18 +57,6 @@
 </main>
 
 <style>
-  :global(.icon) {
-    width: 48px;
-    height: 48px;
-    padding: 8px;
-    touch-action: none;
-  }
-
-  :global(.icon:hover) {
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-  }
-
   .scramble-and-moves-input {
     width: 300px;
     height: 200px;

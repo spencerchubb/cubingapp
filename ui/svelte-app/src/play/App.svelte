@@ -2,7 +2,7 @@
   import GLManager from "../lib/components/GLManager.svelte";
   import SideNav from "../lib/components/SideNav.svelte";
   import type { Scene } from "../lib/scripts/rubiks-viz";
-  import { onPressTimerButton, setCallback } from "./app";
+  import { onPressTimerButton, performAlg, setCallback } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 
   let scene: Scene;
@@ -78,22 +78,25 @@
       >
         {state.timerButtonText}
       </button>
+      <div class="row">
+        <input
+          type="text"
+          placeholder="Type an algorithm"
+          bind:value={state.algToPerform}
+          on:keypress={(event) => {
+            if (event.key === "Enter") {
+              performAlg(scene);
+            }
+          }}
+        />
+        <div style="width: 16px;"></div>
+        <button
+          on:click={() => performAlg(scene)}
+        >
+          go
+        </button>
+      </div>
     </div>
   </div>
   <SideNav bind:open={sideNavOpen} />
 </main>
-
-<style>
-  /* TODO see if I can remove these */
-  :global(.icon) {
-    width: 48px;
-    height: 48px;
-    padding: 8px;
-    touch-action: none;
-  }
-
-  :global(.icon:hover) {
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-  }
-</style>

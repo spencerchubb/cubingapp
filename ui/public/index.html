@@ -4,57 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./">
+    
+    
     <title>Cubing | Home</title>
-    <link rel="icon" href="./src/assets/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon-1aa53463.svg" type="image/x-icon">
+  <script type="module" crossorigin src="/assets/analytics-4cf7e1f4.js"></script>
+  <link rel="stylesheet" href="/assets/analytics-81710aee.css">
 </head>
 
-<body class="col">
-    <h1 class="text-white mt-4">Cubing App</h1>
+<style>
+    a {
+        width: 100%;
+    }
 
-    <div class="grid grid-cols-2 gap-6 p-6 max-w-5xl">
-        <a href="./learn.html">
-            <div class="w-full h-full rounded-xl shadow-lg shadow-slate-400 hover:cursor-pointer transition hover:scale-110 bg-gradient-to-br blue-to-purple">
-                <div class="w-full h-full rounded-xl p-2 pb-8 hover:bg-white hover:bg-opacity-10">
-                    <h2 class="text-white">Learn</h2>
-                    <p class="mt-2 text-gray-300 font-bold">For beginners</p>
-                    <p class="mt-2 text-white">Anyone can learn to solve the Rubik's Cube</p>
+    .card {
+        width: 100%;
+        border-radius: 16px;
+        padding: 16px;
+    }
+
+    .card:hover {
+        box-shadow: inset 0 0 16px -4px var(--gray-300);
+    }
+</style>
+
+<body>
+    <div style="width: 100%; height: 100%; overflow-y: auto;">
+        <div class="col" style="max-width: 500px; margin: auto; padding: 16px; gap: 16px;">
+            <h1>Cubing App</h1>
+            <a href="./algdb.html">
+                <div class="blue-to-purple card">
+                    <h2>Algorithm Database</h2>
+                    <p>Open source algorithm database with 800+ algorithms and growing</p>
                 </div>
-            </div>
-        </a>
-
-        <a href="./play.html">
-            <div class="w-full h-full rounded-xl shadow-lg shadow-slate-400 hover:cursor-pointer transition hover:scale-110 bg-gradient-to-br red-to-orange">
-                <div class="w-full h-full rounded-xl p-2 pb-8 hover:bg-white hover:bg-opacity-10">
-                    <h2 class="text-white">Play</h2>
-                    <p class="mt-2 text-gray-300 font-bold">For fun</p>
-                    <p class="mt-2 text-white">Play with the cube and time your solves</p>
+            </a>
+            <a href="./recon.html">
+                <div class="red-to-orange card">
+                    <h2>Reconstruction Tool</h2>
+                    <p>Enter a scramble and a solution, then share the link with your friends</p>
                 </div>
-            </div>
-        </a>
-
-        <a href="./train.html">
-            <div class="w-full h-full rounded-xl shadow-lg shadow-slate-400 hover:cursor-pointer transition hover:scale-110 bg-gradient-to-br red-to-orange">
-                <div class="w-full h-full rounded-xl p-2 pb-8 hover:bg-white hover:bg-opacity-10">
-                    <h2 class="text-white">Train</h2>
-                    <p class="mt-2 text-gray-300 font-bold">For the pros</p>
-                    <p class="mt-2 text-white">
+            </a>
+            <a href="./learn.html">
+                <div class="blue-to-purple card">
+                    <h2>Learn</h2>
+                    <p>Anyone can learn to solve the Rubik's Cube</p>
+                </div>
+            </a>
+            <a href="./play.html">
+                <div class="red-to-orange card">
+                    <h2>Play</h2>
+                    <p>Play with cubes of various sizes. 1x1, 2x2, 3x3, 4x4, 5x5 etc</p>
+                </div>
+            </a>
+            <a href="./train.html">
+                <div class="blue-to-purple card">
+                    <h2>Train</h2>
+                    <p>
                         Memorize hundreds of algorithms easily. Memorize all of OLL, PLL, CLL, and more
                     </p>
                 </div>
-            </div>
-        </a>
-
-        <a href="./cuble.html">
-            <div class="w-full h-full rounded-xl shadow-lg shadow-slate-400 hover:cursor-pointer transition hover:scale-110 bg-gradient-to-br blue-to-purple">
-                <div class="w-full h-full rounded-xl p-2 pb-8 hover:bg-white hover:bg-opacity-10">
-                    <h2 class="text-white">Cuble</h2>
-                    <p class="mt-2 text-gray-300 font-bold">For fun</p>
-                    <p class="mt-2 text-white">A fun puzzle, with an added twist inspired by Wordle</p>
+            </a>
+            <a href="./cuble.html">
+                <div class="red-to-orange card">
+                    <h2>Cuble</h2>
+                    <p>A fun puzzle, with an added twist inspired by Wordle</p>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
+    
 </body>
 
 </html>
