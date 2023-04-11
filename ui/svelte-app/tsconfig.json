@@ -13,9 +13,9 @@
      */
     "allowJs": true,
     "checkJs": true,
-    "isolatedModules": true,
     "preserveValueImports": false,
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.json", "src/**/*.svelte"],
+  "include": ["*.d.ts", "*.ts", "*.js", "*.json", "*.svelte"],
+  "exclude": ["svelte.config.js", "node_modules/*", "dist/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

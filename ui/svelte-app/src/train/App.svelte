@@ -36,7 +36,7 @@
   import Modal from "../lib/components/Modal.svelte";
   import { onMount } from "svelte";
   import { AlgSetLogic, preBuiltSets } from "./algSet";
-    import Faq from "./Faq.svelte";
+  import Faq from "./Faq.svelte";
 
   let email = "";
   let password = "";

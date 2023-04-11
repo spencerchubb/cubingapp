@@ -15,6 +15,14 @@ export default defineConfig({
     rollupOptions: {
       input: {
         algdb: resolve(__dirname, 'algdb.html'),
+        'algdb/2x2-CLL': resolve(__dirname, 'algdb', '2x2-CLL.html'),
+        'algdb/2x2-EG1': resolve(__dirname, 'algdb', '2x2-EG1.html'),
+        'algdb/2x2-EG2': resolve(__dirname, 'algdb', '2x2-EG2.html'),
+        'algdb/CMLL': resolve(__dirname, 'algdb', 'CMLL.html'),
+        'algdb/F2L': resolve(__dirname, 'algdb', 'F2L.html'),
+        'algdb/OLL': resolve(__dirname, 'algdb', 'OLL.html'),
+        'algdb/PLL': resolve(__dirname, 'algdb', 'PLL.html'),
+        'algdb/ZBLL': resolve(__dirname, 'algdb', 'ZBLL.html'),
         index: resolve(__dirname, 'index.html'),
         play: resolve(__dirname, 'play.html'),
         recon: resolve(__dirname, 'recon.html'),

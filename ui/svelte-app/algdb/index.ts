@@ -1,9 +1,9 @@
-import '../style/app.css'
-import '../style/colors.css'
+import '../src/style/app.css'
+import '../src/style/colors.css'
 import App from './App.svelte'
 
-// @ts-ignore
 const app = new App({
+  // @ts-ignore
   target: document.getElementById('app'),
 })
 

@@ -1,7 +1,3 @@
-# Admin data
-admin/raw.json
-
-target/
 ui/public/
 
 # Logs

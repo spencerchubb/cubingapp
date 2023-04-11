@@ -1,5 +1,5 @@
-import { newScene } from '../lib/scripts/rubiks-viz';
-import algSets from './algSets.json';
+import { newScene } from '../../src/lib/scripts/rubiks-viz';
+import { algSets } from './../algSets';
 
 export { };
 
@@ -15,22 +15,14 @@ type Alg = {
     algs: string[],
 }
 
-type AlgSet = {
-    name: string,
-    cases: number,
-    puzzle: string,
-}
-
 type State = {
-    algs: Alg[]
+    algs: Alg[],
     algSetName: string,
-    algSets: AlgSet[],
 }
 
 let state: State = {
     algs: [],
-    algSets: algSets,
-    algSetName: new URL(document.URL).searchParams.get("set"),
+    algSetName: "",
 };
 
 let shouldRenderCubes = false;
@@ -38,22 +30,14 @@ let shouldRenderCubes = false;
 // A dictionary of booleans.
 let renderedCubes = {};
 
-export function getAlgSetUrl(algSet: string): string {
-    const url = new URL(document.URL);
-    url.searchParams.set("set", algSet);
-    return url.toString();
-}
-
-export async function selectAlgSet() {
-    const algSet = state.algSetName;
-    if (!algSet) return;
-
+export async function fetchAlgs(algSetName: string) {
+    state.algSetName = algSetName;
+    
     const url = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
-    const res = await fetch(`${url}/${algSet}.json`);
+    const res = await fetch(`${url}/${algSetName}.json`);
     const json = await res.json();
 
     state.algs = json;
-    state.algSetName = algSet;
     shouldRenderCubes = true;
     callback(state);
 }
@@ -64,7 +48,7 @@ export function renderCubes() {
     shouldRenderCubes = false;
 
     const algSet = algSets.find(algSet => algSet.name === state.algSetName);
-    const numLayers = algSet.puzzle === "2x2" ? 2 : 3;
+    const numLayers = algSet?.puzzle === "2x2" ? 2 : 3;
 
     for (let i = 0; i < state.algs.length; i++) {
         if (renderedCubes[i]) continue;
