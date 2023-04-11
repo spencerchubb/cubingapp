@@ -125,12 +125,12 @@ export class Cube {
 
             this.stickers[i] = {
                 face: face,
-                buffer: gl.createBuffer(),
+                buffer: gl.createBuffer() as WebGLBuffer,
             };
 
             this.underStickers[i] = {
                 face: face,
-                buffer: gl.createBuffer(),
+                buffer: gl.createBuffer() as WebGLBuffer,
             };
             setColor(this.underStickers[i], colors.BLACK);
         }
@@ -486,15 +486,24 @@ export class Cube {
                 this.turn(1, 0, forward);
                 break;
             case "u":
-                this.wideTurn(1, 0, forward);
+            case "Uw":
+                this.turn(1, 0, forward);
+                this.turn(1, 1, forward);
                 break;
             case "u'":
-                this.wideTurn(1, 0, !forward);
+            case "Uw'":
+                this.turn(1, 0, !forward);
+                this.turn(1, 1, !forward);
                 break;
             case "u2":
             case "u2'":
-                this.wideTurn(1, 0, forward);
-                this.wideTurn(1, 0, forward);
+            case "Uw2":
+            case "Uw2'":
+                this.turn(1, 0, forward);
+                this.turn(1, 1, forward);
+
+                this.turn(1, 0, forward);
+                this.turn(1, 1, forward);
                 break;
             case "D":
                 this.turn(1, this.layers - 1, !forward);
@@ -508,15 +517,20 @@ export class Cube {
                 this.turn(1, this.layers - 1, forward);
                 break;
             case "d":
-                this.wideTurn(1, this.layers - 1, !forward);
+                this.turn(1, this.layers - 1, !forward);
+                this.turn(1, this.layers - 2, !forward);
                 break;
             case "d'":
-                this.wideTurn(1, this.layers - 1, forward);
+                this.turn(1, this.layers - 1, forward);
+                this.turn(1, this.layers - 2, forward);
                 break;
             case "d2":
             case "d2'":
-                this.wideTurn(1, this.layers - 1, forward);
-                this.wideTurn(1, this.layers - 1, forward);
+                this.turn(1, this.layers - 1, !forward);
+                this.turn(1, this.layers - 2, !forward);
+
+                this.turn(1, this.layers - 1, !forward);
+                this.turn(1, this.layers - 2, !forward);
                 break;
             case "F":
                 this.turn(2, 0, forward);
@@ -530,15 +544,20 @@ export class Cube {
                 this.turn(2, 0, forward);
                 break;
             case "f":
-                this.wideTurn(2, 0, forward);
+                this.turn(2, 0, forward);
+                this.turn(2, 1, forward);
                 break;
             case "f'":
-                this.wideTurn(2, 0, !forward);
+                this.turn(2, 0, !forward);
+                this.turn(2, 1, !forward);
                 break;
             case "f2":
             case "f2'":
-                this.wideTurn(2, 0, forward);
-                this.wideTurn(2, 0, forward);
+                this.turn(2, 0, forward);
+                this.turn(2, 1, forward);
+
+                this.turn(2, 0, forward);
+                this.turn(2, 1, forward);
                 break;
             case "B":
                 this.turn(2, this.layers - 1, !forward);
@@ -552,15 +571,17 @@ export class Cube {
                 this.turn(2, this.layers - 1, forward);
                 break
             case "b":
-                this.wideTurn(2, this.layers - 1, !forward);
+                this.turn(2, this.layers - 1, !forward);
+                this.turn(2, this.layers - 2, !forward);
                 break;
             case "b'":
-                this.wideTurn(2, this.layers - 1, forward);
+                this.turn(2, this.layers - 1, forward);
+                this.turn(2, this.layers - 2, forward);
                 break;
             case "b2":
             case "b2'":
-                this.wideTurn(2, this.layers - 1, forward);
-                this.wideTurn(2, this.layers - 1, forward);
+                this.turn(2, this.layers - 1, !forward);
+                this.turn(2, this.layers - 2, !forward);
                 break;
             case "L":
                 this.turn(0, this.layers - 1, !forward);
@@ -574,15 +595,22 @@ export class Cube {
                 this.turn(0, this.layers - 1, forward);
                 break;
             case "l":
-                this.wideTurn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
                 break;
             case "l'":
-                this.wideTurn(0, this.layers - 1, forward);
+                this.turn(0, this.layers - 1, forward);
+                this.turn(0, this.layers - 2, forward);
                 break;
             case "l2":
             case "l2'":
-                this.wideTurn(0, this.layers - 1, forward);
-                this.wideTurn(0, this.layers - 1, forward);
+            case "Lw2":
+            case "Lw2'":
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
+
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
                 break;
             case "R":
                 this.turn(0, 0, forward);
@@ -596,21 +624,30 @@ export class Cube {
                 this.turn(0, 0, forward);
                 break;
             case "r":
-                this.wideTurn(0, 0, forward);
+            case "Rw":
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
                 break;
             case "r'":
-                this.wideTurn(0, 0, !forward);
+            case "Rw'":
+                this.turn(0, 0, !forward);
+                this.turn(0, 1, !forward);
                 break;
             case "r2":
             case "r2'":
-                this.wideTurn(0, 0, forward);
-                this.wideTurn(0, 0, forward);
+            case "Rw2":
+            case "Rw2'":
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
+
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
                 break;
             case "M":
-                this.turn(0, 1, !forward);
+                this.sliceTurn(0, forward);
                 break;
             case "M'":
-                this.turn(0, 1, forward);
+                this.sliceTurn(0, !forward);
                 break;
             case "M2":
             case "M2'":
@@ -637,6 +674,68 @@ export class Cube {
             case "S2":
             case "S2'":
                 this.sliceTurn(2, forward);
+                break;
+            case "2L":
+                this.turn(0, 1, forward);
+                break;
+            case "2L'":
+                this.turn(0, 1, !forward);
+                break;
+            case "2L2":
+            case "2L2'":
+                this.turn(0, 1, forward);
+                this.turn(0, 1, forward);
+                break;
+            case "2R":
+                this.turn(0, 1, forward);
+                break;
+            case "2R'":
+                this.turn(0, 1, !forward);
+                break;
+            case "2R2":
+            case "2R2'":
+                this.turn(0, 1, forward);
+                this.turn(0, 1, forward);
+                break;
+            case "3Lw":
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
+                this.turn(0, this.layers - 3, !forward);
+                break;
+            case "3Lw'":
+                this.turn(0, this.layers - 1, forward);
+                this.turn(0, this.layers - 2, forward);
+                this.turn(0, this.layers - 3, forward);
+                break;
+            case "3Lw2":
+            case "3Lw2'":
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
+                this.turn(0, this.layers - 3, !forward);
+
+                this.turn(0, this.layers - 1, !forward);
+                this.turn(0, this.layers - 2, !forward);
+                this.turn(0, this.layers - 3, !forward);
+            case "3Rw":
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
+                this.turn(0, 2, forward);
+                break;
+            case "3Rw'":
+                this.turn(0, 0, !forward);
+                this.turn(0, 1, !forward);
+                this.turn(0, 2, !forward);
+                break;
+            case "3Rw2":
+            case "3Rw2'":
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
+                this.turn(0, 2, forward);
+
+                this.turn(0, 0, forward);
+                this.turn(0, 1, forward);
+                this.turn(0, 2, forward);
+                break;
             default:
                 throw new Error("Invalid turn in algorithm: " + move);
         }

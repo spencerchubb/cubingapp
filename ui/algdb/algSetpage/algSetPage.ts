@@ -48,14 +48,13 @@ export function renderCubes() {
     shouldRenderCubes = false;
 
     const algSet = algSets.find(algSet => algSet.name === state.algSetName);
-    const numLayers = algSet?.puzzle === "2x2" ? 2 : 3;
+    const numLayers = parseInt(algSet?.puzzle.substring(0, 1) ?? "");
 
     for (let i = 0; i < state.algs.length; i++) {
         if (renderedCubes[i]) continue;
         
         let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
         if (!inViewport(sceneDiv)) {
-            // console.log(`Skipping scene${i} because it's not in viewport`);
             continue;
         }
 

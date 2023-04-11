@@ -27,11 +27,11 @@
         </p>
         {#each algSets as algSet}
             <a
-                style="width: 300px; padding: 16px; gap: 16px;"
+                style="width: 100%; max-width: 400px; padding: 16px; gap: 16px;"
                 class="card row"
                 href={getAlgSetUrl(algSet.name)}
             >
-                <p style="font-weight: bold; font-size: 1.75rem;">
+                <p style="font-weight: bold; font-size: 1.75rem; line-height: 1.75rem;">
                     {algSet.name}
                 </p>
                 <p style="font-size: 1.5rem;">
