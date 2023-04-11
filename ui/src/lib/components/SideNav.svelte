@@ -52,11 +52,6 @@
                 Recon Tool
             </button>
         </a>
-        <a href="./learn.html">
-            <button style="width: 100%;">
-                Learn
-            </button>
-        </a>
         <a href="./play.html">
             <button style="width: 100%;">
                 Play
@@ -65,11 +60,6 @@
         <a href="./train.html">
             <button style="width: 100%;">
                 Train
-            </button>
-        </a>
-        <a href="./cuble.html">
-            <button style="width: 100%;">
-                Cuble
             </button>
         </a>
     </div>
