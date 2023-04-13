@@ -23,7 +23,7 @@
     >
         <h1>Alg Database</h1>
         <p style="font-style: italic;">
-            Open source database with 1000+ vetted algorithms
+            Open source database with 1100+ vetted algorithms
         </p>
         {#each algSets as algSet}
             <a
@@ -31,10 +31,10 @@
                 class="card row"
                 href={getAlgSetUrl(algSet.name)}
             >
-                <p style="font-weight: bold; font-size: 1.75rem; line-height: 1.75rem;">
+                <p style="font-weight: bold; font-size: 1.5rem; line-height: 1.5rem;">
                     {algSet.name}
                 </p>
-                <p style="font-size: 1.5rem;">
+                <p style="font-size: 1.3rem;">
                     {algSet.cases} cases
                 </p>
             </a>

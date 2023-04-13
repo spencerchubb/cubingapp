@@ -21,6 +21,11 @@ export const algSets: AlgSet[] = [
         "puzzle": "2x2"
     },
     {
+        "name": "2x2 PBL",
+        "cases": 6,
+        "puzzle": "2x2"
+    },
+    {
         "name": "4x4 PLL Parity",
         "cases": 22,
         "puzzle": "4x4"
@@ -43,6 +48,11 @@ export const algSets: AlgSet[] = [
     {
         "name": "PLL",
         "cases": 21,
+        "puzzle": "3x3"
+    },
+    {
+        "name": "Winter Variation",
+        "cases": 27,
         "puzzle": "3x3"
     },
     {

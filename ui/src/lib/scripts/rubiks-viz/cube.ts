@@ -595,10 +595,12 @@ export class Cube {
                 this.turn(0, this.layers - 1, forward);
                 break;
             case "l":
+            case "Lw":
                 this.turn(0, this.layers - 1, !forward);
                 this.turn(0, this.layers - 2, !forward);
                 break;
             case "l'":
+            case "Lw'":
                 this.turn(0, this.layers - 1, forward);
                 this.turn(0, this.layers - 2, forward);
                 break;
