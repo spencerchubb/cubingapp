@@ -44,7 +44,7 @@ Create the tables by running the script in /server/db/create_tables.sql
 
 ## 6. Set up environment variables
 
-Inside the /server directory, you should see a file called .env-example
+Inside the /server directory, you should see a file called .env-template
 
 Copy this and name it .env-dev
 
