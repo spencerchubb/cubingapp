@@ -18,21 +18,21 @@ cd ui
 npm install
 ```
 
-## 2. Build ui
+## 3. Build ui
 
 ```
 cd ui
 npm run buildDev
 ```
 
-## 3. Emulate
+## 4. Emulate
 
 Run the firebase emulator for auth and hosting
 ```
 npm run emulate
 ```
 
-## 4. Run database
+## 5. Run database
 
 The database and server are only needed for some features.
 
@@ -42,7 +42,7 @@ Install postgres: https://www.postgresql.org/download/
 
 Create the tables by running the script in /server/db/create_tables.sql
 
-## 5. Set up environment variables
+## 6. Set up environment variables
 
 Inside the /server directory, you should see a file called .env-example
 
@@ -50,7 +50,7 @@ Copy this and name it .env-dev
 
 Then fill in the values for the environment variables
 
-## 6. Run server
+## 7. Run server
 
 ```
 cd server/scripts
