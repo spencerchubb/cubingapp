@@ -1,26 +1,58 @@
-# Rubik's Cube
+# cubing app
 
-This project features a Rubik's Cube controlled by keyboard. There are two main use-cases.  
-1) Rubik's Cube tutorial. Currently, the most popular medium for learning to solve a Rubik's Cube is via youtube videos, which can be hard to navigate and follow along. My proposed solution is a cube animation that makes learning interactive.
-2) A Rubik's Cube with scrambling functionality and a timer. 
+I have only tested these steps on my Windows machine. I am not sure if it will work perfectly for others.
 
-## Scripts
+How to run locally:
 
-Deploy
+## 1. Prerequisites
+
+Must have go and npm installed
+
+## 2. Install packages
 ```
-firebase deploy
-firebase deploy --only hosting
+# install in root directory
+npm install
+
+# install in ui directory
+cd ui
+npm install
 ```
 
-Kill port (must run in powershell)
+## 2. Build ui
+
 ```
-netstat -ano | findstr :PORT
-taskkill /pid PID /f
+cd ui
+npm run buildDev
 ```
 
-## Directories
+## 3. Emulate
 
-- admin - Scripts for admins (such as myself) to run. Currently, the the scripts are mainly meant for analytics.
-- public - HTML, CSS, Javascript, and images for frontend
-- scripts - The js and ts code before being compiled for the frontend
-- test - Integration tests
+Run the firebase emulator for auth and hosting
+```
+npm run emulate
+```
+
+## 4. Run database
+
+The database and server are only needed for some features.
+
+Install postgres: https://www.postgresql.org/download/
+
+(Optional) Install pgAdmin if you want a GUI for accessing postgres: https://www.pgadmin.org/download/
+
+Create the tables by running the script in /server/db/create_tables.sql
+
+## 5. Set up environment variables
+
+Inside the /server directory, you should see a file called .env-example
+
+Copy this and name it .env-dev
+
+Then fill in the values for the environment variables
+
+## 6. Run server
+
+```
+cd server/scripts
+./run.sh dev
+```

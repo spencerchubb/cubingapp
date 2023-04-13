@@ -16,7 +16,7 @@ fi
 
 export PATH=$PATH:/usr/local/go/bin
 
-echo $LOG_FILE
+echo "Printing logs to $LOG_FILE"
 
 # Start the server, and keep it running even if the terminal is closed
 nohup go run ../ > $LOG_FILE &

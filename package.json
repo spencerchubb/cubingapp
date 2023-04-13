@@ -1,12 +1,10 @@
 {
-	"name": "rubiks-cube",
+	"name": "cubingapp",
 	"version": "0.1.0",
 	"description": "Rubik's Cube",
 	"main": "index.js",
 	"scripts": {
-		"emulate": "firebase emulators:start",
-		"jest": "jest",
-		"tailwind": "tailwindcss -i ./ui/src/styles/main.css -o ./ui/public/styles/main.css --watch"
+		"emulate": "firebase emulators:start"
 	},
 	"author": "Spencer Chubb <spencerchubb@gmail.com>",
 	"devDependencies": {
