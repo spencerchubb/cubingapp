@@ -1,7 +1,7 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement, randInt } from "../lib/scripts/common/rand";
-import { GRAY, Scene, setColor } from "../lib/scripts/rubiks-viz";
+import { GRAY, Scene, invertAlg, setColor } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "@spencerchubb/solver";
@@ -21,7 +21,7 @@ type State = {
 
 let state: State = {
     showSolution: false,
-    scene: null,
+    scene: {} as Scene,
     preAUF: "",
     postAUF: "",
     orientation: OrientationStore.get(),
@@ -39,7 +39,7 @@ export function setUIState(newState: UIState) {
 }
 
 export type UIState = {
-    user: CubingAppUser,
+    user?: CubingAppUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
     algSets: AlgSetAPI.AlgSet[],
@@ -53,14 +53,14 @@ export type UIState = {
 }
 
 let uiState: UIState = {
-    user: null,
-    algSet: null,
-    algSetEditing: null,
+    user: undefined,
+    algSet: {} as AlgSetAPI.AlgSet,
+    algSetEditing: undefined,
     algSets: [],
     solutionButtonText: "show solution",
     modalOpen: false,
     modalType: null,
-    selectedAlg: null,
+    selectedAlg: { Score: 0, Alg: "" },
     selectedAlgIndex: 0,
     showScramble: ShowScrambleStore.get(),
     scramble: "",
@@ -68,7 +68,7 @@ let uiState: UIState = {
 
 export async function initApp() {
     uiState.user = initialAuthCheck();
-    if (!uiState.user) {};
+    if (!uiState.user) return;
 
     uiState.algSets = await AlgSetAPI.getAll(uiState.user.uid);
     if (!uiState.algSets) {
@@ -93,7 +93,7 @@ export function onSignIn(user: CubingAppUser) {
 }
 
 export function onSignOut() {
-    uiState.user = null;
+    uiState.user = undefined;
     callback(uiState);
 
     signOut();
@@ -110,7 +110,7 @@ export function onClickSolutionButton() {
 
 export function onClickAlgorithm(algIndex: number) {
     setModal("edit alg");
-    const alg = uiState.algSet.trainingAlgs[algIndex];
+    const alg = uiState.algSet?.trainingAlgs[algIndex];
     uiState.selectedAlg = JSON.parse(JSON.stringify(alg));
     uiState.selectedAlgIndex = algIndex;
     callback(uiState);
@@ -128,6 +128,10 @@ export function onAddAlgorithm() {
 
 export function onChangeAlgorithm(event: Event) {
     const target = event.target as HTMLInputElement;
+    if (!uiState.selectedAlg) {
+        console.error("uiState.selectedAlg is undefined");
+        return;
+    }
     uiState.selectedAlg.Alg = target.value;
 }
 
@@ -138,10 +142,14 @@ export function onDeleteAlgorithm() {
         return;
     }
 
-    uiState.algSet.trainingAlgs.splice(uiState.selectedAlgIndex, 1);
+    uiState.algSet?.trainingAlgs.splice(uiState.selectedAlgIndex, 1);
     setModal(null);
     callback(uiState);
 
+    if (!uiState.algSet) {
+        console.error("uiState.algSet is undefined");
+        return;
+    }
     const { id, name, trainingAlgs } = uiState.algSet;
     AlgSetAPI.update(id, name, trainingAlgs);
 }
@@ -150,7 +158,7 @@ export function onSaveAlgorithm() {
     // If adding new alg, prepend it to the list.
     // Otherwise, replace the alg at the selected index.
     if (uiState.selectedAlgIndex === NEW_ALG_INDEX) {
-        uiState.algSet.trainingAlgs.unshift(uiState.selectedAlg);
+        uiState.algSet?.trainingAlgs.unshift(uiState.selectedAlg);
     } else {
         const alg = uiState.selectedAlg;
         const algIndex = uiState.selectedAlgIndex;
@@ -302,7 +310,7 @@ export async function setAlgSet() {
 
 export function loadCurrAlg(): string {
     let alg = getFirstAlg();
-    if (!alg) return;
+    if (!alg) return "";
 
     state.showSolution = false;
     uiState.solutionButtonText = "show solution";
@@ -321,7 +329,7 @@ export function loadCurrAlg(): string {
     });
 
     let algWithAUFs = applyAUFs(alg);
-    scene.cube.performAlgReverse(algWithAUFs);
+    scene.cube.performAlg(invertAlg(algWithAUFs));
 
     return alg;
 }
@@ -334,7 +342,11 @@ export async function nextAlg(promote: boolean, setName: string): Promise<string
     }
 
     if (uiState.algSet.id === -1) {
-        const uid = uiState.user.uid;
+        const uid = uiState.user?.uid;
+        if (!uid) {
+            console.error("uid undefined");
+            return "";
+        }
         const { trainingAlgs, cube, inactive, moves, disregard, onlyOrientation } = uiState.algSet;
         const res = await AlgSetAPI.create(uid, setName, trainingAlgs, cube, inactive, moves, disregard, onlyOrientation);
         uiState.algSet.id = res.id;

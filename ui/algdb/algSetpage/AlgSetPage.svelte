@@ -1,13 +1,22 @@
 <script lang="ts">
     import SideNav from "../../src/lib/components/SideNav.svelte";
-    import { fetchAlgs, onScroll, renderCubes, setCallback } from "./algSetPage";
+    import {
+        fetchAlgs,
+        onScroll,
+        play,
+        renderCubes,
+        setCallback,
+    } from "./algSetPage";
     import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
     import { afterUpdate, onMount } from "svelte";
+    import Icon from "../../src/lib/components/Icon.svelte";
 
     let href = window.location.href;
     let index = href.lastIndexOf("/");
     // -5 to remove ".html"
-    let algSetName = href.substring(index + 1, href.length - 5).replaceAll("-", " ");
+    let algSetName = href
+        .substring(index + 1, href.length - 5)
+        .replaceAll("-", " ");
 
     let title = `Rubik's Cube ${algSetName} Algorithms`;
 
@@ -58,8 +67,17 @@
                     <p style="font-weight: bold;">
                         {alg.name}
                     </p>
-                    {#each alg.algs as alg1}
-                        <p class="alg-list-item">{alg1}</p>
+                    {#each alg.algs as alg1, i1}
+                        <div class="row divider-except-last">
+                            <Icon
+                                name={state.casePlaying === i && state.algPlaying === i1 ? "pause" : "play"}
+                                class="play-icon"
+                                style="width: 24px; height: 24px; border-radius: 4px; border: solid 1px var(--gray-500); padding: 4px;"
+                                on:click={() => play(i, i1)}
+                            />
+                            <div style="width: 8px;" />
+                            <p style="width: 100%;">{alg1}</p>
+                        </div>
                     {/each}
                 </div>
             </div>
@@ -69,13 +87,20 @@
 </main>
 
 <style>
-
-    .alg-list-item {
-        padding: 4px 0;
+    .divider-except-last {
+        padding: 8px 0;
         width: 100%;
     }
 
-    .alg-list-item:not(:last-child) {
+    .divider-except-last:not(:last-child) {
         border-bottom: solid 1px var(--gray-500);
+    }
+
+    :global(.play-icon) {
+        background: inherit;
+    }
+
+    :global(.play-icon:hover) {
+        background: var(--gray-500);
     }
 </style>

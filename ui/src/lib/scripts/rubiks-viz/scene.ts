@@ -42,7 +42,7 @@ function initCanvas() {
 }
 
 function initGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    return canvas.getContext("webgl");
+    return canvas.getContext("webgl") as WebGLRenderingContext;
 }
 
 type ProgramInfo = {
@@ -111,8 +111,8 @@ function initProgramInfo(gl: WebGLRenderingContext): ProgramInfo {
             vertexColor: gl.getAttribLocation(shaderProgram, 'aVertexColor'),
         },
         uniformLocations: {
-            transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix'),
-            rotateMatrix: gl.getUniformLocation(shaderProgram, 'uRotateMatrix'),
+            transformMatrix: gl.getUniformLocation(shaderProgram, 'uTransformMatrix') as WebGLUniformLocation,
+            rotateMatrix: gl.getUniformLocation(shaderProgram, 'uRotateMatrix') as WebGLUniformLocation,
         }
     }
 }

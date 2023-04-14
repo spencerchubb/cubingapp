@@ -1,3 +1,4 @@
+import { expandDoubleMoves } from "./alg";
 import { BufferObject, createBuffers } from "./buffers";
 import * as colors from "./colors";
 import { scramble3x3 } from "./scramble";
@@ -743,6 +744,9 @@ export class Cube {
         }
     }
 
+    /**
+     * Perform alg without animating any of the moves.
+     */
     performAlg(alg: string) {
         if (!alg) {
             console.log("Empty alg. Skipping.");
@@ -754,23 +758,24 @@ export class Cube {
             this.performMove(moves[i], true);
         }
 
-        // Clear the animation queue so that all the turns don't get animated
+        // Clear the animation queue so turns don't get animated.
         this.animationQueue = [];
     }
 
-    performAlgReverse(alg: string) {
-        if (!alg) {
-            console.log("Empty alg. Skipping.");
-            return;
-        }
+    performAlgWithAnimation(alg: string, onFinish: () => void): NodeJS.Timer {
+        alg = expandDoubleMoves(alg);
 
+        const delay = 800;
         let moves = alg.split(" ");
-        for (let i = moves.length - 1; i >= 0; i--) {
-            this.performMove(moves[i], false);
-        }
-
-        // Clear the animation queue so that all the turns don't get animated
-        this.animationQueue = [];
+        let i = 0;
+        return setInterval(() => {
+            if (i >= moves.length) {
+                onFinish();
+                return;
+            }
+            this.performMove(moves[i], true);
+            i++;
+        }, delay);
     }
 
     stickerIsOnFace(sticker: number, face: number) {

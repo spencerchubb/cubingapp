@@ -30,6 +30,13 @@
             <circle cx="50" cy="50" r="10" />
             <circle cx="85" cy="50" r="10" />
         </svg>`,
+        pause: `<svg stroke="${stroke}" fill="${stroke}" viewBox="0 0 100 100">
+            <rect x="10" y="10" width="30" height="80" />
+            <rect x="60" y="10" width="30" height="80" />
+        </svg>`,
+        play: `<svg stroke="${stroke}" viewBox="0 0 100 100">
+            <polygon points="10,0 90,50 10,100" fill="${fill}" />    
+        </svg>`,
         plus: `<svg stroke="${stroke}" fill="white" x="0" y="0" viewBox="0 0 100 100" stroke-width="10" stroke-linecap="round">
             <line x1="50" y1="5" x2="50" y2="95" />
             <line x1="5" y1="50" x2="95" y2="50" />
@@ -79,7 +86,7 @@
             <path d="M 2 2 L 22 22 M 22 2 L 2 22" stroke-width="2" />
         </svg>`,
     };
-    let displayIcon = icons[name];
+    $: displayIcon = icons[name];
 </script>
 
 <button

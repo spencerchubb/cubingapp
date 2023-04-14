@@ -82,14 +82,14 @@ function logSignIn(user: CubingAppUser) {
     log("Signed in as " + user.email + " with uid " + user.uid);
 }
 
-export function initialAuthCheck(): CubingAppUser | null {
+export function initialAuthCheck(): CubingAppUser | undefined {
     const userJsonString = getUser();
-    if (!userJsonString) return null;
+    if (!userJsonString) return undefined;
     const user = new CubingAppUser();
     user.fromJsonString(userJsonString);
     if (!user.email || !user.uid) {
         removeUser();
-        return null;
+        return undefined;
     }
     logSignIn(user);
     return user;
@@ -97,7 +97,7 @@ export function initialAuthCheck(): CubingAppUser | null {
 
 function successfulSignIn(userCredential: UserCredential, callback: AuthCallback) {
     const user = new CubingAppUser();
-    user.email = userCredential.user.email;
+    user.email = userCredential.user.email ?? "";
     UserAPI.user(user.email).then(data => {
         user.uid = data.uid;
         setUser(user.toJsonString());
