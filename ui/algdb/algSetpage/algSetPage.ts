@@ -1,5 +1,5 @@
 import { Scene, expandDoubleMoves, invertAlg, newScene, scenes } from '../../src/lib/scripts/rubiks-viz';
-import { algSets } from './../algSets';
+import { AlgSet, algSets } from './../algSets';
 
 export { };
 
@@ -17,14 +17,20 @@ type Alg = {
 
 type State = {
     algs: Alg[],
-    algSetName: string,
+    algSet: AlgSet,
     casePlaying: number,
     algPlaying: number,
 }
 
 let state: State = {
     algs: [],
-    algSetName: "",
+    algSet: {
+        name: "",
+        cases: 0,
+        puzzle: "",
+        description: [],
+        recommended: [],
+    },
     casePlaying: -1,
     algPlaying: -1,
 };
@@ -43,7 +49,7 @@ export async function fetchAlgs(algSetName: string) {
     const json = await res.json();
     
     state.algs = json;
-    state.algSetName = algSetName;
+    state.algSet = algSets.find(algSet => algSet.name === algSetName) as AlgSet;
 
     shouldRenderCubes = true;
     callback(state);
@@ -54,8 +60,7 @@ export function renderCubes() {
     if (!shouldRenderCubes || !state.algs || state.algs.length === 0) return;
     shouldRenderCubes = false;
 
-    const algSet = algSets.find(algSet => algSet.name === state.algSetName);
-    const numLayers = parseInt(algSet?.puzzle.substring(0, 1) ?? "");
+    const numLayers = parseInt(state.algSet.puzzle.substring(0, 1) ?? "");
 
     for (let i = 0; i < state.algs.length; i++) {
         if (renderedCubes[i]) continue;
@@ -139,20 +144,4 @@ function resetCube(scene: Scene, alg: string) {
 
     scene.cube.solve();
     scene.cube.performAlg(invertAlg(alg));
-}
-
-function playAlg(scene: Scene, alg: string, onFinish: () => void) {
-    alg = expandDoubleMoves(alg);
-
-    const delay = 800;
-    let moves = alg.split(" ");
-    let i = 0;
-    return setInterval(() => {
-        if (i >= moves.length) {
-            onFinish();
-            return;
-        }
-        scene.cube.performMove(moves[i], true);
-        i++;
-    }, delay);
 }

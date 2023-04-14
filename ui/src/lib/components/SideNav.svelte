@@ -1,4 +1,5 @@
 <script lang="ts">
+    // TODO fix issue of going to wrong page when on a nested page
     import { onMount } from "svelte";
     import Icon from "./Icon.svelte";
 
