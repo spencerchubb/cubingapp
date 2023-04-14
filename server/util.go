@@ -33,31 +33,33 @@ func getEnv(key string) string {
 	return env
 }
 
-func readJsonFile(fileName string, v any) error {
-	file, err := os.Open(fileName)
-	defer file.Close()
-	if err != nil {
-		return fmt.Errorf("readJsonFile Open: %v", err)
-	}
-
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(v)
-	if err != nil {
-		return fmt.Errorf("readJsonFile Decode: %v", err)
-	}
-	return nil
-}
-
 // Credit to rimiti for this function.
 // https://github.com/rimiti/kill-port
 func killPort(port string) {
 	var err error
 	if runtime.GOOS == "windows" {
-		command := fmt.Sprintf("Stop-Process -Id (Get-NetTCPConnection -LocalPort %s).OwningProcess -Force", port)
+		command := fmt.Sprintf("((netstat -ano | findstr %s) -split '\\s+')[-1]", port)
+		pid, err := exec.Command("powershell", command).Output()
+		if err != nil {
+			fmt.Printf("Error during command: %s\n", command)
+			return
+		}
+		if len(pid) == 0 {
+			fmt.Printf("Port %s not in use\n", port)
+			return
+		}
+		command = fmt.Sprintf("TaskKill /f /pid %s", pid)
 		err = exec.Command("powershell", command).Run()
+		if err != nil {
+			fmt.Printf("Error during command: %s\n", command)
+			return
+		}
 	} else {
 		command := fmt.Sprintf("lsof -i tcp:%s | grep LISTEN | awk '{print $2}' | xargs kill -9", port)
 		err = exec.Command("bash", "-c", command).Run()
+		if err != nil {
+			fmt.Printf("Error during command: %s\n", command)
+		}
 	}
 
 	if err != nil {

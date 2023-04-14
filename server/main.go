@@ -59,11 +59,11 @@ func createAlgSet(w http.ResponseWriter, r *http.Request) {
 
 func readAlgsFromJson(fileName string) []server.AlgSetsRow {
 	file, err := os.Open(fileName)
-	defer file.Close()
 	if err != nil {
 		fmt.Println("readJsonFile:", err)
 		return []server.AlgSetsRow{}
 	}
+	defer file.Close()
 
 	decoder := json.NewDecoder(file)
 	var algSets []server.AlgSetsRow
@@ -282,14 +282,14 @@ func listenAndServe() error {
 	var addr string
 	if mode == "dev" {
 		addr = fmt.Sprintf("127.0.0.1:%s", serverPort)
-		fmt.Printf("Server started on port %s\n", serverPort)
+		fmt.Printf("Starting server on port %s\n", serverPort)
 		return http.ListenAndServe(addr, nil)
 	}
 
 	addr = fmt.Sprintf(":%s", serverPort)
 	fullchain := "/etc/letsencrypt/live/cubingapp.com/fullchain.pem"
 	privkey := "/etc/letsencrypt/live/cubingapp.com/privkey.pem"
-	fmt.Printf("Server started on port %s\n", serverPort)
+	fmt.Printf("Starting server on port %s\n", serverPort)
 	return http.ListenAndServeTLS(addr, fullchain, privkey, nil)
 }
 
@@ -297,13 +297,13 @@ func main() {
 	fmt.Println(time.Now().String())
 	var err error
 	conn, err := pgxpool.New(context.Background(), pgUrl)
-	defer conn.Close()
 	db = server.DB{Conn: conn}
 	if err != nil {
 		fmt.Printf("Unable to connect to database: %v\n", err)
 		os.Exit(1)
 		return
 	}
+	defer conn.Close()
 
 	handleFunc("/", root)
 	handleFunc("/hello", hello)
