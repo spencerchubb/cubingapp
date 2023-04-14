@@ -43,22 +43,22 @@
         />
     </div>
     <div style="display: flex; flex-direction: column; padding: 0 8px; gap: 8px;">
-        <a href="./algdb.html">
+        <a href="/algdb.html">
             <button style="width: 100%;">
                 Alg DB
             </button>
         </a>
-        <a href="./recon.html">
+        <a href="/recon.html">
             <button style="width: 100%;">
                 Recon Tool
             </button>
         </a>
-        <a href="./play.html">
+        <a href="/play.html">
             <button style="width: 100%;">
                 Play
             </button>
         </a>
-        <a href="./train.html">
+        <a href="/train.html">
             <button style="width: 100%;">
                 Train
             </button>
