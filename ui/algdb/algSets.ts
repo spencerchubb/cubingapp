@@ -62,6 +62,17 @@ export const algSets: AlgSet[] = [
         "recommended": []
     },
     {
+        "name": "COLL",
+        "cases": 40,
+        "puzzle": "3x3",
+        "description": [
+            "COLL is an algorithm set to solve the corners of the last layer when edges are already oriented. This algorithm set is typically used in CFOP, but it is optional. Cubers who learn COLL only use it when a good opportunity arises.",
+            "The advantage of COLL is that it will lead to a PLL where the corners are solved. There is a 1/12th chance of a PLL skip, a good chance of a U perm, and it could also be an H perm or Z perm. COLL can give an advantage because U perms are faster than other PLLs like G, V, N, and E.",
+            "In addition, COLL can be useful if you plan to learn ZBLL. COLL is a subset of ZBLL, so the algorithms you learn will be useful later on. COLL can also teach you how to recognize corner cases, which can be challenging if you have only learned sets like OLL and PLL."
+        ],
+        "recommended": ["ZBLL"]
+    },
+    {
         "name": "CMLL",
         "cases": 42,
         "puzzle": "3x3",

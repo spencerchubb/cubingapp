@@ -21,6 +21,7 @@ export default defineConfig({
         'algdb/2x2-PBL': resolve(__dirname, 'algdb', '2x2-PBL.html'),
         'algdb/4x4-PLL-Parity': resolve(__dirname, 'algdb', '4x4-PLL-Parity.html'),
         'algdb/CMLL': resolve(__dirname, 'algdb', 'CMLL.html'),
+        'algdb/COLL': resolve(__dirname, 'algdb', 'COLL.html'),
         'algdb/F2L': resolve(__dirname, 'algdb', 'F2L.html'),
         'algdb/OLL': resolve(__dirname, 'algdb', 'OLL.html'),
         'algdb/PLL': resolve(__dirname, 'algdb', 'PLL.html'),
