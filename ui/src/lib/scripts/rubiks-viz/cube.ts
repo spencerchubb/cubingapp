@@ -1,6 +1,7 @@
 import { expandDoubleMoves } from "./alg";
 import { BufferObject, createBuffers } from "./buffers";
 import * as colors from "./colors";
+import { performMove } from "./moves";
 import { scramble3x3 } from "./scramble";
 
 let gl: WebGLRenderingContext;
@@ -170,7 +171,7 @@ export class Cube {
         this.matchTurn(axis, layer, clockwise);
     }
 
-    private sliceTurn(axis, clockwise) {
+    sliceTurn(axis, clockwise) {
         const arr = Array(stickers(this.layers));
         this.affectedStickers = arr.fill(false);
 
@@ -415,330 +416,28 @@ export class Cube {
     }
 
     performMove(move: string, forward: boolean) {
-        if (!move) {
-            console.log("Empty move. Skipping.");
-            return;
-        }
-
-        switch (move) {
-            case "x":
-                this.cubeRotate(0, forward);
-                break;
-            case "x'":
-                this.cubeRotate(0, !forward);
-                break;
-            case "x2":
-            case "x2'":
-                this.cubeRotate(0, forward);
-                this.cubeRotate(0, forward);
-                break;
-            case "y":
-                this.cubeRotate(1, forward);
-                break;
-            case "y'":
-                this.cubeRotate(1, !forward);
-                break;
-            case "y2":
-            case "y2'":
-                this.cubeRotate(1, forward);
-                this.cubeRotate(1, forward);
-                break;
-            case "z":
-                this.cubeRotate(2, forward);
-                break;
-            case "z'":
-                this.cubeRotate(2, !forward);
-                break;
-            case "z2":
-            case "z2'":
-                this.cubeRotate(2, forward);
-                this.cubeRotate(2, forward);
-                break;
-            case "U":
-                this.turn(1, 0, forward);
-                break;
-            case "U'":
-                this.turn(1, 0, !forward);
-                break;
-            case "U2":
-            case "U2'":
-                this.turn(1, 0, forward);
-                this.turn(1, 0, forward);
-                break;
-            case "u":
-            case "Uw":
-                this.turn(1, 0, forward);
-                this.turn(1, 1, forward);
-                break;
-            case "u'":
-            case "Uw'":
-                this.turn(1, 0, !forward);
-                this.turn(1, 1, !forward);
-                break;
-            case "u2":
-            case "u2'":
-            case "Uw2":
-            case "Uw2'":
-                this.turn(1, 0, forward);
-                this.turn(1, 1, forward);
-
-                this.turn(1, 0, forward);
-                this.turn(1, 1, forward);
-                break;
-            case "D":
-                this.turn(1, this.layers - 1, !forward);
-                break;
-            case "D'":
-                this.turn(1, this.layers - 1, forward);
-                break;
-            case "D2":
-            case "D2'":
-                this.turn(1, this.layers - 1, forward);
-                this.turn(1, this.layers - 1, forward);
-                break;
-            case "d":
-                this.turn(1, this.layers - 1, !forward);
-                this.turn(1, this.layers - 2, !forward);
-                break;
-            case "d'":
-                this.turn(1, this.layers - 1, forward);
-                this.turn(1, this.layers - 2, forward);
-                break;
-            case "d2":
-            case "d2'":
-                this.turn(1, this.layers - 1, !forward);
-                this.turn(1, this.layers - 2, !forward);
-
-                this.turn(1, this.layers - 1, !forward);
-                this.turn(1, this.layers - 2, !forward);
-                break;
-            case "F":
-                this.turn(2, 0, forward);
-                break;
-            case "F'":
-                this.turn(2, 0, !forward);
-                break;
-            case "F2":
-            case "F2'":
-                this.turn(2, 0, forward);
-                this.turn(2, 0, forward);
-                break;
-            case "f":
-                this.turn(2, 0, forward);
-                this.turn(2, 1, forward);
-                break;
-            case "f'":
-                this.turn(2, 0, !forward);
-                this.turn(2, 1, !forward);
-                break;
-            case "f2":
-            case "f2'":
-                this.turn(2, 0, forward);
-                this.turn(2, 1, forward);
-
-                this.turn(2, 0, forward);
-                this.turn(2, 1, forward);
-                break;
-            case "B":
-                this.turn(2, this.layers - 1, !forward);
-                break;
-            case "B'":
-                this.turn(2, this.layers - 1, forward);
-                break
-            case "B2":
-            case "B2'":
-                this.turn(2, this.layers - 1, forward);
-                this.turn(2, this.layers - 1, forward);
-                break
-            case "b":
-                this.turn(2, this.layers - 1, !forward);
-                this.turn(2, this.layers - 2, !forward);
-                break;
-            case "b'":
-                this.turn(2, this.layers - 1, forward);
-                this.turn(2, this.layers - 2, forward);
-                break;
-            case "b2":
-            case "b2'":
-                this.turn(2, this.layers - 1, !forward);
-                this.turn(2, this.layers - 2, !forward);
-                break;
-            case "L":
-                this.turn(0, this.layers - 1, !forward);
-                break;
-            case "L'":
-                this.turn(0, this.layers - 1, forward);
-                break;
-            case "L2":
-            case "L2'":
-                this.turn(0, this.layers - 1, forward);
-                this.turn(0, this.layers - 1, forward);
-                break;
-            case "l":
-            case "Lw":
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-                break;
-            case "l'":
-            case "Lw'":
-                this.turn(0, this.layers - 1, forward);
-                this.turn(0, this.layers - 2, forward);
-                break;
-            case "l2":
-            case "l2'":
-            case "Lw2":
-            case "Lw2'":
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-                break;
-            case "R":
-                this.turn(0, 0, forward);
-                break;
-            case "R'":
-                this.turn(0, 0, !forward);
-                break;
-            case "R2":
-            case "R2'":
-                this.turn(0, 0, forward);
-                this.turn(0, 0, forward);
-                break;
-            case "r":
-            case "Rw":
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-                break;
-            case "r'":
-            case "Rw'":
-                this.turn(0, 0, !forward);
-                this.turn(0, 1, !forward);
-                break;
-            case "r2":
-            case "r2'":
-            case "Rw2":
-            case "Rw2'":
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-                break;
-            case "M":
-                this.sliceTurn(0, forward);
-                break;
-            case "M'":
-                this.sliceTurn(0, !forward);
-                break;
-            case "M2":
-            case "M2'":
-                this.sliceTurn(0, forward);
-                this.sliceTurn(0, forward);
-                break;
-            case "E":
-                this.sliceTurn(1, !forward);
-                break;
-            case "E'":
-                this.sliceTurn(1, forward);
-                break;
-            case "E2":
-            case "E2'":
-                this.sliceTurn(1, forward);
-                this.sliceTurn(1, forward);
-                break;
-            case "S":
-                this.sliceTurn(2, forward);
-                break;
-            case "S'":
-                this.sliceTurn(2, !forward);
-                break;
-            case "S2":
-            case "S2'":
-                this.sliceTurn(2, forward);
-                break;
-            case "2L":
-                this.turn(0, 1, forward);
-                break;
-            case "2L'":
-                this.turn(0, 1, !forward);
-                break;
-            case "2L2":
-            case "2L2'":
-                this.turn(0, 1, forward);
-                this.turn(0, 1, forward);
-                break;
-            case "2R":
-                this.turn(0, 1, forward);
-                break;
-            case "2R'":
-                this.turn(0, 1, !forward);
-                break;
-            case "2R2":
-            case "2R2'":
-                this.turn(0, 1, forward);
-                this.turn(0, 1, forward);
-                break;
-            case "3Lw":
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-                this.turn(0, this.layers - 3, !forward);
-                break;
-            case "3Lw'":
-                this.turn(0, this.layers - 1, forward);
-                this.turn(0, this.layers - 2, forward);
-                this.turn(0, this.layers - 3, forward);
-                break;
-            case "3Lw2":
-            case "3Lw2'":
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-                this.turn(0, this.layers - 3, !forward);
-
-                this.turn(0, this.layers - 1, !forward);
-                this.turn(0, this.layers - 2, !forward);
-                this.turn(0, this.layers - 3, !forward);
-            case "3Rw":
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-                this.turn(0, 2, forward);
-                break;
-            case "3Rw'":
-                this.turn(0, 0, !forward);
-                this.turn(0, 1, !forward);
-                this.turn(0, 2, !forward);
-                break;
-            case "3Rw2":
-            case "3Rw2'":
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-                this.turn(0, 2, forward);
-
-                this.turn(0, 0, forward);
-                this.turn(0, 1, forward);
-                this.turn(0, 2, forward);
-                break;
-            default:
-                throw new Error("Invalid turn in algorithm: " + move);
-        }
+        performMove(this, move, forward);
     }
 
     /**
      * Perform alg without animating any of the moves.
+     * Returns the number of moves performed.
      */
-    performAlg(alg: string) {
+    performAlg(alg: string): number {
         if (!alg) {
             console.log("Empty alg. Skipping.");
-            return;
+            return 0;
         }
 
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
             this.performMove(moves[i], true);
+
+            // Clear the animation queue so turns don't get animated.
+            this.animationQueue = [];
         }
 
-        // Clear the animation queue so turns don't get animated.
-        this.animationQueue = [];
+        return moves.length;
     }
 
     performAlgWithAnimation(alg: string, onFinish: () => void): NodeJS.Timer {

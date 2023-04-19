@@ -3,15 +3,11 @@
   import SideNav from "../lib/components/SideNav.svelte";
   import {
     copyUrl,
-    editMoves,
     initApp,
-    jumpToMove,
     next,
-    onChangeMoves,
     prev,
     setCallback,
     updateCubeState,
-    viewMoves,
   } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
   import ChevronLeft from "../lib/components/icons/ChevronLeft.svelte";
@@ -29,10 +25,8 @@
     <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
   </nav>
   <div
-    class="row"
+    class="col main-container"
     style="
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: start;
     gap: 16px;
@@ -55,95 +49,42 @@
         <button class="prev-and-next-btn" on:click={prev}>
           <ChevronLeft />
         </button>
+        <p style="margin: 0 8px;">{state.moveIndex} / {state.maxMoves}</p>
         <button class="prev-and-next-btn" on:click={next}>
           <ChevronRight />
         </button>
       </div>
     </div>
-    <div>
+    <div class="col" style="align-items: start; width: 100%;">
       <button on:click={copyUrl}>Copy URL</button>
-      <p style="margin-top: 16px;">Scramble</p>
       <textarea
         class="moves-input"
-        placeholder="Enter scramble"
-        style="margin-top: 4px;"
-        bind:value={state.scramble}
-        on:change={updateCubeState}
+        placeholder="Enter scramble and moves"
+        style="margin-top: 16px;"
+        bind:value={state.moves}
+        on:input={updateCubeState}
+        on:click={updateCubeState}
+        on:keyup={updateCubeState}
       />
-      <div class="col" style="margin-top: 16px; align-items: start;">
-        <div class="row">
-          <button
-            class="tab-btn"
-            style={state.editMoves
-              ? "background: transparent;"
-              : "background: var(--gray-600);"}
-            on:click={viewMoves}>View Moves</button
-          >
-          <button
-            class="tab-btn"
-            style={state.editMoves
-              ? "background: var(--gray-600);"
-              : " background: transparent;"}
-            on:click={editMoves}>Edit Moves</button
-          >
-        </div>
-        <div style="outline: solid 1px var(--gray-400); padding: 8px;">
-          {#if state.editMoves}
-            <textarea
-              class="moves-input"
-              placeholder="Enter moves"
-              bind:value={state.moves}
-              on:change={onChangeMoves}
-            />
-          {:else}
-            <div style="width: 300px; display: flex; flex-wrap: wrap;">
-              {#each state.splitMoves as move, i}
-                <button
-                  class="move"
-                  style={i === state.moveIndex
-                    ? "background: var(--gray-600);"
-                    : ""}
-                  on:click={() => jumpToMove(i)}
-                >
-                  <p style="display: inline-block;">{move}</p>
-                </button>
-              {/each}
-              <button
-                class="move"
-                style={state.moveIndex === state.splitMoves.length
-                  ? "background: var(--gray-600);"
-                  : ""}
-                on:click={() => jumpToMove(state.splitMoves.length)}
-              >
-                <p style="display: inline-block;">&nbsp;</p>
-              </button>
-            </div>
-          {/if}
-        </div>
-      </div>
+      <!-- <p style="margin-top: 16px;">Cross suggestions</p>
+      {#each state.suggestions as suggestion}
+        <p>{suggestion}</p>
+      {/each} -->
     </div>
   </div>
   <SideNav bind:open={sideNavOpen} />
 </main>
 
 <style>
+  @media(min-width: 768px) {
+    .main-container {
+      flex-direction: row;
+    }
+  }
+
   .moves-input {
-    width: 300px;
+    width: 100%;
     height: 200px;
-  }
-
-  .tab-btn {
-    outline: solid 1px var(--gray-400);
-    border-radius: 8px 8px 0 0;
-  }
-
-  .move {
-    background: transparent;
-    padding: 8px;
-  }
-
-  .move:hover {
-    outline: solid 1px var(--gray-400);
   }
 
   :global(.prev-and-next-btn) {
