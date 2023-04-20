@@ -182,15 +182,13 @@ export class Cube {
         }
     }
 
-    private wideTurn(axis, layer, clockwise) {
+    wideTurn(axis, layer1, layer2, clockwise) {
         this.resetAffectedStickers();
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        this.matchTurn(axis, layer, clockwise);
-        for (let i = 1; i < this.layers - 1; i++) {
-            this.matchTurn(axis, i, clockwise);
-        }
+        this.matchTurn(axis, layer1, clockwise);
+        this.matchTurn(axis, layer2, clockwise);
     }
 
     cubeRotate(axis, clockwise) {
@@ -399,16 +397,16 @@ export class Cube {
                 this.sliceTurn(2, false);
                 break;
             case "KeyU":
-                this.wideTurn(0, 0, true);
+                this.wideTurn(0, 0, 1, true);
                 break;
             case "KeyM":
-                this.wideTurn(0, 0, false);
+                this.wideTurn(0, 0, 1, false);
                 break;
             case "KeyV":
-                this.wideTurn(0, this.layers - 1, false);
+                this.wideTurn(0, this.layers - 1, this.layers - 2, false);
                 break;
             case "KeyR":
-                this.wideTurn(0, this.layers - 1, true);
+                this.wideTurn(0, this.layers - 1, this.layers - 2, true);
                 break;
         }
 

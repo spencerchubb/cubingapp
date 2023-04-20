@@ -43,7 +43,7 @@
             <NavBarIcon name="github" />
         </a>
     </nav>
-    <div 
+    <div
         class="row"
         style="align-items:start; width: 100%; height: 100%; overflow-y: auto;"
         on:scroll={() => {
@@ -54,25 +54,37 @@
             {#each state.algSet.description as desc, i}
                 <p style={i === 0 ? "" : "margin-top: 16px;"}>{desc}</p>
             {/each}
-            <div style="height: 16px;"></div>
+            <div style="height: 16px;" />
             {#if state.algSet.recommended.length > 0}
                 <h2>Cubers also use</h2>
                 {#each state.algSet.recommended as setName}
-                    <a href="/algdb/{setName.replaceAll(" ", "-")}.html" style="margin-top: 8px;">
-                        <p>{setName}</p>
+                    <a
+                        href="/algdb/{setName.replaceAll(' ', '-')}.html"
+                        class="link"
+                        style="margin-top: 8px;"
+                    >
+                        {setName}
                     </a>
                 {/each}
             {/if}
+            <div style="height: 16px;" />
+            <h2>Have a suggestion?</h2>
+            <p style="margin-top: 8px;">
+                Open an issue at our
+                <a
+                    href="https://github.com/spencerchubb/algdb/issues/new"
+                    class="link"
+                >
+                    open source repository
+                </a>
+            </p>
         </div>
-        <div
-            class="col"
-            style="width: 100%; gap: 16px; padding: 16px;"
-        >
+        <div class="col" style="width: 100%; gap: 16px; padding: 16px;">
             <h1>{state.algSet.name}</h1>
             {#each state.algs as alg, i}
                 <div
                     class="row"
-                    style="border: solid 1px var(--gray-500); box-shadow: 0 0 4px 2px var(--gray-600); border-radius: 16px; width: 500px; max-width: 100%;"
+                    style="border: solid 1px var(--gray-500); box-shadow: 0 0 4px 2px var(--gray-600); border-radius: 16px; width: 100%;"
                 >
                     <div
                         id="scene{i}"
@@ -88,7 +100,10 @@
                         {#each alg.algs as alg1, i1}
                             <div class="row divider-except-last">
                                 <Icon
-                                    name={state.casePlaying === i && state.algPlaying === i1 ? "pause" : "play"}
+                                    name={state.casePlaying === i &&
+                                    state.algPlaying === i1
+                                        ? "pause"
+                                        : "play"}
                                     class="play-icon"
                                     style="width: 24px; height: 24px; border-radius: 4px; border: solid 1px var(--gray-500); padding: 4px;"
                                     on:click={() => play(i, i1)}
@@ -120,11 +135,11 @@
         }
     }
 
-    a > p {
+    .link {
         color: var(--lightBlue-500);
     }
 
-    a > p:hover {
+    .link:hover {
         text-decoration: underline;
     }
 
