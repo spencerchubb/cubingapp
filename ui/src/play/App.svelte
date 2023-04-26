@@ -4,9 +4,9 @@
   import type { Scene } from "../lib/scripts/rubiks-viz";
   import { onPressTimerButton, setCallback } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
-  import DrawerIcon from "../lib/components/DrawerIcon.svelte";
   import Drawer from "../lib/components/Drawer.svelte";
-    import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
+  import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
+  import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
 
   let scene: Scene;
 
@@ -26,11 +26,13 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
+    <NavBarIcon on:click={() => (sideNavOpen = true)}>
+      <MenuIcon />
+    </NavBarIcon>
     <div class="row">
-      <DrawerIcon on:click={() => drawerIndex = 0}>
+      <NavBarIcon on:click={() => (drawerIndex = 0)}>
         <SettingsIcon />
-      </DrawerIcon>
+      </NavBarIcon>
     </div>
   </nav>
   <div

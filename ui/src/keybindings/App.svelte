@@ -3,6 +3,7 @@
   import SideNav from "../lib/components/SideNav.svelte";
   import Modal from "../lib/components/Modal.svelte";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
+    import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
 
   let state = setCallback(newState => {
     state = newState;
@@ -13,10 +14,9 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <NavBarIcon
-      name="menu"
-      on:click={() => (sideNavOpen = true)}
-    />
+    <NavBarIcon on:click={() => (sideNavOpen = true)}>
+      <MenuIcon />
+    </NavBarIcon>
   </nav>
   <div class="col" style="width: 100%;">
     {#each keyboardData as keyboardRow, i}

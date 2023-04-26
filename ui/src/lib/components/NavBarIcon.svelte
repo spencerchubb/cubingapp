@@ -1,26 +1,19 @@
-<script lang="ts">
-    import Icon from "./Icon.svelte";
-
-    export let name: string;
-</script>
-
-<Icon
-    {name}
-    class="icon"
-    style="padding: 8px;"
-    on:click
-/>
+<button class="icon" on:click>
+  <slot></slot>
+</button>
 
 <style>
-    :global(.icon) {
-    width: 48px;
-    height: 48px;
-    padding: 8px;
-    touch-action: none;
+  :global(.icon) {
+      width: 48px;
+      height: 48px;
+      padding: 8px;
+      touch-action: none;
+      background-color: transparent;
+      border-radius: 0;
   }
 
   :global(.icon:hover) {
-    background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
   }
 </style>

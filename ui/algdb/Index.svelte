@@ -2,6 +2,8 @@
     import SideNav from "../src/lib/components/SideNav.svelte";
     import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
     import { algSets } from "./algSets";
+    import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
+    import GithubIcon from "../src/lib/components/icons/GithubIcon.svelte";
 
     function getAlgSetUrl(algSet: string): string {
         return `algdb/${algSet.replaceAll(" ", "-")}.html`;
@@ -12,9 +14,13 @@
 
 <main class="col" style="width: 100%; height: 100%;">
     <nav class="navbar" style="justify-content: space-between;">
-        <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
+        <NavBarIcon on:click={() => (sideNavOpen = true)}>
+            <MenuIcon />
+        </NavBarIcon>
         <a href="https://github.com/spencerchubb/algdb/">
-            <NavBarIcon name="github" />
+            <NavBarIcon>
+                <GithubIcon />
+            </NavBarIcon>
         </a>
     </nav>
     <div

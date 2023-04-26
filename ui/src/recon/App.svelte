@@ -12,6 +12,7 @@
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
   import ChevronLeft from "../lib/components/icons/ChevronLeft.svelte";
   import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
+    import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
 
   let state = setCallback((newState) => {
     state = newState;
@@ -22,7 +23,9 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
+    <NavBarIcon on:click={() => (sideNavOpen = true)}>
+      <MenuIcon />
+    </NavBarIcon>
   </nav>
   <div
     class="col main-container"

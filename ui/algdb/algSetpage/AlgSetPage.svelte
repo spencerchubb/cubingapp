@@ -10,6 +10,8 @@
     import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
     import { afterUpdate, onMount } from "svelte";
     import Icon from "../../src/lib/components/Icon.svelte";
+    import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
+    import GithubIcon from "../../src/lib/components/icons/GithubIcon.svelte";
 
     let href = window.location.href;
     let index = href.lastIndexOf("/");
@@ -38,9 +40,13 @@
 
 <main class="col" style="width: 100%; height: 100%;">
     <nav class="navbar" style="justify-content: space-between;">
-        <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
+        <NavBarIcon on:click={() => (sideNavOpen = true)}>
+            <MenuIcon />
+        </NavBarIcon>
         <a href="https://github.com/spencerchubb/algdb/">
-            <NavBarIcon name="github" />
+            <NavBarIcon>
+                <GithubIcon />
+            </NavBarIcon>
         </a>
     </nav>
     <div
