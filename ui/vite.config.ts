@@ -28,6 +28,7 @@ export default defineConfig({
         'algdb/Winter-Variation': resolve(__dirname, 'algdb', 'Winter-Variation.html'),
         'algdb/ZBLL': resolve(__dirname, 'algdb', 'ZBLL.html'),
         index: resolve(__dirname, 'index.html'),
+        keybindings: resolve(__dirname, 'keybindings.html'),
         play: resolve(__dirname, 'play.html'),
         recon: resolve(__dirname, 'recon.html'),
         train: resolve(__dirname, 'train.html'),

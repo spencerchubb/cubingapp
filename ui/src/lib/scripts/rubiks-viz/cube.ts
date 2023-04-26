@@ -1,6 +1,7 @@
 import { expandDoubleMoves } from "./alg";
 import { BufferObject, createBuffers } from "./buffers";
 import * as colors from "./colors";
+import { KeyBindings, getKeyBindings } from "./keybindings";
 import { performMove } from "./moves";
 import { scramble3x3 } from "./scramble";
 
@@ -66,12 +67,16 @@ export class Cube {
     perspectiveMatrix: number[];
     buffers: BufferObject[];
 
+    keyBindings: KeyBindings;
+
     constructor(newGL: WebGLRenderingContext, perspectiveMatrix: number[]) {
         gl = newGL;
         this.animationQueue = [];
 
         this.gl = newGL;
         this.perspectiveMatrix = perspectiveMatrix;
+
+        this.keyBindings = getKeyBindings();
     }
 
     solve() {
@@ -323,94 +328,8 @@ export class Cube {
      * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
      */
     matchKeyCodeToTurn(code: string) {
-        switch (code) {
-            case "KeyN":
-                this.cubeRotate(0, true);
-                break;
-            case "KeyB":
-                this.cubeRotate(0, false);
-                break;
-            case "Semicolon":
-                this.cubeRotate(1, true);
-                break;
-            case "KeyA":
-                this.cubeRotate(1, false);
-                break;
-            case "KeyP":
-                this.cubeRotate(2, true);
-                break;
-            case "KeyQ":
-                this.cubeRotate(2, false);
-                break;
-            case "KeyJ":
-                this.turn(1, 0, true);
-                break;
-            case "KeyF":
-                this.turn(1, 0, false);
-                break;
-            case "KeyS":
-                this.turn(1, this.layers - 1, false);
-                break;
-            case "KeyL":
-                this.turn(1, this.layers - 1, true);
-                break;
-            case "KeyH":
-                this.turn(2, 0, true);
-                break;
-            case "KeyG":
-                this.turn(2, 0, false);
-                break;
-            case "KeyW":
-                this.turn(2, this.layers - 1, false);
-                break;
-            case "KeyO":
-                this.turn(2, this.layers - 1, true);
-                break;
-            case "KeyD":
-                this.turn(0, this.layers - 1, false);
-                break;
-            case "KeyE":
-                this.turn(0, this.layers - 1, true);
-                break;
-            case "KeyI":
-                this.turn(0, 0, true);
-                break;
-            case "KeyK":
-                this.turn(0, 0, false);
-                break;
-            case "BracketLeft":
-                this.sliceTurn(0, false);
-                break;
-            case "Quote":
-                this.sliceTurn(0, true);
-                break;
-            case "KeyC":
-                this.sliceTurn(1, false);
-                break;
-            case "Comma":
-                this.sliceTurn(1, true);
-                break;
-            case "KeyY":
-                this.sliceTurn(2, true);
-                break;
-            case "KeyT":
-                this.sliceTurn(2, false);
-                break;
-            case "KeyU":
-                this.wideTurn(0, 0, 1, true);
-                break;
-            case "KeyM":
-                this.wideTurn(0, 0, 1, false);
-                break;
-            case "KeyV":
-                this.wideTurn(0, this.layers - 1, this.layers - 2, false);
-                break;
-            case "KeyR":
-                this.wideTurn(0, this.layers - 1, this.layers - 2, true);
-                break;
-        }
-
-        return undefined;
+        const move = this.keyBindings[code];
+        this.performMove(move, true);
     }
 
     performMove(move: string, forward: boolean) {

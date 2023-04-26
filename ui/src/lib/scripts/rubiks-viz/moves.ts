@@ -28,7 +28,6 @@ export function findInvalidMove(cube: Cube, moves: string[]): string | null {
 }
 
 function getMoveMap(cube: Cube) {
-    // replace with cube.wideTurn when possible
     return {
         "x": (forward: boolean) => cube.cubeRotate(0, forward),
         "x'": (forward: boolean) => cube.cubeRotate(0, !forward),
@@ -280,11 +279,11 @@ function getMoveMap(cube: Cube) {
             cube.sliceTurn(0, forward);
             cube.sliceTurn(0, forward);
         },
-        "E": (forward: boolean) => cube.sliceTurn(1, forward),
-        "E'": (forward: boolean) => cube.sliceTurn(1, !forward),
+        "E": (forward: boolean) => cube.sliceTurn(1, !forward),
+        "E'": (forward: boolean) => cube.sliceTurn(1, forward),
         "E2": (forward: boolean) => {
-            cube.sliceTurn(1, forward);
-            cube.sliceTurn(1, forward);
+            cube.sliceTurn(1, !forward);
+            cube.sliceTurn(1, !forward);
         },
         "E2'": (forward: boolean) => {
             cube.sliceTurn(1, forward);
