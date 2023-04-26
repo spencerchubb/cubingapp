@@ -4,6 +4,9 @@
   import type { Scene } from "../lib/scripts/rubiks-viz";
   import { onPressTimerButton, setCallback } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
+  import DrawerIcon from "../lib/components/DrawerIcon.svelte";
+  import Drawer from "../lib/components/Drawer.svelte";
+    import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
 
   let scene: Scene;
 
@@ -12,19 +15,23 @@
     scene.cube.setNumOfLayers(parseInt(value));
   }
 
-  let state = setCallback(newState => {
+  let state = setCallback((newState) => {
     state = newState;
   });
+
+  let drawerIndex = -1;
 
   let sideNavOpen = false;
 </script>
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <NavBarIcon
-      name="menu"
-      on:click={() => (sideNavOpen = true)}
-    />
+    <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
+    <div class="row">
+      <DrawerIcon on:click={() => drawerIndex = 0}>
+        <SettingsIcon />
+      </DrawerIcon>
+    </div>
   </nav>
   <div
     class="row"
@@ -35,10 +42,7 @@
     height: 100%;
     position: relative;"
   >
-    <div
-      class="col"
-      style="gap: 16px; padding: 16px;"
-    >
+    <div class="col" style="width: 100%; gap: 16px; padding: 16px;">
       <div
         class="row"
         style="
@@ -52,33 +56,30 @@
           style="width: 100px;"
           on:change={onChangeLayers}
         />
-        <button
-          on:click={() => scene.cube.solve()}
-        >
-          Solve
-        </button>
-        <button
-          on:click={() => scene.cube.scramble()}
-        >
-          Scramble
-        </button>
+        <button on:click={() => scene.cube.solve()}> Solve </button>
+        <button on:click={() => scene.cube.scramble()}> Scramble </button>
       </div>
       <GLManager
         onSceneInitialized={(_scene) => {
           scene = _scene;
         }}
       />
-      <p
-        style="font-size: 1.5rem;"
-      >
+      <p style="font-size: 1.5rem;">
         {state.timerText}
       </p>
-      <button
-        on:click={() => onPressTimerButton()}
-      >
+      <button on:click={() => onPressTimerButton()}>
         {state.timerButtonText}
       </button>
     </div>
+    {#if drawerIndex === 0}
+      <Drawer title="Settings" bind:drawerIndex>
+        <div style="padding: 16px;">
+          <a href="/keybindings.html">
+            <button>customize key bindings</button>
+          </a>
+        </div>
+      </Drawer>
+    {/if}
   </div>
   <SideNav bind:open={sideNavOpen} />
 </main>

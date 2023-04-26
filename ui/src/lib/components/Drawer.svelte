@@ -2,7 +2,11 @@
     import Icon from "./Icon.svelte";
 
     export let title: string;
-    export let close: Function;
+    export let drawerIndex: number;
+
+    function close() {
+        drawerIndex = -1;
+    }
 </script>
 
 <div class="drawer">

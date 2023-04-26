@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "cp ./varsProd.ts src/lib/scripts/common/vars.ts && vite build",
-    "buildDev": "cp ./varsDev.ts src/lib/scripts/common/vars.ts && vite build --mode development --watch"
+    "build": "vite build",
+    "buildDev": "vite build --mode development --watch"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.4",

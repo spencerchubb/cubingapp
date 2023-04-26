@@ -37,6 +37,10 @@
   import { onMount } from "svelte";
   import { AlgSetLogic, preBuiltSets } from "./algSet";
   import Faq from "./Faq.svelte";
+  import DrawerIcon from "../lib/components/DrawerIcon.svelte";
+  import ChartIcon from "../lib/components/icons/ChartIcon.svelte";
+    import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
+    import ProfileIcon from "../lib/components/icons/ProfileIcon.svelte";
 
   let email = "";
   let password = "";
@@ -45,14 +49,7 @@
 
   let drawerIndex = -1;
 
-  function toggleDrawer(index) {
-    if (drawerIndex === index) {
-      drawerIndex = -1;
-    } else {
-      drawerIndex = index;
-    }
-  }
-
+  // TODO remove this
   const algSetNames = getAlgSetNames();
   let currAlgSet: string;
   let currAlg: string;
@@ -68,10 +65,10 @@
 
   let sideNavOpen = false;
 
-  let state = setCallback(newState => {
+  let state = setCallback((newState) => {
     state = newState;
   });
-  const algSetLogic = new AlgSetLogic(newState => {
+  const algSetLogic = new AlgSetLogic((newState) => {
     state = Object.assign(state, newState);
     setUIState(state);
   });
@@ -83,24 +80,18 @@
 
 <main class="col" style="width: 100%; height: 100%;">
   <nav class="navbar" style="justify-content: space-between;">
-    <NavBarIcon
-      name="menu"
-      on:click={() => sideNavOpen = true}
-    />
+    <NavBarIcon name="menu" on:click={() => (sideNavOpen = true)} />
     {#if page === "train"}
-      <div id="iconContainer" class="row">
-        <NavBarIcon
-          name="chart"
-          on:click={() => toggleDrawer(0)}
-        />
-        <NavBarIcon
-          name="profile"
-          on:click={() => toggleDrawer(1)}
-        />
-        <NavBarIcon
-          name="settings"
-          on:click={() => toggleDrawer(2)}
-        />
+      <div class="row">
+        <DrawerIcon on:click={() => drawerIndex = 0}>
+          <ChartIcon />
+        </DrawerIcon>
+        <DrawerIcon on:click={() => drawerIndex = 1}>
+          <ProfileIcon />
+        </DrawerIcon>
+        <DrawerIcon on:click={() => drawerIndex = 2}>
+          <SettingsIcon />
+        </DrawerIcon>
       </div>
     {/if}
   </nav>
@@ -115,60 +106,60 @@
     overflow-y: auto;"
   >
     {#if page === "landing"}
-      <div
-        class="col w-full h-full"
-        style="padding: 16px;"
-      >
+      <div class="col w-full h-full" style="padding: 16px;">
         <h1>Learn OLL, PLL, CLL and more</h1>
-        <div style="height: 16px"></div>
-        <p class="text-gradient" style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));">
+        <div style="height: 16px" />
+        <p
+          class="text-gradient"
+          style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));"
+        >
           Memorize algs in half the time
         </p>
-        <div style="height: 16px"></div>
+        <div style="height: 16px" />
         {#if state.user}
-          <button
-            on:click={() => (page = "train")}
-          >
-            Start Training
-          </button>
+          <button on:click={() => (page = "train")}> Start Training </button>
         {:else}
           <div
             class="col"
             style="border-radius: 16px; padding: 16px; box-shadow: 0 0 4px lightgray;"
           >
-            <ButtonGoogleSignIn callback={user => onSignIn(user)} />
-            <div style="height: 16px;"></div>
-            <div style="width: 100%; height: 2px; background-color: var(--gray-600);" />
-            <div style="height: 16px;"></div>
+            <ButtonGoogleSignIn callback={(user) => onSignIn(user)} />
+            <div style="height: 16px;" />
+            <div
+              style="width: 100%; height: 2px; background-color: var(--gray-600);"
+            />
+            <div style="height: 16px;" />
             <p>Or use email and password</p>
-            <div style="height: 12px;"></div>
+            <div style="height: 12px;" />
             <InputEmail class="mt-4" bind:value={email} />
-            <div style="height: 16px;"></div>
+            <div style="height: 16px;" />
             <InputPassword class="mt-4" bind:value={password} />
-            <div style="height: 32px;"></div>
+            <div style="height: 32px;" />
             <div class="row">
               <ButtonCreateAccount
                 {email}
                 {password}
-                callback={user => onSignIn(user)}
+                callback={(user) => onSignIn(user)}
               />
               <div style="width: 16px;" />
               <ButtonSignIn
                 {email}
                 {password}
-                callback={user => onSignIn(user)}
+                callback={(user) => onSignIn(user)}
               />
             </div>
           </div>
         {/if}
-        <div style="height: 16px;"></div>
-        <div style="width: 100%; height: 1px; background-color: var(--gray-600);" />
-        <div style="height: 16px;"></div>
+        <div style="height: 16px;" />
+        <div
+          style="width: 100%; height: 1px; background-color: var(--gray-600);"
+        />
+        <div style="height: 16px;" />
         <Faq />
       </div>
     {:else if page === "train"}
       <div class="col" style="width: 100%; height: 100%;">
-        <div style="height: 16px;"></div>
+        <div style="height: 16px;" />
         <GLManager
           onSceneInitialized={(scene) => {
             setScene(scene);
@@ -180,7 +171,7 @@
             }
           }}
         />
-        <div style="height: 16px"></div>
+        <div style="height: 16px" />
         <div class="row" style="gap: 16px;">
           <Icon
             name="retry"
@@ -227,20 +218,20 @@
             }}
           />
         </div>
-        <div style="height: 16px;"></div>
+        <div style="height: 16px;" />
         <button class="btn-primary" on:click={() => onClickSolutionButton()}>
           {state.solutionButtonText}
         </button>
         {#if state.showScramble}
-          <div style="height: 16px;"></div>
+          <div style="height: 16px;" />
           <p>scramble: {state.scramble || "loading..."}</p>
         {/if}
-        <div style="flex-grow: 1;"></div>
+        <div style="flex-grow: 1;" />
         <p>cases today: {casesToday}</p>
-        <div style="height: 16px"></div>
+        <div style="height: 16px" />
       </div>
       {#if drawerIndex === 0}
-        <Drawer title="Stats" close={() => toggleDrawer(-1)}>
+        <Drawer title="Stats" bind:drawerIndex>
           <table style="margin: 16px auto;">
             <thead>
               <tr>
@@ -261,7 +252,7 @@
           </table>
         </Drawer>
       {:else if drawerIndex === 1}
-        <Drawer title="Profile" close={() => toggleDrawer(-1)}>
+        <Drawer title="Profile" bind:drawerIndex>
           <div style="padding: 12px;">
             <p>signed in as {state.user.email}</p>
             <button
@@ -276,20 +267,19 @@
           </div>
         </Drawer>
       {:else if drawerIndex === 2}
-        <Drawer title="Settings" close={() => toggleDrawer(-1)}>
+        <Drawer title="Settings" bind:drawerIndex>
           <div style="padding: 16px;">
             <p>algorithm set: {state.algSet?.name ?? "none"}</p>
-            <button
-              on:click={() => algSetLogic.displayChooseAlgSet()}
-            >
+            <button on:click={() => algSetLogic.displayChooseAlgSet()}>
               choose alg set
             </button>
             <div style="height: 16px;" />
+            <a href="/keybindings.html">
+              <button>customize key bindings</button>
+            </a>
+            <div style="height: 16px;" />
             <p>orientation</p>
-            <select
-              bind:value={orientation}
-              on:change={onChangeOrientation}
-            >
+            <select bind:value={orientation} on:change={onChangeOrientation}>
               {#each orientationOptions as option}
                 <option value={option.value}>{option.label}</option>
               {/each}
@@ -318,7 +308,7 @@
                 on:click={() => onAddAlgorithm()}
               />
             </div>
-            {#each (state.algSet?.trainingAlgs ?? []) as alg, i}
+            {#each state.algSet?.trainingAlgs ?? [] as alg, i}
               <button
                 class="alg-list-item"
                 style="
@@ -338,17 +328,11 @@
     {/if}
   </div>
   <SideNav bind:open={sideNavOpen} />
-  <Modal
-    title={state.modalType}
-    bind:open={state.modalOpen}
-  >
+  <Modal title={state.modalType} bind:open={state.modalOpen}>
     {#if state.modalType === "choose alg set"}
-      <div
-        class="col"
-        style="padding: 16px; gap: 16px;"
-      >
+      <div class="col" style="padding: 16px; gap: 16px;">
         <p style="font-weight: bold;">pre-built sets</p>
-        <div 
+        <div
           style="
           display: flex;
           flex-wrap: wrap;
@@ -358,10 +342,12 @@
           {#each preBuiltSets as set}
             <button
               on:click={() => {
-                algSetLogic.createPrebuiltAlgSet(state.user.uid, set, state.algSets).then(() => {
-                  setAlgSet();
-                  loadCurrAlg();
-                });
+                algSetLogic
+                  .createPrebuiltAlgSet(state.user.uid, set, state.algSets)
+                  .then(() => {
+                    setAlgSet();
+                    loadCurrAlg();
+                  });
               }}
             >
               {set}
@@ -387,42 +373,48 @@
                 }}
               >
                 <p style="font-size: 1.2rem;">{algSet.name}</p>
-                <div style="flex-grow: 1;"></div>
+                <div style="flex-grow: 1;" />
                 <Icon
                   name="edit"
                   style="width: 30px; height: 30px; padding: 4px;"
-                  on:click={() => algSetLogic.editAlgSet(algSet.id, state.algSets)}
+                  on:click={() =>
+                    algSetLogic.editAlgSet(algSet.id, state.algSets)}
                 />
-                <div style="width: 16px;"></div>
+                <div style="width: 16px;" />
                 <Icon
                   name="x"
                   style="width: 30px; height: 30px; padding: 4px;"
-                  on:click={() => algSetLogic.deleteAlgSet(algSet.id, state.algSets, state.algSet)}
+                  on:click={() =>
+                    algSetLogic.deleteAlgSet(
+                      algSet.id,
+                      state.algSets,
+                      state.algSet
+                    )}
                 />
               </button>
             {/each}
           </div>
         {/if}
-        <button
-          on:click={() => algSetLogic.createCustomSet()}
-        >new custom set</button>
+        <button on:click={() => algSetLogic.createCustomSet()}
+          >new custom set</button
+        >
       </div>
     {:else if state.modalType === "edit alg set"}
-      <div
-        class="col"
-        style="padding: 16px; gap: 16px;"
-      >
+      <div class="col" style="padding: 16px; gap: 16px;">
         <input type="text" bind:value={state.algSetEditing.name} />
 
         <button
-          on:click={() => algSetLogic.saveAlgSet(state.algSetEditing.id, state.algSetEditing.name, state.algSetEditing.trainingAlgs, state.algSets)}
-        >save</button>
+          on:click={() =>
+            algSetLogic.saveAlgSet(
+              state.algSetEditing.id,
+              state.algSetEditing.name,
+              state.algSetEditing.trainingAlgs,
+              state.algSets
+            )}>save</button
+        >
       </div>
     {:else if state.modalType === "edit alg"}
-      <div
-        class="col"
-        style="padding: 16px; gap: 16px;"
-      >
+      <div class="col" style="padding: 16px; gap: 16px;">
         <input
           type="text"
           style="width: 300px"
@@ -430,13 +422,10 @@
           on:change={onChangeAlgorithm}
         />
         <div class="row" style="gap: 16px;">
-          <button
-            class="btn-gray"
-            on:click={() => onDeleteAlgorithm()}
-          >Delete</button>
-          <button
-            on:click={() => onSaveAlgorithm()}
-          >Save</button>
+          <button class="btn-gray" on:click={() => onDeleteAlgorithm()}
+            >Delete</button
+          >
+          <button on:click={() => onSaveAlgorithm()}>Save</button>
         </div>
       </div>
     {/if}
@@ -481,7 +470,7 @@
     background-color: inherit;
     border-radius: 0;
   }
-  
+
   .alg-list-item:hover {
     background-color: var(--gray-800);
     box-shadow: inset 0 0 4px var(--gray-400);
