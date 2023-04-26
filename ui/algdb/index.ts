@@ -1,8 +1,8 @@
 import '../src/style/app.css'
 import '../src/style/colors.css'
-import App from './App.svelte'
+import Index from './Index.svelte'
 
-const app = new App({
+const app = new Index({
   // @ts-ignore
   target: document.getElementById('app'),
 })

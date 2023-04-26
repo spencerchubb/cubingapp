@@ -23,7 +23,7 @@
     >
         <h1>Alg Database</h1>
         <p style="font-style: italic;">
-            Open source database with 1700+ vetted algorithms
+            Open source database with 2700+ vetted algorithms
         </p>
         {#each algSets as algSet}
             <a

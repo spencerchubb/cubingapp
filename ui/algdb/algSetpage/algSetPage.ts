@@ -42,8 +42,9 @@ let timer;
 
 export async function fetchAlgs(algSetName: string) {
     
-    const url = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
-    const res = await fetch(`${url}/${algSetName}.json`);
+    const baseUrl = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
+    const url = `${baseUrl}/${algSetName}.json`;
+    const res = await fetch(url);
     const json = await res.json();
     
     state.algs = json;

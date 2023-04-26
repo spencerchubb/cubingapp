@@ -83,6 +83,16 @@ export const algSets: AlgSet[] = [
         "recommended": []
     },
     {
+        "name": "OLLCP",
+        "cases": 342,
+        "puzzle": "3x3",
+        "description": [
+            "OLLCP stands for Orientation of Last Layer and Corner Permutation. As the name implies, this step solves OLL and corner permutation at the same time.",
+            "OLLCP is typically used with CFOP, and it is an advanced algorithm set. It is recommended to learn OLL and PLL, then decide if OLLCP is worth it for you. Sometimes it is even used with Roux, in a variant called the Pinkie Pie method."
+        ],
+        "recommended": ["OLL", "COLL"]
+    },
+    {
         "name": "F2L",
         "cases": 69,
         "puzzle": "3x3",
