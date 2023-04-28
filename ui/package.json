@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "buildDev": "vite build --mode development --watch"
+    "buildDev": "vite build --mode development"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
@@ -17,7 +17,7 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "@spencerchubb/solver": "^0.1.6",
+    "@spencerchubb/solver": "^0.1.7",
     "vite-plugin-top-level-await": "^1.2.4",
     "vite-plugin-wasm": "^3.2.1"
   }

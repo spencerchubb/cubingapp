@@ -1,6 +1,6 @@
 import { Scene } from "../lib/scripts/rubiks-viz";
 import { findInvalidMove } from "../lib/scripts/rubiks-viz/moves";
-// import { searchForSuggestions } from "./suggestions";
+import { getSuggestions, SuggestionData } from "./suggestions";
 
 export {};
 
@@ -17,7 +17,7 @@ type State = {
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
-    suggestions: string[],
+    suggestionData: SuggestionData[],
 }
 
 let state: State = {
@@ -26,7 +26,7 @@ let state: State = {
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
-    suggestions: [],
+    suggestionData: [],
 };
 
 let stepper = {} as Stepper;
@@ -36,12 +36,6 @@ export function initApp(scene: Scene) {
 
     let url = new URL(document.URL);
     state.moves = url.searchParams.get("moves") || "";
-
-    // Test data
-//     state.moves = `L2 U2 L2 R2 B2 D' R2 U L2 D L2 U' L U B F2 D2 L F' L B'
-// F' L B' L R F L
-// z2 U2 F U' F'
-// R' U' R U' R' U' R`;
 
     updateCubeState(undefined);
 
@@ -75,10 +69,10 @@ export function updateCubeState(event) {
     state.maxMoves = stepper.length;
     callback(state);
 
-    // searchForSuggestions(movesPortion).then(suggestions => {
-    //     state.suggestions = suggestions;
-    //     callback(state);
-    // });
+    getSuggestions(cube, parsedAlg).then(suggestionData => {
+        state.suggestionData = suggestionData;
+        callback(state);
+    });
 }
 
 export function copyUrl() {
@@ -122,9 +116,16 @@ function middleOfWord(str: string, index: number) {
     return char !== " " && char !== "\t" && char !== "\n";
 }
 
-export function onClickSuggestion(suggestion: string) {
-    state.moves += " " + suggestion;
-    callback(state);
+export function onClickSuggestion(suggestion: string, stepName: string) {
+    let { moves, movesCursor } = state;
+
+    movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
+    let movesPortion = moves.slice(0, movesCursor);
+
+    state.moves = `${movesPortion}\n${suggestion} // ${stepName}`;
+    state.movesCursor = state.moves.length;
+
+    updateCubeState(undefined);
 }
 
 type Stepper = {
@@ -152,7 +153,7 @@ function parseAlg(str: string): string {
 
     // Filter out empty lines
     lines = lines.filter(line => line.trim().length > 0);
-
+    
     // Ignore comments
     lines = lines.map(line => line.split("//")[0]);
 
@@ -164,7 +165,7 @@ function parseAlg(str: string): string {
     });
 
     // Join lines then split by spaces
-    return lines.join(" ");
+    return lines.join(" ").trim();
 }
 
 function newStepper(scene: Scene, alg: string, index: number): Stepper {
