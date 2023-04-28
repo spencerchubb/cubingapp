@@ -10,9 +10,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/jackc/pgx/v5/pgxpool"
-
 	server "server/src/db"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 var db server.DB
@@ -296,14 +296,6 @@ func listenAndServe() error {
 func main() {
 	fmt.Println(time.Now().String())
 	var err error
-	conn, err := pgxpool.New(context.Background(), pgUrl)
-	db = server.DB{Conn: conn}
-	if err != nil {
-		fmt.Printf("Unable to connect to database: %v\n", err)
-		os.Exit(1)
-		return
-	}
-	defer conn.Close()
 
 	handleFunc("/", root)
 	handleFunc("/hello", hello)
@@ -318,12 +310,29 @@ func main() {
 	handleFunc("/getSolves", getSolves)
 	handleFunc("/user", user)
 
-	err = listenAndServe()
-	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("Server closed\n")
+	go func() {
+		err = listenAndServe()
+		if errors.Is(err, http.ErrServerClosed) {
+			fmt.Printf("Server closed\n")
+			os.Exit(1)
+		} else if err != nil {
+			fmt.Printf("Error starting server: %s\n", err)
+			os.Exit(1)
+		}
+	}()
+
+	// Setup database connection after server is started because this is slow.
+	conn, err := pgxpool.New(context.Background(), pgUrl)
+	db = server.DB{Conn: conn}
+	if err != nil {
+		fmt.Printf("Unable to connect to database: %v\n", err)
 		os.Exit(1)
-	} else if err != nil {
-		fmt.Printf("Error starting server: %s\n", err)
-		os.Exit(1)
+		return
 	}
+	defer conn.Close()
+
+	fmt.Println("Connected to database")
+
+	// Wait for server to close.
+	<-make(chan struct{})
 }
