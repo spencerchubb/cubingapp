@@ -330,8 +330,8 @@
 		{/if}
 	</div>
 	<SideNav bind:open={sideNavOpen} />
-	<Modal title={state.modalType} bind:open={state.modalOpen}>
-		{#if state.modalType === "choose alg set"}
+	<Modal title={state.modalType} bind:open={state.modalOpen} allowClose={state.algSets.length > 0}>
+		{#if state.modalType === "choose alg set" || state.algSets.length === 0}
 			<div class="col" style="padding: 16px; gap: 16px;">
 				<p style="font-weight: bold;">pre-built sets</p>
 				<div

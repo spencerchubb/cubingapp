@@ -92,6 +92,10 @@ type GetTrainingAlgsResponse struct {
 	AlgSet  server.AlgSetsRow `json:"algSet"`
 }
 
+type GetAlgSetsRequest struct {
+	Uid int `json:"uid"`
+}
+
 type UserRequest struct {
 	Email string `json:"email"`
 }

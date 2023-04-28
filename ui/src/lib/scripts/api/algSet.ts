@@ -46,7 +46,8 @@ export async function get(uid: number, set: string): Promise<AlgSet> {
 }
 
 export async function getAll(uid: number): Promise<AlgSet[]> {
-    return post("/getAlgSets", { uid });
+    const result = await post("/getAlgSets", { uid });
+    return result ?? [];
 }
 
 export async function update(id: number, set: string, trainingAlgs: TrainingAlg[]): Promise<void> {

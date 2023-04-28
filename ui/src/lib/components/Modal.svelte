@@ -4,13 +4,19 @@
 
     export let title: string;
     export let open = false;
+    export let allowClose = true;
 
+    function close() {
+        if (allowClose) {
+            open = false;
+        }
+    }
 </script>
 
 {#if open}
     <div
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: rgba(0, 0, 0, 0.5);"
-        on:click={() => (open = false)}
+        on:click={close}
         on:keypress={(event) => {}}
         transition:fade={{ duration: 250 }}
     >
@@ -23,12 +29,14 @@
         >
             <div class="modal-header">
                 <p>{title}</p>
-                <Icon
-                    name="x"
-                    class="x-icon"
-                    style="padding: 4px;"
-                    on:click={() => (open = false)}
-                />
+                {#if allowClose}
+                    <Icon
+                        name="x"
+                        class="x-icon"
+                        style="padding: 4px;"
+                        on:click={() => open = false}
+                    />
+                {/if}
             </div>
             <slot />
         </div>

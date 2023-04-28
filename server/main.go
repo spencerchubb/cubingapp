@@ -160,7 +160,7 @@ func getAlgSet(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAlgSets(w http.ResponseWriter, r *http.Request) {
-	var req GetTrainingAlgsRequest
+	var req GetAlgSetsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
 		writeJson(w, nil)
@@ -169,7 +169,7 @@ func getAlgSets(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := db.GetAlgSets(req.Uid)
 	if err != nil {
-		writeJson(w, nil)
+		writeJson(w, []server.AlgSetsRow{})
 		return
 	}
 
