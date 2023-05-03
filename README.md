@@ -1,4 +1,4 @@
-# cubing app
+# CubingApp
 
 I have only tested these steps on my Windows machine. I am not sure if it will work perfectly for others.
 

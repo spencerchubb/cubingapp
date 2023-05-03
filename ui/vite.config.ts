@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        404: resolve(__dirname, '404.html'),
         algdb: resolve(__dirname, 'algdb.html'),
         "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
         index: resolve(__dirname, 'index.html'),
