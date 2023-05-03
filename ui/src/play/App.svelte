@@ -2,18 +2,13 @@
   import GLManager from "../lib/components/GLManager.svelte";
   import SideNav from "../lib/components/SideNav.svelte";
   import type { Scene } from "../lib/scripts/rubiks-viz";
-  import { onPressTimerButton, setCallback } from "./app";
+  import { initApp, onChangePuzzle, onPressScramble, onPressTimerButton, puzzles, setCallback } from "./app";
   import NavBarIcon from "../lib/components/NavBarIcon.svelte";
   import Drawer from "../lib/components/Drawer.svelte";
   import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
   import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
 
   let scene: Scene;
-
-  function onChangeLayers(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    scene.cube.setNumOfLayers(parseInt(value));
-  }
 
   let state = setCallback((newState) => {
     state = newState;
@@ -51,19 +46,22 @@
           justify-content: space-between;
           gap: 16px;"
       >
-        <input
-          type="number"
-          value="3"
-          min="1"
-          style="width: 100px;"
-          on:change={onChangeLayers}
-        />
+        <select
+            value={state.puzzle}
+            on:change={event => onChangePuzzle(event, scene)}
+        >
+            {#each puzzles as puzzle}
+                <option value={puzzle}>{puzzle}</option>
+            {/each}
+        </select>
         <button on:click={() => scene.cube.solve()}> Solve </button>
-        <button on:click={() => scene.cube.scramble()}> Scramble </button>
+        <button on:click={() => onPressScramble(scene)}> Scramble </button>
       </div>
+      <p>{state.scramble}</p>
       <GLManager
         onSceneInitialized={(_scene) => {
           scene = _scene;
+          initApp(scene);
         }}
       />
       <p style="font-size: 1.5rem;">
