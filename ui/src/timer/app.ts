@@ -134,8 +134,10 @@ document.addEventListener("keydown", event => {
     }
 });
 
-document.addEventListener("keyup", () => {
-    onUp();
+document.addEventListener("keyup", event => {
+    if (event.key === " ") {
+        onUp();
+    }
 });
 
 export function onDown() {
