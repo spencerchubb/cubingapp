@@ -53,9 +53,9 @@
                 Recon Tool
             </button>
         </a>
-        <a href="/play.html">
+        <a href="/timer.html">
             <button style="width: 100%;">
-                Play
+                Timer
             </button>
         </a>
         <a href="/train.html">
