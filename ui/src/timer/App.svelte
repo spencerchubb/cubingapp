@@ -6,8 +6,8 @@
         initApp,
         onChangePuzzle,
         onDown,
-        onPressScramble,
         onUp,
+        performNewScramble,
         puzzles,
         setCallback,
         type TimerStatus,
@@ -70,14 +70,14 @@
             >
                 <select
                     value={state.puzzle}
-                    on:change={(event) => onChangePuzzle(event, scene)}
+                    on:change={(event) => onChangePuzzle(event)}
                 >
                     {#each puzzles as puzzle}
                         <option value={puzzle}>{puzzle}</option>
                     {/each}
                 </select>
                 <button on:click={() => scene.cube.solve()}> Solve </button>
-                <button on:click={() => onPressScramble(scene)}>
+                <button on:click={() => performNewScramble()}>
                     Scramble
                 </button>
             </div>

@@ -43,18 +43,22 @@ let state: State = {
     timerText: "0.00",
     algToPerform: "",
 };
+let scene: Scene;
 let time: number;
 let interval;
 
-export function initApp(scene) {
-    getScramble(state.puzzle, scene).then(scram => {
-        state.scramble = scram;
-        callback(state);
-    });
+export function initApp(_scene) {
+    scene = _scene;
+
+    setPuzzle(state.puzzle);
 }
 
-export function onChangePuzzle(event, scene) {
+export function onChangePuzzle(event) {
     const puzzle = event.target.value;
+    setPuzzle(puzzle);
+}
+
+function setPuzzle(puzzle: Puzzle) {
     localStorage.setItem("puzzle", puzzle);
     state.puzzle = puzzle;
 
@@ -85,7 +89,7 @@ export function onChangePuzzle(event, scene) {
     })
 }
 
-export function onPressScramble(scene) {
+export function performNewScramble() {
     getScramble(state.puzzle, scene).then(scram => {
         state.scramble = scram;
         scene.cube.solve();
@@ -122,6 +126,19 @@ async function getScramble(puzzle: Puzzle, scene: Scene): Promise<string> {
     });
 }
 
+function stopTimer() {
+    clearInterval(interval);
+
+    state.timerStatus = "stopped";
+
+    const timeDifference = (Date.now() - time) / 1000;
+    state.timerText = timeDifference.toFixed(2);
+
+    callback(state);
+
+    performNewScramble();
+}
+
 async function execNonblocking(fn): Promise<any> {
     return new Promise((resolve, reject) => {
         setTimeout(() => resolve(fn()), 0);
@@ -150,11 +167,7 @@ export function onDown() {
             callback(state);
         }, 300);
     } else if (state.timerStatus === "running") {
-        state.timerStatus = "stopped";
-        const timeDifference = (Date.now() - time) / 1000;
-        state.timerText = timeDifference.toFixed(2);
-        callback(state);
-        clearInterval(interval);
+        stopTimer();
     }
 }
 
@@ -171,8 +184,6 @@ export function onUp() {
             callback(state);
         }, 10);
     } else if (state.timerStatus === "running") {
-        state.timerStatus = "stopped";
-        callback(state);
-        clearInterval(interval);
+        stopTimer();
     }
 }
