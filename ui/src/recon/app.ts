@@ -17,7 +17,7 @@ type State = {
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
-    suggestionData: SuggestionData[],
+    suggestionData: SuggestionData,
 }
 
 let state: State = {
@@ -26,7 +26,10 @@ let state: State = {
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
-    suggestionData: [],
+    suggestionData: {
+        solved: [],
+        unsolved: [],
+    },
 };
 
 let stepper = {} as Stepper;
@@ -170,6 +173,10 @@ function parseAlg(str: string): string {
 
 function newStepper(scene: Scene, alg: string, index: number): Stepper {
     let moves = parseAlg(alg).split(" ");
+
+    // If moves = [""], set moves = []
+    if (moves.length === 1 && moves[0] === "") moves = [];
+
     return {
         prev: () => {
             if (index <= 0) return false;

@@ -37,13 +37,17 @@ const SOLVER_PIECES = {
 
 const SOLVER_CROSS = [SOLVER_PIECES.UB, SOLVER_PIECES.UL, SOLVER_PIECES.UR, SOLVER_PIECES.UF];
 
-export type SuggestionData = {
+export type Unsolved = {
     name: string,
-    solved: boolean,
     suggestions: string[]
 };
 
-export async function getSuggestions(alg: string): Promise<SuggestionData[]> {
+export type SuggestionData = {
+    solved: string[],
+    unsolved: Unsolved[],
+};
+
+export async function getSuggestions(alg: string): Promise<SuggestionData> {
     alg = stripSlices(alg);
     let stripped = stripRotations(alg);
     alg = stripped.alg;
@@ -51,36 +55,34 @@ export async function getSuggestions(alg: string): Promise<SuggestionData[]> {
 
     const output = await getSuggestionsNoRotate(cube, alg);
 
-    output.forEach(suggestion => {
-        suggestion.suggestions = suggestion.suggestions.map(suggestion => {
+    output.unsolved.forEach(unsolved => {
+        unsolved.suggestions = unsolved.suggestions.map(suggestion => {
             return rotateAlg(suggestion, rotations);
         });
     });
     return output;
 }
 
-export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<SuggestionData[]> {
+export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<SuggestionData> {
     cube.solve();
-    console.log(alg)
     cube.performAlg(alg);
 
     if (!piecesAreSolved(cube, CROSS_WHITE)) {
-        return [
-            {
-                name: "Cross",
-                solved: false,
-                suggestions: await solvePieces(alg, SOLVER_CROSS),
-            },
-        ];
+        return {
+            solved: [],
+            unsolved: [
+                {
+                    name: "Cross",
+                    suggestions: await solvePieces(alg, SOLVER_CROSS),
+                },
+            ],
+        };
     };
 
-    const output: SuggestionData[] = [
-        {
-            name: "Cross",
-            solved: true,
-            suggestions: [],
-        },
-    ];
+    const output: SuggestionData = {
+        solved: ["Cross"],
+        unsolved: [],
+    }
 
     const frontRightSolved = piecesAreSolved(cube, f2lFrontRight);
     const frontLeftSolved = piecesAreSolved(cube, f2lFrontLeft);
@@ -91,64 +93,42 @@ export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<S
 
     if (frontRightSolved) {
         piecesToSolve.push(SOLVER_PIECES.UFR, SOLVER_PIECES.FR);
-        output.push({
-            name: "F2L Front Right",
-            solved: true,
-            suggestions: [],
-        });
+        output.solved.push("F2L Green-Red");
     }
     if (frontLeftSolved) {
         piecesToSolve.push(SOLVER_PIECES.ULF, SOLVER_PIECES.FL);
-        output.push({
-            name: "F2L Front Left",
-            solved: true,
-            suggestions: [],
-        });
+        output.solved.push("F2L Orange-Green");
     }
     if (backRightSolved) {
         piecesToSolve.push(SOLVER_PIECES.URB, SOLVER_PIECES.BR);
-        output.push({
-            name: "F2L Back Right",
-            solved: true,
-            suggestions: [],
-        });
+        output.solved.push("F2L Red-Blue");
     }
     if (backLeftSolved) {
         piecesToSolve.push(SOLVER_PIECES.UBL, SOLVER_PIECES.BL);
-        output.push({
-            name: "F2L Back Left",
-            solved: true,
-            suggestions: [],
-        });
+        output.solved.push("F2L Blue-Orange");
     }
 
     if (!frontRightSolved) {
-        {
-            output.push({
-                name: "F2L Front Right",
-                solved: false,
-                suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.UFR, SOLVER_PIECES.FR]),
-            });
-        }
+        output.unsolved.push({
+            name: "F2L Front Right",
+            suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.UFR, SOLVER_PIECES.FR]),
+        });
     }
     if (!frontLeftSolved) {
-        output.push({
+        output.unsolved.push({
             name: "F2L Front Left",
-            solved: false,
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.ULF, SOLVER_PIECES.FL]),
         });
     }
     if (!backRightSolved) {
-        output.push({
+        output.unsolved.push({
             name: "F2L Back Right",
-            solved: false,
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.URB, SOLVER_PIECES.BR]),
         });
     }
     if (!backLeftSolved) {
-        output.push({
+        output.unsolved.push({
             name: "F2L Back Left",
-            solved: false,
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.UBL, SOLVER_PIECES.BL]),
         });
     }

@@ -72,20 +72,22 @@
                 on:click={updateCubeState}
                 on:keyup={updateCubeState}
             />
-            <p style="margin: 16px 0; font-style: italic;">Suggestions in beta! Try them out</p>
-            {#each state.suggestionData as suggestionDatum}
-                {#if suggestionDatum.solved}
-                    <p>&#x2713; {suggestionDatum.name} solved</p>
-                {:else}
-                    <p style="margin-top: 16px;">{suggestionDatum.name} suggestions</p>
-                    {#each suggestionDatum.suggestions as suggestion}
-                        <button
-                            class="suggestion"
-                            on:click={() => onClickSuggestion(suggestion, suggestionDatum.name)}
-                            >{suggestion}</button
-                        >
-                    {/each}
-                {/if}
+            <p style="margin-top: 16px; font-style: italic;">Suggestions in beta! Try them out</p>
+            {#if state.suggestionData.solved.length > 0}
+                <div style="height: 16px;"></div>
+                {#each state.suggestionData.solved as solved}
+                    <p>&#x2713; {solved} solved</p>
+                {/each}
+            {/if}
+            {#each state.suggestionData.unsolved as unsolved}
+                <p style="margin-top: 16px;">{unsolved.name} suggestions</p>
+                {#each unsolved.suggestions as suggestion}
+                    <button
+                        class="suggestion"
+                        on:click={() => onClickSuggestion(suggestion, unsolved.name)}
+                        >{suggestion}</button
+                    >
+                {/each}
             {/each}
         </div>
     </div>
