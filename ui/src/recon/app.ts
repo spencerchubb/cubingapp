@@ -69,7 +69,7 @@ export function updateCubeState(event) {
     state.maxMoves = stepper.length;
     callback(state);
 
-    getSuggestions(cube, parsedAlg).then(suggestionData => {
+    getSuggestions(parsedAlg).then(suggestionData => {
         state.suggestionData = suggestionData;
         callback(state);
     });
