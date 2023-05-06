@@ -110,25 +110,25 @@ export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<S
 
     if (!frontRightSolved) {
         output.unsolved.push({
-            name: "F2L Front Right",
+            name: "F2L Green-Red",
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.UFR, SOLVER_PIECES.FR]),
         });
     }
     if (!frontLeftSolved) {
         output.unsolved.push({
-            name: "F2L Front Left",
+            name: "F2L Orange-Green",
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.ULF, SOLVER_PIECES.FL]),
         });
     }
     if (!backRightSolved) {
         output.unsolved.push({
-            name: "F2L Back Right",
+            name: "F2L Red-Blue",
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.URB, SOLVER_PIECES.BR]),
         });
     }
     if (!backLeftSolved) {
         output.unsolved.push({
-            name: "F2L Back Left",
+            name: "F2L Blue-Orange",
             suggestions: await solvePieces(alg, [...piecesToSolve, SOLVER_PIECES.UBL, SOLVER_PIECES.BL]),
         });
     }

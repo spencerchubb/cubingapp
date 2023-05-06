@@ -104,6 +104,29 @@
     .moves-input {
         width: 100%;
         height: 200px;
+        font-size: 1rem;
+        padding: 6px;
+        background: var(--gray-800);
+        color: var(--gray-100);
+        box-shadow: 0 0 4px 2px var(--gray-600);
+    }
+
+    .moves-input:focus {
+        outline: solid 1px var(--gray-400);
+        box-shadow: 0 0 6px 3px var(--gray-600);
+    }
+
+    .moves-input::-moz-placeholder {
+        color: var(--gray-400);
+    }
+    .moves-input:-moz-placeholder {
+        color: var(--gray-400);
+    }
+    .moves-input::-webkit-input-placeholder {
+        color: var(--gray-400);
+    }
+    .moves-input:-ms-input-placeholder {
+        color: var(--gray-400);
     }
 
     .suggestion {
