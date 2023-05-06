@@ -46,7 +46,7 @@ export const algSets: AlgSet[] = [
         "cases": 6,
         "puzzle": "2x2",
         "description": [
-            "PBL stands for Permutation of Both Layers. It is a good intermediat emethod for 2x2 solvers after they have learned a beginner method.",
+            "PBL stands for Permutation of Both Layers. It is a good intermediate method for 2x2 solvers after they have learned a beginner method.",
             "Instead of solving a layer, you can begin by solving a face. That means the first layer doesn't have to be permuted, which leads to more efficient solutions for the first step. Then you orient the last layer, and finally permuate both layers at the same time."
         ],
         "recommended": ["2x2 CLL", "2x2 EG1", "2x2 EG2"]
