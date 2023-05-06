@@ -2,6 +2,8 @@ import { Scene } from "../lib/scripts/rubiks-viz";
 import { findInvalidMove } from "../lib/scripts/rubiks-viz/moves";
 import { getSuggestions, SuggestionData } from "./suggestions";
 
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
+
 export {};
 
 let callback: (state) => void;
@@ -38,7 +40,9 @@ export function initApp(scene: Scene) {
     state.scene = scene;
 
     let url = new URL(document.URL);
-    state.moves = url.searchParams.get("moves") || "";
+    let moves = url.searchParams.get("moves") || "";
+    moves = decompressFromEncodedURIComponent(moves);
+    state.moves = moves;
 
     updateCubeState(undefined);
 
@@ -80,7 +84,11 @@ export function updateCubeState(event) {
 
 export function copyUrl() {
     let url = new URL(document.URL);
-    urlSetParam(url, "moves", state.moves);
+
+    let moves = state.moves;
+    moves = compressToEncodedURIComponent(moves);
+    urlSetParam(url, "moves", moves);
+
     navigator.clipboard.writeText(url.toString());
 }
 

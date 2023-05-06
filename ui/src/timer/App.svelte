@@ -54,19 +54,12 @@
     </nav>
     <div
         class="row"
-        style="
-    justify-content: center;
-    align-items: start;
-    width: 100%;
-    height: 100%;
-    position: relative;"
+        style="justify-content: center; align-items: start; width: 100%; height: 100%; position: relative;"
     >
         <div class="col" style="width: 100%; gap: 16px; padding: 16px;">
             <div
                 class="row"
-                style="
-          justify-content: space-between;
-          gap: 16px;"
+                style="justify-content: space-between; gap: 16px;"
             >
                 <select
                     value={state.puzzle}
