@@ -1,5 +1,5 @@
 import { Scene, invertAlg, newScene } from '../../src/lib/scripts/rubiks-viz';
-import { AlgSet, algSets } from './../algSets';
+import { replaceAll } from '../../src/lib/scripts/util';
 
 export { };
 
@@ -15,21 +15,30 @@ type Alg = {
     algs: string[],
 }
 
+type AlgSet = {
+    name: string;
+    puzzle: string;
+    description: string[];
+    recommended: string[];
+    cases: {
+        name: string;
+        algs: string[];
+    }[];
+}
+
 type State = {
-    algs: Alg[],
     algSet: AlgSet,
     casePlaying: number,
     algPlaying: number,
 }
 
 let state: State = {
-    algs: [],
     algSet: {
-        name: "",
-        cases: 0,
+        name: getAlgSetName(),
         puzzle: "",
         description: [],
         recommended: [],
+        cases: [],
     },
     casePlaying: -1,
     algPlaying: -1,
@@ -40,15 +49,30 @@ let renderedScenes = {};
 
 let timer;
 
-export async function fetchAlgs(algSetName: string) {
-    
+function getAlgSetName(): string {
+    let href = window.location.href;
+    let index = href.lastIndexOf("/");
+    let algSetName = replaceAll(
+        href.substring(index + 1, href.length - 5),
+        "-",
+        " ",
+    );
+
+    let title = `Rubik's Cube ${algSetName} Algorithms`;
+    document.title = title;
+
+    return algSetName;
+}
+
+export async function fetchAlgs() {
+    const algSetName = state.algSet.name;
     const baseUrl = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
     const url = `${baseUrl}/${algSetName}.json`;
     const res = await fetch(url);
     const json = await res.json();
+    console.log(json);
     
-    state.algs = json;
-    state.algSet = algSets.find(algSet => algSet.name === algSetName) as AlgSet;
+    state.algSet = json;
 
     shouldRenderCubes = true;
     callback(state);
@@ -56,12 +80,12 @@ export async function fetchAlgs(algSetName: string) {
 
 // Do this lazily because it's slow af on mobile
 export function renderCubes() {
-    if (!shouldRenderCubes || !state.algs || state.algs.length === 0) return;
+    if (!shouldRenderCubes || state.algSet.cases.length === 0) return;
     shouldRenderCubes = false;
 
     const numLayers = parseInt(state.algSet.puzzle.substring(0, 1) ?? "");
 
-    for (let i = 0; i < state.algs.length; i++) {
+    for (let i = 0; i < state.algSet.cases.length; i++) {
         if (renderedScenes[i]) continue;
         
         let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
@@ -72,7 +96,7 @@ export function renderCubes() {
         const scene = newScene(sceneDiv, numLayers);
         renderedScenes[i] = scene;
 
-        const alg = state.algs[i];
+        const case_ = state.algSet.cases[i];
         if (!sceneDiv) {
             console.error(`Could not find scene${i}`);
             continue;
@@ -81,7 +105,7 @@ export function renderCubes() {
         scene.enableKey = () => false;
         scene.dragEnabled = false;
 
-        const firstAlg = alg.algs[0];
+        const firstAlg = case_.algs[0];
         scene.cube.performAlg(invertAlg(firstAlg));
     }
 }
@@ -105,8 +129,8 @@ function inViewport(ele: HTMLElement): boolean {
 // - If click another alg, reset previous and play new one
 
 export function play(caseIndex: number, algIndex: number) {
-    const alg = state.algs[caseIndex]?.algs[algIndex];
-    const scene = renderedScenes[caseIndex];
+    const alg = state.algSet.cases[caseIndex]?.algs[algIndex];
+    const scene: Scene = renderedScenes[caseIndex];
 
     // If we're already playing this alg, reset it.
     const shouldPause = state.casePlaying === caseIndex && state.algPlaying === algIndex;
@@ -117,11 +141,10 @@ export function play(caseIndex: number, algIndex: number) {
 
     clearInterval(timer);
     const onFinish = () => resetCube(scene, alg);
-    console.log("a")
     timer = scene.cube.performAlgWithAnimation(alg, onFinish);
 
     // We only play one alg at a time, so we reset the previous one.
-    const oldAlg = state.algs[state.casePlaying]?.algs[state.algPlaying];
+    const oldAlg = state.algSet.cases[state.casePlaying]?.algs[state.algPlaying];
     const oldScene = renderedScenes[state.casePlaying];
     if (oldAlg && oldScene) {
         oldScene.cube.solve();

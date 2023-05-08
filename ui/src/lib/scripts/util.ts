@@ -62,3 +62,7 @@ function move(arr: Array<any>, n: number) {
     }
     arr[n] = temp;
 }
+
+export function replaceAll(str: string, search: string, replacement: string) {
+    return str.split(search).join(replacement);
+}

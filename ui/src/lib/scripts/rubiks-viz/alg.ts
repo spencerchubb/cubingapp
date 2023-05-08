@@ -22,8 +22,13 @@ export function invertMove(move: string): string {
  */
 export function expandDoubleMoves(alg: string): string {
     return alg.split(" ").map(move => {
-        return move.endsWith("2")
-            ? move.slice(0, -1) + " " + move.slice(0, -1)
-            : move;
+        if (move.endsWith("2")) {
+            let m = move.slice(0, -1);
+            return m + " " + m;
+        } else if (move.endsWith("2'")) {
+            let m = move.slice(0, -2) + "'";
+            return m + " " + m;
+        }
+        return move;
     }).join(" ");
 }

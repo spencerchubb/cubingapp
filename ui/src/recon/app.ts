@@ -1,5 +1,6 @@
 import { Scene } from "../lib/scripts/rubiks-viz";
 import { findInvalidMove } from "../lib/scripts/rubiks-viz/moves";
+import { replaceAll } from "../lib/scripts/util";
 import { getSuggestions, SuggestionData } from "./suggestions";
 
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
@@ -143,13 +144,6 @@ type Stepper = {
     prev: () => boolean,
     next: () => boolean,
     length: number,
-}
-
-function replaceAll(str: string, search: string, replace: string) {
-    while (str.includes(search)) {
-        str = str.replace(search, replace);
-    }
-    return str;
 }
 
 /**
