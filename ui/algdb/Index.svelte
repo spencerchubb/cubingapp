@@ -81,7 +81,7 @@
     .card {
         display: flex;
         flex-wrap: wrap;
-        width: 300px;
+        max-width: 300px;
         border: solid 1px var(--gray-500);
         box-shadow: 0 0 4px 2px var(--gray-600);
         border-radius: 16px;
