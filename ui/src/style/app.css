@@ -41,6 +41,13 @@ select {
   font-size: 1rem;
 }
 
+select, option {
+    background: var(--gray-800);
+    color: var(--gray-100);
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+}
+
 table {
   border-collapse: collapse;
 }

@@ -1,8 +1,6 @@
 import { Scene, invertAlg, newScene } from '../../src/lib/scripts/rubiks-viz';
 import { replaceAll } from '../../src/lib/scripts/util';
 
-export { };
-
 let callback: (state) => void;
 
 export function setCallback(_callback: (state) => void) {
@@ -10,36 +8,39 @@ export function setCallback(_callback: (state) => void) {
     return state;
 }
 
-type Alg = {
-    name: string,
-    algs: string[],
-}
-
-type AlgSet = {
+type AlgSetCase = {
     name: string;
-    puzzle: string;
-    description: string[];
-    recommended: string[];
-    cases: {
+    algs?: string[];
+    variants?: {
         name: string;
         algs: string[];
     }[];
+};
+
+type AlgSet = {
+    puzzle: string;
+    description: string[];
+    recommended: string[];
+    cases: AlgSetCase[];
 }
 
 type State = {
+    algSetName: string
     algSet: AlgSet,
+    selectedVariants: Object, // Key is integer representing the case, value is integer representing the variant.
     casePlaying: number,
     algPlaying: number,
 }
 
 let state: State = {
+    algSetName: getAlgSetName(),
     algSet: {
-        name: getAlgSetName(),
         puzzle: "",
         description: [],
         recommended: [],
         cases: [],
     },
+    selectedVariants: {},
     casePlaying: -1,
     algPlaying: -1,
 };
@@ -65,17 +66,21 @@ function getAlgSetName(): string {
 }
 
 export async function fetchAlgs() {
-    const algSetName = state.algSet.name;
     const baseUrl = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
+    const algSetName = state.algSetName;
     const url = `${baseUrl}/${algSetName}.json`;
     const res = await fetch(url);
     const json = await res.json();
-    console.log(json);
     
     state.algSet = json;
 
     shouldRenderCubes = true;
     callback(state);
+
+    setTimeout(() => {
+        shouldRenderCubes = true;
+        callback(state);
+    }, 500)
 }
 
 // Do this lazily because it's slow af on mobile
@@ -89,6 +94,11 @@ export function renderCubes() {
         if (renderedScenes[i]) continue;
         
         let sceneDiv = document.querySelector(`#scene${i}`) as HTMLElement;
+        if (!sceneDiv) {
+            console.error(`Could not find scene${i}`);
+            continue;
+        }
+
         if (!inViewport(sceneDiv)) {
             continue;
         }
@@ -97,17 +107,19 @@ export function renderCubes() {
         renderedScenes[i] = scene;
 
         const case_ = state.algSet.cases[i];
-        if (!sceneDiv) {
-            console.error(`Could not find scene${i}`);
-            continue;
-        }
         
         scene.enableKey = () => false;
         scene.dragEnabled = false;
 
-        const firstAlg = case_.algs[0];
+        const firstAlg = getAlg(case_, state.selectedVariants[i], 0) ?? "";
         scene.cube.performAlg(invertAlg(firstAlg));
     }
+}
+
+export function selectVariant(event: Event, case_: number) {
+    const variant = (event.target as HTMLSelectElement).value;
+    state.selectedVariants[case_] = variant;
+    callback(state);
 }
 
 export function onScroll() {
@@ -129,7 +141,9 @@ function inViewport(ele: HTMLElement): boolean {
 // - If click another alg, reset previous and play new one
 
 export function play(caseIndex: number, algIndex: number) {
-    const alg = state.algSet.cases[caseIndex]?.algs[algIndex];
+    let case_ = state.algSet.cases[caseIndex];
+    let variant = state.selectedVariants[caseIndex];
+    const alg = getAlg(case_, variant, algIndex) ?? "";
     const scene: Scene = renderedScenes[caseIndex];
 
     // If we're already playing this alg, reset it.
@@ -144,7 +158,9 @@ export function play(caseIndex: number, algIndex: number) {
     timer = scene.cube.performAlgWithAnimation(alg, onFinish);
 
     // We only play one alg at a time, so we reset the previous one.
-    const oldAlg = state.algSet.cases[state.casePlaying]?.algs[state.algPlaying];
+    case_ = state.algSet.cases[state.casePlaying];
+    variant = state.selectedVariants[state.casePlaying];
+    const oldAlg = getAlg(case_, variant, state.algPlaying);
     const oldScene = renderedScenes[state.casePlaying];
     if (oldAlg && oldScene) {
         oldScene.cube.solve();
@@ -157,6 +173,18 @@ export function play(caseIndex: number, algIndex: number) {
 
     scene.cube.solve();
     scene.cube.performAlg(invertAlg(alg));
+}
+
+function getAlg(case_: AlgSetCase, variant: number | undefined, alg: number): string | undefined {
+    if (!case_) {
+        return undefined;
+    } else if (case_.variants) {
+        return case_.variants[variant ?? 0].algs[alg];
+    } else if (case_.algs) {
+        return case_.algs[alg];
+    }
+    console.error("variants and algs undefined");
+    return undefined;
 }
 
 function resetCube(scene: Scene, alg: string) {

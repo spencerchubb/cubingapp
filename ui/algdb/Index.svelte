@@ -24,7 +24,7 @@
     >
         <h1>Rubik's Cube Algorithms</h1>
         <p style="font-style: italic;">
-            Open source database with 2700+ vetted algorithms
+            Open source database with 3100+ vetted algorithms
         </p>
         <div class="col" style="gap: 16px;">
             <div class="card">

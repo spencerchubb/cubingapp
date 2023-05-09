@@ -5,6 +5,7 @@
         onScroll,
         play,
         renderCubes,
+        selectVariant,
         setCallback,
     } from "./algSetPage";
     import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
@@ -47,7 +48,7 @@
         }}
     >
         <div class="col about-container" style="align-items: start;">
-            <h1>{state.algSet.name}</h1>
+            <h1>{state.algSetName}</h1>
             {#each state.algSet.description as desc, i}
                 <p style="margin-top: 16px;">{desc}</p>
             {/each}
@@ -68,26 +69,42 @@
         </div>
         <div class="col" style="width: 100%; gap: 16px;">
             {#each state.algSet.cases as case_, i}
-                <div
-                    class="row"
-                    style="border: solid 1px var(--gray-500); box-shadow: 0 0 4px 2px var(--gray-600); border-radius: 16px; width: 100%;"
-                >
+                <div class="row case-card">
                     <div
                         id="scene{i}"
-                        style="width: 150px; height: 150px; min-width: 150px; min-height: 150px;"
+                        class="scene-div"
                     />
-                    <div
-                        class="col"
-                        style="padding: 16px; align-items: start; flex-shrink: 1;"
-                    >
-                        <p style="font-weight: bold;">
-                            {case_.name}
-                        </p>
-                        {#each case_.algs as alg1, i1}
-                            <div class="row divider-except-last">
+                    <div class="col algs-div">
+                        <div class="row" style="width: 100%; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap;">
+                            <p style="font-weight: bold;">
+                                {case_.name}
+                            </p>
+                            {#if case_.variants && case_.variants.length > 0}
+                            <select on:change={event => selectVariant(event, i)}>
+                                {#each case_.variants ?? [] as variant, i1}
+                                    <option value={i1}>{variant.name}</option>
+                                {/each}
+                            </select>
+                            {/if}
+                        </div>
+                        {#each case_.algs ?? [] as alg1, i1}
+                            <div class="row divider">
                                 <Icon
-                                    name={state.casePlaying === i &&
-                                    state.algPlaying === i1
+                                    name={state.casePlaying === i && state.algPlaying === i1
+                                        ? "pause"
+                                        : "play"}
+                                    class="play-icon"
+                                    style="width: 24px; height: 24px; border-radius: 4px; border: solid 1px var(--gray-500); padding: 4px;"
+                                    on:click={() => play(i, i1)}
+                                />
+                                <div style="width: 8px;" />
+                                <p style="width: 100%;">{alg1}</p>
+                            </div>
+                        {/each}
+                        {#each case_.variants ? case_.variants[state.selectedVariants[i] ?? 0].algs : [] as alg1, i1}
+                            <div class="row divider">
+                                <Icon
+                                    name={state.casePlaying === i && state.algPlaying === i1
                                         ? "pause"
                                         : "play"}
                                     class="play-icon"
@@ -134,13 +151,33 @@
         text-decoration: underline;
     }
 
-    .divider-except-last {
-        padding: 8px 0;
+    .case-card {
         width: 100%;
+        justify-content: center;
+        align-items: start;
+        border: solid 1px var(--gray-500);
+        box-shadow: 0 0 4px 2px var(--gray-600);
+        border-radius: 16px;
+        flex-wrap: wrap;
     }
 
-    .divider-except-last:not(:last-child) {
-        border-bottom: solid 1px var(--gray-500);
+    .scene-div {
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px;
+    }
+
+    .algs-div {
+        flex: 1 1 400px;
+        padding: 16px;
+        align-items: start;
+    }
+
+    .divider {
+        padding: 8px 0;
+        width: 100%;
+        border-top: solid 1px var(--gray-500);
     }
 
     :global(.play-icon) {
