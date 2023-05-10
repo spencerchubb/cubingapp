@@ -3,6 +3,7 @@
     import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
     import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
     import AlgStepper from "../src/lib/components/AlgStepper/index";
+    import NewsletterSignup from "../src/lib/components/NewsletterSignup.svelte";
 
     let sideNavOpen = false;
 </script>
@@ -128,6 +129,8 @@
         <p>
             If you get stuck, check out <a href="/algdb/F2L.html" class="link">the algorithm database</a>. We have F2L algorithms for every case, and every angle.
         </p>
+        <div style="margin: 16px 0;"></div>
+        <NewsletterSignup />
     </div>
     <SideNav bind:open={sideNavOpen} />
 </main>
