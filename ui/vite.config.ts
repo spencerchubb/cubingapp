@@ -22,6 +22,7 @@ export default defineConfig({
         recon: resolve(__dirname, 'recon.html'),
         timer: resolve(__dirname, 'timer.html'),
         train: resolve(__dirname, 'train.html'),
+        "tutorials/how-to-learn-f2l": resolve(__dirname, 'tutorials', 'how-to-learn-f2l.html'),
       },
     },
   },

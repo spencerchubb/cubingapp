@@ -143,14 +143,6 @@
         }
     }
 
-    .link {
-        color: var(--lightBlue-500);
-    }
-
-    .link:hover {
-        text-decoration: underline;
-    }
-
     .case-card {
         width: 100%;
         justify-content: center;

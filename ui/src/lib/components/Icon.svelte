@@ -17,6 +17,7 @@
             <rect x="10" y="10" width="30" height="80" />
             <rect x="60" y="10" width="30" height="80" />
         </svg>`,
+        // TODO refacor play and pause
         play: `<svg stroke="${stroke}" viewBox="0 0 100 100">
             <polygon points="10,0 90,50 10,100" fill="${fill}" />    
         </svg>`,
