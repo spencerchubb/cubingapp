@@ -17,6 +17,7 @@ export default defineConfig({
         404: resolve(__dirname, '404.html'),
         algdb: resolve(__dirname, 'algdb.html'),
         "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
+        "blog/spaced-repetition": resolve(__dirname, 'blog', 'spaced-repetition.html'),
         index: resolve(__dirname, 'index.html'),
         keybindings: resolve(__dirname, 'keybindings.html'),
         recon: resolve(__dirname, 'recon.html'),
