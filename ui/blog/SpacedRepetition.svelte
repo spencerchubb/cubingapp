@@ -2,7 +2,6 @@
     import SideNav from "../src/lib/components/SideNav.svelte";
     import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
     import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
-    import AlgStepper from "../src/lib/components/AlgStepper/index";
     import NewsletterSignup from "../src/lib/components/NewsletterSignup.svelte";
 
     let sideNavOpen = false;
