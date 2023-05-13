@@ -277,7 +277,7 @@
 						</button>
 						<div style="height: 16px;" />
 						<a href="/keybindings.html">
-							<button>customize key bindings</button>
+							<button>Customize key bindings</button>
 						</a>
 						<div style="height: 16px;" />
 						<p>orientation</p>
@@ -302,11 +302,7 @@
 							<Icon
 								name="plus"
 								id="plus-icon"
-								style="
-								width: 24px; 
-								height: 24px; 
-								padding: 4px; 
-								margin-left: 4px;"
+								style="width: 24px; height: 24px; padding: 4px; margin-left: 4px;"
 								on:click={() => onAddAlgorithm()}
 							/>
 						</div>

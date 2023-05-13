@@ -10,6 +10,7 @@
         performNewScramble,
         puzzles,
         setCallback,
+        solve,
         type TimerStatus,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
@@ -26,6 +27,8 @@
     function timerColor(status: TimerStatus): string {
         switch (status) {
             case "stopped":
+                return "white";
+            case "scrambled":
                 return "white";
             case "holding down":
                 return "red";
@@ -56,24 +59,7 @@
         class="row"
         style="justify-content: center; align-items: start; width: 100%; height: 100%; position: relative;"
     >
-        <div class="col" style="width: 100%; gap: 16px; padding: 16px;">
-            <div
-                class="row"
-                style="justify-content: space-between; gap: 16px;"
-            >
-                <select
-                    value={state.puzzle}
-                    on:change={(event) => onChangePuzzle(event)}
-                >
-                    {#each puzzles as puzzle}
-                        <option value={puzzle}>{puzzle}</option>
-                    {/each}
-                </select>
-                <button on:click={() => scene.cube.solve()}> Solve </button>
-                <button on:click={() => performNewScramble()}>
-                    Scramble
-                </button>
-            </div>
+        <div class="col" style="width: 100%; height: 100%; gap: 16px; padding: 16px;">
             <p>{state.scramble}</p>
             <GLManager
                 onSceneInitialized={(_scene) => {
@@ -81,24 +67,39 @@
                     initApp(scene);
                 }}
             />
-            <p
+            <button
                 style="
-                font-size: 2rem; 
+                font-size: 1.5rem; 
                 border-radius: 8px; 
                 border: solid 1px {timerColor(state.timerStatus)}; 
-                padding: 1.2rem 1rem; 
-                color: {timerColor(state.timerStatus)}"
+                color: {timerColor(state.timerStatus)};
+                background: transparent;
+                width: 320px;
+                height: 120px;
+                white-space: break-spaces;"
                 on:pointerdown={() => onDown()}
                 on:pointerup={() => onUp()}
             >
                 {state.timerText}
-            </p>
+            </button>
         </div>
         {#if drawerIndex === 0}
             <Drawer title="Settings" bind:drawerIndex>
-                <div style="padding: 16px;">
+                <div class="col" style="align-items:start; padding: 16px; gap: 16px;">
+                    <select
+                        value={state.puzzle}
+                        on:change={(event) => onChangePuzzle(event)}
+                    >
+                        {#each puzzles as puzzle}
+                            <option value={puzzle}>{puzzle}</option>
+                        {/each}
+                    </select>
+                    <button on:click={() => solve()}>Solve</button>
+                    <button on:click={() => performNewScramble()}>
+                        Scramble
+                    </button>
                     <a href="/keybindings.html">
-                        <button>customize key bindings</button>
+                        <button>Customize key bindings</button>
                     </a>
                 </div>
             </Drawer>
