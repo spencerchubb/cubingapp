@@ -70,9 +70,6 @@
         <p>
             The more complicated your F2L is, the more mental energy you are spending. For that reason, you want to use simple solutions.
         </p>
-        <p>
-            For example, sometimes cubers will use fancy insertions like this.
-        </p>
         <AlgStepper
             setup="z2 R' F R' F' R2"
             alg="R2' F R F' R"
