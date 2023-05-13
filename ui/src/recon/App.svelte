@@ -29,8 +29,9 @@
         </NavBarIcon>
     </nav>
     <div
-        class="col main-container"
         style="
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: start;
         gap: 16px;
@@ -47,7 +48,6 @@
                 onSceneInitialized={(scene) => {
                     initApp(scene);
                 }}
-                style="width: 320px; height: 320px;"
             />
             <div class="row">
                 <button class="prev-and-next-btn" on:click={prev}>
@@ -61,7 +61,7 @@
                 </button>
             </div>
         </div>
-        <div class="col" style="align-items: start; width: 100%;">
+        <div style="flex: 1 1 600px; align-items: start;">
             <button on:click={copyUrl}>Copy URL</button>
             <textarea
                 class="moves-input"
@@ -95,12 +95,6 @@
 </main>
 
 <style>
-    @media (min-width: 768px) {
-        .main-container {
-            flex-direction: row;
-        }
-    }
-
     .moves-input {
         width: 100%;
         height: 200px;

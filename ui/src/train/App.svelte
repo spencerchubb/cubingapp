@@ -162,17 +162,18 @@
 		{:else if page === "train"}
 			<div class="col" style="width: 100%; height: 100%;">
 				<div style="height: 16px;" />
-				<GLManager
-					onSceneInitialized={(scene) => {
-						setScene(scene);
-
-						if (state.algSet) {
-							loadCurrAlg();
-						} else {
-							algSetLogic.displayChooseAlgSet();
-						}
-					}}
-				/>
+				<div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
+                    <GLManager
+                        onSceneInitialized={(scene) => {
+                            setScene(scene);
+                            if (state.algSet) {
+                                loadCurrAlg();
+                            } else {
+                                algSetLogic.displayChooseAlgSet();
+                            }
+                        }}
+                    />
+                </div>
 				<div style="height: 16px" />
 				<div class="row" style="gap: 16px;">
 					<Icon

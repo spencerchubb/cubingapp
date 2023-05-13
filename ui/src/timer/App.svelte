@@ -61,12 +61,14 @@
     >
         <div class="col" style="width: 100%; height: 100%; gap: 16px; padding: 16px;">
             <p>{state.scramble}</p>
-            <GLManager
-                onSceneInitialized={(_scene) => {
-                    scene = _scene;
-                    initApp(scene);
-                }}
-            />
+            <div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
+                <GLManager
+                    onSceneInitialized={(_scene) => {
+                        scene = _scene;
+                        initApp(scene);
+                    }}
+                />
+            </div>
             <button
                 style="
                 font-size: 1.5rem; 
