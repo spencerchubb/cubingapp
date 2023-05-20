@@ -4,10 +4,11 @@
     import type { Scene } from "../lib/scripts/rubiks-viz";
     import {
         initApp,
+        lastScramble,
+        nextScramble,
         onChangePuzzle,
         onDown,
         onUp,
-        performNewScramble,
         puzzles,
         setCallback,
         setInspection,
@@ -53,18 +54,16 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
-        <div class="row">
-            <NavBarIcon on:click={() => (drawerIndex = 0)}>
-                <SettingsIcon />
-            </NavBarIcon>
-        </div>
+        <NavBarIcon on:click={() => (drawerIndex = 0)}>
+            <SettingsIcon />
+        </NavBarIcon>
     </nav>
     <div
         class="row"
         style="justify-content: center; align-items: start; width: 100%; height: 100%; position: relative;"
     >
         <div class="col" style="width: 100%; height: 100%; gap: 16px; padding: 16px;">
-            <p>{state.scramble}</p>
+            <p style="font-size: 1.2rem;">{state.scramble}</p>
             <div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
                 <GLManager
                     onSceneInitialized={(_scene) => {
@@ -101,9 +100,14 @@
                         {/each}
                     </select>
                     <button on:click={() => solve()}>Solve</button>
-                    <button on:click={() => performNewScramble()}>
-                        Scramble
-                    </button>
+                    <div class="row" style="gap: 8px;">
+                        <button
+                            on:click={lastScramble}
+                            disabled={state.scrambleStack.length === 0}
+                        >Last</button>
+                        <div style="width: 16px; height: 2px; background: var(--gray-300);"></div>
+                        <button on:click={nextScramble}>Next</button>
+                    </div>
                     <a href="/keybindings.html">
                         <button>Customize key bindings</button>
                     </a>

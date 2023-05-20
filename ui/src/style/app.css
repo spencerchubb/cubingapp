@@ -77,6 +77,11 @@ button:hover {
   background-color: var(--blue-700);
 }
 
+button:disabled {
+    background-color: var(--gray-500);
+    cursor: not-allowed;
+}
+
 .btn-white {
   background-color: white;
   color: black;

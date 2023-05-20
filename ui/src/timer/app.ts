@@ -30,6 +30,7 @@ export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down
 
 type State = {
     puzzle: Puzzle,
+    scrambleStack: string[]
     scramble: string,
     timerStatus: TimerStatus,
     timerText: string,
@@ -39,9 +40,10 @@ type State = {
 
 let state: State = {
     puzzle: (localStorage.getItem("puzzle") as Puzzle) ?? "3x3",
-    scramble: "loading...",
-    timerStatus: "stopped",
-    timerText: "Click to scramble",
+    scrambleStack: [],
+    scramble: "",
+    timerStatus: "scrambled",
+    timerText: "0.00",
     algToPerform: "",
     inspection: getInspection(),
 };
@@ -55,6 +57,20 @@ export function initApp(_scene) {
     scene = _scene;
 
     setPuzzle(state.puzzle);
+}
+
+export function lastScramble() {
+    const scrambleStack = state.scrambleStack;
+    const last = scrambleStack.pop();
+    if (!last) return;
+    state.scramble = last;
+    scene.cube.solve();
+    scene.cube.performAlg(state.scramble);
+    callback(state);
+}
+
+export function nextScramble() {
+    performNewScramble();
 }
 
 export function onChangePuzzle(event) {
@@ -97,7 +113,11 @@ export function solve() {
     callback(state);
 }
 
-export function performNewScramble() {
+function performNewScramble() {
+    if (state.scramble) {
+        state.scrambleStack.push(state.scramble);
+    }
+
     const scram = getScramble(state.puzzle, scene);
     state.scramble = scram;
     scene.cube.solve();
