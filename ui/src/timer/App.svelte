@@ -10,6 +10,7 @@
         performNewScramble,
         puzzles,
         setCallback,
+        setInspection,
         solve,
         type TimerStatus,
     } from "./app";
@@ -17,6 +18,7 @@
     import Drawer from "../lib/components/Drawer.svelte";
     import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import Toggle from "../lib/components/Toggle.svelte";
 
     let scene: Scene;
 
@@ -30,10 +32,12 @@
                 return "white";
             case "scrambled":
                 return "white";
+            case "inspecting":
+                return "var(--red-600)";
             case "holding down":
-                return "red";
+                return "var(--yellow-500)";
             case "ready":
-                return "green";
+                return "var(--green-600)";
             case "running":
                 return "white";
         }
@@ -103,6 +107,14 @@
                     <a href="/keybindings.html">
                         <button>Customize key bindings</button>
                     </a>
+                    <div style="width: 100%; height: 1px; background: var(--gray-600);"></div>
+                    <div class="row" style="width: 100%; justify-content: space-between;">
+                        <p>Inspection</p>
+                        <Toggle 
+                            checked={state.inspection}
+                            on:change={setInspection}
+                        />
+                    </div>
                 </div>
             </Drawer>
         {/if}

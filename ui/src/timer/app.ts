@@ -26,7 +26,7 @@ export const puzzles = [
 ];
 
 type Puzzle = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7";
-export type TimerStatus = "stopped" | "holding down" | "ready" | "running";
+export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
 type State = {
     puzzle: Puzzle,
@@ -34,18 +34,22 @@ type State = {
     timerStatus: TimerStatus,
     timerText: string,
     algToPerform: string,
+    inspection: boolean,
 }
 
 let state: State = {
     puzzle: (localStorage.getItem("puzzle") as Puzzle) ?? "3x3",
     scramble: "loading...",
     timerStatus: "stopped",
-    timerText: "0.00",
+    timerText: "Click to scramble",
     algToPerform: "",
+    inspection: getInspection(),
 };
 let scene: Scene;
 let time: number;
-let interval;
+let interval: NodeJS.Timer;
+let inspectTime: number;
+let penalty: null | "+2" | "DNF";
 
 export function initApp(_scene) {
     scene = _scene;
@@ -127,19 +131,6 @@ function getScramble(puzzle: Puzzle, scene: Scene) {
     return scram;
 }
 
-function stopTimer() {
-    clearInterval(interval);
-
-    state.timerStatus = "stopped";
-
-    const timeDifference = (Date.now() - time) / 1000;
-    state.timerText = `${timeDifference.toFixed(2)}`;
-
-    callback(state);
-
-    performNewScramble();
-}
-
 document.addEventListener("keydown", event => {
     if (event.key === " ") {
         onDown();
@@ -153,38 +144,140 @@ document.addEventListener("keyup", event => {
 });
 
 export function onDown() {
-    if (state.timerStatus === "stopped") {
-        state.timerStatus = "holding down";
-        callback(state);
-        setTimeout(() => {
-            if (state.timerStatus !== "holding down") return;
-            state.timerStatus = "ready";
+    switch (state.timerStatus) {
+        case "stopped":
+            state.timerStatus = "scrambled";
+            state.timerText = "0.00";
             callback(state);
-        }, 300);
-    } else if (state.timerStatus === "holding down") {
-        // Do nothing
-    } else if (state.timerStatus === "ready") {
-        // Do nothing
-    } else if (state.timerStatus === "running") {
-        stopTimer();
+
+            performNewScramble();
+            break;
+        case "scrambled":
+            penalty = null;
+
+            if (state.inspection) {
+                state.timerStatus = "inspecting";
+                callback(state);
+
+                time = Date.now();
+                inspectTime = 0;
+                clearInterval(interval);
+                interval = setInterval(() => {
+                    const timeDifference = (Date.now() - time) / 1000;
+                    const seconds = Math.floor(timeDifference);
+
+                    if (seconds === 8 && inspectTime < 8) {
+                        inspectTime = seconds;
+                        speak("8 seconds");
+                    } else if (seconds === 12 && inspectTime < 12) {
+                        inspectTime = seconds;
+                        speak("12 seconds");
+                    } else if (seconds === 15 && inspectTime < 15) {
+                        inspectTime = seconds;
+                        state.timerText = "+2";
+                        penalty = "+2";
+                    } else if (seconds === 17 && inspectTime < 17) {
+                        inspectTime = seconds;
+                        state.timerText = "DNF";
+                        penalty = "DNF";
+                    } else if (seconds < 15) {
+                        state.timerText = `Inspecting: ${seconds}s`;
+                    }
+
+                    callback(state);
+                }, 10);
+            } else {
+                state.timerStatus = "holding down";
+                callback(state);
+                setTimeout(() => {
+                    if (state.timerStatus !== "holding down") return;
+                    state.timerStatus = "ready";
+                    callback(state);
+                }, 300);
+            }
+            break;
+        case "inspecting":
+            state.timerStatus = "holding down";
+            callback(state);
+            setTimeout(() => {
+                if (state.timerStatus !== "holding down") return;
+                state.timerStatus = "ready";
+                callback(state);
+            }, 300);
+
+            break;
+        case "holding down":
+            // Do nothing
+            break;
+        case "ready":
+            // Do nothing
+            break;
+        case "running":
+            state.timerStatus = "stopped";
+
+            clearInterval(interval);
+
+            const timeDifference = (Date.now() - time) / 1000;
+            if (penalty === "+2") {
+                state.timerText = `${(timeDifference + 2).toFixed(2)}+\nClick to scramble`;
+            } else if (penalty === "DNF") {
+                state.timerText = `DNF (${timeDifference.toFixed(2)})\nClick to scramble`;
+            } else {
+                state.timerText = `${timeDifference.toFixed(2)}\nClick to scramble`;
+            }
+
+            callback(state);
+            break;
     }
 }
 
 export function onUp() {
-    if (state.timerStatus === "stopped") {
-        // Do nothing
-    } else if (state.timerStatus === "holding down") {
-        state.timerStatus = "stopped";
-        callback(state);
-    } else if (state.timerStatus === "ready") {
-        state.timerStatus = "running";
-        time = Date.now();
-        interval = setInterval(() => {
-            const timeDifference = (Date.now() - time) / 1000;
-            state.timerText = timeDifference.toFixed(2);
+    switch (state.timerStatus) {
+        case "stopped":
+            // Do nothing
+            break;
+        case "scrambled":
+            // Do nothing
+            break;
+        case "inspecting":
+            // Do nothing
+            break;
+        case "holding down":
+            if (state.inspection) {
+                state.timerStatus = "inspecting";
+            } else {
+                state.timerStatus = "scrambled";
+            }
             callback(state);
-        }, 10);
-    } else if (state.timerStatus === "running") {
-        // Do nothing
+            break;
+        case "ready":
+            state.timerStatus = "running";
+            time = Date.now();
+            clearInterval(interval);
+            interval = setInterval(() => {
+                const timeDifference = (Date.now() - time) / 1000;
+                state.timerText = timeDifference.toFixed(2);
+                callback(state);
+            }, 10);
+            break;
+        case "running":
+            // Do nothing
+            break;
     }
+}
+
+function getInspection(): boolean {
+    return (localStorage.getItem("inspection") ?? "true") === "true";
+}
+
+export function setInspection(event: Event) {
+    const v = (event.target as HTMLInputElement).checked;
+    state.inspection = v;
+    localStorage.setItem("inspection", v ? "true" : "false");
+}
+
+function speak(text: string) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang = "en-US";
+    speechSynthesis.speak(msg);
 }

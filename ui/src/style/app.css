@@ -44,6 +44,8 @@ select {
 select, option {
     background: var(--gray-800);
     color: var(--gray-100);
+    outline: solid 1px var(--gray-400);
+    border: none;
     border-radius: 8px;
     padding: 0.25rem 0.5rem;
 }
@@ -66,13 +68,13 @@ button {
   font-family: Verdana, sans-serif;
   font-size: 1rem;
   border: none;
-  background-color: #0d6efd;
+  background-color: var(--blue-600);
   text-align: center;
 }
 
 button:hover {
   cursor: pointer;
-  background-color: #0e61dc;
+  background-color: var(--blue-700);
 }
 
 .btn-white {
