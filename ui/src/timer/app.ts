@@ -26,7 +26,7 @@ export const puzzles = [
 ];
 
 type Puzzle = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7";
-export type TimerStatus = "stopped" | "scrambled" | "holding down" | "ready" | "running";
+export type TimerStatus = "stopped" | "holding down" | "ready" | "running";
 
 type State = {
     puzzle: Puzzle,
@@ -39,7 +39,7 @@ type State = {
 let state: State = {
     puzzle: (localStorage.getItem("puzzle") as Puzzle) ?? "3x3",
     scramble: "loading...",
-    timerStatus: "scrambled",
+    timerStatus: "stopped",
     timerText: "0.00",
     algToPerform: "",
 };
@@ -83,10 +83,7 @@ function setPuzzle(puzzle: Puzzle) {
             break;
     }
 
-    getScramble(state.puzzle, scene).then(scram => {
-        state.scramble = scram;
-        callback(state);
-    })
+    performNewScramble();
 }
 
 export function solve() {
@@ -97,20 +94,18 @@ export function solve() {
 }
 
 export function performNewScramble() {
-    state.timerText = "0.00";
-    getScramble(state.puzzle, scene).then(scram => {
-        state.scramble = scram;
-        scene.cube.solve();
-        scene.cube.performAlg(scram);
-        callback(state);
-    });
+    const scram = getScramble(state.puzzle, scene);
+    state.scramble = scram;
+    scene.cube.solve();
+    scene.cube.performAlg(scram);
+    callback(state);
 }
 
 export function getTimeText(): string {
     return time.toFixed(2);
 }
 
-async function getScramble(puzzle: Puzzle, scene: Scene) {
+function getScramble(puzzle: Puzzle, scene: Scene) {
     let scram: string;
     switch (puzzle) {
         case "2x2":
@@ -138,9 +133,11 @@ function stopTimer() {
     state.timerStatus = "stopped";
 
     const timeDifference = (Date.now() - time) / 1000;
-    state.timerText = `Time: ${timeDifference.toFixed(2)}\nClick to scramble`;
+    state.timerText = `${timeDifference.toFixed(2)}`;
 
     callback(state);
+
+    performNewScramble();
 }
 
 document.addEventListener("keydown", event => {
@@ -157,9 +154,6 @@ document.addEventListener("keyup", event => {
 
 export function onDown() {
     if (state.timerStatus === "stopped") {
-        state.timerStatus = "scrambled";
-        performNewScramble();
-    } else if (state.timerStatus === "scrambled") {
         state.timerStatus = "holding down";
         callback(state);
         setTimeout(() => {
@@ -179,10 +173,8 @@ export function onDown() {
 export function onUp() {
     if (state.timerStatus === "stopped") {
         // Do nothing
-    } else if (state.timerStatus === "scrambled") {
-        // Do nothing
     } else if (state.timerStatus === "holding down") {
-        state.timerStatus = "scrambled";
+        state.timerStatus = "stopped";
         callback(state);
     } else if (state.timerStatus === "ready") {
         state.timerStatus = "running";
@@ -193,6 +185,6 @@ export function onUp() {
             callback(state);
         }, 10);
     } else if (state.timerStatus === "running") {
-        stopTimer();
+        // Do nothing
     }
 }
