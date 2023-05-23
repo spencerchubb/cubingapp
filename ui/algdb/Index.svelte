@@ -24,7 +24,7 @@
     >
         <h1>Rubik's Cube Algorithms</h1>
         <p style="font-style: italic;">
-            Open source database with 3100+ vetted algorithms
+            Open source database with 3200+ vetted algorithms
         </p>
         <div class="col" style="gap: 16px;">
             <div class="card">
@@ -64,6 +64,12 @@
                 </a>
                 <a class="alg-set" href="/algdb/ZBLL.html">
                     ZBLL
+                </a>
+                <a class="alg-set" href="/algdb/CMLL.html">
+                    CMLL
+                </a>
+                <a class="alg-set" href="/algdb/OH-CMLL.html">
+                    OH CMLL
                 </a>
             </div>
             <div class="card">
