@@ -1,4 +1,4 @@
-import { Scene, invertAlg, newScene } from '../../src/lib/scripts/rubiks-viz';
+import { Scene, expandDoubleMoves, invertAlg, newScene } from '../../src/lib/scripts/rubiks-viz';
 import { replaceAll } from '../../src/lib/scripts/util';
 
 let callback: (state) => void;
@@ -194,5 +194,5 @@ function resetCube(scene: Scene, alg: string) {
     callback(state);
 
     scene.cube.solve();
-    scene.cube.performAlg(invertAlg(alg));
+    scene.cube.performAlg(alg);
 }

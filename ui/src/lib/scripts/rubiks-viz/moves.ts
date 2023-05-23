@@ -6,8 +6,9 @@ export function performMove(cube: Cube, move: string, forward: boolean) {
     }
 
     const moveMap = getMoveMap(cube);
-    if (move in moveMap) {
-        moveMap[move](forward);
+    const func = moveMap[move];
+    if (func) {
+        func(forward);
     } else {
         console.log("Invalid move: " + move);
     }
@@ -27,367 +28,311 @@ export function findInvalidMove(cube: Cube, moves: string[]): string | null {
     return null;
 }
 
-function getMoveMap(cube: Cube) {
+const x = (c: Cube) => (forward: boolean) => c.cubeRotate(0, forward);
+const xPrime = (c: Cube) => (forward: boolean) => c.cubeRotate(0, !forward);
+const x2 = (c: Cube) => (forward: boolean) => {
+    c.cubeRotate(0, forward);
+    c.cubeRotate(0, forward);
+};
+
+const y = (c: Cube) => (forward: boolean) => c.cubeRotate(1, forward);
+const yPrime = (c: Cube) => (forward: boolean) => c.cubeRotate(1, !forward);
+const y2 = (c: Cube) => (forward: boolean) => {
+    c.cubeRotate(1, forward);
+    c.cubeRotate(1, forward);
+};
+
+const z = (c: Cube) => (forward: boolean) => c.cubeRotate(2, forward);
+const zPrime = (c: Cube) => (forward: boolean) => c.cubeRotate(2, !forward);
+const z2 = (c: Cube) => (forward: boolean) => {
+    c.cubeRotate(2, forward);
+    c.cubeRotate(2, forward);
+};
+
+const U = (c: Cube) => (forward: boolean) => c.turn(1, 0, forward);
+const UPrime = (c: Cube) => (forward: boolean) => c.turn(1, 0, !forward);
+const U2 = (c: Cube) => (forward: boolean) => {
+    c.turn(1, 0, forward);
+    c.turn(1, 0, forward);
+};
+
+const u = (c: Cube) => (forward: boolean) => c.wideTurn(1, 0, 1, forward);
+const uPrime = (c: Cube) => (forward: boolean) => c.wideTurn(1, 0, 1, !forward);
+const u2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(1, 0, 1, forward);
+    c.wideTurn(1, 0, 1, forward);
+};
+
+const D = (c: Cube) => (forward: boolean) => c.turn(1, c.layers - 1, !forward);
+const DPrime = (c: Cube) => (forward: boolean) => c.turn(1, c.layers - 1, forward);
+const D2 = (c: Cube) => (forward: boolean) => {
+    c.turn(1, c.layers - 1, !forward);
+    c.turn(1, c.layers - 1, !forward);
+};
+
+const d = (c: Cube) => (forward: boolean) => c.wideTurn(1, c.layers - 1, c.layers - 2, !forward);
+const dPrime = (c: Cube) => (forward: boolean) => c.wideTurn(1, c.layers - 1, c.layers - 2, forward);
+const d2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(1, c.layers - 1, c.layers - 2, !forward);
+    c.wideTurn(1, c.layers - 1, c.layers - 2, !forward);
+};
+
+const F = (c: Cube) => (forward: boolean) => c.turn(2, 0, forward);
+const FPrime = (c: Cube) => (forward: boolean) => c.turn(2, 0, !forward);
+const F2 = (c: Cube) => (forward: boolean) => {
+    c.turn(2, 0, forward);
+    c.turn(2, 0, forward);
+};
+
+const f = (c: Cube) => (forward: boolean) => c.wideTurn(2, 0, 1, forward);
+const fPrime = (c: Cube) => (forward: boolean) => c.wideTurn(2, 0, 1, !forward);
+const f2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(2, 0, 1, forward);
+    c.wideTurn(2, 0, 1, forward);
+};
+
+const B = (c: Cube) => (forward: boolean) => c.turn(2, c.layers - 1, !forward);
+const BPrime = (c: Cube) => (forward: boolean) => c.turn(2, c.layers - 1, forward);
+const B2 = (c: Cube) => (forward: boolean) => {
+    c.turn(2, c.layers - 1, !forward);
+    c.turn(2, c.layers - 1, !forward);
+};
+
+const b = (c: Cube) => (forward: boolean) => c.wideTurn(2, c.layers - 1, c.layers - 2, !forward);
+const bPrime = (c: Cube) => (forward: boolean) => c.wideTurn(2, c.layers - 1, c.layers - 2, forward);
+const b2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(2, c.layers - 1, c.layers - 2, !forward);
+    c.wideTurn(2, c.layers - 1, c.layers - 2, !forward);
+};
+
+const L = (c: Cube) => (forward: boolean) => c.turn(0, c.layers - 1, !forward);
+const LPrime = (c: Cube) => (forward: boolean) => c.turn(0, c.layers - 1, forward);
+const L2 = (c: Cube) => (forward: boolean) => {
+    c.turn(0, c.layers - 1, !forward);
+    c.turn(0, c.layers - 1, !forward);
+};
+
+const l = (c: Cube) => (forward: boolean) => c.wideTurn(0, c.layers - 1, c.layers - 2, !forward);
+const lPrime = (c: Cube) => (forward: boolean) => c.wideTurn(0, c.layers - 1, c.layers - 2, forward);
+const l2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(0, c.layers - 1, c.layers - 2, !forward);
+    c.wideTurn(0, c.layers - 1, c.layers - 2, !forward);
+};
+
+const R = (c: Cube) => (forward: boolean) => c.turn(0, 0, forward);
+const RPrime = (c: Cube) => (forward: boolean) => c.turn(0, 0, !forward);
+const R2 = (c: Cube) => (forward: boolean) => {
+    c.turn(0, 0, forward);
+    c.turn(0, 0, forward);
+};
+
+const r = (c: Cube) => (forward: boolean) => c.wideTurn(0, 0, 1, forward);
+const rPrime = (c: Cube) => (forward: boolean) => c.wideTurn(0, 0, 1, !forward);
+const r2 = (c: Cube) => (forward: boolean) => {
+    c.wideTurn(0, 0, 1, forward);
+    c.wideTurn(0, 0, 1, forward);
+};
+
+const M = (c: Cube) => (forward: boolean) => c.sliceTurn(0, !forward);
+const MPrime = (c: Cube) => (forward: boolean) => c.sliceTurn(0, forward);
+const M2 = (c: Cube) => (forward: boolean) => {
+    c.sliceTurn(0, !forward);
+    c.sliceTurn(0, !forward);
+};
+
+const E = (c: Cube) => (forward: boolean) => c.sliceTurn(1, !forward);
+const EPrime = (c: Cube) => (forward: boolean) => c.sliceTurn(1, forward);
+const E2 = (c: Cube) => (forward: boolean) => {
+    c.sliceTurn(1, !forward);
+    c.sliceTurn(1, !forward);
+};
+
+const S = (c: Cube) => (forward: boolean) => c.sliceTurn(2, forward);
+const SPrime = (c: Cube) => (forward: boolean) => c.sliceTurn(2, !forward);
+const S2 = (c: Cube) => (forward: boolean) => {
+    c.sliceTurn(2, forward);
+    c.sliceTurn(2, forward);
+};
+
+function getMoveMap(c: Cube) {
     return {
-        "x": (forward: boolean) => cube.cubeRotate(0, forward),
-        "x'": (forward: boolean) => cube.cubeRotate(0, !forward),
-        "x2": (forward: boolean) => {
-            cube.cubeRotate(0, forward);
-            cube.cubeRotate(0, forward);
-        },
-        "x2'": (forward: boolean) => {
-            cube.cubeRotate(0, forward);
-            cube.cubeRotate(0, forward);
-        },
-        "y": (forward: boolean) => cube.cubeRotate(1, forward),
-        "y'": (forward: boolean) => cube.cubeRotate(1, !forward),
-        "y2": (forward: boolean) => {
-            cube.cubeRotate(1, forward);
-            cube.cubeRotate(1, forward);
-        },
-        "y2'": (forward: boolean) => {
-            cube.cubeRotate(1, forward);
-            cube.cubeRotate(1, forward);
-        },
-        "z": (forward: boolean) => cube.cubeRotate(2, forward),
-        "z'": (forward: boolean) => cube.cubeRotate(2, !forward),
-        "z2": (forward: boolean) => {
-            cube.cubeRotate(2, forward);
-            cube.cubeRotate(2, forward);
-        },
-        "z2'": (forward: boolean) => {
-            cube.cubeRotate(2, forward);
-            cube.cubeRotate(2, forward);
-        },
-        "U": (forward: boolean) => cube.turn(1, 0, forward),
-        "U'": (forward: boolean) => cube.turn(1, 0, !forward),
-        "U2": (forward: boolean) => {
-            cube.turn(1, 0, forward);
-            cube.turn(1, 0, forward);
-        },
-        "U2'": (forward: boolean) => {
-            cube.turn(1, 0, forward);
-            cube.turn(1, 0, forward);
-        },
-        "u": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, forward);
-        },
-        "Uw": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, forward);
-        },
-        "u'": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, !forward);
-        },
-        "Uw'": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, !forward);
-        },
-        "u2": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, forward);
-            cube.wideTurn(1, 0, 1, forward);
-        },
-        "u2'": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, !forward);
-            cube.wideTurn(1, 0, 1, !forward);
-        },
-        "Uw2": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, forward);
-            cube.wideTurn(1, 0, 1, forward);
-        },
-        "Uw2'": (forward: boolean) => {
-            cube.wideTurn(1, 0, 1, !forward);
-            cube.wideTurn(1, 0, 1, !forward);
-        },
-        "D": (forward: boolean) => cube.turn(1, cube.layers - 1, !forward),
-        "D'": (forward: boolean) => cube.turn(1, cube.layers - 1, forward),
-        "D2": (forward: boolean) => {
-            cube.turn(1, cube.layers - 1, !forward);
-            cube.turn(1, cube.layers - 1, !forward);
-        },
-        "D2'": (forward: boolean) => {
-            cube.turn(1, cube.layers - 1, forward);
-            cube.turn(1, cube.layers - 1, forward);
-        },
-        "d": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Dw": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "d'": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Dw'": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "d2": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Dw2": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "d2'": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Dw2'": (forward: boolean) => {
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(1, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "F": (forward: boolean) => cube.turn(2, 0, forward),
-        "F'": (forward: boolean) => cube.turn(2, 0, !forward),
-        "F2": (forward: boolean) => {
-            cube.turn(2, 0, forward);
-            cube.turn(2, 0, forward);
-        },
-        "F2'": (forward: boolean) => {
-            cube.turn(2, 0, !forward);
-            cube.turn(2, 0, !forward);
-        },
-        "f": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, forward);
-        },
-        "Fw": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, forward);
-        },
-        "f'": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, !forward);
-        },
-        "Fw'": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, !forward);
-        },
-        "f2": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, forward);
-            cube.wideTurn(2, 0, 1, forward);
-        },
-        "Fw2": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, forward);
-            cube.wideTurn(2, 0, 1, forward);
-        },
-        "f2'": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, !forward);
-            cube.wideTurn(2, 0, 1, !forward);
-        },
-        "Fw2'": (forward: boolean) => {
-            cube.wideTurn(2, 0, 1, !forward);
-            cube.wideTurn(2, 0, 1, !forward);
-        },
-        "B": (forward: boolean) => cube.turn(2, cube.layers - 1, !forward),
-        "B'": (forward: boolean) => cube.turn(2, cube.layers - 1, forward),
-        "B2": (forward: boolean) => {
-            cube.turn(2, cube.layers - 1, !forward);
-            cube.turn(2, cube.layers - 1, !forward);
-        },
-        "B2'": (forward: boolean) => {
-            cube.turn(2, cube.layers - 1, forward);
-            cube.turn(2, cube.layers - 1, forward);
-        },
-        "b": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Bw": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "b'": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Bw'": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "b2": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Bw2": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "b2'": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Bw2'": (forward: boolean) => {
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(2, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "L": (forward: boolean) => cube.turn(0, cube.layers - 1, !forward),
-        "L'": (forward: boolean) => cube.turn(0, cube.layers - 1, forward),
-        "L2": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, !forward);
-            cube.turn(0, cube.layers - 1, !forward);
-        },
-        "L2'": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, forward);
-            cube.turn(0, cube.layers - 1, forward);
-        },
-        "l": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Lw": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "l'": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Lw'": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "l2": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "Lw2": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, !forward);
-        },
-        "l2'": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "Lw2'": (forward: boolean) => {
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-            cube.wideTurn(0, cube.layers - 1, cube.layers - 2, forward);
-        },
-        "R": (forward: boolean) => cube.turn(0, 0, forward),
-        "R'": (forward: boolean) => cube.turn(0, 0, !forward),
-        "R2": (forward: boolean) => {
-            cube.turn(0, 0, forward);
-            cube.turn(0, 0, forward);
-        },
-        "R2'": (forward: boolean) => {
-            cube.turn(0, 0, !forward);
-            cube.turn(0, 0, !forward);
-        },
-        "r": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, forward);
-        },
-        "Rw": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, forward);
-        },
-        "r'": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, !forward);
-        },
-        "Rw'": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, !forward);
-        },
-        "r2": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, forward);
-            cube.wideTurn(0, 0, 1, forward);
-        },
-        "Rw2": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, forward);
-            cube.wideTurn(0, 0, 1, forward);
-        },
-        "r2'": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, !forward);
-            cube.wideTurn(0, 0, 1, !forward);
-        },
-        "Rw2'": (forward: boolean) => {
-            cube.wideTurn(0, 0, 1, !forward);
-            cube.wideTurn(0, 0, 1, !forward);
-        },
-        "M": (forward: boolean) => cube.sliceTurn(0, !forward),
-        "M'": (forward: boolean) => cube.sliceTurn(0, forward),
-        "M2": (forward: boolean) => {
-            cube.sliceTurn(0, !forward);
-            cube.sliceTurn(0, !forward);
-        },
-        "M2'": (forward: boolean) => {
-            cube.sliceTurn(0, forward);
-            cube.sliceTurn(0, forward);
-        },
-        "E": (forward: boolean) => cube.sliceTurn(1, !forward),
-        "E'": (forward: boolean) => cube.sliceTurn(1, forward),
-        "E2": (forward: boolean) => {
-            cube.sliceTurn(1, !forward);
-            cube.sliceTurn(1, !forward);
-        },
-        "E2'": (forward: boolean) => {
-            cube.sliceTurn(1, forward);
-            cube.sliceTurn(1, forward);
-        },
-        "S": (forward: boolean) => cube.sliceTurn(2, forward),
-        "S'": (forward: boolean) => cube.sliceTurn(2, !forward),
-        "S2": (forward: boolean) => {
-            cube.sliceTurn(2, forward);
-            cube.sliceTurn(2, forward);
-        },
-        "S2'": (forward: boolean) => {
-            cube.sliceTurn(2, forward);
-            cube.sliceTurn(2, forward);
-        },
-        "2L": (forward: boolean) => cube.turn(0, 1, forward),
-        "2L'": (forward: boolean) => cube.turn(0, 1, !forward),
+        "x": x(c),
+        "x'": xPrime(c),
+        "x2": x2(c),
+        "x2'": x2(c),
+        "x3": xPrime(c),
+        "x3'": x(c),
+        "y": y(c),
+        "y'": yPrime(c),
+        "y2": y2(c),
+        "y2'": y2(c),
+        "y3": yPrime(c),
+        "y3'": y(c),
+        "z": z(c),
+        "z'": zPrime(c),
+        "z2": z2(c),
+        "z2'": z2(c),
+        "z3": zPrime(c),
+        "z3'": z(c),
+        "U": U(c),
+        "U'": UPrime(c),
+        "U2": U2(c),
+        "U2'": U2(c),
+        "u": u(c),
+        "Uw": u(c),
+        "u'": uPrime(c),
+        "Uw'": uPrime(c),
+        "u2": u2(c),
+        "Uw2": u2(c),
+        "u2'": u2(c),
+        "Uw2'": u2(c),
+        "D": D(c),
+        "D'": DPrime(c),
+        "D2": D2(c),
+        "D2'": D2(c),
+        "d": d(c),
+        "Dw": d(c),
+        "d'": dPrime(c),
+        "Dw'": dPrime(c),
+        "d2": d2(c),
+        "Dw2": d2(c),
+        "d2'": d2(c),
+        "Dw2'": d2(c),
+        "F": F(c),
+        "F'": FPrime(c),
+        "F2": F2(c),
+        "F2'": F2(c),
+        "f": f(c),
+        "Fw": f(c),
+        "f'": fPrime(c),
+        "Fw'": fPrime(c),
+        "f2": f2(c),
+        "Fw2": f2(c),
+        "f2'": f2(c),
+        "Fw2'": f2(c),
+        "B": B(c),
+        "B'": BPrime(c),
+        "B2": B2(c),
+        "B2'": B2(c),
+        "b": b(c),
+        "Bw": b(c),
+        "b'": bPrime(c),
+        "Bw'": bPrime(c),
+        "b2": b2(c),
+        "Bw2": b2(c),
+        "b2'": b2(c),
+        "Bw2'": b2(c),
+        "L": L(c),
+        "L'": LPrime(c),
+        "L2": L2(c),
+        "L2'": L2(c),
+        "L3": LPrime(c),
+        "L3'": L(c),
+        "l": l(c),
+        "Lw": l(c),
+        "l'": lPrime(c),
+        "Lw'": lPrime(c),
+        "l2": l2(c),
+        "Lw2": l2(c),
+        "l2'": l2(c),
+        "Lw2'": l2(c),
+        "R": R(c),
+        "R'": RPrime(c),
+        "R2": R2(c),
+        "R2'": R2(c),
+        "R3": RPrime(c),
+        "R3'": R(c),
+        "r": r(c),
+        "Rw": r(c),
+        "r'": rPrime(c),
+        "Rw'": rPrime(c),
+        "r2": r2(c),
+        "Rw2": r2(c),
+        "r2'": r2(c),
+        "Rw2'": r2(c),
+        "M": M(c),
+        "M'": MPrime(c),
+        "M2": M2(c),
+        "M2'": M2(c),
+        "E": E(c),
+        "E'": EPrime(c),
+        "E2": E2(c),
+        "E2'": E2(c),
+        "S": S(c),
+        "S'": SPrime(c),
+        "S2": S2(c),
+        "S2'": S2(c),
+        "2L": (forward: boolean) => c.turn(0, 1, forward),
+        "2L'": (forward: boolean) => c.turn(0, 1, !forward),
         "2L2": (forward: boolean) => {
-            cube.turn(0, cube.layers - 2, forward);
-            cube.turn(0, cube.layers - 2, forward);
+            c.turn(0, c.layers - 2, forward);
+            c.turn(0, c.layers - 2, forward);
         },
         "2L2'": (forward: boolean) => {
-            cube.turn(0, cube.layers - 2, forward);
-            cube.turn(0, cube.layers - 2, forward);
+            c.turn(0, c.layers - 2, forward);
+            c.turn(0, c.layers - 2, forward);
         },
-        "2R": (forward: boolean) => cube.turn(0, 1, !forward),
-        "2R'": (forward: boolean) => cube.turn(0, 1, forward),
+        "2R": (forward: boolean) => c.turn(0, 1, !forward),
+        "2R'": (forward: boolean) => c.turn(0, 1, forward),
         "2R2": (forward: boolean) => {
-            cube.turn(0, 1, forward);
-            cube.turn(0, 1, forward);
+            c.turn(0, 1, forward);
+            c.turn(0, 1, forward);
         },
         "2R2'": (forward: boolean) => {
-            cube.turn(0, 1, forward);
-            cube.turn(0, 1, forward);
+            c.turn(0, 1, forward);
+            c.turn(0, 1, forward);
         },
         "3Lw": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, !forward);
-            cube.turn(0, cube.layers - 2, !forward);
-            cube.turn(0, cube.layers - 3, !forward);
+            c.turn(0, c.layers - 1, !forward);
+            c.turn(0, c.layers - 2, !forward);
+            c.turn(0, c.layers - 3, !forward);
         },
         "3Lw'": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, forward);
-            cube.turn(0, cube.layers - 2, forward);
-            cube.turn(0, cube.layers - 3, forward);
+            c.turn(0, c.layers - 1, forward);
+            c.turn(0, c.layers - 2, forward);
+            c.turn(0, c.layers - 3, forward);
         },
         "3Lw2": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, !forward);
-            cube.turn(0, cube.layers - 2, !forward);
-            cube.turn(0, cube.layers - 3, !forward);
-            cube.turn(0, cube.layers - 1, !forward);
-            cube.turn(0, cube.layers - 2, !forward);
-            cube.turn(0, cube.layers - 3, !forward);
+            c.turn(0, c.layers - 1, !forward);
+            c.turn(0, c.layers - 2, !forward);
+            c.turn(0, c.layers - 3, !forward);
+            c.turn(0, c.layers - 1, !forward);
+            c.turn(0, c.layers - 2, !forward);
+            c.turn(0, c.layers - 3, !forward);
         },
         "3Lw2'": (forward: boolean) => {
-            cube.turn(0, cube.layers - 1, forward);
-            cube.turn(0, cube.layers - 2, forward);
-            cube.turn(0, cube.layers - 3, forward);
-            cube.turn(0, cube.layers - 1, forward);
-            cube.turn(0, cube.layers - 2, forward);
-            cube.turn(0, cube.layers - 3, forward);
+            c.turn(0, c.layers - 1, forward);
+            c.turn(0, c.layers - 2, forward);
+            c.turn(0, c.layers - 3, forward);
+            c.turn(0, c.layers - 1, forward);
+            c.turn(0, c.layers - 2, forward);
+            c.turn(0, c.layers - 3, forward);
         },
         "3Rw": (forward: boolean) => {
-            cube.turn(0, 0, forward);
-            cube.turn(0, 1, forward);
-            cube.turn(0, 2, forward);
+            c.turn(0, 0, forward);
+            c.turn(0, 1, forward);
+            c.turn(0, 2, forward);
         },
         "3Rw'": (forward: boolean) => {
-            cube.turn(0, 0, !forward);
-            cube.turn(0, 1, !forward);
-            cube.turn(0, 2, !forward);
+            c.turn(0, 0, !forward);
+            c.turn(0, 1, !forward);
+            c.turn(0, 2, !forward);
         },
         "3Rw2": (forward: boolean) => {
-            cube.turn(0, 0, forward);
-            cube.turn(0, 1, forward);
-            cube.turn(0, 2, forward);
-            cube.turn(0, 0, forward);
-            cube.turn(0, 1, forward);
-            cube.turn(0, 2, forward);
+            c.turn(0, 0, forward);
+            c.turn(0, 1, forward);
+            c.turn(0, 2, forward);
+            c.turn(0, 0, forward);
+            c.turn(0, 1, forward);
+            c.turn(0, 2, forward);
         },
         "3Rw2'": (forward: boolean) => {
-            cube.turn(0, 0, !forward);
-            cube.turn(0, 1, !forward);
-            cube.turn(0, 2, !forward);
-            cube.turn(0, 0, !forward);
-            cube.turn(0, 1, !forward);
-            cube.turn(0, 2, !forward);
+            c.turn(0, 0, !forward);
+            c.turn(0, 1, !forward);
+            c.turn(0, 2, !forward);
+            c.turn(0, 0, !forward);
+            c.turn(0, 1, !forward);
+            c.turn(0, 2, !forward);
         },
     };
 }

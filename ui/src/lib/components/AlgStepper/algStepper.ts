@@ -1,4 +1,4 @@
-import { expandDoubleMoves, invertAlg, type Scene } from "../../scripts/rubiks-viz";
+import { expandDoubleMoves, type Scene } from "../../scripts/rubiks-viz";
 
 type State = {
     playing: boolean;

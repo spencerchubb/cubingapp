@@ -28,6 +28,12 @@ export function expandDoubleMoves(alg: string): string {
         } else if (move.endsWith("2'")) {
             let m = move.slice(0, -2) + "'";
             return m + " " + m;
+        } else if (move.endsWith("3")) {
+            let m = move.slice(0, -1);
+            return m + " " + m + " " + m;
+        } else if (move.endsWith("3'")) {
+            let m = move.slice(0, -2) + "'";
+            return m + " " + m + " " + m;
         }
         return move;
     }).join(" ");
