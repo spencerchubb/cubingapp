@@ -1,3 +1,15 @@
+// Key: KeyboardEvent.code
+// Value: The move name
+/**
+ * Key: KeyboardEvent.code, Value: The move name.
+ * 
+ * Why use KeyboardEvent.code instead of KeyboardEvent.key?
+ * 1) `key` is dependent on "the state of modifier keys such as Shift as well as the keyboard locale and layout."
+ * 2) `code` is useful when you want to handle keys based on their physical positions. This is common for games.
+ * 
+ * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+ * https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+ */
 export type KeyBindings = { [key: string]: string };
 
 export function getKeyBindings(): KeyBindings {

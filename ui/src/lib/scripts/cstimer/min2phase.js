@@ -1297,7 +1297,6 @@ export var min2phase = (function() {
 					}
 				}
 			}
-			// console.log(depth, done, InitPrunProgress);
 		}
 		setPruning(PrunTable, N_SIZE, (depth + 1) ^ 0xf);
 		return depth + 1;

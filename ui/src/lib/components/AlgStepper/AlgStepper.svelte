@@ -1,6 +1,6 @@
 <script lang="ts">
     import { newAlgStepper } from "./algStepper";
-    import { newScene } from "../../scripts/rubiks-viz";
+    import { newCube } from "../../scripts/rubiks-viz";
     import { onMount } from "svelte";
 
     import ChevronLeft from "../icons/ChevronLeft.svelte";
@@ -17,7 +17,7 @@
     let algStepper;
 
     onMount(() => {
-        const scene = newScene(div);
+        const scene = newCube(div);
         scene.dragEnabled = false;
         scene.enableKey = () => false;
 

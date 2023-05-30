@@ -17,7 +17,7 @@ export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
     let moves = expandDoubleMoves(alg).split(" ");
     let moveIndex = 0;
 
-    scene.cube.performAlg(_setup);
+    scene.puzzle.performAlg(_setup);
 
     return {
         setCallback: (_callback: (s: State) => void): State => {
@@ -31,8 +31,8 @@ export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
             } else {
                 if (moveIndex >= moves.length) {
                     moveIndex = 0;
-                    scene.cube.solve();
-                    scene.cube.performAlg(_setup);
+                    scene.puzzle.solve();
+                    scene.puzzle.performAlg(_setup);
                 }
 
                 state.playing = true;
@@ -43,7 +43,7 @@ export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
                         callback(state);
                         return;
                     }
-                    scene.cube.performMove(moves[moveIndex], true);
+                    scene.puzzle.performMove(moves[moveIndex], true);
                     moveIndex++;
                 }, 800);
             }
@@ -53,11 +53,11 @@ export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
         clickLeft: () => {
             if (moveIndex <= 0 || state.playing) return;
             moveIndex--;
-            scene.cube.performMove(moves[moveIndex], false);
+            scene.puzzle.performMove(moves[moveIndex], false);
         },
         clickRight: () => {
             if (moveIndex >= moves.length || state.playing) return;
-            scene.cube.performMove(moves[moveIndex], true);
+            scene.puzzle.performMove(moves[moveIndex], true);
             moveIndex++;
         }
     }

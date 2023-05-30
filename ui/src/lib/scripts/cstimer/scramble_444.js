@@ -1471,7 +1471,6 @@ export var scramble_444 = (function(rn, Cnk, circle) {
         }
       }
       ++depth;
-      // console.log(depth + '\t' + done_0 + '\t' + (+new Date - start));
     }
   }
 

@@ -1,4 +1,4 @@
-import { Scene } from "../lib/scripts/rubiks-viz";
+import { Scene, newCube, newPyraminx, scenes } from "../lib/scripts/rubiks-viz";
 import { scrMgr } from "../lib/scripts/cstimer/scramble";
 
 // Need to do this to register scramblers
@@ -23,9 +23,10 @@ export const puzzles = [
     "5x5",
     "6x6",
     "7x7",
+    "Pyraminx",
 ];
 
-type Puzzle = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7";
+type Puzzle = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7" | "Pyraminx";
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
 type State = {
@@ -64,8 +65,8 @@ export function lastScramble() {
     const last = scrambleStack.pop();
     if (!last) return;
     state.scramble = last;
-    scene.cube.solve();
-    scene.cube.performAlg(state.scramble);
+    scene.puzzle.solve();
+    scene.puzzle.performAlg(state.scramble);
     callback(state);
 }
 
@@ -84,30 +85,32 @@ function setPuzzle(puzzle: Puzzle) {
 
     switch (puzzle) {
         case "2x2":
-            scene.cube.setNumOfLayers(2);
+            newCube(scene.div, 2);
             break;
         case "3x3":
-            scene.cube.setNumOfLayers(3);
+            newCube(scene.div, 3);
             break;
         case "4x4":
-            scene.cube.setNumOfLayers(4);
+            newCube(scene.div, 4);
             break;
         case "5x5":
-            scene.cube.setNumOfLayers(5);
+            newCube(scene.div, 5);
             break;
         case "6x6":
-            scene.cube.setNumOfLayers(6);
+            newCube(scene.div, 6);
             break;
         case "7x7":
-            scene.cube.setNumOfLayers(7);
+            newCube(scene.div, 7);
             break;
+        case "Pyraminx":
+            newPyraminx(scene.div);
     }
 
     performNewScramble();
 }
 
 export function solve() {
-    scene.cube.solve();
+    scene.puzzle.solve();
     state.timerStatus = "stopped";
     state.timerText = "Click to scramble";
     callback(state);
@@ -120,8 +123,8 @@ function performNewScramble() {
 
     const scram = getScramble(state.puzzle, scene);
     state.scramble = scram;
-    scene.cube.solve();
-    scene.cube.performAlg(scram);
+    scene.puzzle.solve();
+    scene.puzzle.performAlg(scram);
     callback(state);
 }
 
@@ -134,16 +137,15 @@ function getScramble(puzzle: Puzzle, scene: Scene) {
     switch (puzzle) {
         case "2x2":
             scram = scrMgr.scramblers["222o"]("222o");
-            scene.cube.performAlg(scram);
             break;
         case "3x3":
             scram = scrMgr.scramblers["333"]();
-            scene.cube.performAlg(scram);
             break;
         case "4x4":
             scram = scrMgr.scramblers["444wca"]();
-            scene.cube.performAlg(scram);
             break;
+        case "Pyraminx":
+            scram = scrMgr.scramblers["pyram"]();
         default:
             scram = `Sorry, we can't show ${puzzle} scrambles yet`;
             break;

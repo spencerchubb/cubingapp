@@ -1,4 +1,4 @@
-import { Scene, expandDoubleMoves, invertAlg, newScene } from '../../src/lib/scripts/rubiks-viz';
+import { Scene, expandDoubleMoves, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
 import { replaceAll } from '../../src/lib/scripts/util';
 
 let callback: (state) => void;
@@ -103,7 +103,7 @@ export function renderCubes() {
             continue;
         }
 
-        const scene = newScene(sceneDiv, numLayers);
+        const scene = newCube(sceneDiv, numLayers);
         renderedScenes[i] = scene;
 
         const case_ = state.algSet.cases[i];
@@ -112,7 +112,7 @@ export function renderCubes() {
         scene.dragEnabled = false;
 
         const firstAlg = getAlg(case_, state.selectedVariants[i], 0) ?? "";
-        scene.cube.performAlg(invertAlg(firstAlg));
+        scene.puzzle.performAlg(invertAlg(firstAlg));
     }
 }
 
@@ -155,24 +155,24 @@ export function play(caseIndex: number, algIndex: number) {
 
     clearInterval(timer);
     const onFinish = () => resetCube(scene, alg);
-    timer = scene.cube.performAlgWithAnimation(alg, onFinish);
+    timer = scene.puzzle.performAlgWithAnimation(alg, onFinish);
 
     // We only play one alg at a time, so we reset the previous one.
     case_ = state.algSet.cases[state.casePlaying];
     variant = state.selectedVariants[state.casePlaying];
     const oldAlg = getAlg(case_, variant, state.algPlaying);
-    const oldScene = renderedScenes[state.casePlaying];
+    const oldScene: Scene = renderedScenes[state.casePlaying];
     if (oldAlg && oldScene) {
-        oldScene.cube.solve();
-        oldScene.cube.performAlg(invertAlg(oldAlg));
+        oldScene.puzzle.solve();
+        oldScene.puzzle.performAlg(invertAlg(oldAlg));
     }
 
     state.casePlaying = caseIndex;
     state.algPlaying = algIndex;
     callback(state);
 
-    scene.cube.solve();
-    scene.cube.performAlg(invertAlg(alg));
+    scene.puzzle.solve();
+    scene.puzzle.performAlg(invertAlg(alg));
 }
 
 function getAlg(case_: AlgSetCase, variant: number | undefined, alg: number): string | undefined {
@@ -193,6 +193,6 @@ function resetCube(scene: Scene, alg: string) {
     state.algPlaying = -1;
     callback(state);
 
-    scene.cube.solve();
-    scene.cube.performAlg(alg);
+    scene.puzzle.solve();
+    scene.puzzle.performAlg(alg);
 }

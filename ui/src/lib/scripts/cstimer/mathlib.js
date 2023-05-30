@@ -850,7 +850,6 @@ export var mathlib = (function() {
 					}
 				}
 			}
-			console.log('newCnt', newCnt);
 			for (var i1 = 0; i1 < this.e.length; i1++) {
 				var isFilled = true;
 				for (var j1 = 0; j1 < i1; j1++) {
@@ -892,7 +891,6 @@ export var mathlib = (function() {
 							if (ret > 0) {
 								toFill--;
 							}
-							// console.log(i1, i2, ret);
 						}
 					}
 				}
@@ -911,14 +909,11 @@ export var mathlib = (function() {
 				if (cnt % 1000 == 0) {
 					var ret2 = improve.call(this);
 					maxl = Math.round(maxl * 1.25);
-					console.log(ret2, toFill, maxl);
 				}
 				return ret;
 			});
 		}
-		console.log('final', Date.now() - start);
 		improve.call(this);
-		console.log('init minkwitz', Date.now() - start);
 		window.sgs1 = this;
 	}
 
@@ -990,10 +985,8 @@ export var mathlib = (function() {
 				if (!this.sgs[i][j] || ret.sgs[i][j]) {
 					continue;
 				}
-				// console.log(i, j);
 				this.enumDFS(i - 1, this.sgs[i][j], function(perm) {
 					ret.knutha(n - 1, perm);
-					// console.log(i, j, ret.size(), perm);
 					return true;
 				}, function(depth, perm) {
 					if (ret.cnt > thres || ret.cnt == -1) {
@@ -1034,7 +1027,6 @@ export var mathlib = (function() {
 			if (this.sgs[depth][j]) {
 				var ret = this.enumDFS(depth - 1, this.permMult(this.sgs[depth][j], perm), callback, checkFunc);
 				if (ret) {
-					// console.log(depth, j, this.sgs[depth][j])
 					return ret;
 				}
 			}
@@ -1434,21 +1426,6 @@ export var mathlib = (function() {
 				}
 			}
 		}
-		/*
-		var sgsObj = new schreierSims(genMove);
-		sgsObj.minkwitz();
-		var perm = e.slice();
-		var initMv = [];
-		for (var i = 0; i < 50; i++) {
-			var mv = rn(genMove.length);
-			perm = sgsObj.permMult(genMove[mv], perm);
-			initMv.push(sgsObj.invMap[mv]);
-		}
-		var sol = sgsObj.getGen(perm);
-		var move2str = function(v) { return "URFDLB"[~~(v/3)] + " 2'"[v%3]; };
-		sol = $.map(Array.prototype.concat.apply([], sol).reverse(), move2str).join(' ');
-		console.log($.map(initMv.reverse(), move2str).join(' '), '\n', sol);
-		*/
 		var sgs0, sgs1, sgs01;
 		for (var r = 0; r < 100; r++) {
 			var shuffle = [];
@@ -1465,11 +1442,9 @@ export var mathlib = (function() {
 			sgs1 = new schreierSims(genMove, shuffle);
 			sgs01 = sgs0.intersect(sgs1);
 			if (sgs01.cnt != -1) {
-				console.log(r);
 				break;
 			}
 		}
-		console.log(sgs01.cnt, sgs0.size(), sgs1.size(), sgs01.size(), sgs1.size() / sgs01.size());
 	};
 
 	_.updatePrun = function(targetDepth) {

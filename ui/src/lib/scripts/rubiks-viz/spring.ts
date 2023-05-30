@@ -10,30 +10,30 @@ const f = 15;
  */
 export class Spring {
     position: number;
-    _velocity: number;
-    _acceleration: number;
+    private v: number;
+    private a: number;
 
     // set this to specify the target position
     target: number;
 
     constructor() {
         this.position = 0;
-        this._velocity = 200;
-        this._acceleration = 0;
+        this.v = 200;
+        this.a = 0;
 
         this.target = 0;
     }
 
     update(dt: number) {
         const springF = -k * (this.position - this.target);
-        const dampingF = -f * this._velocity;
+        const dampingF = -f * this.v;
 
-        this._acceleration = springF + dampingF;
+        this.a = springF + dampingF;
 
         // v = v0 + at
-        this._velocity += this._acceleration * dt;
+        this.v += this.a * dt;
 
         // x = x0 + vt
-        this.position += this._velocity * dt;
+        this.position += this.v * dt;
     }
 }

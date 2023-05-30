@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { type Scene, newScene } from "../scripts/rubiks-viz";
+    import { type Scene, newCube } from "../scripts/rubiks-viz";
 
     export let onSceneInitialized: (scene: Scene) => void;
 
@@ -8,7 +8,7 @@
     let scene: Scene;
 
     onMount(() => {
-        scene = newScene(div);
+        scene = newCube(div);
         scene.enableKey = (event: KeyboardEvent) => {
             const target = event.target as HTMLElement;
             return (

@@ -1,14 +1,10 @@
-export const WHITE = [1.0, 1.0, 1.0, 1.0];
-export const GRAY = [0.5, 0.5, 0.5, 1.0];
-export const YELLOW = [1.0, 1.0, 0.0, 1.0];
-export const GREEN = [0.0, 1.0, 0.0, 1.0];
-export const BLUE = [0.0, 0.0, 1.0, 1.0];
-export const ORANGE = [1.0, 0.5, 0.0, 1.0];
-export const RED = [1.0, 0.0, 0.0, 1.0];
-export const BLACK = [0.0, 0.0, 0.0, 1.0];
+export type Color = [number, number, number];
 
-const colors = [WHITE, GREEN, YELLOW, BLUE, ORANGE, RED];
-export function faceToColor(face: number): number[] {
-    if (face < 0 || face >= colors.length) console.error("Invalid face: " + face);
-    return colors[face];
-}
+export const WHITE: Color = [1.0, 1.0, 1.0];
+export const GRAY: Color = [0.5, 0.5, 0.5];
+export const YELLOW: Color = [1.0, 1.0, 0.0];
+export const GREEN: Color = [0.0, 1.0, 0.0];
+export const BLUE: Color = [0.0, 0.0, 1.0];
+export const ORANGE: Color = [1.0, 0.5, 0.0];
+export const RED: Color = [1.0, 0.0, 0.0];
+export const BLACK: Color = [0.0, 0.0, 0.0];

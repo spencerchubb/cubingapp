@@ -1,7 +1,7 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement, randInt } from "../lib/scripts/common/rand";
-import { GRAY, Scene, invertAlg, setColor } from "../lib/scripts/rubiks-viz";
+import { GRAY, Scene, invertAlg } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "@spencerchubb/solver";
@@ -300,11 +300,11 @@ export async function setAlgSet() {
     }
 
     if (uiState.algSet.cube == "2x2") {
-        scene.cube.setNumOfLayers(2);
-        scene.cube.solve();
+        // scene.puzzle.setNumOfLayers(2); TODO
+        // scene.puzzle.solve();
     } else if (uiState.algSet.cube == "3x3") {
-        scene.cube.setNumOfLayers(3);
-        scene.cube.solve();
+        // scene.puzzle.setNumOfLayers(3); TODO
+        // scene.puzzle.solve();
     }
 }
 
@@ -321,15 +321,15 @@ export function loadCurrAlg(): string {
     state.postAUF = generateRandAUF();
 
     const scene = state.scene;
-    scene.cube.solve();
-    scene.cube.performAlg(state.orientation);
+    // scene.puzzle.solve(); TODO
+    scene.puzzle.performAlg(state.orientation);
 
     uiState.algSet.inactive.forEach(stickerIdx => {
-        setColor(scene.cube.stickers[stickerIdx], GRAY);
+        // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
     });
 
     let algWithAUFs = applyAUFs(alg);
-    scene.cube.performAlg(invertAlg(algWithAUFs));
+    scene.puzzle.performAlg(invertAlg(algWithAUFs));
 
     return alg;
 }

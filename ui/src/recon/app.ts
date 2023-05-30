@@ -1,5 +1,5 @@
 import { Scene } from "../lib/scripts/rubiks-viz";
-import { findInvalidMove } from "../lib/scripts/rubiks-viz/moves";
+import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
 import { getSuggestions, SuggestionData } from "./suggestions";
 
@@ -62,15 +62,15 @@ export function updateCubeState(event) {
     let movesPortion = moves.slice(0, movesCursor);
     let parsedAlg = parseAlg(movesPortion);
     
-    let cube = state.scene.cube;
+    let puzzle = state.scene.puzzle;
 
-    let invalidMove = findInvalidMove(cube, parsedAlg.split(" "));
+    let invalidMove = findInvalidMove(puzzle, parsedAlg.split(" "));
     if (invalidMove) {
         return;
     }
 
-    cube.solve();
-    let numMovesPerformed = cube.performAlg(parsedAlg);
+    puzzle.solve();
+    let numMovesPerformed = puzzle.performAlg(parsedAlg);
     stepper = newStepper(state.scene, state.moves, numMovesPerformed);
 
     state.moveIndex = numMovesPerformed;
@@ -183,7 +183,7 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
         prev: () => {
             if (index <= 0) return false;
             index--;
-            scene.cube.performMove(moves[index], false);
+            scene.puzzle.performMove(moves[index], false);
 
             state.moveIndex = index;
             callback(state);
@@ -192,7 +192,7 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
         },
         next: () => {
             if (index >= moves.length) return false;
-            scene.cube.performMove(moves[index], true);
+            scene.puzzle.performMove(moves[index], true);
             index++;
 
             state.moveIndex = index;
@@ -202,4 +202,10 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
         },
         length: moves.length,
     };
+}
+
+function findInvalidMove(puzzle: Puzzle, moves: string[]): string | undefined {
+    const moveMap = puzzle.getMoveMap(true);
+    let invalidMove = moves.find(move => !moveMap[move]);
+    return invalidMove;
 }
