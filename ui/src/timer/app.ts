@@ -6,6 +6,8 @@ import { scramble_222 } from "../lib/scripts/cstimer/scramble_222";
 scramble_222;
 import { scramble_444 } from "../lib/scripts/cstimer/scramble_444";
 scramble_444;
+import { scramble_pyraminx } from "../lib/scripts/cstimer/scramble_pyraminx";
+scramble_pyraminx;
 
 export { };
 
@@ -145,7 +147,8 @@ function getScramble(puzzle: Puzzle, scene: Scene) {
             scram = scrMgr.scramblers["444wca"]();
             break;
         case "Pyraminx":
-            scram = scrMgr.scramblers["pyram"]();
+            scram = scrMgr.scramblers["pyro"]("pyro");
+            break;
         default:
             scram = `Sorry, we can't show ${puzzle} scrambles yet`;
             break;

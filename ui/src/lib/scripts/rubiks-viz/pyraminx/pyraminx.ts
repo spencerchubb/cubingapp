@@ -154,7 +154,7 @@ export class Pyraminx extends Puzzle {
             this.cycle(forward, F7, L7, R7);
             this.cycle(forward, F8, L8, R8);
 
-            this.cycle(forward, D0, D4, D8);
+            this.cycle(forward, D0, D8, D4);
             this.cycle(forward, D1, D3, D6);
             this.cycle(forward, D2, D7, D5);
         });
@@ -191,8 +191,10 @@ export class Pyraminx extends Puzzle {
     }
 
     // Implement abstract method
-    Uw(_: boolean): void {
-        console.log("Uw not implemented for pyraminx.");
+    Uw(forward: boolean): void {
+        this.animate(forward ? invVertex4 : vertex4, () => {
+            this.cycle(forward, F0, L0, R0);
+        });
     }
 
     // Implement abstract method
@@ -230,8 +232,10 @@ export class Pyraminx extends Puzzle {
     }
 
     // Implement abstract method
-    Bw(_: boolean): void {
-        console.log("Bw not implemented for pyraminx.");
+    Bw(forward: boolean): void {
+        this.animate(forward ? vertex2 : invVertex2, () => {
+            this.cycle(forward, D0, L4, R8);
+        });
     }
 
     // Implement abstract method
