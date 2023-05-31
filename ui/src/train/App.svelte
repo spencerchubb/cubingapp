@@ -49,8 +49,6 @@
 
 	let drawerIndex = -1;
 
-	// TODO remove this
-	const algSetNames = getAlgSetNames();
 	let currAlgSet: string;
 	let currAlg: string;
 

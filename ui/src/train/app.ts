@@ -1,7 +1,7 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement, randInt } from "../lib/scripts/common/rand";
-import { GRAY, Scene, invertAlg } from "../lib/scripts/rubiks-viz";
+import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "@spencerchubb/solver";
@@ -300,11 +300,9 @@ export async function setAlgSet() {
     }
 
     if (uiState.algSet.cube == "2x2") {
-        // scene.puzzle.setNumOfLayers(2); TODO
-        // scene.puzzle.solve();
+        newCube(scene.div, 2);
     } else if (uiState.algSet.cube == "3x3") {
-        // scene.puzzle.setNumOfLayers(3); TODO
-        // scene.puzzle.solve();
+        newCube(scene.div, 3);
     }
 }
 
@@ -321,7 +319,7 @@ export function loadCurrAlg(): string {
     state.postAUF = generateRandAUF();
 
     const scene = state.scene;
-    // scene.puzzle.solve(); TODO
+    scene.puzzle.solve();
     scene.puzzle.performAlg(state.orientation);
 
     uiState.algSet.inactive.forEach(stickerIdx => {

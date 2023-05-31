@@ -66,7 +66,7 @@ export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<S
     cube.solve();
     cube.performAlg(alg);
 
-    if (!piecesAreSolved(cube, CROSS_WHITE)) {
+    if (!stickersCorrect(cube, CROSS_WHITE)) {
         return {
             solved: [],
             unsolved: [
@@ -83,10 +83,10 @@ export async function getSuggestionsNoRotate(cube: Cube, alg: string): Promise<S
         unsolved: [],
     }
 
-    const frontRightSolved = piecesAreSolved(cube, f2lFrontRight);
-    const frontLeftSolved = piecesAreSolved(cube, f2lFrontLeft);
-    const backRightSolved = piecesAreSolved(cube, f2lBackRight);
-    const backLeftSolved = piecesAreSolved(cube, f2lBackLeft);
+    const frontRightSolved = stickersCorrect(cube, f2lFrontRight);
+    const frontLeftSolved = stickersCorrect(cube, f2lFrontLeft);
+    const backRightSolved = stickersCorrect(cube, f2lBackRight);
+    const backLeftSolved = stickersCorrect(cube, f2lBackLeft);
 
     const piecesToSolve = [...SOLVER_CROSS];
 
@@ -156,8 +156,13 @@ function piecesNotIn(pieces: number[]) {
     return all.filter(i => !pieces.includes(i));
 }
 
-function piecesAreSolved(cube: Cube, pieces: number[]): boolean {
-    return pieces.every(i => cube.stickerIsOnFace(i, cube.stickers[i])); // TODO make sure this still works
+function stickersCorrect(cube: Cube, stickers: number[]): boolean {
+    return stickers.every(i => {
+        const lower = Math.floor(i / 9) * 9;
+        const upper = lower + 9;
+        const sticker = cube.stickers[i];
+        return lower <= sticker && sticker < upper;
+    });
 }
 
 /** Replace slice moves with equivalent rotationa and face turns. */
