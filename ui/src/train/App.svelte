@@ -8,10 +8,11 @@
 	import GLManager from "../lib/components/GLManager.svelte";
 	import Icon from "../lib/components/Icon.svelte";
 	import {
+    closeModal,
 		computeStats,
-		getAlgSetNames,
 		getCasesToday,
 		getScramble,
+		goToPage,
 		initApp,
 		loadCurrAlg,
 		nextAlg,
@@ -45,8 +46,6 @@
 	let email = "";
 	let password = "";
 
-	let page: "landing" | "train" = "landing";
-
 	let drawerIndex = -1;
 
 	let currAlgSet: string;
@@ -64,8 +63,11 @@
 	let sideNavOpen = false;
 
 	let state = setCallback((newState) => {
-		state = newState;
+		state = Object.assign(state, newState);
 	});
+
+	$: modalOpen = state.modalType !== null;
+
 	const algSetLogic = new AlgSetLogic((newState) => {
 		state = Object.assign(state, newState);
 		setUIState(state);
@@ -81,7 +83,7 @@
 		<NavBarIcon on:click={() => (sideNavOpen = true)}>
 			<MenuIcon />
 		</NavBarIcon>
-		{#if page === "train"}
+		{#if state.page === "train"}
 			<div class="row">
 				<NavBarIcon on:click={() => (drawerIndex = 0)}>
 					<ChartIcon />
@@ -105,7 +107,7 @@
 		position: relative;
 		overflow-y: auto;"
 	>
-		{#if page === "landing"}
+		{#if state.page === "landing"}
 			<div class="col w-full h-full" style="padding: 16px;">
 				<h1>Learn OLL, PLL, CLL and more</h1>
 				<div style="height: 16px" />
@@ -117,7 +119,7 @@
 				</p>
 				<div style="height: 16px" />
 				{#if state.user}
-					<button on:click={() => (page = "train")}> Start Training </button>
+					<button on:click={() => goToPage("train")}> Start Training </button>
 				{:else}
 					<div
 						class="col"
@@ -157,18 +159,14 @@
 				<div style="height: 16px;" />
 				<Faq />
 			</div>
-		{:else if page === "train"}
+		{:else if state.page === "train"}
 			<div class="col" style="width: 100%; height: 100%;">
 				<div style="height: 16px;" />
 				<div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
                     <GLManager
                         onSceneInitialized={(scene) => {
                             setScene(scene);
-                            if (state.algSet) {
-                                loadCurrAlg();
-                            } else {
-                                algSetLogic.displayChooseAlgSet();
-                            }
+                            loadCurrAlg();
                         }}
                     />
                 </div>
@@ -259,7 +257,7 @@
 						<button
 							class="btn-primary"
 							on:click={() => {
-								page = "landing";
+								goToPage("landing");
 								onSignOut();
 							}}
 						>
@@ -325,7 +323,12 @@
 		{/if}
 	</div>
 	<SideNav bind:open={sideNavOpen} />
-	<Modal title={state.modalType} bind:open={state.modalOpen} allowClose={state.algSets.length > 0}>
+	<Modal
+		title={state.modalType}
+		bind:open={modalOpen}
+		allowClose={state.algSets.length > 0}
+		close={closeModal}
+	>
 		{#if state.modalType === "choose alg set" || state.algSets.length === 0}
 			<div class="col" style="padding: 16px; gap: 16px;">
 				<p style="font-weight: bold;">pre-built sets</p>

@@ -23,6 +23,8 @@ export type ShapeArgs = {
 }
 
 export abstract class Shape {
+    gl: WebGLRenderingContext;
+
     base: WebGLBuffer;
     sticker: WebGLBuffer;
     hint: WebGLBuffer;
@@ -34,11 +36,13 @@ export abstract class Shape {
     cart2d: number[];
 
     constructor(gl: WebGLRenderingContext, args: ShapeArgs) {
+        this.gl = gl;
+        
         this.base = getBuffer(gl, args.baseVertices);
         this.sticker = getBuffer(gl, args.stickerVertices);
         this.hint = getBuffer(gl, args.hintVertices);
-        this.color = this.getColorBuffer(gl, args.color);
-        this.black = this.getColorBuffer(gl, BLACK);
+        this.color = this.getColorBuffer(args.color);
+        this.black = this.getColorBuffer(BLACK);
 
         // Define a square as two triangles.
         // Given vertices A, B, C, and D, we define triangles ABC and ACD.
@@ -50,9 +54,9 @@ export abstract class Shape {
         this.cart2d = convertTo2d(args.baseVertices, args.perspective);
     }
 
-    abstract drawElement(gl: WebGLRenderingContext): void;
+    abstract drawElement(): void;
 
-    abstract getColorBuffer(gl: WebGLRenderingContext, color: Color): WebGLBuffer;
+    abstract getColorBuffer(color: Color): WebGLBuffer;
 
 }
 
@@ -61,8 +65,8 @@ export class Triangle extends Shape {
         gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
     }
 
-    getColorBuffer(gl: WebGLRenderingContext, color: number[]): WebGLBuffer {
-        return getBuffer(gl, [
+    getColorBuffer(color: number[]): WebGLBuffer {
+        return getBuffer(this.gl, [
             color[0], color[1], color[2], 1,
             color[0], color[1], color[2], 1,
             color[0], color[1], color[2], 1,
@@ -71,12 +75,13 @@ export class Triangle extends Shape {
 }
 
 export class Square extends Shape {
-    drawElement(gl: WebGLRenderingContext): void {
+    drawElement(): void {
+        const gl = this.gl;
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
     }
 
-    getColorBuffer(gl: WebGLRenderingContext, color: Color): WebGLBuffer {
-        return getBuffer(gl, [
+    getColorBuffer(color: Color): WebGLBuffer {
+        return getBuffer(this.gl, [
             color[0], color[1], color[2], 1,
             color[0], color[1], color[2], 1,
             color[0], color[1], color[2], 1,

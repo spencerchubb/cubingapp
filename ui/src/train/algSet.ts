@@ -1,6 +1,5 @@
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { AlgSetStore } from "../lib/scripts/store";
-import { updateModal } from "./modal";
 
 export const preBuiltSets = [
     "OLL",
@@ -21,8 +20,7 @@ export class AlgSetLogic {
     }
 
     displayChooseAlgSet() {
-        const state = updateModal("choose alg set");
-        this.callback(state);
+        this.callback({ modalType: "choose alg set"} );
     }
 
     chooseAlgSet(id: number, algSets: AlgSetAPI.AlgSet[]) {
@@ -30,7 +28,7 @@ export class AlgSetLogic {
         const algSet = algSets.find(algSet => algSet.id === id);
         const state = {
             algSet,
-            ...updateModal(null),
+            modalType: null,
         };
         this.callback(state);
     }
@@ -43,15 +41,14 @@ export class AlgSetLogic {
         const state: any = {
             algSets: newAlgSets,
             algSet,
-            ...updateModal(null),
+            modalType: null,
         };
         this.callback(state);
     }
 
     createCustomSet() {
-        const modalState = updateModal("edit alg set");
         const state = {
-            ...modalState,
+            modalType: "edit alg set",
             algSetEditing: {
                 name: "",
             },
@@ -60,10 +57,10 @@ export class AlgSetLogic {
     }
 
     editAlgSet(id: number, algSets: AlgSetAPI.AlgSet[]) {
-        const modalState = updateModal("edit alg set");
         const algSetEditing = algSets.find(algSet => algSet.id === id);
         const state = {
-            ...modalState,
+            modalType: "edit alg set",
+
             algSetEditing,
         }
         this.callback(state);
@@ -80,11 +77,10 @@ export class AlgSetLogic {
     }
 
     saveAlgSet(id: number, set: string, trainingAlgs: AlgSetAPI.TrainingAlg[], algSets: AlgSetAPI.AlgSet[]) {
-        const modalState = updateModal(null);
         AlgSetAPI.update(id, set, trainingAlgs);
         const algSet = algSets.find(algSet => algSet.id === id);
         const state = {
-            ...modalState,
+            modalType: null,
             algSet,
             algSets,
         }

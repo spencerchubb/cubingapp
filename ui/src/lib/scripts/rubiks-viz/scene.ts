@@ -238,6 +238,7 @@ function newPyraminx(div: HTMLElement): Scene {
     let dragDetector = new PyraDragDetector();
 
     scene = {
+        div,
         puzzle: pyraminx,
         dragEnabled: true,
         enableKey: (_) => true,
@@ -394,7 +395,7 @@ function resizeCanvasToDisplaySize() {
 function drawShape(gl: WebGLRenderingContext, shape: Shape, position: WebGLBuffer, color: WebGLBuffer): void {
     bindPosition(gl, position);
     bindColor(gl, color);
-    shape.drawElement(gl);
+    shape.drawElement();
 }
 
 function render(newTime: number) {

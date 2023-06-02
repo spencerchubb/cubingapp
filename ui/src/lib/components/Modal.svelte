@@ -5,18 +5,19 @@
     export let title: string;
     export let open = false;
     export let allowClose = true;
+    export let close = () => {
+        open = false;
+    };
 
-    function close() {
-        if (allowClose) {
-            open = false;
-        }
+    function internalClose() {
+        if (allowClose) close();
     }
 </script>
 
 {#if open}
     <div
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; background: rgba(0, 0, 0, 0.5);"
-        on:click={close}
+        on:click={internalClose}
         on:keypress={(event) => {}}
         transition:fade={{ duration: 250 }}
     >
@@ -34,7 +35,7 @@
                         name="x"
                         class="x-icon"
                         style="padding: 4px;"
-                        on:click={() => open = false}
+                        on:click={close}
                     />
                 {/if}
             </div>

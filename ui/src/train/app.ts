@@ -7,7 +7,6 @@ import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } fro
 import { scramble } from "@spencerchubb/solver";
 import { log } from "../lib/scripts/common/vars";
 import { CubingAppUser, initialAuthCheck, signOut } from "../lib/scripts/auth";
-import type { ModalType } from "./modal";
 
 const NEW_ALG_INDEX = -1;
 
@@ -38,13 +37,15 @@ export function setUIState(newState: UIState) {
     uiState = newState;
 }
 
+export type ModalType = null | "choose alg set" | "edit alg set" | "edit alg";
+
 export type UIState = {
+    page: "landing" | "train",
     user?: CubingAppUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
     algSets: AlgSetAPI.AlgSet[],
     solutionButtonText: string,
-    modalOpen: boolean,
     modalType: ModalType,
     selectedAlg: AlgSetAPI.TrainingAlg,
     selectedAlgIndex: number,
@@ -53,12 +54,12 @@ export type UIState = {
 }
 
 let uiState: UIState = {
+    page: "landing",
     user: undefined,
     algSet: {} as AlgSetAPI.AlgSet,
     algSetEditing: undefined,
     algSets: [],
     solutionButtonText: "show solution",
-    modalOpen: false,
     modalType: null,
     selectedAlg: { Score: 0, Alg: "" },
     selectedAlgIndex: 0,
@@ -99,6 +100,16 @@ export function onSignOut() {
     signOut();
 }
 
+export function goToPage(page: "landing" | "train") {
+    uiState.page = page;
+    callback(uiState);
+}
+
+export function closeModal() {
+    uiState.modalType = null;
+    callback(uiState);
+}
+
 export function onClickSolutionButton() {
     state.showSolution = !state.showSolution;
     uiState.solutionButtonText = state.showSolution 
@@ -109,7 +120,7 @@ export function onClickSolutionButton() {
 
 
 export function onClickAlgorithm(algIndex: number) {
-    setModal("edit alg");
+    uiState.modalType = "edit alg";
     const alg = uiState.algSet?.trainingAlgs[algIndex];
     uiState.selectedAlg = JSON.parse(JSON.stringify(alg));
     uiState.selectedAlgIndex = algIndex;
@@ -122,7 +133,7 @@ export function onAddAlgorithm() {
         Score: 0,
     };
     uiState.selectedAlgIndex = NEW_ALG_INDEX;
-    setModal("edit alg");
+    uiState.modalType = "edit alg";
     callback(uiState);
 }
 
@@ -137,13 +148,13 @@ export function onChangeAlgorithm(event: Event) {
 
 export function onDeleteAlgorithm() {
     if (uiState.selectedAlgIndex === NEW_ALG_INDEX) {
-        setModal(null);
+        uiState.modalType = null;
         callback(uiState);
         return;
     }
 
     uiState.algSet?.trainingAlgs.splice(uiState.selectedAlgIndex, 1);
-    setModal(null);
+    uiState.modalType = null;
     callback(uiState);
 
     if (!uiState.algSet) {
@@ -164,28 +175,13 @@ export function onSaveAlgorithm() {
         const algIndex = uiState.selectedAlgIndex;
         uiState.algSet.trainingAlgs[algIndex] = alg;
     }
-    setModal(null);
+    uiState.modalType = null;
     callback(uiState);
 
     const { id, name, trainingAlgs } = uiState.algSet;
     AlgSetAPI.update(id, name, trainingAlgs);
 
     loadCurrAlg();
-}
-
-/**
- * This function sets the modal state because modalOpen and modalType
- * are coupled to each other.
- */
-export function setModal(type: ModalType) {
-    if (!type) {
-        uiState.modalOpen = false;
-        uiState.modalType = null;
-        return;
-    }
-
-    uiState.modalOpen = true;
-    uiState.modalType = type;
 }
 
 function applyAUFs(alg: string): string {
@@ -285,14 +281,16 @@ export function computeStats(): { reps: number, algs: number, ratio: number }[] 
 
 function getFirstAlg(): string {
     if (!uiState.algSet?.trainingAlgs) {
-        log("No alg set loaded");
+        console.log("No algs")
+        uiState.modalType = "choose alg set";
+        callback(uiState);
         return "";
     }
     const trainingAlgs = uiState.algSet.trainingAlgs;
     return trainingAlgs[0].Alg;
 }
 
-export async function setAlgSet() {
+export function setAlgSet() {
     const scene = state.scene;
     if (!scene) {
         console.error("Scene not set. Have you called setScene()?");
@@ -304,6 +302,12 @@ export async function setAlgSet() {
     } else if (uiState.algSet.cube == "3x3") {
         newCube(scene.div, 3);
     }
+
+    uiState.algSet.inactive.forEach(stickerIdx => {
+        const shape = scene.puzzle.getShapes()[stickerIdx];
+        shape.color = shape.getColorBuffer(GRAY);
+        // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
+    });
 }
 
 export function loadCurrAlg(): string {
@@ -318,13 +322,17 @@ export function loadCurrAlg(): string {
     state.preAUF = generateRandAUF();
     state.postAUF = generateRandAUF();
 
+    setAlgSet();
+
     const scene = state.scene;
-    scene.puzzle.solve();
+    // scene.puzzle.solve();
     scene.puzzle.performAlg(state.orientation);
 
-    uiState.algSet.inactive.forEach(stickerIdx => {
-        // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
-    });
+    // uiState.algSet.inactive.forEach(stickerIdx => {
+    //     const shape = scene.puzzle.getShapes()[stickerIdx];
+    //     shape.color = shape.getColorBuffer(GRAY);
+    //     // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
+    // });
 
     let algWithAUFs = applyAUFs(alg);
     scene.puzzle.performAlg(invertAlg(algWithAUFs));
