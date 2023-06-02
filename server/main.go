@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 	"time"
@@ -21,40 +20,29 @@ var pgUrl = getEnv("PG_URL")
 var serverPort = getEnv("SERVER_PORT")
 var mode = getEnv("MODE")
 
-func writeJson(w http.ResponseWriter, v any) error {
-	out, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-	w.Write(out)
-	return nil
-}
-
-func root(w http.ResponseWriter, r *http.Request) {
+func root(r *http.Request) interface{} {
 	msg := fmt.Sprintf("Invalid endpoint hit: %s", r.URL)
 	fmt.Println(msg)
-	io.WriteString(w, msg)
+	return msg
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!\n")
+func hello(r *http.Request) interface{} {
+	return "Hello world!\n"
 }
 
-func createAlgSet(w http.ResponseWriter, r *http.Request) {
+func createAlgSet(r *http.Request) interface{} {
 	var req CreateTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, GenericResponse{false})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	id, err := db.CreateAlgSet(req.Uid, req.Set, req.TrainingAlgs, req.Cube, req.InactiveStickers, req.Moves, req.Disregard, req.OnlyOrientation)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, map[string]interface{}{"id": id})
+	return map[string]interface{}{"id": id}
 }
 
 func readAlgsFromJson(fileName string) []server.AlgSetsRow {
@@ -93,12 +81,11 @@ func initZeroScores(algs []string) []server.TrainingAlg {
 	return out
 }
 
-func createPrebuiltAlgSet(w http.ResponseWriter, r *http.Request) {
+func createPrebuiltAlgSet(r *http.Request) interface{} {
 	var req CreatePrebuiltTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, GenericResponse{false})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	algs := readAlgsFromJson("../algs/algs.json")
@@ -107,38 +94,34 @@ func createPrebuiltAlgSet(w http.ResponseWriter, r *http.Request) {
 
 	id, err := db.CreateAlgSet(req.Uid, req.Set, trainingAlgs, algSet.Cube, algSet.Inactive, algSet.Moves, algSet.Disregard, algSet.OnlyOrientation)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	algSet.TrainingAlgs = trainingAlgs
 	algSet.Id = id
-	writeJson(w, algSet)
+	return algSet
 }
 
-func deleteAlgSet(w http.ResponseWriter, r *http.Request) {
+func deleteAlgSet(r *http.Request) interface{} {
 	var req DeleteTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, GenericResponse{false})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	err = db.DeleteAlgSet(req.Id)
 	if err != nil {
-		writeJson(w, GenericResponse{false})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, GenericResponse{true})
+	return map[string]interface{}{"success": true}
 }
 
-func getAlgSet(w http.ResponseWriter, r *http.Request) {
+func getAlgSet(r *http.Request) interface{} {
 	var req GetTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	row, err := db.GetAlgSet(req.Uid, req.Set)
@@ -152,127 +135,120 @@ func getAlgSet(w http.ResponseWriter, r *http.Request) {
 		// Not needed on the frontend, so remove for efficiency.
 		algSet.Algs = nil
 
-		writeJson(w, algSet)
-		return
+		return algSet
 	}
 
-	writeJson(w, row)
+	return row
 }
 
-func getAlgSets(w http.ResponseWriter, r *http.Request) {
+func getAlgSets(r *http.Request) interface{} {
 	var req GetAlgSetsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	rows, err := db.GetAlgSets(req.Uid)
 	if err != nil {
-		writeJson(w, []server.AlgSetsRow{})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, rows)
+	return rows
 }
 
-func updateAlgSet(w http.ResponseWriter, r *http.Request) {
+func updateAlgSet(r *http.Request) interface{} {
 	var req UpdateTrainingAlgsRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
 	if err != nil {
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, nil)
+	return map[string]interface{}{"success": true}
 }
 
-func addSolve(w http.ResponseWriter, r *http.Request) {
+func addSolve(r *http.Request) interface{} {
 	var solve Solve
 	err := unmarshal(r.Body, &solve)
 	if err != nil {
-		fmt.Println("addSolve unmarshal:", err)
-		writeJson(w, -1)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	id, err := db.AddSolve(solve.Uid, solve.Time, solve.InitialCubeState, solve.Moves)
 	if err != nil {
-		fmt.Println("addSolve:", err)
-		writeJson(w, -1)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, id)
+	return map[string]interface{}{"success": true, "id": id}
 }
 
-func getSolve(w http.ResponseWriter, r *http.Request) {
+func getSolve(r *http.Request) interface{} {
 	var req GetSolveRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println("getSolve unmarshal:", err)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	solve, err := db.GetSolve(req.Id)
 	if err != nil {
-		fmt.Println("getSolve:", err)
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, solve)
+	return solve
 }
 
-func getSolves(w http.ResponseWriter, r *http.Request) {
+func getSolves(r *http.Request) interface{} {
 	var req GetSolvesRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println("getSolves:", err)
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	solves, err := db.GetSolves(req.Uid)
 	if err != nil {
-		fmt.Println("getSolves:", err)
-		writeJson(w, nil)
-		return
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, solves)
+	return solves
 }
 
-func user(w http.ResponseWriter, r *http.Request) {
+func user(r *http.Request) interface{} {
 	var req UserRequest
 	err := unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println("user:", err)
-		writeJson(w, UserResponse{false, 0})
-		return
+		return map[string]interface{}{"success": false}
 	}
 
 	uid, err := db.GetAndSaveUser(req.Email)
 	if err != nil {
-		fmt.Println("user:", err)
-		writeJson(w, nil)
+		return map[string]interface{}{"success": false}
 	}
 
-	writeJson(w, map[string]interface{}{"uid": uid})
+	return map[string]interface{}{"success": true, "uid": uid}
 }
 
 // Set up endpoint and enable CORS
-func handleFunc(pattern string, handler func(http.ResponseWriter, *http.Request)) {
+func handleFunc(pattern string, handler func(*http.Request) interface{}) {
 	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Endpoint hit: %s\n", pattern)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		handler(w, r)
+		result := handler(r)
+
+		if str, ok := result.(string); ok {
+			// If the result is a string, write it directly to the response
+			w.Write([]byte(str))
+			return
+		}
+
+		json, err := json.Marshal(result)
+		if err != nil {
+			fmt.Printf("Error while marshaling: %s\n", err)
+		}
+		w.Write(json)
 	})
 }
 
