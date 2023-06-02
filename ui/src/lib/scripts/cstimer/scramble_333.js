@@ -17,25 +17,6 @@ import { scrMgr } from "./scramble";
 
 export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn, rndEl) {
 
-	var Ux1 = 0,
-		Ux2 = 1,
-		Ux3 = 2,
-		Rx1 = 3,
-		Rx2 = 4,
-		Rx3 = 5,
-		Fx1 = 6,
-		Fx2 = 7,
-		Fx3 = 8,
-		Dx1 = 9,
-		Dx2 = 10,
-		Dx3 = 11,
-		Lx1 = 12,
-		Lx2 = 13,
-		Lx3 = 14,
-		Bx1 = 15,
-		Bx2 = 16,
-		Bx3 = 17;
-
 	function CubieCube_$$init(obj) {
 		obj.cp = [0, 1, 2, 3, 4, 5, 6, 7];
 		obj.co = [0, 0, 0, 0, 0, 0, 0, 0];
