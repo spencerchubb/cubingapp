@@ -371,6 +371,7 @@ export function getAlgSetNames(): string[] {
 }
 
 export async function getScramble(): Promise<void> {
+    console.log("getScramble:", uiState.showScramble)
     if (!uiState.showScramble) return;
 
     uiState.scramble = "loading...";
@@ -389,6 +390,7 @@ export async function getScramble(): Promise<void> {
 }
 
 export function setShowScramble(b: boolean) {
+    uiState.showScramble = b;
     ShowScrambleStore.set(b);
 }
 

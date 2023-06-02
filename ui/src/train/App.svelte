@@ -7,6 +7,7 @@
 	import Drawer from "../lib/components/Drawer.svelte";
 	import GLManager from "../lib/components/GLManager.svelte";
 	import Icon from "../lib/components/Icon.svelte";
+	import Toggle from "../lib/components/Toggle.svelte";
 	import {
     closeModal,
 		computeStats,
@@ -284,15 +285,17 @@
 							{/each}
 						</select>
 						<div style="height: 16px;" />
-						<p>show scramble</p>
-						<input
-							type="checkbox"
-							bind:checked={state.showScramble}
-							on:change={() => {
-								setShowScramble(state.showScramble);
-								getScramble();
-							}}
-						/>
+						<div class="row" style="justify-content: space-between;">
+							<p>show scramble</p>
+							<Toggle
+								bind:checked={state.showScramble}
+								on:change={(event) => {
+									console.log("triggered")
+									setShowScramble(state.showScramble);
+									getScramble();
+								}}
+							/>
+						</div>
 						<div style="height: 16px;" />
 						<div class="row">
 							<p>algorithms</p>
