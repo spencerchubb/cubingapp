@@ -1,5 +1,6 @@
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
+import { Cube } from "../lib/scripts/rubiks-viz";
 
 const STICKERS = {
     UBL: 0,
@@ -110,8 +111,34 @@ const corners = [
     UFR,
 ].reverse();
 
-export function scramble(puzzle: Puzzle, onlyOrientation: number[], disregard: number[]): string {
-    console.log({onlyOrientation,disregard})
+const gl = (document.querySelector("canvas") as HTMLCanvasElement).getContext("webgl") as WebGLRenderingContext;
+const threeByThree = new Cube(gl, [], 3);
+
+export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[], disregard: number[]): string {
+    
+    // If the puzzle is a 2x2, we do something special.
+    // Perform the alg on a 3x3, then disregard the edges.
+    if ((puzzle as Cube).layers === 2) {
+        puzzle = threeByThree;
+        threeByThree.solve();
+        threeByThree.performAlg(alg);
+        disregard = [
+            ...disregard,
+            ...UB,
+            ...UL,
+            ...UR,
+            ...UF,
+            ...DB,
+            ...DL,
+            ...DR,
+            ...DF,
+            ...FL,
+            ...FR,
+            ...BL,
+            ...BR,
+        ];
+    }
+
     let ep: number[] = [];
     let eo: number[] = [];
     let cp: number[] = [];
@@ -131,7 +158,6 @@ export function scramble(puzzle: Puzzle, onlyOrientation: number[], disregard: n
         co.push(corners[i].findIndex(e => e === sticker));
     });
 
-    console.log({ep, eo, cp, co});
     const scram = scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
     return scram;
 }
