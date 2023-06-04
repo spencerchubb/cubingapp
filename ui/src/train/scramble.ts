@@ -122,6 +122,11 @@ export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[],
         puzzle = threeByThree;
         threeByThree.solve();
         threeByThree.performAlg(alg);
+
+        // With short 2x2 algorithms, the scramble can be too simple sometimes.
+        // So we perform a few more moves to make it more interesting.
+        threeByThree.performAlg("M E S M2 E");
+
         disregard = [
             ...disregard,
             ...UB,
