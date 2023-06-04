@@ -133,13 +133,13 @@ function initProgram(gl: WebGLRenderingContext): ProgramInfo {
     const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
 
     const shaderProgram = gl.createProgram();
+    if (!shaderProgram) throw new Error("Failed to create shader program.");
     gl.attachShader(shaderProgram, vertexShader);
     gl.attachShader(shaderProgram, fragmentShader);
     gl.linkProgram(shaderProgram);
 
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        alert("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
-        return null;
+        throw new Error("Unable to initialize the shader program: " + gl.getProgramInfoLog(shaderProgram));
     }
 
     gl.useProgram(shaderProgram);

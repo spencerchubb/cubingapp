@@ -1,16 +1,18 @@
 import { BLACK, Color } from "./colors";
 
-export function getBuffer(gl: WebGLRenderingContext, data: number[]) {
+export function getBuffer(gl: WebGLRenderingContext, data: number[]): WebGLBuffer {
     const buff = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buff);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+    if (!buff) throw new Error("Failed to create buffer");
     return buff;
 }
 
-export function getFloatBuffer(gl: WebGLRenderingContext, data: number): WebGLBuffer {
+function getIndexBuffer(gl: WebGLRenderingContext, data: number[]): WebGLBuffer {
     const buff = gl.createBuffer();
-    gl.bindBuffer(gl.LOW_FLOAT, buff);
-    gl.bufferData(gl.LOW_FLOAT, data, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buff);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW);
+    if (!buff) throw new Error("Failed to create index buffer");
     return buff;
 }
 
@@ -47,9 +49,7 @@ export abstract class Shape {
         // Define a square as two triangles.
         // Given vertices A, B, C, and D, we define triangles ABC and ACD.
         const data = [0, 1, 2, 0, 2, 3];
-        this.indexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW);
+        this.indexBuffer = getIndexBuffer(gl, data);
 
         this.cart2d = convertTo2d(args.baseVertices, args.perspective);
     }
@@ -61,7 +61,8 @@ export abstract class Shape {
 }
 
 export class Triangle extends Shape {
-    drawElement(gl: WebGLRenderingContext): void {
+    drawElement(): void {
+        const gl = this.gl;
         gl.drawElements(gl.TRIANGLES, 3, gl.UNSIGNED_SHORT, 0);
     }
 
