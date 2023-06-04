@@ -382,7 +382,7 @@ export async function getScramble(): Promise<void> {
     alg = applyAUFs(alg);
     alg = invertAlg(alg);
     
-    uiState.scramble = scramble(scene.puzzle, alg, uiState.algSet.disregard, uiState.algSet.onlyOrientation);
+    uiState.scramble = scramble(scene.puzzle, alg, uiState.algSet.onlyOrientation, uiState.algSet.disregard);
     callback(uiState);
 }
 

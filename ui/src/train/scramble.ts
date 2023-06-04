@@ -1,6 +1,7 @@
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { Cube } from "../lib/scripts/rubiks-viz";
+import { randElement } from "../lib/scripts/common/rand";
 
 const STICKERS = {
     UBL: 0,
@@ -144,6 +145,21 @@ export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[],
         ];
     }
 
+    // If onlyOrientation contains all of these values, then it is OLL.
+    // Perform a random PLL algorithm to make the scramble more interesting.
+    if (containsAll(onlyOrientation, [0, 1, 2, 3, 8, 9, 10, 11])) {
+        puzzle = threeByThree;
+        puzzle.solve();
+        const randPLL = randElement([
+            "R' F R' B2 R F' R' B2 R2",
+            "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
+            "R2 U R' U R' U' R U' R2 D U' R' U R D'",
+            "M2 U' M2 U2 M2 U' M2",
+            "R U R' F' R U R' U' R' F R2 U' R'",
+        ]);
+        puzzle.performAlg(`${randPLL} ${alg}`);        
+    }
+
     let ep: number[] = [];
     let eo: number[] = [];
     let cp: number[] = [];
@@ -163,7 +179,7 @@ export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[],
         co.push(corners[i].findIndex(e => e === sticker));
     });
 
-    const scram = scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
+    let scram = scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
     return scram;
 }
 
@@ -210,3 +226,10 @@ function computeFreq(arr: number[]): Object {
     });
     return freq;
 }
+
+function containsAll(arr1: number[], arr2: number[]): boolean {
+    // Create a hash set because Set.has is O(1) while Array.includes is O(n).
+    const set = new Set(arr1);
+    return arr2.every(e => set.has(e));
+  }
+  
