@@ -290,7 +290,6 @@
 							<Toggle
 								bind:checked={state.showScramble}
 								on:change={(event) => {
-									console.log("triggered")
 									setShowScramble(state.showScramble);
 									getScramble();
 								}}

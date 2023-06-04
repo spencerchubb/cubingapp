@@ -1,10 +1,10 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
-import { randElement, randInt } from "../lib/scripts/common/rand";
+import { randInt } from "../lib/scripts/common/rand";
 import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
-import { scramble } from "@spencerchubb/solver";
+import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { CubingAppUser, initialAuthCheck, signOut } from "../lib/scripts/auth";
 
@@ -306,7 +306,6 @@ export function setAlgSet() {
     uiState.algSet.inactive.forEach(stickerIdx => {
         const shape = scene.puzzle.getShapes()[stickerIdx];
         shape.color = shape.getColorBuffer(GRAY);
-        // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
     });
 }
 
@@ -317,25 +316,19 @@ export function loadCurrAlg(): string {
     state.showSolution = false;
     uiState.solutionButtonText = "show solution";
     callback(uiState);
-    getScramble();
-
+    
     state.preAUF = generateRandAUF();
     state.postAUF = generateRandAUF();
 
     setAlgSet();
 
     const scene = state.scene;
-    // scene.puzzle.solve();
     scene.puzzle.performAlg(state.orientation);
-
-    // uiState.algSet.inactive.forEach(stickerIdx => {
-    //     const shape = scene.puzzle.getShapes()[stickerIdx];
-    //     shape.color = shape.getColorBuffer(GRAY);
-    //     // setColor(scene.puzzle.stickers[stickerIdx], GRAY); TODO
-    // });
 
     let algWithAUFs = applyAUFs(alg);
     scene.puzzle.performAlg(invertAlg(algWithAUFs));
+
+    getScramble();
 
     return alg;
 }
@@ -371,21 +364,21 @@ export function getAlgSetNames(): string[] {
 }
 
 export async function getScramble(): Promise<void> {
-    console.log("getScramble:", uiState.showScramble)
     if (!uiState.showScramble) return;
+
+    // The algorithm should already be applied to the puzzle.
+    const puzzle = state.scene.puzzle;
+    if (puzzle.stickers.every((val, idx) => val === idx)) {
+        log("Passed a solved puzzle into getScramble");
+        return;
+    }
 
     uiState.scramble = "loading...";
     callback(uiState);
+
+    const scene = state.scene;
     
-    let alg = getFirstAlg();
-    const scrambles = await scramble({
-        alg,
-        moves: uiState.algSet.moves,
-        disregard: uiState.algSet.disregard,
-        onlyOrientation: uiState.algSet.onlyOrientation,
-    });
-    const _scramble = randElement(scrambles);
-    uiState.scramble = applyAUFsBackwards(_scramble);
+    uiState.scramble = scramble(scene.puzzle, uiState.algSet.disregard, uiState.algSet.onlyOrientation);
     callback(uiState);
 }
 

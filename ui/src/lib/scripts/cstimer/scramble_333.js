@@ -151,7 +151,7 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 	var search = new min2phase.Search();
 
 	function getRandomScramble() {
-		return getAnyScramble(0xffffffffffff, 0xffffffffffff, 0xffffffff, 0xffffffff);
+		return getAnyScramble(0xffffffffffff, 0xffffffffffff, 0xffffffff, 0xff0fffff);
 	}
 
 	function cntU(b) {
