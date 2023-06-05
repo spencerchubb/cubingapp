@@ -168,6 +168,11 @@ document.addEventListener("keyup", event => {
     }
 });
 
+// Listen to entire document in case the user lifts outside of the box.
+document.addEventListener("pointerup", event => {
+    onUp();
+});
+
 export function onDown() {
     switch (state.timerStatus) {
         case "stopped":

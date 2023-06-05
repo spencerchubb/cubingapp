@@ -8,7 +8,6 @@
         nextScramble,
         onChangePuzzle,
         onDown,
-        onUp,
         puzzles,
         setCallback,
         setInspection,
@@ -83,7 +82,6 @@
                 height: 120px;
                 white-space: break-spaces;"
                 on:pointerdown={() => onDown()}
-                on:pointerup={() => onUp()}
             >
                 {state.timerText}
             </button>
