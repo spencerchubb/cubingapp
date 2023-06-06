@@ -194,5 +194,5 @@ function resetCube(scene: Scene, alg: string) {
     callback(state);
 
     scene.puzzle.solve();
-    scene.puzzle.performAlg(alg);
+    scene.puzzle.performAlg(invertAlg(alg));
 }
