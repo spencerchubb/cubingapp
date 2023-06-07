@@ -1,3 +1,4 @@
+
 https://cubingapp.com
 https://cubingapp.com/algdb.html
 https://cubingapp.com/algdb/2x2-CLL.html
@@ -8,6 +9,8 @@ https://cubingapp.com/algdb/4x4-PLL-Parity.html
 https://cubingapp.com/algdb/CMLL.html
 https://cubingapp.com/algdb/COLL.html
 https://cubingapp.com/algdb/F2L.html
+https://cubingapp.com/algdb/LSE-EO.html
+https://cubingapp.com/algdb/LSE-EOLR.html
 https://cubingapp.com/algdb/OH-CMLL.html
 https://cubingapp.com/algdb/OLL.html
 https://cubingapp.com/algdb/OLLCP.html
