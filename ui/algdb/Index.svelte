@@ -65,11 +65,20 @@
                 <a class="alg-set" href="/algdb/ZBLL.html">
                     ZBLL
                 </a>
+            </div>
+            <div class="card">
+                <h2>3x3 Roux</h2>
                 <a class="alg-set" href="/algdb/CMLL.html">
                     CMLL
                 </a>
                 <a class="alg-set" href="/algdb/OH-CMLL.html">
                     OH CMLL
+                </a>
+                <a class="alg-set" href="/algdb/LSE-EO.html">
+                    LSE EO
+                </a>
+                <a class="alg-set" href="/algdb/LSE-EOLR.html">
+                    LSE EOLR
                 </a>
             </div>
             <div class="card">

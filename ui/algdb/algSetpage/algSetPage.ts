@@ -16,7 +16,7 @@ type AlgSetCase = {
         name: string;
         algs: string[];
     }[];
-};
+}
 
 type AlgSet = {
     puzzle: string;
