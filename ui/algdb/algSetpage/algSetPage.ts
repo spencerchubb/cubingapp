@@ -1,4 +1,4 @@
-import { Scene, expandDoubleMoves, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
+import { Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
 import { replaceAll } from '../../src/lib/scripts/util';
 
 let callback: (state) => void;
@@ -10,6 +10,7 @@ export function setCallback(_callback: (state) => void) {
 
 type AlgSetCase = {
     name: string;
+    setup?: string;
     algs?: string[];
     variants?: {
         name: string;
@@ -21,6 +22,7 @@ type AlgSet = {
     puzzle: string;
     description: string[];
     recommended: string[];
+    setup?: string;
     cases: AlgSetCase[];
 }
 
@@ -76,11 +78,6 @@ export async function fetchAlgs() {
 
     shouldRenderCubes = true;
     callback(state);
-
-    setTimeout(() => {
-        shouldRenderCubes = true;
-        callback(state);
-    }, 500)
 }
 
 // Do this lazily because it's slow af on mobile
@@ -106,13 +103,10 @@ export function renderCubes() {
         const scene = newCube(sceneDiv, numLayers);
         renderedScenes[i] = scene;
 
-        const case_ = state.algSet.cases[i];
-        
         scene.enableKey = () => false;
         scene.dragEnabled = false;
 
-        const firstAlg = getAlg(case_, state.selectedVariants[i], 0) ?? "";
-        scene.puzzle.performAlg(invertAlg(firstAlg));
+        setupAlg(scene, i, 0);
     }
 }
 
@@ -149,12 +143,12 @@ export function play(caseIndex: number, algIndex: number) {
     // If we're already playing this alg, reset it.
     const shouldPause = state.casePlaying === caseIndex && state.algPlaying === algIndex;
     if (shouldPause) {
-        resetCube(scene, alg);
+        resetCube(scene, caseIndex, algIndex);
         return;
     }
 
     clearInterval(timer);
-    const onFinish = () => resetCube(scene, alg);
+    const onFinish = () => resetCube(scene, caseIndex, algIndex);
     timer = scene.puzzle.performAlgWithAnimation(alg, onFinish);
 
     // We only play one alg at a time, so we reset the previous one.
@@ -163,16 +157,14 @@ export function play(caseIndex: number, algIndex: number) {
     const oldAlg = getAlg(case_, variant, state.algPlaying);
     const oldScene: Scene = renderedScenes[state.casePlaying];
     if (oldAlg && oldScene) {
-        oldScene.puzzle.solve();
-        oldScene.puzzle.performAlg(invertAlg(oldAlg));
+        setupAlg(oldScene, state.casePlaying, 0);
     }
 
     state.casePlaying = caseIndex;
     state.algPlaying = algIndex;
     callback(state);
 
-    scene.puzzle.solve();
-    scene.puzzle.performAlg(invertAlg(alg));
+    setupAlg(scene, caseIndex, algIndex);
 }
 
 function getAlg(case_: AlgSetCase, variant: number | undefined, alg: number): string | undefined {
@@ -187,12 +179,27 @@ function getAlg(case_: AlgSetCase, variant: number | undefined, alg: number): st
     return undefined;
 }
 
-function resetCube(scene: Scene, alg: string) {
+function resetCube(scene: Scene, caseIdx: number, algIdx: number) {
     clearInterval(timer);
     state.casePlaying = -1;
     state.algPlaying = -1;
     callback(state);
 
-    scene.puzzle.solve();
-    scene.puzzle.performAlg(invertAlg(alg));
+    setupAlg(scene, caseIdx, algIdx);
+}
+
+function setupAlg(scene: Scene, caseIdx: number, algIdx: number) {
+    const case_ = state.algSet.cases[caseIdx];
+    const alg = getAlg(case_, 0, algIdx) ?? "";
+    const puzzle = scene.puzzle;
+
+    puzzle.solve();
+
+    if (case_.setup) {
+        puzzle.performAlg(case_.setup);
+    } else if (state.algSet.setup) {
+        puzzle.performAlg(state.algSet.setup);
+    }
+
+    puzzle.performAlg(invertAlg(alg));
 }
