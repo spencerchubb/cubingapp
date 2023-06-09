@@ -24,5 +24,5 @@
 
 <div
     bind:this={div}
-    style="width: 320px; height: 320px;"
+    style="width: 320px; height: 320px; max-width: 100%; max-height: 100%;"
 />

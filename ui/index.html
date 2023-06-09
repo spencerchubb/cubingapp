@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="CubingApp is a collection of tools for cubers. It includes an algorithm database, a reconstruction tool, a timer, and an algorithm trainer.">
+    <meta name="description" content="Take speedcubing to the next level. We offer an algorithm database, a reconstruction tool, a timer, and an algorithm trainer.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./src/style/app.css">
     <link rel="stylesheet" href="./src/style/colors.css">
@@ -11,52 +11,9 @@
     <link rel="icon" href="./src/assets/favicon.svg" type="image/x-icon">
 </head>
 
-<style>
-    a {
-        width: 100%;
-    }
-
-    .card {
-        width: 100%;
-        border-radius: 16px;
-        padding: 16px;
-    }
-
-    .card:hover {
-        box-shadow: inset 0 0 16px -4px var(--gray-300);
-    }
-</style>
-
 <body>
-    <div style="width: 100%; height: 100%; overflow-y: auto;">
-        <div class="col" style="max-width: 500px; margin: auto; padding: 16px; gap: 16px;">
-            <h1>CubingApp</h1>
-            <a href="./algdb.html">
-                <div class="blue-to-purple card">
-                    <h2>Algorithm Database</h2>
-                    <p>3300+ Rubik's Cube algorithms for algorithms sets like OLL, PLL, ZBLL, and more</p>
-                </div>
-            </a>
-            <a href="./recon.html">
-                <div class="red-to-orange card">
-                    <h2>Reconstruction Tool</h2>
-                    <p>Enter a scramble and a solution, then share the link with your friends</p>
-                </div>
-            </a>
-            <a href="./timer.html">
-                <div class="blue-to-purple card">
-                    <h2>Timer</h2>
-                    <p>Time yourself with various puzzles. 2x2, 3x3, 4x4, 5x5, 6x6, 7x7, Pyraminx</p>
-                </div>
-            </a>
-            <a href="./train.html">
-                <div class="red-to-orange card">
-                    <h2>Train</h2>
-                    <p>Memorize algorithms with the power of spaced repetition. You can learn OLL, PLL, CLL, and more</p>
-                </div>
-            </a>
-        </div>
-    </div>
+    <div id="app" style="width: 100%; height: 100%;"></div>
+    <script type="module" src="/src/index/main.ts"></script>
     <script type="module" src="/src/lib/scripts/analytics.ts"></script>
 </body>
 
