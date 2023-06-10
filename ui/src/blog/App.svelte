@@ -33,7 +33,6 @@
     a {
         color: var(--lightBlue-500);
         font-size: 1.5rem;
-        line-height: 1.6rem;
         padding: 1rem 0;
     }
 
