@@ -34,6 +34,9 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
+        <a class="link" style="color: var(--gray-200);" href="/algdb.html">
+            Alg DB Home
+        </a>
         <a href="https://github.com/spencerchubb/algdb/">
             <NavBarIcon>
                 <GithubIcon />
