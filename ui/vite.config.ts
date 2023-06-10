@@ -46,6 +46,7 @@ export default defineConfig({
         404: resolve(__dirname, '404.html'),
         algdb: resolve(__dirname, 'algdb.html'),
         "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
+        blog: resolve(__dirname, 'blog.html'),
         ...blogs(),
         index: resolve(__dirname, 'index.html'),
         keybindings: resolve(__dirname, 'keybindings.html'),
