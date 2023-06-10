@@ -70,6 +70,34 @@
                 </div>
             </a>
         </div>
+        <div class="col" style="
+            width: 100%;
+            max-width: 500px;
+            margin-top: 64px;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 16px -4px var(--gray-400);
+            gap: 16px;">
+            <h2>CubingApp Blog</h2>
+            <p style="
+                font-size: 1.3rem;
+                line-height: 1.7rem;
+                text-align: center;">
+                Recent post:
+                <a class="link" href="/blog/deep-dive-on-tony-snyder.html">
+                    Deep Dive on Tony Snyder
+                </a>
+            </p>
+            <a
+                class="link"
+                href="/blog.html"
+                style="
+                    font-size: 1.3rem;
+                    line-height: 1.7rem;
+                    text-align: center;">
+                See all posts
+            </a>
+        </div>
     </div>
 </div>
 
