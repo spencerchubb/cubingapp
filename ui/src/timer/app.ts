@@ -1,13 +1,11 @@
 import { Scene, newCube, newPyraminx, scenes } from "../lib/scripts/rubiks-viz";
+import { randElement } from "../lib/scripts/common/rand";
 import { scrMgr } from "../lib/scripts/cstimer/scramble";
 
 // Need to do this to register scramblers
 import { scramble_222 } from "../lib/scripts/cstimer/scramble_222";
 scramble_222;
-import { scramble_444 } from "../lib/scripts/cstimer/scramble_444";
-scramble_444;
 import { scramble_pyraminx } from "../lib/scripts/cstimer/scramble_pyraminx";
-import { randElement } from "../lib/scripts/common/rand";
 scramble_pyraminx;
 
 export { };
