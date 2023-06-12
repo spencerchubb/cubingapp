@@ -1,5 +1,6 @@
-import { Scene, newCube, newPyraminx, scenes } from "../lib/scripts/rubiks-viz";
+import { Scene, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
 import { randElement } from "../lib/scripts/common/rand";
+import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { scrMgr } from "../lib/scripts/cstimer/scramble";
 
 // Need to do this to register scramblers
@@ -176,7 +177,7 @@ function getScramble(puzzle: Puzzle, scene: Scene) {
         case "2x2":
             return scrMgr.scramblers["222o"]("222o");
         case "3x3":
-            return scrMgr.scramblers["333"]();
+            return scramble_333.getRandomScramble();
         case "4x4":
             return getRandomMoveScramble(moveset_45, 45);
         case "5x5":
@@ -220,8 +221,12 @@ document.addEventListener("keyup", event => {
     }
 });
 
-// Listen to entire document in case the user lifts outside of the box.
-document.addEventListener("pointerup", event => {
+// Listen to entire page in case the user lifts outside of the box.
+// Use mouseup and touchend so it works on desktop and mobile.
+document.addEventListener("mouseup", event => {
+    onUp();
+});
+document.addEventListener("touchend", event => {
     onUp();
 });
 
