@@ -54,17 +54,17 @@ export abstract class Puzzle {
     abstract y(forward: boolean): void;
     abstract z(forward: boolean): void;
     abstract U(forward: boolean): void;
-    abstract Uw(forward: boolean): void;
+    abstract Uw(forward: boolean, n?: number): void;
     abstract D(forward: boolean): void;
-    abstract Dw(forward: boolean): void;
+    abstract Dw(forward: boolean, n?: number): void;
     abstract F(forward: boolean): void;
-    abstract Fw(forward: boolean): void;
+    abstract Fw(forward: boolean, n?: number): void;
     abstract B(forward: boolean): void;
-    abstract Bw(forward: boolean): void;
+    abstract Bw(forward: boolean, n?: number): void;
     abstract L(forward: boolean): void;
-    abstract Lw(forward: boolean): void;
+    abstract Lw(forward: boolean, n?: number): void;
     abstract R(forward: boolean): void;
-    abstract Rw(forward: boolean): void;
+    abstract Rw(forward: boolean, n?: number): void;
     abstract M(forward: boolean): void;
     abstract E(forward: boolean): void;
     abstract S(forward: boolean): void;
@@ -201,6 +201,24 @@ export abstract class Puzzle {
             "r'": () => this.Rw(!forward),
             "r2": () => { this.Rw(forward); this.Rw(forward); },
             "r2'": () => { this.Rw(!forward); this.Rw(!forward); },
+            "3Uw": () => this.Uw(forward, 3),
+            "3Uw'": () => this.Uw(!forward, 3),
+            "3Uw2": () => { this.Uw(forward, 3); this.Uw(forward, 3); },
+            "3Dw": () => this.Dw(forward, 3),
+            "3Dw'": () => this.Dw(!forward, 3),
+            "3Dw2": () => { this.Dw(forward, 3); this.Dw(forward, 3); },
+            "3Fw": () => this.Fw(forward, 3),
+            "3Fw'": () => this.Fw(!forward, 3),
+            "3Fw2": () => { this.Fw(forward, 3); this.Fw(forward, 3); },
+            "3Bw": () => this.Bw(forward, 3),
+            "3Bw'": () => this.Bw(!forward, 3),
+            "3Bw2": () => { this.Bw(forward, 3); this.Bw(forward, 3); },
+            "3Lw": () => this.Lw(forward, 3),
+            "3Lw'": () => this.Lw(!forward, 3),
+            "3Lw2": () => { this.Lw(forward, 3); this.Lw(forward, 3); },
+            "3Rw": () => this.Rw(forward, 3),
+            "3Rw'": () => this.Rw(!forward, 3),
+            "3Rw2": () => { this.Rw(forward, 3); this.Rw(forward, 3); },
             "M": () => this.M(forward),
             "M'": () => this.M(!forward),
             "M2": () => { this.M(forward); this.M(forward); },

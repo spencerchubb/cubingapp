@@ -7,6 +7,7 @@ scramble_222;
 import { scramble_444 } from "../lib/scripts/cstimer/scramble_444";
 scramble_444;
 import { scramble_pyraminx } from "../lib/scripts/cstimer/scramble_pyraminx";
+import { randElement } from "../lib/scripts/common/rand";
 scramble_pyraminx;
 
 export { };
@@ -134,26 +135,79 @@ export function getTimeText(): string {
     return time.toFixed(2);
 }
 
+/* Move set for 4x4 and 5x5 */
+const moveset_45 = [
+    "U", "U'", "U2",
+    "D", "D'", "D2",
+    "R", "R'", "R2",
+    "L", "L'", "L2",
+    "F", "F'", "F2",
+    "B", "B'", "B2",
+    "Uw", "Uw'", "Uw2",
+    "Dw", "Dw'", "Dw2",
+    "Rw", "Rw'", "Rw2",
+    "Lw", "Lw'", "Lw2",
+    "Fw", "Fw'", "Fw2",
+    "Bw", "Bw'", "Bw2",
+];
+
+/* Move set for 6x6 and 7x7 */
+const moveset_67 = [
+    "U", "U'", "U2",
+    "D", "D'", "D2",
+    "R", "R'", "R2",
+    "L", "L'", "L2",
+    "F", "F'", "F2",
+    "B", "B'", "B2",
+    "Uw", "Uw'", "Uw2",
+    "Dw", "Dw'", "Dw2",
+    "Rw", "Rw'", "Rw2",
+    "Lw", "Lw'", "Lw2",
+    "Fw", "Fw'", "Fw2",
+    "Bw", "Bw'", "Bw2",
+    "3Uw", "3Uw'", "3Uw2",
+    "3Rw", "3Rw'", "3Rw2",
+    "3Dw", "3Dw'", "3Dw2",
+    "3Lw", "3Lw'", "3Lw2",
+    "3Fw", "3Fw'", "3Fw2",
+    "3Bw", "3Bw'", "3Bw2",
+];
+
 function getScramble(puzzle: Puzzle, scene: Scene) {
-    let scram: string;
     switch (puzzle) {
         case "2x2":
-            scram = scrMgr.scramblers["222o"]("222o");
-            break;
+            return scrMgr.scramblers["222o"]("222o");
         case "3x3":
-            scram = scrMgr.scramblers["333"]();
-            break;
+            return scrMgr.scramblers["333"]();
         case "4x4":
-            scram = scrMgr.scramblers["444wca"]();
-            break;
+            return getRandomMoveScramble(moveset_45, 45);
+        case "5x5":
+            return getRandomMoveScramble(moveset_45, 60);
+        case "6x6":
+            return getRandomMoveScramble(moveset_67, 80);
+        case "7x7":
+            return getRandomMoveScramble(moveset_67, 100);
         case "Pyraminx":
-            scram = scrMgr.scramblers["pyro"]("pyro");
-            break;
+            return scrMgr.scramblers["pyro"]("pyro");
         default:
-            scram = `Sorry, we can't show ${puzzle} scrambles yet`;
-            break;
+            return `Sorry, we can't show ${puzzle} scrambles yet`;
     }
-    return scram;
+}
+
+/**
+ * Generate a scramble of random moves.
+ * Note that this does not generate a random state scramble.
+ * For big cubes, it takes too long to generate random state scrambles.
+ */
+function getRandomMoveScramble(moves: string[], len: number) {
+    let scram: string[] = [];
+    while (scram.length < len){
+        const move = randElement(moves);
+        // Don't allow consecutive moves of the same face.
+        if (scram.length > 0 && scram[scram.length - 1][0] === move[0]) continue;
+        scram.push(move);
+    }
+    return scram.join(" ");
 }
 
 document.addEventListener("keydown", event => {

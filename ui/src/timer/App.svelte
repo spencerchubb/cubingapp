@@ -59,9 +59,15 @@
     </nav>
     <div
         class="row"
-        style="justify-content: center; align-items: start; width: 100%; height: 100%; position: relative;"
+        style="
+            justify-content: center;
+            align-items: start;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow-y: auto;"
     >
-        <div class="col" style="width: 100%; height: 100%; gap: 16px; padding: 16px;">
+        <div class="col" style="width: 100%; height: 100%; gap: 16px; padding: 16px; overflow-y: auto;">
             <p style="font-size: 1.2rem;">{state.scramble}</p>
             <div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
                 <GLManager
@@ -79,7 +85,8 @@
                 color: {timerColor(state.timerStatus)};
                 background: transparent;
                 width: 320px;
-                height: 120px;
+                min-height: 120px;
+                max-height: 120px;
                 white-space: break-spaces;"
                 on:pointerdown={() => onDown()}
             >

@@ -77,8 +77,8 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    Uw(forward: boolean) {
-        this.wideTurn(1, 0, 1, forward);
+    Uw(forward: boolean, n: number = 2) {
+        this.wideTurn(1, 0, n - 1, forward);
     }
 
     // Implement abstract method
@@ -87,8 +87,8 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    Dw(forward: boolean) {
-        this.wideTurn(1, this.layers - 1, this.layers - 2, !forward);
+    Dw(forward: boolean, n: number = 2) {
+        this.wideTurn(1, this.layers - 1, this.layers - n, !forward);
     }
 
     // Implement abstract method
@@ -97,8 +97,8 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    Fw(forward: boolean) {
-        this.wideTurn(2, 0, 1, forward);
+    Fw(forward: boolean, n: number = 2) {
+        this.wideTurn(2, 0, n - 1, forward);
     }
 
     // Implement abstract method
@@ -107,18 +107,8 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    Bw(forward: boolean) {
-        this.wideTurn(2, this.layers - 1, this.layers - 2, !forward);
-    }
-
-    // Implement abstract method
-    R(forward: boolean) {
-        this.turn(0, 0, forward);
-    }
-
-    // Implement abstract method
-    Rw(forward: boolean) {
-        this.wideTurn(0, 0, 1, forward);
+    Bw(forward: boolean, n: number = 2) {
+        this.wideTurn(2, this.layers - 1, this.layers - n, !forward);
     }
 
     // Implement abstract method
@@ -127,8 +117,18 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    Lw(forward: boolean) {
-        this.wideTurn(0, this.layers - 1, this.layers - 2, !forward);
+    Lw(forward: boolean, n: number = 2) {
+        this.wideTurn(0, this.layers - 1, this.layers - n, !forward);
+    }
+
+    // Implement abstract method
+    R(forward: boolean) {
+        this.turn(0, 0, forward);
+    }
+
+    // Implement abstract method
+    Rw(forward: boolean, n: number = 2) {
+        this.wideTurn(0, 0, n - 1, forward);
     }
 
     // Implement abstract method
