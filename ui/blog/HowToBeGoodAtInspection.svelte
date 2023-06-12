@@ -18,6 +18,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>How to Be Good at Inspection</h1>
+        <p class="date">May 27, 2023</p>
         <p>
             In the context of speedsolving, inspection is the time you have to look at the puzzle before starting the solve. In this article, I will be going over some tips and tricks to improve your inspection.
         </p>
@@ -83,7 +84,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

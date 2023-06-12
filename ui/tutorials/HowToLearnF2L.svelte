@@ -19,6 +19,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>How to Learn Rubik's Cube F2L</h1>
+        <p class="date">May 9, 2023</p>
         <p>
             After learning the beginner method, many cubers strive to learn advanced F2L. It is a rite of passage for any cuber who wants to get faster at the Rubik's Cube.
         </p>
@@ -137,7 +138,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

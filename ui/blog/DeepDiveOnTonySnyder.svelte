@@ -18,6 +18,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>Deep Dive on Tony Snyder</h1>
+        <p class="date">Jun 4, 2023</p>
         <img src="/snyder.jpg" alt="Tony Snyder holding a cube" />
         <p>
             In this blog post, I will take you on a tour into the mind of Tony Snyder. I also include my email exchange with him where we discuss his secret speedsolving method.
@@ -133,7 +134,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

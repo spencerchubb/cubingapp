@@ -18,6 +18,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>Practicing With Unlimited Inspection</h1>
+        <p class="date">May 20, 2023</p>
         <p>
             In a competition, you have 15 seconds to inspect the cube, but cubers sometimes like to practice with unlimited inspection. That is why the <a class="link" href="/timer">CubingApp Timer</a> allows you to turn off or turn on inspection.
         </p>
@@ -56,7 +57,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

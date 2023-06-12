@@ -18,6 +18,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>Speedcubing Inspection</h1>
+        <p class="date">May 13, 2023</p>
         <p>
             In the <a class="link" href="/timer.html">CubingApp Timer</a>, there is an option to turn off or turn on inspection. But you may be wondering: What is inspection, and why is it important?
         </p>
@@ -58,7 +59,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

@@ -19,6 +19,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>Why mental load matters for lookahead</h1>
+        <p class="date">May 11, 2023</p>
         <p>
             "Just improve your lookahead."
         </p>
@@ -96,7 +97,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {

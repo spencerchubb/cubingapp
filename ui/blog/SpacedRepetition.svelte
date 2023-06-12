@@ -18,6 +18,7 @@
         style="width: 100%; padding: 0 16px; overflow-y: auto;"
     >
         <h1>Every cuber should used spaced repetition</h1>
+        <p class="date">May 10, 2023</p>
         <p>Picture this: You are trying to learn the OLL algorithms, which is a crucial step for anyone who is taking the leap to learn CFOP. You don't really have a good learning strategy. Maybe you can use mnemonic devices. Maybe you could just learn one per day so you don't forget them. But there are 57 OLL algorithms, and that will take nearly 2 months!</p>
         <p>Does that sound familiar?</p>
         <p>I have been there. I have tried to learn algorithms by using mnemonic devices, by learning one per day, and by cramming a bunch of algorithms at one time.</p>
@@ -44,7 +45,13 @@
 
 <style>
     h1 {
-        margin: 0.67em 0;
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
     }
 
     h2 {
