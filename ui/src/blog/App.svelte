@@ -7,6 +7,11 @@
 
     const posts: Post[] = [
         {
+            href: "/blog/is-speedcubing-a-sport.html",
+            title: "Is Speedcubing a Sport?",
+            date: "Jun 12, 2023",
+        },
+        {
             href: "/blog/deep-dive-on-tony-snyder.html",
             title: "Deep Dive on Tony Snyder",
             date: "Jun 4, 2023",

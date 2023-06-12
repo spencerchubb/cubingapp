@@ -1,0 +1,105 @@
+<script lang="ts">
+    import SideNav from "../src/lib/components/SideNav.svelte";
+    import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
+    import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
+    import NewsletterSignup from "../src/lib/components/NewsletterSignup.svelte";
+
+    let sideNavOpen = false;
+</script>
+
+<main class="col" style="width: 100%; height: 100%;">
+    <nav class="navbar" style="justify-content: space-between;">
+        <NavBarIcon on:click={() => (sideNavOpen = true)}>
+            <MenuIcon />
+        </NavBarIcon>
+    </nav>
+    <div
+        class="col"
+        style="width: 100%; padding: 0 16px; overflow-y: auto;"
+    >
+        <h1>Is Speedcubing a Sport?</h1>
+        <p class="date">May 27, 2023</p>
+        <p>
+            The definition of sport is a topic of debate, and the question of whether speedcubing qualifies as a sport is a subjective one. In this article, we will explore the arguments for and against speedcubing as a sport. After evaluating both sides, I have personally come to the belief that speedcubing is not a sport.
+        </p>
+        <h2>Pro 1: Physical and mental skills</h2>
+        <p>
+            Speedcubing requires a combination of physical dexterity, hand-eye coordination, and mental agility. Solving a Rubik's Cube quickly requires precise finger movements, spatial reasoning, pattern recognition, and problem-solving abilities. These skills are similar to those required in traditional sports and can be honed through dedicated training.
+        </p>
+        <h2>Pro 2: Competitive nature</h2>
+        <p>
+            Speedcubing competitions are organized worldwide, featuring participants from different countries and age groups. These events follow specific rules and regulations, including timed solves, qualifying rounds, and head-to-head matchups. The competitive nature of speedcubing mirrors that of other sports, with participants striving to achieve personal bests and win medals or titles.
+        </p>
+        <h2>Pro 3: Training and preparation</h2>
+        <p>
+            Speedcubers spend hours practicing and refining their techniques to improve their solving times. They engage in physical conditioning, finger exercises, and mental strategies to enhance their performance. This dedicated training and preparation are reminiscent of athletes in traditional sports, further supporting the argument that speedcubing should be considered a sport.
+        </p>
+        <h2>Pro 4: International recognition</h2>
+        <p>
+            International Recognition: Speedcubing has gained international recognition through organizations like the World Cube Association (WCA), which governs official competitions and maintains records. The WCA has established standardized rules, competition formats, and even a global ranking system. The fact that speedcubing is globally organized and regulated reinforces its status as a sport.
+        </p>
+        <h2>Pro 5: Spectator appeal</h2>
+        <p>
+            Spectator Appeal: Speedcubing competitions attract spectators who enjoy watching participants solve Rubik's Cubes in record-breaking time. These events often have an audience, live streams, and commentary, creating an entertaining and engaging experience. The ability to captivate and entertain spectators is a key characteristic of many sports, and speedcubing demonstrates this aspect effectively.
+        </p>
+        <h2>Con 1: Lack of physicality</h2>
+        <p>
+            Unlike traditional sports that involve physical exertion, speedcubing is primarily a mental activity requiring finger dexterity and cognitive skills. The physical aspect of speedcubing is minimal because it only involves your hands and fingers. Furthermore, cubers sit down while solving, which does not require the same level of physicality as other sports.
+        </p>
+        <h2>Con 2: Limited athleticism</h2>
+        <p>
+            While speedcubers demonstrate impressive hand-eye coordination and finger agility, they do not engage in the same level of physical training and athleticism as athletes in traditional sports. The absence of rigorous physical conditioning can be seen as a differentiating factor that separates speedcubing from sports.
+        </p>
+        <h2>Con 3: Subjectivity in scoring</h2>
+        <p>
+            Speedcubing relies heavily on timing and solving the Rubik's Cube within a certain timeframe. However, there can be slight variations in how the cube is scrambled, potentially impacting solving times. This subjectivity in scoring can be seen as a drawback when considering speedcubing as a sport.
+        </p>
+        <h2>Con 4: Lack of widespread recognition</h2>
+        <p>
+            While speedcubing is governed by the WCA, it has not yet achieved the same level of recognition and mainstream acceptance as other established sports. For example, speedcubing is not in the Olympics. Since speedcubing is not an olympic sport, it cannot be said to have the same level of fame and recognition as other sports.
+        </p>
+        <h2>Con 5: Cultural perception</h2>
+        <p>
+            Sports are deeply rooted in cultural traditions and societal perceptions. Society at large sees the Rubik's Cube as a novel puzzle rather than a competitive sport. The cultural perception of speedcubing as an activity that falls outside the traditional definition of a sport can be a hindrance to its recognition in that category.
+        </p>
+        <h2>Conclusion</h2>
+        <p>
+            In conclusion, the question of whether speedcubing qualifies as a sport remains subjective, but I personally have the opinion that it is not a sport. Regardless of its classification, speedcubing undeniably showcases impressive talent, dedication, and a vibrant community that continues to push the boundaries of solving prowess. As the world evolves, speedcubing may gain more widespread recognition. In that case, I may be compelled to re-evaluate my opinion on whether speedcubing is a sport.
+        </p>
+        <div style="margin: 16px 0;"></div>
+        <NewsletterSignup />
+    </div>
+    <SideNav bind:open={sideNavOpen} />
+</main>
+
+<style>
+    h1 {
+        margin-top: 0.67em;
+        margin-bottom: 0.25em;
+    }
+
+    .date {
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+
+    h2 {
+        margin: 0.83em 0;
+    }
+
+    p {
+        margin: 1em 0;
+    }
+
+    h1, h2 {
+        max-width: 600px;
+        width: 100%;
+        text-align: start;
+    }
+
+    p {
+        max-width: 600px;
+        width: 100%;
+        text-align: start;
+    }
+</style>

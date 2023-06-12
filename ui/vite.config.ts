@@ -8,6 +8,7 @@ function blogs() {
     const pages = [
         "deep-dive-on-tony-snyder",
         "how-to-be-good-at-inspection",
+        "is-speedcubing-a-sport",
         "mental-load",
         "practicing-with-unlimited-inspection",
         "spaced-repetition",
@@ -43,16 +44,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        // 404: resolve(__dirname, '404.html'),
-        // algdb: resolve(__dirname, 'algdb.html'),
-        // "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
+        404: resolve(__dirname, '404.html'),
+        algdb: resolve(__dirname, 'algdb.html'),
+        "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
         blog: resolve(__dirname, 'blog.html'),
         ...blogs(),
-        // index: resolve(__dirname, 'index.html'),
-        // keybindings: resolve(__dirname, 'keybindings.html'),
-        // recon: resolve(__dirname, 'recon.html'),
-        // timer: resolve(__dirname, 'timer.html'),
-        // train: resolve(__dirname, 'train.html'),
+        index: resolve(__dirname, 'index.html'),
+        keybindings: resolve(__dirname, 'keybindings.html'),
+        recon: resolve(__dirname, 'recon.html'),
+        timer: resolve(__dirname, 'timer.html'),
+        train: resolve(__dirname, 'train.html'),
         ...tutorials(),
       },
     },
