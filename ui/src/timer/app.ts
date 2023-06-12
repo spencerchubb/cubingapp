@@ -33,8 +33,8 @@ export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down
 
 type State = {
     puzzle: Puzzle,
-    scrambleStack: string[]
     scramble: string,
+    stack: { puzzle: Puzzle, scramble: string }[],
     timerStatus: TimerStatus,
     timerText: string,
     algToPerform: string,
@@ -43,8 +43,8 @@ type State = {
 
 let state: State = {
     puzzle: (localStorage.getItem("puzzle") as Puzzle) ?? "3x3",
-    scrambleStack: [],
     scramble: "",
+    stack: [],
     timerStatus: "scrambled",
     timerText: "0.00",
     algToPerform: "",
@@ -60,25 +60,31 @@ export function initApp(_scene) {
     scene = _scene;
 
     setPuzzle(state.puzzle);
+    performNewScramble();
 }
 
-export function lastScramble() {
-    const scrambleStack = state.scrambleStack;
-    const last = scrambleStack.pop();
+export function undoScramble() {
+    const stack = state.stack;
+    const last = stack.pop();
     if (!last) return;
-    state.scramble = last;
+    setPuzzle(last.puzzle);
+    state.scramble = last.scramble;
     scene.puzzle.solve();
     scene.puzzle.performAlg(state.scramble);
     callback(state);
 }
 
+/* Perform a new scramble and push onto the stack. */
 export function nextScramble() {
     performNewScramble();
+    state.stack.push({ puzzle: state.puzzle, scramble: state.scramble });
 }
 
 export function onChangePuzzle(event) {
+    state.stack.push({ puzzle: state.puzzle, scramble: state.scramble });
     const puzzle = event.target.value;
     setPuzzle(puzzle);
+    performNewScramble();
 }
 
 function setPuzzle(puzzle: Puzzle) {
@@ -107,8 +113,6 @@ function setPuzzle(puzzle: Puzzle) {
         case "Pyraminx":
             newPyraminx(scene.div);
     }
-
-    performNewScramble();
 }
 
 export function solve() {
@@ -119,10 +123,6 @@ export function solve() {
 }
 
 function performNewScramble() {
-    if (state.scramble) {
-        state.scrambleStack.push(state.scramble);
-    }
-
     const scram = getScramble(state.puzzle, scene);
     state.scramble = scram;
     scene.puzzle.solve();
@@ -180,7 +180,7 @@ export function onDown() {
             state.timerText = "0.00";
             callback(state);
 
-            performNewScramble();
+            nextScramble();
             break;
         case "scrambled":
             penalty = null;

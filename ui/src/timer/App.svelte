@@ -4,7 +4,7 @@
     import type { Scene } from "../lib/scripts/rubiks-viz";
     import {
         initApp,
-        lastScramble,
+        undoScramble,
         nextScramble,
         onChangePuzzle,
         onDown,
@@ -100,9 +100,9 @@
                     <button on:click={() => solve()}>Solve</button>
                     <div class="row" style="gap: 8px;">
                         <button
-                            on:click={lastScramble}
-                            disabled={state.scrambleStack.length === 0}
-                        >Last</button>
+                            on:click={undoScramble}
+                            disabled={state.stack.length === 0}
+                        >Undo</button>
                         <div style="width: 16px; height: 2px; background: var(--gray-300);"></div>
                         <button on:click={nextScramble}>Next</button>
                     </div>
