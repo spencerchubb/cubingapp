@@ -43,6 +43,7 @@
 	import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
 	import ProfileIcon from "../lib/components/icons/ProfileIcon.svelte";
 	import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import Auth from "../lib/components/auth/Auth.svelte";
 
 	let email = "";
 	let password = "";
@@ -50,7 +51,7 @@
 	let drawerIndex = -1;
 
 	let currAlgSet: string;
-	let currAlg: string;
+	let currAlg: string; // TODO see if this variable is necessary
 
 	let orientation = Orientation.get();
 
@@ -122,35 +123,12 @@
 				{#if state.user}
 					<button on:click={() => goToPage("train")}> Start Training </button>
 				{:else}
-					<div
-						class="col"
-						style="border-radius: 16px; padding: 16px; box-shadow: 0 0 4px lightgray;"
-					>
-						<ButtonGoogleSignIn callback={(user) => onSignIn(user)} />
-						<div style="height: 16px;" />
-						<div
-							style="width: 100%; height: 2px; background-color: var(--gray-600);"
-						/>
-						<div style="height: 16px;" />
-						<p>Or use email and password</p>
-						<div style="height: 12px;" />
-						<InputEmail class="mt-4" bind:value={email} />
-						<div style="height: 16px;" />
-						<InputPassword class="mt-4" bind:value={password} />
-						<div style="height: 32px;" />
-						<div class="row">
-							<ButtonCreateAccount
-								{email}
-								{password}
-								callback={(user) => onSignIn(user)}
-							/>
-							<div style="width: 16px;" />
-							<ButtonSignIn
-								{email}
-								{password}
-								callback={(user) => onSignIn(user)}
-							/>
-						</div>
+					<div style="
+                        border-radius: 16px; 
+                        padding: 16px; 
+                        box-shadow: 0 0 4px lightgray;"
+                    >
+						<Auth />
 					</div>
 				{/if}
 				<div style="height: 16px;" />

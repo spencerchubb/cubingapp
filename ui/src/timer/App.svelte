@@ -13,12 +13,20 @@
         setInspection,
         solve,
         type TimerStatus,
+        onSignIn,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
     import SettingsIcon from "../lib/components/icons/SettingsIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Toggle from "../lib/components/Toggle.svelte";
+    import ClockIcon from "../lib/components/icons/ClockIcon.svelte";
+    import ButtonGoogleSignIn from "../lib/components/auth/ButtonGoogleSignIn.svelte";
+    import InputEmail from "../lib/components/auth/InputEmail.svelte";
+    import InputPassword from "../lib/components/auth/InputPassword.svelte";
+    import ButtonCreateAccount from "../lib/components/auth/ButtonCreateAccount.svelte";
+    import ButtonSignIn from "../lib/components/auth/ButtonSignIn.svelte";
+    import Auth from "../lib/components/auth/Auth.svelte";
 
     let scene: Scene;
 
@@ -43,7 +51,11 @@
         }
     }
 
-    let drawerIndex = -1;
+    let email = "";
+	let password = "";
+
+    // 768px is the breakpoint we have defined for drawers.
+    let drawerIndex = window.innerWidth > 768 ? 0 : -1;
 
     let sideNavOpen = false;
 </script>
@@ -53,9 +65,14 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
-        <NavBarIcon on:click={() => (drawerIndex = 0)}>
-            <SettingsIcon />
-        </NavBarIcon>
+        <div class="row">
+            <NavBarIcon on:click={() => (drawerIndex = 0)}>
+                <ClockIcon />
+            </NavBarIcon>
+            <NavBarIcon on:click={() => (drawerIndex = 1)}>
+                <SettingsIcon />
+            </NavBarIcon>
+        </div>
     </nav>
     <div
         class="row"
@@ -94,6 +111,17 @@
             </button>
         </div>
         {#if drawerIndex === 0}
+            <Drawer title="Times" bind:drawerIndex>
+                <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
+                    {#if state.user}
+                    <p>{state.user.email}</p>
+                    {:else}
+                        <p>Want to save your times?</p>
+                        <Auth {onSignIn} />
+                    {/if}
+                </div>
+            </Drawer>
+        {:else if drawerIndex === 1}
             <Drawer title="Settings" bind:drawerIndex>
                 <div class="col" style="align-items:start; padding: 16px; gap: 16px;">
                     <select

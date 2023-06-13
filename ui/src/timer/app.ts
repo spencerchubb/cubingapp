@@ -7,6 +7,7 @@ import { scrMgr } from "../lib/scripts/cstimer/scramble";
 import { scramble_222 } from "../lib/scripts/cstimer/scramble_222";
 scramble_222;
 import { scramble_pyraminx } from "../lib/scripts/cstimer/scramble_pyraminx";
+import { CubingAppUser, initialAuthCheck } from "../lib/scripts/auth";
 scramble_pyraminx;
 
 export { };
@@ -32,6 +33,7 @@ type Puzzle = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7" | "Pyraminx";
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
 type State = {
+    user?: CubingAppUser,
     puzzle: Puzzle,
     scramble: string,
     stack: { puzzle: Puzzle, scramble: string }[],
@@ -42,6 +44,7 @@ type State = {
 }
 
 let state: State = {
+    user: initialAuthCheck(),
     puzzle: (localStorage.getItem("puzzle") as Puzzle) ?? "3x3",
     scramble: "",
     stack: [],
@@ -61,6 +64,11 @@ export function initApp(_scene) {
 
     setPuzzle(state.puzzle);
     performNewScramble();
+}
+
+export function onSignIn(user: CubingAppUser) {
+    state.user = user;
+    callback(state);
 }
 
 export function undoScramble() {
