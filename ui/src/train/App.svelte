@@ -1,9 +1,4 @@
 <script lang="ts">
-	import ButtonCreateAccount from "../lib/components/auth/ButtonCreateAccount.svelte";
-	import ButtonSignIn from "../lib/components/auth/ButtonSignIn.svelte";
-	import ButtonGoogleSignIn from "../lib/components/auth/ButtonGoogleSignIn.svelte";
-	import InputEmail from "../lib/components/auth/InputEmail.svelte";
-	import InputPassword from "../lib/components/auth/InputPassword.svelte";
 	import Drawer from "../lib/components/Drawer.svelte";
 	import GLManager from "../lib/components/GLManager.svelte";
 	import Icon from "../lib/components/Icon.svelte";
@@ -44,9 +39,6 @@
 	import ProfileIcon from "../lib/components/icons/ProfileIcon.svelte";
 	import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
-
-	let email = "";
-	let password = "";
 
 	let drawerIndex = -1;
 
@@ -128,7 +120,7 @@
                         padding: 16px; 
                         box-shadow: 0 0 4px lightgray;"
                     >
-						<Auth />
+						<Auth {onSignIn} />
 					</div>
 				{/if}
 				<div style="height: 16px;" />
