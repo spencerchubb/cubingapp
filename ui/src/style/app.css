@@ -1,12 +1,12 @@
 * {
-  box-sizing: border-box;
-  font-family: Verdana, sans-serif;
+    box-sizing: border-box;
+    font-family: Verdana, sans-serif;
 }
 
 html {
-  width: 100%;
-  height: 100%;
-  font-family: Verdana, sans-serif;
+    width: 100%;
+    height: 100%;
+    font-family: Verdana, sans-serif;
 }
 
 p,
@@ -17,31 +17,34 @@ h4,
 h5,
 h6,
 li {
-  margin: 0;
-  padding: 0;
-  color: var(--gray-100);
+    margin: 0;
+    padding: 0;
+    color: var(--gray-100);
 }
 
 p {
-  font-size: 1rem;
-  line-height: 1.3rem;
+    font-size: 1rem;
+    line-height: 1.3rem;
 }
 
-ul, ol {
-  margin: 0;
+ul,
+ol {
+    margin: 0;
 }
 
 a {
-  text-decoration: inherit;
+    text-decoration: inherit;
 }
 
 input,
 select {
-  margin: 0;
-  font-size: 1rem;
+    margin: 0;
+    font-size: 1rem;
 }
 
-select, option {
+input,
+select,
+option {
     background: var(--gray-800);
     color: var(--gray-100);
     outline: solid 1px var(--gray-400);
@@ -50,31 +53,57 @@ select, option {
     padding: 0.25rem 0.5rem;
 }
 
+input {
+    font-size: 1rem;
+    padding: 6px;
+    background: var(--gray-800);
+    color: var(--gray-100);
+    box-shadow: 0 0 4px 2px var(--gray-600);
+}
+
+input:focus {
+    outline: solid 1px var(--gray-300);
+    box-shadow: 0 0 4px 2px var(--lightBlue-300);
+}
+
+input::-moz-placeholder {
+    color: var(--gray-400);
+}
+input:-moz-placeholder {
+    color: var(--gray-400);
+}
+input::-webkit-input-placeholder {
+    color: var(--gray-400);
+}
+input:-ms-input-placeholder {
+    color: var(--gray-400);
+}
+
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 th,
 td {
-  border: solid 1px #ddd;
-  padding: 8px 16px 8px 8px;
-  color: white;
+    border: solid 1px #ddd;
+    padding: 8px 16px 8px 8px;
+    color: white;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
-  font-family: Verdana, sans-serif;
-  font-size: 1rem;
-  border: none;
-  background-color: var(--blue-600);
-  text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 1rem;
+    border: none;
+    background-color: var(--blue-600);
+    text-align: center;
 }
 
 button:hover {
-  cursor: pointer;
-  background-color: var(--blue-700);
+    cursor: pointer;
+    background-color: var(--blue-700);
 }
 
 button:disabled {
@@ -83,20 +112,20 @@ button:disabled {
 }
 
 .btn-white {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
 
 .btn-white:hover {
-  background-color: var(--gray-200);
+    background-color: var(--gray-200);
 }
 
 .btn-gray {
-  background-color: var(--gray-800);
+    background-color: var(--gray-800);
 }
 
 .btn-gray:hover {
-  background-color: var(--gray-900);
+    background-color: var(--gray-900);
 }
 
 .link {
@@ -105,99 +134,83 @@ button:disabled {
 
 .link:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 body {
-  margin: 0;
-  background-color: var(--gray-800);
-  /* Prevent scrolling and refresh on mobile */
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  bottom: 0;
+    margin: 0;
+    background-color: var(--gray-800);
+    /* Prevent scrolling and refresh on mobile */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
 
 canvas {
-  /*
+    /*
   * This is 'fixed' because if it were 'absolute', then the layout would be broken 
   * when inside a div with position: relative.
   */
-  position: fixed;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
 }
 
 .row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .blue-to-purple {
-  background-image: linear-gradient(135deg,
+    background-image: linear-gradient(135deg,
             hsl(240deg 47% 23%) 0%,
             hsl(266deg 42% 27%) 50%,
             hsl(286deg 36% 30%) 100%);
 }
 
 .red-to-orange {
-  background-image: linear-gradient(135deg,
+    background-image: linear-gradient(135deg,
             hsl(0deg 64% 31%) 0%,
             hsl(15deg 76% 32%) 50%,
             hsl(27deg 94% 31%) 100%);
 }
 
 .text-gradient {
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .navbar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  min-height: 48px;
-  border-bottom: solid 1px var(--gray-600);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+    border-bottom: solid 1px var(--gray-600);
 }
 
 .label {
-  background: white;
-  padding: 4px;
-  border-radius: 4px;
-  box-shadow: 0 0 8px 2px black;
-  z-index: 2;
-  display: none;
-  /* Prevent text from wrapping */
-  white-space: nowrap;
-}
-
-#solvesList td {
-  border: none;
-  color: black;
-  padding: 0 8px 0 0;
-  text-align: right;
-}
-
-.solveTime:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.link:hover {
-  text-decoration: underline;
-  cursor: pointer;
+    background: white;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px 2px black;
+    z-index: 2;
+    display: none;
+    /* Prevent text from wrapping */
+    white-space: nowrap;
 }

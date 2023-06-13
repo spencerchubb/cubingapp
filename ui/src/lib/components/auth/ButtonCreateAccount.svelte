@@ -7,6 +7,10 @@
 </script>
 
 <button class="btn-primary" on:click={() => {
+    if (!email || !password) {
+        callback(undefined, "Please enter an email and password");
+        return;
+    }
     _createUserWithEmailAndPassword(email, password, callback);
 }}>
     Create Account

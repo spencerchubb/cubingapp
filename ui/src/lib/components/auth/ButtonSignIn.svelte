@@ -7,7 +7,11 @@
 </script>
 
 <button class="btn-primary" on:click={() => {
+    if (!email || !password) {
+        callback(undefined, "Please enter an email and password");
+        return;
+    }
     _signInWithEmailAndPassword(email, password, callback);
 }}>
-    Sign In
+    Login
 </button>

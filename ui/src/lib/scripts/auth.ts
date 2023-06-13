@@ -9,13 +9,21 @@ import {
 } from "firebase/auth";
 import { getUser, removeUser, setUser } from "./store";
 
-export type AuthCallback = (user: CubingAppUser | null) => void;
+export type AuthCallback = (user?: CubingAppUser, error?: String) => void;
 
 export class CubingAppUser {
     email: string;
     uid: number;
 
-    constructor() { }
+    constructor(email: string, uid: number) {
+        this.email = email;
+        this.uid = uid;
+    }
+
+    static fromJsonString(s: string): CubingAppUser {
+        const json = JSON.parse(s);
+        return new CubingAppUser(json.email, json.uid);
+    }
 
     /** Return data as a JSON string */
     toJsonString() {
@@ -24,24 +32,33 @@ export class CubingAppUser {
             uid: this.uid,
         });
     }
-
-    /** Populate the class properties with data from a json string */
-    fromJsonString(s: string) {
-        const json = JSON.parse(s);
-        this.email = json.email;
-        this.uid = json.uid;
-    }
 }
 
 function logSignIn(user: CubingAppUser) {
     log("Signed in as " + user.email + " with uid " + user.uid);
 }
 
+function errorCodeToMsg(code: string): string {
+    switch (code) {
+        case "auth/invalid-email":
+            return "Please enter a valid email address";
+        case "auth/user-disabled":
+            return "This account has been disabled";
+        case "auth/user-not-found":
+            return "Incorrect username or password";
+        case "auth/weak-password":
+            return "Please enter a stronger password";
+        case "auth/wrong-password":
+            return "Incorrect username or password";
+        default:
+            return `Error: ${code}`;
+    }
+}
+
 export function initialAuthCheck(): CubingAppUser | undefined {
-    const userJsonString = getUser();
-    if (!userJsonString) return undefined;
-    const user = new CubingAppUser();
-    user.fromJsonString(userJsonString);
+    const userStr = getUser();
+    if (!userStr) return undefined;
+    const user = CubingAppUser.fromJsonString(userStr);
     if (!user.email || !user.uid) {
         removeUser();
         return undefined;
@@ -51,10 +68,9 @@ export function initialAuthCheck(): CubingAppUser | undefined {
 }
 
 function successfulSignIn(userCredential: UserCredential, callback: AuthCallback) {
-    const user = new CubingAppUser();
-    user.email = userCredential.user.email ?? "";
-    UserAPI.user(user.email).then(data => {
-        user.uid = data.uid;
+    const email = userCredential.user.email ?? "";
+    UserAPI.user(email).then(data => {
+        const user = new CubingAppUser(email, data.uid);
         setUser(user.toJsonString());
         logSignIn(user);
         callback(user);
@@ -69,7 +85,8 @@ export function _signInWithPopup(callback: AuthCallback) {
             successfulSignIn(userCredential, callback);
         })
         .catch(error => {
-            console.log(error);
+            const msg = errorCodeToMsg(error.code);
+            callback(undefined, msg);
         });
 }
 
@@ -80,8 +97,8 @@ export function _createUserWithEmailAndPassword(email: string, password: string,
             successfulSignIn(userCredential, callback);
         })
         .catch(error => {
-            console.log(error.message);
-            // TODO: handle error by passing something to callback
+            const msg = errorCodeToMsg(error.code);
+            callback(undefined, msg);
         });
 }
 
@@ -92,8 +109,8 @@ export function _signInWithEmailAndPassword(email: string, password: string, cal
             successfulSignIn(userCredential, callback);
         })
         .catch(error => {
-            console.log(error.message);
-            // TODO: handle error by passing something to callback
+            const msg = errorCodeToMsg(error.code);
+            callback(undefined, msg);
         });
 }
 
