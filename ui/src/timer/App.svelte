@@ -296,17 +296,17 @@
                             </button>
                             <button
                                 class="btn-transparent"
-                                style="min-width: 40px; width: 40px; padding: 4px;"
+                                style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
                                 on:click={() => callback({ modalType: "edit session", sessionEditing: {...session} })}
                             >
-                                <EditIcon />
+                                ✍
                             </button>
                             <button
                                 class="btn-transparent"
-                                style="min-width: 40px; width: 40px; padding: 4px;"
+                                style="padding: 2px; font-size: 1.8rem; min-width: 40px; height: 40px;"
                                 on:click={() => callback({ modalType: "delete session", sessionEditing: {...session} })}
                             >
-                                <TrashIcon />
+                                🗑
                             </button>
                         </div>
                     {/each}
