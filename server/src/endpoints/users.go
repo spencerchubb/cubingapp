@@ -6,21 +6,16 @@ import (
 	util "server/src/util"
 )
 
-func User(r *http.Request) interface{} {
+func User(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Email string `json:"email"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	uid, err := db.GetAndSaveUser(req.Email)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true, "uid": uid}
+	return db.GetAndSaveUser(req.Email)
 }

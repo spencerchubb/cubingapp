@@ -9,75 +9,57 @@ import (
 	util "server/src/util"
 )
 
-func CreateSolve(r *http.Request) interface{} {
+func CreateSolve(r *http.Request) (interface{}, error) {
 	var solve types.Solve
 	err := util.Unmarshal(r.Body, &solve)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	id, err := db.CreateSolve(solve)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true, "id": id}
+	return map[string]interface{}{"id": id}, err
 }
 
-func ReadSolve(r *http.Request) interface{} {
+func ReadSolve(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	solve, err := db.ReadSolve(req.Id)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return solve
+	return db.ReadSolve(req.Id)
 }
 
-func ReadSolves(r *http.Request) interface{} {
+func ReadSolves(r *http.Request) (interface{}, error) {
 	type Request struct {
 		SessionId int `json:"sessionId"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	solves, err := db.ReadSolves(req.SessionId)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return solves
+	return db.ReadSolves(req.SessionId)
 }
 
-func DeleteSolve(r *http.Request) interface{} {
+func DeleteSolve(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	err = db.DeleteSolve(req.Id)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
+	return nil, err
 }

@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"server/src/types"
 	"time"
 )
@@ -15,10 +14,7 @@ func (db DB) CreateAlgSet(algSet types.AlgSet) (int, error) {
 	row := db.Conn.QueryRow(context.Background(), sql, algSet.Uid, algSet.Name, algSet.TrainingAlgs, algSet.Puzzle, algSet.Inactive, algSet.Disregard, algSet.OnlyOrientation)
 	var id int
 	err := row.Scan(&id)
-	if err != nil {
-		return -1, err
-	}
-	return id, nil
+	return id, err
 }
 
 func (db DB) ReadAlgSet(uid int, set string) (types.AlgSet, error) {
@@ -28,10 +24,7 @@ func (db DB) ReadAlgSet(uid int, set string) (types.AlgSet, error) {
 	row := db.Conn.QueryRow(context.Background(), sql, uid, set)
 	var algSet types.AlgSet
 	err := row.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Puzzle, &algSet.Inactive, &algSet.Disregard, &algSet.OnlyOrientation)
-	if err != nil {
-		return types.AlgSet{}, fmt.Errorf("ReadAlgSet Scan: %w", err)
-	}
-	return algSet, nil
+	return algSet, err
 }
 
 func (db DB) ReadRecentAlgSet(uid int) (types.AlgSet, error) {
@@ -43,10 +36,7 @@ func (db DB) ReadRecentAlgSet(uid int) (types.AlgSet, error) {
 	row := db.Conn.QueryRow(context.Background(), sql, uid)
 	var algSet types.AlgSet
 	err := row.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Puzzle, &algSet.Inactive, &algSet.Disregard, &algSet.OnlyOrientation)
-	if err != nil {
-		return types.AlgSet{}, fmt.Errorf("ReadRecentAlgSet Scan: %w", err)
-	}
-	return algSet, nil
+	return algSet, err
 }
 
 func (db DB) ReadAlgSets(uid int) ([]types.AlgSet, error) {
@@ -78,10 +68,7 @@ func (db DB) UpdateAlgSet(id int, set string, trainingAlgs []types.TrainingAlg) 
 	where id = $1;
 	`
 	_, err := db.Conn.Exec(context.Background(), sql, id, set, trainingAlgs)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (db DB) DeleteAlgSet(id int) error {
@@ -91,8 +78,5 @@ func (db DB) DeleteAlgSet(id int) error {
 	where id = $1;
 	`
 	_, err := db.Conn.Exec(context.Background(), sql, id, time.Now())
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }

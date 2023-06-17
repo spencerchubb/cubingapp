@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"server/src/types"
 )
 
@@ -11,17 +10,14 @@ func (db DB) CreateSession(session types.Session) (int, error) {
 	row := db.Conn.QueryRow(context.Background(), sql, session.Uid, session.Name)
 	var id int
 	err := row.Scan(&id)
-	if err != nil {
-		return -1, fmt.Errorf("CreateSession Scan failed: %w", err)
-	}
-	return id, nil
+	return id, err
 }
 
 func (db DB) ReadSessions(uid int) ([]types.Session, error) {
 	sql := "select id, uid, name from sessions where uid = $1 and deleted is null order by updated desc;"
 	rows, err := db.Conn.Query(context.Background(), sql, uid)
 	if err != nil {
-		return []types.Session{}, fmt.Errorf("ReadSessions Query failed: %w", err)
+		return []types.Session{}, err
 	}
 	defer rows.Close()
 
@@ -30,7 +26,7 @@ func (db DB) ReadSessions(uid int) ([]types.Session, error) {
 		var session types.Session
 		err := rows.Scan(&session.Id, &session.Uid, &session.Name)
 		if err != nil {
-			return []types.Session{}, fmt.Errorf("ReadSessions Scan failed: %w", err)
+			return []types.Session{}, err
 		}
 		sessions = append(sessions, session)
 	}
@@ -40,17 +36,11 @@ func (db DB) ReadSessions(uid int) ([]types.Session, error) {
 func (db DB) UpdateSession(session types.Session) error {
 	sql := "update sessions set name = $1, updated = now() where uid = $2 and id = $3;"
 	_, err := db.Conn.Exec(context.Background(), sql, session.Name, session.Uid, session.Id)
-	if err != nil {
-		return fmt.Errorf("UpdateSession Exec failed: %w", err)
-	}
-	return nil
+	return err
 }
 
 func (db DB) DeleteSession(id int) error {
 	sql := "update sessions set deleted = now() where id = $1;"
 	_, err := db.Conn.Exec(context.Background(), sql, id)
-	if err != nil {
-		return fmt.Errorf("DeleteSession Exec failed: %w", err)
-	}
-	return nil
+	return err
 }

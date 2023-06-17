@@ -8,23 +8,19 @@ import (
 	util "server/src/util"
 )
 
-func CreateSession(r *http.Request) interface{} {
+func CreateSession(r *http.Request) (interface{}, error) {
 	var session types.Session
 	err := util.Unmarshal(r.Body, &session)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	id, err := db.CreateSession(session)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"id": id}
+	return map[string]interface{}{"id": id}, err
 }
 
-func ReadSessions(r *http.Request) interface{} {
+func ReadSessions(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Uid int `json:"uid"`
 	}
@@ -32,50 +28,36 @@ func ReadSessions(r *http.Request) interface{} {
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
 		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	sessions, err := db.ReadSessions(req.Uid)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
-	return sessions
+	return db.ReadSessions(req.Uid)
 }
 
-func UpdateSession(r *http.Request) interface{} {
+func UpdateSession(r *http.Request) (interface{}, error) {
 	var session types.Session
 	err := util.Unmarshal(r.Body, &session)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	err = db.UpdateSession(session)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
+	return nil, err
 }
 
-func DeleteSession(r *http.Request) interface{} {
+func DeleteSession(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	err = db.DeleteSession(req.Id)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
+	return nil, err
 }

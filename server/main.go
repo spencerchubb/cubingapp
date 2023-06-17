@@ -19,22 +19,30 @@ var pgUrl = getEnv("PG_URL")
 var serverPort = getEnv("SERVER_PORT")
 var mode = getEnv("MODE")
 
-func root(r *http.Request) interface{} {
+func root(r *http.Request) (interface{}, error) {
 	msg := fmt.Sprintf("Invalid endpoint hit: %s", r.URL)
 	fmt.Println(msg)
-	return msg
+	return msg, nil
 }
 
-func hello(r *http.Request) interface{} {
-	return "Hello world!\n"
+func hello(r *http.Request) (interface{}, error) {
+	return "Hello world!\n", nil
 }
+
+type Handler func(*http.Request) (interface{}, error)
 
 // Set up endpoint and enable CORS
-func handleFunc(pattern string, handler func(*http.Request) interface{}) {
+func handleFunc(pattern string, handler Handler) {
 	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Endpoint hit: %s\n", pattern)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		result := handler(r)
+		result, err := handler(r)
+		if err != nil {
+			fmt.Printf("Error in %s: %v\n", pattern, err)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("500 - Internal server error"))
+			return
+		}
 
 		if str, ok := result.(string); ok {
 			// If the result is a string, write it directly to the response
@@ -45,6 +53,9 @@ func handleFunc(pattern string, handler func(*http.Request) interface{}) {
 		json, err := json.Marshal(result)
 		if err != nil {
 			fmt.Printf("Error while marshaling: %s\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("500 - Internal server error"))
+			return
 		}
 		w.Write(json)
 	})

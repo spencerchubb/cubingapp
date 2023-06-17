@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 )
 
 func (db DB) GetAndSaveUser(email string) (int, error) {
@@ -22,7 +21,7 @@ func (db DB) GetAndSaveUser(email string) (int, error) {
 		row = db.Conn.QueryRow(context.Background(), sql, email)
 		err := row.Scan(&user.Uid)
 		if err != nil {
-			return -1, fmt.Errorf("GetAndSaveUser Scan failed: %w", err)
+			return -1, err
 		}
 	}
 	return user.Uid, nil

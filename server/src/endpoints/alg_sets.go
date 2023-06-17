@@ -10,25 +10,19 @@ import (
 	util "server/src/util"
 )
 
-func CreateAlgSet(r *http.Request) interface{} {
+func CreateAlgSet(r *http.Request) (interface{}, error) {
 	var algSet types.AlgSet
 	err := util.Unmarshal(r.Body, &algSet)
 	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	id, err := db.CreateAlgSet(algSet)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"id": id}
+	return map[string]interface{}{"id": id}, err
 }
 
-func CreatePrebuiltAlgSet(r *http.Request) interface{} {
+func CreatePrebuiltAlgSet(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Uid int    `json:"uid"`
 		Set string `json:"set"`
@@ -36,8 +30,7 @@ func CreatePrebuiltAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	algs := readAlgsFromJson("../algs/algs.json")
@@ -49,17 +42,12 @@ func CreatePrebuiltAlgSet(r *http.Request) interface{} {
 
 	db := db.GetDB()
 	id, err := db.CreateAlgSet(algSet)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
 	algSet.Id = id
-	return algSet
+	return algSet, err
 }
 
 // If Set="", return the most recent alg set.
-func ReadAlgSet(r *http.Request) interface{} {
+func ReadAlgSet(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Uid int    `json:"uid"`
 		Set string `json:"set"`
@@ -67,45 +55,31 @@ func ReadAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	var row types.AlgSet
 	if req.Set == "" {
-		row, err = db.ReadRecentAlgSet(req.Uid)
-	} else {
-		row, err = db.ReadAlgSet(req.Uid, req.Set)
+		return db.ReadRecentAlgSet(req.Uid)
 	}
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-	return row
+	return db.ReadAlgSet(req.Uid, req.Set)
 }
 
-func ReadAlgSets(r *http.Request) interface{} {
+func ReadAlgSets(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Uid int `json:"uid"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
-	rows, err := db.ReadAlgSets(req.Uid)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
-	return rows
+	return db.ReadAlgSets(req.Uid)
 }
 
-func UpdateAlgSet(r *http.Request) interface{} {
+func UpdateAlgSet(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Id           int                 `json:"id"`
 		Set          string              `json:"set"`
@@ -114,39 +88,27 @@ func UpdateAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
+	return nil, err
 }
 
-func DeleteAlgSet(r *http.Request) interface{} {
+func DeleteAlgSet(r *http.Request) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
+		return nil, err
 	}
 
 	db := db.GetDB()
 	err = db.DeleteAlgSet(req.Id)
-	if err != nil {
-		fmt.Println(err)
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
+	return nil, err
 }
 
 // Helper functions for CreatePrebuiltAlgSet
