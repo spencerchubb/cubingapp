@@ -9,12 +9,11 @@ import (
 	"os"
 	"time"
 
-	server "server/src/db"
+	"server/src/db"
+	"server/src/endpoints"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
-
-var db server.DB
 
 var pgUrl = getEnv("PG_URL")
 var serverPort = getEnv("SERVER_PORT")
@@ -28,207 +27,6 @@ func root(r *http.Request) interface{} {
 
 func hello(r *http.Request) interface{} {
 	return "Hello world!\n"
-}
-
-func createAlgSet(r *http.Request) interface{} {
-	var req CreateTrainingAlgsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	id, err := db.CreateAlgSet(req.Uid, req.Set, req.TrainingAlgs, req.Cube, req.InactiveStickers, req.Moves, req.Disregard, req.OnlyOrientation)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"id": id}
-}
-
-func readAlgsFromJson(fileName string) []server.AlgSetsRow {
-	file, err := os.Open(fileName)
-	if err != nil {
-		fmt.Println("readJsonFile:", err)
-		return []server.AlgSetsRow{}
-	}
-	defer file.Close()
-
-	decoder := json.NewDecoder(file)
-	var algSets []server.AlgSetsRow
-	err = decoder.Decode(&algSets)
-	if err != nil {
-		fmt.Println("readJsonFile:", err)
-		return []server.AlgSetsRow{}
-	}
-
-	return algSets
-}
-
-func findAlgSet(algSets []server.AlgSetsRow, setName string) server.AlgSetsRow {
-	for _, algSet := range algSets {
-		if algSet.Name == setName {
-			return algSet
-		}
-	}
-	return server.AlgSetsRow{}
-}
-
-func initZeroScores(algs []string) []server.TrainingAlg {
-	out := make([]server.TrainingAlg, len(algs))
-	for i, alg := range algs {
-		out[i] = server.TrainingAlg{Score: 0, Alg: alg}
-	}
-	return out
-}
-
-func createPrebuiltAlgSet(r *http.Request) interface{} {
-	var req CreatePrebuiltTrainingAlgsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	algs := readAlgsFromJson("../algs/algs.json")
-	algSet := findAlgSet(algs, req.Set)
-	trainingAlgs := initZeroScores(algSet.Algs)
-
-	id, err := db.CreateAlgSet(req.Uid, req.Set, trainingAlgs, algSet.Cube, algSet.Inactive, algSet.Moves, algSet.Disregard, algSet.OnlyOrientation)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	algSet.TrainingAlgs = trainingAlgs
-	algSet.Id = id
-	return algSet
-}
-
-func deleteAlgSet(r *http.Request) interface{} {
-	var req DeleteTrainingAlgsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	err = db.DeleteAlgSet(req.Id)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
-}
-
-func getAlgSet(r *http.Request) interface{} {
-	var req GetTrainingAlgsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	row, err := db.GetAlgSet(req.Uid, req.Set)
-	if err != nil {
-		algs := readAlgsFromJson("../algs/algs.json")
-		algSet := findAlgSet(algs, req.Set)
-		trainingAlgs := initZeroScores(algSet.Algs)
-		algSet.Id = -1
-		algSet.TrainingAlgs = trainingAlgs
-
-		// Not needed on the frontend, so remove for efficiency.
-		algSet.Algs = nil
-
-		return algSet
-	}
-
-	return row
-}
-
-func getAlgSets(r *http.Request) interface{} {
-	var req GetAlgSetsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	rows, err := db.GetAlgSets(req.Uid)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return rows
-}
-
-func updateAlgSet(r *http.Request) interface{} {
-	var req UpdateTrainingAlgsRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
-}
-
-func addSolve(r *http.Request) interface{} {
-	var solve Solve
-	err := unmarshal(r.Body, &solve)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	id, err := db.AddSolve(solve.Uid, solve.Time, solve.InitialCubeState, solve.Moves)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true, "id": id}
-}
-
-func getSolve(r *http.Request) interface{} {
-	var req GetSolveRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	solve, err := db.GetSolve(req.Id)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return solve
-}
-
-func getSolves(r *http.Request) interface{} {
-	var req GetSolvesRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	solves, err := db.GetSolves(req.Uid)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return solves
-}
-
-func user(r *http.Request) interface{} {
-	var req UserRequest
-	err := unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	uid, err := db.GetAndSaveUser(req.Email)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true, "uid": uid}
 }
 
 // Set up endpoint and enable CORS
@@ -275,16 +73,27 @@ func main() {
 
 	handleFunc("/", root)
 	handleFunc("/hello", hello)
-	handleFunc("/createAlgSet", createAlgSet)
-	handleFunc("/createPrebuiltAlgSet", createPrebuiltAlgSet)
-	handleFunc("/deleteAlgSet", deleteAlgSet)
-	handleFunc("/getAlgSet", getAlgSet)
-	handleFunc("/getAlgSets", getAlgSets)
-	handleFunc("/updateAlgSet", updateAlgSet)
-	handleFunc("/addSolve", addSolve)
-	handleFunc("/getSolve", getSolve)
-	handleFunc("/getSolves", getSolves)
-	handleFunc("/user", user)
+
+	handleFunc("/createAlgSet", endpoints.CreateAlgSet)
+	handleFunc("/createPrebuiltAlgSet", endpoints.CreatePrebuiltAlgSet)
+	handleFunc("/readAlgSet", endpoints.ReadAlgSet)
+	handleFunc("/readAlgSets", endpoints.ReadAlgSets)
+	handleFunc("/updateAlgSet", endpoints.UpdateAlgSet)
+	handleFunc("/deleteAlgSet", endpoints.DeleteAlgSet)
+
+	handleFunc("/createSession", endpoints.CreateSession)
+	handleFunc("/readSession", endpoints.ReadSession)
+	handleFunc("/readSessions", endpoints.ReadSessions)
+	handleFunc("/updateSession", endpoints.UpdateSession)
+	handleFunc("/deleteSession", endpoints.DeleteSession)
+
+	handleFunc("/createSolve", endpoints.CreateSolve)
+	handleFunc("/readSolve", endpoints.ReadSolve)
+	handleFunc("/readSolves", endpoints.ReadSolves)
+	handleFunc("/updateSolve", endpoints.UpdateSolve)
+	handleFunc("/deleteSolve", endpoints.DeleteSolve)
+
+	handleFunc("/user", endpoints.User)
 
 	go func() {
 		err = listenAndServe()
@@ -299,7 +108,7 @@ func main() {
 
 	// Setup database connection after server is started because this is slow.
 	conn, err := pgxpool.New(context.Background(), pgUrl)
-	db = server.DB{Conn: conn}
+	db.SetupDB(conn)
 	if err != nil {
 		fmt.Printf("Unable to connect to database: %v\n", err)
 		os.Exit(1)

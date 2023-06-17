@@ -1,29 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"os/exec"
 	"runtime"
-
-	"github.com/pkg/errors"
 )
-
-func unmarshal(r io.Reader, v any) error {
-	body, err := io.ReadAll(r)
-	if err != nil {
-		return errors.Wrap(err, "unmarshal")
-	}
-
-	err = json.Unmarshal(body, v)
-	if err != nil {
-		return errors.Wrap(err, "unmarshal")
-	}
-
-	return nil
-}
 
 func getEnv(key string) string {
 	env := os.Getenv(key)
