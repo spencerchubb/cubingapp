@@ -25,8 +25,6 @@
     import Auth from "../lib/components/auth/Auth.svelte";
     import ChevronDown from "../lib/components/icons/ChevronDown.svelte";
     import Modal from "../lib/components/Modal.svelte";
-    import EditIcon from "../lib/components/icons/EditIcon.svelte";
-    import TrashIcon from "../lib/components/icons/TrashIcon.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
     import * as SolvesAPI from "../lib/scripts/api/solves";
 
@@ -183,7 +181,11 @@
             </Drawer>
         {/if}
     </div>
-    <Modal title={state.modalType} open={state.modalType !== undefined}>
+    <Modal
+        title={state.modalType}
+        open={state.modalType !== undefined}
+        close={() => callback({ modalType: undefined })}
+    >
         <div class="col" style="padding: 16px; gap: 16px; min-width: 300px;">
             {#if state.modalType === "edit session"}
                 <input type="text" placeholder="Session name" bind:value={state.sessionEditing.name} />
