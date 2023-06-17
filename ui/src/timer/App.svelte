@@ -14,6 +14,7 @@
         solve,
         type TimerStatus,
         onSignIn,
+        callback,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -22,11 +23,16 @@
     import Toggle from "../lib/components/Toggle.svelte";
     import ClockIcon from "../lib/components/icons/ClockIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
+    import ChevronDown from "../lib/components/icons/ChevronDown.svelte";
+    import Modal from "../lib/components/Modal.svelte";
+    import EditIcon from "../lib/components/icons/EditIcon.svelte";
+    import TrashIcon from "../lib/components/icons/TrashIcon.svelte";
+    import * as SessionsAPI from "../lib/scripts/api/sessions";
 
     let scene: Scene;
 
     let state = setCallback((newState) => {
-        state = newState;
+        state = Object.assign(state, newState);
     });
 
     function timerColor(status: TimerStatus): string {
@@ -104,14 +110,30 @@
         </div>
         {#if drawerIndex === 0}
             <Drawer title="Solves" bind:drawerIndex>
-                <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
-                    {#if state.user}
-                    <p>{state.user.email}</p>
-                    {:else}
+                {#if state.user}
+                    <div class="col" style="align-items: start; padding: 16px; gap: 16px;">
+                        <p>{state.user.email}</p>
+                        <button
+                            class="row"
+                            style="gap: 8px;"
+                            on:click={() => {
+                                callback({ modalType: "select session" });
+                            }}
+                        >
+                            {state.sessions.length === 0
+                                ? "Session 1"
+                                : state.sessions[0].name}
+                            <div style="width: 20px; height: 20px;">
+                                <ChevronDown />
+                            </div>
+                        </button>
+                    </div>
+                {:else}
+                    <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
                         <p>Want to save your solves?</p>
                         <Auth {onSignIn} />
-                    {/if}
-                </div>
+                    </div>
+                {/if}
             </Drawer>
         {:else if drawerIndex === 1}
             <Drawer title="Settings" bind:drawerIndex>
@@ -148,5 +170,121 @@
             </Drawer>
         {/if}
     </div>
+    <Modal title={state.modalType} open={state.modalType !== undefined}>
+        <div class="col" style="padding: 16px; gap: 16px; min-width: 300px;">
+            {#if state.modalType === "edit session"}
+                <input type="text" placeholder="Session name" bind:value={state.sessionEditing.name} />
+                <div class="row" style="gap: 16px;">
+                    <button
+                        class="btn-gray"
+                        on:click={() => callback({ modalType: "select session" })}
+                    >
+                        Back
+                    </button>
+                    <button
+                        on:click={() => {
+                            SessionsAPI.update(state.sessionEditing);
+                            callback({
+                                modalType: "select session",
+                                sessions: state.sessions.map((session) => {
+                                    return session.id === state.sessionEditing.id
+                                        ? state.sessionEditing
+                                        : session;
+                                }),
+                            });
+                        }}
+                    >
+                        Save
+                    </button>
+                </div>
+            {:else if state.modalType === "delete session"}
+                <p>Are you sure you want to delete {state.sessionEditing.name}?</p>
+                <div class="row" style="gap: 16px;">
+                    <button
+                        class="btn-gray"
+                        on:click={() => callback({ modalType: "select session" })}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        on:click={() => {
+                            SessionsAPI.del(state.sessionEditing.id);
+                            callback({
+                                modalType: "select session",
+                                sessions: state.sessions.filter((session) => {
+                                    return session.id !== state.sessionEditing.id;
+                                }),
+                            });
+                        }}
+                    >
+                        Delete
+                    </button>
+                </div>
+            {:else if state.modalType === "new session"}
+                <input type="text" placeholder="Session name" bind:value={state.sessionEditing.name} />
+                <div class="row" style="gap: 16px;">
+                    <button
+                        class="btn-gray" 
+                        on:click={() => callback({ modalType: "select session" })}
+                    >
+                        Back
+                    </button>
+                    <button
+                        on:click={() => {
+                            SessionsAPI.create(state.sessionEditing)
+                                .then(id => {
+                                    state.sessionEditing.id = id;
+                                    callback({
+                                        modalType: "select session",
+                                        sessions: [state.sessionEditing, ...state.sessions],
+                                    });
+                                });
+                        }}
+                    >
+                        Create
+                    </button>
+                </div>
+            {:else if state.modalType === "select session"}
+                <button on:click={() => {
+                    callback({
+                        modalType: "new session",
+                        sessionEditing: { uid: state.user.uid, name: "" },
+                    });
+                }}>
+                    New session
+                </button>
+                <div style="width: 100%;">
+                    {#each state.sessions as session}
+                        <div
+                            class="row"
+                            style="
+                                justify-content: space-between;
+                                width: 100%;
+                                border-top: solid 1px var(--gray-400);
+                                padding: 4px 0;"
+                        >
+                            <p>{session.name}</p>
+                            <div>
+                                <button
+                                    class="btn-transparent"
+                                    style="width: 40px; height: 40px; padding: 4px;"
+                                    on:click={() => callback({ modalType: "edit session", sessionEditing: {...session} })}
+                                >
+                                    <EditIcon />
+                                </button>
+                                <button
+                                    class="btn-transparent"
+                                    style="width: 40px; height: 40px; padding: 4px;"
+                                    on:click={() => callback({ modalType: "delete session", sessionEditing: {...session} })}
+                                >
+                                    <TrashIcon />
+                                </button>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            {/if}
+        </div>
+    </Modal>
     <SideNav bind:open={sideNavOpen} />
 </main>

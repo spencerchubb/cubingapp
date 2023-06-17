@@ -6,9 +6,11 @@ type Move struct {
 }
 
 type Solve struct {
-	Id               int     `json:"id"`
-	Uid              int     `json:"uid"`
-	Time             float32 `json:"time"`
-	InitialCubeState []int   `json:"initialCubeState"`
-	Moves            []Move  `json:"moves"`
+	Id        int     `json:"id"`
+	Uid       int     `json:"uid"`
+	Time      float32 `json:"time"`
+	Scramble  string  `json:"scramble"`
+	Moves     string  `json:"moves"`
+	Puzzle    string  `json:"puzzle"`
+	SessionId int     `json:"sessionId"`
 }

@@ -27,7 +27,7 @@ func CreateSolve(r *http.Request) interface{} {
 
 func ReadSolve(r *http.Request) interface{} {
 	type Request struct {
-		SolveId int `json:"solveId"`
+		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
@@ -36,7 +36,7 @@ func ReadSolve(r *http.Request) interface{} {
 	}
 
 	db := db.GetDB()
-	solve, err := db.ReadSolve(req.SolveId)
+	solve, err := db.ReadSolve(req.Id)
 	if err != nil {
 		return map[string]interface{}{"success": false}
 	}
@@ -46,7 +46,6 @@ func ReadSolve(r *http.Request) interface{} {
 
 func ReadSolves(r *http.Request) interface{} {
 	type Request struct {
-		Uid       int `json:"uid"`
 		SessionId int `json:"sessionId"`
 	}
 	var req Request
@@ -56,7 +55,7 @@ func ReadSolves(r *http.Request) interface{} {
 	}
 
 	db := db.GetDB()
-	solves, err := db.ReadSolves(req.Uid)
+	solves, err := db.ReadSolves(req.SessionId)
 	if err != nil {
 		return map[string]interface{}{"success": false}
 	}
@@ -64,25 +63,9 @@ func ReadSolves(r *http.Request) interface{} {
 	return solves
 }
 
-func UpdateSolve(r *http.Request) interface{} {
-	var solve types.Solve
-	err := util.Unmarshal(r.Body, &solve)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	db := db.GetDB()
-	err = db.UpdateSolve(solve)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	return map[string]interface{}{"success": true}
-}
-
 func DeleteSolve(r *http.Request) interface{} {
 	type Request struct {
-		SolveId int `json:"solveId"`
+		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
@@ -91,7 +74,7 @@ func DeleteSolve(r *http.Request) interface{} {
 	}
 
 	db := db.GetDB()
-	err = db.DeleteSolve(req.SolveId)
+	err = db.DeleteSolve(req.Id)
 	if err != nil {
 		return map[string]interface{}{"success": false}
 	}

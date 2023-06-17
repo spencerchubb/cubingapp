@@ -26,7 +26,9 @@ CREATE TABLE "solves" (
     "time" numeric NOT NULL,
     "scramble" varchar NOT NULL,
     "moves" varchar NOT NULL,
-    "puzzle" varchar NOT NULL
+    "puzzle" varchar NOT NULL,
+    "session_id" integer NOT NULL,
+    "penalty" varchar
 );
 
 CREATE TABLE "users" (

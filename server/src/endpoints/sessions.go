@@ -1,6 +1,7 @@
 package endpoints
 
 import (
+	"fmt"
 	"net/http"
 	"server/src/db"
 	types "server/src/types"
@@ -23,31 +24,6 @@ func CreateSession(r *http.Request) interface{} {
 	return map[string]interface{}{"id": id}
 }
 
-// If Id=0, return the most recent session.
-func ReadSession(r *http.Request) interface{} {
-	type Request struct {
-		Uid int `json:"uid"`
-		Id  int `json:"id"`
-	}
-	var req Request
-	err := util.Unmarshal(r.Body, &req)
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-
-	db := db.GetDB()
-	var session types.Session
-	if req.Id == 0 {
-		session, err = db.ReadRecentSession(req.Uid)
-	} else {
-		session, err = db.ReadSession(req.Uid, req.Id)
-	}
-	if err != nil {
-		return map[string]interface{}{"success": false}
-	}
-	return session
-}
-
 func ReadSessions(r *http.Request) interface{} {
 	type Request struct {
 		Uid int `json:"uid"`
@@ -55,12 +31,14 @@ func ReadSessions(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	db := db.GetDB()
 	sessions, err := db.ReadSessions(req.Uid)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 

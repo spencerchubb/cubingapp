@@ -17,34 +17,8 @@ func (db DB) CreateSession(session types.Session) (int, error) {
 	return id, nil
 }
 
-func (db DB) ReadSession(uid int, id int) (types.Session, error) {
-	sql := "select * from sessions where uid = $1 and id = $2;"
-	row := db.Conn.QueryRow(context.Background(), sql, uid, id)
-	var session types.Session
-	err := row.Scan(&session.Id, &session.Uid, &session.Name, &session.Updated)
-	if err != nil {
-		return types.Session{}, fmt.Errorf("ReadSession Scan failed: %w", err)
-	}
-	return session, nil
-}
-
-func (db DB) ReadRecentSession(uid int) (types.Session, error) {
-	sql := `
-	select * from sessions 
-	where uid = $1 and deleted is null 
-	order by updated desc 
-	limit 1;`
-	row := db.Conn.QueryRow(context.Background(), sql, uid)
-	var session types.Session
-	err := row.Scan(&session.Id, &session.Uid, &session.Name, &session.Updated)
-	if err != nil {
-		return types.Session{}, fmt.Errorf("ReadRecentSession Scan failed: %w", err)
-	}
-	return session, nil
-}
-
 func (db DB) ReadSessions(uid int) ([]types.Session, error) {
-	sql := "select * from sessions where uid = $1 and deleted is null order by updated desc;"
+	sql := "select id, uid, name from sessions where uid = $1 and deleted is null order by updated desc;"
 	rows, err := db.Conn.Query(context.Background(), sql, uid)
 	if err != nil {
 		return []types.Session{}, fmt.Errorf("ReadSessions Query failed: %w", err)
@@ -54,7 +28,7 @@ func (db DB) ReadSessions(uid int) ([]types.Session, error) {
 	var sessions []types.Session
 	for rows.Next() {
 		var session types.Session
-		err := rows.Scan(&session.Id, &session.Uid, &session.Name, &session.Updated)
+		err := rows.Scan(&session.Id, &session.Uid, &session.Name)
 		if err != nil {
 			return []types.Session{}, fmt.Errorf("ReadSessions Scan failed: %w", err)
 		}
@@ -73,7 +47,7 @@ func (db DB) UpdateSession(session types.Session) error {
 }
 
 func (db DB) DeleteSession(id int) error {
-	sql := "update sessions set deleted = now() where uid = $1 and id = $2;"
+	sql := "update sessions set deleted = now() where id = $1;"
 	_, err := db.Conn.Exec(context.Background(), sql, id)
 	if err != nil {
 		return fmt.Errorf("DeleteSession Exec failed: %w", err)

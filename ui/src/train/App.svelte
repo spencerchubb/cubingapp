@@ -346,6 +346,7 @@
 							>
 								<p style="font-size: 1.2rem;">{algSet.name}</p>
 								<div style="flex-grow: 1;" />
+                                <!-- TODO use EditIcon -->
 								<Icon
 									name="edit"
 									style="width: 30px; height: 30px; padding: 4px;"

@@ -82,7 +82,6 @@ func main() {
 	handleFunc("/deleteAlgSet", endpoints.DeleteAlgSet)
 
 	handleFunc("/createSession", endpoints.CreateSession)
-	handleFunc("/readSession", endpoints.ReadSession)
 	handleFunc("/readSessions", endpoints.ReadSessions)
 	handleFunc("/updateSession", endpoints.UpdateSession)
 	handleFunc("/deleteSession", endpoints.DeleteSession)
@@ -90,7 +89,6 @@ func main() {
 	handleFunc("/createSolve", endpoints.CreateSolve)
 	handleFunc("/readSolve", endpoints.ReadSolve)
 	handleFunc("/readSolves", endpoints.ReadSolves)
-	handleFunc("/updateSolve", endpoints.UpdateSolve)
 	handleFunc("/deleteSolve", endpoints.DeleteSolve)
 
 	handleFunc("/user", endpoints.User)
