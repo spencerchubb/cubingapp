@@ -13,8 +13,8 @@
         setInspection,
         solve,
         type TimerStatus,
-        onSignIn,
         callback,
+        createInitialSession,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -28,6 +28,7 @@
     import EditIcon from "../lib/components/icons/EditIcon.svelte";
     import TrashIcon from "../lib/components/icons/TrashIcon.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
+    import * as SolvesAPI from "../lib/scripts/api/solves";
 
     let scene: Scene;
 
@@ -112,7 +113,6 @@
             <Drawer title="Solves" bind:drawerIndex>
                 {#if state.user}
                     <div class="col" style="align-items: start; padding: 16px; gap: 16px;">
-                        <p>{state.user.email}</p>
                         <button
                             class="row"
                             style="gap: 8px;"
@@ -127,11 +127,22 @@
                                 <ChevronDown />
                             </div>
                         </button>
+                        {#each state.solves as solve, i}
+                            <p>{state.solves.length - i}. {solve.time}</p>
+                        {/each}
+                        {#if state.solves.length === 0}
+                            <p>No solves yet. Try doing a solve, then your times will appear here 😎</p>
+                        {/if}
                     </div>
                 {:else}
                     <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
                         <p>Want to save your solves?</p>
-                        <Auth {onSignIn} />
+                        <Auth 
+                            onSignIn={(user) => {
+                                callback({ user });
+                                createInitialSession(user.uid);
+                            }}
+                        />
                     </div>
                 {/if}
             </Drawer>
@@ -151,7 +162,9 @@
                         <button
                             on:click={undoScramble}
                             disabled={state.stack.length === 0}
-                        >Undo</button>
+                        >
+                            Undo
+                        </button>
                         <div style="width: 16px; height: 2px; background: var(--gray-300);"></div>
                         <button on:click={nextScramble}>Next</button>
                     </div>
@@ -263,23 +276,38 @@
                                 border-top: solid 1px var(--gray-400);
                                 padding: 4px 0;"
                         >
-                            <p>{session.name}</p>
-                            <div>
-                                <button
-                                    class="btn-transparent"
-                                    style="width: 40px; height: 40px; padding: 4px;"
-                                    on:click={() => callback({ modalType: "edit session", sessionEditing: {...session} })}
-                                >
-                                    <EditIcon />
-                                </button>
-                                <button
-                                    class="btn-transparent"
-                                    style="width: 40px; height: 40px; padding: 4px;"
-                                    on:click={() => callback({ modalType: "delete session", sessionEditing: {...session} })}
-                                >
-                                    <TrashIcon />
-                                </button>
-                            </div>
+                            <button
+                                class="btn-transparent"
+                                style="padding: 4px; width: 100%; text-align: left;"
+                                on:click={() => {
+                                    SolvesAPI.readAll(session.id).then(solves => {
+                                        callback({
+                                            modalType: undefined,
+                                            sessions: [session, ...state.sessions.filter(s => s.id !== session.id)],
+                                            solves,
+                                        });
+                                    });
+
+                                    // Update so the timestamp is updated.
+                                    SessionsAPI.update(session);
+                                }}
+                            >
+                                {session.name}
+                            </button>
+                            <button
+                                class="btn-transparent"
+                                style="min-width: 40px; width: 40px; padding: 4px;"
+                                on:click={() => callback({ modalType: "edit session", sessionEditing: {...session} })}
+                            >
+                                <EditIcon />
+                            </button>
+                            <button
+                                class="btn-transparent"
+                                style="min-width: 40px; width: 40px; padding: 4px;"
+                                on:click={() => callback({ modalType: "delete session", sessionEditing: {...session} })}
+                            >
+                                <TrashIcon />
+                            </button>
                         </div>
                     {/each}
                 </div>

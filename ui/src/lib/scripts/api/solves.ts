@@ -5,26 +5,30 @@ export type MinSolve = {
     time: number;
 }
 
+export type Penalty = undefined | "+2" | "DNF";
+
 export type Solve = 
     MinSolve & {
     uid: number;
     scramble: string;
     moves: string;
-    penalty: undefined | "+2" | "DNF";
+    puzzle: string;
+    sessionId: number;
+    penalty: Penalty;
 }
 
-export function create(solve: Solve): Promise<{ id: number }> {
+export async function create(solve: Solve): Promise<{ id: number }> {
     return post("/createSolve", solve);
 }
 
-export function read(id: number): Promise<Solve> {
+export async function read(id: number): Promise<Solve> {
     return post("/readSolve", { id });
 }
 
-export function readAll(sessionId: number): Promise<MinSolve[]> {
-    return post("/readSolves", { sessionId });
+export async function readAll(sessionId: number): Promise<MinSolve[]> {
+    return (await post("/readSolves", { sessionId })) ?? [];
 }
 
-export function deleteSolve(uid: number, id: number): Promise<void> {
+export async function del(id: number): Promise<void> {
     return post("/deleteSolve", { id });
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func (db DB) CreateSolve(solve types.Solve) (int, error) {
-	sql := "INSERT INTO solves (uid, time, scramble, moves, puzzle, session_id) VALUES ($1, $2, $3, $4) RETURNING id;"
+	sql := "INSERT INTO solves (uid, time, scramble, moves, puzzle, session_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;"
 	row := db.Conn.QueryRow(context.Background(), sql, solve.Uid, solve.Time, solve.Scramble, solve.Moves, solve.Puzzle, solve.SessionId)
 	var id int
 	err := row.Scan(&id)
@@ -26,7 +26,7 @@ func (db DB) ReadSolves(sessionId int) ([]types.Solve, error) {
 	SELECT id, time
 	FROM solves 
 	WHERE session_id = $1
-	ORDER BY timestamp ASC;`
+	ORDER BY timestamp DESC;`
 	rows, err := db.Conn.Query(context.Background(), sql, sessionId)
 	if err != nil {
 		return nil, err

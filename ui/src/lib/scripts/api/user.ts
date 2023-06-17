@@ -1,9 +1,5 @@
 import { post } from "./common";
 
-type UserResponse = {
-    uid: number
-}
-
-export async function user(email: string): Promise<UserResponse> {
+export async function user(email: string): Promise<number> {
     return post("/user", { email });
 }

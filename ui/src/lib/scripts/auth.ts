@@ -69,8 +69,8 @@ export function initialAuthCheck(): CubingAppUser | undefined {
 
 function successfulSignIn(userCredential: UserCredential, callback: AuthCallback) {
     const email = userCredential.user.email ?? "";
-    UserAPI.user(email).then(data => {
-        const user = new CubingAppUser(email, data.uid);
+    UserAPI.user(email).then(uid => {
+        const user = new CubingAppUser(email, uid);
         setUser(user.toJsonString());
         logSignIn(user);
         callback(user);
