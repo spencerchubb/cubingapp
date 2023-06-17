@@ -21,11 +21,6 @@
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Toggle from "../lib/components/Toggle.svelte";
     import ClockIcon from "../lib/components/icons/ClockIcon.svelte";
-    import ButtonGoogleSignIn from "../lib/components/auth/ButtonGoogleSignIn.svelte";
-    import InputEmail from "../lib/components/auth/InputEmail.svelte";
-    import InputPassword from "../lib/components/auth/InputPassword.svelte";
-    import ButtonCreateAccount from "../lib/components/auth/ButtonCreateAccount.svelte";
-    import ButtonSignIn from "../lib/components/auth/ButtonSignIn.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
 
     let scene: Scene;
@@ -50,9 +45,6 @@
                 return "white";
         }
     }
-
-    let email = "";
-	let password = "";
 
     // 768px is the breakpoint we have defined for drawers.
     let drawerIndex = window.innerWidth > 768 ? 0 : -1;
@@ -111,12 +103,12 @@
             </button>
         </div>
         {#if drawerIndex === 0}
-            <Drawer title="Times" bind:drawerIndex>
+            <Drawer title="Solves" bind:drawerIndex>
                 <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
                     {#if state.user}
                     <p>{state.user.email}</p>
                     {:else}
-                        <p>Want to save your times?</p>
+                        <p>Want to save your solves?</p>
                         <Auth {onSignIn} />
                     {/if}
                 </div>
