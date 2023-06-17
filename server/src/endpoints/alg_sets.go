@@ -14,12 +14,14 @@ func CreateAlgSet(r *http.Request) interface{} {
 	var algSet types.AlgSet
 	err := util.Unmarshal(r.Body, &algSet)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	db := db.GetDB()
 	id, err := db.CreateAlgSet(algSet)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
@@ -34,20 +36,24 @@ func CreatePrebuiltAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	algs := readAlgsFromJson("../algs/algs.json")
 	algSet := findAlgSet(algs, req.Set)
 	trainingAlgs := initZeroScores(algSet.Algs)
+	algSet.Uid = req.Uid
+	algSet.Name = req.Set
+	algSet.TrainingAlgs = trainingAlgs
 
 	db := db.GetDB()
 	id, err := db.CreateAlgSet(algSet)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
-	algSet.TrainingAlgs = trainingAlgs
 	algSet.Id = id
 	return algSet
 }
@@ -72,6 +78,7 @@ func ReadAlgSet(r *http.Request) interface{} {
 		row, err = db.ReadAlgSet(req.Uid, req.Set)
 	}
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 	return row
@@ -84,12 +91,14 @@ func ReadAlgSets(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	db := db.GetDB()
 	rows, err := db.ReadAlgSets(req.Uid)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
@@ -105,12 +114,14 @@ func UpdateAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	db := db.GetDB()
 	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
@@ -124,12 +135,14 @@ func DeleteAlgSet(r *http.Request) interface{} {
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 
 	db := db.GetDB()
 	err = db.DeleteAlgSet(req.Id)
 	if err != nil {
+		fmt.Println(err)
 		return map[string]interface{}{"success": false}
 	}
 

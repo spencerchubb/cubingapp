@@ -12,6 +12,7 @@ const showBody = "showBody";
 const showScramble = "showScramble";
 const user = "user";
 
+// TODO see if can be removed
 export const AlgSetStore = {
     get: (): number => getInt(algSet) ?? -1,
     set: (value: number) => setInt(algSet, value),

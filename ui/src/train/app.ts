@@ -37,14 +37,14 @@ export function setUIState(newState: UIState) {
     uiState = newState;
 }
 
-export type ModalType = null | "choose alg set" | "edit alg set" | "edit alg";
+export type ModalType = null | "choose alg set" | "create alg set" | "edit alg set" | "edit alg";
 
 export type UIState = {
     page: "landing" | "train",
     user?: CubingAppUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
-    algSets: AlgSetAPI.AlgSet[],
+    algSets: AlgSetAPI.MinAlgSet[],
     solutionButtonText: string,
     modalType: ModalType,
     selectedAlg: AlgSetAPI.TrainingAlg,
@@ -71,19 +71,13 @@ export async function initApp() {
     uiState.user = initialAuthCheck();
     if (!uiState.user) return;
 
-    uiState.algSets = await AlgSetAPI.getAll(uiState.user.uid);
+    uiState.algSets = await AlgSetAPI.readAll(uiState.user.uid);
     if (!uiState.algSets) {
         callback(uiState);
         return;
     }
-    const algSetId = AlgSetStore.get();
 
-    // If there is an algSet with algSetId, use it.
-    // Otherwise, use the first algSet.
-    const found = uiState.algSets.find(algSet => algSet.id === algSetId);
-    uiState.algSet = found
-        ? found
-        : uiState.algSets[0];
+    uiState.algSet = await AlgSetAPI.read(uiState.user.uid, "");
 
     callback(uiState);
 }
@@ -297,9 +291,9 @@ export function setAlgSet() {
         return;
     }
 
-    if (uiState.algSet.cube == "2x2") {
+    if (uiState.algSet.puzzle == "2x2") {
         newCube(scene.div, 2);
-    } else if (uiState.algSet.cube == "3x3") {
+    } else if (uiState.algSet.puzzle == "3x3") {
         newCube(scene.div, 3);
     }
 
@@ -346,8 +340,7 @@ export async function nextAlg(promote: boolean, setName: string): Promise<string
             console.error("uid undefined");
             return "";
         }
-        const { trainingAlgs, cube, inactive, moves, disregard, onlyOrientation } = uiState.algSet;
-        const res = await AlgSetAPI.create(uid, setName, trainingAlgs, cube, inactive, moves, disregard, onlyOrientation);
+        const res = await AlgSetAPI.create(uiState.algSet);
         uiState.algSet.id = res.id;
     } else {
         const { id, name, trainingAlgs } = uiState.algSet;

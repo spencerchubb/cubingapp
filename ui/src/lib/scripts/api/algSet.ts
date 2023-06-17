@@ -9,47 +9,41 @@ type CreateTrainingAlgsResponse = {
     id: number,
 }
 
-export type AlgSet = {
-    cube: string,
-    disregard: number[],
+export type MinAlgSet = {
     id: number,
-    inactive: number[],
-    moves: string,
     name: string,
+}
+
+export type AlgSet =
+    MinAlgSet & {
+    puzzle: string,
+    disregard: number[],
+    inactive: number[],
     onlyOrientation: number[],
     trainingAlgs: TrainingAlg[],
 }
 
-export async function create(
-    uid: number,
-    set: string,
-    trainingAlgs: TrainingAlg[],
-    cube: string,
-    inactiveStickers: number[],
-    moves: string,
-    disregard: number[],
-    onlyOrientation: number[],
-): Promise<CreateTrainingAlgsResponse> {
-    return post("/createAlgSet", { uid, set, trainingAlgs, cube, inactiveStickers, moves, disregard, onlyOrientation });
+export async function create(algSet: AlgSet): Promise<CreateTrainingAlgsResponse> {
+    return post("/createAlgSet", algSet);
 }
 
 export async function createPrebuilt(uid: number, set: string): Promise<AlgSet> {
     return post("/createPrebuiltAlgSet", { uid, set });
 }
 
-export async function deleteSet(id: number): Promise<void> {
-    return post("/deleteAlgSet", { id });
+export async function read(uid: number, set: string): Promise<AlgSet> {
+    return post("/readAlgSet", { uid, set });
 }
 
-export async function get(uid: number, set: string): Promise<AlgSet> {
-    return post("/getAlgSet", { uid, set });
-}
-
-export async function getAll(uid: number): Promise<AlgSet[]> {
-    const result = await post("/getAlgSets", { uid });
+export async function readAll(uid: number): Promise<MinAlgSet[]> {
+    const result = await post("/readAlgSets", { uid });
     return result ?? [];
 }
 
 export async function update(id: number, set: string, trainingAlgs: TrainingAlg[]): Promise<void> {
     return post("/updateAlgSet", { id, set, trainingAlgs });
+}
+
+export async function deleteSet(id: number): Promise<void> {
+    return post("/deleteAlgSet", { id });
 }

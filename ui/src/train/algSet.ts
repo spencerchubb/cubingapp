@@ -19,71 +19,78 @@ export class AlgSetLogic {
         this.callback = callback;
     }
 
+    chooseAlgSet(id: number, algSets: AlgSetAPI.MinAlgSet[]) {
+        AlgSetStore.set(id);
+        const algSet = algSets.find(algSet => algSet.id === id);
+        
+        this.callback({
+            algSet,
+            modalType: null,
+        });
+    }
+
     displayChooseAlgSet() {
         this.callback({ modalType: "choose alg set"} );
     }
 
-    chooseAlgSet(id: number, algSets: AlgSetAPI.AlgSet[]) {
-        AlgSetStore.set(id);
-        const algSet = algSets.find(algSet => algSet.id === id);
-        const state = {
-            algSet,
-            modalType: null,
-        };
-        this.callback(state);
+    clickCustomSet() {
+        this.callback({
+            modalType: "create alg set",
+            algSetEditing: {
+                name: "",
+            },
+        });
     }
 
-    async createPrebuiltAlgSet(uid: number, set: string, algSets: AlgSetAPI.AlgSet[]) {
+    async createPrebuiltAlgSet(uid: number, set: string, algSets: AlgSetAPI.MinAlgSet[]) {
         const algSet = await AlgSetAPI.createPrebuilt(uid, set);
         const newAlgSets = algSets
             ? [algSet, ...algSets]
             : [algSet];
-        const state: any = {
+
+        this.callback({
             algSets: newAlgSets,
             algSet,
             modalType: null,
-        };
-        this.callback(state);
+        });
     }
 
-    createCustomSet() {
-        const state = {
-            modalType: "edit alg set",
-            algSetEditing: {
-                name: "",
-            },
-        }
-        this.callback(state);
-    }
-
-    editAlgSet(id: number, algSets: AlgSetAPI.AlgSet[]) {
+    editAlgSet(id: number, algSets: AlgSetAPI.MinAlgSet[]) {
         const algSetEditing = algSets.find(algSet => algSet.id === id);
-        const state = {
+        this.callback({
             modalType: "edit alg set",
-
             algSetEditing,
-        }
-        this.callback(state);
+        });
     }
 
-    deleteAlgSet(id: number, algSets: AlgSetAPI.AlgSet[], algSet: AlgSetAPI.AlgSet) {
+    deleteAlgSet(id: number, algSets: AlgSetAPI.MinAlgSet[], algSet: AlgSetAPI.AlgSet) {
         AlgSetAPI.deleteSet(id);
         const newAlgSets = algSets.filter(algSet => algSet.id !== id);
 
-        const state = {
+        this.callback({
             algSets: newAlgSets,
-        }
-        this.callback(state);
+        });
     }
 
-    saveAlgSet(id: number, set: string, trainingAlgs: AlgSetAPI.TrainingAlg[], algSets: AlgSetAPI.AlgSet[]) {
+    createAlgSet(algSet: AlgSetAPI.AlgSet, algSets: AlgSetAPI.MinAlgSet[]) {
+        AlgSetAPI.create(algSet);
+        const newAlgSets = [algSet, ...algSets];
+
+        this.callback({
+            modalType: null,
+            algSet,
+            algSets: newAlgSets,
+        });
+    }
+
+    saveAlgSet(id: number, set: string, trainingAlgs: AlgSetAPI.TrainingAlg[], algSets: AlgSetAPI.MinAlgSet[]) {
         AlgSetAPI.update(id, set, trainingAlgs);
         const algSet = algSets.find(algSet => algSet.id === id);
-        const state = {
+
+        this.callback({
             modalType: null,
             algSet,
             algSets,
-        }
-        this.callback(state);
+        });
     }
 }

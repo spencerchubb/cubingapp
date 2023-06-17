@@ -367,23 +367,36 @@
 						{/each}
 					</div>
 				{/if}
-				<button on:click={() => algSetLogic.createCustomSet()}
+				<button on:click={() => algSetLogic.clickCustomSet()}
 					>new custom set</button
 				>
 			</div>
+        {:else if state.modalType === "create alg set"}
+        <div class="col" style="padding: 16px; gap: 16px;">
+            <input type="text" bind:value={state.algSetEditing.name} />
+            <button
+                on:click={() => {
+                    algSetLogic.createAlgSet(state.algSetEditing, state.algSets)
+                }}
+            >
+                save
+            </button>
+        </div>
 		{:else if state.modalType === "edit alg set"}
 			<div class="col" style="padding: 16px; gap: 16px;">
 				<input type="text" bind:value={state.algSetEditing.name} />
-
 				<button
-					on:click={() =>
+					on:click={() => {
 						algSetLogic.saveAlgSet(
 							state.algSetEditing.id,
 							state.algSetEditing.name,
 							state.algSetEditing.trainingAlgs,
 							state.algSets
-						)}>save</button
-				>
+						);
+                    }}
+                >
+                    save
+                </button>
 			</div>
 		{:else if state.modalType === "edit alg"}
 			<div class="col" style="padding: 16px; gap: 16px;">
