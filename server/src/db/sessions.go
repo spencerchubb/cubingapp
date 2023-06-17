@@ -28,8 +28,23 @@ func (db DB) ReadSession(uid int, id int) (types.Session, error) {
 	return session, nil
 }
 
+func (db DB) ReadRecentSession(uid int) (types.Session, error) {
+	sql := `
+	select * from sessions 
+	where uid = $1 and deleted is null 
+	order by updated desc 
+	limit 1;`
+	row := db.Conn.QueryRow(context.Background(), sql, uid)
+	var session types.Session
+	err := row.Scan(&session.Id, &session.Uid, &session.Name, &session.Updated)
+	if err != nil {
+		return types.Session{}, fmt.Errorf("ReadRecentSession Scan failed: %w", err)
+	}
+	return session, nil
+}
+
 func (db DB) ReadSessions(uid int) ([]types.Session, error) {
-	sql := "select * from sessions where uid = $1 and deleted is null;"
+	sql := "select * from sessions where uid = $1 and deleted is null order by updated desc;"
 	rows, err := db.Conn.Query(context.Background(), sql, uid)
 	if err != nil {
 		return []types.Session{}, fmt.Errorf("ReadSessions Query failed: %w", err)

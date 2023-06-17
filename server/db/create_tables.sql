@@ -7,7 +7,8 @@ CREATE TABLE "alg_sets" (
     "inactive_stickers" integer[] NOT NULL,
     "disregard" integer[] NOT NULL,
     "only_orientation" integer[] NOT NULL,
-    "deleted" timestamp
+    "deleted" timestamp,
+    "updated" timestamp NOT NULL
 );
 
 CREATE TABLE "sessions" (

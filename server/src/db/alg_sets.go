@@ -36,6 +36,22 @@ func (db DB) ReadAlgSet(uid int, set string) (types.AlgSet, error) {
 	return algSet, nil
 }
 
+func (db DB) ReadRecentAlgSet(uid int) (types.AlgSet, error) {
+	sql := `
+	select * from alg_sets 
+	where uid = $1 and deleted is null
+	order by updated desc
+	limit 1;`
+	row := db.Conn.QueryRow(context.Background(), sql, uid)
+	var algSet types.AlgSet
+	err := row.Scan(&algSet.Id, &algSet.Uid, &algSet.Name, &algSet.TrainingAlgs, &algSet.Cube, &algSet.Inactive, &algSet.Moves, &algSet.Disregard, &algSet.OnlyOrientation)
+	if err != nil {
+		fmt.Println(err)
+		return types.AlgSet{}, err
+	}
+	return algSet, nil
+}
+
 func (db DB) ReadAlgSets(uid int) ([]types.AlgSet, error) {
 	sql := `
 	select id, uid, "set", training_algs, cube, inactive_stickers, moves, disregard, only_orientation from alg_sets

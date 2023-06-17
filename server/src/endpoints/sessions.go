@@ -23,6 +23,7 @@ func CreateSession(r *http.Request) interface{} {
 	return map[string]interface{}{"id": id}
 }
 
+// If Id=0, return the most recent session.
 func ReadSession(r *http.Request) interface{} {
 	type Request struct {
 		Uid int `json:"uid"`
@@ -35,11 +36,15 @@ func ReadSession(r *http.Request) interface{} {
 	}
 
 	db := db.GetDB()
-	session, err := db.ReadSession(req.Uid, req.Id)
+	var session types.Session
+	if req.Id == 0 {
+		session, err = db.ReadRecentSession(req.Uid)
+	} else {
+		session, err = db.ReadSession(req.Uid, req.Id)
+	}
 	if err != nil {
 		return map[string]interface{}{"success": false}
 	}
-
 	return session
 }
 

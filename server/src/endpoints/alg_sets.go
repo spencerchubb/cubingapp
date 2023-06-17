@@ -52,6 +52,7 @@ func CreatePrebuiltAlgSet(r *http.Request) interface{} {
 	return algSet
 }
 
+// If Set="", return the most recent alg set.
 func ReadAlgSet(r *http.Request) interface{} {
 	type Request struct {
 		Uid int    `json:"uid"`
@@ -64,20 +65,15 @@ func ReadAlgSet(r *http.Request) interface{} {
 	}
 
 	db := db.GetDB()
-	row, err := db.ReadAlgSet(req.Uid, req.Set)
-	if err != nil {
-		algs := readAlgsFromJson("../algs/algs.json")
-		algSet := findAlgSet(algs, req.Set)
-		trainingAlgs := initZeroScores(algSet.Algs)
-		algSet.Id = -1
-		algSet.TrainingAlgs = trainingAlgs
-
-		// Not needed on the frontend, so remove for efficiency.
-		algSet.Algs = nil
-
-		return algSet
+	var row types.AlgSet
+	if req.Set == "" {
+		row, err = db.ReadRecentAlgSet(req.Uid)
+	} else {
+		row, err = db.ReadAlgSet(req.Uid, req.Set)
 	}
-
+	if err != nil {
+		return map[string]interface{}{"success": false}
+	}
 	return row
 }
 
