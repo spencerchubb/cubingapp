@@ -44,22 +44,22 @@
     <div style="display: flex; flex-direction: column; padding: 0 8px; gap: 8px;">
         <a href="/algdb.html">
             <button style="width: 100%;">
-                Alg DB
+                📚 Alg DB
             </button>
         </a>
         <a href="/recon.html">
             <button style="width: 100%;">
-                Recon Tool
+                ✍ Recon Tool
             </button>
         </a>
         <a href="/timer.html">
             <button style="width: 100%;">
-                Timer
+                ⏲ Timer
             </button>
         </a>
         <a href="/train.html">
             <button style="width: 100%;">
-                Train
+                🧠 Train
             </button>
         </a>
     </div>
