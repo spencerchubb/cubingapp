@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Icon from "./Icon.svelte";
+    import XIcon from "./icons/XIcon.svelte";
 
     export let title: string;
     export let drawerIndex: number;
@@ -12,12 +12,13 @@
 <div class="drawer">
     <div class="drawer-header">
         <p>{title}</p>
-        <Icon
-            name="x"
-            class="x-icon"
-            style="padding: 4px;"
+        <button
+            class="btn-transparent"
+            style="width: 36px; padding: 4px;"
             on:click={() => close()}
-        />
+        >
+            <XIcon />
+        </button>
     </div>
     <div
         style="

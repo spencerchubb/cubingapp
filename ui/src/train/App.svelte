@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Drawer from "../lib/components/Drawer.svelte";
 	import GLManager from "../lib/components/GLManager.svelte";
-	import Icon from "../lib/components/Icon.svelte";
 	import Toggle from "../lib/components/Toggle.svelte";
 	import {
     closeModal,
@@ -39,6 +38,7 @@
 	import ProfileIcon from "../lib/components/icons/ProfileIcon.svelte";
 	import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
+    import PlusIcon from "../lib/components/icons/PlusIcon.svelte";
 
 	let drawerIndex = -1;
 
@@ -143,50 +143,38 @@
                 </div>
 				<div style="height: 16px" />
 				<div class="row" style="gap: 16px;">
-					<Icon
-						name="retry"
-						id="retry-icon"
-						style="
-						width: 48px;
-						height: 48px;
-						padding: 2px;
-						box-shadow: 0 0 4px var(--gray-400);"
-						on:click={() => {
-							currAlg = loadCurrAlg();
-						}}
-					/>
-					<Icon
-						name="sad"
-						id="sad-icon"
-						style="
-						width: 48px;
-						height: 48px;
-						padding: 2px;
-						box-shadow: 0 0 4px var(--gray-400);"
-						on:click={() => {
-							nextAlg(false, currAlgSet).then((res) => {
-								currAlg = res;
-								casesToday = getCasesToday();
-								getScramble();
-							});
-						}}
-					/>
-					<Icon
-						name="happy"
-						id="happy-icon"
-						style="
-						width: 48px;
-						height: 48px;
-						padding: 2px;
-						box-shadow: 0 0 4px var(--gray-400);"
-						on:click={() => {
-							nextAlg(true, currAlgSet).then((res) => {
-								currAlg = res;
-								casesToday = getCasesToday();
-								getScramble();
-							});
-						}}
-					/>
+                    <button
+                        class="train-btn"
+                        on:click={() => {
+                            currAlg = loadCurrAlg();
+                        }}
+                    >
+                        🔃
+                    </button>
+                    <button
+                        class="train-btn"
+                        on:click={() => {
+                            nextAlg(false, currAlgSet).then((res) => {
+                                currAlg = res;
+                                casesToday = getCasesToday();
+                                getScramble();
+                            });
+                        }}
+                    >
+                        😢
+                    </button>
+                    <button
+                        class="train-btn"
+                        on:click={() => {
+                            nextAlg(true, currAlgSet).then((res) => {
+                                currAlg = res;
+                                casesToday = getCasesToday();
+                                getScramble();
+                            });
+                        }}
+                    >
+                        😊
+                    </button>
 				</div>
 				<div style="height: 16px;" />
 				<button class="btn-primary" on:click={() => onClickSolutionButton()}>
@@ -268,12 +256,13 @@
 						<div style="height: 16px;" />
 						<div class="row">
 							<p>algorithms</p>
-							<Icon
-								name="plus"
-								id="plus-icon"
-								style="width: 24px; height: 24px; padding: 4px; margin-left: 4px;"
-								on:click={() => onAddAlgorithm()}
-							/>
+                            <button
+                                class="btn-transparent"
+                                style="width: 24px; height: 24px; padding: 4px; margin-left: 4px; border-radius: 50%;"
+                                on:click={() => onAddAlgorithm()}
+                            >
+                                <PlusIcon />
+                            </button>
 						</div>
 						{#each state.algSet?.trainingAlgs ?? [] as alg, i}
 							<button
@@ -346,24 +335,27 @@
 							>
 								<p style="font-size: 1.2rem;">{algSet.name}</p>
 								<div style="flex-grow: 1;" />
-                                <!-- TODO use EditIcon -->
-								<Icon
-									name="edit"
-									style="width: 30px; height: 30px; padding: 4px;"
-									on:click={() =>
-										algSetLogic.editAlgSet(algSet.id, state.algSets)}
-								/>
-								<div style="width: 16px;" />
-								<Icon
-									name="x"
-									style="width: 30px; height: 30px; padding: 4px;"
-									on:click={() =>
+                                <button
+                                    class="btn-transparent"
+                                    style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
+                                    on:click={() => {
+                                        algSetLogic.editAlgSet(algSet.id, state.algSets);
+                                    }}
+                                >
+                                    ✍
+                                </button>
+                                <button
+                                    class="btn-transparent"
+                                    style="padding: 2px; font-size: 1.8rem; min-width: 40px; height: 40px;"
+                                    on:click={() =>
 										algSetLogic.deleteAlgSet(
 											algSet.id,
 											state.algSets,
 											state.algSet
 										)}
-								/>
+                                >
+                                    🗑
+                                </button>
 							</button>
 						{/each}
 					</div>
@@ -419,38 +411,18 @@
 </main>
 
 <style>
-	:global(#retry-icon) {
-		background: var(--gray-500);
-	}
+    .train-btn {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        font-size: 1.5rem;
+        background-color: var(--gray-400);
+        box-shadow: 0 2px 8px -2px lightgray;
+    }
 
-	:global(#retry-icon:hover) {
-		background: var(--gray-700);
-	}
-
-	:global(#sad-icon) {
-		background: var(--red-500);
-	}
-
-	:global(#sad-icon:hover) {
-		background: var(--red-700);
-	}
-
-	:global(#happy-icon) {
-		background: var(--green-500);
-	}
-
-	:global(#happy-icon:hover) {
-		background: var(--green-700);
-	}
-
-	:global(#plus-icon:hover) {
-		background: inherit;
-	}
-
-	:global(#plus-icon:hover) {
-		background: var(--gray-500);
-		border-radius: 50%;
-	}
+    .train-btn:hover {
+        background-color: var(--gray-300);
+    }
 
 	.alg-list-item {
 		background-color: inherit;

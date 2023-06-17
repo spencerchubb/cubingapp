@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Icon from "./Icon.svelte";
+    import XIcon from "./icons/XIcon.svelte";
 
     export let open: boolean;
 
@@ -34,12 +34,13 @@
 <div {id} {style}>
     <div class="row" style="justify-content: space-between; padding: 8px;">
         <h5 style="color: white; font-size: 1.2rem;">Menu</h5>
-        <Icon
-            name="x"
-            class="x-icon"
+        <button
+            class="btn-transparent"
+            style="width: 36px; padding: 4px;"
             on:click={() => open = false}
-            style="padding: 4px;"
-        />
+        >
+            <XIcon />
+        </button>
     </div>
     <div style="display: flex; flex-direction: column; padding: 0 8px; gap: 8px;">
         <a href="/algdb.html">
