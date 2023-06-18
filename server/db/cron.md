@@ -5,5 +5,5 @@ To setup a cron job for database backups, follow these steps.
 2. Add the following to the crontab file.
 ```bash
 # Backup the CubingApp database every day.
-0 0 * * * cd /home/ubuntu/cubingapp/server/db && ./backup.sh
+0 0 * * * cd $HOME/cubingapp/server/db && ./backup.sh
 ```
