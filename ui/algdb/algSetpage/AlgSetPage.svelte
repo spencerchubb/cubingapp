@@ -10,9 +10,10 @@
     } from "./algSetPage";
     import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
     import { afterUpdate, onMount } from "svelte";
-    import Icon from "../../src/lib/components/Icon.svelte";
     import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
     import GithubIcon from "../../src/lib/components/icons/GithubIcon.svelte";
+    import PauseIcon from "../../src/lib/components/icons/PauseIcon.svelte";
+    import PlayIcon from "../../src/lib/components/icons/PlayIcon.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -92,28 +93,42 @@
                         </div>
                         {#each case_.algs ?? [] as alg1, i1}
                             <div class="row divider">
-                                <Icon
-                                    name={state.casePlaying === i && state.algPlaying === i1
-                                        ? "pause"
-                                        : "play"}
-                                    class="play-icon"
-                                    style="width: 24px; height: 24px; border-radius: 4px; border: solid 1px var(--gray-500); padding: 4px;"
-                                    on:click={() => play(i, i1)}
-                                />
+                                {#if state.casePlaying === i && state.algPlaying === i1}
+                                    <button
+                                        class="play-icon"
+                                        on:click={() => play(i, i1)}
+                                    >
+                                        <PauseIcon />
+                                    </button>
+                                {:else}
+                                    <button
+                                        class="play-icon"
+                                        on:click={() => play(i, i1)}
+                                    >
+                                        <PlayIcon />
+                                    </button>
+                                {/if}
                                 <div style="width: 8px;" />
                                 <p style="width: 100%;">{alg1}</p>
                             </div>
                         {/each}
                         {#each case_.variants ? case_.variants[state.selectedVariants[i] ?? 0].algs : [] as alg1, i1}
                             <div class="row divider">
-                                <Icon
-                                    name={state.casePlaying === i && state.algPlaying === i1
-                                        ? "pause"
-                                        : "play"}
-                                    class="play-icon"
-                                    style="width: 24px; height: 24px; border-radius: 4px; border: solid 1px var(--gray-500); padding: 4px;"
-                                    on:click={() => play(i, i1)}
-                                />
+                                {#if state.casePlaying === i && state.algPlaying === i1}
+                                    <button
+                                        class="play-icon"
+                                        on:click={() => play(i, i1)}
+                                    >
+                                        <PauseIcon />
+                                    </button>
+                                {:else}
+                                    <button
+                                        class="play-icon"
+                                        on:click={() => play(i, i1)}
+                                    >
+                                        <PlayIcon />
+                                    </button>
+                                {/if}
                                 <div style="width: 8px;" />
                                 <p style="width: 100%;">{alg1}</p>
                             </div>
@@ -175,11 +190,16 @@
         border-top: solid 1px var(--gray-500);
     }
 
-    :global(.play-icon) {
+    .play-icon {
         background: inherit;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        border: solid 1px var(--gray-500);
+        padding: 4px;
     }
 
-    :global(.play-icon:hover) {
+    .play-icon:hover {
         background: var(--gray-500);
     }
 </style>
