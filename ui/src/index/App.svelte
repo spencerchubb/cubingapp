@@ -4,12 +4,13 @@
 
     let scene: Scene;
 
-    const scram = "F U2 L2 B2 F' U L2 U R2 D2 L' B L2 B' R2 U2";
+    const scram = "D U F2' L2 U' B2 F2 D L2 U R' F' D R' F' U L D' F' D R2";
+    const soln = "x2 R' D D R' D L' U L D R' U' R D L U' L' U' R U R' d R' U' R r' U' R U' R' U U r U";
     function showSampleSolve() {
-        // Fun fact: This scramble and solution is Yusheng Du's world record solve.
+        // Fun fact: This scramble and solution is Max Park's world record solve.
         scene.puzzle.solve();
         scene.puzzle.performAlg(scram);
-        scene.puzzle.performAlgWithAnimation("y x' U R2 U' F' L F' U' L' U' R U R' R' U R U' U' R' U R U R' U' R U' R' U2 R U", () => {});
+        scene.puzzle.performAlgWithAnimation(soln, () => {});
     }
 </script>
 
