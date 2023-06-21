@@ -16,8 +16,7 @@ func CreateSession(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	id, err := db.CreateSession(session)
-	return map[string]interface{}{"id": id}, err
+	return db.CreateSession(session)
 }
 
 func ReadSessions(r *http.Request) (interface{}, error) {
