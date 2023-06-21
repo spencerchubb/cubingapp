@@ -37,7 +37,7 @@ func killPort(port string) {
 			return
 		}
 	} else {
-		command := fmt.Sprintf("lsof -i tcp:%s | grep LISTEN | awk '{print $2}' | xargs kill -9", port)
+		command := fmt.Sprintf("sudo lsof -i tcp:%s | grep LISTEN | awk '{print $2}' | sudo xargs kill -9", port)
 		err = exec.Command("bash", "-c", command).Run()
 		if err != nil {
 			fmt.Printf("Error during command: %s\n", command)
