@@ -42,8 +42,8 @@ export class AlgSetLogic {
         });
     }
 
-    async createPrebuiltAlgSet(uid: number, set: string, algSets: AlgSetAPI.MinAlgSet[]) {
-        const algSet = await AlgSetAPI.createPrebuilt(uid, set);
+    async createPrebuiltAlgSet(set: string, algSets: AlgSetAPI.MinAlgSet[]) {
+        const algSet = await AlgSetAPI.createPrebuilt(set);
         const newAlgSets = algSets
             ? [algSet, ...algSets]
             : [algSet];

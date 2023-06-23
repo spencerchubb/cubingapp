@@ -9,7 +9,7 @@ import (
 	util "server/src/util"
 )
 
-func CreateSolve(r *http.Request) (interface{}, error) {
+func CreateSolve(r *http.Request, uid int) (interface{}, error) {
 	var solve types.Solve
 	err := util.Unmarshal(r.Body, &solve)
 	if err != nil {
@@ -17,11 +17,10 @@ func CreateSolve(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	id, err := db.CreateSolve(solve)
-	return map[string]interface{}{"id": id}, err
+	return db.CreateSolve(uid, solve)
 }
 
-func ReadSolve(r *http.Request) (interface{}, error) {
+func ReadSolve(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
@@ -32,10 +31,10 @@ func ReadSolve(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	return db.ReadSolve(req.Id)
+	return db.ReadSolve(uid, req.Id)
 }
 
-func ReadSolves(r *http.Request) (interface{}, error) {
+func ReadSolves(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		SessionId int `json:"sessionId"`
 	}
@@ -46,10 +45,10 @@ func ReadSolves(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	return db.ReadSolves(req.SessionId)
+	return db.ReadSolves(uid, req.SessionId)
 }
 
-func DeleteSolve(r *http.Request) (interface{}, error) {
+func DeleteSolve(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}
@@ -60,6 +59,6 @@ func DeleteSolve(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	err = db.DeleteSolve(req.Id)
+	err = db.DeleteSolve(uid, req.Id)
 	return nil, err
 }

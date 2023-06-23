@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, type Auth } from "firebase/auth";
 
 export {
     log,
@@ -24,4 +24,4 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-const auth = () => getAuth(app);
+const auth = (): Auth => getAuth(app);

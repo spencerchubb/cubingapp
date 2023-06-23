@@ -65,3 +65,5 @@ node_modules/
 # dotenv environment variables
 .env
 .env-dev
+
+firebase-config.json

@@ -1,41 +1,40 @@
-import * as UserAPI from "./api/user";
 import { auth as _auth, log } from "./common/vars";
 import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
-    UserCredential,
+    User,
 } from "firebase/auth";
-import { getUser, removeUser, setUser } from "./store";
 
-export type AuthCallback = (user?: CubingAppUser, error?: String) => void;
+export type AuthCallback = (user: CubingUser, error?: String) => void;
 
-export class CubingAppUser {
+export type CubingUser = {
+    auth: boolean;
     email: string;
-    uid: number;
-
-    constructor(email: string, uid: number) {
-        this.email = email;
-        this.uid = uid;
-    }
-
-    static fromJsonString(s: string): CubingAppUser {
-        const json = JSON.parse(s);
-        return new CubingAppUser(json.email, json.uid);
-    }
-
-    /** Return data as a JSON string */
-    toJsonString() {
-        return JSON.stringify({
-            email: this.email,
-            uid: this.uid,
-        });
-    }
 }
 
-function logSignIn(user: CubingAppUser) {
-    log("Signed in as " + user.email + " with uid " + user.uid);
+export function getUser(): CubingUser | undefined {
+    const currentUser = _auth().currentUser;
+    if (!currentUser) return undefined;
+    return {
+        auth: true,
+        email: currentUser.email ?? "",
+    };
+}
+
+export function signOut() {
+    _auth().signOut();
+}
+
+export function addAuthCallback(callback: AuthCallback) {
+    _auth().onAuthStateChanged(user => {
+        if (user) {
+            successfulSignIn(user, callback);
+        } else {
+            callback({ auth: false, email: "" });
+        }
+    });
 }
 
 function errorCodeToMsg(code: string): string {
@@ -55,25 +54,12 @@ function errorCodeToMsg(code: string): string {
     }
 }
 
-export function initialAuthCheck(): CubingAppUser | undefined {
-    const userStr = getUser();
-    if (!userStr) return undefined;
-    const user = CubingAppUser.fromJsonString(userStr);
-    if (!user.email || !user.uid) {
-        removeUser();
-        return undefined;
-    }
-    logSignIn(user);
-    return user;
-}
-
-function successfulSignIn(userCredential: UserCredential, callback: AuthCallback) {
-    const email = userCredential.user.email ?? "";
-    UserAPI.user(email).then(uid => {
-        const user = new CubingAppUser(email, uid);
-        setUser(user.toJsonString());
-        logSignIn(user);
-        callback(user);
+async function successfulSignIn(user: User, callback: AuthCallback): Promise<void> {
+    const email = user.email ?? "";
+    log("Signed in as", email);
+    callback({
+        auth: true,
+        email,
     });
 }
 
@@ -82,11 +68,11 @@ export function _signInWithPopup(callback: AuthCallback) {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
         .then(userCredential => {
-            successfulSignIn(userCredential, callback);
+            successfulSignIn(userCredential.user, callback);
         })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback(undefined, msg);
+            callback({ auth: false, email: "" }, msg);
         });
 }
 
@@ -94,11 +80,11 @@ export function _createUserWithEmailAndPassword(email: string, password: string,
     const auth = _auth();
     createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
-            successfulSignIn(userCredential, callback);
+            successfulSignIn(userCredential.user, callback);
         })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback(undefined, msg);
+            callback({ auth: false, email: "" }, msg);
         });
 }
 
@@ -106,16 +92,15 @@ export function _signInWithEmailAndPassword(email: string, password: string, cal
     const auth = _auth();
     signInWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
-            successfulSignIn(userCredential, callback);
+            successfulSignIn(userCredential.user, callback);
         })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback(undefined, msg);
+            callback({ auth: false, email: "" }, msg);
         });
 }
 
-export function signOut() {
-    const auth = _auth();
-    auth.signOut();
-    removeUser();
+export async function getToken(): Promise<string | undefined> {
+    const user = _auth().currentUser;
+    return user?.getIdToken();
 }

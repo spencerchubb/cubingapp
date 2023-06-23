@@ -18,7 +18,6 @@
 		onDeleteAlgorithm,
 		onSaveAlgorithm,
 		onSignIn,
-		onSignOut,
 		Orientation,
 		orientationOptions,
 		setAlgSet,
@@ -39,6 +38,7 @@
 	import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
     import PlusIcon from "../lib/components/icons/PlusIcon.svelte";
+    import { signOut } from "../lib/scripts/auth";
 
 	let drawerIndex = -1;
 
@@ -217,7 +217,7 @@
 							class="btn-primary"
 							on:click={() => {
 								goToPage("landing");
-								onSignOut();
+								signOut();
 							}}
 						>
 							Sign Out
@@ -304,7 +304,7 @@
 						<button
 							on:click={() => {
 								algSetLogic
-									.createPrebuiltAlgSet(state.user.uid, set, state.algSets)
+									.createPrebuiltAlgSet(set, state.algSets)
 									.then(() => {
 										setAlgSet();
 										loadCurrAlg();

@@ -1,7 +1,7 @@
 import * as SessionsAPI from "../lib/scripts/api/sessions";
 import * as SolvesAPI from "../lib/scripts/api/solves";
 import { Scene, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
-import { CubingAppUser, initialAuthCheck } from "../lib/scripts/auth";
+import { CubingUser, addAuthCallback, getUser } from "../lib/scripts/auth";
 import { PuzzleTypes, getScramble } from "./scramble";
 
 export let callback: (state) => void;
@@ -27,8 +27,8 @@ export const puzzles = [
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
 type State = {
-    user?: CubingAppUser,
-    sessions: SessionsAPI.Session[],
+    user?: CubingUser,
+    sessions?: SessionsAPI.Session[],
     /** The session that is currently being edited or deleted */
     sessionEditing?: SessionsAPI.Session,
     solves: SolvesAPI.MinSolve[],
@@ -43,8 +43,8 @@ type State = {
 }
 
 let state: State = {
-    user: initialAuthCheck(),
-    sessions: [],
+    user: getUser(),
+    sessions: undefined,
     solves: [],
     puzzle: (localStorage.getItem("puzzle") as PuzzleTypes) ?? "3x3",
     scramble: "",
@@ -62,26 +62,39 @@ let inspectTime: number;
 let moves: string[] = [];
 let penalty: SolvesAPI.Penalty;
 
+addAuthCallback(user => {
+    state.user = user;
+    loadInitialSession();
+    callback(state);
+});
+
 export async function initApp(_scene) {
     scene = _scene;
 
     setPuzzle(state.puzzle);
     performNewScramble();
 
-    if (!state.user) return;
-    state.sessions = await SessionsAPI.readAll(state.user.uid);
+    loadInitialSession();
+}
+
+export async function loadInitialSession() {
+    if (!state.user?.auth) return;
+    state.sessions = await SessionsAPI.readAll();
     if (state.sessions.length === 0) {
-        createInitialSession(state.user.uid);
+        createInitialSession();
         return;
     }
     state.solves = await SolvesAPI.readAll(state.sessions[0].id);
     callback(state);
 }
 
-export async function createInitialSession(uid: number) {
-    if (!state.user) return;
-    const id = await SessionsAPI.create({ id: 0, uid, name: "Session 1" });
-    state.sessions = [{ id, uid, name: "Session 1" }];
+async function createInitialSession() {
+    if (!state.user?.auth) return;
+    if (state.sessions && state.sessions.length > 0) return;
+    state.sessions = await SessionsAPI.readAll();
+    if (state.sessions.length > 0) return;
+    const id = await SessionsAPI.create("Session 1");
+    state.sessions = [{ id, name: "Session 1" }];
     callback(state);
 }
 
@@ -267,22 +280,23 @@ export async function onDown() {
                 state.timerText = `${timeDifference.toFixed(2)}\nClick to scramble`;
             }
 
-            if (state.user) {
-                if (state.sessions.length === 0) {
-                    const id = await SessionsAPI.create({ id: 0, uid: state.user.uid, name: "Session 1" });
-                    state.sessions = [{ id, uid: state.user.uid, name: "Session 1" }];
-                }
+            if (state.user?.auth) {
+                state.sessions = (state.sessions && state.sessions.length > 1) ?
+                    state.sessions
+                    : [{ 
+                        id: await SessionsAPI.create("Session 1"),
+                        name: "Session 1",
+                    }];
                 state.solves.unshift({ id: 0, time: timeDifference });
                 SolvesAPI.create({
                     id: 0,
                     time: timeDifference,
-                    uid: state.user.uid,
                     scramble: state.scramble,
                     moves: moves.join(" "),
                     puzzle: state.puzzle,
                     sessionId: state.sessions[0].id,
                     penalty,
-                }).then(({ id }) => {
+                }).then((id) => {
                     state.solves[0].id = id;
                 });
                 moves = [];

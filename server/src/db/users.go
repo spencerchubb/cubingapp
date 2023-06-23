@@ -4,25 +4,21 @@ import (
 	"context"
 )
 
-func (db DB) GetAndSaveUser(email string) (int, error) {
+func (db DB) GetUID(email string) (int, error) {
 	// Check if user exists
-	sql := "SELECT * FROM users WHERE email = $1"
+	sql := "SELECT uid FROM users WHERE email = $1"
 	row := db.Conn.QueryRow(context.Background(), sql, email)
 
-	type User struct {
-		Uid   int    `json:"uid"`
-		Email string `json:"email"`
-	}
-	var user User
-	err := row.Scan(&user.Uid, &user.Email)
+	var uid int
+	err := row.Scan(&uid)
 	if err != nil {
 		// User doesn't exist, so create it
 		sql = "INSERT INTO users (email) VALUES ($1) RETURNING uid"
 		row = db.Conn.QueryRow(context.Background(), sql, email)
-		err := row.Scan(&user.Uid)
+		err := row.Scan(&uid)
 		if err != nil {
 			return -1, err
 		}
 	}
-	return user.Uid, nil
+	return uid, nil
 }

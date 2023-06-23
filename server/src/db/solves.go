@@ -5,23 +5,23 @@ import (
 	"server/src/types"
 )
 
-func (db DB) CreateSolve(solve types.Solve) (int, error) {
+func (db DB) CreateSolve(uid int, solve types.Solve) (int, error) {
 	sql := "INSERT INTO solves (uid, time, scramble, moves, puzzle, session_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;"
-	row := db.Conn.QueryRow(context.Background(), sql, solve.Uid, solve.Time, solve.Scramble, solve.Moves, solve.Puzzle, solve.SessionId)
+	row := db.Conn.QueryRow(context.Background(), sql, uid, solve.Time, solve.Scramble, solve.Moves, solve.Puzzle, solve.SessionId)
 	var id int
 	err := row.Scan(&id)
 	return id, err
 }
 
-func (db DB) ReadSolve(id int) (types.Solve, error) {
-	sql := "SELECT id, uid, time, scramble, moves, puzzle FROM solves WHERE id = $1;"
+func (db DB) ReadSolve(uid int, id int) (types.Solve, error) {
+	sql := "SELECT id, time, scramble, moves, puzzle FROM solves WHERE uid = $1 and id = $2;"
 	row := db.Conn.QueryRow(context.Background(), sql, id)
 	var solve types.Solve
-	err := row.Scan(&solve.Id, &solve.Uid, &solve.Time, &solve.Scramble, &solve.Moves, &solve.Puzzle)
+	err := row.Scan(&solve.Id, &solve.Time, &solve.Scramble, &solve.Moves, &solve.Puzzle)
 	return solve, err
 }
 
-func (db DB) ReadSolves(sessionId int) ([]types.Solve, error) {
+func (db DB) ReadSolves(uid int, sessionId int) ([]types.Solve, error) {
 	sql := `
 	SELECT id, time
 	FROM solves 
@@ -45,8 +45,8 @@ func (db DB) ReadSolves(sessionId int) ([]types.Solve, error) {
 	return solves, nil
 }
 
-func (db DB) DeleteSolve(uid int) error {
-	sql := "DELETE FROM solves WHERE id = $1;"
-	_, err := db.Conn.Exec(context.Background(), sql, uid)
+func (db DB) DeleteSolve(uid int, id int) error {
+	sql := "DELETE FROM solves WHERE uid = $1 and id = $1;"
+	_, err := db.Conn.Exec(context.Background(), sql, uid, id)
 	return err
 }

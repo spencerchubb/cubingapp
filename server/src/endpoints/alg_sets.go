@@ -10,7 +10,7 @@ import (
 	util "server/src/util"
 )
 
-func CreateAlgSet(r *http.Request) (interface{}, error) {
+func CreateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	var algSet types.AlgSet
 	err := util.Unmarshal(r.Body, &algSet)
 	if err != nil {
@@ -22,7 +22,7 @@ func CreateAlgSet(r *http.Request) (interface{}, error) {
 	return map[string]interface{}{"id": id}, err
 }
 
-func CreatePrebuiltAlgSet(r *http.Request) (interface{}, error) {
+func CreatePrebuiltAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Uid int    `json:"uid"`
 		Set string `json:"set"`
@@ -47,7 +47,7 @@ func CreatePrebuiltAlgSet(r *http.Request) (interface{}, error) {
 }
 
 // If Set="", return the most recent alg set.
-func ReadAlgSet(r *http.Request) (interface{}, error) {
+func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Uid int    `json:"uid"`
 		Set string `json:"set"`
@@ -65,7 +65,7 @@ func ReadAlgSet(r *http.Request) (interface{}, error) {
 	return db.ReadAlgSet(req.Uid, req.Set)
 }
 
-func ReadAlgSets(r *http.Request) (interface{}, error) {
+func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Uid int `json:"uid"`
 	}
@@ -79,7 +79,7 @@ func ReadAlgSets(r *http.Request) (interface{}, error) {
 	return db.ReadAlgSets(req.Uid)
 }
 
-func UpdateAlgSet(r *http.Request) (interface{}, error) {
+func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id           int                 `json:"id"`
 		Set          string              `json:"set"`
@@ -96,7 +96,7 @@ func UpdateAlgSet(r *http.Request) (interface{}, error) {
 	return nil, err
 }
 
-func DeleteAlgSet(r *http.Request) (interface{}, error) {
+func DeleteAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id int `json:"id"`
 	}

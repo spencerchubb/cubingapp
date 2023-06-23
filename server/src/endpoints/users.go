@@ -6,7 +6,7 @@ import (
 	util "server/src/util"
 )
 
-func User(r *http.Request) (interface{}, error) {
+func User(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Email string `json:"email"`
 	}
@@ -17,5 +17,5 @@ func User(r *http.Request) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	return db.GetAndSaveUser(req.Email)
+	return db.GetUID(req.Email)
 }

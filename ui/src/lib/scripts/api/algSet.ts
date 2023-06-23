@@ -27,16 +27,16 @@ export async function create(algSet: AlgSet): Promise<CreateTrainingAlgsResponse
     return post("/createAlgSet", algSet);
 }
 
-export async function createPrebuilt(uid: number, set: string): Promise<AlgSet> {
-    return post("/createPrebuiltAlgSet", { uid, set });
+export async function createPrebuilt(set: string): Promise<AlgSet> {
+    return post("/createPrebuiltAlgSet", { set });
 }
 
-export async function read(uid: number, set: string): Promise<AlgSet> {
-    return post("/readAlgSet", { uid, set });
+export async function read(set: string): Promise<AlgSet> {
+    return post("/readAlgSet", { set });
 }
 
-export async function readAll(uid: number): Promise<MinAlgSet[]> {
-    const result = await post("/readAlgSets", { uid });
+export async function readAll(): Promise<MinAlgSet[]> {
+    const result = await post("/readAlgSets", { });
     return result ?? [];
 }
 

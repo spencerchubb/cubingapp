@@ -44,11 +44,11 @@ Create the tables by running the script in /server/db/create_tables.sql
 
 ## 6. Set up environment variables
 
-Inside the /server directory, you should see a file called .env-template
+a. Inside the /server directory, you should see a file called .env-template. Copy .env-template and name it .env-dev
 
-Copy this and name it .env-dev
+b. Fill in the values for the environment variables
 
-Then fill in the values for the environment variables
+c. Put the Firebase config in firebase-config.json. This can be regenerated from the Firebase console if needed.
 
 ## 7. Run server
 

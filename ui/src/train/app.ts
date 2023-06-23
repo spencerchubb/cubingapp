@@ -3,10 +3,10 @@ import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randInt } from "../lib/scripts/common/rand";
 import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
-import { AlgSetStore, CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
+import { CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
-import { CubingAppUser, initialAuthCheck, signOut } from "../lib/scripts/auth";
+import { CubingUser, addAuthCallback, getUser } from "../lib/scripts/auth";
 
 const NEW_ALG_INDEX = -1;
 
@@ -41,7 +41,7 @@ export type ModalType = null | "choose alg set" | "create alg set" | "edit alg s
 
 export type UIState = {
     page: "landing" | "train",
-    user?: CubingAppUser,
+    user?: CubingUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
     algSets: AlgSetAPI.MinAlgSet[],
@@ -67,31 +67,29 @@ let uiState: UIState = {
     scramble: "",
 };
 
+addAuthCallback(user => {
+    uiState.user = user;
+    callback(uiState);
+})
+
 export async function initApp() {
-    uiState.user = initialAuthCheck();
+    uiState.user = getUser();
     if (!uiState.user) return;
 
-    uiState.algSets = await AlgSetAPI.readAll(uiState.user.uid);
+    uiState.algSets = await AlgSetAPI.readAll();
     if (!uiState.algSets) {
         callback(uiState);
         return;
     }
 
-    uiState.algSet = await AlgSetAPI.read(uiState.user.uid, "");
+    uiState.algSet = await AlgSetAPI.read("");
 
     callback(uiState);
 }
 
-export function onSignIn(user: CubingAppUser) {
+export function onSignIn(user: CubingUser) {
     uiState.user = user;
     callback(uiState);
-}
-
-export function onSignOut() {
-    uiState.user = undefined;
-    callback(uiState);
-
-    signOut();
 }
 
 export function goToPage(page: "landing" | "train") {
@@ -335,11 +333,6 @@ export async function nextAlg(promote: boolean, setName: string): Promise<string
     }
 
     if (uiState.algSet.id === -1) {
-        const uid = uiState.user?.uid;
-        if (!uid) {
-            console.error("uid undefined");
-            return "";
-        }
         const res = await AlgSetAPI.create(uiState.algSet);
         uiState.algSet.id = res.id;
     } else {

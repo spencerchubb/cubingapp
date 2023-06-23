@@ -7,7 +7,6 @@ type Move struct {
 
 type Solve struct {
 	Id        int     `json:"id"`
-	Uid       int     `json:"uid"`
 	Time      float32 `json:"time"`
 	Scramble  string  `json:"scramble"`
 	Moves     string  `json:"moves"`

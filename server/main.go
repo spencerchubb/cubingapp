@@ -19,28 +19,63 @@ var pgUrl = getEnv("PG_URL")
 var serverPort = getEnv("SERVER_PORT")
 var mode = getEnv("MODE")
 
-func root(r *http.Request) (interface{}, error) {
+func root(r *http.Request, uid int) (interface{}, error) {
 	msg := fmt.Sprintf("Invalid endpoint hit: %s", r.URL)
 	fmt.Println(msg)
 	return msg, nil
 }
 
-func hello(r *http.Request) (interface{}, error) {
+func hello(r *http.Request, uid int) (interface{}, error) {
 	return "Hello world!\n", nil
 }
 
-type Handler func(*http.Request) (interface{}, error)
+func writeError(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusInternalServerError)
+	w.Write([]byte("500 - Internal server error"))
+}
+
+// Handler is a function that handles an endpoint.
+// It takes in a request and a uid. It returns a result and an error.
+type Handler func(*http.Request, int) (interface{}, error)
 
 // Set up endpoint and enable CORS
-func handleFunc(pattern string, handler Handler) {
+func handleFunc(pattern string, handler Handler, requireAuth bool) {
 	http.HandleFunc(pattern, func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Endpoint hit: %s\n", pattern)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		result, err := handler(r)
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+
+		// Handle preflight requests
+		if r.Method == "OPTIONS" {
+			return
+		}
+
+		uid := 0
+		if requireAuth {
+			// Check if user is authenticated
+			authToken := r.Header.Get("Authorization")
+			email, err := verifyToken(authToken)
+			if err != nil {
+				fmt.Printf("Error verifying token %s: %s\n", authToken, err)
+				writeError(w)
+				return
+			}
+			fmt.Println("Authenticated email:", email)
+			db := db.GetDB()
+			uid, err = db.GetUID(email)
+			if err != nil {
+				fmt.Printf("Error getting uid for %s: %s\n", email, err)
+				writeError(w)
+				return
+			}
+			fmt.Println("Authenticated uid:", uid)
+			r.Header.Set("uid", fmt.Sprintf("%d", uid))
+		}
+
+		result, err := handler(r, uid)
 		if err != nil {
 			fmt.Printf("Error in %s: %v\n", pattern, err)
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("500 - Internal server error"))
+			writeError(w)
 			return
 		}
 
@@ -53,8 +88,7 @@ func handleFunc(pattern string, handler Handler) {
 		json, err := json.Marshal(result)
 		if err != nil {
 			fmt.Printf("Error while marshaling: %s\n", err)
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("500 - Internal server error"))
+			writeError(w)
 			return
 		}
 		w.Write(json)
@@ -82,27 +116,28 @@ func main() {
 	fmt.Println(time.Now().String())
 	var err error
 
-	handleFunc("/", root)
-	handleFunc("/hello", hello)
+	handleFunc("/", root, false)
+	handleFunc("/hello", hello, false)
 
-	handleFunc("/createAlgSet", endpoints.CreateAlgSet)
-	handleFunc("/createPrebuiltAlgSet", endpoints.CreatePrebuiltAlgSet)
-	handleFunc("/readAlgSet", endpoints.ReadAlgSet)
-	handleFunc("/readAlgSets", endpoints.ReadAlgSets)
-	handleFunc("/updateAlgSet", endpoints.UpdateAlgSet)
-	handleFunc("/deleteAlgSet", endpoints.DeleteAlgSet)
+	handleFunc("/createAlgSet", endpoints.CreateAlgSet, true)
+	handleFunc("/createPrebuiltAlgSet", endpoints.CreatePrebuiltAlgSet, true)
+	handleFunc("/readAlgSet", endpoints.ReadAlgSet, true)
+	handleFunc("/readAlgSets", endpoints.ReadAlgSets, true)
+	handleFunc("/updateAlgSet", endpoints.UpdateAlgSet, true)
+	handleFunc("/deleteAlgSet", endpoints.DeleteAlgSet, true)
 
-	handleFunc("/createSession", endpoints.CreateSession)
-	handleFunc("/readSessions", endpoints.ReadSessions)
-	handleFunc("/updateSession", endpoints.UpdateSession)
-	handleFunc("/deleteSession", endpoints.DeleteSession)
+	handleFunc("/createSession", endpoints.CreateSession, true)
+	handleFunc("/readSessions", endpoints.ReadSessions, true)
+	handleFunc("/updateSession", endpoints.UpdateSession, true)
+	handleFunc("/deleteSession", endpoints.DeleteSession, true)
 
-	handleFunc("/createSolve", endpoints.CreateSolve)
-	handleFunc("/readSolve", endpoints.ReadSolve)
-	handleFunc("/readSolves", endpoints.ReadSolves)
-	handleFunc("/deleteSolve", endpoints.DeleteSolve)
+	handleFunc("/createSolve", endpoints.CreateSolve, true)
+	handleFunc("/readSolve", endpoints.ReadSolve, true)
+	handleFunc("/readSolves", endpoints.ReadSolves, true)
+	handleFunc("/deleteSolve", endpoints.DeleteSolve, true)
 
-	handleFunc("/user", endpoints.User)
+	// TODO See if we can remove this endpoint
+	// handleFunc("/user", endpoints.User, true)
 
 	go func() {
 		err = listenAndServe()

@@ -9,7 +9,6 @@ export type Penalty = undefined | "+2" | "DNF";
 
 export type Solve = 
     MinSolve & {
-    uid: number;
     scramble: string;
     moves: string;
     puzzle: string;
@@ -17,7 +16,7 @@ export type Solve =
     penalty: Penalty;
 }
 
-export async function create(solve: Solve): Promise<{ id: number }> {
+export async function create(solve: Solve): Promise<number> {
     return post("/createSolve", solve);
 }
 

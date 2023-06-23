@@ -2,16 +2,15 @@ import { post } from "./common";
 
 export type Session = {
     id: number;
-    uid: number;
     name: string;
 }
 
-export async function create(session: Session): Promise<number> {
-    return post("/createSession", session);
+export async function create(name: string): Promise<number> {
+    return post("/createSession", { name });
 }
 
-export async function readAll(uid: number): Promise<Session[]> {
-    return (await post("/readSessions", { uid })) ?? [];
+export async function readAll(): Promise<Session[]> {
+    return (await post("/readSessions", {})) ?? [];
 }
 
 export async function update(session: Session): Promise<void> {

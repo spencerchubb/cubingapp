@@ -14,7 +14,7 @@
         solve,
         type TimerStatus,
         callback,
-        createInitialSession,
+        loadInitialSession,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -27,6 +27,7 @@
     import Modal from "../lib/components/Modal.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
     import * as SolvesAPI from "../lib/scripts/api/solves";
+    import { signOut } from "../lib/scripts/auth";
 
     let scene: Scene;
 
@@ -109,7 +110,11 @@
         </div>
         {#if drawerIndex === 0}
             <Drawer title="Solves" bind:drawerIndex>
-                {#if state.user}
+                {#if !state.user || (state.user?.auth && !state.sessions)}
+                    <div style="display: flex; padding: 16px; justify-content: center;">
+                        <div class="spinner"></div>
+                    </div>
+                {:else if state.user?.auth && state.sessions}
                     <div class="col" style="align-items: start; padding: 16px; gap: 16px;">
                         <button
                             class="row"
@@ -119,7 +124,7 @@
                             }}
                         >
                             {state.sessions.length === 0
-                                ? "Session 1"
+                                ? "loading..."
                                 : state.sessions[0].name}
                             <div style="width: 20px; height: 20px;">
                                 <ChevronDown />
@@ -129,7 +134,10 @@
                             <p>{state.solves.length - i}. {solve.time}</p>
                         {/each}
                         {#if state.solves.length === 0}
-                            <p>No solves yet. Try doing a solve, then your times will appear here 😎</p>
+                            <p>
+                                No solves in <i>{state.sessions[0].name}</i>. 
+                                Do a solve, then your times will appear here 😎
+                            </p>
                         {/if}
                     </div>
                 {:else}
@@ -138,7 +146,7 @@
                         <Auth 
                             onSignIn={(user) => {
                                 callback({ user });
-                                createInitialSession(user.uid);
+                                loadInitialSession();
                             }}
                         />
                     </div>
@@ -177,6 +185,14 @@
                             on:change={setInspection}
                         />
                     </div>
+                    {#if state.user?.auth}
+                        <div style="width: 100%; height: 1px; background: var(--gray-600);"></div>
+                        <button
+                            on:click={signOut}
+                        >
+                            Sign out
+                        </button>
+                    {/if}
                 </div>
             </Drawer>
         {/if}
@@ -224,11 +240,15 @@
                     <button
                         on:click={() => {
                             SessionsAPI.del(state.sessionEditing.id);
-                            callback({
-                                modalType: "select session",
-                                sessions: state.sessions.filter((session) => {
-                                    return session.id !== state.sessionEditing.id;
-                                }),
+                            const sessions = state.sessions.filter((session) => {
+                                return session.id !== state.sessionEditing.id;
+                            });
+                            SolvesAPI.readAll(sessions[0].id).then(solves => {
+                                callback({
+                                    modalType: "select session",
+                                    sessions,
+                                    solves,
+                                });
                             });
                         }}
                     >
@@ -246,12 +266,13 @@
                     </button>
                     <button
                         on:click={() => {
-                            SessionsAPI.create(state.sessionEditing)
+                            SessionsAPI.create(state.sessionEditing.name)
                                 .then(id => {
                                     state.sessionEditing.id = id;
                                     callback({
                                         modalType: "select session",
                                         sessions: [state.sessionEditing, ...state.sessions],
+                                        solves: [],
                                     });
                                 });
                         }}
@@ -263,7 +284,7 @@
                 <button on:click={() => {
                     callback({
                         modalType: "new session",
-                        sessionEditing: { uid: state.user.uid, name: "" },
+                        sessionEditing: { name: "" },
                     });
                 }}>
                     New session

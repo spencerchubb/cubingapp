@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth, connectAuthEmulator, type Auth } from "firebase/auth";
 
 export {
     log,
@@ -26,7 +26,7 @@ export const app = initializeApp(firebaseConfig);
 
 // Use singleton pattern because connectAuthEmulator can only be called once
 let authSingleton;
-const auth = () => {
+const auth = (): Auth => {
     if (authSingleton) return authSingleton;
 
     authSingleton = getAuth(app);

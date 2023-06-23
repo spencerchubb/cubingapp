@@ -10,7 +10,6 @@ const keyboard = "keyboard";
 const orientation = "orientation";
 const showBody = "showBody";
 const showScramble = "showScramble";
-const user = "user";
 
 // TODO see if can be removed
 export const AlgSetStore = {
@@ -86,24 +85,12 @@ export const ShowScrambleStore = {
     set: (value: boolean) => setBool(showScramble, value),
 }
 
-export function getUser() {
-    return localStorage.getItem(user);
-}
-
-export function removeUser() {
-    localStorage.removeItem(user);
-}
-
-export function setUser(value) {
-    localStorage.setItem(user, value);
-}
-
 /**
  * Returns the current boolean associated with the given key, or defaultValue if the given key does not exist.
  */
 function getBool(key: string): boolean {
     const value = localStorage.getItem(key);
-    if (value === null) return null;
+    if (value === null) return false;
     return value == "1";
 }
 
