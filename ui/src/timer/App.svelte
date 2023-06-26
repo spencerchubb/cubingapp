@@ -14,7 +14,6 @@
         solve,
         type TimerStatus,
         callback,
-        loadInitialSession,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -144,12 +143,7 @@
                 {:else}
                     <div class="col" style="align-items: center; padding: 16px; gap: 16px;">
                         <p>Want to save your solves?</p>
-                        <Auth 
-                            onSignIn={(user) => {
-                                callback({ user });
-                                loadInitialSession();
-                            }}
-                        />
+                        <Auth />
                     </div>
                 {/if}
             </Drawer>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { CubingUser } from "../../scripts/auth";
+    import type { OnError } from "../../scripts/auth";
 
     import ButtonCreateAccount from "./ButtonCreateAccount.svelte";
     import ButtonGoogleSignIn from "./ButtonGoogleSignIn.svelte";
@@ -7,20 +7,17 @@
     import InputEmail from "./InputEmail.svelte";
     import InputPassword from "./InputPassword.svelte";
 
-    export let onSignIn: (user: CubingUser) => void;
-
     let email = "";
     let password = "";
     let error: string | undefined;
 
-    function _onSignIn(user: CubingUser, _error?: string) {
-        error = _error;
-        if (user) onSignIn(user);
+    const _onError: OnError = (msg: string) => {
+        error = msg;
     }
 </script>
 
 <div class="col">
-    <ButtonGoogleSignIn callback={_onSignIn} />
+    <ButtonGoogleSignIn onError={_onError} />
     <div style="height: 16px;" />
     <div
         style="width: 100%; height: 2px; background-color: var(--gray-600);"
@@ -36,12 +33,12 @@
         <ButtonCreateAccount
             {email}
             {password}
-            callback={_onSignIn}
+            onError={_onError}
         />
         <ButtonSignIn
             {email}
             {password}
-            callback={_onSignIn}
+            onError={_onError}
         />
     </div>
     {#if error}

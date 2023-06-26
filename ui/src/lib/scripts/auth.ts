@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 
 export type AuthCallback = (user: CubingUser, error?: String) => void;
+export type OnError = (msg: string) => void;
 
 export type CubingUser = {
     auth: boolean;
@@ -63,40 +64,31 @@ async function successfulSignIn(user: User, callback: AuthCallback): Promise<voi
     });
 }
 
-export function _signInWithPopup(callback: AuthCallback) {
+export function _signInWithPopup(onError: OnError) {
     const auth = _auth();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-        .then(userCredential => {
-            successfulSignIn(userCredential.user, callback);
-        })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback({ auth: false, email: "" }, msg);
+            onError(msg);
         });
 }
 
-export function _createUserWithEmailAndPassword(email: string, password: string, callback: AuthCallback) {
+export function _createUserWithEmailAndPassword(email: string, password: string, onError: OnError) {
     const auth = _auth();
     createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-            successfulSignIn(userCredential.user, callback);
-        })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback({ auth: false, email: "" }, msg);
+            onError(msg);
         });
 }
 
-export function _signInWithEmailAndPassword(email: string, password: string, callback: AuthCallback) {
+export function _signInWithEmailAndPassword(email: string, password: string, onError: OnError) {
     const auth = _auth();
     signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-            successfulSignIn(userCredential.user, callback);
-        })
         .catch(error => {
             const msg = errorCodeToMsg(error.code);
-            callback({ auth: false, email: "" }, msg);
+            onError(msg);
         });
 }
 

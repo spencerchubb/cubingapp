@@ -77,7 +77,7 @@ export async function initApp(_scene) {
     loadInitialSession();
 }
 
-export async function loadInitialSession() {
+async function loadInitialSession() {
     if (!state.user?.auth) return;
     state.sessions = await SessionsAPI.readAll();
     if (state.sessions.length === 0) {

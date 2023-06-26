@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { type AuthCallback, _signInWithPopup } from "../../scripts/auth";
+    import { _signInWithPopup, type OnError } from "../../scripts/auth";
 
-    export let callback: AuthCallback;
+    export let onError: OnError;
 </script>
 
 <button
-    on:click={() => _signInWithPopup(callback)}
+    on:click={() => _signInWithPopup(onError)}
     class="btn-white"
 >
     <div class="row">

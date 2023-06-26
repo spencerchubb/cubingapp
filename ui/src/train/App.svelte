@@ -19,7 +19,7 @@
 	} from "./app";
 	import SideNav from "../lib/components/SideNav.svelte";
 	import Modal from "../lib/components/Modal.svelte";
-	import { AlgSetLogic, preBuiltSets } from "./algSet";
+	import { AlgSetLogic } from "./algSet";
 	import Faq from "./Faq.svelte";
 	import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 	import ChartIcon from "../lib/components/icons/ChartIcon.svelte";
@@ -99,10 +99,9 @@
                         padding: 16px; 
                         box-shadow: 0 0 4px lightgray;"
                     >
-                        <Auth onSignIn={_ => {}} />
+                        <Auth />
                     </div>
-                {/if}
-				{#if state.algSets}
+				{:else if state.algSets}
                     <ChooseAlgSet {state} {callback} />
 				{:else}
 					<div class="spinner"></div>
