@@ -11,20 +11,7 @@ import (
 )
 
 func CreateAlgSet(r *http.Request, uid int) (interface{}, error) {
-	var algSet types.AlgSet
-	err := util.Unmarshal(r.Body, &algSet)
-	if err != nil {
-		return nil, err
-	}
-
-	db := db.GetDB()
-	id, err := db.CreateAlgSet(algSet)
-	return map[string]interface{}{"id": id}, err
-}
-
-func CreatePrebuiltAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
-		Uid int    `json:"uid"`
 		Set string `json:"set"`
 	}
 	var req Request
@@ -36,21 +23,19 @@ func CreatePrebuiltAlgSet(r *http.Request, uid int) (interface{}, error) {
 	algs := readAlgsFromJson("../algs/algs.json")
 	algSet := findAlgSet(algs, req.Set)
 	trainingAlgs := initZeroScores(algSet.Algs)
-	algSet.Uid = req.Uid
 	algSet.Name = req.Set
 	algSet.TrainingAlgs = trainingAlgs
 
 	db := db.GetDB()
-	id, err := db.CreateAlgSet(algSet)
+	id, err := db.CreateAlgSet(uid, algSet)
 	algSet.Id = id
 	return algSet, err
 }
 
-// If Set="", return the most recent alg set.
+// If Id=0, return the most recent alg set.
 func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
-		Uid int    `json:"uid"`
-		Set string `json:"set"`
+		Id int `json:"id"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
@@ -59,24 +44,15 @@ func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	if req.Set == "" {
-		return db.ReadRecentAlgSet(req.Uid)
+	if req.Id == 0 {
+		return db.ReadRecentAlgSet(uid)
 	}
-	return db.ReadAlgSet(req.Uid, req.Set)
+	return db.ReadAlgSet(uid, req.Id)
 }
 
 func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
-	type Request struct {
-		Uid int `json:"uid"`
-	}
-	var req Request
-	err := util.Unmarshal(r.Body, &req)
-	if err != nil {
-		return nil, err
-	}
-
 	db := db.GetDB()
-	return db.ReadAlgSets(req.Uid)
+	return db.ReadAlgSets(uid)
 }
 
 func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
@@ -92,7 +68,7 @@ func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	err = db.UpdateAlgSet(req.Id, req.Set, req.TrainingAlgs)
+	err = db.UpdateAlgSet(uid, req.Id, req.Set, req.TrainingAlgs)
 	return nil, err
 }
 
@@ -107,7 +83,7 @@ func DeleteAlgSet(r *http.Request, uid int) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	err = db.DeleteAlgSet(req.Id)
+	err = db.DeleteAlgSet(uid, req.Id)
 	return nil, err
 }
 

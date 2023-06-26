@@ -158,14 +158,14 @@ function initProgram(gl: WebGLRenderingContext): ProgramInfo {
 }
 
 type Scene = {
-    div: HTMLElement,
+    div: HTMLElement, // TODO see if div can be removed
     puzzle: Puzzle,
     dragEnabled: boolean,
     enableKey: (event: KeyboardEvent) => boolean,
 };
 
 type InternalScene = {
-    div: HTMLElement,
+    div: HTMLElement, // TODO see if div can be removed
     puzzle: Puzzle,
     spring: Spring,
 };
@@ -192,7 +192,7 @@ function newCube(div: HTMLElement, layers: number = 3): Scene {
         return scene;
     }
 
-    let perspective = initPerspective(div);
+    let perspective = initPerspective();
 
     let cube = new Cube(gl, perspective, layers);
 
@@ -230,7 +230,7 @@ function newPyraminx(div: HTMLElement): Scene {
         return scene;
     }
 
-    const perspective = initPerspective(div);
+    const perspective = initPerspective();
 
     let pyraminx = new Pyraminx(gl, perspective);
 
@@ -258,12 +258,12 @@ function newPyraminx(div: HTMLElement): Scene {
     return scene;
 }
 
-function initPerspective(element: HTMLElement) {
+function initPerspective() {
     let mat = glMat.create();
 
     glMat.perspective(mat,
         50 * Math.PI / 180, // field of view
-        element.clientWidth / element.clientHeight, // aspect
+        1, // aspect
         0.1, // z near
         100.0); // z far
 

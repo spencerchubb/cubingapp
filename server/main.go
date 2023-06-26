@@ -60,7 +60,6 @@ func handleFunc(pattern string, handler Handler, requireAuth bool) {
 				writeError(w)
 				return
 			}
-			fmt.Println("Authenticated email:", email)
 			db := db.GetDB()
 			uid, err = db.GetUID(email)
 			if err != nil {
@@ -68,8 +67,6 @@ func handleFunc(pattern string, handler Handler, requireAuth bool) {
 				writeError(w)
 				return
 			}
-			fmt.Println("Authenticated uid:", uid)
-			r.Header.Set("uid", fmt.Sprintf("%d", uid))
 		}
 
 		result, err := handler(r, uid)
@@ -120,7 +117,6 @@ func main() {
 	handleFunc("/hello", hello, false)
 
 	handleFunc("/createAlgSet", endpoints.CreateAlgSet, true)
-	handleFunc("/createPrebuiltAlgSet", endpoints.CreatePrebuiltAlgSet, true)
 	handleFunc("/readAlgSet", endpoints.ReadAlgSet, true)
 	handleFunc("/readAlgSets", endpoints.ReadAlgSets, true)
 	handleFunc("/updateAlgSet", endpoints.UpdateAlgSet, true)
@@ -135,9 +131,6 @@ func main() {
 	handleFunc("/readSolve", endpoints.ReadSolve, true)
 	handleFunc("/readSolves", endpoints.ReadSolves, true)
 	handleFunc("/deleteSolve", endpoints.DeleteSolve, true)
-
-	// TODO See if we can remove this endpoint
-	// handleFunc("/user", endpoints.User, true)
 
 	go func() {
 		err = listenAndServe()

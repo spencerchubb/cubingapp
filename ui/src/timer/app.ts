@@ -43,7 +43,7 @@ type State = {
 }
 
 let state: State = {
-    user: getUser(),
+    user: getUser(), // TODO see if we can make this undefined and get rid of the function
     sessions: undefined,
     solves: [],
     puzzle: (localStorage.getItem("puzzle") as PuzzleTypes) ?? "3x3",

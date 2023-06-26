@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { CubingAppUser } from "../../scripts/auth";
+    import type { CubingUser } from "../../scripts/auth";
 
     import ButtonCreateAccount from "./ButtonCreateAccount.svelte";
     import ButtonGoogleSignIn from "./ButtonGoogleSignIn.svelte";
@@ -7,13 +7,13 @@
     import InputEmail from "./InputEmail.svelte";
     import InputPassword from "./InputPassword.svelte";
 
-    export let onSignIn: (user: CubingAppUser) => void;
+    export let onSignIn: (user: CubingUser) => void;
 
     let email = "";
     let password = "";
     let error: string | undefined;
 
-    function _onSignIn(user: CubingAppUser, _error?: string) {
+    function _onSignIn(user: CubingUser, _error?: string) {
         error = _error;
         if (user) onSignIn(user);
     }

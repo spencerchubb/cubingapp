@@ -7,7 +7,6 @@ type TrainingAlg struct {
 
 type AlgSet struct {
 	Id              int           `json:"id"`
-	Uid             int           `json:"uid"`
 	Name            string        `json:"name"`
 	TrainingAlgs    []TrainingAlg `json:"trainingAlgs"`
 	Puzzle          string        `json:"puzzle"`

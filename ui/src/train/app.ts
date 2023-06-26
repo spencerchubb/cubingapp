@@ -3,16 +3,14 @@ import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randInt } from "../lib/scripts/common/rand";
 import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
-import { CasesTodayStore, OrientationStore, ShowScrambleStore } from "../lib/scripts/store";
+import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
-import { CubingUser, addAuthCallback, getUser } from "../lib/scripts/auth";
-
-const NEW_ALG_INDEX = -1;
+import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
 
 type State = {
     showSolution: boolean,
-    scene: Scene,
+    scene?: Scene,
     preAUF: string,
     postAUF: string,
     orientation: string,
@@ -20,16 +18,19 @@ type State = {
 
 let state: State = {
     showSolution: false,
-    scene: {} as Scene,
+    scene: undefined,
     preAUF: "",
     postAUF: "",
-    orientation: OrientationStore.get(),
+    orientation: localStorage.getItem("orientation") ?? "",
 };
 
-let callback: (state) => void;
+export let callback: (state) => void;
 
 export function setCallback(_callback: (state) => void) {
-    callback = _callback;
+    callback = (_state) => {
+        uiState = Object.assign(uiState, _state);
+        _callback(uiState);
+    };
     return uiState;
 }
 
@@ -37,14 +38,14 @@ export function setUIState(newState: UIState) {
     uiState = newState;
 }
 
-export type ModalType = null | "choose alg set" | "create alg set" | "edit alg set" | "edit alg";
+export type ModalType = undefined | "choose alg set" | "delete alg set" | "edit alg set";
 
 export type UIState = {
     page: "landing" | "train",
     user?: CubingUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
-    algSets: AlgSetAPI.MinAlgSet[],
+    algSets?: AlgSetAPI.MinAlgSet[],
     solutionButtonText: string,
     modalType: ModalType,
     selectedAlg: AlgSetAPI.TrainingAlg,
@@ -58,9 +59,9 @@ let uiState: UIState = {
     user: undefined,
     algSet: {} as AlgSetAPI.AlgSet,
     algSetEditing: undefined,
-    algSets: [],
+    algSets: undefined,
     solutionButtonText: "show solution",
-    modalType: null,
+    modalType: undefined,
     selectedAlg: { Score: 0, Alg: "" },
     selectedAlgIndex: 0,
     showScramble: ShowScrambleStore.get(),
@@ -70,35 +71,14 @@ let uiState: UIState = {
 addAuthCallback(user => {
     uiState.user = user;
     callback(uiState);
-})
 
-export async function initApp() {
-    uiState.user = getUser();
-    if (!uiState.user) return;
-
-    uiState.algSets = await AlgSetAPI.readAll();
-    if (!uiState.algSets) {
-        callback(uiState);
-        return;
+    if (user.auth) {
+        initApp();
     }
+});
 
-    uiState.algSet = await AlgSetAPI.read("");
-
-    callback(uiState);
-}
-
-export function onSignIn(user: CubingUser) {
-    uiState.user = user;
-    callback(uiState);
-}
-
-export function goToPage(page: "landing" | "train") {
-    uiState.page = page;
-    callback(uiState);
-}
-
-export function closeModal() {
-    uiState.modalType = null;
+async function initApp() {
+    uiState.algSets = await AlgSetAPI.readAll();
     callback(uiState);
 }
 
@@ -108,72 +88,6 @@ export function onClickSolutionButton() {
         ? applyAUFs(getFirstAlg())
         : "show solution";
     callback(uiState);
-}
-
-
-export function onClickAlgorithm(algIndex: number) {
-    uiState.modalType = "edit alg";
-    const alg = uiState.algSet?.trainingAlgs[algIndex];
-    uiState.selectedAlg = JSON.parse(JSON.stringify(alg));
-    uiState.selectedAlgIndex = algIndex;
-    callback(uiState);
-}
-
-export function onAddAlgorithm() {
-    uiState.selectedAlg = {
-        Alg: "",
-        Score: 0,
-    };
-    uiState.selectedAlgIndex = NEW_ALG_INDEX;
-    uiState.modalType = "edit alg";
-    callback(uiState);
-}
-
-export function onChangeAlgorithm(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (!uiState.selectedAlg) {
-        console.error("uiState.selectedAlg is undefined");
-        return;
-    }
-    uiState.selectedAlg.Alg = target.value;
-}
-
-export function onDeleteAlgorithm() {
-    if (uiState.selectedAlgIndex === NEW_ALG_INDEX) {
-        uiState.modalType = null;
-        callback(uiState);
-        return;
-    }
-
-    uiState.algSet?.trainingAlgs.splice(uiState.selectedAlgIndex, 1);
-    uiState.modalType = null;
-    callback(uiState);
-
-    if (!uiState.algSet) {
-        console.error("uiState.algSet is undefined");
-        return;
-    }
-    const { id, name, trainingAlgs } = uiState.algSet;
-    AlgSetAPI.update(id, name, trainingAlgs);
-}
-
-export function onSaveAlgorithm() {
-    // If adding new alg, prepend it to the list.
-    // Otherwise, replace the alg at the selected index.
-    if (uiState.selectedAlgIndex === NEW_ALG_INDEX) {
-        uiState.algSet?.trainingAlgs.unshift(uiState.selectedAlg);
-    } else {
-        const alg = uiState.selectedAlg;
-        const algIndex = uiState.selectedAlgIndex;
-        uiState.algSet.trainingAlgs[algIndex] = alg;
-    }
-    uiState.modalType = null;
-    callback(uiState);
-
-    const { id, name, trainingAlgs } = uiState.algSet;
-    AlgSetAPI.update(id, name, trainingAlgs);
-
-    loadCurrAlg();
 }
 
 function applyAUFs(alg: string): string {
@@ -273,7 +187,7 @@ export function computeStats(): { reps: number, algs: number, ratio: number }[] 
 
 function getFirstAlg(): string {
     if (!uiState.algSet?.trainingAlgs) {
-        console.log("No algs")
+        log("No algs")
         uiState.modalType = "choose alg set";
         callback(uiState);
         return "";
@@ -282,13 +196,7 @@ function getFirstAlg(): string {
     return trainingAlgs[0].Alg;
 }
 
-export function setAlgSet() {
-    const scene = state.scene;
-    if (!scene) {
-        console.error("Scene not set. Have you called setScene()?");
-        return;
-    }
-
+function setAlgSet(scene: Scene) {
     if (uiState.algSet.puzzle == "2x2") {
         newCube(scene.div, 2);
     } else if (uiState.algSet.puzzle == "3x3") {
@@ -312,33 +220,31 @@ export function loadCurrAlg(): string {
     state.preAUF = generateRandAUF();
     state.postAUF = generateRandAUF();
 
-    setAlgSet();
-
+    
     const scene = state.scene;
+    if (!scene) return "";
+    
+    getScramble();
+
+    setAlgSet(scene);
+
     scene.puzzle.performAlg(state.orientation);
 
     let algWithAUFs = applyAUFs(alg);
     scene.puzzle.performAlg(invertAlg(algWithAUFs));
 
-    getScramble();
-
     return alg;
 }
 
-export async function nextAlg(promote: boolean, setName: string): Promise<string> {
+export async function nextAlg(promote: boolean): Promise<string> {
     if (promote) {
         promoteAlg(uiState.algSet.trainingAlgs);
     } else {
         demoteAlg(uiState.algSet.trainingAlgs);
     }
 
-    if (uiState.algSet.id === -1) {
-        const res = await AlgSetAPI.create(uiState.algSet);
-        uiState.algSet.id = res.id;
-    } else {
-        const { id, name, trainingAlgs } = uiState.algSet;
-        AlgSetAPI.update(id, name, trainingAlgs);
-    }
+    const { id, name, trainingAlgs } = uiState.algSet;
+    AlgSetAPI.update(id, name, trainingAlgs);
     
     incrementCasesToday();
 
@@ -350,10 +256,13 @@ export function getAlgSetNames(): string[] {
 }
 
 export async function getScramble(): Promise<void> {
+    const scene = state.scene;
+    if (!scene) return;
+
     if (!uiState.showScramble) return;
 
     // The algorithm should already be applied to the puzzle.
-    const puzzle = state.scene.puzzle;
+    const puzzle = scene.puzzle;
     if (puzzle.stickers.every((val, idx) => val === idx)) {
         log("Passed a solved puzzle into getScramble");
         return;
@@ -362,8 +271,6 @@ export async function getScramble(): Promise<void> {
     uiState.scramble = "loading...";
     callback(uiState);
 
-    const scene = state.scene;
-    
     let alg = getFirstAlg();
     alg = applyAUFs(alg);
     alg = invertAlg(alg);
@@ -434,10 +341,10 @@ export const orientationOptions: {
 ];
 
 export let Orientation = {
-    get: OrientationStore.get,
+    get: () => localStorage.getItem("orientation") ?? "",
     set: (orientation: string) => {
         state.orientation = orientation;
-        OrientationStore.set(orientation);
+        localStorage.setItem("orientation", orientation);
 
         loadCurrAlg();
     },

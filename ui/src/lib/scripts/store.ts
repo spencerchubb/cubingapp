@@ -11,12 +11,6 @@ const orientation = "orientation";
 const showBody = "showBody";
 const showScramble = "showScramble";
 
-// TODO see if can be removed
-export const AlgSetStore = {
-    get: (): number => getInt(algSet) ?? -1,
-    set: (value: number) => setInt(algSet, value),
-}
-
 export function getAnimateTurns() {
     return getBool(animateTurns) ?? true;
 }
@@ -62,15 +56,6 @@ export function getKeyboard() {
 export function setKeyboard(value) {
     localStorage.setItem(keyboard, value);
 }
-
-export let OrientationStore = {
-    get: (): string => {
-        return localStorage.getItem(orientation) ?? "";
-    },
-    set: (value: string) => {
-        localStorage.setItem(orientation, value);
-    },
-};
 
 export function getShowBody() {
     return getBool(showBody) ?? true;

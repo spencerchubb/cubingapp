@@ -3,24 +3,15 @@
 	import GLManager from "../lib/components/GLManager.svelte";
 	import Toggle from "../lib/components/Toggle.svelte";
 	import {
-    closeModal,
+        callback,
 		computeStats,
 		getCasesToday,
 		getScramble,
-		goToPage,
-		initApp,
 		loadCurrAlg,
 		nextAlg,
-		onAddAlgorithm,
-		onChangeAlgorithm,
-		onClickAlgorithm,
 		onClickSolutionButton,
-		onDeleteAlgorithm,
-		onSaveAlgorithm,
-		onSignIn,
 		Orientation,
 		orientationOptions,
-		setAlgSet,
 		setCallback,
 		setScene,
 		setShowScramble,
@@ -28,7 +19,6 @@
 	} from "./app";
 	import SideNav from "../lib/components/SideNav.svelte";
 	import Modal from "../lib/components/Modal.svelte";
-	import { onMount } from "svelte";
 	import { AlgSetLogic, preBuiltSets } from "./algSet";
 	import Faq from "./Faq.svelte";
 	import NavBarIcon from "../lib/components/NavBarIcon.svelte";
@@ -37,13 +27,12 @@
 	import ProfileIcon from "../lib/components/icons/ProfileIcon.svelte";
 	import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
-    import PlusIcon from "../lib/components/icons/PlusIcon.svelte";
     import { signOut } from "../lib/scripts/auth";
+    import DropDownButton from "../lib/components/DropDownButton.svelte";
+    import * as AlgSetAPI from "../lib/scripts/api/algSet";
+    import ChooseAlgSet from "./ChooseAlgSet.svelte";
 
 	let drawerIndex = -1;
-
-	let currAlgSet: string;
-	let currAlg: string; // TODO see if this variable is necessary
 
 	let orientation = Orientation.get();
 
@@ -60,15 +49,9 @@
 		state = Object.assign(state, newState);
 	});
 
-	$: modalOpen = state.modalType !== null;
-
 	const algSetLogic = new AlgSetLogic((newState) => {
 		state = Object.assign(state, newState);
 		setUIState(state);
-	});
-
-	onMount(() => {
-		initApp();
 	});
 </script>
 
@@ -102,32 +85,31 @@
 		overflow-y: auto;"
 	>
 		{#if state.page === "landing"}
-			<div class="col w-full h-full" style="padding: 16px;">
+			<div class="col w-full h-full" style="padding: 16px; gap: 16px;">
 				<h1>Learn OLL, PLL, CLL and more</h1>
-				<div style="height: 16px" />
 				<p
 					class="text-gradient"
 					style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));"
 				>
 					Memorize algs in half the time
 				</p>
-				<div style="height: 16px" />
-				{#if state.user}
-					<button on:click={() => goToPage("train")}> Start Training </button>
-				{:else}
-					<div style="
+                {#if state.user && !state.user.auth}
+                    <div style="
                         border-radius: 16px; 
                         padding: 16px; 
                         box-shadow: 0 0 4px lightgray;"
                     >
-						<Auth {onSignIn} />
-					</div>
+                        <Auth onSignIn={_ => {}} />
+                    </div>
+                {/if}
+				{#if state.algSets}
+                    <ChooseAlgSet {state} {callback} />
+				{:else}
+					<div class="spinner"></div>
 				{/if}
-				<div style="height: 16px;" />
 				<div
 					style="width: 100%; height: 1px; background-color: var(--gray-600);"
 				/>
-				<div style="height: 16px;" />
 				<Faq />
 			</div>
 		{:else if state.page === "train"}
@@ -146,7 +128,7 @@
                     <button
                         class="train-btn"
                         on:click={() => {
-                            currAlg = loadCurrAlg();
+                            loadCurrAlg();
                         }}
                     >
                         🔃
@@ -154,8 +136,7 @@
                     <button
                         class="train-btn"
                         on:click={() => {
-                            nextAlg(false, currAlgSet).then((res) => {
-                                currAlg = res;
+                            nextAlg(false).then((res) => {
                                 casesToday = getCasesToday();
                                 getScramble();
                             });
@@ -166,8 +147,7 @@
                     <button
                         class="train-btn"
                         on:click={() => {
-                            nextAlg(true, currAlgSet).then((res) => {
-                                currAlg = res;
+                            nextAlg(true).then((res) => {
                                 casesToday = getCasesToday();
                                 getScramble();
                             });
@@ -216,7 +196,7 @@
 						<button
 							class="btn-primary"
 							on:click={() => {
-								goToPage("landing");
+                                callback({ page: "landing" });
 								signOut();
 							}}
 						>
@@ -226,24 +206,24 @@
 				</Drawer>
 			{:else if drawerIndex === 2}
 				<Drawer title="Settings" bind:drawerIndex>
-					<div style="padding: 16px;">
-						<p>algorithm set: {state.algSet?.name ?? "none"}</p>
-						<button on:click={() => algSetLogic.displayChooseAlgSet()}>
-							choose alg set
-						</button>
-						<div style="height: 16px;" />
+					<div class="col" style="align-items: start; padding: 16px; gap: 16px;">
+                        <DropDownButton
+                            buttonText={state.algSet?.name ?? "none"}
+                            on:click={() => callback({ modalType: "choose alg set"})}
+                        />
 						<a href="/keybindings.html">
 							<button>Customize key bindings</button>
 						</a>
-						<div style="height: 16px;" />
-						<p>orientation</p>
-						<select bind:value={orientation} on:change={onChangeOrientation}>
-							{#each orientationOptions as option}
-								<option value={option.value}>{option.label}</option>
-							{/each}
-						</select>
-						<div style="height: 16px;" />
-						<div class="row" style="justify-content: space-between;">
+						<div>
+                            <p>orientation</p>
+                            <select bind:value={orientation} on:change={onChangeOrientation}>
+                                {#each orientationOptions as option}
+                                    <option value={option.value}>{option.label}</option>
+                                {/each}
+                            </select>
+                        </div>
+                        <div style="width: 100%; height: 1px; background: var(--gray-600);"></div>
+						<div class="row" style="justify-content: space-between; width: 100%;">
 							<p>show scramble</p>
 							<Toggle
 								bind:checked={state.showScramble}
@@ -253,31 +233,6 @@
 								}}
 							/>
 						</div>
-						<div style="height: 16px;" />
-						<div class="row">
-							<p>algorithms</p>
-                            <button
-                                class="btn-transparent"
-                                style="width: 24px; height: 24px; padding: 4px; margin-left: 4px; border-radius: 50%;"
-                                on:click={() => onAddAlgorithm()}
-                            >
-                                <PlusIcon />
-                            </button>
-						</div>
-						{#each state.algSet?.trainingAlgs ?? [] as alg, i}
-							<button
-								class="alg-list-item"
-								style="
-								border-top: solid 1px var(--gray-500); 
-								border-radius: 0;
-								width: 100%;
-								padding: 4px;
-								text-align: left;"
-								on:click={() => onClickAlgorithm(i)}
-							>
-								<p>{alg.Alg}</p>
-							</button>
-						{/each}
 					</div>
 				</Drawer>
 			{/if}
@@ -286,126 +241,125 @@
 	<SideNav bind:open={sideNavOpen} />
 	<Modal
 		title={state.modalType}
-		bind:open={modalOpen}
-		allowClose={state.algSets.length > 0}
-		close={closeModal}
+		open={state.modalType !== undefined && state.algSets !== undefined}
+		allowClose={state.algSets?.length > 0}
+		close={() => callback({ modalType: undefined })}
 	>
-		{#if state.modalType === "choose alg set" || state.algSets.length === 0}
-			<div class="col" style="padding: 16px; gap: 16px;">
-				<p style="font-weight: bold;">pre-built sets</p>
-				<div
-					style="
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: center;
-					gap: 16px;"
-				>
-					{#each preBuiltSets as set}
-						<button
-							on:click={() => {
-								algSetLogic
-									.createPrebuiltAlgSet(set, state.algSets)
-									.then(() => {
-										setAlgSet();
-										loadCurrAlg();
-									});
-							}}
-						>
-							{set}
-						</button>
-					{/each}
-				</div>
-				<p style="font-weight: bold;">your sets</p>
-				{#if !state.algSets || state.algSets.length === 0}
-					<p style="font-style: italic;">you don't have any sets yet</p>
-				{:else}
-					<div style="width: 100%; max-width: 300px;">
-						{#each state.algSets as algSet}
-							<button
-								class="row alg-list-item"
-								style="
-								width: 100%;
-								border-top: solid 1px var(--gray-500);
-								padding: 4px;"
-								on:click={() => {
-									algSetLogic.chooseAlgSet(algSet.id, state.algSets);
-									setAlgSet();
-									loadCurrAlg();
-								}}
-							>
-								<p style="font-size: 1.2rem;">{algSet.name}</p>
-								<div style="flex-grow: 1;" />
-                                <button
-                                    class="btn-transparent"
-                                    style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
-                                    on:click={() => {
-                                        algSetLogic.editAlgSet(algSet.id, state.algSets);
-                                    }}
-                                >
-                                    ✍
-                                </button>
-                                <button
-                                    class="btn-transparent"
-                                    style="padding: 2px; font-size: 1.8rem; min-width: 40px; height: 40px;"
-                                    on:click={() =>
-										algSetLogic.deleteAlgSet(
-											algSet.id,
-											state.algSets,
-											state.algSet
-										)}
-                                >
-                                    🗑
-                                </button>
-							</button>
-						{/each}
-					</div>
-				{/if}
-				<button on:click={() => algSetLogic.clickCustomSet()}
-					>new custom set</button
-				>
-			</div>
-        {:else if state.modalType === "create alg set"}
-        <div class="col" style="padding: 16px; gap: 16px;">
-            <input type="text" bind:value={state.algSetEditing.name} />
-            <button
-                on:click={() => {
-                    algSetLogic.createAlgSet(state.algSetEditing, state.algSets)
-                }}
-            >
-                save
-            </button>
-        </div>
+		{#if state.modalType === "choose alg set" || state.algSets?.length === 0}
+			<ChooseAlgSet {state} {callback} />
+        {:else if state.modalType === "delete alg set"}
+            <div class="col" style="padding: 16px; gap: 16px;">
+                <p>Are you sure you want to delete {state.algSetEditing.name}?</p>
+                <div class="row" style="gap: 16px;">
+                    <button
+                        class="btn-gray"
+                        on:click={() => {
+                            callback({
+                                modalType: state.page === "landing"
+                                    ? undefined
+                                    : "choose alg set",
+                            });
+                        }}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        on:click={() => {
+                            algSetLogic.deleteAlgSet(
+                                state.algSetEditing.id,
+                                state.algSets,
+                                state.algSetEditing,
+                            );
+                        }}
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
 		{:else if state.modalType === "edit alg set"}
-			<div class="col" style="padding: 16px; gap: 16px;">
-				<input type="text" bind:value={state.algSetEditing.name} />
-				<button
-					on:click={() => {
-						algSetLogic.saveAlgSet(
-							state.algSetEditing.id,
-							state.algSetEditing.name,
-							state.algSetEditing.trainingAlgs,
-							state.algSets
-						);
+            <div class="col" style="padding: 16px; gap: 16px;">
+                <input type="text" bind:value={state.algSetEditing.name} />
+                <div class="row" style="gap: 16px;">
+                    <button
+                        class="btn-gray"
+                        on:click={() => {
+                            callback({
+                                modalType: state.page === "landing"
+                                    ? undefined
+                                    : "choose alg set",
+                            });
+                        }}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        on:click={() => {
+                            const algSet = state.algSetEditing;
+                            AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
+
+                            callback({
+                                modalType: undefined,
+                                algSet: state.algSetEditing,
+                                algSets: state.algSets.map(_algSet => {
+                                    return _algSet.id === algSet.id ? algSet : _algSet;
+                                }),
+                            });
+
+                            loadCurrAlg();
+                        }}
+                    >
+                        Save
+                    </button>
+                </div>
+            </div>
+            <div 
+                class="col"
+                style="
+                    gap: 16px;
+                    overflow-y: auto;
+                    max-height: 50vh;
+                    padding: 8px;
+                    margin-bottom: 16px;">
+                <button
+                    on:click={() => {
+                        callback({
+                            algSetEditing: {
+                                ...state.algSetEditing,
+                                trainingAlgs: [
+                                    { Score: 0, Alg: "" },
+                                    ...state.algSetEditing.trainingAlgs,
+                                ],
+                            },
+                        });
                     }}
                 >
-                    save
+                    Add alg ➕
                 </button>
-			</div>
-		{:else if state.modalType === "edit alg"}
-			<div class="col" style="padding: 16px; gap: 16px;">
-				<input
-					type="text"
-					style="width: 300px"
-					bind:value={state.selectedAlg.Alg}
-					on:change={onChangeAlgorithm}
-				/>
-				<div class="row" style="gap: 16px;">
-					<button class="btn-gray" on:click={() => onDeleteAlgorithm()}
-						>Delete</button
-					>
-					<button on:click={() => onSaveAlgorithm()}>Save</button>
-				</div>
-			</div>
+                {#each state.algSetEditing.trainingAlgs as trainingAlg, i}
+                    <div class="row" style="gap: 8px;">
+                        <input
+                            type="text"
+                            bind:value={trainingAlg.Alg}
+                        />
+                        <button
+                            class="btn-transparent"
+                            style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
+                            on:click={() => {
+                                callback({
+                                    algSetEditing: {
+                                        ...state.algSetEditing,
+                                        trainingAlgs: state.algSetEditing.trainingAlgs.filter(
+                                            (_trainingAlg, _i) => _i !== i,
+                                        ),
+                                    },
+                                });
+                            }}
+                        >
+                            🗑
+                        </button>
+                    </div>
+                {/each}
+            </div>
 		{/if}
 	</Modal>
 </main>
@@ -423,15 +377,4 @@
     .train-btn:hover {
         background-color: var(--gray-300);
     }
-
-	.alg-list-item {
-		background-color: inherit;
-		border-radius: 0;
-	}
-
-	.alg-list-item:hover {
-		background-color: var(--gray-800);
-		box-shadow: inset 0 0 4px var(--gray-400);
-		cursor: pointer;
-	}
 </style>

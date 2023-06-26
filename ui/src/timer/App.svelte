@@ -116,6 +116,7 @@
                     </div>
                 {:else if state.user?.auth && state.sessions}
                     <div class="col" style="align-items: start; padding: 16px; gap: 16px;">
+                        <!-- TODO refactor into DropDownButton -->
                         <button
                             class="row"
                             style="gap: 8px;"
@@ -210,7 +211,7 @@
                         class="btn-gray"
                         on:click={() => callback({ modalType: "select session" })}
                     >
-                        Back
+                        Cancel
                     </button>
                     <button
                         on:click={() => {
@@ -262,7 +263,7 @@
                         class="btn-gray" 
                         on:click={() => callback({ modalType: "select session" })}
                     >
-                        Back
+                        Cancel
                     </button>
                     <button
                         on:click={() => {
