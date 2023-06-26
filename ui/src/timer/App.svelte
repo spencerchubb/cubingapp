@@ -27,6 +27,7 @@
     import * as SessionsAPI from "../lib/scripts/api/sessions";
     import * as SolvesAPI from "../lib/scripts/api/solves";
     import { signOut } from "../lib/scripts/auth";
+    import DropDownButton from "../lib/components/DropDownButton.svelte";
 
     let scene: Scene;
 
@@ -115,21 +116,12 @@
                     </div>
                 {:else if state.user?.auth && state.sessions}
                     <div class="col" style="align-items: start; padding: 16px; gap: 16px;">
-                        <!-- TODO refactor into DropDownButton -->
-                        <button
-                            class="row"
-                            style="gap: 8px;"
+                        <DropDownButton
+                            buttonText={state.sessions[0].name}
                             on:click={() => {
                                 callback({ modalType: "select session" });
                             }}
-                        >
-                            {state.sessions.length === 0
-                                ? "loading..."
-                                : state.sessions[0].name}
-                            <div style="width: 20px; height: 20px;">
-                                <ChevronDown />
-                            </div>
-                        </button>
+                        />
                         {#each state.solves as solve, i}
                             <p>{state.solves.length - i}. {solve.time}</p>
                         {/each}
