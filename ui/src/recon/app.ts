@@ -150,8 +150,6 @@ type Stepper = {
  * Parse an algorithm string and return a string of space-separated moves.
  * The algorithm may have an arbitrary number of spaces, tabs, and newlines.
  * Comments should be ignored.
- * 
- * TODO unit tests
  */
 function parseAlg(str: string): string {
     let lines = str.split("\n");

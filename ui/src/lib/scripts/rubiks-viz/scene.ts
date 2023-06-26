@@ -158,14 +158,14 @@ function initProgram(gl: WebGLRenderingContext): ProgramInfo {
 }
 
 type Scene = {
-    div: HTMLElement, // TODO see if div can be removed
+    div: HTMLElement,
     puzzle: Puzzle,
     dragEnabled: boolean,
     enableKey: (event: KeyboardEvent) => boolean,
 };
 
 type InternalScene = {
-    div: HTMLElement, // TODO see if div can be removed
+    div: HTMLElement,
     puzzle: Puzzle,
     spring: Spring,
 };

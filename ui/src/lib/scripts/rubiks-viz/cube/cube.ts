@@ -296,7 +296,6 @@ export class Cube extends Puzzle {
         }
     }
 
-    // TODO see if this is correct because it's used in dragDetector.ts
     stickerIsOnFace(sticker: number, face: number) {
         return face * sq(this.layers) <= sticker && sticker < (face + 1) * sq(this.layers);
     }

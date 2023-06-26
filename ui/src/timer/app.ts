@@ -1,7 +1,7 @@
 import * as SessionsAPI from "../lib/scripts/api/sessions";
 import * as SolvesAPI from "../lib/scripts/api/solves";
 import { Scene, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
-import { CubingUser, addAuthCallback, getUser } from "../lib/scripts/auth";
+import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { PuzzleTypes, getScramble } from "./scramble";
 
 export let callback: (state) => void;
@@ -43,7 +43,7 @@ type State = {
 }
 
 let state: State = {
-    user: getUser(), // TODO see if we can make this undefined and get rid of the function
+    user: undefined,
     sessions: undefined,
     solves: [],
     puzzle: (localStorage.getItem("puzzle") as PuzzleTypes) ?? "3x3",

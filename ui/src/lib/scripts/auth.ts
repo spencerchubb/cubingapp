@@ -15,23 +15,19 @@ export type CubingUser = {
     email: string;
 }
 
-export function getUser(): CubingUser | undefined {
-    const currentUser = _auth().currentUser;
-    if (!currentUser) return undefined;
-    return {
-        auth: true,
-        email: currentUser.email ?? "",
-    };
-}
-
 export function signOut() {
     _auth().signOut();
 }
 
 export function addAuthCallback(callback: AuthCallback) {
     _auth().onAuthStateChanged(user => {
+        log("Auth state changed:", user?.email);
+        
         if (user) {
-            successfulSignIn(user, callback);
+            callback({
+                auth: true,
+                email: user.email ?? "",
+            });
         } else {
             callback({ auth: false, email: "" });
         }
@@ -53,15 +49,6 @@ function errorCodeToMsg(code: string): string {
         default:
             return `Error: ${code}`;
     }
-}
-
-async function successfulSignIn(user: User, callback: AuthCallback): Promise<void> {
-    const email = user.email ?? "";
-    log("Signed in as", email);
-    callback({
-        auth: true,
-        email,
-    });
 }
 
 export function _signInWithPopup(onError: OnError) {
