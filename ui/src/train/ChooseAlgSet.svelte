@@ -40,11 +40,7 @@
         <div style="width: 100%; max-width: 300px;">
             {#each state.algSets as algSet}
                 <button
-                    class="row alg-list-item"
-                    style="
-                    width: 100%;
-                    border-top: solid 1px var(--gray-500);
-                    padding: 4px 4px 4px 12px;"
+                    class="row list-item"
                     on:click={() => {
                         AlgSetAPI.read(algSet.id).then((algSet) => {
                             callback({
@@ -93,13 +89,15 @@
 </div>
 
 <style>
-    .alg-list-item {
+    .list-item {
 		background-color: inherit;
 		border-radius: 0;
+        width: 100%;
+        border-top: solid 1px var(--gray-500);
+        padding: 4px 4px 4px 12px;
 	}
 
-	.alg-list-item:hover {
+	.list-item:hover {
 		box-shadow: inset 0 0 4px var(--gray-400);
-		cursor: pointer;
 	}
 </style>

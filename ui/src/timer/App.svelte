@@ -286,47 +286,46 @@
                 </button>
                 <div style="width: 100%;">
                     {#each state.sessions as session}
-                        <div
-                            class="row"
-                            style="
-                                justify-content: space-between;
-                                width: 100%;
-                                border-top: solid 1px var(--gray-400);
-                                padding: 4px 0;"
-                        >
-                            <button
-                                class="btn-transparent"
-                                style="padding: 4px; width: 100%; text-align: left;"
-                                on:click={() => {
-                                    SolvesAPI.readAll(session.id).then(solves => {
-                                        callback({
-                                            modalType: undefined,
-                                            sessions: [session, ...state.sessions.filter(s => s.id !== session.id)],
-                                            solves,
-                                        });
+                        <button
+                            class="row list-item"
+                            on:click={() => {
+                                SolvesAPI.readAll(session.id).then(solves => {
+                                    callback({
+                                        modalType: undefined,
+                                        sessions: [session, ...state.sessions.filter(s => s.id !== session.id)],
+                                        solves,
                                     });
+                                });
 
-                                    // Update so the timestamp is updated.
-                                    SessionsAPI.update(session);
-                                }}
-                            >
+                                // Update so the timestamp is updated.
+                                SessionsAPI.update(session);
+                            }}
+                        >
+                            <p style="font-size: 1.2rem;">
                                 {session.name}
-                            </button>
+                            </p>
+                            <div style="flex-grow: 1;"></div>
                             <button
                                 class="btn-transparent"
                                 style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
-                                on:click={() => callback({ modalType: "edit session", sessionEditing: {...session} })}
+                                on:click={(event) => {
+                                    event.stopPropagation();
+                                    callback({ modalType: "edit session", sessionEditing: {...session} });
+                                }}
                             >
                                 ✍
                             </button>
                             <button
                                 class="btn-transparent"
                                 style="padding: 2px; font-size: 1.8rem; min-width: 40px; height: 40px;"
-                                on:click={() => callback({ modalType: "delete session", sessionEditing: {...session} })}
+                                on:click={(event) => {
+                                    event.stopPropagation();
+                                    callback({ modalType: "delete session", sessionEditing: {...session} })
+                                }}
                             >
                                 🗑
                             </button>
-                        </div>
+                        </button>
                     {/each}
                 </div>
             {/if}
@@ -334,3 +333,17 @@
     </Modal>
     <SideNav bind:open={sideNavOpen} />
 </main>
+
+<style>
+    .list-item {
+		background-color: inherit;
+		border-radius: 0;
+        width: 100%;
+        border-top: solid 1px var(--gray-500);
+        padding: 4px 4px 4px 12px;
+	}
+
+	.list-item:hover {
+		box-shadow: inset 0 0 4px var(--gray-400);
+	}
+</style>
