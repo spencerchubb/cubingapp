@@ -86,7 +86,7 @@
 	>
 		{#if state.page === "landing"}
 			<div class="col w-full h-full" style="padding: 16px; gap: 16px;">
-				<h1>Learn OLL, PLL, CLL and more</h1>
+				<h1>Algorithm Trainer</h1>
 				<p
 					class="text-gradient"
 					style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));"
