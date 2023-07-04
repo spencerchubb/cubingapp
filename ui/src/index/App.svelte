@@ -1,6 +1,7 @@
 <script lang="ts">
     import GlManager from "../lib/components/GLManager.svelte";
     import type { Scene } from "../lib/scripts/rubiks-viz";
+    import Card from "./Card.svelte";
 
     let scene: Scene;
 
@@ -47,28 +48,40 @@
         </div>
         <div class="col" style="margin-top: 32px; gap: 16px;">
             <a href="./algdb.html">
-                <div class="blue-to-purple card">
+                <!-- <div class="blue-to-purple card">
                     <h2>Algorithm Database</h2>
                     <p>3300+ Rubik's Cube algorithms</p>
-                </div>
+                </div> -->
+                <Card
+                    class="blue-to-purple"
+                    title="Algorithm Database"
+                    text="3300+ Rubik's Cube algorithms"
+                />
             </a>
             <a href="./recon.html">
-                <div class="red-to-orange card">
-                    <h2>Reconstruction Tool</h2>
-                    <p>Reconstruct solves and share with your friends</p>
-                </div>
+                <Card
+                    class="red-to-orange"
+                    title="Algorithm Database"
+                    text="3300+ Rubik's Cube algorithms"
+                />
             </a>
             <a href="./timer.html">
-                <div class="blue-to-purple card">
-                    <h2>Timer</h2>
-                    <p>Time yourself with various puzzles. 2x2, 3x3, 4x4, 5x5, 6x6, 7x7, Pyraminx</p>
-                </div>
+                <Card
+                    class="blue-to-purple"
+                    title="Timer"
+                    text="Time yourself with various puzzles. 2x2, 3x3, 4x4, 5x5, 6x6, 7x7, Pyraminx"
+                />
             </a>
             <a href="./train.html">
-                <div class="red-to-orange card">
+                <!-- <div class="red-to-orange card">
                     <h2>Train</h2>
                     <p>Memorize algorithms in half the time</p>
-                </div>
+                </div> -->
+                <Card
+                    class="red-to-orange"
+                    title="Train"
+                    text="Memorize algorithms in half the time"
+                />
             </a>
         </div>
         <div class="col" style="
@@ -106,19 +119,5 @@
     a {
         width: 100%;
         max-width: 500px;
-    }
-
-    .card {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 500px;
-        border-radius: 16px;
-        padding: 16px;
-        gap: 4px;
-    }
-
-    .card:hover {
-        box-shadow: inset 0 0 16px -4px var(--gray-300);
     }
 </style>
