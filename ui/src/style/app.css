@@ -246,3 +246,7 @@ canvas {
 @-webkit-keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.firebase-emulator-warning {
+    display: none;
+}
