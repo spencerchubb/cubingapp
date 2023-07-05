@@ -14,8 +14,6 @@ export type BufferObject = {
 
 type Axis = 0 | 1 | 2;
 
-const cache = {};
-
 function half(x: number): number {
     return Math.floor(x / 2);
 }
@@ -27,9 +25,6 @@ function even(x: number): boolean {
 export function createBuffers(gl: WebGLRenderingContext, cube: Cube): Shape[] {
     const layers = cube.layers;
     const perspective = cube.perspective;
-
-    const cacheKey = `${layers}-${perspective}`;
-    if (cache[cacheKey]) return cache[cacheKey];
 
     let allBase = makePositions(layers, 1.0, 0.0);
     let allStickers = makePositions(layers, 1.01, 0.02);
@@ -61,7 +56,6 @@ export function createBuffers(gl: WebGLRenderingContext, cube: Cube): Shape[] {
         objects[i] = new Square(gl, shapeArgs);
     }
 
-    cache[cacheKey] = objects;
     return objects;
 }
 
