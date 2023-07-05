@@ -1,6 +1,6 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
-import { randInt } from "../lib/scripts/common/rand";
+import { randElement, randInt } from "../lib/scripts/common/rand";
 import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
@@ -11,16 +11,16 @@ import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
 type State = {
     showSolution: boolean,
     scene?: Scene,
-    preAUF: string,
-    postAUF: string,
+    preAlg: string,
+    postAlg: string,
     orientation: string,
 }
 
 let state: State = {
     showSolution: false,
     scene: undefined,
-    preAUF: "",
-    postAUF: "",
+    preAlg: "",
+    postAlg: "",
     orientation: localStorage.getItem("orientation") ?? "",
 };
 
@@ -85,85 +85,15 @@ async function initApp() {
 export function onClickSolutionButton() {
     state.showSolution = !state.showSolution;
     uiState.solutionButtonText = state.showSolution 
-        ? applyAUFs(getFirstAlg())
+        ? state.postAlg
+            ? `${invertAlg(state.postAlg)} ${getFirstAlg()}`.replace(/ +/g, ' ')
+            : getFirstAlg()
         : "show solution";
     callback(uiState);
 }
 
-function applyAUFs(alg: string): string {
-    return _applyAUFs(alg, state.preAUF, state.postAUF);
-}
-
-export function applyAUFsBackwards(alg: string): string {
-    const invPre = invert(state.preAUF);
-    const invPost = invert(state.postAUF);
-    return _applyAUFs(alg, invPost, invPre);
-}
-
-function _applyAUFs(alg: string, preAUF: string, postAUF: string): string {
-    if (preAUF) {
-        alg = `${preAUF} ${alg}`;
-    }
-    if (postAUF) {
-        alg = `${alg} ${postAUF}`;
-    }
-    let split = alg.split(" ");
-    const beginning = _cancelPair(split[0], split[1]);
-    const end = _cancelPair(split[split.length - 2], split[split.length - 1]);
-    split = split.slice(2, -2);
-    split = beginning.concat(split).concat(end);
-    return split.join(" ");
-}
-
-function _cancelPair(a: string, b: string): string[] {
-    if (a[0] !== "U" || b[0] !== "U") {
-        return [a, b];
-    }
-    const canceledValue = (_moveToValue(a) + _moveToValue(b)) % 4;
-    if (canceledValue === 0) {
-        return [];
-    }
-    return [_valueToMove(canceledValue)];
-}
-
-function _moveToValue(move: string): number {
-    if (move.endsWith("'")) {
-        return 3;
-    } else if (move.endsWith("2")) {
-        return 2;
-    } else {
-        return 1;
-    }
-}
-
-function _valueToMove(value: number): string {
-    const moves = ["", "U", "U2", "U'"];
-    return moves[value];
-}
-
-function invert(move: string) {
-    if (move === "") {
-        return "";
-    } else if (move.endsWith("'")) {
-        return move.slice(0, -1);
-    } else if (move.endsWith("2")) {
-        return move;
-    } else {
-        return `${move}'`;
-    }
-}
-
-function generateRandAUF(): string {
-    const options = ["", "U", "U2", "U'"];
-    return options[randInt(4)];
-}
-
 export function setScene(scene: Scene) {
     state.scene = scene;
-}
-
-export function getTrainingAlgs(): AlgSetAPI.TrainingAlg[] {
-    return uiState.algSet.trainingAlgs;
 }
 
 /**
@@ -217,21 +147,21 @@ export function loadCurrAlg(): string {
     uiState.solutionButtonText = "show solution";
     callback(uiState);
     
-    state.preAUF = generateRandAUF();
-    state.postAUF = generateRandAUF();
+    state.preAlg = randElement(uiState.algSet.pre);
+    state.postAlg = randElement(uiState.algSet.post);
 
-    
     const scene = state.scene;
     if (!scene) return "";
     
-    getScramble();
-
     setAlgSet(scene);
-
+    
     scene.puzzle.performAlg(state.orientation);
+    
+    alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
+    scene.puzzle.performAlg(alg);
 
-    let algWithAUFs = applyAUFs(alg);
-    scene.puzzle.performAlg(invertAlg(algWithAUFs));
+    // The scramble must be generated after the algorithm is applied.
+    getScramble();
 
     return alg;
 }
@@ -264,7 +194,7 @@ export async function getScramble(): Promise<void> {
     // The algorithm should already be applied to the puzzle.
     const puzzle = scene.puzzle;
     if (puzzle.stickers.every((val, idx) => val === idx)) {
-        log("Passed a solved puzzle into getScramble");
+        log("getScramble error: puzzle is solved");
         return;
     }
 
@@ -272,10 +202,9 @@ export async function getScramble(): Promise<void> {
     callback(uiState);
 
     let alg = getFirstAlg();
-    alg = applyAUFs(alg);
-    alg = invertAlg(alg);
+    alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     
-    uiState.scramble = scramble(scene.puzzle, alg, uiState.algSet.onlyOrientation, uiState.algSet.disregard);
+    uiState.scramble = scramble(scene.puzzle, alg);
     callback(uiState);
 }
 

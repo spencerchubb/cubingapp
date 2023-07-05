@@ -1,7 +1,6 @@
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { Cube } from "../lib/scripts/rubiks-viz";
-import { randElement } from "../lib/scripts/common/rand";
 
 const STICKERS = {
     UBL: 0,
@@ -115,8 +114,8 @@ const corners = [
 const gl = (document.querySelector("canvas") as HTMLCanvasElement).getContext("webgl") as WebGLRenderingContext;
 const threeByThree = new Cube(gl, [], 3);
 
-export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[], disregard: number[]): string {
-    
+export function scramble(puzzle: Puzzle, alg: string): string {
+
     // If the puzzle is a 2x2, we do something special.
     // Perform the alg on a 3x3, then disregard the edges.
     if ((puzzle as Cube).layers === 2) {
@@ -127,68 +126,39 @@ export function scramble(puzzle: Puzzle, alg: string, onlyOrientation: number[],
         // With short 2x2 algorithms, the scramble can be too simple sometimes.
         // So we perform a few more moves to make it more interesting.
         threeByThree.performAlg("M E S M2 E");
-
-        disregard = [
-            ...disregard,
-            ...UB,
-            ...UL,
-            ...UR,
-            ...UF,
-            ...DB,
-            ...DL,
-            ...DR,
-            ...DF,
-            ...FL,
-            ...FR,
-            ...BL,
-            ...BR,
-        ];
     }
 
-    // If onlyOrientation contains all of these values, then it is OLL.
-    // Perform a random PLL algorithm to make the scramble more interesting.
-    if (containsAll(onlyOrientation, [0, 1, 2, 3, 8, 9, 10, 11])) {
-        puzzle = threeByThree;
-        puzzle.solve();
-        const randPLL = randElement([
-            "R' F R' B2 R F' R' B2 R2",
-            "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R",
-            "R2 U R' U R' U' R U' R2 D U' R' U R D'",
-            "M2 U' M2 U2 M2 U' M2",
-            "R U R' F' R U R' U' R' F R2 U' R'",
-        ]);
-        puzzle.performAlg(`${randPLL} ${alg}`);        
-    }
+    let [ep, eo, cp, co] = get_EP_EO_CP_CO(puzzle);
 
+    console.log({
+        ep, eo, cp, co
+    })
+
+    return scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
+}
+
+function get_EP_EO_CP_CO(puzzle: Puzzle): [number[], number[], number[], number[]] {
     let ep: number[] = [];
     let eo: number[] = [];
     let cp: number[] = [];
     let co: number[] = [];
 
+    const stickers = puzzle.stickers;
     edges.forEach(edge => {
-        const i = findEdge(puzzle, edge);
+        const i = findPiece(puzzle, edge, edges);
         ep.push(i);
-        const sticker = puzzle.stickers[edge[0]];
+        const sticker = stickers[edge[0]];
         eo.push(edges[i].findIndex(e => e === sticker));
     });
 
     corners.forEach(corner => {
-        const i = findCorner(puzzle, corner);
+        const i = findPiece(puzzle, corner, corners);
         cp.push(i);
-        const sticker = puzzle.stickers[corner[0]];
+        const sticker = stickers[corner[0]];
         co.push(corners[i].findIndex(e => e === sticker));
     });
 
-    let scram = scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
-    return scram;
-}
-
-function findEdge(puzzle: Puzzle, piece: number[]): number {
-   return findPiece(puzzle, piece, edges);
-}
-
-function findCorner(puzzle: Puzzle, piece: number[]): number {
-    return findPiece(puzzle, piece, corners);
+    return [ep, eo, cp, co];
 }
 
 function findPiece(puzzle: Puzzle, piece: number[], pieces: number[][]): number {
@@ -226,10 +196,3 @@ function computeFreq(arr: number[]): Object {
     });
     return freq;
 }
-
-function containsAll(arr1: number[], arr2: number[]): boolean {
-    // Create a hash set because Set.has is O(1) while Array.includes is O(n).
-    const set = new Set(arr1);
-    return arr2.every(e => set.has(e));
-  }
-  

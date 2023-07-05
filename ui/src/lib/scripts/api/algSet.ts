@@ -17,10 +17,10 @@ export type MinAlgSet = {
 export type AlgSet =
     MinAlgSet & {
     puzzle: string,
-    disregard: number[],
     inactive: number[],
-    onlyOrientation: number[],
     trainingAlgs: TrainingAlg[],
+    pre: string[],
+    post: string[]
 }
 
 export async function create(set: string): Promise<AlgSet> {
@@ -35,8 +35,8 @@ export async function readAll(): Promise<MinAlgSet[]> {
     return (await post("/readAlgSets", { })) ?? [];
 }
 
-export async function update(id: number, set: string, trainingAlgs: TrainingAlg[]): Promise<void> {
-    return post("/updateAlgSet", { id, set, trainingAlgs });
+export async function update(id: number, name: string, trainingAlgs: TrainingAlg[]): Promise<void> {
+    return post("/updateAlgSet", { id, name, trainingAlgs });
 }
 
 export async function deleteSet(id: number): Promise<void> {

@@ -626,7 +626,7 @@ export var min2phase = (function() {
 			}
 		}
 		this.initSearch();
-		return this.search();
+        return this.search().replace(/ +/g, ' ');
 	}
 
 	Search.prototype.initSearch = function() {
@@ -642,16 +642,6 @@ export var min2phase = (function() {
 				this.cc.init(tmp.ca, tmp.ea);
 			}
 		}
-	}
-
-	Search.prototype.next = function(probeMax, probeMin, verbose) {
-		this.probe = 0;
-		this.probeMax = probeMax;
-		this.probeMin = Math.min(probeMin, probeMax);
-		this.moveSol = null;
-		this.isRec = true;
-		this.verbose = verbose;
-		return this.search();
 	}
 
 	Search.prototype.verify = function(facelets) {

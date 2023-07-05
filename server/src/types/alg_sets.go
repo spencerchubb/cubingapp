@@ -6,15 +6,15 @@ type TrainingAlg struct {
 }
 
 type AlgSet struct {
-	Id              int           `json:"id"`
-	Name            string        `json:"name"`
-	TrainingAlgs    []TrainingAlg `json:"trainingAlgs"`
-	Puzzle          string        `json:"puzzle"`
-	Inactive        []int         `json:"inactive"`
-	Moves           string        `json:"moves"`
-	Disregard       []int         `json:"disregard"`
-	OnlyOrientation []int         `json:"onlyOrientation"`
+	Id           int           `json:"id"`
+	Set          string        `json:"set"`
+	Name         string        `json:"name"`
+	TrainingAlgs []TrainingAlg `json:"trainingAlgs"`
+	Puzzle       string        `json:"puzzle"`
 
-	// This is not a database column, but is used for the algs from algs.json
-	Algs []string `json:"algs"`
+	// Not database columns, but used for loading from algs.json
+	Algs     []string `json:"algs"`
+	Inactive []int    `json:"inactive"`
+	Pre      []string `json:"pre"`
+	Post     []string `json:"post"`
 }

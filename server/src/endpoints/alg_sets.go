@@ -1,10 +1,7 @@
 package endpoints
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
-	"os"
 	"server/src/db"
 	types "server/src/types"
 	util "server/src/util"
@@ -20,14 +17,13 @@ func CreateAlgSet(r *http.Request, uid int) (interface{}, error) {
 		return nil, err
 	}
 
-	algs := readAlgsFromJson("../algs/algs.json")
-	algSet := findAlgSet(algs, req.Set)
-	trainingAlgs := initZeroScores(algSet.Algs)
-	algSet.Name = req.Set
-	algSet.TrainingAlgs = trainingAlgs
+	algSet, err := getAlgSet(req.Set)
+	if err != nil {
+		return nil, err
+	}
 
 	db := db.GetDB()
-	id, err := db.CreateAlgSet(uid, algSet)
+	id, err := db.CreateAlgSet(uid, *algSet)
 	algSet.Id = id
 	return algSet, err
 }
@@ -47,7 +43,22 @@ func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	if req.Id == 0 {
 		return db.ReadRecentAlgSet(uid)
 	}
-	return db.ReadAlgSet(uid, req.Id)
+
+	algSet, err := db.ReadAlgSet(uid, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	algSetMetadata, err := getAlgSet(algSet.Set)
+	if err != nil {
+		return nil, err
+	}
+
+	algSet.Inactive = algSetMetadata.Inactive
+	algSet.Pre = algSetMetadata.Pre
+	algSet.Post = algSetMetadata.Post
+	return algSet, err
+
 }
 
 func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
@@ -58,7 +69,7 @@ func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
 func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id           int                 `json:"id"`
-		Set          string              `json:"set"`
+		Name         string              `json:"name"`
 		TrainingAlgs []types.TrainingAlg `json:"trainingAlgs"`
 	}
 	var req Request
@@ -68,7 +79,7 @@ func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	err = db.UpdateAlgSet(uid, req.Id, req.Set, req.TrainingAlgs)
+	err = db.UpdateAlgSet(uid, req.Id, req.Name, req.TrainingAlgs)
 	return nil, err
 }
 
@@ -87,40 +98,21 @@ func DeleteAlgSet(r *http.Request, uid int) (interface{}, error) {
 	return nil, err
 }
 
-// Helper functions for CreatePrebuiltAlgSet
-
-func readAlgsFromJson(fileName string) []types.AlgSet {
-	file, err := os.Open(fileName)
-	if err != nil {
-		fmt.Println("readJsonFile:", err)
-		return []types.AlgSet{}
+// Helper function for CreatePrebuiltAlgSet
+func getAlgSet(setName string) (*types.AlgSet, error) {
+	algSets, err := util.Once(func() (*[]types.AlgSet, error) {
+		return util.ReadJsonFile[[]types.AlgSet]("../algs/algs.json")
+	})()
+	if err != nil || algSets == nil {
+		return nil, err
 	}
-	defer file.Close()
-
-	decoder := json.NewDecoder(file)
-	var algSets []types.AlgSet
-	err = decoder.Decode(&algSets)
-	if err != nil {
-		fmt.Println("readJsonFile:", err)
-		return []types.AlgSet{}
-	}
-
-	return algSets
-}
-
-func findAlgSet(algSets []types.AlgSet, setName string) types.AlgSet {
-	for _, algSet := range algSets {
-		if algSet.Name == setName {
-			return algSet
-		}
-	}
-	return types.AlgSet{}
-}
-
-func initZeroScores(algs []string) []types.TrainingAlg {
-	out := make([]types.TrainingAlg, len(algs))
-	for i, alg := range algs {
-		out[i] = types.TrainingAlg{Score: 0, Alg: alg}
-	}
-	return out
+	algSet := util.Find(*algSets, func(v types.AlgSet) bool {
+		return v.Set == setName
+	})
+	algSet.TrainingAlgs = util.Map(algSet.Algs, func(alg string) types.TrainingAlg {
+		return types.TrainingAlg{Score: 0, Alg: alg}
+	})
+	algSet.Set = setName
+	algSet.Name = setName
+	return &algSet, err
 }

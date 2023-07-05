@@ -145,13 +145,8 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 		return String.fromCharCode.apply(null, f);
 	}
 
-
-	// SCRAMBLERS
-
-	var search = new min2phase.Search();
-
 	function getRandomScramble() {
-		return getAnyScramble(0xffffffffffff, 0xffffffffffff, 0xffffffff, 0xff0fffff);
+		return getAnyScramble(0xffffffffffff, 0xffffffffffff, 0xffffffff, 0xffffffff);
 	}
 
 	function cntU(b) {
@@ -251,6 +246,7 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 		_cp = parseMask(_cp, 8);
 		_co = parseMask(_co, 8);
 		var solution = "";
+        var probeMax = 1e9;
 		do {
 			var eo = _eo.slice();
 			var ep = _ep.slice();
@@ -305,9 +301,10 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 			}
 			var posit = toFaceCube(cc);
 			var search0 = new min2phase.Search();
-			solution = search0.solution(posit, 21, 1e9, 50, 2, lastAxisFilter, firstAxisFilter);
+			solution = search0.solution(posit, 21, probeMax, 1, 2, lastAxisFilter, firstAxisFilter);
 		} while (solution.length <= 3);
-		return solution.replace(/ +/g, ' ');
+
+		return solution;
 	}
 
 	scrMgr.reg('333', getRandomScramble);

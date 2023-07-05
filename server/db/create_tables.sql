@@ -4,12 +4,33 @@ CREATE TABLE "alg_sets" (
     "set" varchar NOT NULL,
     "training_algs" json NOT NULL,
     "puzzle" varchar NOT NULL,
-    "inactive_stickers" integer[] NOT NULL,
-    "disregard" integer[] NOT NULL,
-    "only_orientation" integer[] NOT NULL,
     "deleted" timestamp,
-    "updated" timestamp NOT NULL
+    "updated" timestamp NOT NULL,
+    "name" varchar NOT NULL DEFAULT "set",
 );
+
+-- Temporary ----------------------------------
+
+ALTER TABLE alg_sets
+DROP COLUMN "inactive_stickers",
+DROP COLUMN "disregard",
+DROP COLUMN "only_orientation";
+
+-- Step 1: Add the new column without default constraint
+ALTER TABLE alg_sets
+ADD COLUMN name varchar;
+
+-- Step 2: Update the new column with the values from the "set" column
+UPDATE alg_sets
+SET name = "set";
+
+-- Step 3: Alter the column to add the NOT NULL constraint
+ALTER TABLE alg_sets
+ALTER COLUMN name SET NOT NULL;
+
+ALTER TABLE alg_sets
+ALTER COLUMN name DROP DEFAULT;
+-- End Temporary ------------------------------
 
 CREATE TABLE "sessions" (
     "id" serial PRIMARY KEY NOT NULL,
