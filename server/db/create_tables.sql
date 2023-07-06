@@ -9,29 +9,6 @@ CREATE TABLE "alg_sets" (
     "name" varchar NOT NULL DEFAULT "set",
 );
 
--- Temporary ----------------------------------
-
-ALTER TABLE alg_sets
-DROP COLUMN "inactive_stickers",
-DROP COLUMN "disregard",
-DROP COLUMN "only_orientation";
-
--- Step 1: Add the new column without default constraint
-ALTER TABLE alg_sets
-ADD COLUMN name varchar;
-
--- Step 2: Update the new column with the values from the "set" column
-UPDATE alg_sets
-SET name = "set";
-
--- Step 3: Alter the column to add the NOT NULL constraint
-ALTER TABLE alg_sets
-ALTER COLUMN name SET NOT NULL;
-
-ALTER TABLE alg_sets
-ALTER COLUMN name DROP DEFAULT;
--- End Temporary ------------------------------
-
 CREATE TABLE "sessions" (
     "id" serial PRIMARY KEY NOT NULL,
     "uid" integer NOT NULL,
