@@ -338,6 +338,7 @@
                     <div class="row" style="gap: 8px;">
                         <input
                             type="text"
+                            placeholder="Enter alg"
                             bind:value={trainingAlg.Alg}
                         />
                         <button
