@@ -59,6 +59,7 @@ input {
     background: var(--gray-800);
     color: var(--gray-100);
     box-shadow: 0 0 4px 2px var(--gray-600);
+    transition: all 0.15s ease-in-out;
 }
 
 input:focus {
@@ -105,11 +106,12 @@ button {
     border: none;
     background-color: var(--blue-600);
     text-align: center;
+    transition: all 0.15s ease-in-out;
 }
 
 button:hover {
     cursor: pointer;
-    background-color: var(--blue-700);
+    background-color: var(--blue-800);
 }
 
 button:disabled {
