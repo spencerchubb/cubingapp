@@ -70,14 +70,4 @@
         height: 48px;
         padding: 0 12px;
     }
-
-    :global(.x-icon) {
-        width: 32px;
-        height: 32px;
-    }
-
-    :global(.x-icon):hover {
-        background-color: var(--gray-500);
-        border-radius: 4px;
-    }
 </style>

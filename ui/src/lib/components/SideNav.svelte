@@ -65,16 +65,3 @@
         </a>
     </div>
 </div>
-
-<style>
-    :global(.x-icon) {
-        background: inherit;
-        border-radius: 4px;
-        width: 32px;
-        height: 32px;
-    }
-
-    :global(.x-icon:hover) {
-        background: var(--gray-500);
-    }
-</style>
