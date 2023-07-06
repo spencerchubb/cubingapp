@@ -276,89 +276,89 @@
                 </div>
             </div>
 		{:else if state.modalType === "edit alg set"}
-            <div class="col" style="padding: 16px; gap: 16px;">
-                <input type="text" bind:value={state.algSetEditing.name} />
-                <div class="row" style="gap: 16px;">
-                    <button
-                        class="btn-gray"
-                        on:click={() => {
-                            callback({
-                                modalType: state.page === "landing"
-                                    ? undefined
-                                    : "choose alg set",
-                            });
-                        }}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        on:click={() => {
-                            const algSet = state.algSetEditing;
-                            AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
-
-                            callback({
-                                modalType: undefined,
-                                algSet: state.algSetEditing,
-                                algSets: state.algSets.map(_algSet => {
-                                    return _algSet.id === algSet.id ? algSet : _algSet;
-                                }),
-                            });
-
-                            loadCurrAlg();
-                        }}
-                    >
-                        Save
-                    </button>
-                </div>
-            </div>
-            <div 
-                class="col"
-                style="
-                    gap: 16px;
-                    overflow-y: auto;
-                    max-height: 50vh;
-                    padding: 8px;
-                    margin-bottom: 16px;">
-                <button
-                    on:click={() => {
-                        callback({
-                            algSetEditing: {
-                                ...state.algSetEditing,
-                                trainingAlgs: [
-                                    { Score: 0, Alg: "" },
-                                    ...state.algSetEditing.trainingAlgs,
-                                ],
-                            },
-                        });
-                    }}
-                >
-                    Add alg ➕
-                </button>
-                {#each state.algSetEditing.trainingAlgs as trainingAlg, i}
-                    <div class="row" style="gap: 8px;">
-                        <input
-                            type="text"
-                            placeholder="Enter alg"
-                            bind:value={trainingAlg.Alg}
-                        />
+            <div class="col" style="width: 100%; overflow-y: auto;">
+                <div class="col" style="padding: 16px; gap: 16px;">
+                    <input type="text" bind:value={state.algSetEditing.name} />
+                    <div class="row" style="gap: 16px;">
                         <button
-                            class="btn-transparent"
-                            style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
+                            class="btn-gray"
                             on:click={() => {
                                 callback({
-                                    algSetEditing: {
-                                        ...state.algSetEditing,
-                                        trainingAlgs: state.algSetEditing.trainingAlgs.filter(
-                                            (_trainingAlg, _i) => _i !== i,
-                                        ),
-                                    },
+                                    modalType: state.page === "landing"
+                                        ? undefined
+                                        : "choose alg set",
                                 });
                             }}
                         >
-                            🗑
+                            Cancel
+                        </button>
+                        <button
+                            on:click={() => {
+                                const algSet = state.algSetEditing;
+                                AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
+                                callback({
+                                    modalType: undefined,
+                                    algSet: state.algSetEditing,
+                                    algSets: state.algSets.map(_algSet => {
+                                        return _algSet.id === algSet.id ? algSet : _algSet;
+                                    }),
+                                });
+                                loadCurrAlg();
+                            }}
+                        >
+                            Save
                         </button>
                     </div>
-                {/each}
+                </div>
+                <div style="width: 50%; height: 1px; background: var(--gray-500);"></div>
+                <div
+                    class="col"
+                    style="
+                        width: 100%;
+                        border-top: solid 1px var(--gray-500);
+                        gap: 16px;
+                        padding: 16px;">
+                    <button
+                        on:click={() => {
+                            callback({
+                                algSetEditing: {
+                                    ...state.algSetEditing,
+                                    trainingAlgs: [
+                                        { Score: 0, Alg: "" },
+                                        ...state.algSetEditing.trainingAlgs,
+                                    ],
+                                },
+                            });
+                        }}
+                    >
+                        Add alg ➕
+                    </button>
+                    {#each state.algSetEditing.trainingAlgs as trainingAlg, i}
+                        <div class="row" style="gap: 8px;">
+                            <input
+                                type="text"
+                                placeholder="Enter alg"
+                                bind:value={trainingAlg.Alg}
+                            />
+                            <button
+                                class="btn-transparent"
+                                style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
+                                on:click={() => {
+                                    callback({
+                                        algSetEditing: {
+                                            ...state.algSetEditing,
+                                            trainingAlgs: state.algSetEditing.trainingAlgs.filter(
+                                                (_trainingAlg, _i) => _i !== i,
+                                            ),
+                                        },
+                                    });
+                                }}
+                            >
+                                🗑
+                            </button>
+                        </div>
+                    {/each}
+                </div>
             </div>
 		{/if}
 	</Modal>

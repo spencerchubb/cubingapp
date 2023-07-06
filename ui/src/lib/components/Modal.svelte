@@ -48,16 +48,25 @@
 <style>
     .modal {
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         background-color: var(--gray-700);
-        box-shadow: 0 0 8px 4px var(--gray-600);
-        border-radius: 16px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    @media (min-width: 700px) {
+        .modal {
+            max-width: 600px;
+            max-height: 500px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 8px 4px var(--gray-600);
+            border-radius: 16px;
+        }
     }
 
     .modal-header {
@@ -65,9 +74,11 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid var(--gray-600);
+        border-bottom: 1px solid var(--gray-500);
         width: 100%;
         height: 48px;
-        padding: 0 12px;
+        padding: 12px;
     }
+
+
 </style>
