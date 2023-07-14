@@ -1,5 +1,5 @@
+import { range } from "../util";
 import { expandDoubleMoves } from "./alg";
-import { Shape } from "./buffers";
 import { KeyBindings, getKeyBindings } from "./keyBindings";
 
 export type Sticker = {
@@ -27,21 +27,17 @@ export abstract class Puzzle {
     stickers: number[];
     affectedStickers: boolean[];
     animationQueue: AnimationData[];
-    perspective: number[];
 
     private keyBindings: KeyBindings;
 
-    constructor(perspective: number[]) {
+    constructor() {
         this.animationQueue = [];
-        this.perspective = perspective;
 
         this.keyBindings = getKeyBindings();
     }
 
     abstract getHintType(gl: WebGLRenderingContext): WebGLBuffer;
 
-    abstract getShapes(): Shape[];
-    
     abstract numStickers(): number;
 
     /* Then start index of stickers that are draggable */
@@ -74,11 +70,7 @@ export abstract class Puzzle {
     }
 
     solve() {
-        const numStickers = this.numStickers();
-        this.stickers = new Array(numStickers);
-        for (let i = 0; i < numStickers; i++) {
-            this.stickers[i] = i;
-        }
+        this.stickers = range(this.numStickers());
     }
 
     /**

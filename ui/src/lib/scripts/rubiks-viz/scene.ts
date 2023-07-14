@@ -1,11 +1,9 @@
 import { Shape, getBuffer } from "./buffers";
-import { Cube } from "./cube/cube";
-import { CubeDragDetector } from "./cube/dragDetector";
+import { Cube, CubeDragDetector, makeSquares } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import { Puzzle } from "./puzzle";
-import { PyraDragDetector } from "./pyraminx/dragDetector";
-import { Pyraminx } from "./pyraminx/pyraminx";
+import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
 import { singleton } from "./singleton";
 import { Spring } from "./spring";
 
@@ -160,13 +158,14 @@ function initProgram(gl: WebGLRenderingContext): ProgramInfo {
 type Scene = {
     div: HTMLElement,
     puzzle: Puzzle,
+    shapes: Shape[],
     dragEnabled: boolean,
     enableKey: (event: KeyboardEvent) => boolean,
 };
 
 type InternalScene = {
     div: HTMLElement,
-    puzzle: Puzzle,
+    perspective: number[]
     spring: Spring,
 };
 
@@ -186,29 +185,31 @@ function newCube(div: HTMLElement, layers: number = 3): Scene {
     let scene: Scene | undefined = scenes.find(s => s.div === div);
     let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
     if (scene && internalScene) {
-        const puzzle = new Cube(gl, scene.puzzle.perspective, layers);
+        const puzzle = new Cube(layers);
         scene.puzzle = puzzle;
-        internalScene.puzzle = puzzle;
+        scene.shapes = makeSquares(gl, puzzle, internalScene.perspective);
         return scene;
     }
 
     let perspective = initPerspective();
 
-    let cube = new Cube(gl, perspective, layers);
+    let cube = new Cube(layers);
+    let shapes = makeSquares(gl, cube, perspective);
 
     let spring = new Spring();
-    let dragDetector = new CubeDragDetector();
+    let dragDetector = new CubeDragDetector(shapes);
 
     scene = {
         div,
         puzzle: cube,
+        shapes,
         dragEnabled: true,
         enableKey: (_) => true,
     };
 
     internalScene = {
         div,
-        puzzle: cube,
+        perspective,
         spring,
     }
 
@@ -224,29 +225,30 @@ function newPyraminx(div: HTMLElement): Scene {
     let scene: Scene | undefined = scenes.find(s => s.div === div);
     let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
     if (scene && internalScene) {
-        const puzzle = new Pyraminx(gl, scene.puzzle.perspective);
+        const puzzle = new Pyraminx();
         scene.puzzle = puzzle;
-        internalScene.puzzle = puzzle;
         return scene;
     }
 
     const perspective = initPerspective();
 
-    let pyraminx = new Pyraminx(gl, perspective);
+    let pyraminx = new Pyraminx();
+    let shapes = makeTriangles(gl, perspective);
 
     let spring = new Spring();
-    let dragDetector = new PyraDragDetector();
+    let dragDetector = new PyraDragDetector(shapes);
 
     scene = {
         div,
         puzzle: pyraminx,
+        shapes,
         dragEnabled: true,
         enableKey: (_) => true,
     };
 
     internalScene = {
         div,
-        puzzle: pyraminx,
+        perspective,
         spring,
     }
 
@@ -413,7 +415,8 @@ function render(newTime: number) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     for (let i = 0; i < scenes.length; i++) {
-        const { div, puzzle, spring } = internalScenes[i];
+        const { puzzle, shapes } = scenes[i];
+        const { div, perspective, spring } = internalScenes[i];
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -451,7 +454,6 @@ function render(newTime: number) {
         let _transformSingleton = singleton<number[]>();
         let _rotateSingleton = singleton<number[]>();
 
-        const shapes = puzzle.getShapes();
         for (let i = 0; i < shapes.length; i++) {
             let sticker = stickers[i];
             let currentBuffer = shapes[sticker];
@@ -462,12 +464,12 @@ function render(newTime: number) {
                 ? _transformSingleton(() => {
                     return glMat.rotate(
                         glMat.create(),
-                        puzzle.perspective,
+                        perspective,
                         spring.position * Math.PI / 180,
                         animation.axis
                     );
                 })
-                : puzzle.perspective;
+                : perspective;
 
             gl.uniformMatrix4fv(
                 programInfo.uniforms.transformMatrix,

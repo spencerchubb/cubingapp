@@ -1,3 +1,4 @@
+import { Shape } from "../buffers";
 import { DragDetector } from "../dragDetector";
 import { Puzzle } from "../puzzle";
 
@@ -13,9 +14,13 @@ const F0 = 1,
 
 export class PyraDragDetector extends DragDetector {
 
+    constructor(shapes: Shape[]) {
+        super(shapes);
+    }
+
     // Implement abstract method
     _onPointerDown(x: number, y: number, puzzle: Puzzle) {
-        const shapes = puzzle.getShapes();
+        const shapes = this.shapes;
 
         function getXY(objectIndex: number, xIndex: number, yIndex: number) {
             return {

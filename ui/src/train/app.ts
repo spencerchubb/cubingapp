@@ -1,7 +1,7 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement, randInt } from "../lib/scripts/common/rand";
-import { GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
+import { Cube, GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
@@ -134,7 +134,7 @@ function setAlgSet(scene: Scene) {
     }
 
     uiState.algSet.inactive.forEach(stickerIdx => {
-        const shape = scene.puzzle.getShapes()[stickerIdx];
+        const shape = scene.shapes[stickerIdx];
         shape.color = shape.getColorBuffer(GRAY);
     });
 }
@@ -160,7 +160,6 @@ export function loadCurrAlg(): string {
     alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     scene.puzzle.performAlg(alg);
 
-    // The scramble must be generated after the algorithm is applied.
     getScramble();
 
     return alg;
@@ -204,7 +203,7 @@ export async function getScramble(): Promise<void> {
     let alg = getFirstAlg();
     alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     
-    uiState.scramble = scramble(scene.puzzle, alg);
+    uiState.scramble = scramble((puzzle as Cube).layers, alg);
     callback(uiState);
 }
 

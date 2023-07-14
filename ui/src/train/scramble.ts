@@ -1,7 +1,6 @@
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { Cube } from "../lib/scripts/rubiks-viz";
-import { scramble_222 } from "../lib/scripts/cstimer/scramble_222";
 
 const S = {
     UBL: 0,
@@ -112,24 +111,21 @@ const corners = [
     UFR,
 ].reverse();
 
-const gl = (document.querySelector("canvas") as HTMLCanvasElement).getContext("webgl") as WebGLRenderingContext;
-const threeByThree = new Cube(gl, [], 3);
+const cube = new Cube(3);
 
-export function scramble(puzzle: Puzzle, alg: string): string {
-    // If the puzzle is a 2x2, we do something special.
-    // Perform the alg on a 3x3, then disregard the edges.
-    if ((puzzle as Cube).layers === 2) {
-        puzzle = threeByThree;
-        threeByThree.solve();
-        threeByThree.performAlg(alg);
+export function scramble(layers: number, alg: string): string {
+    cube.solve();
+    cube.performAlg(alg);
 
+    // If the puzzle is a 2x2, we disregard the edges.
+    if (layers === 2) {
         const anyEdges = 0xffffffffffff;
-        let [cp, co] = getPermAndOri(puzzle, corners, 8);
+        let [cp, co] = getPermAndOri(cube, corners, 8);
         return scramble_333.getAnyScramble(anyEdges, anyEdges, cp, co, null, null, null, null);
     }
 
-    let [ep, eo] = getPermAndOri(puzzle, edges, 12);
-    let [cp, co] = getPermAndOri(puzzle, corners, 8);
+    let [ep, eo] = getPermAndOri(cube, edges, 12);
+    let [cp, co] = getPermAndOri(cube, corners, 8);
 
     return scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
 }

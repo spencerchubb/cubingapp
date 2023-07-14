@@ -1,6 +1,10 @@
-import { Shape, Triangle, getBuffer } from "../buffers";
-import { BLUE, Color, GREEN, RED, YELLOW } from "../colors";
+import {
+    vertex1, vertex2, vertex3, vertex4,
+    invVertex1, invVertex2, invVertex3, invVertex4,
+} from "./vertices";
+import { getBuffer } from "../buffers";
 import { Puzzle } from "../puzzle";
+import { range } from "../../util";
 
 // Sticker order is Front, Bottom, Back left, Back right.
 // Top to bottom, left to right.
@@ -45,60 +49,12 @@ const F0 = 1,
     R7 = 30,
     R8 = 29;
 
-const x = Math.sqrt(6) / 3;
-const y = -1 / 3;
-const zfront = Math.sqrt(1 - x * x - y * y);
-const zback = Math.sqrt(1 - y * y);
-const vertex1: [number, number, number] = [x, y, zfront];
-const vertex2: [number, number, number] = [0, y, -zback];
-const vertex3: [number, number, number] = [-x, y, zfront];
-const vertex4: [number, number, number] = [0, 1, 0];
-
-const invVertex1: [number, number, number] = [-vertex1[0], -vertex1[1], -vertex1[2]];
-const invVertex2: [number, number, number] = [-vertex2[0], -vertex2[1], -vertex2[2]];
-const invVertex3: [number, number, number] = [-vertex3[0], -vertex3[1], -vertex3[2]];
-const invVertex4: [number, number, number] = [-vertex4[0], -vertex4[1], -vertex4[2]];
-
 export class Pyraminx extends Puzzle {
-    private shapes: Shape[];
 
-    constructor(gl: WebGLRenderingContext, perspective: number[]) {
-        super(perspective);
+    constructor() {
+        super();
 
-        this.stickers = [
-            0,1,2,3,4,5,6,7,8, // Front
-            9,10,11,12,13,14,15,16,17, // Bottom
-            18,19,20,21,22,23,24,25,26, // Back left
-            27,28,29,30,31,32,33,34,35, // Back right
-        ];
-
-        let front = [
-            ...vertex3,
-            ...vertex4,
-            ...vertex1,
-        ];
-        let backLeft = [
-            ...vertex2,
-            ...vertex3,
-            ...vertex4,
-        ];
-        let bottom = [
-            ...vertex1,
-            ...vertex3,
-            ...vertex2,
-        ];
-        let backRight = [
-            ...vertex1,
-            ...vertex4,
-            ...vertex2,
-        ];
-
-        this.shapes = [
-            ...makeFace(gl, perspective, front, GREEN),
-            ...makeFace(gl, perspective, bottom, YELLOW),
-            ...makeFace(gl, perspective, backLeft, RED),
-            ...makeFace(gl, perspective, backRight, BLUE),
-        ]
+        this.solve();
     }
 
     private hintType: WebGLBuffer;
@@ -109,11 +65,6 @@ export class Pyraminx extends Puzzle {
             this.hintType = getBuffer(gl, [2, 2, 2, 2]);
         }
         return this.hintType;
-    }
-
-    // Implement abstract method
-    getShapes(): Shape[] {
-        return this.shapes;
     }
 
     // Implement abstract method
@@ -361,107 +312,4 @@ export class Pyraminx extends Puzzle {
             this.stickers[i3] = temp;
         }
     }
-}
-
-function makeFace(gl: WebGLRenderingContext, perspective: number[], triangle: number[], color: Color): Triangle[] {
-    const baseTri = scale(triangle, 1.7);
-    const stickerTri = scale(triangle, 1.75);
-    const hintTri = pad(
-        scale(triangle, 3.25),
-        0.5,
-    );
-
-    const baseMinis = splitIntoMiniTriangles(baseTri);
-    const stickerMinis = splitIntoMiniTriangles(stickerTri).map(tri => pad(tri, 0.07));
-    const hintMinis = splitIntoMiniTriangles(hintTri).map(tri => pad(tri, 0.07));
-
-    let triangles: Triangle[] = new Array(9);
-    for (let i = 0; i < 9; i++) {
-        triangles[i] = new Triangle(gl, {
-            perspective: perspective,
-            color,
-            baseVertices: baseMinis[i],
-            stickerVertices: stickerMinis[i],
-            hintVertices: hintMinis[i],
-        });
-    }
-    return triangles;
-}
-
-function splitIntoMiniTriangles(coords: number[]): number[][] {
-    const [x1, y1, z1, x2, y2, z2, x3, y3, z3] = coords;
-
-    const [x12_1, y12_1, z12_1] = thirdPoint(x1, y1, z1, x2, y2, z2);
-    const [x12_2, y12_2, z12_2] = twoThirdsPoint(x1, y1, z1, x2, y2, z2);
-
-    const [x13_1, y13_1, z13_1] = thirdPoint(x1, y1, z1, x3, y3, z3);
-    const [x13_2, y13_2, z13_2] = twoThirdsPoint(x1, y1, z1, x3, y3, z3);
-
-    const [x23_1, y23_1, z23_1] = thirdPoint(x2, y2, z2, x3, y3, z3);
-    const [x23_2, y23_2, z23_2] = twoThirdsPoint(x2, y2, z2, x3, y3, z3);
-
-    const xmid = (x1 + x2 + x3) / 3,
-        ymid = (y1 + y2 + y3) / 3,
-        zmid = (z1 + z2 + z3) / 3;
-
-    // Split into 9 triangles
-    return [
-        [x1, y1, z1, x12_1, y12_1, z12_1, x13_1, y13_1, z13_1],
-        [x12_2, y12_2, z12_2, x2, y2, z2, x23_1, y23_1, z23_1],
-        [x13_2, y13_2, z13_2, x23_2, y23_2, z23_2, x3, y3, z3],
-        [xmid, ymid, zmid, x13_2, y13_2, z13_2, x23_2, y23_2, z23_2],
-        [xmid, ymid, zmid, x13_1, y13_1, z13_1, x12_1, y12_1, z12_1],
-        [xmid, ymid, zmid, x12_2, y12_2, z12_2, x23_1, y23_1, z23_1],
-        [xmid, ymid, zmid, x12_1, y12_1, z12_1, x12_2, y12_2, z12_2],
-        [xmid, ymid, zmid, x13_1, y13_1, z13_1, x13_2, y13_2, z13_2],
-        [xmid, ymid, zmid, x23_1, y23_1, z23_1, x23_2, y23_2, z23_2],
-    ];
-}
-
-// Find the point that lies 1/3 of the way between the two points.
-function thirdPoint(x1, y1, z1, x2, y2, z2): [number, number, number] {
-    return [(2 * x1 + x2) / 3, (2 * y1 + y2) / 3, (2 * z1 + z2) / 3];
-}
-
-// Find the point that lies 2/3 of the way between the two points.
-function twoThirdsPoint(x1, y1, z1, x2, y2, z2): [number, number, number] {
-    return [(x1 + 2 * x2) / 3, (y1 + 2 * y2) / 3, (z1 + 2 * z2) / 3];
-}
-
-function scale(coords: number[], factor: number): number[] {
-    return coords.map(coord => coord * factor);
-}
-
-/* Pad the shape by a certain percentage. */
-function pad(coords: number[], percent: number): number[] {
-    let amount = 1 - percent;
-
-    // Find the center of the shape.
-    const xmid = (coords[0] + coords[3] + coords[6]) / 3,
-        ymid = (coords[1] + coords[4] + coords[7]) / 3,
-        zmid = (coords[2] + coords[5] + coords[8]) / 3;
-
-    // Move coords close to the center of the shape.
-    const dx = coords[0] - xmid,
-        dy = coords[1] - ymid,
-        dz = coords[2] - zmid;
-    coords[0] = xmid + dx * amount;
-    coords[1] = ymid + dy * amount;
-    coords[2] = zmid + dz * amount;
-
-    const dx2 = coords[3] - xmid,
-        dy2 = coords[4] - ymid,
-        dz2 = coords[5] - zmid;
-    coords[3] = xmid + dx2 * amount;
-    coords[4] = ymid + dy2 * amount;
-    coords[5] = zmid + dz2 * amount;
-
-    const dx3 = coords[6] - xmid,
-        dy3 = coords[7] - ymid,
-        dz3 = coords[8] - zmid;
-    coords[6] = xmid + dx3 * amount;
-    coords[7] = ymid + dy3 * amount;
-    coords[8] = zmid + dz3 * amount;
-
-    return coords;
 }

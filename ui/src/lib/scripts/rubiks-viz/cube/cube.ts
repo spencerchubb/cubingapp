@@ -1,6 +1,6 @@
-import { createBuffers } from "./buffers";
 import { Puzzle } from "../puzzle";
 import { Shape, getBuffer } from "../buffers";
+import { range } from "../../util";
 
 export function sq(x: number): number {
     return x * x;
@@ -9,38 +9,23 @@ export function sq(x: number): number {
 export class Cube extends Puzzle {
     layers: number;
 
-    private shapes: Shape[];
-
-    constructor(gl: WebGLRenderingContext, perspective: number[], layers: number) {
-        super(perspective);
-
+    constructor(layers: number) {
+        super();
+        
         this.layers = layers;
 
-        const numStickers = this.numStickers();
-        this.stickers = Array(numStickers);
-        for (let i = 0; i < numStickers; i++) {
-            this.stickers[i] = i;
-        }
-
         this.resetAffectedStickers();
-
-        this.shapes = createBuffers(gl, this);
+        this.solve();
     }
 
     private hintType: WebGLBuffer;
     // Implement abstract method
     getHintType(gl: WebGLRenderingContext): WebGLBuffer {
-        if (!this.hintType) {
-            // IDK why I have to put the number 4 times.
-            this.hintType = getBuffer(gl, [1, 1, 1, 1]);
-        }
+        // IDK why I have to put the number 4 times.
+        this.hintType = this.hintType || getBuffer(gl, [1, 1, 1, 1]);
         return this.hintType;
     }
     
-    getShapes(): Shape[] {
-        return this.shapes;
-    }
-
     // Implement abstract method
     numStickers() {
         return this.layers * this.layers * 6;

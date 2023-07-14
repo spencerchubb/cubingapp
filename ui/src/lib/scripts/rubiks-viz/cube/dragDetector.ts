@@ -1,3 +1,4 @@
+import { Shape } from "../buffers";
 import { DragDetector } from "../dragDetector";
 import { Puzzle } from "../puzzle";
 import { Cube, sq } from "./cube";
@@ -20,11 +21,15 @@ function frontColumn(cube: Cube, sticker: number) {
 
 export class CubeDragDetector extends DragDetector {
 
+    constructor(shapes: Shape[]) {
+        super(shapes);
+    }
+
     // Implement abstract method
     _onPointerDown(x: number, y: number, puzzle: Puzzle) {
         const cube = puzzle as Cube;
 
-        const shapes = puzzle.getShapes();
+        const shapes = this.shapes;
         function getXY(objectIndex: number, xIndex: number, yIndex: number) {
             return {
                 x: shapes[objectIndex].cart2d[xIndex],

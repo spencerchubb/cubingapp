@@ -1,3 +1,4 @@
+import { Shape } from "./buffers";
 import { Puzzle } from "./puzzle";
 
 /**
@@ -32,6 +33,12 @@ export abstract class DragDetector {
     yOnMove: number;
     stickerOnDown: number;
     cart2dOnDown: number[];
+
+    protected shapes: Shape[];
+
+    constructor(shapes: Shape[]) {
+        this.shapes = shapes;
+    }
 
     abstract _onPointerDown(x: number, y: number, puzzle: Puzzle): void;
 
@@ -76,7 +83,7 @@ export abstract class DragDetector {
      * Return -1 if it's not in any sticker.
      */
     private coordsToSticker(x: number, y: number, puzzle: Puzzle) {
-        const shapes = puzzle.getShapes();
+        const shapes = this.shapes;
 
         // Determine if coordinate is in convex quadrilateral
         const isInQuad = i => {

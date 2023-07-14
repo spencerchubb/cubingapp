@@ -3,8 +3,7 @@ import { Cube, invertMove } from "../lib/scripts/rubiks-viz";
 import { CROSS_WHITE, STICKERS } from "../lib/scripts/rubiks-viz/pieces";
 
 // Keep a separate cube so we don't mess up the UI.
-const gl = (document.querySelector("canvas") as HTMLCanvasElement).getContext("webgl") as WebGLRenderingContext;
-const cube = new Cube(gl, [], 3);
+const cube = new Cube(3);
 
 const f2lFrontRight = [...CROSS_WHITE, STICKERS.UFR, STICKERS.FRU, STICKERS.RUF, STICKERS.FR, STICKERS.RF];
 const f2lFrontLeft = [...CROSS_WHITE, STICKERS.ULF, STICKERS.LFU, STICKERS.FUL, STICKERS.FL, STICKERS.LF];
