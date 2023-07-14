@@ -1,5 +1,5 @@
 <div style="max-width: 600px;">
-    <h2 style="text-align: center; margin-bottom: 16px;">FAQ</h2>
+    <h2 style="text-align: center; margin-bottom: 16px;">Frequently asked</h2>
     <h3 style="margin-bottom: 8px;">Why use this trainer?</h3>
     <p style="margin-bottom: 24px;">
         We use a memorization technique called <i>spaced repetition</i>. This
@@ -7,15 +7,8 @@
         more often if you get it wrong. The algorithms are automatically spaced
         out so you can memorize in the most efficient way possible.
     </p>
-    <h3 style="margin-bottom: 8px;">How does I use it?</h3>
+    <h3 style="margin-bottom: 8px;">How does it work?</h3>
     <p style="margin-bottom: 24px;">
-        There are a couple ways to use this trainer. We provide a scramble so
-        you can set up a case on your own cube, or you can use the virtual cube.
-        To turn the virtual cube, you can use the keyboard or drag the cube.
-    </p>
-    <h3 style="margin-bottom: 8px;">What alg sets do you have?</h3>
-    <p style="margin-bottom: 24px;">
-        You can make your own! We also have common sets pre-made such as OLL,
-        PLL, CLL, and more.
+        If you prefer to scramble a physical cube, you can turn on 'Scrambles' in the settings. You can also use the virtual cube, which can save a lot of time since you don't have to scramble. In addition, the virtual cube works on your phone.
     </p>
 </div>

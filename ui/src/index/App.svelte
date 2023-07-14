@@ -48,10 +48,6 @@
         </div>
         <div class="col" style="margin-top: 32px; gap: 16px;">
             <a href="./algdb.html">
-                <!-- <div class="blue-to-purple card">
-                    <h2>Algorithm Database</h2>
-                    <p>3300+ Rubik's Cube algorithms</p>
-                </div> -->
                 <Card
                     class="blue-to-purple"
                     title="Algorithm Database"
@@ -61,8 +57,8 @@
             <a href="./recon.html">
                 <Card
                     class="red-to-orange"
-                    title="Algorithm Database"
-                    text="3300+ Rubik's Cube algorithms"
+                    title="Recon Tool"
+                    text="Enter a scramble and a solution, then share the link with your friends"
                 />
             </a>
             <a href="./timer.html">
@@ -73,10 +69,6 @@
                 />
             </a>
             <a href="./train.html">
-                <!-- <div class="red-to-orange card">
-                    <h2>Train</h2>
-                    <p>Memorize algorithms in half the time</p>
-                </div> -->
                 <Card
                     class="red-to-orange"
                     title="Train"
