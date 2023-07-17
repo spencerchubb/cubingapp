@@ -49,6 +49,7 @@ export default defineConfig({
         "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
         blog: resolve(__dirname, 'blog.html'),
         ...blogs(),
+        calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
         index: resolve(__dirname, 'index.html'),
         keybindings: resolve(__dirname, 'keybindings.html'),
         recon: resolve(__dirname, 'recon.html'),
