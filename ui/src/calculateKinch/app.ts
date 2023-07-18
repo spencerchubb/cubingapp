@@ -1,4 +1,4 @@
-import { WCAPerson, WCARecords, WCA_EVENTS, fetchWCAPerson, fetchWCARecords } from "../lib/scripts/wca";
+import { WCAPerson, WCARegionRecords, WCA_EVENTS, fetchRegionRecords, fetchWCAPerson } from "../lib/scripts/wca";
 
 let callback: (state) => void;
 
@@ -9,9 +9,10 @@ export function setCallback(_callback: (state) => void) {
 
 type State = {
     wcaId: string,
+    region: string,
     error?: string,
     wcaPerson?: WCAPerson,
-    wcaRecords?: WCARecords,
+    wcaRegionRecords?: WCARegionRecords,
     kinchScore?: number,
     kinchData?: {
         event: string,
@@ -21,29 +22,33 @@ type State = {
     }[],
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+
 let state: State = {
-    wcaId: new URLSearchParams(window.location.search).get("wcaId") ?? "",
+    wcaId: urlParams.get("wcaId") ?? "",
+    region: urlParams.get("region") ?? "World",
     wcaPerson: undefined,
-    wcaRecords: undefined,
+    wcaRegionRecords: undefined,
     kinchScore: undefined,
     kinchData: undefined,
 };
 
 export const controller = {
     calculateKinchScore: () => {
-        const wcaId = state.wcaId;
+        const { wcaId, region } = state;
 
         if (!wcaId) return;
 
-        // Add wcaId to query params
+        // Add to query params
         const url = new URL(window.location.href);
         url.searchParams.set("wcaId", wcaId);
+        url.searchParams.set("region", region);
         window.history.pushState({}, "", url.toString());
 
-        Promise.all([fetchWCAPerson(wcaId), fetchWCARecords()])
-            .then(([wcaPerson, wcaRecords]) => {
+        Promise.all([fetchWCAPerson(wcaId), fetchRegionRecords(region)])
+            .then(([wcaPerson, wcaRegionRecords]) => {
                 state.wcaPerson = wcaPerson;
-                state.wcaRecords = wcaRecords;
+                state.wcaRegionRecords = wcaRegionRecords;
 
                 state.error = wcaPerson.error;
                 if (state.error) {
@@ -60,7 +65,7 @@ export const controller = {
                     return;
                 }
 
-                const eventRatios = getEventRatios(wcaPerson, wcaRecords);
+                const eventRatios = getEventRatios(wcaPerson, wcaRegionRecords);
                 const kinchScore = calculateMean(eventRatios);
 
                 state.kinchScore = round(kinchScore, 2);
@@ -93,14 +98,17 @@ export const controller = {
         - 5bld single and 5bld average  
     See the original explanation for more: https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/
 */
-function getEventRatios(person: WCAPerson, records: WCARecords): number[] {
+function getEventRatios(
+    person: WCAPerson,
+    records: WCARegionRecords
+): number[] {
     return WCA_EVENTS.map(wcaEvent => {
         const wcaKey = wcaEvent.wcaKey;
         const personalRecord = person.personal_records[wcaKey];
 
         if (wcaKey === "333mbf") {
             const personalSingle = personalRecord?.single?.best;
-            const recordSingle = records.world_records[wcaKey].single;
+            const recordSingle = records[wcaKey].single;
 
             const personalResult = decodeMbldAttemptResult(personalSingle);
             const recordResult = decodeMbldAttemptResult(recordSingle);
@@ -126,10 +134,10 @@ function getEventRatios(person: WCAPerson, records: WCARecords): number[] {
 
         if (["333fm", "333bf", "444bf", "555bf"].includes(wcaKey)) {
             const personalSingle = personalRecord?.single?.best ?? 0;
-            const recordSingle = records.world_records[wcaKey].single ?? 0;
+            const recordSingle = records[wcaKey].single ?? 0;
 
             const personalAvg = personalRecord?.average?.best ?? 0;
-            const recordAvg = records.world_records[wcaKey].average ?? 0;
+            const recordAvg = records[wcaKey].average ?? 0;
 
             // If both are 0, return 0
             if (personalSingle === 0 && personalAvg === 0) return 0;
@@ -147,7 +155,7 @@ function getEventRatios(person: WCAPerson, records: WCARecords): number[] {
         }
 
         const personalAvg = personalRecord?.average?.best ?? 0;
-        const recordAvg = records.world_records[wcaKey].average ?? 0;
+        const recordAvg = records[wcaKey].average ?? 0;
 
         if (personalAvg === 0) return 0;
 

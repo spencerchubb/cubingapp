@@ -7,7 +7,22 @@ export async function fetchWCAPerson(wcaId: string): Promise<WCAPerson> {
 
 export async function fetchWCARecords(): Promise<WCARecords> {
     const url = `${baseUrl}/records`;
-    return fetchJson(url);
+    return fetchJson(url);     
+}
+
+export async function fetchRegionRecords(region: string): Promise<WCARegionRecords> {
+    const wcaRecords = await fetchWCARecords();
+    const regionType = getRegionType(region);
+    switch (regionType) {
+        case "world":
+            return wcaRecords.world_records;
+        case "continent":
+            return wcaRecords.continental_records[`_${region}`];
+        case "country":
+            return wcaRecords.national_records[region];
+            default:
+                throw new Error(`Invalid region type: ${regionType}`);
+    } 
 }
 
 async function fetchJson(url: string): Promise<any> {
@@ -15,6 +30,15 @@ async function fetchJson(url: string): Promise<any> {
     const json = await res.json();
     console.log(json);
     return json;
+}
+
+type RegionType = "world" | "continent" | "country";
+
+function getRegionType(region: string): RegionType {
+    if (region === "World") return "world";
+    if (CONTINENTS.includes(region)) return "continent";
+    if (COUNTRIES.includes(region)) return "country";
+    throw new Error(`Invalid region: ${region}`);
 }
 
 export type WCAPerson = {
@@ -73,36 +97,26 @@ export type WCAPerson = {
     };
 };
 
-export type WCARecords = {
-    world_records: {
-        /* This key is the event. */
-        [key: string]: {
-            single?: number;
-            average?: number;
-        }
+export type WCARegionRecords = {
+    /* This key is the event. */
+    [key: string]: {
+        single?: number;
+        average?: number;
     };
+};
+
+export type WCARecords = {
+    world_records: WCARegionRecords;
     continental_records: {
         /**
          * This key is the continent.
          * The WCA API returns the continent name prepended by an underscore for example, "_South America".
          */
-        [key: string]: {
-            /* This key is the event. */
-            [key: string]: {
-                single?: number;
-                average?: number;
-            };
-        };
+        [key: string]: WCARegionRecords;
     };
     national_records: {
         /** This key is the country */
-        [key: string]: {
-            /* This key is the event. */
-            [key: string]: {
-                single?: number;
-                average?: number;
-            };
-        };
+        [key: string]: WCARegionRecords;
     };
 }
 
