@@ -1,4 +1,4 @@
-import { WCAPerson, WCARecords, WCA_EVENTS, fetchWCAPerson, fetchWCARecords } from "./api";
+import { WCAPerson, WCARecords, WCA_EVENTS, fetchWCAPerson, fetchWCARecords } from "../lib/scripts/wca";
 
 let callback: (state) => void;
 
