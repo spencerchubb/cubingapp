@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, connectAuthEmulator, type Auth } from "firebase/auth";
+import { getAuth, type Auth } from "firebase/auth";
 
 export {
     log,
@@ -8,8 +8,8 @@ export {
 };
 
 type Log = (message?: any, ...optionalParams: any[]) => void;
-const log: Log = console.log;
-const url = "http://localhost:3000";
+const log: Log = () => {};
+const url = "https://api.cubingapp.com:3000";
 
 // https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {
@@ -24,12 +24,4 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-// Use singleton pattern because connectAuthEmulator can only be called once
-let authSingleton;
-const auth = (): Auth => {
-    if (authSingleton) return authSingleton;
-
-    authSingleton = getAuth(app);
-    connectAuthEmulator(authSingleton, "http://localhost:9099");
-    return authSingleton;
-}
+const auth = (): Auth => getAuth(app);

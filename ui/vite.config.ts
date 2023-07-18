@@ -50,6 +50,7 @@ export default defineConfig({
         blog: resolve(__dirname, 'blog.html'),
         ...blogs(),
         calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
+        calculateSoR: resolve(__dirname, 'calculate-sum-of-ranks.html'),
         index: resolve(__dirname, 'index.html'),
         keybindings: resolve(__dirname, 'keybindings.html'),
         recon: resolve(__dirname, 'recon.html'),
