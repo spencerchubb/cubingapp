@@ -171,7 +171,7 @@ function getEventRatios(
  * @example
  * decodeMbldAttemptResult(900348002); // => { solved: 11, attempted: 13, centiseconds: 348000 }
  */
-export function decodeMbldAttemptResult(value) {
+function decodeMbldAttemptResult(value) {
     if (!value) return undefined;
     if (value <= 0) return { solved: 0, attempted: 0, centiseconds: value };
     // Old-style results, written as a 10-digit number, start with a '1'.
