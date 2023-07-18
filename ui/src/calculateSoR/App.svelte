@@ -3,6 +3,7 @@
     import SideNav from "../lib/components/SideNav.svelte";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import { CONTINENTS, COUNTRIES } from "../lib/scripts/wca";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -45,8 +46,16 @@
                 bind:value={state.region}
             >
                 <option value="World">World</option>
-                <option value="Continent">Continent</option>
-                <option value="Country">Country</option>
+                <optgroup label="Continents">
+                    {#each CONTINENTS as continent}
+                        <option value={continent}>{continent}</option>
+                    {/each}
+                </optgroup>
+                <optgroup label="Countries">
+                    {#each COUNTRIES as country}
+                        <option value={country}>{country}</option>
+                    {/each}
+                </optgroup>
             </select>
             <label for="type">Type</label>
             <select
@@ -83,11 +92,11 @@
                                 <td>{person.overall}</td>
                                 {#each person.events as event}
                                     <td
-                                        style={event.regionalRank <= 10
+                                        style={!event.completed
+                                            ? "font-weight: bold; color: var(--red-500);"
+                                            : event.regionalRank <= 10
                                             ? "font-weight: bold; color: var(--green-500);"
-                                            : event.completed
-                                                ? "color: var(--gray-100);"
-                                                : "font-weight: bold; color: var(--red-500);"}
+                                            : "color: var(--gray-100);"}
                                     >
                                         {event.regionalRank}
                                     </td>
