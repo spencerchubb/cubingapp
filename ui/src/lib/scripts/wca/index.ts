@@ -25,6 +25,18 @@ export async function fetchRegionRecords(region: string): Promise<WCARegionRecor
     } 
 }
 
+export async function fetchWCASumOfRanks(type: string, region: string, wcaId: string): Promise<WCASumOfRanks> {
+    if (!["Single", "Average"].includes(type)) {
+        throw new Error(`Invalid type: ${type}`);
+    }
+
+    const regionType = getRegionType(region);
+
+    if (wcaId) wcaId = `?wcaId=${wcaId}`;
+    const url = `https://statistics-api.worldcubeassociation.org/sum-of-ranks/${type}/${regionType}/${region}${wcaId}`;
+    return fetchJson(url);
+}
+
 async function fetchJson(url: string): Promise<any> {
     const res = await fetch(url);
     const json = await res.json();
@@ -118,6 +130,22 @@ export type WCARecords = {
         /** This key is the country */
         [key: string]: WCARegionRecords;
     };
+}
+
+export type WCASumOfRanks = {
+    content: {
+        regionRank: number;
+        wcaId: string;
+        name: string;
+        overall: number;
+        events: {
+            event: {
+                id: string;
+            };
+            regionalRank: number;
+            completed: boolean;
+        }[];
+    }[];
 }
 
 type WCAEvent = { name: string; wcaKey: string};
