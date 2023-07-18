@@ -140,6 +140,13 @@
                 <li>Avoids event biases - For example, you have to be <b>really</b> good at 3x3 to have a good Sum of Ranks</li>
                 <li>In Sum of Ranks, there is no incentive for the world record holder to improve that event</li>
             </ul>
+            <h2>Alternatives to Kinch Ranks</h2>
+            <p>
+                As mentioned before, Kinch Ranks is just one way to measure the all-round abilities of a cuber. If you want to know your Sum of Ranks, you can visit our <a class="link" href="/calculate-sum-of-ranks.html">Sum of Ranks Calculator</a> as well.
+            </p>
+            <p>
+                Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
+            </p>
         </div>
         <div style="margin-top: 32px;"></div>
     </div>

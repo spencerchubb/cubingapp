@@ -107,6 +107,13 @@
             <p>
                 Lower scores are better. For example, since the world record holder is ranked 1st in the world, their rank for that event is 1.
             </p>
+            <h2>Alternatives to Sum of Ranks</h2>
+            <p>
+                As mentioned before, Sum of Ranks is just one way to measure the all-round abilities of a cuber. If you want to know your Kinch Score, you can visit our <a class="link" href="/calculate-kinch.html">Kinch Calculator</a> as well.
+            </p>
+            <p>
+                Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
+            </p>
         </div>
         <div style="margin-top: 32px;"></div>
     </div>
