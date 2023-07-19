@@ -29,6 +29,12 @@ func hello(r *http.Request, uid int) (interface{}, error) {
 	return "Hello world!\n", nil
 }
 
+func logError(r *http.Request, uid int) (interface{}, error) {
+	msg := fmt.Sprintf("Error: %s", r.Body)
+	fmt.Println(msg)
+	return "Error received\n", nil
+}
+
 func writeError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write([]byte("500 - Internal server error"))
@@ -115,6 +121,7 @@ func main() {
 
 	handleFunc("/", root, false)
 	handleFunc("/hello", hello, false)
+	handleFunc("/logError", logError, false)
 
 	handleFunc("/createAlgSet", endpoints.CreateAlgSet, true)
 	handleFunc("/readAlgSet", endpoints.ReadAlgSet, true)
