@@ -22,7 +22,6 @@
     import Toggle from "../lib/components/Toggle.svelte";
     import ClockIcon from "../lib/components/icons/ClockIcon.svelte";
     import Auth from "../lib/components/auth/Auth.svelte";
-    import ChevronDown from "../lib/components/icons/ChevronDown.svelte";
     import Modal from "../lib/components/Modal.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
     import * as SolvesAPI from "../lib/scripts/api/solves";
@@ -123,7 +122,7 @@
                             }}
                         />
                         {#each state.solves as solve, i}
-                            <p>{state.solves.length - i}. {solve.time}</p>
+                            <p>{state.solves.length - i}. {solve.formattedTime}</p>
                         {/each}
                         {#if state.solves.length === 0}
                             <p>

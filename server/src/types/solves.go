@@ -12,4 +12,5 @@ type Solve struct {
 	Moves     string  `json:"moves"`
 	Puzzle    string  `json:"puzzle"`
 	SessionId int     `json:"sessionId"`
+	Penalty   string  `json:"penalty"`
 }

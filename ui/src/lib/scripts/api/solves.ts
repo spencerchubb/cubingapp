@@ -3,6 +3,7 @@ import { post } from "./common";
 export type MinSolve = {
     id: number;
     time: number;
+    penalty: Penalty;
 }
 
 export type Penalty = undefined | "+2" | "DNF";

@@ -26,12 +26,16 @@ export const puzzles = [
 
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
+type ExtendedSolve = SolvesAPI.MinSolve & {
+    formattedTime: string;
+}
+
 type State = {
     user?: CubingUser,
     sessions?: SessionsAPI.Session[],
     /** The session that is currently being edited or deleted */
     sessionEditing?: SessionsAPI.Session,
-    solves: SolvesAPI.MinSolve[],
+    solves: ExtendedSolve[],
     puzzle: PuzzleTypes,
     scramble: string,
     stack: { puzzle: PuzzleTypes, scramble: string }[],
@@ -84,7 +88,13 @@ async function loadInitialSession() {
         createInitialSession();
         return;
     }
-    state.solves = await SolvesAPI.readAll(state.sessions[0].id);
+    const solves = await SolvesAPI.readAll(state.sessions[0].id);
+    state.solves = solves.map(solve => {
+        return {
+            ...solve,
+            formattedTime: formatTime(solve.time, solve.penalty),
+        };
+    });
     callback(state);
 }
 
@@ -271,23 +281,18 @@ export async function onDown() {
 
             clearInterval(interval);
 
-            const timeDifference = (Date.now() - time) / 1000;
-            if (penalty === "+2") {
-                state.timerText = `${(timeDifference + 2).toFixed(2)}+\nClick to scramble`;
-            } else if (penalty === "DNF") {
-                state.timerText = `DNF (${timeDifference.toFixed(2)})\nClick to scramble`;
-            } else {
-                state.timerText = `${timeDifference.toFixed(2)}\nClick to scramble`;
-            }
+            const timeDifference = ((Date.now() - time) / 1000);
+            const formattedTime = formatTime(timeDifference, penalty);
+            state.timerText = formattedTime;
 
             if (state.user?.auth) {
-                state.sessions = (state.sessions && state.sessions.length > 1) ?
+                state.sessions = state.sessions && state.sessions.length > 0 ?
                     state.sessions
                     : [{ 
                         id: await SessionsAPI.create("Session 1"),
                         name: "Session 1",
                     }];
-                state.solves.unshift({ id: 0, time: timeDifference });
+                state.solves.unshift({ id: 0, time: timeDifference, penalty, formattedTime });
                 SolvesAPI.create({
                     id: 0,
                     time: timeDifference,
@@ -357,4 +362,11 @@ function speak(text: string) {
     const msg = new SpeechSynthesisUtterance(text);
     msg.lang = "en-US";
     speechSynthesis.speak(msg);
+}
+
+function formatTime(time: number, penalty?: string): string {
+    const rounded = time.toFixed(2);
+    return penalty
+        ? `${rounded} (${penalty})`
+        : rounded;
 }

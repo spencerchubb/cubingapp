@@ -6,8 +6,8 @@ import (
 )
 
 func (db DB) CreateSolve(uid int, solve types.Solve) (int, error) {
-	sql := "INSERT INTO solves (uid, time, scramble, moves, puzzle, session_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;"
-	row := db.Conn.QueryRow(context.Background(), sql, uid, solve.Time, solve.Scramble, solve.Moves, solve.Puzzle, solve.SessionId)
+	sql := "INSERT INTO solves (uid, time, scramble, moves, puzzle, session_id, penalty) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id;"
+	row := db.Conn.QueryRow(context.Background(), sql, uid, solve.Time, solve.Scramble, solve.Moves, solve.Puzzle, solve.SessionId, solve.Penalty)
 	var id int
 	err := row.Scan(&id)
 	return id, err
@@ -23,7 +23,7 @@ func (db DB) ReadSolve(uid int, id int) (types.Solve, error) {
 
 func (db DB) ReadSolves(uid int, sessionId int) ([]types.Solve, error) {
 	sql := `
-	SELECT id, time
+	SELECT id, time, penalty
 	FROM solves 
 	WHERE session_id = $1
 	ORDER BY timestamp DESC;`
@@ -36,7 +36,7 @@ func (db DB) ReadSolves(uid int, sessionId int) ([]types.Solve, error) {
 	var solves []types.Solve
 	for rows.Next() {
 		var solve types.Solve
-		err := rows.Scan(&solve.Id, &solve.Time)
+		err := rows.Scan(&solve.Id, &solve.Time, &solve.Penalty)
 		if err != nil {
 			return nil, err
 		}
