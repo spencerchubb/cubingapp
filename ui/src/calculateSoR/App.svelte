@@ -150,9 +150,6 @@
     }
 
     #events-table th, #events-table td {
-        text-align: left;
-        border: none;
-        border-bottom: solid 1px var(--gray-500);
         white-space: nowrap;
         padding: 8px;
     }

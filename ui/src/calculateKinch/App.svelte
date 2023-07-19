@@ -168,12 +168,6 @@
         margin-top: 32px;
     }
 
-    #events-table th, #events-table td {
-        text-align: left;
-        border: none;
-        border-bottom: solid 1px var(--gray-500);
-    }
-
     form {
         display: flex;
         flex-direction: column;

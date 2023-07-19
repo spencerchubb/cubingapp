@@ -86,9 +86,11 @@ table {
 
 th,
 td {
-    border: solid 1px #ddd;
+    border-bottom: solid 1px var(--gray-500);
     padding: 8px 16px 8px 8px;
     color: white;
+    text-align: left;
+    white-space: nowrap;
 }
 
 svg {
