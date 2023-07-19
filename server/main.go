@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -30,7 +31,8 @@ func hello(r *http.Request, uid int) (interface{}, error) {
 }
 
 func logError(r *http.Request, uid int) (interface{}, error) {
-	msg := fmt.Sprintf("Error: %s", r.Body)
+	body, _ := io.ReadAll(r.Body)
+	msg := fmt.Sprintf("Error: %s", body)
 	fmt.Println(msg)
 	return "Error received\n", nil
 }
