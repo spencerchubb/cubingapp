@@ -28,6 +28,8 @@ export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down
 
 type ExtendedSolve = SolvesAPI.MinSolve & {
     formattedTime: string;
+    ao5: string;
+    ao12: string;
 }
 
 type State = {
@@ -89,10 +91,12 @@ async function loadInitialSession() {
         return;
     }
     const solves = await SolvesAPI.readAll(state.sessions[0].id);
-    state.solves = solves.map(solve => {
+    state.solves = solves.map((solve, i) => {
         return {
             ...solve,
             formattedTime: formatTime(solve.time, solve.penalty),
+            ao5: getAverageOfN(solves, i, 5),
+            ao12: getAverageOfN(solves, i, 12),
         };
     });
     callback(state);
@@ -292,7 +296,19 @@ export async function onDown() {
                         id: await SessionsAPI.create("Session 1"),
                         name: "Session 1",
                     }];
-                state.solves.unshift({ id: 0, time: timeDifference, penalty, formattedTime });
+                
+                // Add the solve to the list before computing averages.
+                state.solves.unshift({
+                    id: 0,
+                    time: timeDifference,
+                    penalty,
+                    formattedTime,
+                    ao5: "",
+                    ao12: "",
+                });
+                state.solves[0].ao5 = getAverageOfN(state.solves, 0, 5);
+                state.solves[0].ao12 = getAverageOfN(state.solves, 0, 12);
+
                 SolvesAPI.create({
                     id: 0,
                     time: timeDifference,
@@ -373,4 +389,42 @@ function formatTime(time: number, penalty?: string): string {
         default:
             return time.toFixed(2);
     }
+}
+
+/**
+ * Calculate the average of the `n` solves starting at `startIndex`.
+ * Averages are calculated by cutting of the 5% worst and 5% best solves, rounded up.
+ * If there are too many DNFs, reurn 'DNF'.
+ * If there are not enough solves, return '-'.
+ */
+function getAverageOfN(solves: SolvesAPI.MinSolve[], start: number, n: number): string {
+    solves = solves.slice(start, start + n);
+    if (solves.length < n) return "-";
+
+    const PERCENT_TO_CUT = 0.05;
+    const cutoff = Math.ceil(n * PERCENT_TO_CUT);
+    const numDNFs: number = solves.filter(solve => solve.penalty === "DNF").length;
+    if (numDNFs > cutoff) return "DNF";
+
+    solves = solves.filter(solve => solve.penalty !== "DNF");
+
+    // Apply +2 penalty.
+    solves.forEach(solve => {
+        if (solve.penalty === "+2") {
+            solve.time += 2;
+        }
+    });
+    
+    // Sort by lowest to highest time.
+    solves.sort((a, b) => a.time - b.time);
+
+    const numToKeep = n - cutoff * 2;
+
+    let sum = 0;
+    for (let i = cutoff; i < numToKeep + cutoff; i++) {
+        let penalty = solves[i].penalty === "+2" ? 2 : 0;
+        let time = solves[i].time + penalty;
+        sum += solves[i].time;
+    }
+    return (sum / numToKeep).toFixed(2);
 }

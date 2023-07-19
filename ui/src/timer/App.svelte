@@ -137,8 +137,8 @@
                                         <tr>
                                             <td>{state.solves.length - i}</td>
                                             <td>{solve.formattedTime}</td>
-                                            <td>0.00</td>
-                                            <td>0.00</td>
+                                            <td>{solve.ao5}</td>
+                                            <td>{solve.ao12}</td>
                                         </tr>
                                     {/each}
                                 </tbody>
