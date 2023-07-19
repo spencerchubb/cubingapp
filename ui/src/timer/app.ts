@@ -365,8 +365,12 @@ function speak(text: string) {
 }
 
 function formatTime(time: number, penalty?: string): string {
-    const rounded = time.toFixed(2);
-    return penalty
-        ? `${rounded} (${penalty})`
-        : rounded;
+    switch (penalty) {
+        case "+2":
+            return `${(time + 2).toFixed(2)}+`;
+        case "DNF":
+            return "DNF";
+        default:
+            return time.toFixed(2);
+    }
 }
