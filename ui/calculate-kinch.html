@@ -13,6 +13,17 @@
 
 <body>
     <div id="app" style="width: 100%; height: 100%;"></div>
+    <script>
+        // Attach error handler before anything else.
+        const session = Math.floor(Math.random() * 1_000_000);
+        window.onerror = (message, source, lineno, colno, error) => {
+            fetch("https://api.cubingapp.com:3000/logError", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ session, message, source, lineno, colno, error }),
+            });
+        }
+    </script>
     <script type="module" src="/src/calculateKinch/main.ts"></script>
     <script type="module" src="/src/lib/scripts/analytics.ts"></script>
 </body>
