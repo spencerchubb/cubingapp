@@ -77,6 +77,7 @@
             </a>
         </div>
         <div class="col" style="
+            align-items:start;
             width: 100%;
             max-width: 500px;
             margin-top: 64px;
@@ -84,25 +85,21 @@
             padding: 16px;
             box-shadow: 0 2px 16px -4px var(--gray-400);
             gap: 16px;">
-            <h2>CubingApp Blog</h2>
-            <p style="
-                font-size: 1.3rem;
-                line-height: 1.7rem;
-                text-align: center;">
-                Recent post:
-                <a class="link" href="/blog/deep-dive-on-tony-snyder.html">
-                    Deep Dive on Tony Snyder
-                </a>
-            </p>
-            <a
-                class="link"
-                href="/blog.html"
-                style="
-                    font-size: 1.3rem;
-                    line-height: 1.7rem;
-                    text-align: center;">
-                See all posts
-            </a>
+            <h2>Cool Calculators</h2>
+            <ul>
+                <li>
+                    <a class="link" href="/calculate-kinch.html">
+                        Calculate your Kinch Rank
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <a class="link" href="/calculate-sum-of-ranks.html">
+                        Calculate your Sum of Ranks (SoR)
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
