@@ -121,14 +121,28 @@
                                 callback({ modalType: "select session" });
                             }}
                         />
-                        {#each state.solves as solve, i}
-                            <p>{state.solves.length - i}. {solve.formattedTime}</p>
-                        {/each}
                         {#if state.solves.length === 0}
                             <p>
                                 No solves in <i>{state.sessions[0].name}</i>. 
                                 Do a solve, then your times will appear here 😎
                             </p>
+                        {:else}
+                            <table style="width: 100%;">
+                                <th></th>
+                                <th>time</th>
+                                <th>ao5</th>
+                                <th>ao12</th>
+                                <tbody>
+                                    {#each state.solves as solve, i}
+                                        <tr>
+                                            <td>{state.solves.length - i}</td>
+                                            <td>{solve.formattedTime}</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                    {/each}
+                                </tbody>
+                            </table>
                         {/if}
                     </div>
                 {:else}
