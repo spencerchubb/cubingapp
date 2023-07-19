@@ -26,7 +26,7 @@
         <div style="width: 48px;"></div>
     </nav>
     <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
-        <h1>Calculate Sum of Ranks (SOR)</h1>
+        <h1>Calculate Sum of Ranks (SoR)</h1>
         <form>
             <label for="wcaId">WCA ID</label>
             <input
@@ -108,7 +108,7 @@
             </div>
         {/if}
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
-            <h2>What is Sum of Ranks (SOR)?</h2>
+            <h2>What is Sum of Ranks (SoR)?</h2>
             <p>
                 Sum of Ranks is one way of measuring a cuber's overall performance rather than measuring just one event. To compute a Sum of Ranks, we simply add up the cuber's rank in each event. It is possible to compute a cuber's Sum of Ranks at a global level, continental level, and national level.
             </p>
