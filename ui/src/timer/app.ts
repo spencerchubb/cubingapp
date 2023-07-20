@@ -287,7 +287,7 @@ export async function onDown() {
 
             const timeDifference = ((Date.now() - time) / 1000);
             const formattedTime = formatTime(timeDifference, penalty);
-            state.timerText = formattedTime;
+            state.timerText = `${formattedTime}\nClick to scramble`;
 
             if (state.user?.auth) {
                 state.sessions = state.sessions && state.sessions.length > 0 ?
