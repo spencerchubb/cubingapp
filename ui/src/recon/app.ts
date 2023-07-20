@@ -42,8 +42,11 @@ export function initApp(scene: Scene) {
 
     let url = new URL(document.URL);
     let moves = url.searchParams.get("moves") || "";
-    moves = decompressFromEncodedURIComponent(moves);
-    state.moves = moves;
+
+    // lz-string says that decompressFromEncodedURIComponent returns type string,
+    // but it sometimes returns null in my experience.
+    // For this reason, I have to use || "".
+    state.moves = decompressFromEncodedURIComponent(moves) || "";
 
     updateCubeState(undefined);
 
