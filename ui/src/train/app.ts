@@ -133,10 +133,11 @@ function setAlgSet(scene: Scene) {
         newCube(scene.div, 3);
     }
 
-    uiState.algSet.inactive.forEach(stickerIdx => {
+    if (!scene.shapes) return;
+    for (const stickerIdx of uiState.algSet.inactive) {
         const shape = scene.shapes[stickerIdx];
         shape.color = shape.getColorBuffer(GRAY);
-    });
+    }
 }
 
 export function loadCurrAlg(): string {

@@ -22,7 +22,9 @@ function even(x: number): boolean {
     return x % 2 == 0;
 }
 
-export function makeSquares(gl: WebGLRenderingContext, cube: Cube, perspective: number[]): Shape[] {
+export function makeSquares(gl: WebGLRenderingContext | null, cube: Cube, perspective: number[]): Shape[] | null {
+    if (!gl) return null;
+
     const layers = cube.layers;
     
     let allBase = makePositions(layers, 1.0, 0.0);

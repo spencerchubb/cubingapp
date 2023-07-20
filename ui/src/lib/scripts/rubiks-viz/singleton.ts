@@ -16,3 +16,11 @@ export function singleton<T>() {
         return instance;
     };
 }
+
+export function once<T>(fn: Function): Function {
+    let result: T;
+    return function () {
+        result = result || fn.apply(this, arguments);
+        return result;
+    };
+}
