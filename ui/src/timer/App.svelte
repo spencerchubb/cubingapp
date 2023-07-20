@@ -14,6 +14,7 @@
         solve,
         type TimerStatus,
         callback,
+        fetchSolves,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -243,7 +244,7 @@
                             const sessions = state.sessions.filter((session) => {
                                 return session.id !== state.sessionEditing.id;
                             });
-                            SolvesAPI.readAll(sessions[0].id).then(solves => {
+                            fetchSolves(sessions[0].id).then(solves => {
                                 callback({
                                     modalType: "select session",
                                     sessions,
@@ -294,7 +295,7 @@
                         <button
                             class="row list-item"
                             on:click={() => {
-                                SolvesAPI.readAll(session.id).then(solves => {
+                                fetchSolves(session.id).then(solves => {
                                     callback({
                                         modalType: undefined,
                                         sessions: [session, ...state.sessions.filter(s => s.id !== session.id)],

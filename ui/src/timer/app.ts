@@ -90,15 +90,7 @@ async function loadInitialSession() {
         createInitialSession();
         return;
     }
-    const solves = await SolvesAPI.readAll(state.sessions[0].id);
-    state.solves = solves.map((solve, i) => {
-        return {
-            ...solve,
-            formattedTime: formatTime(solve.time, solve.penalty),
-            ao5: getAverageOfN(solves, i, 5),
-            ao12: getAverageOfN(solves, i, 12),
-        };
-    });
+    state.solves = await fetchSolves(state.sessions[0].id);
     callback(state);
 }
 
@@ -110,6 +102,18 @@ async function createInitialSession() {
     const id = await SessionsAPI.create("Session 1");
     state.sessions = [{ id, name: "Session 1" }];
     callback(state);
+}
+
+export async function fetchSolves(sessionId: number): Promise<ExtendedSolve[]> {
+    const solves = await SolvesAPI.readAll(sessionId);
+    return solves.map((solve, i) => {
+        return {
+            ...solve,
+            formattedTime: formatTime(solve.time, solve.penalty),
+            ao5: getAverageOfN(solves, i, 5),
+            ao12: getAverageOfN(solves, i, 12),
+        };
+    });
 }
 
 export function undoScramble() {
