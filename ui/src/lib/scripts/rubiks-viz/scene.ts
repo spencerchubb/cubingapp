@@ -2,7 +2,7 @@ import { Shape, getBuffer } from "./buffers";
 import { Cube, CubeDragDetector, makeSquares } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
-import { Puzzle } from "./puzzle";
+import { AnimationData, Puzzle } from "./puzzle";
 import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
 import { once } from "./once";
 import { Spring } from "./spring";
@@ -471,34 +471,32 @@ function render(newTime: number) {
         const animation = puzzle.animationQueue[0];
         let stickers = puzzle.getStickers();
 
-        // Rotate if the sticker is affected by the animation and if the user wants to animate
-        const transform = (animation && animation.affectedStickers[i])
-            ? glMat.rotate(
-                    glMat.create(),
-                    perspective,
-                    spring.position * Math.PI / 180,
-                    animation.axis
-                )
-            : perspective;
-
-        const rotation = (animation && animation.affectedStickers[i])
-            ? (() => {
-                const rotateMat = glMat.create();
-                return glMat.rotate(
-                    rotateMat,
-                    rotateMat,
-                    spring.position * Math.PI / 180,
-                    animation.axis,
-                );
-            })()
-            : glMat.create();
-
         const _programInfo = programInfo(gl);
 
         for (let i = 0; i < shapes.length; i++) {
             let sticker = stickers[i];
             let currentBuffer = shapes[sticker];
             let originalBuffer = shapes[i];
+
+            // Rotate and transform if:
+            // 1) the sticker is affected by the animation
+            // 2) the user wants to animate
+            const transform = (animation && animation.affectedStickers[i])
+                ? glMat.rotate(
+                    glMat.create(),
+                    perspective,
+                    spring.position * Math.PI / 180,
+                    animation.axis
+                )
+                : perspective;
+            const rotation = (animation && animation.affectedStickers[i])
+                ? glMat.rotate(
+                    glMat.create(),
+                    glMat.create(),
+                    spring.position * Math.PI / 180,
+                    animation.axis,
+                )
+                : glMat.create();
 
             gl.uniformMatrix4fv(
                 _programInfo.uniforms.transformMatrix,
