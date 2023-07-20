@@ -4,7 +4,7 @@ import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import { Puzzle } from "./puzzle";
 import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
-import { once, singleton } from "./singleton";
+import { once } from "./once";
 import { Spring } from "./spring";
 
 export {
@@ -17,8 +17,10 @@ export {
 let canvas: HTMLCanvasElement = initCanvas();
 let gl: WebGLRenderingContext | null = canvas.getContext("webgl");
 
-const programInfo = once((gl) => initProgram(gl));
-const notHintBuffer = once((gl) => getBuffer(gl, [0, 0, 0, 0]));
+const programInfo = once<WebGLRenderingContext, ProgramInfo>(initProgram);
+const notHintBuffer = once<WebGLRenderingContext, WebGLBuffer>(gl => {
+    return getBuffer(gl, [0, 0, 0, 0]);
+});
 
 function initCanvas() {
     const canvas = document.createElement("canvas");
@@ -421,8 +423,6 @@ function render(newTime: number) {
 
     newTime *= 0.001; // convert to seconds
     const dt = newTime - time;
-    // const fps = 1 / dt;
-    // console.log(fps);
     time = newTime;
 
     resizeCanvasToDisplaySize();
@@ -471,8 +471,27 @@ function render(newTime: number) {
         const animation = puzzle.animationQueue[0];
         let stickers = puzzle.getStickers();
 
-        let _transformSingleton = singleton<number[]>();
-        let _rotateSingleton = singleton<number[]>();
+        // Rotate if the sticker is affected by the animation and if the user wants to animate
+        const transform = (animation && animation.affectedStickers[i])
+            ? glMat.rotate(
+                    glMat.create(),
+                    perspective,
+                    spring.position * Math.PI / 180,
+                    animation.axis
+                )
+            : perspective;
+
+        const rotation = (animation && animation.affectedStickers[i])
+            ? (() => {
+                const rotateMat = glMat.create();
+                return glMat.rotate(
+                    rotateMat,
+                    rotateMat,
+                    spring.position * Math.PI / 180,
+                    animation.axis,
+                );
+            })()
+            : glMat.create();
 
         const _programInfo = programInfo(gl);
 
@@ -481,35 +500,11 @@ function render(newTime: number) {
             let currentBuffer = shapes[sticker];
             let originalBuffer = shapes[i];
 
-            // Rotate if the sticker is affected by the animation and if the user wants to animate
-            const transform = (animation && animation.affectedStickers[i])
-                ? _transformSingleton(() => {
-                    return glMat.rotate(
-                        glMat.create(),
-                        perspective,
-                        spring.position * Math.PI / 180,
-                        animation.axis
-                    );
-                })
-                : perspective;
-
             gl.uniformMatrix4fv(
                 _programInfo.uniforms.transformMatrix,
                 false,
                 transform,
             );
-
-            const rotation = (animation && animation.affectedStickers[i])
-                ? _rotateSingleton(() => {
-                    const rotateMat = glMat.create();
-                    return glMat.rotate(
-                        rotateMat,
-                        rotateMat,
-                        spring.position * Math.PI / 180,
-                        animation.axis,
-                    );
-                })
-                : glMat.create();
 
             gl.uniformMatrix4fv(
                 _programInfo.uniforms.rotateMatrix,
