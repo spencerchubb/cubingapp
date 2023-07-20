@@ -2,7 +2,7 @@ import { Shape, getBuffer } from "./buffers";
 import { Cube, CubeDragDetector, makeSquares } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
-import { AnimationData, Puzzle } from "./puzzle";
+import { Puzzle } from "./puzzle";
 import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
 import { once } from "./once";
 import { Spring } from "./spring";
