@@ -1,11 +1,13 @@
 #!/bin/bash
 
-# May give "Permission denied" error, but it will still create the file.
-sudo -u postgres pg_dump postgres > ./db.sql
+# Make dir if it doesn't exist
+mkdir -p $HOME/db-backups
 
-# Upload to S3 with the current day in the filename.
-$day = date +%Y-%m-%d
-aws s3 cp ./db.sql s3://cubingapp-db-backups/db-$day.sql
+# Put the current day in the filename.
+DAY=$(date +%Y-%m-%d)
+LOCAL_PATH="$HOME/db-backups/db-$DAY.sql"
+sudo -u postgres pg_dump postgres > $LOCAL_PATH
+aws s3 cp $LOCAL_PATH s3://cubingapp-db-backups/db-$DAY.sql
 
 # Restore the database.
 # sudo -u postgres psql postgres < ./db.sql
