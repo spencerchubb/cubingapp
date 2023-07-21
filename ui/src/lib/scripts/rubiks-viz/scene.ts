@@ -236,6 +236,7 @@ function newPyraminx(div: HTMLElement): Scene | null {
     if (scene && internalScene) {
         const puzzle = new Pyraminx();
         scene.puzzle = puzzle;
+        scene.shapes = makeTriangles(gl, internalScene.perspective);
         return scene;
     }
 
@@ -268,6 +269,7 @@ function newPyraminx(div: HTMLElement): Scene | null {
     scenes.push(scene);
     internalScenes.push(internalScene);
     startLoop();
+    console.log("newPyraminx")
     return scene;
 }
 

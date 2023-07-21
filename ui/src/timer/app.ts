@@ -165,6 +165,7 @@ function setPuzzle(puzzle: PuzzleTypes) {
             break;
         case "Pyraminx":
             newPyraminx(scene.div);
+            break;
     }
 
     // Hook into the puzzle's performMove function so we can record moves.
