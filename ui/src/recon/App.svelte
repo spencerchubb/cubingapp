@@ -14,6 +14,7 @@
     import ChevronLeft from "../lib/components/icons/ChevronLeft.svelte";
     import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import CopyButton from "./CopyButton.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -27,6 +28,12 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
+        <CopyButton
+            originalText="Share"
+            clickedText="Link copied ✅"
+            onClick={copyUrl}
+            style="margin-right: 12px;"
+        />
     </nav>
     <div
         style="
@@ -42,7 +49,10 @@
     >
         <div
             class="col"
-            style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);"
+            style="
+                border-radius: 8px;
+                box-shadow: 0 0 4px 2px var(--gray-600);
+                padding-bottom: 12px;"
         >
             <GLManager
                 onSceneInitialized={(scene) => {
@@ -62,11 +72,9 @@
             </div>
         </div>
         <div style="flex: 1 1 600px; align-items: start;">
-            <button on:click={copyUrl}>Copy URL</button>
             <textarea
                 class="moves-input"
                 placeholder="Enter scramble and moves"
-                style="margin-top: 16px;"
                 bind:value={state.moves}
                 on:input={updateCubeState}
                 on:click={updateCubeState}
