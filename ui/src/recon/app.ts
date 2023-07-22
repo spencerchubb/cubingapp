@@ -182,9 +182,11 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
                         clearInterval(interval);
                         state.playing = false;
                     }
+                    callback(state);
                 }, DELAY);
             } else {
                 clearInterval(interval);
+                state.playing = false;
             }
             callback(state);
         },
