@@ -1,6 +1,6 @@
 import * as SessionsAPI from "../lib/scripts/api/sessions";
 import * as SolvesAPI from "../lib/scripts/api/solves";
-import { Scene, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
+import { Scene, setPuzzle as sceneSetPuzzle } from "../lib/scripts/rubiks-viz";
 import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { PuzzleTypes, getScramble } from "./scramble";
 
@@ -13,16 +13,6 @@ export function setCallback(_callback: (state) => void) {
     };
     return state;
 }
-
-export const puzzles = [
-    "2x2",
-    "3x3",
-    "4x4",
-    "5x5",
-    "6x6",
-    "7x7",
-    "Pyraminx",
-];
 
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
@@ -144,29 +134,7 @@ function setPuzzle(puzzle: PuzzleTypes) {
     localStorage.setItem("puzzle", puzzle);
     state.puzzle = puzzle;
 
-    switch (puzzle) {
-        case "2x2":
-            newCube(scene.div, 2);
-            break;
-        case "3x3":
-            newCube(scene.div, 3);
-            break;
-        case "4x4":
-            newCube(scene.div, 4);
-            break;
-        case "5x5":
-            newCube(scene.div, 5);
-            break;
-        case "6x6":
-            newCube(scene.div, 6);
-            break;
-        case "7x7":
-            newCube(scene.div, 7);
-            break;
-        case "Pyraminx":
-            newPyraminx(scene.div);
-            break;
-    }
+    sceneSetPuzzle(scene, puzzle);
 
     // Hook into the puzzle's performMove function so we can record moves.
     const originalPerformMove = scene.puzzle.performMove;

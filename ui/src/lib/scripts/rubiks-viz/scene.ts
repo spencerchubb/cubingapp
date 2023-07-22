@@ -10,6 +10,7 @@ import { Spring } from "./spring";
 export {
     newCube,
     newPyraminx,
+    setPuzzle,
     type Scene,
     scenes,
 };
@@ -271,6 +272,33 @@ function newPyraminx(div: HTMLElement): Scene | null {
     startLoop();
     console.log("newPyraminx")
     return scene;
+}
+
+function setPuzzle(scene: Scene, puzzle: string): void {
+    switch (puzzle) {
+        case "2x2":
+            newCube(scene.div, 2);
+            break;
+        case "3x3":
+            newCube(scene.div, 3);
+            break;
+        case "4x4":
+            newCube(scene.div, 4);
+            break;
+        case "5x5":
+            newCube(scene.div, 5);
+            break;
+        case "6x6":
+            newCube(scene.div, 6);
+            break;
+        case "7x7":
+            newCube(scene.div, 7);
+            break;
+        case "Pyraminx":
+            newPyraminx(scene.div);
+            break;
+        default: console.log("Unknown puzzle: " + puzzle);
+    }
 }
 
 function renderWebGLError(div: HTMLElement) {

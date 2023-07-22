@@ -1,6 +1,5 @@
 <script lang="ts">
     import GLManager from "../lib/components/GLManager.svelte";
-    import AlgStepper from "../lib/components/AlgStepper";
     import SideNav from "../lib/components/SideNav.svelte";
     import {
         copyUrl,
@@ -17,6 +16,7 @@
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import CopyButton from "./CopyButton.svelte";
     import TextareaAutosize from "../lib/components/TextareaAutosize.svelte";
+    import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -54,8 +54,13 @@
             style="
                 border-radius: 8px;
                 box-shadow: 0 0 4px 2px var(--gray-600);
-                padding-bottom: 12px;"
+                padding: 12px 0;"
         >
+            <SelectPuzzle
+                scene={state.scene}
+                bind:value={state.puzzle}
+                on:change={updateCubeState}
+            />
             <GLManager
                 onSceneInitialized={(scene) => {
                     initApp(scene);

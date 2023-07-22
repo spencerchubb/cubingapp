@@ -1,5 +1,5 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
-import { Scene } from "../lib/scripts/rubiks-viz";
+import { Scene, newCube, newPyraminx, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
 import { getSuggestions, SuggestionData } from "./suggestions";
@@ -15,6 +15,7 @@ type State = {
     scene: Scene,
     setup: string,
     moves: string,
+    puzzle: string,
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
@@ -25,6 +26,7 @@ let state: State = {
     scene: {} as Scene,
     setup: "",
     moves: "",
+    puzzle: "",
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
@@ -42,7 +44,9 @@ export function initApp(scene: Scene) {
     let url = new URL(document.URL);
     state.setup = decompressURLParam(url, "setup");
     state.moves = decompressURLParam(url, "moves");
+    state.puzzle = url.searchParams.get("puzzle") || "3x3";
 
+    setPuzzle(state.scene, state.puzzle);
     updateCubeState(undefined);
 
     callback(state);
@@ -84,8 +88,9 @@ export function updateCubeState(event) {
 
 export function copyUrl() {
     let url = new URL(document.URL);
-    compressURLParam(url, "moves", state.moves);
-    compressURLParam(url, "setup", state.setup);
+    urlSet(url, "moves", compressToEncodedURIComponent(state.moves));
+    urlSet(url, "setup", compressToEncodedURIComponent(state.setup));
+    urlSet(url, "puzzle", state.puzzle, "3x3");
 
     navigator.clipboard.writeText(url.toString());
 }
@@ -197,9 +202,9 @@ function findInvalidMove(puzzle: Puzzle, moves: string[]): string | undefined {
     return invalidMove;
 }
 
-function compressURLParam(url: URL, key: string, value: string) {
-    if (value) {
-        url.searchParams.set(key, compressToEncodedURIComponent(value));
+function urlSet(url: URL, key: string, value: string, defaultValue: string = "") {
+    if (value && value !== defaultValue) {
+        url.searchParams.set(key, value);
     } else {
         url.searchParams.delete(key);
     }

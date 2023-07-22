@@ -8,7 +8,6 @@
         nextScramble,
         onChangePuzzle,
         onDown,
-        puzzles,
         setCallback,
         setInspection,
         solve,
@@ -28,6 +27,7 @@
     import * as SolvesAPI from "../lib/scripts/api/solves";
     import { signOut } from "../lib/scripts/auth";
     import DropDownButton from "../lib/components/DropDownButton.svelte";
+    import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
 
     let scene: Scene;
 
@@ -156,14 +156,10 @@
         {:else if drawerIndex === 1}
             <Drawer title="Settings" bind:drawerIndex>
                 <div class="col" style="align-items:start; padding: 16px; gap: 16px;">
-                    <select
-                        value={state.puzzle}
-                        on:change={(event) => onChangePuzzle(event)}
-                    >
-                        {#each puzzles as puzzle}
-                            <option value={puzzle}>{puzzle}</option>
-                        {/each}
-                    </select>
+                    <SelectPuzzle
+                        scene={scene}
+                        on:change={onChangePuzzle}
+                    />
                     <button on:click={() => solve()}>Solve</button>
                     <div class="row" style="gap: 8px;">
                         <button
