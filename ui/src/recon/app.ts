@@ -3,6 +3,7 @@ import { Scene, newCube, newPyraminx, setPuzzle } from "../lib/scripts/rubiks-vi
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
 import { getSuggestions, SuggestionData } from "./suggestions";
+import { type PuzzleTypes } from "../lib/scripts/common/scramble";
 
 let callback: (state) => void;
 
@@ -15,7 +16,7 @@ type State = {
     scene: Scene,
     setup: string,
     moves: string,
-    puzzle: string,
+    puzzle: PuzzleTypes,
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
@@ -26,7 +27,7 @@ let state: State = {
     scene: {} as Scene,
     setup: "",
     moves: "",
-    puzzle: "",
+    puzzle: "3x3",
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
@@ -44,7 +45,7 @@ export function initApp(scene: Scene) {
     let url = new URL(document.URL);
     state.setup = decompressURLParam(url, "setup");
     state.moves = decompressURLParam(url, "moves");
-    state.puzzle = url.searchParams.get("puzzle") || "3x3";
+    state.puzzle = (url.searchParams.get("puzzle") as PuzzleTypes) || "3x3";
 
     setPuzzle(state.scene, state.puzzle);
     updateCubeState(undefined);
@@ -80,10 +81,10 @@ export function updateCubeState(event) {
     state.maxMoves = stepper.length;
     callback(state);
 
-    getSuggestions(parsedAlg).then(suggestionData => {
-        state.suggestionData = suggestionData;
-        callback(state);
-    });
+    // getSuggestions(parsedAlg).then(suggestionData => {
+    //     state.suggestionData = suggestionData;
+    //     callback(state);
+    // });
 }
 
 export function copyUrl() {

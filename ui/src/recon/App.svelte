@@ -17,6 +17,7 @@
     import CopyButton from "./CopyButton.svelte";
     import TextareaAutosize from "../lib/components/TextareaAutosize.svelte";
     import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
+    import { getScramble } from "../lib/scripts/common/scramble";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -79,7 +80,17 @@
             </div>
         </div>
         <div style="flex: 1 1 600px; align-items: start;">
-            <h2>Setup</h2>
+            <div class="row" style="justify-content: space-between;">
+                <h2>Setup</h2>
+                <button
+                    on:click={() => {
+                        state.setup = getScramble(state.puzzle);
+                        updateCubeState(undefined);
+                    }}
+                >
+                    Scramble
+                </button>
+            </div>
             <TextareaAutosize
                 style="width: 100%; margin-top: 8px;"
                 placeholder="Enter scramble"
