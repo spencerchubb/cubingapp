@@ -227,6 +227,7 @@ export abstract class Puzzle {
     }
 
     performMove(move: string, forward: boolean) {
+        if (!move) return;
         const moveFunc = this.getMoveMap(forward)[move];
         if (moveFunc) {
             moveFunc();
@@ -240,10 +241,7 @@ export abstract class Puzzle {
      * Returns the number of moves performed.
      */
     performAlg(alg: string): number {
-        if (!alg) {
-            console.log("Empty alg. Skipping.");
-            return 0;
-        }
+        if (!alg) return 0;
 
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
