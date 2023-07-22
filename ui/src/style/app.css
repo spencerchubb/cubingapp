@@ -53,7 +53,7 @@ option {
     padding: 0.25rem 0.5rem;
 }
 
-input {
+input, textarea {
     font-size: 1rem;
     padding: 6px;
     background: var(--gray-800);
@@ -62,21 +62,19 @@ input {
     transition: all 0.15s ease-in-out;
 }
 
-input:focus {
+input:focus, textarea:focus {
     outline: solid 1px var(--gray-300);
     box-shadow: 0 0 4px 2px var(--lightBlue-300);
 }
 
-input::-moz-placeholder {
-    color: var(--gray-400);
-}
-input:-moz-placeholder {
-    color: var(--gray-400);
-}
-input::-webkit-input-placeholder {
-    color: var(--gray-400);
-}
-input:-ms-input-placeholder {
+input::-moz-placeholder,
+input:-moz-placeholder,
+input::-webkit-input-placeholder,
+input:-ms-input-placeholder,
+textarea::-moz-placeholder,
+textarea:-moz-placeholder,
+textarea::-webkit-input-placeholder,
+textarea:-ms-input-placeholder {
     color: var(--gray-400);
 }
 

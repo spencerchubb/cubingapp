@@ -15,6 +15,7 @@
     import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import CopyButton from "./CopyButton.svelte";
+    import ExpandingTextarea from "../lib/components/ExpandingTextarea.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -72,8 +73,8 @@
             </div>
         </div>
         <div style="flex: 1 1 600px; align-items: start;">
-            <textarea
-                class="moves-input"
+            <ExpandingTextarea
+                style="width: 100%;"
                 placeholder="Enter scramble and moves"
                 bind:value={state.moves}
                 on:input={updateCubeState}
@@ -103,34 +104,6 @@
 </main>
 
 <style>
-    .moves-input {
-        width: 100%;
-        height: 200px;
-        font-size: 1rem;
-        padding: 6px;
-        background: var(--gray-800);
-        color: var(--gray-100);
-        box-shadow: 0 0 4px 2px var(--gray-600);
-    }
-
-    .moves-input:focus {
-        outline: solid 1px var(--gray-400);
-        box-shadow: 0 0 6px 3px var(--gray-600);
-    }
-
-    .moves-input::-moz-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input:-moz-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input::-webkit-input-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input:-ms-input-placeholder {
-        color: var(--gray-400);
-    }
-
     .suggestion {
         background: transparent;
         border: solid 1px var(--gray-500);
