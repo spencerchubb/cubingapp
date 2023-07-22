@@ -81,10 +81,10 @@ export function updateCubeState(event) {
     state.maxMoves = stepper.length;
     callback(state);
 
-    // getSuggestions(parsedAlg).then(suggestionData => {
-    //     state.suggestionData = suggestionData;
-    //     callback(state);
-    // });
+    getSuggestions(parsedAlg).then(suggestionData => {
+        state.suggestionData = suggestionData;
+        callback(state);
+    });
 }
 
 export function copyUrl() {
