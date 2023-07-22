@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { newCube, newPyraminx, setPuzzle, type Scene } from "../scripts/rubiks-viz";
+    import { setPuzzle, type Scene } from "../scripts/rubiks-viz";
 
     export let value: string = "";
     export let scene: Scene;
@@ -14,10 +14,9 @@
         "Pyraminx",
     ];
 
-    function onChange() {
+    function onChange(event) {
         const puzzle = (event.target as HTMLSelectElement).value;
         setPuzzle(scene, puzzle);
-        $$props.onchange(event);
     }
 </script>
 

@@ -1,6 +1,6 @@
 import { range } from "../util";
 import { expandDoubleMoves } from "./alg";
-import { KeyBindings, getKeyBindings } from "./keyBindings";
+import { type KeyBindings, getKeyBindings } from "./keyBindings";
 
 export type Sticker = {
     /**

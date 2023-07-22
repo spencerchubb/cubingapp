@@ -1,8 +1,8 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
-import { Scene, newCube, newPyraminx, setPuzzle } from "../lib/scripts/rubiks-viz";
+import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
-import { getSuggestions, SuggestionData } from "./suggestions";
+import { getSuggestions, type SuggestionData } from "./suggestions";
 import { type PuzzleTypes } from "../lib/scripts/common/scramble";
 
 let callback: (state) => void;

@@ -1,4 +1,4 @@
-import { Shape, ShapeArgs, Square } from "../buffers";
+import { Shape, type ShapeArgs, Square } from "../buffers";
 import { BLUE, GREEN, ORANGE, RED, WHITE, YELLOW } from "../colors";
 import { Cube, sq } from "./cube";
 
