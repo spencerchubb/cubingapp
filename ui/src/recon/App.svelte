@@ -1,5 +1,6 @@
 <script lang="ts">
     import GLManager from "../lib/components/GLManager.svelte";
+    import AlgStepper from "../lib/components/AlgStepper";
     import SideNav from "../lib/components/SideNav.svelte";
     import {
         copyUrl,
@@ -15,7 +16,7 @@
     import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import CopyButton from "./CopyButton.svelte";
-    import ExpandingTextarea from "../lib/components/ExpandingTextarea.svelte";
+    import TextareaAutosize from "../lib/components/TextareaAutosize.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -73,9 +74,19 @@
             </div>
         </div>
         <div style="flex: 1 1 600px; align-items: start;">
-            <ExpandingTextarea
-                style="width: 100%;"
-                placeholder="Enter scramble and moves"
+            <h2>Setup</h2>
+            <TextareaAutosize
+                style="width: 100%; margin-top: 8px;"
+                placeholder="Enter scramble"
+                bind:value={state.setup}
+                on:input={updateCubeState}
+                on:click={updateCubeState}
+                on:keyup={updateCubeState}
+            />
+            <h2 style="margin-top: 16px;">Moves</h2>
+            <TextareaAutosize
+                style="width: 100%; margin-top: 8px;"
+                placeholder="Enter moves"
                 bind:value={state.moves}
                 on:input={updateCubeState}
                 on:click={updateCubeState}

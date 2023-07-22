@@ -1,11 +1,8 @@
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 import { Scene } from "../lib/scripts/rubiks-viz";
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
 import { getSuggestions, SuggestionData } from "./suggestions";
-
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
-
-export {};
 
 let callback: (state) => void;
 
@@ -16,6 +13,7 @@ export function setCallback(_callback: (state) => void) {
 
 type State = {
     scene: Scene,
+    setup: string,
     moves: string,
     moveIndex: number,
     maxMoves: number,
@@ -25,6 +23,7 @@ type State = {
 
 let state: State = {
     scene: {} as Scene,
+    setup: "",
     moves: "",
     moveIndex: 0,
     maxMoves: 0,
@@ -41,12 +40,8 @@ export function initApp(scene: Scene) {
     state.scene = scene;
 
     let url = new URL(document.URL);
-    let moves = url.searchParams.get("moves") || "";
-
-    // lz-string says that decompressFromEncodedURIComponent returns type string,
-    // but it sometimes returns null in my experience.
-    // For this reason, I have to use || "".
-    state.moves = decompressFromEncodedURIComponent(moves) || "";
+    state.setup = decompressURLParam(url, "setup");
+    state.moves = decompressURLParam(url, "moves");
 
     updateCubeState(undefined);
 
@@ -59,7 +54,7 @@ export function updateCubeState(event) {
         state.movesCursor = start ?? 0;
     }
 
-    let { moves, movesCursor } = state;
+    let { setup, moves, movesCursor } = state;
 
     movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
     let movesPortion = moves.slice(0, movesCursor);
@@ -73,6 +68,7 @@ export function updateCubeState(event) {
     }
 
     puzzle.solve();
+    puzzle.performAlg(setup);
     let numMovesPerformed = puzzle.performAlg(parsedAlg);
     stepper = newStepper(state.scene, state.moves, numMovesPerformed);
 
@@ -88,20 +84,10 @@ export function updateCubeState(event) {
 
 export function copyUrl() {
     let url = new URL(document.URL);
-
-    let moves = state.moves;
-    moves = compressToEncodedURIComponent(moves);
-    urlSetParam(url, "moves", moves);
+    compressURLParam(url, "moves", state.moves);
+    compressURLParam(url, "setup", state.setup);
 
     navigator.clipboard.writeText(url.toString());
-}
-
-function urlSetParam(url: URL, key: string, value: string) {
-    if (!value) {
-        url.searchParams.delete(key);
-        return;
-    }
-    url.searchParams.set(key, value);
 }
 
 export function prev() {
@@ -209,4 +195,21 @@ function findInvalidMove(puzzle: Puzzle, moves: string[]): string | undefined {
     const moveMap = puzzle.getMoveMap(true);
     let invalidMove = moves.find(move => !moveMap[move]);
     return invalidMove;
+}
+
+function compressURLParam(url: URL, key: string, value: string) {
+    if (value) {
+        url.searchParams.set(key, compressToEncodedURIComponent(value));
+    } else {
+        url.searchParams.delete(key);
+    }
+}
+
+function decompressURLParam(url: URL, key: string, defaultValue: string = ""): string {
+    let value = url.searchParams.get(key) || "";
+
+    // lz-string says that decompressFromEncodedURIComponent returns type string,
+    // but it sometimes returns null in my experience.
+    // For this reason, I use the || operator.
+    return decompressFromEncodedURIComponent(value) || defaultValue;
 }
