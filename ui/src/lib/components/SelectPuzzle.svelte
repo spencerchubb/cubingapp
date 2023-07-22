@@ -23,6 +23,7 @@
 <select
     bind:value
     on:change={onChange}
+    {...$$props}
 >
     {#each puzzles as puzzle}
         <option value={puzzle}>{puzzle}</option>

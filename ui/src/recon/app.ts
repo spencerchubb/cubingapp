@@ -15,6 +15,7 @@ type State = {
     setup: string,
     moves: string,
     puzzle: PuzzleTypes,
+    playing: boolean,
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
@@ -25,12 +26,13 @@ let state: State = {
     setup: "",
     moves: "",
     puzzle: "3x3",
+    playing: false,
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
 };
 
-let stepper = {} as Stepper;
+export let stepper = {} as Stepper;
 
 export function initApp(scene: Scene) {
     state.scene = scene;
@@ -90,16 +92,6 @@ export function copyUrl() {
     });
 }
 
-export function prev() {
-    if (!stepper.prev()) return;
-    callback(state);
-}
-
-export function next() {
-    if (!stepper.next()) return;
-    callback(state);
-}
-
 /**
  * If the cursor is in the middle of a word, move it to the start of the word.
  * For example, if the cursor is between F', we don't execute the F.
@@ -120,6 +112,7 @@ function middleOfWord(str: string, index: number) {
 type Stepper = {
     prev: () => boolean,
     next: () => boolean,
+    playPause: () => void,
     length: number,
 }
 
@@ -157,6 +150,9 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
     // If moves = [""], set moves = []
     if (moves.length === 1 && moves[0] === "") moves = [];
 
+    const DELAY = 800;
+    let interval;
+
     return {
         prev: () => {
             if (index <= 0) return false;
@@ -177,6 +173,20 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
             callback(state);
 
             return true;
+        },
+        playPause: () => {
+            state.playing = !state.playing;
+            if (state.playing) {
+                interval = setInterval(() => {
+                    if (!stepper.next()) {
+                        clearInterval(interval);
+                        state.playing = false;
+                    }
+                }, DELAY);
+            } else {
+                clearInterval(interval);
+            }
+            callback(state);
         },
         length: moves.length,
     };

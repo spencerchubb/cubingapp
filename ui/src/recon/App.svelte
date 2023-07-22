@@ -4,9 +4,8 @@
     import {
         copyUrl,
         initApp,
-        next,
-        prev,
         setCallback,
+        stepper,
         updateCubeState,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
@@ -17,6 +16,8 @@
     import TextareaAutosize from "../lib/components/TextareaAutosize.svelte";
     import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
     import { getScramble } from "../lib/scripts/common/scramble";
+    import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
+    import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -53,10 +54,10 @@
             class="col"
             style="
                 border-radius: 8px;
-                box-shadow: 0 0 4px 2px var(--gray-600);
-                padding: 12px 0;"
+                box-shadow: 0 0 4px 2px var(--gray-600);"
         >
             <SelectPuzzle
+                style="transform: translateY(12px);"
                 scene={state.scene}
                 bind:value={state.puzzle}
                 on:change={updateCubeState}
@@ -66,14 +67,33 @@
                     initApp(scene);
                 }}
             />
-            <div class="row">
-                <button class="prev-and-next-btn" on:click={prev}>
+            <p style="transform: translateY(-12px);">
+                {state.moveIndex} / {state.maxMoves}
+            </p>
+            <div class="row" style="transform: translateY(-12px); gap: 12px; margin-top: 8px;">
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.prev()}
+                >
                     <ChevronLeft />
                 </button>
-                <p style="margin: 0 8px;">
-                    {state.moveIndex} / {state.maxMoves}
-                </p>
-                <button class="prev-and-next-btn" on:click={next}>
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.playPause()}
+                >
+                    {#if state.playing}
+                        <PauseIcon />
+                    {:else}
+                        <PlayIcon />
+                    {/if}
+                </button>
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.next()}
+                >
                     <ChevronRight />
                 </button>
             </div>
@@ -113,16 +133,5 @@
 </main>
 
 <style>
-    :global(.prev-and-next-btn) {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        border: solid 1px var(--gray-500);
-        padding: 6px;
-        background: transparent;
-    }
-
-    :global(.prev-and-next-btn:hover) {
-        background: var(--gray-500);
-    }
+    
 </style>
