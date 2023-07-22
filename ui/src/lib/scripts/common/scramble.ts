@@ -1,11 +1,11 @@
-import { randElement } from "../lib/scripts/common/rand";
-import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
-import { scrMgr } from "../lib/scripts/cstimer/scramble";
+import { randElement } from "./rand";
+import { scramble_333 } from "../cstimer/scramble_333";
+import { scrMgr } from "../cstimer/scramble";
 
 // Need to do this to register scramblers
-import { scramble_222 } from "../lib/scripts/cstimer/scramble_222";
+import { scramble_222 } from "../cstimer/scramble_222";
 scramble_222;
-import { scramble_pyraminx } from "../lib/scripts/cstimer/scramble_pyraminx";
+import { scramble_pyraminx } from "../cstimer/scramble_pyraminx";
 scramble_pyraminx;
 
 /* Move set for 4x4 and 5x5 */
@@ -65,7 +65,7 @@ export function getScramble(puzzle: PuzzleTypes): string {
         case "Pyraminx":
             return scrMgr.scramblers["pyro"]("pyro");
         default:
-            return `Sorry, we can't show ${puzzle} scrambles yet`;
+            return "Unknown puzzle: " + puzzle;
     }
 }
 
