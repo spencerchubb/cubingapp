@@ -1,8 +1,6 @@
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
 import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
-import { getSuggestions, type SuggestionData } from "./suggestions";
 import { type PuzzleTypes } from "../lib/scripts/common/scramble";
 
 let callback: (state) => void;
@@ -20,7 +18,6 @@ type State = {
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
-    suggestionData: SuggestionData,
 }
 
 let state: State = {
@@ -31,10 +28,6 @@ let state: State = {
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
-    suggestionData: {
-        solved: [],
-        unsolved: [],
-    },
 };
 
 let stepper = {} as Stepper;
@@ -43,8 +36,8 @@ export function initApp(scene: Scene) {
     state.scene = scene;
 
     let url = new URL(document.URL);
-    state.setup = decompressURLParam(url, "setup");
-    state.moves = decompressURLParam(url, "moves");
+    state.setup = url.searchParams.get("setup") || "";
+    state.moves = url.searchParams.get("moves") || "";
     state.puzzle = (url.searchParams.get("puzzle") as PuzzleTypes) || "3x3";
 
     setPuzzle(state.scene, state.puzzle);
@@ -80,20 +73,21 @@ export function updateCubeState(event) {
     state.moveIndex = numMovesPerformed;
     state.maxMoves = stepper.length;
     callback(state);
-
-    getSuggestions(parsedAlg).then(suggestionData => {
-        state.suggestionData = suggestionData;
-        callback(state);
-    });
 }
 
 export function copyUrl() {
     let url = new URL(document.URL);
-    urlSet(url, "moves", compressToEncodedURIComponent(state.moves));
-    urlSet(url, "setup", compressToEncodedURIComponent(state.setup));
+    urlSet(url, "moves", state.moves);
+    urlSet(url, "setup", state.setup);
     urlSet(url, "puzzle", state.puzzle, "3x3");
 
-    navigator.clipboard.writeText(url.toString());
+    const urlStr = url.toString();
+    navigator.clipboard.writeText(urlStr).then(() => {
+        const MAX_LEN = 2048;
+        if (urlStr.length > MAX_LEN) {
+            alert(`The URL is ${urlStr.length} characters, and some browsers only allow 2048 characters. Make the reconstruction shorter if you want to shorten the url.`);
+        }
+    });
 }
 
 export function prev() {
@@ -123,18 +117,6 @@ function middleOfWord(str: string, index: number) {
     return char !== " " && char !== "\t" && char !== "\n";
 }
 
-export function onClickSuggestion(suggestion: string, stepName: string) {
-    let { moves, movesCursor } = state;
-
-    movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
-    let movesPortion = moves.slice(0, movesCursor);
-
-    state.moves = `${movesPortion}\n${suggestion} // ${stepName}`;
-    state.movesCursor = state.moves.length;
-
-    updateCubeState(undefined);
-}
-
 type Stepper = {
     prev: () => boolean,
     next: () => boolean,
@@ -161,6 +143,9 @@ function parseAlg(str: string): string {
         line = replaceAll(line, "  ", " ");
         return line.trim();
     });
+
+    // Filter out empty lines
+    lines = lines.filter(line => line.trim().length > 0);
 
     // Join lines then split by spaces
     return lines.join(" ").trim();
@@ -209,13 +194,4 @@ function urlSet(url: URL, key: string, value: string, defaultValue: string = "")
     } else {
         url.searchParams.delete(key);
     }
-}
-
-function decompressURLParam(url: URL, key: string, defaultValue: string = ""): string {
-    let value = url.searchParams.get(key) || "";
-
-    // lz-string says that decompressFromEncodedURIComponent returns type string,
-    // but it sometimes returns null in my experience.
-    // For this reason, I use the || operator.
-    return decompressFromEncodedURIComponent(value) || defaultValue;
 }

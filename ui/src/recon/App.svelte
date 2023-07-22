@@ -5,7 +5,6 @@
         copyUrl,
         initApp,
         next,
-        onClickSuggestion,
         prev,
         setCallback,
         updateCubeState,
@@ -108,38 +107,12 @@
                 on:click={updateCubeState}
                 on:keyup={updateCubeState}
             />
-            <p style="margin-top: 16px; font-style: italic;">Suggestions in beta! Try them out</p>
-            {#if state.suggestionData.solved.length > 0}
-                <div style="height: 16px;"></div>
-                {#each state.suggestionData.solved as solved}
-                    <p>&#x2713; {solved} solved</p>
-                {/each}
-            {/if}
-            {#each state.suggestionData.unsolved as unsolved}
-                <p style="margin-top: 16px;">{unsolved.name} suggestions</p>
-                {#each unsolved.suggestions as suggestion}
-                    <button
-                        class="suggestion"
-                        on:click={() => onClickSuggestion(suggestion, unsolved.name)}
-                        >{suggestion}</button
-                    >
-                {/each}
-            {/each}
         </div>
     </div>
     <SideNav bind:open={sideNavOpen} />
 </main>
 
 <style>
-    .suggestion {
-        background: transparent;
-        border: solid 1px var(--gray-500);
-    }
-
-    .suggestion:hover {
-        background: var(--gray-500);
-    }
-
     :global(.prev-and-next-btn) {
         width: 40px;
         height: 40px;
