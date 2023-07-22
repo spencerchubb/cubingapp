@@ -24,7 +24,6 @@
     import Auth from "../lib/components/auth/Auth.svelte";
     import Modal from "../lib/components/Modal.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
-    import * as SolvesAPI from "../lib/scripts/api/solves";
     import { signOut } from "../lib/scripts/auth";
     import DropDownButton from "../lib/components/DropDownButton.svelte";
     import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
@@ -158,7 +157,8 @@
                 <div class="col" style="align-items:start; padding: 16px; gap: 16px;">
                     <SelectPuzzle
                         scene={scene}
-                        on:change={onChangePuzzle}
+                        bind:value={state.puzzle}
+                        onChange={onChangePuzzle}
                     />
                     <button on:click={() => solve()}>Solve</button>
                     <div class="row" style="gap: 8px;">

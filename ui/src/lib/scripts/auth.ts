@@ -4,7 +4,6 @@ import {
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
-    User,
 } from "firebase/auth";
 
 export type AuthCallback = (user: CubingUser, error?: String) => void;

@@ -1,8 +1,8 @@
 import * as SessionsAPI from "../lib/scripts/api/sessions";
 import * as SolvesAPI from "../lib/scripts/api/solves";
-import { Scene, setPuzzle as sceneSetPuzzle } from "../lib/scripts/rubiks-viz";
-import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
-import { PuzzleTypes, getScramble } from "../lib/scripts/common/scramble";
+import { type Scene, setPuzzle as sceneSetPuzzle } from "../lib/scripts/rubiks-viz";
+import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
+import { type PuzzleTypes, getScramble } from "../lib/scripts/common/scramble";
 
 export let callback: (state) => void;
 

@@ -3,6 +3,7 @@
 
     export let value: string = "";
     export let scene: Scene;
+    export let onChange: (event: Event) => void = (_) => {};
 
     const puzzles = [
         "2x2",
@@ -14,7 +15,7 @@
         "Pyraminx",
     ];
 
-    function onChange(event) {
+    function _onChange(event) {
         const puzzle = (event.target as HTMLSelectElement).value;
         setPuzzle(scene, puzzle);
     }
@@ -22,7 +23,10 @@
 
 <select
     bind:value
-    on:change={onChange}
+    on:change={event => {
+        _onChange(event);
+        onChange(event);
+    }}
     {...$$props}
 >
     {#each puzzles as puzzle}
