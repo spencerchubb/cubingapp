@@ -177,6 +177,9 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
         playPause: () => {
             state.playing = !state.playing;
             if (state.playing) {
+                // Restart if at the end.
+                if (index >= moves.length) index = 0;
+
                 interval = setInterval(() => {
                     if (!stepper.next()) {
                         clearInterval(interval);
