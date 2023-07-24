@@ -173,12 +173,9 @@ let internalScenes: InternalScene[] = [];
 
 let time: number = Date.now() * 0.001;
 
-let loopStarted = false;
-function startLoop() {
-    if (loopStarted) return;
-    loopStarted = true;
+const startLoop = once<void, void>(() => {
     requestAnimationFrame(render);
-}
+});
 
 function newCube(div: HTMLElement, layers: number = 3): Scene {
     if (!gl) {
