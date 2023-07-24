@@ -194,7 +194,7 @@ function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | n
     let scene: Scene | undefined = scenes.find(s => s.div === div);
     let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
     if (scene && internalScene) {
-        const puzzle = new Pyraminx();
+        const puzzle = puzzleConstructor();
         scene.puzzle = puzzle;
         internalScene.perspective = puzzle.getPerspective();
         scene.shapes = puzzle.getShapes(gl, internalScene.perspective);
