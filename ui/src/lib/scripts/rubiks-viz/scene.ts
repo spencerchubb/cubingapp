@@ -194,9 +194,9 @@ function newCube(div: HTMLElement, layers: number = 3): Scene {
         return scene;
     }
 
-    let perspective = initPerspective();
-
+    
     let cube = new Cube(layers);
+    let perspective = cube.getPerspective();
     let shapes = makeSquares(gl, cube, perspective);
 
     let spring = new Spring();
@@ -237,13 +237,13 @@ function newPyraminx(div: HTMLElement): Scene | null {
     if (scene && internalScene) {
         const puzzle = new Pyraminx();
         scene.puzzle = puzzle;
+        internalScene.perspective = puzzle.getPerspective();
         scene.shapes = makeTriangles(gl, internalScene.perspective);
         return scene;
     }
-
-    const perspective = initPerspective();
-
+    
     let pyraminx = new Pyraminx();
+    let perspective = pyraminx.getPerspective();
     let shapes = makeTriangles(gl, perspective);
 
     let spring = new Spring();
@@ -270,7 +270,6 @@ function newPyraminx(div: HTMLElement): Scene | null {
     scenes.push(scene);
     internalScenes.push(internalScene);
     startLoop();
-    console.log("newPyraminx")
     return scene;
 }
 
@@ -303,33 +302,6 @@ function setPuzzle(scene: Scene, puzzle: string): void {
 
 function renderWebGLError(div: HTMLElement) {
     div.innerHTML = `<p style="text-align: center; margin-top: 8px;">Sorry, WebGL isn't working. The 3D visuals may not work in this browser 😢</p>`;
-}
-
-function initPerspective() {
-    let mat = glMat.create();
-
-    glMat.perspective(mat,
-        50 * Math.PI / 180, // field of view
-        1, // aspect
-        0.1, // z near
-        100.0); // z far
-
-    glMat.translate(mat,
-        [0.0, 0.0, -5.0]);
-
-    glMat.rotate(mat,
-        mat,
-        45 * Math.PI / 180,
-        [1, 0, 0],
-    );
-
-    glMat.rotate(mat,
-        mat,
-        0,
-        [0, -1, 0],
-    );
-
-    return mat;
 }
 
 function addDragListeners(div: HTMLElement, dragDetector: DragDetector, scene: Scene) {

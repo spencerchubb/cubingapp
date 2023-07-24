@@ -3,8 +3,8 @@ import {
     invVertex1, invVertex2, invVertex3, invVertex4,
 } from "./vertices";
 import { getBuffer } from "../buffers";
-import { Puzzle } from "../puzzle";
-import { range } from "../../util";
+import { Puzzle, getDefaultPerspective } from "../puzzle";
+import * as glMat from "../glMatrix";
 
 // Sticker order is Front, Bottom, Back left, Back right.
 // Top to bottom, left to right.
@@ -65,6 +65,12 @@ export class Pyraminx extends Puzzle {
             this.hintType = getBuffer(gl, [2, 2, 2, 2]);
         }
         return this.hintType;
+    }
+
+    // Implement abstract method
+    getPerspective(): number[] {
+        let mat = getDefaultPerspective();
+        return glMat.translate(mat, [0.0, -0.2, 0.0]);
     }
 
     // Implement abstract method

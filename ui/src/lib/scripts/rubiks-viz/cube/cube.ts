@@ -1,6 +1,5 @@
-import { Puzzle } from "../puzzle";
-import { Shape, getBuffer } from "../buffers";
-import { range } from "../../util";
+import { Puzzle, getDefaultPerspective } from "../puzzle";
+import { getBuffer } from "../buffers";
 
 export function sq(x: number): number {
     return x * x;
@@ -24,6 +23,11 @@ export class Cube extends Puzzle {
         // IDK why I have to put the number 4 times.
         this.hintType = this.hintType || getBuffer(gl, [1, 1, 1, 1]);
         return this.hintType;
+    }
+
+    // Implement abstract method
+    getPerspective(): number[] {
+        return getDefaultPerspective();
     }
     
     // Implement abstract method

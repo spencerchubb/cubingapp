@@ -1,6 +1,7 @@
 import { range } from "../util";
 import { expandDoubleMoves } from "./alg";
 import { type KeyBindings, getKeyBindings } from "./keyBindings";
+import * as glMat from "./glMatrix";
 
 export type Sticker = {
     /**
@@ -23,6 +24,26 @@ export type AnimationData = {
     affectedStickers: boolean[];
 }
 
+export function getDefaultPerspective(): number[] {
+    let mat = glMat.create();
+
+    glMat.perspective(mat,
+        50 * Math.PI / 180, // field of view
+        1, // aspect
+        0.1, // z near
+        100.0); // z far
+
+    glMat.translate(mat, [0.0, 0.0, -5.0]);
+
+    glMat.rotate(mat,
+        mat,
+        45 * Math.PI / 180,
+        [1, 0, 0],
+    );
+
+    return mat;
+}
+
 export abstract class Puzzle {
     stickers: number[];
     affectedStickers: boolean[];
@@ -37,6 +58,8 @@ export abstract class Puzzle {
     }
 
     abstract getHintType(gl: WebGLRenderingContext): WebGLBuffer;
+
+    abstract getPerspective(): number[];
 
     abstract numStickers(): number;
 
