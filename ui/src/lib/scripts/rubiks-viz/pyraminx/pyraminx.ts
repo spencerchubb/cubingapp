@@ -2,9 +2,12 @@ import {
     vertex1, vertex2, vertex3, vertex4,
     invVertex1, invVertex2, invVertex3, invVertex4,
 } from "./vertices";
-import { getBuffer } from "../buffers";
+import { Shape, getBuffer } from "../buffers";
 import { Puzzle, getDefaultPerspective } from "../puzzle";
 import * as glMat from "../glMatrix";
+import { PyraDragDetector } from "./dragDetector";
+import { makeTriangles } from "./shapes";
+import { DragDetector } from "../dragDetector";
 
 // Sticker order is Front, Bottom, Back left, Back right.
 // Top to bottom, left to right.
@@ -57,6 +60,11 @@ export class Pyraminx extends Puzzle {
         this.solve();
     }
 
+    // Implement abstract method
+    getDragDetector(shapes: Shape[]): DragDetector {
+        return new PyraDragDetector(shapes);
+    }
+
     private hintType: WebGLBuffer;
     // Implement abstract method
     getHintType(gl: WebGLRenderingContext): WebGLBuffer {
@@ -71,6 +79,11 @@ export class Pyraminx extends Puzzle {
     getPerspective(): number[] {
         let mat = getDefaultPerspective();
         return glMat.translate(mat, [0.0, -0.2, 0.0]);
+    }
+
+    // Implement abstract method
+    getShapes(gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null {
+        return makeTriangles(gl, perspective);
     }
 
     // Implement abstract method

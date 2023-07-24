@@ -1,5 +1,8 @@
 import { Puzzle, getDefaultPerspective } from "../puzzle";
-import { getBuffer } from "../buffers";
+import { Shape, getBuffer } from "../buffers";
+import { DragDetector } from "../dragDetector";
+import { CubeDragDetector } from "./dragDetector";
+import { makeSquares } from "./shapes";
 
 export function sq(x: number): number {
     return x * x;
@@ -17,6 +20,11 @@ export class Cube extends Puzzle {
         this.solve();
     }
 
+    // Implement abstract method
+    getDragDetector(shapes: Shape[]): DragDetector {
+        return new CubeDragDetector(shapes);
+    }
+
     private hintType: WebGLBuffer;
     // Implement abstract method
     getHintType(gl: WebGLRenderingContext): WebGLBuffer {
@@ -28,6 +36,11 @@ export class Cube extends Puzzle {
     // Implement abstract method
     getPerspective(): number[] {
         return getDefaultPerspective();
+    }
+
+    // Implement abstract method
+    getShapes(gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null {
+        return makeSquares(this, gl, perspective);
     }
     
     // Implement abstract method

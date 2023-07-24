@@ -1,9 +1,9 @@
 import { Shape, getBuffer } from "./buffers";
-import { Cube, CubeDragDetector, makeSquares } from "./cube";
+import { Cube } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import { Puzzle } from "./puzzle";
-import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
+import { Pyraminx } from "./pyraminx";
 import { once } from "./once";
 import { Spring } from "./spring";
 
@@ -177,53 +177,15 @@ const startLoop = once<void, void>(() => {
     requestAnimationFrame(render);
 });
 
-function newCube(div: HTMLElement, layers: number = 3): Scene {
-    if (!gl) {
-        renderWebGLError(div);
-    }
-
-    let scene: Scene | undefined = scenes.find(s => s.div === div);
-    let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
-    if (scene && internalScene) {
-        const puzzle = new Cube(layers);
-        scene.puzzle = puzzle;
-        scene.shapes = makeSquares(gl, puzzle, internalScene.perspective);
-        return scene;
-    }
-
-    
-    let cube = new Cube(layers);
-    let perspective = cube.getPerspective();
-    let shapes = makeSquares(gl, cube, perspective);
-
-    let spring = new Spring();
-
-    scene = {
-        div,
-        puzzle: cube,
-        shapes,
-        dragEnabled: true,
-        enableKey: (_) => true,
-    };
-
-    internalScene = {
-        div,
-        perspective,
-        spring,
-    }
-
-    if (shapes) {
-        let dragDetector = new CubeDragDetector(shapes);
-        addDragListeners(div, dragDetector, scene);
-    }
-
-    scenes.push(scene);
-    internalScenes.push(internalScene);
-    startLoop();
-    return scene;
+function newCube(div: HTMLElement, layers: number = 3): Scene | null {
+    return newPuzzle(div, () => new Cube(layers));
 }
 
 function newPyraminx(div: HTMLElement): Scene | null {
+    return newPuzzle(div, () => new Pyraminx());
+}
+
+function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | null {
     if (!gl) {
         renderWebGLError(div);
         return null;
@@ -235,19 +197,17 @@ function newPyraminx(div: HTMLElement): Scene | null {
         const puzzle = new Pyraminx();
         scene.puzzle = puzzle;
         internalScene.perspective = puzzle.getPerspective();
-        scene.shapes = makeTriangles(gl, internalScene.perspective);
+        scene.shapes = puzzle.getShapes(gl, internalScene.perspective);
         return scene;
     }
     
-    let pyraminx = new Pyraminx();
-    let perspective = pyraminx.getPerspective();
-    let shapes = makeTriangles(gl, perspective);
-
-    let spring = new Spring();
+    let puzzle = puzzleConstructor();
+    let perspective = puzzle.getPerspective();
+    let shapes = puzzle.getShapes(gl, perspective);
 
     scene = {
         div,
-        puzzle: pyraminx,
+        puzzle,
         shapes,
         dragEnabled: true,
         enableKey: (_) => true,
@@ -256,11 +216,11 @@ function newPyraminx(div: HTMLElement): Scene | null {
     internalScene = {
         div,
         perspective,
-        spring,
+        spring: new Spring(),
     }
 
     if (shapes) {
-        let dragDetector = new PyraDragDetector(shapes);
+        let dragDetector = puzzle.getDragDetector(shapes);
         addDragListeners(div, dragDetector, scene);
     }
 

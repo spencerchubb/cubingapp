@@ -2,6 +2,8 @@ import { range } from "../util";
 import { expandDoubleMoves } from "./alg";
 import { type KeyBindings, getKeyBindings } from "./keyBindings";
 import * as glMat from "./glMatrix";
+import { DragDetector } from "./dragDetector";
+import { Shape } from "./buffers";
 
 export type Sticker = {
     /**
@@ -57,9 +59,13 @@ export abstract class Puzzle {
         this.keyBindings = getKeyBindings();
     }
 
+    abstract getDragDetector(shapes: Shape[]): DragDetector;
+
     abstract getHintType(gl: WebGLRenderingContext): WebGLBuffer;
 
     abstract getPerspective(): number[];
+
+    abstract getShapes(gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null;
 
     abstract numStickers(): number;
 
