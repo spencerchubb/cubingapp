@@ -6,20 +6,27 @@
     import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
 
+    let url = new URL(document.URL);
+
+    // If link is true or not specified, show the link
+    let link: boolean = (url.searchParams.get("link") || "true") === "true";
+
     let state = setCallback((newState) => {
         state = newState;
     });
 </script>
 
 <div class="col">
-    <a
-        href={window.location.href}
-        target="_blank"
-        class="link"
-        style="transform: translateY(12px);"
-    >
-        Open in new tab
-    </a>
+    {#if link}
+        <a
+            href={window.location.href}
+            target="_blank"
+            class="link"
+            style="transform: translateY(12px);"
+        >
+            Open in new tab
+        </a>
+    {/if}
     <GLManager
         onSceneInitialized={(scene) => {
             initApp(scene);
