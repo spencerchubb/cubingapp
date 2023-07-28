@@ -45,8 +45,14 @@
             })
         }}
     />
-    <p style="transform: translateY(-12px);">
-        {state.moveIndex} / {state.maxMoves}
+    <p style="transform: translateY(-12px); font-size: 1.2rem;">
+        {#each state.moves.split(" ") as move, moveIndex}
+            {#if state.moveIndex === moveIndex}
+                <span style="text-decoration: underline;">{move}</span>&nbsp;
+            {:else}
+                {move}&nbsp;
+            {/if}
+        {/each}
     </p>
     <div
         class="row"
