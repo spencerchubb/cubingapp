@@ -145,6 +145,7 @@ function parseAlg(str: string): string {
 }
 
 function newStepper(scene: Scene, alg: string, index: number): Stepper {
+    state.moveIndex = index;
     let moves = parseAlg(alg).split(" ");
 
     // If moves = [""], set moves = []
@@ -155,21 +156,19 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
 
     return {
         prev: () => {
-            if (index <= 0) return false;
-            index--;
-            scene.puzzle.performMove(moves[index], false);
+            if (state.moveIndex <= 0) return false;
+            state.moveIndex--;
+            scene.puzzle.performMove(moves[state.moveIndex], false);
 
-            state.moveIndex = index;
             callback(state);
 
             return true;
         },
         next: () => {
-            if (index >= moves.length) return false;
-            scene.puzzle.performMove(moves[index], true);
-            index++;
+            if (state.moveIndex >= moves.length) return false;
+            scene.puzzle.performMove(moves[state.moveIndex], true);
+            state.moveIndex++;
 
-            state.moveIndex = index;
             callback(state);
 
             return true;
@@ -178,7 +177,9 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
             state.playing = !state.playing;
             if (state.playing) {
                 // Restart if at the end.
-                if (index >= moves.length) index = 0;
+                if (state.moveIndex >= moves.length) {
+                    state.moveIndex = 0;
+                }
 
                 interval = setInterval(() => {
                     if (!stepper.next()) {
