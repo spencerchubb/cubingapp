@@ -1,4 +1,4 @@
-import { Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
+import { type Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
 import { replaceAll } from '../../src/lib/scripts/util';
 
 let callback: (state) => void;
@@ -101,6 +101,7 @@ export function renderCubes() {
         }
 
         const scene = newCube(sceneDiv, numLayers);
+        if (!scene) continue;
         renderedScenes[i] = scene;
 
         scene.enableKey = () => false;

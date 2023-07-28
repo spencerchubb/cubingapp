@@ -1,4 +1,4 @@
-import { WCASumOfRanks, fetchWCASumOfRanks } from "../lib/scripts/wca";
+import { type WCASumOfRanks, fetchWCASumOfRanks } from "../lib/scripts/wca";
 
 let callback: (state) => void;
 

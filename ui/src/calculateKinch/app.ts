@@ -1,4 +1,4 @@
-import { WCAPerson, WCARegionRecords, WCA_EVENTS, fetchRegionRecords, fetchWCAPerson } from "../lib/scripts/wca";
+import { type WCAPerson, type WCARegionRecords, WCA_EVENTS, fetchRegionRecords, fetchWCAPerson } from "../lib/scripts/wca";
 
 let callback: (state) => void;
 
