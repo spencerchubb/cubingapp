@@ -5,11 +5,19 @@
     import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
     import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
+    import { GRAY } from "../lib/scripts/rubiks-viz";
 
     let url = new URL(document.URL);
 
     // If link is true or not specified, show the link
     let link: boolean = (url.searchParams.get("link") || "true") === "true";
+
+    // Hyphen separated list of stickers to hide
+    let hide: number[] = (() => {
+        const hideString = url.searchParams.get("hide");
+        if (!hideString) return [];
+        return hideString.split("-").map(s => parseInt(s));
+    })();
 
     let state = setCallback((newState) => {
         state = newState;
@@ -30,6 +38,11 @@
     <GLManager
         onSceneInitialized={(scene) => {
             initApp(scene);
+
+            hide.forEach(hideIndex => {
+                const shape = scene.shapes[hideIndex];
+                shape.color = shape.getColorBuffer(GRAY);
+            })
         }}
     />
     <p style="transform: translateY(-12px);">
