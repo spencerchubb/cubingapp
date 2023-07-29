@@ -221,17 +221,6 @@ canvas {
     border-bottom: solid 1px var(--gray-600);
 }
 
-.label {
-    background: white;
-    padding: 4px;
-    border-radius: 4px;
-    box-shadow: 0 0 8px 2px black;
-    z-index: 2;
-    display: none;
-    /* Prevent text from wrapping */
-    white-space: nowrap;
-}
-
 .spinner {
     display: inline-block;
     width: 50px;

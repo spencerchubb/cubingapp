@@ -4,21 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/style/app.css">
+    <link rel="stylesheet" href="../src/style/colors.css">
+    <link rel="stylesheet" href="../src/style/blog.css">
     <title>Why mental load matters in lookahead</title>
     <link rel="icon" href="../src/assets/favicon.svg" type="image/x-icon">
 </head>
 
-<body>
-    <div id="app" style="width: 100%; height: 100%;"></div>
-    <script type="module">
-        import '../src/style/app.css'
-        import '../src/style/colors.css'
-        import App from './MentalLoad.svelte'
+<body class="col">
+    <h1>Why mental load matters for lookahead</h1>
+    <p class="date">May 11, 2023</p>
+    <p>
+        "Just improve your lookahead."
+    </p>
+    <p>
+        People say it all the time, but have you ever wondered exactly how to improve lookahead? People usually leave that part out. Lookahead is one of the most talked-about topics in speedcubing. But it's also one of the least well-understood.
+    </p>
+    <p>
+        On the surface it seems simple. Let's give a basic definition. It is the ability to plan out your next moves while you are executing your current moves.
+    </p>
+    <p>
+        Lookahead has obvious benefits. It allows you to spend less time <i>not</i> turning, so you can spend more time <i>turning</i>. This allows you to solve the cube faster.
+    </p>
+    <p>
+        I would argue that mental load is the most important factor in lookahead. Mental load is the amount of mental effort required to perform a task. The more mental load you have, the harder it is to do lookahead.
+    </p>
+    <p>
+        For the rest of this blog post, I have 3 pieces of advice that will help you reduce your mental load so you can so you can improve your lookahead.
+    </p>
+    <h2>1. Know your algorithms</h2>
+    <p>
+        If you are still learning F2L, OLL, or PLL, you are probably experiencing a lot of mental load. You are trying to remember what to do, and you are trying to execute it. This is why it is so hard to lookahead when you are learning new algorithms.
+    </p>
+    <p>
+        You need to know the algorithms like the back of your hand. If you are spending mental energy to remember an algorithm, then you have less mental energy to lookahead.
+    </p>
+    <p>
+        That applies to F2L as well. You may have been told that F2L is intuitive. That's partially true. As a beginner you will rely more on intuition, but if you want to get faster, you have to be extremely fluent with F2L. For any given F2L case, you should be able to look at it, and have extreme confidence that you know how to solve it without thinking about it.
+    </p>
+    <h2>2. Know how moves affect pieces</h2>
+    <p>
+        If you want to avoid pauses during F2L, you have to know how moves affect pieces. I will admit, this is easier said than done, but I'll break it down.
+    </p>
+    <p>
+        Let's say you insert an F2L pair with R U R'. You should know that edge orientation is unaffected, the back right corner in the U layer is unaffected, and the front right slot is disturbed.
+    </p>
+    <p>
+        You can use that information to your advantage. Since you know that these moves don't affect edge orientation, you can plan out whether you need to rotate for your next pair. Since you know which pieces are unaffected, you can potentially choose those pieces for your next pair.
+    </p>
+    <p>
+        Not only should you <i>know</i> how pieces are affected, but you should know it like the back of your hand. That knowledge should be deeply ingrained into your soul, because you have to recall that information in milliseconds.
+    </p>
+    <p>
+        If you are spending mental energy to figure out how pieces are affected, then you have less mental energy to lookahead.
+    </p>
+    <h2>3. KISS</h2>
+    <p>
+        KISS stands for "Keep it simple, stupid"
+    </p>
+    <p>
+        The more complicated your F2L is, the more mental energy you are spending. For that reason, you want to use simple solutions.
+    </p>
+    <div class="alg-stepper-card">
+        <div class="alg-stepper-text">
+            <p>For example, cubers will sometimes use fancy insertions like this.</p>
+        </div>
+        <iframe
+            title="Fancy insertion demonstration"
+            width="320"
+            height="400"
+            src="https://cubingapp.com/recon.html?moves=R2%27+F+R+F%27+R&setup=z2+R%27+F+R%27+F%27+R2&link=f&hide=11-14-17-18-19-20-21-23-24-25-26-27-30-33-38-41-44-47-50-53"
+        ></iframe>
+    </div>
+    <p>
+        I can see why people would use this. It's very ergonomic and fingertrick friendly. It also allows you to avoid a rotation.
+    </p>
+    <p>
+        But why is it bad? Think about the first two pieces of advice. If you are using a fancy algorithm that rarely arises in solves, you are going to spend mental energy remembering the algorithm and tracking how the pieces move.
+    </p>
+    <p>
+        There is a caveat to this, however. If you have practiced your fancy algorithm enough, then it may be worth it.
+    </p>
+    <p>
+        To recap, remember the 3 pieces of advice for reducing mental load. Know your algorithms, know how moves affect pieces, and KISS.
+    </p>
 
-        new App({
-            target: document.getElementById('app'),
-        });
-    </script>
     <script type="module" src="../src/lib/scripts/analytics.ts"></script>
 </body>
 
