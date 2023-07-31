@@ -18,7 +18,6 @@
     import { getScramble } from "../lib/scripts/common/scramble";
     import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
-    import Modal from "../lib/components/Modal.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -71,13 +70,6 @@
                         moves: url.searchParams.get("moves") || "",
                         puzzle: url.searchParams.get("puzzle") || "3x3",
                     });
-
-                    console.log(`<AlgStepper
-    setup="${state.setup}"
-    moves="${state.moves}"
-    puzzle="${state.puzzle}"
-    hide=\{[${(url.searchParams.get("hide") || "").split("-").map(s => parseInt(s))}]\}"
-></AlgStepper>`)
                 }}
             />
             <p style="transform: translateY(-12px);">

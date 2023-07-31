@@ -67,7 +67,7 @@ export function updateCubeState(event) {
     }
 
     puzzle.solve();
-    puzzle.performAlg(setup);
+    puzzle.performAlg(parseAlg(setup));
     let numMovesPerformed = puzzle.performAlg(parsedAlg);
     stepper = newStepper(state.scene, state.moves, numMovesPerformed);
 
@@ -121,6 +121,9 @@ type Stepper = {
  * Comments should be ignored.
  */
 function parseAlg(str: string): string {
+    str = replaceAll(str, "(", "");
+    str = replaceAll(str, ")", "");
+
     let lines = str.split("\n");
 
     // Filter out empty lines
