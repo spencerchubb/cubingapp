@@ -24,16 +24,7 @@
         state = newState;
     });
 
-    let modalOpen = false;
     let sideNavOpen = false;
-
-    let iframeText = 
-`<iframe
-    width="320"
-    height="420"
-    style="border: none;"
-    src="${window.location.href}"
-></iframe>`;
 </script>
 
 <main class="col" style="width: 100%; height: 100%;">
@@ -41,12 +32,12 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
-        <button
-            on:click={() => modalOpen = true}
+        <CopyButton
             style="margin-right: 12px;"
-        >
-            Share
-        </button>
+            originalText="Share"
+            clickedText="Link copied ✅"
+            onClick={copyUrl}
+        />
     </nav>
     <div
         style="
@@ -151,35 +142,5 @@
             />
         </div>
     </div>
-    <Modal bind:open={modalOpen} title="Share">
-        <div class="col" style="padding: 16px;">
-            <CopyButton
-                originalText="Copy link"
-                clickedText="Link copied ✅"
-                onClick={copyUrl}
-            />
-            <div class="row" style="margin-top: 32px; gap: 16px;">
-                <h2>Embed iframe</h2>
-                <CopyButton
-                    originalText="Copy iframe"
-                    clickedText="Iframe copied ✅"
-                    onClick={() => {
-                        navigator.clipboard.writeText(iframeText);
-                    }}
-                />
-            </div>
-            <p
-                style="
-                    margin-top: 8px;
-                    border: solid 1px var(--gray-500);
-                    word-break: break-word;
-                    white-space: pre-wrap;
-                    font-family: monospace;
-                    padding: 12px;"
-            >
-                {iframeText}
-            </p>
-        </div>
-    </Modal>
     <SideNav bind:open={sideNavOpen} />
 </main>
