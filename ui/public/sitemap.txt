@@ -23,8 +23,14 @@ https://cubingapp.com/blog/is-speedcubing-a-sport.html
 https://cubingapp.com/blog/mental-load.html
 https://cubingapp.com/blog/practicing-with-unlimited-inspection.html
 https://cubingapp.com/blog/spaced-repetition.html
+https://cubingapp.com/calculate-kinch.html
+https://cubingapp.com/calculate-sum-of-ranks.html
+https://cubingapp.com/keybindings.html
 https://cubingapp.com/recon.html
 https://cubingapp.com/timer.html
 https://cubingapp.com/train.html
-https://cubingapp.com/tutorials/how-to-learn-f2l.html
+https://cubingapp.com/tutorials/cfop.html
+https://cubingapp.com/tutorials/f2l.html
 https://cubingapp.com/tutorials/inspection.html
+https://cubingapp.com/tutorials/oll.html
+https://cubingapp.com/tutorials/pll.html
