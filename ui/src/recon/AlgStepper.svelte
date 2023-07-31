@@ -6,18 +6,12 @@
     import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
     import { GRAY } from "../lib/scripts/rubiks-viz";
+    import type { PuzzleTypes } from "../lib/scripts/common/scramble";
 
-    let url = new URL(document.URL);
-
-    // If link is true or not specified, show the link
-    let link: boolean = (url.searchParams.get("link") || "true") === "true";
-
-    // Hyphen separated list of stickers to hide
-    let hide: number[] = (() => {
-        const hideString = url.searchParams.get("hide");
-        if (!hideString) return [];
-        return hideString.split("-").map(s => parseInt(s));
-    })();
+    export let setup: string = "";
+    export let moves: string = "";
+    export let puzzle: PuzzleTypes = "3x3";
+    export let hide: number[] = [];
 
     let state = setCallback((newState) => {
         state = newState;
@@ -25,27 +19,25 @@
 </script>
 
 <div class="col">
-    {#if link}
-        <a
-            href={window.location.href}
-            target="_blank"
-            class="link"
-            style="transform: translateY(12px);"
-        >
-            Open in new tab
-        </a>
-    {/if}
     <GLManager
         onSceneInitialized={(scene) => {
-            initApp(scene);
+            initApp(scene, { setup, moves, puzzle, });
 
             hide.forEach(hideIndex => {
                 const shape = scene.shapes[hideIndex];
                 shape.color = shape.getColorBuffer(GRAY);
-            })
+            });
         }}
     />
-    <p style="transform: translateY(-12px); font-size: 1.2rem;">
+    <p style="
+        margin: 0;
+        transform: translateY(-12px);
+        font-size: 1.2rem;
+        width: 100%;
+        max-width: 320px;
+        word-wrap: break-word;
+        text-align: center;"
+    >
         {#each state.moves.split(" ") as move, moveIndex}
             {#if state.moveIndex === moveIndex}
                 <span style="text-decoration: underline;">{move}</span>&nbsp;

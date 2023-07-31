@@ -2,7 +2,6 @@ import { resolve } from 'path'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 import wasm from "vite-plugin-wasm";
-import topLevelAwait from "vite-plugin-top-level-await";
 
 function blogs() {
     const pages = [
@@ -23,8 +22,11 @@ function blogs() {
 
 function tutorials() {
     const pages = [
-        "how-to-learn-f2l",
+        "cfop",
+        "f2l",
         "inspection",
+        "oll",
+        "pll",
     ];
     const result = {};
     for (const page of pages) {
@@ -38,7 +40,6 @@ function tutorials() {
 export default defineConfig({
   plugins: [
     svelte(),
-    topLevelAwait(),
     wasm(),
   ],
   build: {

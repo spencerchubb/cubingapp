@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<script lang="ts">
+    import AlgStepper from "../src/lib/components/AlgStepper";
+    import * as pieces from "../src/lib/scripts/rubiks-viz/pieces";
+</script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../src/style/app.css">
-    <link rel="stylesheet" href="../src/style/colors.css">
-    <link rel="stylesheet" href="../src/style/blog.css">
-    <title>How to learn Rubik's Cube F2L</title>
-    <link rel="icon" href="../src/assets/favicon.svg" type="image/x-icon">
-</head>
-
-<body class="col">
+<main>
     <h1>How to Learn Rubik's Cube F2L</h1>
     <p class="date">May 9, 2023</p>
     <p>
@@ -60,48 +52,44 @@
             <h3>First pair</h3>
             <p>Here we solve the pair in the front right slot. Note that the pairs can be solved in any order, so the front right slot is kind of an arbitrary choice.</p>
         </div>
-        <iframe
-            title="First pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=U+R%27+U2%27+R2+U+R%27&setup=U%27+L+F2+L2+D%27+L2+R2+F2+R2+D2+U+B2+U%27+B+R+F2+D+L+B%27+D+U%27+F+D2+R+L+F%27+z2+y%27&link=f&hide=0-2-6-9-10-11-14-17-18-19-20-21-23-24-25-26-27-28-29-30-33-34-35-36-37-38-41-42-43-44-47-50-51-52-53"
-        ></iframe>
+        <AlgStepper
+            setup="U' L F2 L2 D' L2 R2 F2 R2 D2 U B2 U' B R F2 D L B' D U' F D2 R L F' z2 y'"
+            moves="U R' U2' R2 U R'"
+            hide={[0, 2, 6, 9, 10, 11, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 47, 50, 51, 52, 53]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Second pair</h3>
             <p>Here we solve the pair in the front left slot.</p>
         </div>
-        <iframe
-            title="Second pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=U%27+L%27+U+L&setup=U%27+L+F2+L2+D%27+L2+R2+F2+R2+D2+U+B2+U%27+B+R+F2+D+L+B%27+D+U%27+F+D2+R+L+F%27+z2+y%27+U+R%27+U2%27+R2+U+R%27&link=f&hide=0-2-9-10-11-14-17-18-19-20-21-23-24-25-26-27-28-29-30-33-36-37-38-41-42-43-44-47-50-53"
-        ></iframe>
+        <AlgStepper
+            setup="U' L F2 L2 D' L2 R2 F2 R2 D2 U B2 U' B R F2 D L B' D U' F D2 R L F' z2 y' U R' U2' R2 U R'"
+            moves="U' L' U L"
+            hide={[0, 2, 9, 10, 11, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 33, 36, 37, 38, 41, 42, 43, 44, 47, 50, 53]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Third pair</h3>
             <p>Here we rotate the cube, then solve the pair in the front right slot.</p>
         </div>
-        <iframe
-            title="Third pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=y2+R+U%27+R%27&setup=U%27+L+F2+L2+D%27+L2+R2+F2+R2+D2+U+B2+U%27+B+R+F2+D+L+B%27+D+U%27+F+D2+R+L+F%27+z2+y%27+U+R%27+U2%27+R2+U+R%27+U%27+L%27+U+L&link=f&hide=2-9-10-11-14-17-18-19-20-21-23-24-25-26-27-30-33-38-41-42-43-44-47-50-53"
-        ></iframe>
+        <AlgStepper
+            setup="U' L F2 L2 D' L2 R2 F2 R2 D2 U B2 U' B R F2 D L B' D U' F D2 R L F' z2 y' U R' U2' R2 U R' U' L' U L"
+            moves="y2 R U' R'"
+            hide={[2, 9, 10, 11, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 30, 33, 38, 41, 42, 43, 44, 47, 50, 53]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Fourth pair</h3>
             <p>Here we solve the pair in the front left slot, and F2L is finished!</p>
         </div>
-        <iframe
-            title="Fourth pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=L%27+U2+L+U2+L%27+U+L&setup=U%27+L+F2+L2+D%27+L2+R2+F2+R2+D2+U+B2+U%27+B+R+F2+D+L+B%27+D+U%27+F+D2+R+L+F%27+z2+y%27+U+R%27+U2%27+R2+U+R%27+U%27+L%27+U+L+y2+R+U%27+R%27&link=f&hide=11-14-17-18-19-20-21-23-24-25-26-27-30-33-38-41-44-47-50-53"
-        ></iframe>
+        <AlgStepper
+            setup="U' L F2 L2 D' L2 R2 F2 R2 D2 U B2 U' B R F2 D L B' D U' F D2 R L F' z2 y' U R' U2' R2 U R' U' L' U L y2 R U' R'"
+            moves="L' U2 L U2 L' U L"
+            hide={[11, 14, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 30, 33, 38, 41, 44, 47, 50, 53]}
+        />
     </div>
     <h2>F2L Techniques</h2>
     <p>
@@ -115,48 +103,64 @@
             <h3>Free pair</h3>
             <p>When you have a free pair, you can insert it in three moves.</p>
         </div>
-        <iframe
-            title="Free pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=R+U%27+R%27&setup=F2+L+D2+L%27+U2+R+U2+L%27+B2+L%27+D+L2+F+L%27+B%27+D+B%27+L2+U%27+F+U+D+F+L%27+U+R%27+L%27+U%27+z2+U%27+R+U+R%27+U%27+y%27&link=f&hide=0-2-6-9-10-11-14-17-18-19-20-21-23-24-25-26-27-28-29-30-33-34-35-36-37-38-41-42-43-44-47-50-51-52-53"
-        ></iframe>
+        <AlgStepper
+            setup="z2 R U R'"
+            moves="R U' R'"
+            hide={[
+                ...pieces.LAST_LAYER,
+                ...pieces.F2L_BLUE_RED,
+                ...pieces.F2L_ORANGE_BLUE,
+                ...pieces.F2L_RED_GREEN,
+            ]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Split pair</h3>
             <p>When you have a split pair, this can also be inserted in three moves. You can identify a split pair when the corner and the edge across from each other, and they have different colors on top.</p>
         </div>
-        <iframe
-            title="Split pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=R+U+R%27&setup=B2+U+B2+D+L2+B2+U+B2+D%27+R2+D+U%27+R%27+B2+R2+D2+F%27+R2+U+B%27+R2+R+U+B2+F+R+U%27+z2+F%27+U%27+F+U2+y&link=f&hide=2-6-8-9-10-11-14-15-16-17-18-19-20-21-23-24-25-26-27-30-33-34-35-38-41-42-43-44-45-46-47-50-51-52-53"
-        ></iframe>
+        <AlgStepper
+            setup="z2 R U' R'"
+            moves="R U R'"
+            hide={[
+                ...pieces.LAST_LAYER,
+                ...pieces.F2L_BLUE_RED,
+                ...pieces.F2L_ORANGE_BLUE,
+                ...pieces.F2L_RED_GREEN,
+            ]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Forming a pair</h3>
             <p>The first three moves form the pair. First, we hide the corner, then move the top layer, then bring the corner back up. This is a common pattern in F2L, and there are many cases where you can do a few moves to arrive at the "free pair" case.</p>
         </div>
-        <iframe
-            title="Forming a pair demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=R+U%27+R%27+F+U2+F%27&setup=U%27+B2+D%27+L%27+U%27+L2+B%27+R+U+D2+R2+B%27+R2+B+U2+B2+L2+F+U2+D2+F%27+U+L+F+R+B+U+z2+y&link=f&hide=0-6-8-11-14-15-16-17-18-19-20-21-23-24-25-26-27-28-29-30-33-34-35-36-37-38-41-44-45-46-47-50-51-52-53"
-        ></iframe>
+        <AlgStepper
+            setup="z2 R U R' U2 R U2 R'"
+            moves="R U2 R' U2 R U' R'"
+            hide={[
+                ...pieces.LAST_LAYER,
+                ...pieces.F2L_BLUE_RED,
+                ...pieces.F2L_ORANGE_BLUE,
+                ...pieces.F2L_RED_GREEN,
+            ]}
+        />
     </div>
     <div class="alg-stepper-card">
         <div class="alg-stepper-text">
             <h3>Corner facing up</h3>
             <p>Notice that the white corner is facing up. When a corner is facing up, it can't form a free pair or a split pair, so a good strategy is to start by rearranging the corner. These first three moves rearrange the corner and also set up a split pair for a 3-move insertion.</p>
         </div>
-        <iframe
-            title="Corner facing up demonstration"
-            width="320"
-            height="400"
-            src="https://cubingapp.com/recon.html?moves=L%27+U2%27+L+U+L%27+U%27+L&setup=U%27+B2+D%27+L%27+U%27+L2+B%27+R+U+D2+R2+B%27+R2+B+U2+B2+L2+F+U2+D2+F%27+U+L+F+R+B+U+z2+U&link=f&hide=0-2-6-9-10-11-14-17-18-19-20-21-23-24-25-26-27-28-29-30-33-34-35-36-37-38-41-42-43-44-47-50-51-52-53"
-        ></iframe>
+        <AlgStepper
+            setup="z2 R U' R' U R U2 R'"
+            moves="R U2 R' U' R U R'"
+            hide={[
+                ...pieces.LAST_LAYER,
+                ...pieces.F2L_BLUE_RED,
+                ...pieces.F2L_ORANGE_BLUE,
+                ...pieces.F2L_RED_GREEN,
+            ]}
+        />
     </div>
     <p>
         That should give you a good start on intuitive F2L. You can learn more cases by experimenting. Remember, the goal is to set up a free pair or a split pair, then solve from there.
@@ -164,8 +168,4 @@
     <p>
         If you get stuck, check out <a href="/algdb/F2L.html" class="link">the algorithm database</a>. We have F2L algorithms for every case, and every angle.
     </p>
-
-    <script type="module" src="../src/lib/scripts/analytics.ts"></script>
-</body>
-
-</html>
+</main>

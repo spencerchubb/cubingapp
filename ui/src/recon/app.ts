@@ -34,13 +34,12 @@ let state: State = {
 
 export let stepper = {} as Stepper;
 
-export function initApp(scene: Scene) {
+export function initApp(scene: Scene, initData: { setup: string, moves: string, puzzle: string }) {
     state.scene = scene;
 
-    let url = new URL(document.URL);
-    state.setup = url.searchParams.get("setup") || "";
-    state.moves = url.searchParams.get("moves") || "";
-    state.puzzle = (url.searchParams.get("puzzle") as PuzzleTypes) || "3x3";
+    state.setup = initData.setup;
+    state.moves = initData.moves;
+    state.puzzle = initData.puzzle as PuzzleTypes;
 
     setPuzzle(state.scene, state.puzzle);
     updateCubeState(undefined);

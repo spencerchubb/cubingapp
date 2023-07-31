@@ -1,0 +1,37 @@
+<main>
+    <h1>Speedcubing Inspection</h1>
+    <p class="date">May 13, 2023</p>
+    <p>
+        In the <a class="link" href="/timer.html">CubingApp Timer</a>, there is an option to turn off or turn on inspection. But you may be wondering: What is inspection, and why is it important?
+    </p>
+    <h2>What is inspection?</h2>
+    <p>
+        Inspection is the time before you start solving the cube. You can inspect the cube for 15 seconds. During this time, you can look at the cube and plan your first few moves.
+    </p>
+    <h2>Why is inspection important?</h2>
+    <p>
+        Inspection is a part of speedcubing competitions. The World Cube Association (WCA) has regulations about what you can and can't do during inspection.
+    </p>
+    <p>
+        When practicing, most cubers like to practice in a way similar to how competitions are run. In other words, practice like you play. It's important that your practice routine incorporates the official WCA regulations so you are familiar with them when it's time to compete.
+    </p>
+    <p>
+        However, there are also times when you don't want to follow official inspection regulations. Sometimes cubers practice with unlimited inspection. That's why the CubingApp Timer allows you to turn off inspection; so you can use as much inspection time as you need before solving. <a class="link" href="/blog/practicing-with-unlimited-inspection.html">Read here</a> to learn about why cubers sometimes practice with unlimited inspection.
+    </p>
+    <h2>What can you do during inspection?</h2>
+    <p>
+        You can pick up the cube and rotate the <i>entire</i> cube. However, you cannot turn an individual face until you start the timer. If you turn an individual face too early, that solve will be disqualified, and it will receive a DNF (did not finish).
+    </p>
+    <h2>What is the time limit?</h2>
+    <p>There are 4 time limits to know about for inspection.</p>
+    <ul>
+        <li>At 8 seconds, the judge calls "8 seconds"</li>
+        <li>At 12 seconds, the judge calls "12 seconds"</li>
+        <li>At 15 seconds, you receive a +2 if you have not started the solve. A +2 means that a 2 second penalty will be added to the solve</li>
+        <li>At 17 seconds, you receive a DNF if you have not started the solve</li>
+    </ul>
+    <h2>How do I use inspection wisely?</h2>
+    <p>
+        The question of how to use inspection wisely is a common question, but that is a topic for another blog post! <a class="link" href="/blog/how-to-be-good-at-inspection.html">Read here</a> to learn how to be good at inspection.
+    </p>
+</main>
