@@ -1,19 +1,20 @@
 <script lang="ts">
     import SideNav from "../../src/lib/components/SideNav.svelte";
     import {
-        fetchAlgs,
+        initApp,
         onScroll,
         play,
-        renderCubes,
         selectVariant,
         setCallback,
     } from "./algSetPage";
     import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
-    import { afterUpdate, onMount } from "svelte";
+    import { onMount } from "svelte";
     import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
     import GithubIcon from "../../src/lib/components/icons/GithubIcon.svelte";
     import PauseIcon from "../../src/lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../../src/lib/components/icons/PlayIcon.svelte";
+
+    export let algSet: any;
 
     let state = setCallback((newState) => {
         state = newState;
@@ -21,13 +22,7 @@
 
     let sideNavOpen = false;
 
-    onMount(() => {
-        fetchAlgs();
-    });
-
-    afterUpdate(() => {
-        renderCubes();
-    });
+    onMount(() => initApp(algSet));
 </script>
 
 <main class="col" style="width: 100%; height: 100%;">
@@ -45,34 +40,24 @@
         </a>
     </nav>
     <div
-        class="main-container"
-        style="display: flex; align-items:start; width: 100%; height: 100%; overflow-y: auto; padding: 16px; gap: 16px;"
+        style="
+            display: flex;
+            flex-wrap: wrap;
+            align-items:start;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 16px;
+            gap: 16px;"
         on:scroll={() => {
             onScroll();
         }}
     >
-        <div class="col about-container" style="align-items: start;">
-            <h1>{state.algSetName}</h1>
-            {#each state.algSet.description as desc, i}
-                <p style="margin-top: 16px;">{desc}</p>
-            {/each}
-            <div style="height: 16px;" />
-            {#if state.algSet.recommended.length > 0}
-                <h2>Cubers also use</h2>
-                {#each state.algSet.recommended as setName}
-                    <a
-                        href="/algdb/{setName.replaceAll(' ', '-')}.html"
-                        class="link"
-                        style="margin-top: 8px;"
-                    >
-                        {setName}
-                    </a>
-                {/each}
-            {/if}
-            <div style="height: 16px;" />
+        <div class="col about-container" style="align-items: start; flex: 1 1 450px;">
+            <slot></slot>
         </div>
-        <div class="col" style="width: 100%; gap: 16px;">
-            {#each state.algSet.cases as case_, i}
+        <div class="col" style="gap: 16px; flex: 10 1 550px;">
+            {#each algSet.cases as case_, i}
                 <div class="row case-card">
                     <div
                         id="scene{i}"
@@ -142,23 +127,13 @@
 </main>
 
 <style>
-    .main-container {
-        flex-direction: column;
+    :global(.about-container p, .about-container h2) {
+        margin-top: 1em;
     }
 
-    .about-container {
-        width: 100%;
-    }
-
-    @media (min-width: 900px) {
-        .main-container {
-            flex-direction: row;
-        }
-
-        .about-container {
-            min-width: 400px;
-            width: 400px;
-        }
+    :global(.about-container a) {
+        margin-top: 0.5em;
+        display: block;
     }
 
     .case-card {

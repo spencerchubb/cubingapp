@@ -1,5 +1,4 @@
 import { type Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
-import { replaceAll } from '../../src/lib/scripts/util';
 
 let callback: (state) => void;
 
@@ -20,14 +19,11 @@ type AlgSetCase = {
 
 type AlgSet = {
     puzzle: string;
-    description: string[];
-    recommended: string[];
     setup?: string;
     cases: AlgSetCase[];
 }
 
 type State = {
-    algSetName: string
     algSet: AlgSet,
     selectedVariants: Object, // Key is integer representing the case, value is integer representing the variant.
     casePlaying: number,
@@ -35,11 +31,8 @@ type State = {
 }
 
 let state: State = {
-    algSetName: getAlgSetName(),
     algSet: {
         puzzle: "",
-        description: [],
-        recommended: [],
         cases: [],
     },
     selectedVariants: {},
@@ -52,32 +45,11 @@ let renderedScenes = {};
 
 let timer;
 
-function getAlgSetName(): string {
-    let href = window.location.href;
-    let index = href.lastIndexOf("/");
-    let algSetName = replaceAll(
-        href.substring(index + 1, href.length - 5),
-        "-",
-        " ",
-    );
-
-    let title = `Rubik's Cube ${algSetName} Algorithms`;
-    document.title = title;
-
-    return algSetName;
-}
-
-export async function fetchAlgs() {
-    const baseUrl = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
-    const algSetName = state.algSetName;
-    const url = `${baseUrl}/${algSetName}.json`;
-    const res = await fetch(url);
-    const json = await res.json();
-    
-    state.algSet = json;
+export function initApp(algSet) {
+    state.algSet = algSet;
 
     shouldRenderCubes = true;
-    callback(state);
+    renderCubes();
 }
 
 // Do this lazily because it's slow af on mobile
