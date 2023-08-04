@@ -74,63 +74,69 @@ export class Cube extends Puzzle {
     }
 
     // Implement abstract method
-    U(forward: boolean) {
-        this.turn(1, 0, forward);
+    U(forward: boolean, n: number = 0) {
+        this.turn(1, n, forward);
     }
 
     // Implement abstract method
-    Uw(forward: boolean, n: number = 2) {
-        this.wideTurn(1, 0, n - 1, forward);
+    Uw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(1, 0, n, forward);
     }
 
     // Implement abstract method
-    D(forward: boolean) {
-        this.turn(1, this.layers - 1, !forward);
+    D(forward: boolean, n: number) {
+        this.turn(1, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    Dw(forward: boolean, n: number = 2) {
-        this.wideTurn(1, this.layers - 1, this.layers - n, !forward);
+    Dw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(1, this.layers - 1, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    F(forward: boolean) {
-        this.turn(2, 0, forward);
+    F(forward: boolean, n: number) {
+        this.turn(2, n, forward);
     }
 
     // Implement abstract method
-    Fw(forward: boolean, n: number = 2) {
-        this.wideTurn(2, 0, n - 1, forward);
+    Fw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(2, 0, n, forward);
     }
 
     // Implement abstract method
-    B(forward: boolean) {
-        this.turn(2, this.layers - 1, !forward);
+    B(forward: boolean, n: number) {
+        this.turn(2, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    Bw(forward: boolean, n: number = 2) {
-        this.wideTurn(2, this.layers - 1, this.layers - n, !forward);
+    Bw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(2, this.layers - 1, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    L(forward: boolean) {
-        this.turn(0, this.layers - 1, !forward);
+    L(forward: boolean, n: number) {
+        this.turn(0, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    Lw(forward: boolean, n: number = 2) {
-        this.wideTurn(0, this.layers - 1, this.layers - n, !forward);
+    Lw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(0, this.layers - 1, this.layers - 1 - n, !forward);
     }
 
     // Implement abstract method
-    R(forward: boolean) {
-        this.turn(0, 0, forward);
+    R(forward: boolean, layer: number) {
+        this.turn(0, layer, forward);
     }
 
     // Implement abstract method
-    Rw(forward: boolean, n: number = 2) {
-        this.wideTurn(0, 0, n - 1, forward);
+    Rw(forward: boolean, n: number) {
+        n = Math.max(n, 1);
+        this.wideTurn(0, 0, n, forward);
     }
 
     // Implement abstract method
@@ -179,13 +185,16 @@ export class Cube extends Puzzle {
         }
     }
 
-    wideTurn(axis, layer1, layer2, clockwise) {
+    wideTurn(axis, startlayer, endLayer, clockwise) {
         this.resetAffectedStickers();
 
         this.pushAnimation(axis, clockwise, [...this.stickers]);
 
-        this.matchTurn(axis, layer1, clockwise);
-        this.matchTurn(axis, layer2, clockwise);
+        let layer1 = Math.min(startlayer, endLayer);
+        let layer2 = Math.max(startlayer, endLayer);
+        for (let i = layer1; i <= layer2; i++) {
+            this.matchTurn(axis, i, clockwise);
+        }
     }
 
     cubeRotate(axis, clockwise) {

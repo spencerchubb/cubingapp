@@ -61,11 +61,6 @@ export function updateCubeState(event) {
     
     let puzzle = state.scene.puzzle;
 
-    let invalidMove = findInvalidMove(puzzle, parsedAlg.split(" "));
-    if (invalidMove) {
-        return;
-    }
-
     puzzle.solve();
     puzzle.performAlg(parseAlg(setup));
     let numMovesPerformed = puzzle.performAlg(parsedAlg);
@@ -198,12 +193,6 @@ function newStepper(scene: Scene, alg: string, index: number): Stepper {
         },
         length: moves.length,
     };
-}
-
-function findInvalidMove(puzzle: Puzzle, moves: string[]): string | undefined {
-    const moveMap = puzzle.getMoveMap(true);
-    let invalidMove = moves.find(move => !moveMap[move]);
-    return invalidMove;
 }
 
 function urlSet(url: URL, key: string, value: string, defaultValue: string = "") {
