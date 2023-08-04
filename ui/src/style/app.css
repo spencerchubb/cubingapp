@@ -45,25 +45,19 @@ select {
 
 input,
 select,
-option {
+textarea {
+    font-size: 1rem;
+    padding: 6px;
     background: var(--gray-800);
     color: var(--gray-100);
     outline: solid 1px var(--gray-400);
     border: none;
     border-radius: 8px;
-    padding: 0.25rem 0.5rem;
-}
-
-input, textarea {
-    font-size: 1rem;
-    padding: 6px;
-    background: var(--gray-800);
-    color: var(--gray-100);
     box-shadow: 0 0 4px 2px var(--gray-600);
     transition: all 0.15s ease-in-out;
 }
 
-input:focus, textarea:focus {
+input:focus, select:focus, textarea:focus {
     outline: solid 1px var(--gray-300);
     box-shadow: 0 0 4px 2px var(--lightBlue-300);
 }
