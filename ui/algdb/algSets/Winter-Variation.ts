@@ -1,5 +1,10 @@
+import { STICKERS as S } from "../../src/lib/scripts/rubiks-viz/pieces";
+
 export let algSet = {
     "puzzle": "3x3",
+    "gray": [
+        S.FRU, S.FU, S.FUL, S.LFU, S.LU, S.LUB, S.BLU, S.BU, S.BUR, S.RBU, S.RU, S.RUF,
+    ],
     "cases": [
         {
             "name": "WV 1",

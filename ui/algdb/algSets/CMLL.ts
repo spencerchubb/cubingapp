@@ -1,5 +1,14 @@
+import { STICKERS as S } from "../../src/lib/scripts/rubiks-viz/pieces";
+
 export let algSet = {
     "puzzle": "3x3",
+    "gray": [
+        S.UB, S.UL, S.UR, S.UF,
+        S.LU, S.RU,
+        S.FU, S.F, S.FD,
+        S.DF, S.DB,
+        S.BD, S.B, S.BU,
+    ],
     "cases": [
         {
             "name": "O Adjacent",

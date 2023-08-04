@@ -1,4 +1,4 @@
-import { type Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
+import { type Scene, invertAlg, newCube, GRAY, PURPLE } from '../../src/lib/scripts/rubiks-viz';
 
 let callback: (state) => void;
 
@@ -20,6 +20,8 @@ type AlgSetCase = {
 type AlgSet = {
     puzzle: string;
     setup?: string;
+    gray?: number[]; // Used to hide stickers
+    purple?: number[]; // Used to indicate orientation of stickers
     cases: AlgSetCase[];
 }
 
@@ -78,6 +80,20 @@ export function renderCubes() {
 
         scene.enableKey = () => false;
         scene.dragEnabled = false;
+
+        if (state.algSet.gray && scene.shapes) {
+            for (const hideIndex of state.algSet.gray) {
+                const shape = scene.shapes[hideIndex];
+                shape.color = shape.getColorBuffer(GRAY);
+            }
+        }
+
+        if (state.algSet.purple && scene.shapes) {
+            for (const hideIndex of state.algSet.purple) {
+                const shape = scene.shapes[hideIndex];
+                shape.color = shape.getColorBuffer(PURPLE);
+            }
+        }
 
         setupAlg(scene, i, 0);
     }
