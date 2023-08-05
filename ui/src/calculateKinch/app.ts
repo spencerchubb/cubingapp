@@ -1,6 +1,6 @@
 import { type WCAPerson, type WCARegionRecords, WCA_EVENTS, fetchRegionRecords, fetchWCAPerson } from "../lib/scripts/wca";
 
-let callback: (state) => void;
+let callback: (state) => void = (_) => {};
 
 export function setCallback(_callback: (state) => void) {
     callback = _callback;
@@ -9,6 +9,7 @@ export function setCallback(_callback: (state) => void) {
 
 type State = {
     wcaId: string,
+    loading: boolean,
     region: string,
     error?: string,
     wcaPerson?: WCAPerson,
@@ -26,6 +27,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
 let state: State = {
     wcaId: urlParams.get("wcaId") ?? "",
+    loading: false,
     region: urlParams.get("region") ?? "World",
     wcaPerson: undefined,
     wcaRegionRecords: undefined,
@@ -45,6 +47,9 @@ export const controller = {
         url.searchParams.set("region", region);
         window.history.pushState({}, "", url.toString());
 
+        state.loading = true;
+        callback(state);
+
         Promise.all([fetchWCAPerson(wcaId), fetchRegionRecords(region)])
             .then(([wcaPerson, wcaRegionRecords]) => {
                 state.wcaPerson = wcaPerson;
@@ -54,6 +59,7 @@ export const controller = {
                 if (state.error) {
                     state.kinchScore = undefined;
                     state.kinchData = undefined;
+                    state.loading = false;
                     callback(state);
                     return;
                 }
@@ -82,6 +88,7 @@ export const controller = {
                 // Sort ratio from lowest to highest
                 state.kinchData.sort((a, b) => a.ratio - b.ratio);
 
+                state.loading = false;
                 callback(state);
             })
             .catch(console.error);

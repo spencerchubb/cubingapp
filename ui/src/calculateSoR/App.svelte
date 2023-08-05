@@ -3,7 +3,6 @@
     import SideNav from "../lib/components/SideNav.svelte";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
-    import { CONTINENTS, COUNTRIES } from "../lib/scripts/wca";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -17,17 +16,15 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
-        <a
-            style="align-self: center;"
-            class="link"
-            href="https://cubingapp.com"
-        >CubingApp</a>
+        <a style="align-self: center;" class="link" href="https://cubingapp.com"
+            >CubingApp</a
+        >
         <!-- empty div so the text is centered -->
-        <div style="width: 48px;"></div>
+        <div style="width: 48px;" />
     </nav>
     <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
         <h1>Calculate Sum of Ranks (SoR)</h1>
-        <form>
+        <form style="display: grid;">
             <label for="wcaId">WCA ID</label>
             <input
                 name="wcaId"
@@ -40,91 +37,68 @@
                     }
                 }}
             />
-            <label for="region">Region</label>
-            <select
-                name="region"
-                bind:value={state.region}
-            >
-                <option value="World">World</option>
-                <optgroup label="Continents">
-                    {#each CONTINENTS as continent}
-                        <option value={continent}>{continent}</option>
-                    {/each}
-                </optgroup>
-                <optgroup label="Countries">
-                    {#each COUNTRIES as country}
-                        <option value={country}>{country}</option>
-                    {/each}
-                </optgroup>
-            </select>
-            <label for="type">Type</label>
-            <select
-                name="type"
-                bind:value={state.type}
-            >
-                <option value="Single">Single</option>
-                <option value="Average">Average</option>
-            </select>
-            <button
-                on:click={controller.calculate}
-            >
-                Calculate
-            </button>
+            <button on:click={controller.calculate}>Calculate</button>
         </form>
+        {#if state.error}
+            <p style="align-self: center;">{state.error}</p>
+        {/if}
         {#if state.loading}
             <p style="margin: auto;">Fetching data...</p>
-            <div class="spinner"></div>
+            <div class="spinner" />
         {/if}
-        {#if state.data !== undefined}
-            <div style="overflow-x: auto; max-width: 100%;">
-                <table id="events-table">
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Total</th>
-                    {#each state.data.content[0].events as event}
-                        <th>{event.event.id}</th>
+        {#if state.wcaPerson && state.totalSingle && state.totalAverage}
+            <h2 style="margin: 0;">{state.wcaPerson.person.name}</h2>
+            <table>
+                <th>Event</th>
+                <th>Single</th>
+                <th>Average</th>
+                <tbody>
+                    <tr>
+                        <td>Total</td>
+                        <td>{state.totalSingle}</td>
+                        <td>{state.totalAverage}</td>
+                    </tr>
+                    {#each Object.entries(state.wcaPerson.personal_records) as [event, record]}
+                        <tr>
+                            <td>{event}</td>
+                            <td>{record.single?.world_rank ?? "N/A"}</td>
+                            <td>{record.average?.world_rank ?? "N/A"}</td>
+                        </tr>
                     {/each}
-                    <tbody>
-                        {#each state.data.content as person}
-                            <tr>
-                                <td>{person.regionRank}</td>
-                                <td>{person.name}</td>
-                                <td>{person.overall}</td>
-                                {#each person.events as event}
-                                    <td
-                                        style={!event.completed
-                                            ? "font-weight: bold; color: var(--red-500);"
-                                            : event.regionalRank <= 10
-                                            ? "font-weight: bold; color: var(--green-500);"
-                                            : "color: var(--gray-100);"}
-                                    >
-                                        {event.regionalRank}
-                                    </td>
-                                {/each}
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         {/if}
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
             <h2>What is Sum of Ranks (SoR)?</h2>
             <p>
-                Sum of Ranks is one way of measuring a cuber's overall performance rather than measuring just one event. To compute a Sum of Ranks, we simply add up the cuber's rank in each event. It is possible to compute a cuber's Sum of Ranks at a global level, continental level, and national level.
+                Sum of Ranks is one way of measuring a cuber's overall
+                performance rather than measuring just one event. To compute a
+                Sum of Ranks, we simply add up the cuber's rank in each event.
+                It is possible to compute a cuber's Sum of Ranks at a global
+                level, continental level, and national level.
             </p>
             <h2>What does my Sum of Ranks mean?</h2>
             <p>
-                Lower scores are better. For example, since the world record holder is ranked 1st in the world, their rank for that event is 1.
+                Lower scores are better. For example, since the world record
+                holder is ranked 1st in the world, their rank for that event is
+                1.
             </p>
             <h2>Alternatives to Sum of Ranks</h2>
             <p>
-                As mentioned before, Sum of Ranks is just one way to measure the all-round abilities of a cuber. If you want to know your Kinch Score, you can visit our <a class="link" href="/calculate-kinch.html">Kinch Calculator</a> as well.
+                As mentioned before, Sum of Ranks is just one way to measure the
+                all-round abilities of a cuber. If you want to know your Kinch
+                Score, you can visit our <a
+                    class="link"
+                    href="/calculate-kinch.html">Kinch Calculator</a
+                > as well.
             </p>
             <p>
-                Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
+                Different aggregation methods will have different tradeoffs, and
+                some will debate which methods are better. That's why we provide
+                multiple ways to measure your all-round abilities.
             </p>
         </div>
-        <div style="margin-top: 32px;"></div>
+        <div style="margin-top: 32px;" />
     </div>
     <SideNav bind:open={sideNavOpen} />
 </main>
@@ -144,16 +118,6 @@
         margin-top: 32px;
     }
 
-    #events-table {
-        border: solid 1px var(--gray-500);
-        font-size: 15px;
-    }
-
-    #events-table th, #events-table td {
-        white-space: nowrap;
-        padding: 8px;
-    }
-
     form {
         display: flex;
         flex-direction: column;
@@ -163,11 +127,11 @@
         margin-bottom: 8px;
     }
 
-    form input, form select {
+    form input {
         margin-bottom: 24px;
     }
 
-    form input, form select, form button {
+    form input, form button {
         width: 100%;
     }
 
@@ -184,18 +148,8 @@
             margin-bottom: 0;
         }
 
-        form label[for="region"], form select[name="region"] {
-            grid-row: 2;
-            margin-bottom: 0;
-        }
-
-        form label[for="type"], form select[name="type"] {
-            grid-row: 3;
-            margin-bottom: 0;
-        }
-
         form button {
-            grid-row: 4;
+            grid-row: 2;
             grid-column: 1 / 3;
         }
     }

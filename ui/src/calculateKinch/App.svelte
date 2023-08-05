@@ -66,7 +66,12 @@
         {#if state.error}
             <p style="align-self: center;">{state.error}</p>
         {/if}
+        {#if state.loading}
+            <p style="margin: auto;">Fetching data...</p>
+            <div class="spinner" />
+        {/if}
         {#if state.kinchScore !== undefined}
+            <h2 style="margin-top: 16px;">{state.wcaPerson.person.name}</h2>
             <p
                 style="
                     align-self: center;
@@ -80,7 +85,7 @@
             </p>
         {/if}
         {#if state.kinchData !== undefined}
-            <table id="events-table">
+            <table>
                 <th>Event</th>
                 <th>Score</th>
                 <th>Status</th>
