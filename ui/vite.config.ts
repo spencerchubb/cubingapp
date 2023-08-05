@@ -3,6 +3,33 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 import wasm from "vite-plugin-wasm";
 
+function algdb() {
+    const pages = [
+        "2x2-CLL",
+        "2x2-EG1",
+        "2x2-EG2",
+        "2x2-PBL",
+        "4x4-PLL-Parity",
+        "CMLL",
+        "COLL",
+        "F2L",
+        "LSE-EO",
+        "LSE-EOLR",
+        "OH-CMLL",
+        "OLL",
+        "OLLCP",
+        "PLL",
+        "Winter-Variation",
+        "ZBLL",
+    ];
+    const result = {};
+    for (const page of pages) {
+        const path = resolve(__dirname, 'algdb', `${page}.html`);
+        result[`algdb/${page}`] = path;
+    }
+    return result;
+}
+
 function blogs() {
     const pages = [
         "deep-dive-on-tony-snyder",
@@ -47,7 +74,7 @@ export default defineConfig({
       input: {
         404: resolve(__dirname, '404.html'),
         algdb: resolve(__dirname, 'algdb.html'),
-        "algdb/index": resolve(__dirname, 'algdb', 'algset.html'),
+        ...algdb(),
         blog: resolve(__dirname, 'blog.html'),
         ...blogs(),
         calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
