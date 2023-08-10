@@ -11,6 +11,7 @@ export const preBuiltSets = [
     "2x2 EG2",
     "2x2 TCLL+",
     "2x2 TCLL-",
+    "Pyraminx L4E",
 ];
 
 export class AlgSetLogic {

@@ -1,7 +1,7 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement } from "../lib/scripts/common/rand";
-import { Cube, GRAY, type Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
+import { Cube, GRAY, type Scene, invertAlg, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
@@ -131,6 +131,8 @@ function setAlgSet(scene: Scene) {
         newCube(scene.div, 2);
     } else if (uiState.algSet.puzzle == "3x3") {
         newCube(scene.div, 3);
+    } else if (uiState.algSet.puzzle == "Pyraminx") {
+        newPyraminx(scene.div)
     }
 
     if (!scene.shapes) return;
