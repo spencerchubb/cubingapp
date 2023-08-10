@@ -4,16 +4,20 @@
     import {
         copyUrl,
         initApp,
-        next,
-        onClickSuggestion,
-        prev,
         setCallback,
+        stepper,
         updateCubeState,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import ChevronLeft from "../lib/components/icons/ChevronLeft.svelte";
     import ChevronRight from "../lib/components/icons/ChevronRight.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import CopyButton from "./CopyButton.svelte";
+    import TextareaAutosize from "../lib/components/TextareaAutosize.svelte";
+    import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
+    import { getScramble } from "../lib/scripts/common/scramble";
+    import PauseIcon from "../lib/components/icons/PauseIcon.svelte";
+    import PlayIcon from "../lib/components/icons/PlayIcon.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -27,6 +31,12 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
+        <CopyButton
+            style="margin-right: 12px;"
+            originalText="Share"
+            clickedText="Link copied ✅"
+            onClick={copyUrl}
+        />
     </nav>
     <div
         style="
@@ -42,106 +52,87 @@
     >
         <div
             class="col"
-            style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);"
+            style="
+                border-radius: 8px;
+                box-shadow: 0 0 4px 2px var(--gray-600);"
         >
+            <SelectPuzzle
+                style="transform: translateY(12px);"
+                scene={state.scene}
+                bind:value={state.puzzle}
+                on:change={updateCubeState}
+            />
             <GLManager
                 onSceneInitialized={(scene) => {
-                    initApp(scene);
+                    let url = new URL(document.URL);
+                    initApp(scene, {
+                        setup: url.searchParams.get("setup") || "",
+                        moves: url.searchParams.get("moves") || "",
+                        puzzle: url.searchParams.get("puzzle") || "3x3",
+                    });
                 }}
             />
-            <div class="row">
-                <button class="prev-and-next-btn" on:click={prev}>
+            <p style="transform: translateY(-12px);">
+                {state.moveIndex} / {state.maxMoves}
+            </p>
+            <div class="row" style="transform: translateY(-12px); gap: 12px; margin-top: 8px;">
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.prev()}
+                >
                     <ChevronLeft />
                 </button>
-                <p style="margin: 0 8px;">
-                    {state.moveIndex} / {state.maxMoves}
-                </p>
-                <button class="prev-and-next-btn" on:click={next}>
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.playPause()}
+                >
+                    {#if state.playing}
+                        <PauseIcon />
+                    {:else}
+                        <PlayIcon />
+                    {/if}
+                </button>
+                <button
+                    class="btn-transparent"
+                    style="width: 40px; height: 40px; padding: 4px;"
+                    on:click={() => stepper.next()}
+                >
                     <ChevronRight />
                 </button>
             </div>
         </div>
         <div style="flex: 1 1 600px; align-items: start;">
-            <button on:click={copyUrl}>Copy URL</button>
-            <textarea
-                class="moves-input"
-                placeholder="Enter scramble and moves"
-                style="margin-top: 16px;"
+            <div class="row" style="justify-content: space-between;">
+                <h2>Setup</h2>
+                <button
+                    on:click={() => {
+                        state.setup = getScramble(state.puzzle);
+                        updateCubeState(undefined);
+                    }}
+                >
+                    Scramble
+                </button>
+            </div>
+            <TextareaAutosize
+                style="width: 100%; margin-top: 8px;"
+                placeholder="Enter scramble"
+                bind:value={state.setup}
+                on:input={updateCubeState}
+                on:click={updateCubeState}
+                on:keyup={updateCubeState}
+            />
+            <h2 style="margin-top: 16px;">Moves</h2>
+            <TextareaAutosize
+                style="width: 100%; margin-top: 8px;"
+                placeholder="Enter moves"
                 bind:value={state.moves}
                 on:input={updateCubeState}
                 on:click={updateCubeState}
                 on:keyup={updateCubeState}
             />
-            <p style="margin-top: 16px; font-style: italic;">Suggestions in beta! Try them out</p>
-            {#if state.suggestionData.solved.length > 0}
-                <div style="height: 16px;"></div>
-                {#each state.suggestionData.solved as solved}
-                    <p>&#x2713; {solved} solved</p>
-                {/each}
-            {/if}
-            {#each state.suggestionData.unsolved as unsolved}
-                <p style="margin-top: 16px;">{unsolved.name} suggestions</p>
-                {#each unsolved.suggestions as suggestion}
-                    <button
-                        class="suggestion"
-                        on:click={() => onClickSuggestion(suggestion, unsolved.name)}
-                        >{suggestion}</button
-                    >
-                {/each}
-            {/each}
         </div>
     </div>
     <SideNav bind:open={sideNavOpen} />
 </main>
-
-<style>
-    .moves-input {
-        width: 100%;
-        height: 200px;
-        font-size: 1rem;
-        padding: 6px;
-        background: var(--gray-800);
-        color: var(--gray-100);
-        box-shadow: 0 0 4px 2px var(--gray-600);
-    }
-
-    .moves-input:focus {
-        outline: solid 1px var(--gray-400);
-        box-shadow: 0 0 6px 3px var(--gray-600);
-    }
-
-    .moves-input::-moz-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input:-moz-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input::-webkit-input-placeholder {
-        color: var(--gray-400);
-    }
-    .moves-input:-ms-input-placeholder {
-        color: var(--gray-400);
-    }
-
-    .suggestion {
-        background: transparent;
-        border: solid 1px var(--gray-500);
-    }
-
-    .suggestion:hover {
-        background: var(--gray-500);
-    }
-
-    :global(.prev-and-next-btn) {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        border: solid 1px var(--gray-500);
-        padding: 6px;
-        background: transparent;
-    }
-
-    :global(.prev-and-next-btn:hover) {
-        background: var(--gray-500);
-    }
-</style>

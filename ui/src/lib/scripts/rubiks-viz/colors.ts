@@ -8,3 +8,4 @@ export const BLUE: Color = [0.0, 0.0, 1.0];
 export const ORANGE: Color = [1.0, 0.5, 0.0];
 export const RED: Color = [1.0, 0.0, 0.0];
 export const BLACK: Color = [0.0, 0.0, 0.0];
+export const PURPLE: Color = [0.5, 0.0, 1.0];

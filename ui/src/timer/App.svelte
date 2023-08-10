@@ -8,12 +8,12 @@
         nextScramble,
         onChangePuzzle,
         onDown,
-        puzzles,
         setCallback,
         setInspection,
         solve,
         type TimerStatus,
         callback,
+        fetchSolves,
     } from "./app";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import Drawer from "../lib/components/Drawer.svelte";
@@ -24,9 +24,9 @@
     import Auth from "../lib/components/auth/Auth.svelte";
     import Modal from "../lib/components/Modal.svelte";
     import * as SessionsAPI from "../lib/scripts/api/sessions";
-    import * as SolvesAPI from "../lib/scripts/api/solves";
     import { signOut } from "../lib/scripts/auth";
     import DropDownButton from "../lib/components/DropDownButton.svelte";
+    import SelectPuzzle from "../lib/components/SelectPuzzle.svelte";
 
     let scene: Scene;
 
@@ -121,14 +121,28 @@
                                 callback({ modalType: "select session" });
                             }}
                         />
-                        {#each state.solves as solve, i}
-                            <p>{state.solves.length - i}. {solve.formattedTime}</p>
-                        {/each}
                         {#if state.solves.length === 0}
                             <p>
                                 No solves in <i>{state.sessions[0].name}</i>. 
                                 Do a solve, then your times will appear here 😎
                             </p>
+                        {:else}
+                            <table style="width: 100%;">
+                                <th></th>
+                                <th>time</th>
+                                <th>ao5</th>
+                                <th>ao12</th>
+                                <tbody>
+                                    {#each state.solves as solve, i}
+                                        <tr>
+                                            <td>{state.solves.length - i}</td>
+                                            <td>{solve.formattedTime}</td>
+                                            <td>{solve.ao5}</td>
+                                            <td>{solve.ao12}</td>
+                                        </tr>
+                                    {/each}
+                                </tbody>
+                            </table>
                         {/if}
                     </div>
                 {:else}
@@ -141,14 +155,11 @@
         {:else if drawerIndex === 1}
             <Drawer title="Settings" bind:drawerIndex>
                 <div class="col" style="align-items:start; padding: 16px; gap: 16px;">
-                    <select
-                        value={state.puzzle}
-                        on:change={(event) => onChangePuzzle(event)}
-                    >
-                        {#each puzzles as puzzle}
-                            <option value={puzzle}>{puzzle}</option>
-                        {/each}
-                    </select>
+                    <SelectPuzzle
+                        scene={scene}
+                        bind:value={state.puzzle}
+                        onChange={onChangePuzzle}
+                    />
                     <button on:click={() => solve()}>Solve</button>
                     <div class="row" style="gap: 8px;">
                         <button
@@ -229,7 +240,7 @@
                             const sessions = state.sessions.filter((session) => {
                                 return session.id !== state.sessionEditing.id;
                             });
-                            SolvesAPI.readAll(sessions[0].id).then(solves => {
+                            fetchSolves(sessions[0].id).then(solves => {
                                 callback({
                                     modalType: "select session",
                                     sessions,
@@ -280,7 +291,7 @@
                         <button
                             class="row list-item"
                             on:click={() => {
-                                SolvesAPI.readAll(session.id).then(solves => {
+                                fetchSolves(session.id).then(solves => {
                                     callback({
                                         modalType: undefined,
                                         sessions: [session, ...state.sessions.filter(s => s.id !== session.id)],

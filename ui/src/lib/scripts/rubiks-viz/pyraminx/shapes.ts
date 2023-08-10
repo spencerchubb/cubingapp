@@ -1,8 +1,10 @@
 import { vertex1, vertex2, vertex3, vertex4 } from "./vertices";
 import { Shape, Triangle } from "../buffers";
-import { BLUE, Color, GREEN, RED, YELLOW } from "../colors";
+import { BLUE, type Color, GREEN, RED, YELLOW } from "../colors";
 
-export function makeTriangles(gl: WebGLRenderingContext, perspective: number[]): Shape[] {
+export function makeTriangles(gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null {
+    if (!gl) return null;
+    
     let front = [
         ...vertex3,
         ...vertex4,

@@ -1,0 +1,55 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 16px 96px 16px;
+}
+
+h1, h2 {
+    margin-top: 1.25em;
+}
+
+.date {
+    margin-top: 0.5em;
+}
+
+p, h3, .note, ol, ul, img {
+    margin-top: 1em;
+}
+
+p, h1, h2, h3, ol, ul {
+    max-width: 600px;
+    width: 100%;
+    text-align: start;
+    line-height: 1.5em;
+}
+
+.note {
+    border: solid 1px var(--gray-500);
+    border-radius: 8px;
+    padding: 0 16px 1em 16px;
+}
+
+.alg-stepper-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 4px 2px var(--gray-600);
+    margin-top: 1em;
+}
+
+.alg-stepper-text {
+    flex: 1;
+    min-width: 240px;
+    padding: 0 16px;
+}
+
+iframe {
+    border: none;
+}

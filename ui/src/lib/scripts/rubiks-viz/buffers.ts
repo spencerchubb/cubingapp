@@ -1,4 +1,4 @@
-import { BLACK, Color } from "./colors";
+import { BLACK, type Color } from "./colors";
 
 export function getBuffer(gl: WebGLRenderingContext, data: number[]): WebGLBuffer {
     const buff = gl.createBuffer();

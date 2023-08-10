@@ -1,25 +1,27 @@
 import { Shape, getBuffer } from "./buffers";
-import { Cube, CubeDragDetector, makeSquares } from "./cube";
+import { Cube } from "./cube";
 import { DragDetector } from "./dragDetector";
 import * as glMat from "./glMatrix";
 import { Puzzle } from "./puzzle";
-import { makeTriangles, PyraDragDetector, Pyraminx } from "./pyraminx";
-import { singleton } from "./singleton";
+import { Pyraminx } from "./pyraminx";
+import { once } from "./once";
 import { Spring } from "./spring";
 
 export {
     newCube,
     newPyraminx,
+    setPuzzle,
     type Scene,
     scenes,
 };
 
 let canvas: HTMLCanvasElement = initCanvas();
-let gl: WebGLRenderingContext = initGL(canvas);
-let programInfo: ProgramInfo = initProgram(gl);
+let gl: WebGLRenderingContext | null = canvas.getContext("webgl");
 
-// IDK why I have to put the number 4 times.
-const notHintBuffer = getBuffer(gl, [0, 0, 0, 0]);
+const programInfo = once<WebGLRenderingContext, ProgramInfo>(initProgram);
+const notHintBuffer = once<WebGLRenderingContext, WebGLBuffer>(gl => {
+    return getBuffer(gl, [0, 0, 0, 0]);
+});
 
 function initCanvas() {
     const canvas = document.createElement("canvas");
@@ -48,10 +50,6 @@ function initCanvas() {
     return canvas;
 }
 
-function initGL(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    return canvas.getContext("webgl") as WebGLRenderingContext;
-}
-
 type ProgramInfo = {
     attributes: {
         hintType: number,
@@ -65,6 +63,7 @@ type ProgramInfo = {
 };
 
 function initProgram(gl: WebGLRenderingContext): ProgramInfo {
+
     /* Vertex shader source */
     const vsSource = `
     attribute vec4 aHintType;
@@ -158,7 +157,7 @@ function initProgram(gl: WebGLRenderingContext): ProgramInfo {
 type Scene = {
     div: HTMLElement,
     puzzle: Puzzle,
-    shapes: Shape[],
+    shapes: Shape[] | null,
     dragEnabled: boolean,
     enableKey: (event: KeyboardEvent) => boolean,
 };
@@ -174,34 +173,41 @@ let internalScenes: InternalScene[] = [];
 
 let time: number = Date.now() * 0.001;
 
-let loopStarted = false;
-function startLoop() {
-    if (loopStarted) return;
-    loopStarted = true;
+const startLoop = once<void, void>(() => {
     requestAnimationFrame(render);
+});
+
+function newCube(div: HTMLElement, layers: number = 3): Scene | null {
+    return newPuzzle(div, () => new Cube(layers));
 }
 
-function newCube(div: HTMLElement, layers: number = 3): Scene {
+function newPyraminx(div: HTMLElement): Scene | null {
+    return newPuzzle(div, () => new Pyraminx());
+}
+
+function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | null {
+    if (!gl) {
+        renderWebGLError(div);
+        return null;
+    }
+
     let scene: Scene | undefined = scenes.find(s => s.div === div);
     let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
     if (scene && internalScene) {
-        const puzzle = new Cube(layers);
+        const puzzle = puzzleConstructor();
         scene.puzzle = puzzle;
-        scene.shapes = makeSquares(gl, puzzle, internalScene.perspective);
+        internalScene.perspective = puzzle.getPerspective();
+        scene.shapes = puzzle.getShapes(gl, internalScene.perspective);
         return scene;
     }
-
-    let perspective = initPerspective();
-
-    let cube = new Cube(layers);
-    let shapes = makeSquares(gl, cube, perspective);
-
-    let spring = new Spring();
-    let dragDetector = new CubeDragDetector(shapes);
+    
+    let puzzle = puzzleConstructor();
+    let perspective = puzzle.getPerspective();
+    let shapes = puzzle.getShapes(gl, perspective);
 
     scene = {
         div,
-        puzzle: cube,
+        puzzle,
         shapes,
         dragEnabled: true,
         enableKey: (_) => true,
@@ -210,10 +216,13 @@ function newCube(div: HTMLElement, layers: number = 3): Scene {
     internalScene = {
         div,
         perspective,
-        spring,
+        spring: new Spring(),
     }
 
-    addDragListeners(div, dragDetector, scene);
+    if (shapes) {
+        let dragDetector = puzzle.getDragDetector(shapes);
+        addDragListeners(div, dragDetector, scene);
+    }
 
     scenes.push(scene);
     internalScenes.push(internalScene);
@@ -221,70 +230,35 @@ function newCube(div: HTMLElement, layers: number = 3): Scene {
     return scene;
 }
 
-function newPyraminx(div: HTMLElement): Scene {
-    let scene: Scene | undefined = scenes.find(s => s.div === div);
-    let internalScene: InternalScene | undefined = internalScenes.find(s => s.div === div);
-    if (scene && internalScene) {
-        const puzzle = new Pyraminx();
-        scene.puzzle = puzzle;
-        return scene;
+function setPuzzle(scene: Scene, puzzle: string): void {
+    switch (puzzle) {
+        case "2x2":
+            newCube(scene.div, 2);
+            break;
+        case "3x3":
+            newCube(scene.div, 3);
+            break;
+        case "4x4":
+            newCube(scene.div, 4);
+            break;
+        case "5x5":
+            newCube(scene.div, 5);
+            break;
+        case "6x6":
+            newCube(scene.div, 6);
+            break;
+        case "7x7":
+            newCube(scene.div, 7);
+            break;
+        case "Pyraminx":
+            newPyraminx(scene.div);
+            break;
+        default: console.log("Unknown puzzle: " + puzzle);
     }
-
-    const perspective = initPerspective();
-
-    let pyraminx = new Pyraminx();
-    let shapes = makeTriangles(gl, perspective);
-
-    let spring = new Spring();
-    let dragDetector = new PyraDragDetector(shapes);
-
-    scene = {
-        div,
-        puzzle: pyraminx,
-        shapes,
-        dragEnabled: true,
-        enableKey: (_) => true,
-    };
-
-    internalScene = {
-        div,
-        perspective,
-        spring,
-    }
-
-    addDragListeners(div, dragDetector, scene);
-
-    scenes.push(scene);
-    internalScenes.push(internalScene);
-    startLoop();
-    return scene;
 }
 
-function initPerspective() {
-    let mat = glMat.create();
-
-    glMat.perspective(mat,
-        50 * Math.PI / 180, // field of view
-        1, // aspect
-        0.1, // z near
-        100.0); // z far
-
-    glMat.translate(mat,
-        [0.0, 0.0, -5.0]);
-
-    glMat.rotate(mat,
-        mat,
-        45 * Math.PI / 180,
-        [1, 0, 0],
-    );
-
-    glMat.rotate(mat,
-        mat,
-        0,
-        [0, -1, 0],
-    );
-
-    return mat;
+function renderWebGLError(div: HTMLElement) {
+    div.innerHTML = `<p style="text-align: center; margin-top: 8px;">Sorry, WebGL isn't working. The 3D visuals may not work in this browser 😢</p>`;
 }
 
 function addDragListeners(div: HTMLElement, dragDetector: DragDetector, scene: Scene) {
@@ -342,21 +316,24 @@ function addDragListeners(div: HTMLElement, dragDetector: DragDetector, scene: S
 }
 
 function bindPosition(gl: WebGLRenderingContext, position: WebGLBuffer) {
+    const _programInfo = programInfo(gl);
     gl.bindBuffer(gl.ARRAY_BUFFER, position);
-    gl.vertexAttribPointer(programInfo.attributes.vertexPosition, 3, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(programInfo.attributes.vertexPosition);
+    gl.vertexAttribPointer(_programInfo.attributes.vertexPosition, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(_programInfo.attributes.vertexPosition);
 }
 
 function bindColor(gl: WebGLRenderingContext, color: WebGLBuffer) {
+    const _programInfo = programInfo(gl);
     gl.bindBuffer(gl.ARRAY_BUFFER, color);
-    gl.vertexAttribPointer(programInfo.attributes.vertexColor, 4, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(programInfo.attributes.vertexColor);
+    gl.vertexAttribPointer(_programInfo.attributes.vertexColor, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(_programInfo.attributes.vertexColor);
 }
 
 function bindHintType(gl: WebGLRenderingContext, hintType: WebGLBuffer) {
+    const _programInfo = programInfo(gl);
     gl.bindBuffer(gl.ARRAY_BUFFER, hintType);
-    gl.vertexAttribPointer(programInfo.attributes.hintType, 1, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(programInfo.attributes.hintType);
+    gl.vertexAttribPointer(_programInfo.attributes.hintType, 1, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(_programInfo.attributes.hintType);
 }
 
 // Creates a shader of the given type, uploads the source and compiles it.
@@ -401,10 +378,10 @@ function drawShape(gl: WebGLRenderingContext, shape: Shape, position: WebGLBuffe
 }
 
 function render(newTime: number) {
+    if (!gl) return;
+
     newTime *= 0.001; // convert to seconds
     const dt = newTime - time;
-    // const fps = 1 / dt;
-    // console.log(fps);
     time = newTime;
 
     resizeCanvasToDisplaySize();
@@ -417,6 +394,8 @@ function render(newTime: number) {
     for (let i = 0; i < scenes.length; i++) {
         const { puzzle, shapes } = scenes[i];
         const { div, perspective, spring } = internalScenes[i];
+
+        if (!shapes) continue;
 
         const rect = div.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > canvas.clientHeight ||
@@ -451,51 +430,46 @@ function render(newTime: number) {
         const animation = puzzle.animationQueue[0];
         let stickers = puzzle.getStickers();
 
-        let _transformSingleton = singleton<number[]>();
-        let _rotateSingleton = singleton<number[]>();
+        const _programInfo = programInfo(gl);
 
         for (let i = 0; i < shapes.length; i++) {
             let sticker = stickers[i];
             let currentBuffer = shapes[sticker];
             let originalBuffer = shapes[i];
 
-            // Rotate if the sticker is affected by the animation and if the user wants to animate
+            // Rotate and transform if:
+            // 1) the sticker is affected by the animation
+            // 2) the user wants to animate
             const transform = (animation && animation.affectedStickers[i])
-                ? _transformSingleton(() => {
-                    return glMat.rotate(
-                        glMat.create(),
-                        perspective,
-                        spring.position * Math.PI / 180,
-                        animation.axis
-                    );
-                })
+                ? glMat.rotate(
+                    glMat.create(),
+                    perspective,
+                    spring.position * Math.PI / 180,
+                    animation.axis
+                )
                 : perspective;
+            const rotation = (animation && animation.affectedStickers[i])
+                ? glMat.rotate(
+                    glMat.create(),
+                    glMat.create(),
+                    spring.position * Math.PI / 180,
+                    animation.axis,
+                )
+                : glMat.create();
 
             gl.uniformMatrix4fv(
-                programInfo.uniforms.transformMatrix,
+                _programInfo.uniforms.transformMatrix,
                 false,
                 transform,
             );
 
-            const rotation = (animation && animation.affectedStickers[i])
-                ? _rotateSingleton(() => {
-                    const rotateMat = glMat.create();
-                    return glMat.rotate(
-                        rotateMat,
-                        rotateMat,
-                        spring.position * Math.PI / 180,
-                        animation.axis,
-                    );
-                })
-                : glMat.create();
-
             gl.uniformMatrix4fv(
-                programInfo.uniforms.rotateMatrix,
+                _programInfo.uniforms.rotateMatrix,
                 false,
                 rotation,
             );
 
-            bindHintType(gl, notHintBuffer);
+            bindHintType(gl, notHintBuffer(gl));
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, originalBuffer.indexBuffer);
 

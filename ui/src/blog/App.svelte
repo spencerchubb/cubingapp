@@ -42,7 +42,7 @@
             date: "May 11, 2023",
         },
         {
-            href: "/tutorials/how-to-learn-f2l.html",
+            href: "/tutorials/f2l.html",
             title: "How to Learn Rubik's Cube F2L",
             date: "May 9, 2023",
         },

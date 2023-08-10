@@ -1,11 +1,7 @@
-import { Scene } from "../lib/scripts/rubiks-viz";
+import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
-import { getSuggestions, SuggestionData } from "./suggestions";
-
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from "lz-string";
-
-export {};
+import { type PuzzleTypes } from "../lib/scripts/common/scramble";
 
 let callback: (state) => void;
 
@@ -16,35 +12,36 @@ export function setCallback(_callback: (state) => void) {
 
 type State = {
     scene: Scene,
+    setup: string,
     moves: string,
+    puzzle: PuzzleTypes,
+    playing: boolean,
     moveIndex: number,
     maxMoves: number,
     movesCursor: number,
-    suggestionData: SuggestionData,
 }
 
 let state: State = {
     scene: {} as Scene,
+    setup: "",
     moves: "",
+    puzzle: "3x3",
+    playing: false,
     moveIndex: 0,
     maxMoves: 0,
     movesCursor: 0,
-    suggestionData: {
-        solved: [],
-        unsolved: [],
-    },
 };
 
-let stepper = {} as Stepper;
+export let stepper = {} as Stepper;
 
-export function initApp(scene: Scene) {
+export function initApp(scene: Scene, initData: { setup: string, moves: string, puzzle: string }) {
     state.scene = scene;
 
-    let url = new URL(document.URL);
-    let moves = url.searchParams.get("moves") || "";
-    moves = decompressFromEncodedURIComponent(moves);
-    state.moves = moves;
+    state.setup = initData.setup;
+    state.moves = initData.moves;
+    state.puzzle = initData.puzzle as PuzzleTypes;
 
+    setPuzzle(state.scene, state.puzzle);
     updateCubeState(undefined);
 
     callback(state);
@@ -56,7 +53,7 @@ export function updateCubeState(event) {
         state.movesCursor = start ?? 0;
     }
 
-    let { moves, movesCursor } = state;
+    let { setup, moves, movesCursor } = state;
 
     movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
     let movesPortion = moves.slice(0, movesCursor);
@@ -64,51 +61,29 @@ export function updateCubeState(event) {
     
     let puzzle = state.scene.puzzle;
 
-    let invalidMove = findInvalidMove(puzzle, parsedAlg.split(" "));
-    if (invalidMove) {
-        return;
-    }
-
     puzzle.solve();
+    puzzle.performAlg(parseAlg(setup));
     let numMovesPerformed = puzzle.performAlg(parsedAlg);
     stepper = newStepper(state.scene, state.moves, numMovesPerformed);
 
     state.moveIndex = numMovesPerformed;
     state.maxMoves = stepper.length;
     callback(state);
-
-    getSuggestions(parsedAlg).then(suggestionData => {
-        state.suggestionData = suggestionData;
-        callback(state);
-    });
 }
 
 export function copyUrl() {
     let url = new URL(document.URL);
+    urlSet(url, "moves", state.moves);
+    urlSet(url, "setup", state.setup);
+    urlSet(url, "puzzle", state.puzzle, "3x3");
 
-    let moves = state.moves;
-    moves = compressToEncodedURIComponent(moves);
-    urlSetParam(url, "moves", moves);
-
-    navigator.clipboard.writeText(url.toString());
-}
-
-function urlSetParam(url: URL, key: string, value: string) {
-    if (!value) {
-        url.searchParams.delete(key);
-        return;
-    }
-    url.searchParams.set(key, value);
-}
-
-export function prev() {
-    if (!stepper.prev()) return;
-    callback(state);
-}
-
-export function next() {
-    if (!stepper.next()) return;
-    callback(state);
+    const urlStr = url.toString();
+    navigator.clipboard.writeText(urlStr).then(() => {
+        const MAX_LEN = 2048;
+        if (urlStr.length > MAX_LEN) {
+            alert(`The URL is ${urlStr.length} characters, and some browsers only allow 2048 characters. Make the reconstruction shorter if you want to shorten the url.`);
+        }
+    });
 }
 
 /**
@@ -128,21 +103,10 @@ function middleOfWord(str: string, index: number) {
     return char !== " " && char !== "\t" && char !== "\n";
 }
 
-export function onClickSuggestion(suggestion: string, stepName: string) {
-    let { moves, movesCursor } = state;
-
-    movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
-    let movesPortion = moves.slice(0, movesCursor);
-
-    state.moves = `${movesPortion}\n${suggestion} // ${stepName}`;
-    state.movesCursor = state.moves.length;
-
-    updateCubeState(undefined);
-}
-
 type Stepper = {
     prev: () => boolean,
     next: () => boolean,
+    playPause: () => void,
     length: number,
 }
 
@@ -152,6 +116,9 @@ type Stepper = {
  * Comments should be ignored.
  */
 function parseAlg(str: string): string {
+    str = replaceAll(str, "(", "");
+    str = replaceAll(str, ")", "");
+
     let lines = str.split("\n");
 
     // Filter out empty lines
@@ -167,43 +134,71 @@ function parseAlg(str: string): string {
         return line.trim();
     });
 
+    // Filter out empty lines
+    lines = lines.filter(line => line.trim().length > 0);
+
     // Join lines then split by spaces
     return lines.join(" ").trim();
 }
 
 function newStepper(scene: Scene, alg: string, index: number): Stepper {
+    state.moveIndex = index;
     let moves = parseAlg(alg).split(" ");
 
     // If moves = [""], set moves = []
     if (moves.length === 1 && moves[0] === "") moves = [];
 
+    const DELAY = 800;
+    let interval;
+
     return {
         prev: () => {
-            if (index <= 0) return false;
-            index--;
-            scene.puzzle.performMove(moves[index], false);
+            if (state.moveIndex <= 0) return false;
+            state.moveIndex--;
+            scene.puzzle.performMove(moves[state.moveIndex], false);
 
-            state.moveIndex = index;
             callback(state);
 
             return true;
         },
         next: () => {
-            if (index >= moves.length) return false;
-            scene.puzzle.performMove(moves[index], true);
-            index++;
+            if (state.moveIndex >= moves.length) return false;
+            scene.puzzle.performMove(moves[state.moveIndex], true);
+            state.moveIndex++;
 
-            state.moveIndex = index;
             callback(state);
 
             return true;
+        },
+        playPause: () => {
+            state.playing = !state.playing;
+            if (state.playing) {
+                // Restart if at the end.
+                if (state.moveIndex >= moves.length) {
+                    state.moveIndex = 0;
+                }
+
+                interval = setInterval(() => {
+                    if (!stepper.next()) {
+                        clearInterval(interval);
+                        state.playing = false;
+                    }
+                    callback(state);
+                }, DELAY);
+            } else {
+                clearInterval(interval);
+                state.playing = false;
+            }
+            callback(state);
         },
         length: moves.length,
     };
 }
 
-function findInvalidMove(puzzle: Puzzle, moves: string[]): string | undefined {
-    const moveMap = puzzle.getMoveMap(true);
-    let invalidMove = moves.find(move => !moveMap[move]);
-    return invalidMove;
+function urlSet(url: URL, key: string, value: string, defaultValue: string = "") {
+    if (value && value !== defaultValue) {
+        url.searchParams.set(key, value);
+    } else {
+        url.searchParams.delete(key);
+    }
 }

@@ -1,6 +1,9 @@
 import { range } from "../util";
 import { expandDoubleMoves } from "./alg";
-import { KeyBindings, getKeyBindings } from "./keyBindings";
+import { type KeyBindings, getKeyBindings } from "./keyBindings";
+import * as glMat from "./glMatrix";
+import { DragDetector } from "./dragDetector";
+import { Shape } from "./buffers";
 
 export type Sticker = {
     /**
@@ -23,6 +26,26 @@ export type AnimationData = {
     affectedStickers: boolean[];
 }
 
+export function getDefaultPerspective(): number[] {
+    let mat = glMat.create();
+
+    glMat.perspective(mat,
+        50 * Math.PI / 180, // field of view
+        1, // aspect
+        0.1, // z near
+        100.0); // z far
+
+    glMat.translate(mat, [0.0, 0.0, -5.0]);
+
+    glMat.rotate(mat,
+        mat,
+        45 * Math.PI / 180,
+        [1, 0, 0],
+    );
+
+    return mat;
+}
+
 export abstract class Puzzle {
     stickers: number[];
     affectedStickers: boolean[];
@@ -36,7 +59,13 @@ export abstract class Puzzle {
         this.keyBindings = getKeyBindings();
     }
 
+    abstract getDragDetector(shapes: Shape[]): DragDetector;
+
     abstract getHintType(gl: WebGLRenderingContext): WebGLBuffer;
+
+    abstract getPerspective(): number[];
+
+    abstract getShapes(gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null;
 
     abstract numStickers(): number;
 
@@ -49,18 +78,18 @@ export abstract class Puzzle {
     abstract x(forward: boolean): void;
     abstract y(forward: boolean): void;
     abstract z(forward: boolean): void;
-    abstract U(forward: boolean): void;
-    abstract Uw(forward: boolean, n?: number): void;
-    abstract D(forward: boolean): void;
-    abstract Dw(forward: boolean, n?: number): void;
-    abstract F(forward: boolean): void;
-    abstract Fw(forward: boolean, n?: number): void;
-    abstract B(forward: boolean): void;
-    abstract Bw(forward: boolean, n?: number): void;
-    abstract L(forward: boolean): void;
-    abstract Lw(forward: boolean, n?: number): void;
-    abstract R(forward: boolean): void;
-    abstract Rw(forward: boolean, n?: number): void;
+    abstract U(forward: boolean, layer?: number): void;
+    abstract Uw(forward: boolean, layer?: number): void;
+    abstract D(forward: boolean, layer?: number): void;
+    abstract Dw(forward: boolean, layer?: number): void;
+    abstract F(forward: boolean, layer?: number): void;
+    abstract Fw(forward: boolean, layer?: number): void;
+    abstract B(forward: boolean, layer?: number): void;
+    abstract Bw(forward: boolean, layer?: number): void;
+    abstract L(forward: boolean, layer?: number): void;
+    abstract Lw(forward: boolean, layer?: number): void;
+    abstract R(forward: boolean, layer?: number): void;
+    abstract Rw(forward: boolean, layer?: number): void;
     abstract M(forward: boolean): void;
     abstract E(forward: boolean): void;
     abstract S(forward: boolean): void;
@@ -71,21 +100,6 @@ export abstract class Puzzle {
 
     solve() {
         this.stickers = range(this.numStickers());
-    }
-
-    /**
-     * Perform an imperfect scramble.
-     * I would like to have random state scrambles eventually, but this was easier to implement.
-     */
-    naiveScramble() {
-        // Arbitrary number that is large enough to do a fine job scrambling.
-        let numTurns = this.numStickers() * 5;
-        let moveMap = this.getMoveMap(true);
-        for (let i = 0; i < numTurns; i++) {
-            let randIndex = Math.floor(Math.random() * Object.keys(moveMap).length);
-            let moveFunc = Object.values(moveMap)[randIndex];
-            moveFunc();
-        }
     }
 
     getStickers(): number[] {
@@ -103,135 +117,51 @@ export abstract class Puzzle {
         this.performMove(move, true);
     }
 
-    getMoveMap(forward: boolean) {
+    getMoveMap() {
         return {
-            "x": () => this.x(forward),
-            "x'": () => this.x(!forward),
-            "x2": () => { this.x(forward); this.x(forward); },
-            "x2'": () => { this.x(!forward); this.x(!forward); },
-            "y": () => this.y(forward),
-            "y'": () => this.y(!forward),
-            "y2": () => { this.y(forward); this.y(forward); },
-            "y2'": () => { this.y(!forward); this.y(!forward); },
-            "z": () => this.z(forward),
-            "z'": () => this.z(!forward),
-            "z2": () => { this.z(forward); this.z(forward); },
-            "z2'": () => { this.z(!forward); this.z(!forward); },
-            "U": () => this.U(forward),
-            "U'": () => this.U(!forward),
-            "U2": () => { this.U(forward); this.U(forward); },
-            "U2'": () => { this.U(!forward); this.U(!forward); },
-            "Uw": () => this.Uw(forward),
-            "Uw'": () => this.Uw(!forward),
-            "Uw2": () => { this.Uw(forward); this.Uw(forward); },
-            "Uw2'": () => { this.Uw(!forward); this.Uw(!forward); },
-            "u": () => this.Uw(forward),
-            "u'": () => this.Uw(!forward),
-            "u2": () => { this.Uw(forward); this.Uw(forward); },
-            "u2'": () => { this.Uw(!forward); this.Uw(!forward); },
-            "D": () => this.D(forward),
-            "D'": () => this.D(!forward),
-            "D2": () => { this.D(forward); this.D(forward); },
-            "D2'": () => { this.D(!forward); this.D(!forward); },
-            "Dw": () => this.Dw(forward),
-            "Dw'": () => this.Dw(!forward),
-            "Dw2": () => { this.Dw(forward); this.Dw(forward); },
-            "Dw2'": () => { this.Dw(!forward); this.Dw(!forward); },
-            "d": () => this.Dw(forward),
-            "d'": () => this.Dw(!forward),
-            "d2": () => { this.Dw(forward); this.Dw(forward); },
-            "d2'": () => { this.Dw(!forward); this.Dw(!forward); },
-            "F": () => this.F(forward),
-            "F'": () => this.F(!forward),
-            "F2": () => { this.F(forward); this.F(forward); },
-            "F2'": () => { this.F(!forward); this.F(!forward); },
-            "Fw": () => this.Fw(forward),
-            "Fw'": () => this.Fw(!forward),
-            "Fw2": () => { this.Fw(forward); this.Fw(forward); },
-            "Fw2'": () => { this.Fw(!forward); this.Fw(!forward); },
-            "f": () => this.Fw(forward),
-            "f'": () => this.Fw(!forward),
-            "f2": () => { this.Fw(forward); this.Fw(forward); },
-            "f2'": () => { this.Fw(!forward); this.Fw(!forward); },
-            "B": () => this.B(forward),
-            "B'": () => this.B(!forward),
-            "B2": () => { this.B(forward); this.B(forward); },
-            "B2'": () => { this.B(!forward); this.B(!forward); },
-            "Bw": () => this.Bw(forward),
-            "Bw'": () => this.Bw(!forward),
-            "Bw2": () => { this.Bw(forward); this.Bw(forward); },
-            "Bw2'": () => { this.Bw(!forward); this.Bw(!forward); },
-            "b": () => this.Bw(forward),
-            "b'": () => this.Bw(!forward),
-            "b2": () => { this.Bw(forward); this.Bw(forward); },
-            "b2'": () => { this.Bw(!forward); this.Bw(!forward); },
-            "L": () => this.L(forward),
-            "L'": () => this.L(!forward),
-            "L2": () => { this.L(forward); this.L(forward); },
-            "L2'": () => { this.L(!forward); this.L(!forward); },
-            "L3": () => this.L(!forward),
-            "L3'": () => this.L(forward),
-            "Lw": () => this.Lw(forward),
-            "Lw'": () => this.Lw(!forward),
-            "Lw2": () => { this.Lw(forward); this.Lw(forward); },
-            "Lw2'": () => { this.Lw(!forward); this.Lw(!forward); },
-            "l": () => this.Lw(forward),
-            "l'": () => this.Lw(!forward),
-            "l2": () => { this.Lw(forward); this.Lw(forward); },
-            "l2'": () => { this.Lw(!forward); this.Lw(!forward); },
-            "R": () => this.R(forward),
-            "R'": () => this.R(!forward),
-            "R2": () => { this.R(forward); this.R(forward); },
-            "R2'": () => { this.R(!forward); this.R(!forward); },
-            "R3": () => this.R(!forward),
-            "R3'": () => this.R(forward),
-            "Rw": () => this.Rw(forward),
-            "Rw'": () => this.Rw(!forward),
-            "Rw2": () => { this.Rw(forward); this.Rw(forward); },
-            "Rw2'": () => { this.Rw(!forward); this.Rw(!forward); },
-            "r": () => this.Rw(forward),
-            "r'": () => this.Rw(!forward),
-            "r2": () => { this.Rw(forward); this.Rw(forward); },
-            "r2'": () => { this.Rw(!forward); this.Rw(!forward); },
-            "3Uw": () => this.Uw(forward, 3),
-            "3Uw'": () => this.Uw(!forward, 3),
-            "3Uw2": () => { this.Uw(forward, 3); this.Uw(forward, 3); },
-            "3Dw": () => this.Dw(forward, 3),
-            "3Dw'": () => this.Dw(!forward, 3),
-            "3Dw2": () => { this.Dw(forward, 3); this.Dw(forward, 3); },
-            "3Fw": () => this.Fw(forward, 3),
-            "3Fw'": () => this.Fw(!forward, 3),
-            "3Fw2": () => { this.Fw(forward, 3); this.Fw(forward, 3); },
-            "3Bw": () => this.Bw(forward, 3),
-            "3Bw'": () => this.Bw(!forward, 3),
-            "3Bw2": () => { this.Bw(forward, 3); this.Bw(forward, 3); },
-            "3Lw": () => this.Lw(forward, 3),
-            "3Lw'": () => this.Lw(!forward, 3),
-            "3Lw2": () => { this.Lw(forward, 3); this.Lw(forward, 3); },
-            "3Rw": () => this.Rw(forward, 3),
-            "3Rw'": () => this.Rw(!forward, 3),
-            "3Rw2": () => { this.Rw(forward, 3); this.Rw(forward, 3); },
-            "M": () => this.M(forward),
-            "M'": () => this.M(!forward),
-            "M2": () => { this.M(forward); this.M(forward); },
-            "M2'": () => { this.M(!forward); this.M(!forward); },
-            "E": () => this.E(forward),
-            "E'": () => this.E(!forward),
-            "E2": () => { this.E(forward); this.E(forward); },
-            "E2'": () => { this.E(!forward); this.E(!forward); },
-            "S": () => this.S(forward),
-            "S'": () => this.S(!forward),
-            "S2": () => { this.S(forward); this.S(forward); },
-            "S2'": () => { this.S(!forward); this.S(!forward); },
+            "x": this.x,
+            "y": this.y,
+            "z": this.z,
+            "U": this.U,
+            "Uw": this.Uw,
+            "u": this.Uw,
+            "D": this.D,
+            "Dw": this.Dw,
+            "d": this.Dw,
+            "F": this.F,
+            "Fw": this.Fw,
+            "f": this.Fw,
+            "B": this.B,
+            "Bw": this.Bw,
+            "b": this.Bw,
+            "L": this.L,
+            "Lw": this.Lw,
+            "l": this.Lw,
+            "R": this.R,
+            "Rw": this.Rw,
+            "r": this.Rw,
+            "M": this.M,
+            "E": this.E,
+            "S": this.S,
         };
     }
 
     performMove(move: string, forward: boolean) {
-        const moveFunc = this.getMoveMap(forward)[move];
-        if (moveFunc) {
-            moveFunc();
-        } else {
+        if (!move) return;
+
+        const { preNumber, middle, postNumber, prime } = parseMove(move);
+
+        const moveFunc = this.getMoveMap()[middle];
+        if (!moveFunc) {
             console.log("Invalid move: " + move);
+            return;
+        }
+
+        const layer = (parseInt(preNumber) - 1) || 0;
+        const quarterTurns = parseInt(postNumber) || 1;
+
+        for (let i = 0; i < quarterTurns; i++) {
+            moveFunc.call(this, prime ? !forward : forward, layer);
         }
     }
 
@@ -240,10 +170,7 @@ export abstract class Puzzle {
      * Returns the number of moves performed.
      */
     performAlg(alg: string): number {
-        if (!alg) {
-            console.log("Empty alg. Skipping.");
-            return 0;
-        }
+        if (!alg) return 0;
 
         let moves = alg.split(" ");
         for (let i = 0; i < moves.length; i++) {
@@ -271,4 +198,47 @@ export abstract class Puzzle {
             i++;
         }, delay);
     }
+}
+
+/**
+ * Examples:
+ * - "R" -> ["", "R", "", false]
+ * - "B'" -> ["", "B", "", true]
+ * - "2U" -> ["", "R", "", false]
+ * - "3F'" -> ["", "F", "", true]
+ * - "2D2" -> ["2", "D", "2", false]
+ * - "3Lw2'" -> ["", "Lw", "2", true]
+ */
+function parseMove(inputString) {
+    let preNumber = '';
+    let middle = '';
+    let postNumber = '';
+    let prime = false;
+
+    // Step 1: Find the pre-number (integer or empty string)
+    let preNumberMatch = inputString.match(/^\d+/);
+    if (preNumberMatch) {
+        preNumber = preNumberMatch[0];
+        // Remove the preNumber from the inputString
+        inputString = inputString.slice(preNumber.length);
+    }
+
+    // Step 2: Find the post-number and optional apostrophe
+    // Regular expression to match the post-number and apostrophe
+    let postNumberMatch = inputString.match(/\d+/);
+    if (postNumberMatch) {
+        postNumber = postNumberMatch[0];
+        // Remove the postNumber from the inputString to get the middle part
+        middle = inputString.slice(0, inputString.indexOf(postNumber));
+        // Check if the remaining part of the inputString ends with an apostrophe
+        prime = inputString.endsWith("'");
+    } else {
+        // If no postNumber found, check if the inputString ends with an apostrophe
+        prime = inputString.endsWith("'");
+        // If it ends with an apostrophe, the remaining inputString is the middle part
+        // Otherwise, the entire inputString is the middle part
+        middle = prime ? inputString.slice(0, inputString.length - 1) : inputString;
+    }
+
+    return { preNumber, middle, postNumber, prime };
 }

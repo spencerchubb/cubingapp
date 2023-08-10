@@ -1,8 +1,8 @@
 import * as SessionsAPI from "../lib/scripts/api/sessions";
 import * as SolvesAPI from "../lib/scripts/api/solves";
-import { Scene, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
-import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
-import { PuzzleTypes, getScramble } from "./scramble";
+import { type Scene, setPuzzle as sceneSetPuzzle } from "../lib/scripts/rubiks-viz";
+import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
+import { type PuzzleTypes, getScramble } from "../lib/scripts/common/scramble";
 
 export let callback: (state) => void;
 
@@ -14,20 +14,12 @@ export function setCallback(_callback: (state) => void) {
     return state;
 }
 
-export const puzzles = [
-    "2x2",
-    "3x3",
-    "4x4",
-    "5x5",
-    "6x6",
-    "7x7",
-    "Pyraminx",
-];
-
 export type TimerStatus = "stopped" | "scrambled" | "inspecting" | "holding down" | "ready" | "running";
 
 type ExtendedSolve = SolvesAPI.MinSolve & {
     formattedTime: string;
+    ao5: string;
+    ao12: string;
 }
 
 type State = {
@@ -88,13 +80,7 @@ async function loadInitialSession() {
         createInitialSession();
         return;
     }
-    const solves = await SolvesAPI.readAll(state.sessions[0].id);
-    state.solves = solves.map(solve => {
-        return {
-            ...solve,
-            formattedTime: formatTime(solve.time, solve.penalty),
-        };
-    });
+    state.solves = await fetchSolves(state.sessions[0].id);
     callback(state);
 }
 
@@ -106,6 +92,18 @@ async function createInitialSession() {
     const id = await SessionsAPI.create("Session 1");
     state.sessions = [{ id, name: "Session 1" }];
     callback(state);
+}
+
+export async function fetchSolves(sessionId: number): Promise<ExtendedSolve[]> {
+    const solves = await SolvesAPI.readAll(sessionId);
+    return solves.map((solve, i) => {
+        return {
+            ...solve,
+            formattedTime: formatTime(solve.time, solve.penalty),
+            ao5: getAverageOfN(solves, i, 5),
+            ao12: getAverageOfN(solves, i, 12),
+        };
+    });
 }
 
 export function undoScramble() {
@@ -136,28 +134,7 @@ function setPuzzle(puzzle: PuzzleTypes) {
     localStorage.setItem("puzzle", puzzle);
     state.puzzle = puzzle;
 
-    switch (puzzle) {
-        case "2x2":
-            newCube(scene.div, 2);
-            break;
-        case "3x3":
-            newCube(scene.div, 3);
-            break;
-        case "4x4":
-            newCube(scene.div, 4);
-            break;
-        case "5x5":
-            newCube(scene.div, 5);
-            break;
-        case "6x6":
-            newCube(scene.div, 6);
-            break;
-        case "7x7":
-            newCube(scene.div, 7);
-            break;
-        case "Pyraminx":
-            newPyraminx(scene.div);
-    }
+    sceneSetPuzzle(scene, puzzle);
 
     // Hook into the puzzle's performMove function so we can record moves.
     const originalPerformMove = scene.puzzle.performMove;
@@ -283,7 +260,7 @@ export async function onDown() {
 
             const timeDifference = ((Date.now() - time) / 1000);
             const formattedTime = formatTime(timeDifference, penalty);
-            state.timerText = formattedTime;
+            state.timerText = `${formattedTime}\nClick to scramble`;
 
             if (state.user?.auth) {
                 state.sessions = state.sessions && state.sessions.length > 0 ?
@@ -292,7 +269,19 @@ export async function onDown() {
                         id: await SessionsAPI.create("Session 1"),
                         name: "Session 1",
                     }];
-                state.solves.unshift({ id: 0, time: timeDifference, penalty, formattedTime });
+                
+                // Add the solve to the list before computing averages.
+                state.solves.unshift({
+                    id: 0,
+                    time: timeDifference,
+                    penalty,
+                    formattedTime,
+                    ao5: "",
+                    ao12: "",
+                });
+                state.solves[0].ao5 = getAverageOfN(state.solves, 0, 5);
+                state.solves[0].ao12 = getAverageOfN(state.solves, 0, 12);
+
                 SolvesAPI.create({
                     id: 0,
                     time: timeDifference,
@@ -365,8 +354,50 @@ function speak(text: string) {
 }
 
 function formatTime(time: number, penalty?: string): string {
-    const rounded = time.toFixed(2);
-    return penalty
-        ? `${rounded} (${penalty})`
-        : rounded;
+    switch (penalty) {
+        case "+2":
+            return `${(time + 2).toFixed(2)}+`;
+        case "DNF":
+            return "DNF";
+        default:
+            return time.toFixed(2);
+    }
+}
+
+/**
+ * Calculate the average of the `n` solves starting at `startIndex`.
+ * Averages are calculated by cutting of the 5% worst and 5% best solves, rounded up.
+ * If there are too many DNFs, reurn 'DNF'.
+ * If there are not enough solves, return '-'.
+ */
+function getAverageOfN(solves: SolvesAPI.MinSolve[], start: number, n: number): string {
+    solves = solves.slice(start, start + n);
+    if (solves.length < n) return "-";
+
+    const PERCENT_TO_CUT = 0.05;
+    const cutoff = Math.ceil(n * PERCENT_TO_CUT);
+    const numDNFs: number = solves.filter(solve => solve.penalty === "DNF").length;
+    if (numDNFs > cutoff) return "DNF";
+
+    solves = solves.filter(solve => solve.penalty !== "DNF");
+
+    // Apply +2 penalty.
+    solves.forEach(solve => {
+        if (solve.penalty === "+2") {
+            solve.time += 2;
+        }
+    });
+    
+    // Sort by lowest to highest time.
+    solves.sort((a, b) => a.time - b.time);
+
+    const numToKeep = n - cutoff * 2;
+
+    let sum = 0;
+    for (let i = cutoff; i < numToKeep + cutoff; i++) {
+        let penalty = solves[i].penalty === "+2" ? 2 : 0;
+        let time = solves[i].time + penalty;
+        sum += solves[i].time;
+    }
+    return (sum / numToKeep).toFixed(2);
 }

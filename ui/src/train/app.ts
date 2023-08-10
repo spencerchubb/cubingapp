@@ -1,12 +1,12 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
-import { randElement, randInt } from "../lib/scripts/common/rand";
-import { Cube, GRAY, Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
+import { randElement } from "../lib/scripts/common/rand";
+import { Cube, GRAY, type Scene, invertAlg, newCube } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
-import { CubingUser, addAuthCallback } from "../lib/scripts/auth";
+import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 
 type State = {
     showSolution: boolean,
@@ -133,10 +133,11 @@ function setAlgSet(scene: Scene) {
         newCube(scene.div, 3);
     }
 
-    uiState.algSet.inactive.forEach(stickerIdx => {
+    if (!scene.shapes) return;
+    for (const stickerIdx of uiState.algSet.inactive) {
         const shape = scene.shapes[stickerIdx];
         shape.color = shape.getColorBuffer(GRAY);
-    });
+    }
 }
 
 export function loadCurrAlg(): string {

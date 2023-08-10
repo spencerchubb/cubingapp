@@ -1,5 +1,4 @@
-import { Scene, invertAlg, newCube } from '../../src/lib/scripts/rubiks-viz';
-import { replaceAll } from '../../src/lib/scripts/util';
+import { type Scene, invertAlg, newCube, GRAY, PURPLE } from '../../src/lib/scripts/rubiks-viz';
 
 let callback: (state) => void;
 
@@ -20,14 +19,13 @@ type AlgSetCase = {
 
 type AlgSet = {
     puzzle: string;
-    description: string[];
-    recommended: string[];
     setup?: string;
+    gray?: number[]; // Used to hide stickers
+    purple?: number[]; // Used to indicate orientation of stickers
     cases: AlgSetCase[];
 }
 
 type State = {
-    algSetName: string
     algSet: AlgSet,
     selectedVariants: Object, // Key is integer representing the case, value is integer representing the variant.
     casePlaying: number,
@@ -35,11 +33,8 @@ type State = {
 }
 
 let state: State = {
-    algSetName: getAlgSetName(),
     algSet: {
         puzzle: "",
-        description: [],
-        recommended: [],
         cases: [],
     },
     selectedVariants: {},
@@ -52,32 +47,11 @@ let renderedScenes = {};
 
 let timer;
 
-function getAlgSetName(): string {
-    let href = window.location.href;
-    let index = href.lastIndexOf("/");
-    let algSetName = replaceAll(
-        href.substring(index + 1, href.length - 5),
-        "-",
-        " ",
-    );
-
-    let title = `Rubik's Cube ${algSetName} Algorithms`;
-    document.title = title;
-
-    return algSetName;
-}
-
-export async function fetchAlgs() {
-    const baseUrl = "https://raw.githubusercontent.com/spencerchubb/algdb/main/algSets";
-    const algSetName = state.algSetName;
-    const url = `${baseUrl}/${algSetName}.json`;
-    const res = await fetch(url);
-    const json = await res.json();
-    
-    state.algSet = json;
+export function initApp(algSet) {
+    state.algSet = algSet;
 
     shouldRenderCubes = true;
-    callback(state);
+    renderCubes();
 }
 
 // Do this lazily because it's slow af on mobile
@@ -101,10 +75,25 @@ export function renderCubes() {
         }
 
         const scene = newCube(sceneDiv, numLayers);
+        if (!scene) continue;
         renderedScenes[i] = scene;
 
         scene.enableKey = () => false;
         scene.dragEnabled = false;
+
+        if (state.algSet.gray && scene.shapes) {
+            for (const hideIndex of state.algSet.gray) {
+                const shape = scene.shapes[hideIndex];
+                shape.color = shape.getColorBuffer(GRAY);
+            }
+        }
+
+        if (state.algSet.purple && scene.shapes) {
+            for (const hideIndex of state.algSet.purple) {
+                const shape = scene.shapes[hideIndex];
+                shape.color = shape.getColorBuffer(PURPLE);
+            }
+        }
 
         setupAlg(scene, i, 0);
     }

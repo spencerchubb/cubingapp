@@ -1,21 +1,21 @@
-import { expandDoubleMoves, type Scene } from "../../scripts/rubiks-viz";
+import { type Scene } from "../../scripts/rubiks-viz";
 
 type State = {
     playing: boolean;
+    moveIndex: number;
 }
 
 export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
     let callback;
     let state: State = {
         playing: false,
+        moveIndex: 0,
     }
 
     let interval: NodeJS.Timer;
 
     let scene = _scene;
-    let alg = _alg;
-    let moves = expandDoubleMoves(alg).split(" ");
-    let moveIndex = 0;
+    let moves = _alg.split(" ");
 
     scene.puzzle.performAlg(_setup);
 
@@ -29,36 +29,41 @@ export function newAlgStepper(_scene: Scene, _setup: string, _alg: string) {
                 state.playing = false;
                 clearInterval(interval);
             } else {
-                if (moveIndex >= moves.length) {
-                    moveIndex = 0;
+                if (state.moveIndex >= moves.length) {
+                    state.moveIndex = 0;
                     scene.puzzle.solve();
                     scene.puzzle.performAlg(_setup);
                 }
 
                 state.playing = true;
                 interval = setInterval(() => {
-                    if (moveIndex >= moves.length) {
+                    if (state.moveIndex >= moves.length) {
                         clearInterval(interval);
                         state.playing = false;
-                        callback(state);
-                        return;
+                    } else {
+                        scene.puzzle.performMove(moves[state.moveIndex], true);
+                        state.moveIndex++;
                     }
-                    scene.puzzle.performMove(moves[moveIndex], true);
-                    moveIndex++;
+
+                    callback(state);
                 }, 800);
             }
         
             callback(state);
         },
         clickLeft: () => {
-            if (moveIndex <= 0 || state.playing) return;
-            moveIndex--;
-            scene.puzzle.performMove(moves[moveIndex], false);
+            if (state.moveIndex <= 0 || state.playing) return;
+            state.moveIndex--;
+            scene.puzzle.performMove(moves[state.moveIndex], false);
+
+            callback(state);
         },
         clickRight: () => {
-            if (moveIndex >= moves.length || state.playing) return;
-            scene.puzzle.performMove(moves[moveIndex], true);
-            moveIndex++;
+            if (state.moveIndex >= moves.length || state.playing) return;
+            scene.puzzle.performMove(moves[state.moveIndex], true);
+            state.moveIndex++;
+
+            callback(state);
         }
     }
 }

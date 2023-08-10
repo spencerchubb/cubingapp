@@ -1,4 +1,4 @@
-import { Shape, ShapeArgs, Square } from "../buffers";
+import { Shape, type ShapeArgs, Square } from "../buffers";
 import { BLUE, GREEN, ORANGE, RED, WHITE, YELLOW } from "../colors";
 import { Cube, sq } from "./cube";
 
@@ -22,7 +22,9 @@ function even(x: number): boolean {
     return x % 2 == 0;
 }
 
-export function makeSquares(gl: WebGLRenderingContext, cube: Cube, perspective: number[]): Shape[] {
+export function makeSquares(cube: Cube, gl: WebGLRenderingContext | null, perspective: number[]): Shape[] | null {
+    if (!gl) return null;
+
     const layers = cube.layers;
     
     let allBase = makePositions(layers, 1.0, 0.0);
