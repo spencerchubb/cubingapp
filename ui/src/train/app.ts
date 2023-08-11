@@ -1,19 +1,19 @@
 import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement } from "../lib/scripts/common/rand";
-import { Cube, GRAY, type Scene, invertAlg, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
+import { GRAY, type Scene, invertAlg, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
+import { OrientationOptions, cubeOrientationOptions, pyraOrientationOptions } from "./orientation";
 
 type State = {
     showSolution: boolean,
     scene?: Scene,
     preAlg: string,
     postAlg: string,
-    orientation: string,
 }
 
 let state: State = {
@@ -21,7 +21,6 @@ let state: State = {
     scene: undefined,
     preAlg: "",
     postAlg: "",
-    orientation: localStorage.getItem("orientation") ?? "",
 };
 
 export let callback: (state) => void;
@@ -52,6 +51,8 @@ export type UIState = {
     selectedAlgIndex: number,
     showScramble: boolean,
     scramble: string,
+    orientationOptions: OrientationOptions,
+    orientation: string,
 }
 
 let uiState: UIState = {
@@ -66,6 +67,8 @@ let uiState: UIState = {
     selectedAlgIndex: 0,
     showScramble: ShowScrambleStore.get(),
     scramble: "",
+    orientationOptions: cubeOrientationOptions,
+    orientation: "",
 };
 
 addAuthCallback(user => {
@@ -129,11 +132,21 @@ function getFirstAlg(): string {
 function setAlgSet(scene: Scene) {
     if (uiState.algSet.puzzle == "2x2") {
         newCube(scene.div, 2);
+
+        uiState.orientationOptions = cubeOrientationOptions;
     } else if (uiState.algSet.puzzle == "3x3") {
         newCube(scene.div, 3);
+
+        uiState.orientationOptions = cubeOrientationOptions;
     } else if (uiState.algSet.puzzle == "Pyraminx") {
-        newPyraminx(scene.div)
+        newPyraminx(scene.div);
+        
+        uiState.orientationOptions = pyraOrientationOptions;
     }
+
+    uiState.orientation = localStorage.getItem(`${uiState.algSet.puzzle}-orientation`) ?? "";
+
+    callback(uiState);
 
     if (!scene.shapes) return;
     for (const stickerIdx of uiState.algSet.inactive) {
@@ -158,7 +171,7 @@ export function loadCurrAlg(): string {
     
     setAlgSet(scene);
     
-    scene.puzzle.performAlg(state.orientation);
+    scene.puzzle.performAlg(uiState.orientation);
     
     alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     scene.puzzle.performAlg(alg);
@@ -241,42 +254,11 @@ function incrementCasesToday() {
     CasesTodayStore.set(casesToday);
 }
 
-export const orientationOptions: {
-    label: string,
-    value: string,
-}[] = [
-    { label: "white green", value: "" },
-    { label: "white orange", value: "y'" },
-    { label: "white blue", value: "y2" },
-    { label: "white red", value: "y" },
-    { label: "yellow green", value: "z2" },
-    { label: "yellow orange", value: "z2 y" },
-    { label: "yellow blue", value: "z2 y2" },
-    { label: "yellow red", value: "z2 y'" },
-    { label: "green yellow", value: "x" },
-    { label: "green orange", value: "x y'" },
-    { label: "green white", value: "x y2" },
-    { label: "green red", value: "x y" },
-    { label: "blue white", value: "x'" },
-    { label: "blue orange", value: "x' y'" },
-    { label: "blue yellow", value: "x' y2" },
-    { label: "blue red", value: "x' y" },
-    { label: "orange green", value: "z" },
-    { label: "orange yellow", value: "z y'" },
-    { label: "orange blue", value: "z y2" },
-    { label: "orange white", value: "z y" },
-    { label: "red green", value: "z'" },
-    { label: "red white", value: "z' y'" },
-    { label: "red blue", value: "z' y2" },
-    { label: "red yellow", value: "z' y" },
-];
+export function onChangeOrientation(event: Event) {
+    const orientation = (event.target as HTMLSelectElement).value;
+    uiState.orientation = orientation;
 
-export let Orientation = {
-    get: () => localStorage.getItem("orientation") ?? "",
-    set: (orientation: string) => {
-        state.orientation = orientation;
-        localStorage.setItem("orientation", orientation);
+    localStorage.setItem(`${uiState.algSet.puzzle}-orientation`, orientation);
 
-        loadCurrAlg();
-    },
-};
+    loadCurrAlg();
+}

@@ -9,9 +9,8 @@
 		getScramble,
 		loadCurrAlg,
 		nextAlg,
+        onChangeOrientation,
 		onClickSolutionButton,
-		Orientation,
-		orientationOptions,
 		setCallback,
 		setScene,
 		setShowScramble,
@@ -33,13 +32,6 @@
     import ChooseAlgSet from "./ChooseAlgSet.svelte";
 
 	let drawerIndex = -1;
-
-	let orientation = Orientation.get();
-
-	function onChangeOrientation(event: Event) {
-		const value = (event.target as HTMLInputElement).value;
-		Orientation.set(value);
-	}
 
 	let casesToday: number = getCasesToday();
 
@@ -215,8 +207,8 @@
 						</a>
 						<div>
                             <p>orientation</p>
-                            <select bind:value={orientation} on:change={onChangeOrientation}>
-                                {#each orientationOptions as option}
+                            <select bind:value={state.orientation} on:change={onChangeOrientation}>
+                                {#each state.orientationOptions as option}
                                     <option value={option.value}>{option.label}</option>
                                 {/each}
                             </select>
