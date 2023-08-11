@@ -301,19 +301,6 @@ export var min2phase = (function() {
 		this.setFlip(flip);
 		return this;
 	}
-	CubieCube.prototype.isEqual = function(c) {
-		for (var i = 0; i < 8; i++) {
-			if (this.ca[i] != c.ca[i]) {
-				return false;
-			}
-		}
-		for (var i = 0; i < 12; i++) {
-			if (this.ea[i] != c.ea[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
 	CubieCube.prototype.setFlip = function(idx) {
 		var parity = 0,
 			val;

@@ -1,12 +1,9 @@
 import { randElement } from "./rand";
 import { scramble_333 } from "../cstimer/scramble_333";
-import { scrMgr } from "../cstimer/scramble";
 
 // Need to do this to register scramblers
-import { scramble_222 } from "../cstimer/scramble_222";
-scramble_222;
-import { scramble_pyraminx } from "../cstimer/scramble_pyraminx";
-scramble_pyraminx;
+import { scramble2x2Random } from "../cstimer/scramble_222";
+import { scramblePyraRandom } from "../cstimer/scramble_pyraminx";
 
 /* Move set for 4x4 and 5x5 */
 const moveset_45 = [
@@ -51,7 +48,7 @@ export type PuzzleTypes = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7" | "Pyram
 export function getScramble(puzzle: PuzzleTypes): string {
     switch (puzzle) {
         case "2x2":
-            return scrMgr.scramblers["222o"]("222o");
+            return scramble2x2Random();
         case "3x3":
             return scramble_333.getRandomScramble();
         case "4x4":
@@ -63,7 +60,7 @@ export function getScramble(puzzle: PuzzleTypes): string {
         case "7x7":
             return getRandomMoveScramble(moveset_67, 100);
         case "Pyraminx":
-            return scrMgr.scramblers["pyro"]("pyro");
+            return scramblePyraRandom();
         default:
             return "Unknown puzzle: " + puzzle;
     }

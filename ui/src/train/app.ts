@@ -206,7 +206,7 @@ export async function getScramble(): Promise<void> {
     let alg = getFirstAlg();
     alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     
-    uiState.scramble = scramble((puzzle as Cube).layers, alg);
+    uiState.scramble = scramble(uiState.algSet.puzzle, alg);
     callback(uiState);
 }
 

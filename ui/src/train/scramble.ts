@@ -1,63 +1,9 @@
 import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { Cube } from "../lib/scripts/rubiks-viz";
-
-const S = {
-    UBL: 0,
-    UL: 1,
-    ULF: 2,
-    UB: 3,
-    U: 4,
-    UF: 5,
-    URB: 6,
-    UR: 7,
-    UFR: 8,
-    FUL: 9,
-    FL: 10,
-    FLD: 11,
-    FU: 12,
-    F: 13,
-    FD: 14,
-    FRU: 15,
-    FR: 16,
-    FDR: 17,
-    DFL: 18,
-    DL: 19,
-    DLB: 20,
-    DF: 21,
-    D: 22,
-    DB: 23,
-    DRF: 24,
-    DR: 25,
-    DBR: 26,
-    BDL: 27,
-    BL: 28,
-    BLU: 29,
-    BD: 30,
-    B: 31,
-    BU: 32,
-    BRD: 33,
-    BR: 34,
-    BUR: 35,
-    LUB: 36,
-    LB: 37,
-    LBD: 38,
-    LU: 39,
-    L: 40,
-    LD: 41,
-    LFU: 42,
-    LF: 43,
-    LDF: 44,
-    RUF: 45,
-    RF: 46,
-    RFD: 47,
-    RU: 48,
-    R: 49,
-    RD: 50,
-    RBU: 51,
-    RB: 52,
-    RDB: 53,
-};
+import { scramblePyra } from "../lib/scripts/cstimer/scramble_pyraminx";
+import { scramble2x2 } from "../lib/scripts/cstimer/scramble_222";
+import { STICKERS as S } from "../lib/scripts/rubiks-viz/pieces";
 
 const UB = [S.UB, S.BU];
 const UL = [S.UL, S.LU];
@@ -76,10 +22,10 @@ const UBL = [S.UBL, S.LUB, S.BLU];
 const ULF = [S.ULF, S.FUL, S.LFU];
 const URB = [S.URB, S.BUR, S.RBU];
 const UFR = [S.UFR, S.RUF, S.FRU];
-const DFL = [S.DFL, S.FLD, S.LDF];
+const DFL = [S.DFL, S.FLD, S.LFD];
 const DLB = [S.DLB, S.LBD, S.BDL];
 const DRF = [S.DRF, S.RFD, S.FDR];
-const DBR = [S.DBR, S.BRD, S.RDB];
+const DBR = [S.DRB, S.BRD, S.RBD];
 
 // BR, BL, FL, FR, DB, DL, DF, DR, UL, UB, UF, UR
 // Order of min2phase edges (M2PE)
@@ -113,16 +59,15 @@ const corners = [
 
 const cube = new Cube(3);
 
-export function scramble(layers: number, alg: string): string {
+export function scramble(puzzle: string, alg: string): string {
+    if (puzzle === "2x2") {
+        return scramble2x2(alg);
+    } else if (puzzle === "Pyraminx") {
+        return scramblePyra(alg);
+    }
+
     cube.solve();
     cube.performAlg(alg);
-
-    // If the puzzle is a 2x2, we disregard the edges.
-    if (layers === 2) {
-        const anyEdges = 0xffffffffffff;
-        let [cp, co] = getPermAndOri(cube, corners, 8);
-        return scramble_333.getAnyScramble(anyEdges, anyEdges, cp, co, null, null, null, null);
-    }
 
     let [ep, eo] = getPermAndOri(cube, edges, 12);
     let [cp, co] = getPermAndOri(cube, corners, 8);
@@ -180,23 +125,3 @@ function pseudoEqual(arr1: number[], arr2: number[]): boolean {
     if (arr1.length !== arr2.length) return false;
     return arr1.every(element => arr2.includes(element));
 }
-
-// TODO remove if not needed
-// function pseudoEqual(arr1: number[], arr2: number[]): boolean {
-//     const freq1 = computeFreq(arr1);
-//     const freq2 = computeFreq(arr2);
-//     for (const key in freq1) {
-//         if (freq1[key] !== freq2[key]) {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
-
-// function computeFreq(arr: number[]): Object {
-//     const freq = {};
-//     arr.forEach(e => {
-//         freq[e] = (freq[e] || 0) + 1;
-//     });
-//     return freq;
-// }

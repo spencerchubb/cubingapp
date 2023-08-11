@@ -13,7 +13,6 @@ Compiled to Javascript using GWT.
 
 import { mathlib } from "./mathlib";
 import { min2phase } from "./min2phase";
-import { scrMgr } from "./scramble";
 
 export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn, rndEl) {
 
@@ -306,8 +305,6 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 
 		return solution;
 	}
-
-	scrMgr.reg('333', getRandomScramble);
 
 	return {
 		getAnyScramble: getAnyScramble,
