@@ -3,6 +3,7 @@ import * as SolvesAPI from "../lib/scripts/api/solves";
 import { type Scene, setPuzzle as sceneSetPuzzle } from "../lib/scripts/rubiks-viz";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { type PuzzleTypes, getScramble } from "../lib/scripts/common/scramble";
+import { convertSeconds } from "./time";
 
 export let callback: (state) => void;
 
@@ -356,11 +357,11 @@ function speak(text: string) {
 function formatTime(time: number, penalty?: string): string {
     switch (penalty) {
         case "+2":
-            return `${(time + 2).toFixed(2)}+`;
+            return `${convertSeconds(time + 2)}+`;
         case "DNF":
             return "DNF";
         default:
-            return time.toFixed(2);
+            return convertSeconds(time);
     }
 }
 
