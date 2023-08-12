@@ -77,15 +77,12 @@
 		overflow-y: auto;"
 	>
 		{#if state.page === "landing"}
-			<div class="col w-full h-full" style="padding: 16px; gap: 16px;">
-				<h1>Algorithm Trainer</h1>
-				<p
-					class="text-gradient"
-					style="font-weight: bold; font-size: 1.2rem; background-image: linear-gradient(90deg, var(--blue-400), var(--purple-400));"
-				>
-					Memorize algs in half the time
-				</p>
+			<div style="padding: 16px; gap: 16px;">
                 {#if state.user && !state.user.auth}
+                    <h1 style="
+                        text-align: center;
+                        margin-bottom: 16px;"
+                    >Alg Trainer</h1>
                     <div style="
                         border-radius: 16px; 
                         padding: 16px; 
@@ -96,11 +93,10 @@
 				{:else if state.algSets}
                     <ChooseAlgSet {state} {callback} />
 				{:else}
-					<div class="spinner"></div>
+					<div style="width: 100%; display: flex; justify-content: center;">
+                        <div class="spinner"></div>
+                    </div>
 				{/if}
-				<div
-					style="width: 100%; height: 1px; background-color: var(--gray-600);"
-				/>
 				<Faq />
 			</div>
 		{:else if state.page === "train"}

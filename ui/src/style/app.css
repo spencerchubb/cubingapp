@@ -120,7 +120,7 @@ button:disabled {
 }
 
 .btn-white:hover {
-    background-color: var(--gray-200);
+    background-color: var(--gray-300);
 }
 
 .btn-gray {

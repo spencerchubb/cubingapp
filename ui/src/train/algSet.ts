@@ -1,19 +1,5 @@
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 
-export const preBuiltSets = [
-    "OLL",
-    "PLL",
-    "F2L",
-    "CMLL",
-    "ZBLL",
-    "2x2 CLL",
-    "2x2 EG1",
-    "2x2 EG2",
-    "2x2 TCLL+",
-    "2x2 TCLL-",
-    "Pyraminx L4E",
-];
-
 export class AlgSetLogic {
     callback: (state) => void;
 

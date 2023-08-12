@@ -1,4 +1,4 @@
-<div style="max-width: 600px;">
+<div style="max-width: 600px; margin: 32px auto;">
     <h2 style="text-align: center; margin-bottom: 16px;">Frequently asked</h2>
     <h3 style="margin-bottom: 8px;">Why use this trainer?</h3>
     <p style="margin-bottom: 24px;">
