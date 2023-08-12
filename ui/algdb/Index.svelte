@@ -86,6 +86,9 @@
                 <a class="alg-set" href="/algdb/4x4-PLL-Parity.html">
                     4x4 PLL Parity
                 </a>
+                <a class="alg-set" href="/algdb/SQ1-Cube-Shape.html">
+                    SQ1 Cube Shape
+                </a>
             </div>
         </div>
     </div>
