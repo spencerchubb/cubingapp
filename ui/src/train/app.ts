@@ -147,12 +147,6 @@ function setAlgSet(scene: Scene) {
     uiState.orientation = localStorage.getItem(`${uiState.algSet.puzzle}-orientation`) ?? "";
 
     callback(uiState);
-
-    if (!scene.shapes) return;
-    for (const stickerIdx of uiState.algSet.inactive) {
-        const shape = scene.shapes[stickerIdx];
-        shape.color = shape.getColorBuffer(GRAY);
-    }
 }
 
 export function loadCurrAlg(): string {
@@ -167,11 +161,17 @@ export function loadCurrAlg(): string {
     state.postAlg = randElement(uiState.algSet.post);
 
     const scene = state.scene;
-    if (!scene) return "";
+    if (!scene || !scene.shapes) return "";
     
     setAlgSet(scene);
-    
+
+    // Orientation must be applied before hiding inactive stickers.
     scene.puzzle.performAlg(uiState.orientation);
+
+    for (const stickerIdx of uiState.algSet.inactive) {
+        const shape = scene.shapes[scene.puzzle.stickers[stickerIdx]];
+        shape.color = shape.getColorBuffer(GRAY);
+    }
     
     alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
     scene.puzzle.performAlg(alg);
