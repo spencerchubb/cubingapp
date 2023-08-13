@@ -1,0 +1,80 @@
+<html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/style/app.css">
+    <link rel="stylesheet" href="../src/style/colors.css">
+    <link rel="icon" href="../src/assets/favicon.svg" type="image/x-icon">
+    <title>Square-1 EP Algorithms</title>
+</head>
+
+<body>
+    <h1>Square-1 EP Algorithms</h1>
+</body>
+
+<style>
+    body {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    h1 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .h3,
+    li {
+        color: white;
+    }
+
+    .case-div {
+        border: solid 1px gray;
+        border-radius: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 16px;
+        gap: 0 16px;
+    }
+
+    .case-div h3,
+    .case-div ul {
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+    }
+
+    svg {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script type="module">
+    import { SQ1 } from "../src/lib/scripts/rubiks-viz/sq1";
+    import { algSet } from "./algSets/SQ1-EP";
+    
+    document.body.innerHTML += `
+    ${algSet.cases.map((_case) => {
+        const sq1 = new SQ1();
+        sq1.performAlgInverse(_case.algs[0]);
+        return `<div class="case-div">
+            <div class="row">
+                ${sq1.svgTop(100)}
+                ${sq1.svgBottom(100)}
+            </div>
+            <div style="flex: 0 1 700px;">
+                <h3>${_case.name}</h3>
+                <ul>
+                    ${_case.algs.map((alg) => `<li>${alg}</li>`).join("")}
+                </ul>
+            </div>
+        </div>`;
+    }).join("")}
+    `;
+</script>

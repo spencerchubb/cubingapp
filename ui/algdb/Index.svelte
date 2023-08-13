@@ -82,12 +82,18 @@
                 </a>
             </div>
             <div class="card">
+                <h2>Square-1</h2>
+                <a class="alg-set" href="/algdb/SQ1-Cube-Shape.html">
+                    SQ1 Cube Shape
+                </a>
+                <a class="alg-set" href="/algdb/SQ1-EP.html">
+                    SQ1 EP
+                </a>
+            </div>
+            <div class="card">
                 <h2>Other</h2>
                 <a class="alg-set" href="/algdb/4x4-PLL-Parity.html">
                     4x4 PLL Parity
-                </a>
-                <a class="alg-set" href="/algdb/SQ1-Cube-Shape.html">
-                    SQ1 Cube Shape
                 </a>
             </div>
         </div>
