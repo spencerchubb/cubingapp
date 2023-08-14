@@ -22,7 +22,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 32px;">
+    padding: 16px;
+    gap: 32px;
+    overflow-y: auto;">
     {#if state.algSets?.length > 0}
         <div style="width: 100%; max-width: 300px;">
             <h2 style="
@@ -52,7 +54,7 @@
                             event.stopPropagation();
                             AlgSetAPI.read(algSet.id).then((algSet) => {
                                 callback({
-                                    modalType: "edit alg set",
+                                    modalType: "Edit alg set",
                                     algSetEditing: algSet,
                                 });
                             });
@@ -66,7 +68,7 @@
                         on:click={(event) => {
                             event.stopPropagation();
                             callback({
-                                modalType: "delete alg set",
+                                modalType: "Delete alg set",
                                 algSetEditing: { ...algSet },
                             });
                         }}

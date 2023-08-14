@@ -14,11 +14,9 @@
 		setCallback,
 		setScene,
 		setShowScramble,
-		setUIState,
 	} from "./app";
 	import SideNav from "../lib/components/SideNav.svelte";
 	import Modal from "../lib/components/Modal.svelte";
-	import { AlgSetLogic } from "./algSet";
 	import Faq from "./Faq.svelte";
 	import NavBarIcon from "../lib/components/NavBarIcon.svelte";
 	import ChartIcon from "../lib/components/icons/ChartIcon.svelte";
@@ -39,11 +37,6 @@
 
 	let state = setCallback((newState) => {
 		state = Object.assign(state, newState);
-	});
-
-	const algSetLogic = new AlgSetLogic((newState) => {
-		state = Object.assign(state, newState);
-		setUIState(state);
 	});
 </script>
 
@@ -149,10 +142,10 @@
 				</button>
 				{#if state.showScramble}
 					<div style="height: 16px;" />
-					<p>scramble: {state.scramble || "loading..."}</p>
+					<p>Scramble: {state.scramble || "loading..."}</p>
 				{/if}
 				<div style="flex-grow: 1;" />
-				<p>cases today: {casesToday}</p>
+				<p>Cases today: {casesToday}</p>
 				<div style="height: 16px" />
 			</div>
 			{#if drawerIndex === 0}
@@ -196,7 +189,7 @@
 					<div class="col" style="align-items: start; padding: 16px; gap: 16px;">
                         <DropDownButton
                             buttonText={state.algSet?.name ?? "none"}
-                            on:click={() => callback({ modalType: "choose alg set"})}
+                            on:click={() => callback({ modalType: "Choose alg set"})}
                         />
 						<a href="/keybindings.html">
 							<button>Customize key bindings</button>
@@ -232,9 +225,9 @@
 		allowClose={state.algSets?.length > 0}
 		close={() => callback({ modalType: undefined })}
 	>
-		{#if state.modalType === "choose alg set" || state.algSets?.length === 0}
+		{#if state.modalType === "Choose alg set" || state.algSets?.length === 0}
 			<ChooseAlgSet {state} {callback} />
-        {:else if state.modalType === "delete alg set"}
+        {:else if state.modalType === "Delete alg set"}
             <div class="col" style="padding: 16px; gap: 16px;">
                 <p>Are you sure you want to delete {state.algSetEditing.name}?</p>
                 <div class="row" style="gap: 16px;">
@@ -244,7 +237,7 @@
                             callback({
                                 modalType: state.page === "landing"
                                     ? undefined
-                                    : "choose alg set",
+                                    : "Choose alg set",
                             });
                         }}
                     >
@@ -252,100 +245,49 @@
                     </button>
                     <button
                         on:click={() => {
-                            algSetLogic.deleteAlgSet(
-                                state.algSetEditing.id,
-                                state.algSets,
-                                state.algSetEditing,
-                            );
+                            const id = state.algSetEditing.id;
+                            AlgSetAPI.deleteSet(id);
+                            this.callback({
+                                algSets: state.algSets.filter(algSet => algSet.id !== id),
+                            });
                         }}
                     >
                         Delete
                     </button>
                 </div>
             </div>
-		{:else if state.modalType === "edit alg set"}
-            <div class="col" style="width: 100%; overflow-y: auto;">
-                <div class="col" style="padding: 16px; gap: 16px;">
-                    <input type="text" bind:value={state.algSetEditing.name} />
-                    <div class="row" style="gap: 16px;">
-                        <button
-                            class="btn-gray"
-                            on:click={() => {
-                                callback({
-                                    modalType: state.page === "landing"
-                                        ? undefined
-                                        : "choose alg set",
-                                });
-                            }}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            on:click={() => {
-                                const algSet = state.algSetEditing;
-                                AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
-                                callback({
-                                    modalType: undefined,
-                                    algSet: state.algSetEditing,
-                                    algSets: state.algSets.map(_algSet => {
-                                        return _algSet.id === algSet.id ? algSet : _algSet;
-                                    }),
-                                });
-                                loadCurrAlg();
-                            }}
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
-                <div style="width: 50%; height: 1px; background: var(--gray-500);"></div>
-                <div
-                    class="col"
-                    style="
-                        width: 100%;
-                        border-top: solid 1px var(--gray-500);
-                        gap: 16px;
-                        padding: 16px;">
+		{:else if state.modalType === "Edit alg set"}
+            <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
+                <input type="text" bind:value={state.algSetEditing.name} />
+                <div class="row" style="gap: 16px;">
                     <button
+                        class="btn-gray"
                         on:click={() => {
                             callback({
-                                algSetEditing: {
-                                    ...state.algSetEditing,
-                                    trainingAlgs: [
-                                        { Score: 0, Alg: "" },
-                                        ...state.algSetEditing.trainingAlgs,
-                                    ],
-                                },
+                                modalType: state.page === "landing"
+                                    ? undefined
+                                    : "Choose alg set",
                             });
                         }}
                     >
-                        Add alg ➕
+                        Cancel
                     </button>
-                    {#each state.algSetEditing.trainingAlgs as trainingAlg, i}
-                        <div class="row" style="gap: 8px;">
-                            <input
-                                type="text"
-                                placeholder="Enter alg"
-                                bind:value={trainingAlg.Alg}
-                            />
-                            <button
-                                class="btn-transparent"
-                                style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
-                                on:click={() => {
-                                    callback({
-                                        algSetEditing: {
-                                            ...state.algSetEditing,
-                                            trainingAlgs: state.algSetEditing.trainingAlgs.filter(
-                                                (_trainingAlg, _i) => _i !== i,
-                                            ),
-                                        },
-                                    });
-                                }}
-                            >
-                                🗑
-                            </button>
-                        </div>
-                    {/each}
+                    <button
+                        on:click={() => {
+                            const algSet = state.algSetEditing;
+                            AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
+                            callback({
+                                modalType: undefined,
+                                algSet: state.algSetEditing,
+                                algSets: state.algSets.map(_algSet => {
+                                    return _algSet.id === algSet.id ? algSet : _algSet;
+                                }),
+                            });
+                            loadCurrAlg();
+                        }}
+                    >
+                        Save
+                    </button>
                 </div>
             </div>
 		{/if}
@@ -365,4 +307,5 @@
     .train-btn:hover {
         background-color: var(--gray-300);
     }
+
 </style>

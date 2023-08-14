@@ -4,6 +4,7 @@ import { Cube } from "../lib/scripts/rubiks-viz";
 import { scramblePyra } from "../lib/scripts/cstimer/scramble_pyraminx";
 import { scramble2x2 } from "../lib/scripts/cstimer/scramble_222";
 import { STICKERS as S } from "../lib/scripts/rubiks-viz/pieces";
+import { algToRUF } from "./algConvert";
 
 const UB = [S.UB, S.BU];
 const UL = [S.UL, S.LU];
@@ -61,6 +62,7 @@ const cube = new Cube(3);
 
 export function scramble(puzzle: string, alg: string): string {
     if (puzzle === "2x2") {
+        alg = algToRUF(alg);
         return scramble2x2(alg);
     } else if (puzzle === "Pyraminx") {
         return scramblePyra(alg);

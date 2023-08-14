@@ -9,37 +9,23 @@ import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { OrientationOptions, cubeOrientationOptions, pyraOrientationOptions } from "./orientation";
 
-type State = {
+type InternalState = {
     showSolution: boolean,
     scene?: Scene,
     preAlg: string,
     postAlg: string,
 }
 
-let state: State = {
+let internalState: InternalState = {
     showSolution: false,
     scene: undefined,
     preAlg: "",
     postAlg: "",
 };
 
-export let callback: (state) => void;
+export type ModalType = undefined | "Choose alg set" | "Delete alg set" | "Edit alg set";
 
-export function setCallback(_callback: (state) => void) {
-    callback = (_state) => {
-        uiState = Object.assign(uiState, _state);
-        _callback(uiState);
-    };
-    return uiState;
-}
-
-export function setUIState(newState: UIState) {
-    uiState = newState;
-}
-
-export type ModalType = undefined | "choose alg set" | "delete alg set" | "edit alg set";
-
-export type UIState = {
+export type State = {
     page: "landing" | "train",
     user?: CubingUser,
     algSet: AlgSetAPI.AlgSet,
@@ -55,7 +41,7 @@ export type UIState = {
     orientation: string,
 }
 
-let uiState: UIState = {
+let state: State = {
     page: "landing",
     user: undefined,
     algSet: {} as AlgSetAPI.AlgSet,
@@ -71,9 +57,19 @@ let uiState: UIState = {
     orientation: "",
 };
 
+export let callback: (state) => void;
+
+export function setCallback(_callback: (state) => void) {
+    callback = (_state) => {
+        state = Object.assign(state, _state);
+        _callback(state);
+    };
+    return state;
+}
+
 addAuthCallback(user => {
-    uiState.user = user;
-    callback(uiState);
+    state.user = user;
+    callback(state);
 
     if (user.auth) {
         initApp();
@@ -81,22 +77,22 @@ addAuthCallback(user => {
 });
 
 async function initApp() {
-    uiState.algSets = await AlgSetAPI.readAll();
-    callback(uiState);
+    state.algSets = await AlgSetAPI.readAll();
+    callback(state);
 }
 
 export function onClickSolutionButton() {
-    state.showSolution = !state.showSolution;
-    uiState.solutionButtonText = state.showSolution 
-        ? state.postAlg
-            ? `${invertAlg(state.postAlg)} ${getFirstAlg()}`.replace(/ +/g, ' ')
+    internalState.showSolution = !internalState.showSolution;
+    state.solutionButtonText = internalState.showSolution 
+        ? internalState.postAlg
+            ? `${invertAlg(internalState.postAlg)} ${getFirstAlg()}`.replace(/ +/g, ' ')
             : getFirstAlg()
         : "show solution";
-    callback(uiState);
+    callback(state);
 }
 
 export function setScene(scene: Scene) {
-    state.scene = scene;
+    internalState.scene = scene;
 }
 
 /**
@@ -105,7 +101,7 @@ export function setScene(scene: Scene) {
  * 25% have 1 rep, and 25% have 2 reps.
  */
 export function computeStats(): { reps: number, algs: number, ratio: number }[] {
-    const trainingAlgs = uiState.algSet.trainingAlgs;
+    const trainingAlgs = state.algSet.trainingAlgs;
     const numReps = trainingAlgs.map(alg => alg.Score);
     const maxReps = Math.max(...numReps);
     const stats = new Array(maxReps + 1).fill(0);
@@ -119,61 +115,61 @@ export function computeStats(): { reps: number, algs: number, ratio: number }[] 
 }
 
 function getFirstAlg(): string {
-    if (!uiState.algSet?.trainingAlgs) {
+    if (!state.algSet?.trainingAlgs) {
         log("No algs")
-        uiState.modalType = "choose alg set";
-        callback(uiState);
+        state.modalType = "Choose alg set";
+        callback(state);
         return "";
     }
-    const trainingAlgs = uiState.algSet.trainingAlgs;
+    const trainingAlgs = state.algSet.trainingAlgs;
     return trainingAlgs[0].Alg;
 }
 
 function setAlgSet(scene: Scene) {
-    if (uiState.algSet.puzzle == "2x2") {
+    if (state.algSet.puzzle == "2x2") {
         newCube(scene.div, 2);
 
-        uiState.orientationOptions = cubeOrientationOptions;
-    } else if (uiState.algSet.puzzle == "3x3") {
+        state.orientationOptions = cubeOrientationOptions;
+    } else if (state.algSet.puzzle == "3x3") {
         newCube(scene.div, 3);
 
-        uiState.orientationOptions = cubeOrientationOptions;
-    } else if (uiState.algSet.puzzle == "Pyraminx") {
+        state.orientationOptions = cubeOrientationOptions;
+    } else if (state.algSet.puzzle == "Pyraminx") {
         newPyraminx(scene.div);
         
-        uiState.orientationOptions = pyraOrientationOptions;
+        state.orientationOptions = pyraOrientationOptions;
     }
 
-    uiState.orientation = localStorage.getItem(`${uiState.algSet.puzzle}-orientation`) ?? "";
+    state.orientation = localStorage.getItem(`${state.algSet.puzzle}-orientation`) ?? "";
 
-    callback(uiState);
+    callback(state);
 }
 
 export function loadCurrAlg(): string {
     let alg = getFirstAlg();
     if (!alg) return "";
 
-    state.showSolution = false;
-    uiState.solutionButtonText = "show solution";
-    callback(uiState);
+    internalState.showSolution = false;
+    state.solutionButtonText = "show solution";
+    callback(state);
     
-    state.preAlg = randElement(uiState.algSet.pre);
-    state.postAlg = randElement(uiState.algSet.post);
+    internalState.preAlg = randElement(state.algSet.pre);
+    internalState.postAlg = randElement(state.algSet.post);
 
-    const scene = state.scene;
+    const scene = internalState.scene;
     if (!scene || !scene.shapes) return "";
     
     setAlgSet(scene);
 
     // Orientation must be applied before hiding inactive stickers.
-    scene.puzzle.performAlg(uiState.orientation);
+    scene.puzzle.performAlg(state.orientation);
 
-    for (const stickerIdx of uiState.algSet.inactive) {
+    for (const stickerIdx of state.algSet.inactive) {
         const shape = scene.shapes[scene.puzzle.stickers[stickerIdx]];
         shape.color = shape.getColorBuffer(GRAY);
     }
     
-    alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
+    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
     scene.puzzle.performAlg(alg);
 
     getScramble();
@@ -183,12 +179,12 @@ export function loadCurrAlg(): string {
 
 export async function nextAlg(promote: boolean): Promise<string> {
     if (promote) {
-        promoteAlg(uiState.algSet.trainingAlgs);
+        promoteAlg(state.algSet.trainingAlgs);
     } else {
-        demoteAlg(uiState.algSet.trainingAlgs);
+        demoteAlg(state.algSet.trainingAlgs);
     }
 
-    const { id, name, trainingAlgs } = uiState.algSet;
+    const { id, name, trainingAlgs } = state.algSet;
     AlgSetAPI.update(id, name, trainingAlgs);
     
     incrementCasesToday();
@@ -201,10 +197,10 @@ export function getAlgSetNames(): string[] {
 }
 
 export async function getScramble(): Promise<void> {
-    const scene = state.scene;
+    const scene = internalState.scene;
     if (!scene) return;
 
-    if (!uiState.showScramble) return;
+    if (!state.showScramble) return;
 
     // The algorithm should already be applied to the puzzle.
     const puzzle = scene.puzzle;
@@ -213,18 +209,18 @@ export async function getScramble(): Promise<void> {
         return;
     }
 
-    uiState.scramble = "loading...";
-    callback(uiState);
+    state.scramble = "loading...";
+    callback(state);
 
     let alg = getFirstAlg();
-    alg = `${state.preAlg} ${invertAlg(alg)} ${state.postAlg}`.replace(/ +/g, ' ');
+    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
     
-    uiState.scramble = scramble(uiState.algSet.puzzle, alg);
-    callback(uiState);
+    state.scramble = scramble(state.algSet.puzzle, alg);
+    callback(state);
 }
 
 export function setShowScramble(b: boolean) {
-    uiState.showScramble = b;
+    state.showScramble = b;
     ShowScrambleStore.set(b);
 }
 
@@ -256,9 +252,9 @@ function incrementCasesToday() {
 
 export function onChangeOrientation(event: Event) {
     const orientation = (event.target as HTMLSelectElement).value;
-    uiState.orientation = orientation;
+    state.orientation = orientation;
 
-    localStorage.setItem(`${uiState.algSet.puzzle}-orientation`, orientation);
+    localStorage.setItem(`${state.algSet.puzzle}-orientation`, orientation);
 
     loadCurrAlg();
 }
