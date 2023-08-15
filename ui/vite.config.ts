@@ -19,6 +19,7 @@ function algdb() {
         "OLL",
         "OLLCP",
         "PLL",
+        "SQ1-CSP",
         "SQ1-Cube-Shape",
         "SQ1-EP",
         "Winter-Variation",
