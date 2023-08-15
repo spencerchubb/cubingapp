@@ -24,24 +24,9 @@
     >
         <h1>Rubik's Cube Algorithms</h1>
         <p style="font-style: italic;">
-            Open source database with 3300+ vetted algorithms
+            Open source database with 3700+ vetted algorithms
         </p>
-        <div class="col" style="gap: 16px;">
-            <div class="card">
-                <h2>2x2</h2>
-                <a class="alg-set" href="/algdb/2x2-PBL.html">
-                    PBL
-                </a>
-                <a class="alg-set" href="/algdb/2x2-CLL.html">
-                    CLL
-                </a>
-                <a class="alg-set" href="/algdb/2x2-EG1.html">
-                    EG1
-                </a>
-                <a class="alg-set" href="/algdb/2x2-EG2.html">
-                    EG2
-                </a>
-            </div>
+        <div class="all-cards-div">
             <div class="card">
                 <h2>3x3</h2>
                 <a class="alg-set" href="/algdb/F2L.html">
@@ -82,9 +67,27 @@
                 </a>
             </div>
             <div class="card">
+                <h2>2x2</h2>
+                <a class="alg-set" href="/algdb/2x2-PBL.html">
+                    PBL
+                </a>
+                <a class="alg-set" href="/algdb/2x2-CLL.html">
+                    CLL
+                </a>
+                <a class="alg-set" href="/algdb/2x2-EG1.html">
+                    EG1
+                </a>
+                <a class="alg-set" href="/algdb/2x2-EG2.html">
+                    EG2
+                </a>
+            </div>
+            <div class="card">
                 <h2>Square-1</h2>
                 <a class="alg-set" href="/algdb/SQ1-Cube-Shape.html">
                     SQ1 Cube Shape
+                </a>
+                <a class="alg-set" href="/algdb/SQ1-CSP.html">
+                    SQ1 CSP
                 </a>
                 <a class="alg-set" href="/algdb/SQ1-EP.html">
                     SQ1 EP
@@ -102,16 +105,27 @@
 </main>
 
 <style>
-    .card {
+    .all-cards-div {
+        gap: 16px;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    @media (min-width: 1000px) {
+        .all-cards-div {
+            gap: 16px;
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+    }
+
+    .card {
         width: 100%;
-        max-width: 300px;
+        max-width: 400px;
         border: solid 1px var(--gray-500);
         box-shadow: 0 0 4px 2px var(--gray-600);
         border-radius: 16px;
         padding: 16px;
-        gap: 8px 16px;
     }
 
     h2 {
@@ -120,11 +134,14 @@
     }
 
     .alg-set {
-        font-weight: bold;
+        font-weight: 700;
         font-size: 1.3rem;
         padding: 4px;
+        margin: 4px;
         border-radius: 4px;
         color: var(--blue-300);
+        white-space: nowrap;
+        display: inline-block;
     }
 
     .alg-set:hover {
