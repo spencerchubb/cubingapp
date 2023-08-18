@@ -43,7 +43,7 @@ describe("SQ1", () => {
         expect(sq1.bottom).toEqual([8, 9, 10, 11, 12, 13, 14, 15]);
         
         // Should swap UL and UR again, leaving the cube solved
-        sq1.performAlg(alg);
+        sq1.performAlgInverse(alg);
         expect(sq1.top).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
         expect(sq1.bottom).toEqual([8, 9, 10, 11, 12, 13, 14, 15]);
     });

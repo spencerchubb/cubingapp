@@ -6,6 +6,16 @@ export var mathlib = (function() {
 		fact[i + 1] = fact[i] * (i + 1);
 	}
 
+    function circle(arr) {
+		var length = arguments.length - 1,
+			temp = arr[arguments[length]];
+		for (var i = length; i > 1; i--) {
+			arr[arguments[i]] = arr[arguments[i - 1]];
+		}
+		arr[arguments[1]] = temp;
+		return circle;
+	}
+
 	//perm: [idx1, idx2, ..., idxn]
 	//pow: 1, 2, 3, ...
 	//ori: ori1, ori2, ..., orin, base
@@ -358,6 +368,7 @@ export var mathlib = (function() {
 		get8Perm: get8Perm,
 		set8Perm: set8Perm,
 		coord: coord,
+        circle: circle,
 		acycle: acycle,
 		rn: rn,
 		rndEl: rndEl,

@@ -21,6 +21,27 @@ export class SQ1 {
         return getSVG(size, this.bottom, false);
     }
 
+    isCube(): boolean {
+        function isSquare(face: number[]) {
+            return face.every((value, i) => value % 2 === i % 2) || face.every((value, i) => value % 2 !== i % 2);
+        }
+        return isSquare(this.top) && isSquare(this.bottom);
+    }
+
+    hasEvenParity(): boolean {
+        let swaps = 0;
+        let state = this.top.concat(this.bottom);
+        for (let i = 0; i < state.length; i++) {
+            while (state[i] !== i) {
+                const temp = state[i];
+                state[i] = state[temp];
+                state[temp] = temp;
+                swaps += 1;
+            }
+        }
+        return swaps % 2 === 0;
+    }
+
     performAlg(alg: string) {
         const moves = alg.split(" ");
         for (const move of moves) {
