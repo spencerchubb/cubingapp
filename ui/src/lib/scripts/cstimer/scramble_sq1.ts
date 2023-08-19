@@ -3,7 +3,7 @@ Ported from PPT, written Walter Souza: https://bitbucket.org/walter/puzzle-timer
 Ported by Lucas Garron, November 16, 2011.
 */
 
-import { mathlib } from "./mathlib.js";
+import { mathlib } from "./mathlib";
 
 function FullCube_copy(obj, c) {
     obj.ul = c.ul;
@@ -126,28 +126,7 @@ function FullCube_FullCube__Ljava_lang_String_2V() {
     this.prm = [];
 }
 
-function FullCube_randomEP() {
-    var f, i, shape, edge, n_edge, n_corner, rnd, m;
-    f = new FullCube_FullCube__Ljava_lang_String_2V;
-    shape = Shape_ShapeIdx[FullCube_getShapeIdx(f) >> 1];
-    edge = 0x01234567 << 1;
-    n_edge = 8;
-    for (i = 0; i < 24; i++) {
-        if (((shape >> i) & 1) == 0) { //edge
-            rnd = mathlib.rn(n_edge) << 2;
-            FullCube_setPiece(f, 23 - i, (edge >> rnd) & 0xf);
-            m = (1 << rnd) - 1;
-            edge = (edge & m) + ((edge >> 4) & ~m);
-            --n_edge;
-        } else {
-            ++i;
-        }
-    }
-    f.ml = mathlib.rn(2);
-    return f;
-}
-
-function FullCube_randomCube(indice) {
+function FullCube_randomCube(indice?: number) {
     var f, i, shape, edge, corner, n_edge, n_corner, rnd, m;
     if (indice === undefined) {
         indice = mathlib.rn(3678);
@@ -210,8 +189,7 @@ function Search_init2(obj) {
     return false;
 }
 
-function movesToStr(moves, len) {
-    console.log({ moves, len })
+export function movesToStr(moves, len) {
     var s = "";
     var top = 0,
         bottom = 0;
@@ -242,9 +220,8 @@ function movesToStr(moves, len) {
     return s.trim();
 }
 
-function strToMoves(str) {
-    console.log(str);
-    let moves = [];
+export function strToMoves(str) {
+    let moves: number[] = [];
     str
         .split(" ")
         .reverse()
@@ -683,21 +660,14 @@ function binarySearch(sortedArray, key) {
 
 var search = new Search_Search;
 
-function scrambleSQ1_Random() {
+export function scrambleSQ1Random() {
     Shape_$clinit();
     Square_$clinit();
     return Search_solution(search, FullCube_randomCube());
 }
 
-function scrambleSQ1_EP() {
-    Shape_$clinit();
-    Square_$clinit();
-    return Search_solution(search, FullCube_randomEP());
-}
-
 // Find a scramble that sets up the given alg.
-// TODO: Figure out how I can make the scramble "long enough"
-function scrambleSQ1(alg) {
+export function scrambleSQ1(alg) {
     Shape_$clinit();
     Square_$clinit();
     const obj = new FullCube_FullCube__Ljava_lang_String_2V;
@@ -707,14 +677,3 @@ function scrambleSQ1(alg) {
     }
     return Search_solution(search, obj);
 }
-
-// This test case is working but I want to write more tests.
-// And write automated unit tests.
-// console.log(movesToStr(
-//     strToMoves("0,2 / 0,-3 / 0,-3 / 3,0 / 0,-3 / 4,-3 / 6,-3 / -3,0 / -4,-2 / 3,0 / 0,-2 / 0,-4 / 0,-4 / 6,0"),
-//     30,
-// ));
-// console.log(scrambleSQ1_Random());
-// console.log(scrambleSQ1_EP());
-// console.log(scrambleSQ1("0,-1 / -2,-2 / 2,0 / -3,-3 / 0,1 / -2,-2 / 0,-2 / 2,2 / 0,-1 / 3,3 / 3,3"));
-console.log(scrambleSQ1("1,0 / 5,-1 / -2,1 / -1,-1 / -2,1 / -1,0"));

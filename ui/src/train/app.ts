@@ -2,12 +2,14 @@ import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement } from "../lib/scripts/common/rand";
 import { GRAY, type Scene, invertAlg, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
+import { SQ1 } from "../lib/scripts/rubiks-viz/sq1";
 import { promoteAlg, demoteAlg } from "../lib/scripts/util";
 import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { OrientationOptions, cubeOrientationOptions, pyraOrientationOptions } from "./orientation";
+import { scrambleSQ1 } from "../lib/scripts/cstimer/scramble_sq1";
 
 type InternalState = {
     showSolution: boolean,
@@ -138,6 +140,8 @@ function setAlgSet(scene: Scene) {
         newPyraminx(scene.div);
         
         state.orientationOptions = pyraOrientationOptions;
+    } else if (state.algSet.puzzle == "SQ1") {
+        state.orientationOptions = [];
     }
 
     state.orientation = localStorage.getItem(`${state.algSet.puzzle}-orientation`) ?? "";
@@ -161,16 +165,35 @@ export function loadCurrAlg(): string {
     
     setAlgSet(scene);
 
-    // Orientation must be applied before hiding inactive stickers.
-    scene.puzzle.performAlg(state.orientation);
-
-    for (const stickerIdx of state.algSet.inactive) {
-        const shape = scene.shapes[scene.puzzle.stickers[stickerIdx]];
-        shape.color = shape.getColorBuffer(GRAY);
-    }
-    
     alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
-    scene.puzzle.performAlg(alg);
+    
+    if (state.algSet.puzzle == "SQ1") {
+        document.querySelector("canvas")?.style.setProperty("display", "none");
+
+        const sq1 = new SQ1();
+        sq1.performAlg(alg);
+
+        scene.div.innerHTML = `<div style="display: flex; align-items: center; height: 100%;">
+            <div style="width: 160px; height: 160px;">
+                ${sq1.svgTop(160)}
+            </div>
+            <div style="width: 160px; height: 160px;">
+                ${sq1.svgBottom(160)}
+            </div>
+        </div>`;
+    } else {
+        document.querySelector("canvas")?.style.setProperty("display", "");
+
+        // Orientation must be applied before hiding inactive stickers.
+        scene.puzzle.performAlg(state.orientation);
+
+        for (const stickerIdx of state.algSet.inactive) {
+            const shape = scene.shapes[scene.puzzle.stickers[stickerIdx]];
+            shape.color = shape.getColorBuffer(GRAY);
+        }
+        
+        scene.puzzle.performAlg(alg);
+    }
 
     getScramble();
 
@@ -202,19 +225,18 @@ export async function getScramble(): Promise<void> {
 
     if (!state.showScramble) return;
 
-    // The algorithm should already be applied to the puzzle.
-    const puzzle = scene.puzzle;
-    if (puzzle.stickers.every((val, idx) => val === idx)) {
-        log("getScramble error: puzzle is solved");
-        return;
-    }
-
     state.scramble = "loading...";
     callback(state);
 
     let alg = getFirstAlg();
+
+    if (state.algSet.puzzle == "SQ1") {
+        state.scramble = scrambleSQ1(`${internalState.preAlg} ${alg} ${internalState.postAlg}`);
+        callback(state);
+        return;
+    }
+
     alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
-    
     state.scramble = scramble(state.algSet.puzzle, alg);
     callback(state);
 }

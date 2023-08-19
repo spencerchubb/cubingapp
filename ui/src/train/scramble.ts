@@ -3,6 +3,7 @@ import { scramble_333 } from "../lib/scripts/cstimer/scramble_333";
 import { Cube } from "../lib/scripts/rubiks-viz";
 import { scramblePyra } from "../lib/scripts/cstimer/scramble_pyraminx";
 import { scramble2x2 } from "../lib/scripts/cstimer/scramble_222";
+import { scrambleSQ1 } from "../lib/scripts/cstimer/scramble_sq1";
 import { STICKERS as S } from "../lib/scripts/rubiks-viz/pieces";
 import { algToRUF } from "./algConvert";
 
@@ -66,6 +67,8 @@ export function scramble(puzzle: string, alg: string): string {
         return scramble2x2(alg);
     } else if (puzzle === "Pyraminx") {
         return scramblePyra(alg);
+    } else if (puzzle === "SQ1") {
+        return scrambleSQ1(alg);
     }
 
     cube.solve();

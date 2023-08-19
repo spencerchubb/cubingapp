@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { loadCurrAlg, type UIState } from "./app";
+    import { loadCurrAlg, type State } from "./app";
     import * as AlgSetAPI from "../lib/scripts/api/algSet";
 
-    export let state: UIState;
+    export let state: State;
     export let callback: Function;
 
     function createAlgSet(set: string) {
@@ -122,6 +122,18 @@
             </button>
             <button class="alg-set" on:click={() => createAlgSet("CMLL")}>
                 CMLL
+            </button>
+        </div>
+        <div class="card">
+            <h2>Square-1</h2>
+            <button class="alg-set" on:click={() => createAlgSet("SQ1 Cube Shape")}>
+                SQ1 Cube Shape
+            </button>
+            <button class="alg-set" on:click={() => createAlgSet("SQ1 CSP")}>
+                SQ1 CSP
+            </button>
+            <button class="alg-set" on:click={() => createAlgSet("SQ1 EP")}>
+                SQ1 EP
             </button>
         </div>
         <div class="card">
