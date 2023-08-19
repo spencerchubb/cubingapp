@@ -2,18 +2,28 @@
  * Example: R U R' U' -> U R U' R'
  */
 export function invertAlg(alg: string): string {
-    let moves = alg.split(" ");
-    moves = moves.map(invertMove);
-    return moves.reverse().join(" ");
+    if (!alg) return "";
+    return alg
+        .split(" ")
+        .map(invertMove)
+        .reverse()
+        .join(" ");
 }
 
 export function invertMove(move: string): string {
-    if (move.endsWith("'")) {
+    if (move === "/") {
+        // SQ1 slash
+        return "/";
+    } else if (move.includes(",")) {
+        // SQ1 move
+        const [top, bot] = move.split(",").map(n => parseInt(n));
+        return `${-top},${-bot}`;
+    } else if (move.endsWith("'")) {
         return move.slice(0, -1);
-    }
-    if (move.endsWith("2")) {
+    } else if (move.endsWith("2")) {
         return move;
     }
+
     return move + "'";
 }
 

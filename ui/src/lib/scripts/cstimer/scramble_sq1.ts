@@ -3,6 +3,7 @@ Ported from PPT, written Walter Souza: https://bitbucket.org/walter/puzzle-timer
 Ported by Lucas Garron, November 16, 2011.
 */
 
+import { invertAlg } from "../rubiks-viz/alg";
 import { mathlib } from "./mathlib";
 
 function FullCube_copy(obj, c) {
@@ -666,14 +667,55 @@ export function scrambleSQ1Random() {
     return Search_solution(search, FullCube_randomCube());
 }
 
-// Find a scramble that sets up the given alg.
-export function scrambleSQ1(alg) {
+// Find a scramble that is equivalent to the given alg.
+export function scrambleSQ1(alg: string) {
     Shape_$clinit();
     Square_$clinit();
     const obj = new FullCube_FullCube__Ljava_lang_String_2V;
+    alg = invertAlg(alg);
     const moves = strToMoves(alg);
     for (let i = 0; i < moves.length; i++) {
         FullCube_doMove(obj, moves[i]);
     }
     return Search_solution(search, obj);
+}
+
+export function simplifySQ1Alg(alg: string): string {
+    const result: string[] = [];
+    const moves = alg.split(" ");
+    for (let i = 0; i < moves.length; i++) {
+        const current = moves[i];
+        const next = moves[i + 1];
+
+        if (!next) {
+            result.push(current);
+            continue;
+        }
+
+        if (current === "/") {
+            if (moves[i + 1] === "/") {
+                // Two slashes in a row should be canceled out.
+                i++;
+            } else {
+                result.push("/");
+            }
+            continue;
+        }
+
+        if (next === "/") {
+            result.push(current);
+            continue;
+        }
+        const [topCurrent, botCurrent] = current.split(",").map(n => parseInt(n));
+        const [topNext, botNext] = next.split(",").map(n => parseInt(n));
+        let top = topCurrent + topNext;
+        let bot = botCurrent + botNext;
+        if (top || bot) {
+            const modulo = i => (i > 6) ? (i - 12) : (i < -6) ? (i + 12) : i;
+            result.push(`${modulo(top)},${modulo(bot)}`);
+        }
+
+        i++;
+    }
+    return result.join(" ");
 }

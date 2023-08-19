@@ -9,7 +9,7 @@ import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { OrientationOptions, cubeOrientationOptions, pyraOrientationOptions } from "./orientation";
-import { scrambleSQ1 } from "../lib/scripts/cstimer/scramble_sq1";
+import { scrambleSQ1, simplifySQ1Alg } from "../lib/scripts/cstimer/scramble_sq1";
 
 type InternalState = {
     showSolution: boolean,
@@ -49,7 +49,7 @@ let state: State = {
     algSet: {} as AlgSetAPI.AlgSet,
     algSetEditing: undefined,
     algSets: undefined,
-    solutionButtonText: "show solution",
+    solutionButtonText: "Show solution",
     modalType: undefined,
     selectedAlg: { Score: 0, Alg: "" },
     selectedAlgIndex: 0,
@@ -85,11 +85,12 @@ async function initApp() {
 
 export function onClickSolutionButton() {
     internalState.showSolution = !internalState.showSolution;
-    state.solutionButtonText = internalState.showSolution 
-        ? internalState.postAlg
-            ? `${invertAlg(internalState.postAlg)} ${getFirstAlg()}`.replace(/ +/g, ' ')
-            : getFirstAlg()
-        : "show solution";
+    state.solutionButtonText = internalState.showSolution
+        ? state.algSet.puzzle == "SQ1"
+            ? simplifySQ1Alg(`${invertAlg(internalState.postAlg)} ${getFirstAlg()}`.trim())
+            : `${invertAlg(internalState.postAlg)} ${getFirstAlg()}`.trim()
+        : "Show solution";
+
     callback(state);
 }
 
@@ -154,7 +155,7 @@ export function loadCurrAlg(): string {
     if (!alg) return "";
 
     internalState.showSolution = false;
-    state.solutionButtonText = "show solution";
+    state.solutionButtonText = "Show solution";
     callback(state);
     
     internalState.preAlg = randElement(state.algSet.pre);
@@ -165,7 +166,7 @@ export function loadCurrAlg(): string {
     
     setAlgSet(scene);
 
-    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
+    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.trim();
     
     if (state.algSet.puzzle == "SQ1") {
         document.querySelector("canvas")?.style.setProperty("display", "none");
@@ -229,14 +230,14 @@ export async function getScramble(): Promise<void> {
     callback(state);
 
     let alg = getFirstAlg();
-
+    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.trim();
+    
     if (state.algSet.puzzle == "SQ1") {
-        state.scramble = scrambleSQ1(`${internalState.preAlg} ${alg} ${internalState.postAlg}`);
+        state.scramble = scrambleSQ1(alg);
         callback(state);
         return;
     }
-
-    alg = `${internalState.preAlg} ${invertAlg(alg)} ${internalState.postAlg}`.replace(/ +/g, ' ');
+    
     state.scramble = scramble(state.algSet.puzzle, alg);
     callback(state);
 }

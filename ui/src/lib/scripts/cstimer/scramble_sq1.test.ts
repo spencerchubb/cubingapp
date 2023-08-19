@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { strToMoves, movesToStr, scrambleSQ1 } from "./scramble_sq1";
+import { strToMoves, movesToStr, simplifySQ1Alg } from "./scramble_sq1";
 
 describe("movesToStr and strToMoves", () => {
     it("should be inverses", () => {
@@ -7,12 +7,11 @@ describe("movesToStr and strToMoves", () => {
         expect(movesToStr(
             strToMoves(moves),
             30,
-        )).toBe(moves);
+        )).toEqual(moves);
     });
 
-    it("should scramble", () => {
-        // const alg = "3,0 1,0 / 5,-1 / -5,1 / -1,0 3,-3";
-        const alg = "1,0 / 5,-1 / -5,1 / -1,0";
-        console.log(scrambleSQ1(alg));
-    });
+    it("should simplify sq1 alg", () => {
+        const alg = "-3,-3 -2,0 / 0,3 / -1,-1 / 1,-2 / 2,0 6,0";
+        expect(simplifySQ1Alg(alg)).toEqual("-5,-3 / 0,3 / -1,-1 / 1,-2 / -4,0");
+    })
 });
