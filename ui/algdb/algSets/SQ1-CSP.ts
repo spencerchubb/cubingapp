@@ -1103,5 +1103,5 @@ export let algSet = {
             "name": "Square / Square (Even)",
             "algs": [""]
         }
-    ]    
+    ]
 }
