@@ -22,6 +22,7 @@ function algdb() {
         "SQ1-CSP",
         "SQ1-Cube-Shape",
         "SQ1-EP",
+        "SQ1-OBL",
         "Winter-Variation",
         "ZBLL",
     ];

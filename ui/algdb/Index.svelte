@@ -92,6 +92,9 @@
                 <a class="alg-set" href="/algdb/SQ1-EP.html">
                     SQ1 EP
                 </a>
+                <a class="alg-set" href="/algdb/SQ1-OBL.html">
+                    SQ1 OBL
+                </a>
             </div>
             <div class="card">
                 <h2>Other</h2>
