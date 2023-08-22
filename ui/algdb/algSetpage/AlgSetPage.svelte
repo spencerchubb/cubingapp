@@ -1,5 +1,4 @@
 <script lang="ts">
-    import SideNav from "../../src/lib/components/SideNav.svelte";
     import {
         initApp,
         onScroll,
@@ -7,12 +6,10 @@
         selectVariant,
         setCallback,
     } from "./algSetPage";
-    import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
     import { onMount } from "svelte";
-    import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
-    import GithubIcon from "../../src/lib/components/icons/GithubIcon.svelte";
     import PauseIcon from "../../src/lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../../src/lib/components/icons/PlayIcon.svelte";
+    import PageSkeleton from "../components/PageSkeleton.svelte";
 
     export let algSet: any;
 
@@ -20,25 +17,10 @@
         state = newState;
     });
 
-    let sideNavOpen = false;
-
     onMount(() => initApp(algSet));
 </script>
 
-<main class="col" style="width: 100%; height: 100%;">
-    <nav class="navbar" style="justify-content: space-between;">
-        <NavBarIcon on:click={() => (sideNavOpen = true)}>
-            <MenuIcon />
-        </NavBarIcon>
-        <a class="link" style="color: var(--gray-200);" href="/algdb.html">
-            Alg DB Home
-        </a>
-        <a href="https://github.com/spencerchubb/algdb/">
-            <NavBarIcon>
-                <GithubIcon />
-            </NavBarIcon>
-        </a>
-    </nav>
+<PageSkeleton>
     <div
         style="
             display: flex;
@@ -123,8 +105,7 @@
             {/each}
         </div>
     </div>
-    <SideNav bind:open={sideNavOpen} />
-</main>
+</PageSkeleton>
 
 <style>
     :global(.about-container p, .about-container h2) {

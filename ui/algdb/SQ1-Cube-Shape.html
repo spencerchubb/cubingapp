@@ -11,91 +11,9 @@
 </head>
 
 <body>
-    <h1>Square-1 Cube Shape Algorithms</h1>
-    <p style="max-width: 600px; margin: 0 auto;">
-        There are a variety of methods for solving the Square-1, but the first step is always Cube Shape (sometimes abbreviated as SQ1 CS).
-        The goal of this step is to make the puzzle shaped like a cube.
-    </p>
-    <div class="spinner" style="margin: 0 auto;"></div>
-
+    <script type="module">
+        import App from "./sveltePages/SQ1-Cube-Shape.svelte";
+        new App({ target: document.body });
+    </script>
     <script type="module" src="../src/lib/scripts/analytics.ts"></script>
 </body>
-
-<style>
-    body {
-        width: 100%;
-        height: 100%;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        padding: 16px;
-        gap: 32px;
-    }
-
-    h1 {
-        width: 100%;
-        text-align: center;
-    }
-
-    .h3,
-    li {
-        color: white;
-    }
-
-    .all-cases-div {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-    }
-
-    .case-div {
-        border: solid 1px gray;
-        border-radius: 8px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 16px;
-        gap: 0 16px;
-        width: 300px;
-    }
-
-    .case-div h3,
-    .case-div ul {
-        margin-top: 8px;
-        overflow-wrap: anywhere;
-    }
-
-    svg {
-        width: 100px;
-        height: 100px;
-    }
-</style>
-<script type="module">
-    import { SQ1 } from "../src/lib/scripts/rubiks-viz/sq1";
-    import { algSet } from "./algSets/SQ1-Cube-Shape";
-    
-    document.body.innerHTML += `
-    <div class="all-cases-div">
-        ${algSet.cases.map((_case) => {
-            const sq1 = new SQ1();
-            sq1.performAlgInverse(_case.algs[0]);
-            return `<div class="case-div">
-                <div class="row">
-                    ${sq1.svgTop(100)}
-                    ${sq1.svgBottom(100)}
-                </div>
-                <div style="flex: 0 1 700px;">
-                    <h3>${_case.name}</h3>
-                    <ul>
-                        ${_case.algs.map((alg) => `<li>${alg}</li>`).join("")}
-                    </ul>
-                </div>
-            </div>`;
-        }).join("")}
-    </div>
-    `;
-
-    document.querySelector(".spinner").remove();
-</script>
