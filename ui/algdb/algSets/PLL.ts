@@ -4,6 +4,7 @@ export let algSet = {
         {
             "name": "Aa perm",
             "algs": [
+                "x R' U R' D2 R U' R' D2 R2 x'",
                 "R' F R' B2 R F' R' B2 R2",
                 "R' B' R2 D R' U' R D' R' U R' B R"
             ]
@@ -11,6 +12,7 @@ export let algSet = {
         {
             "name": "Ab perm",
             "algs": [
+                "x R2' D2 R U R' D2 R U' R x'",
                 "R2 B2 R F R' B2 R F' R",
                 "R' B' R U' R D R' U R D' R2 B R"
             ]
