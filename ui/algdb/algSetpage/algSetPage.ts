@@ -27,7 +27,7 @@ type AlgSet = {
 
 type State = {
     algSet: AlgSet,
-    selectedVariants: Object, // Key is integer representing the case, value is integer representing the variant.
+    selectedVariants: { [key: number]: number }, // Key is case index, value is variant index.
     casePlaying: number,
     algPlaying: number,
 }
@@ -95,14 +95,17 @@ export function renderCubes() {
             }
         }
 
+        const variant = state.selectedVariants[i] ?? 0;
         setupAlg(scene, i, 0);
     }
 }
 
-export function selectVariant(event: Event, case_: number) {
-    const variant = (event.target as HTMLSelectElement).value;
-    state.selectedVariants[case_] = variant;
+export function selectVariant(event: Event, caseIdx: number) {
+    const variant = parseInt((event.target as HTMLSelectElement).value);
+    state.selectedVariants[caseIdx] = variant;
     callback(state);
+
+    setupAlg(renderedScenes[caseIdx], caseIdx, 0);
 }
 
 export function onScroll() {
@@ -123,69 +126,71 @@ function inViewport(ele: HTMLElement): boolean {
 // - If click pause button, reset alg
 // - If click another alg, reset previous and play new one
 
-export function play(caseIndex: number, algIndex: number) {
-    let case_ = state.algSet.cases[caseIndex];
-    let variant = state.selectedVariants[caseIndex];
-    const alg = getAlg(case_, variant, algIndex) ?? "";
-    const scene: Scene = renderedScenes[caseIndex];
+export function play(caseIdx: number, algIdx: number) {
+    let _case = state.algSet.cases[caseIdx];
+    let variant = state.selectedVariants[caseIdx];
+    const alg = getAlg(_case, variant, algIdx) ?? "";
+    const scene: Scene = renderedScenes[caseIdx];
 
     // If we're already playing this alg, reset it.
-    const shouldPause = state.casePlaying === caseIndex && state.algPlaying === algIndex;
+    const shouldPause = state.casePlaying === caseIdx && state.algPlaying === algIdx;
     if (shouldPause) {
-        resetCube(scene, caseIndex, algIndex);
+        resetCube(scene, caseIdx, algIdx);
         return;
     }
 
     clearInterval(timer);
-    const onFinish = () => resetCube(scene, caseIndex, algIndex);
+    const onFinish = () => resetCube(scene, caseIdx, algIdx);
     timer = scene.puzzle.performAlgWithAnimation(alg, onFinish);
 
     // We only play one alg at a time, so we reset the previous one.
-    case_ = state.algSet.cases[state.casePlaying];
+    _case = state.algSet.cases[state.casePlaying];
     variant = state.selectedVariants[state.casePlaying];
-    const oldAlg = getAlg(case_, variant, state.algPlaying);
+    const oldAlg = getAlg(_case, variant, state.algPlaying);
     const oldScene: Scene = renderedScenes[state.casePlaying];
     if (oldAlg && oldScene) {
+        // Reset the alg we were playing.
         setupAlg(oldScene, state.casePlaying, 0);
     }
 
-    state.casePlaying = caseIndex;
-    state.algPlaying = algIndex;
-    callback(state);
-
-    setupAlg(scene, caseIndex, algIndex);
-}
-
-function getAlg(case_: AlgSetCase, variant: number | undefined, alg: number): string | undefined {
-    if (!case_) {
-        return undefined;
-    } else if (case_.variants) {
-        return case_.variants[variant ?? 0].algs[alg];
-    } else if (case_.algs) {
-        return case_.algs[alg];
-    }
-    console.error("variants and algs undefined");
-    return undefined;
-}
-
-function resetCube(scene: Scene, caseIdx: number, algIdx: number) {
-    clearInterval(timer);
-    state.casePlaying = -1;
-    state.algPlaying = -1;
+    state.casePlaying = caseIdx;
+    state.algPlaying = algIdx;
     callback(state);
 
     setupAlg(scene, caseIdx, algIdx);
 }
 
+function getAlg(_case: AlgSetCase, variant: number | undefined, alg: number): string | undefined {
+    if (!_case) {
+        return undefined;
+    } else if (_case.variants) {
+        return _case.variants[variant ?? 0].algs[alg];
+    } else if (_case.algs) {
+        return _case.algs[alg];
+    }
+    console.error("variants and algs undefined");
+    return undefined;
+}
+
+function resetCube(scene: Scene, _case: number, alg: number) {
+    clearInterval(timer);
+    state.casePlaying = -1;
+    state.algPlaying = -1;
+    callback(state);
+
+    setupAlg(scene, _case, alg);
+}
+
 function setupAlg(scene: Scene, caseIdx: number, algIdx: number) {
-    const case_ = state.algSet.cases[caseIdx];
-    const alg = getAlg(case_, 0, algIdx) ?? "";
+    let variant = state.selectedVariants[caseIdx];
+    const _case = state.algSet.cases[caseIdx];
+    const alg = getAlg(_case, variant, algIdx) ?? "";
     const puzzle = scene.puzzle;
 
     puzzle.solve();
 
-    if (case_.setup) {
-        puzzle.performAlg(case_.setup);
+    if (_case.setup) {
+        puzzle.performAlg(_case.setup);
     } else if (state.algSet.setup) {
         puzzle.performAlg(state.algSet.setup);
     }
