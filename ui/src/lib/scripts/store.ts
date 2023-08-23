@@ -2,22 +2,8 @@
  * LocalStorage functions
  */
 
-const algSet = "algSet";
-const animateTurns = "animateTurns";
 const casesToday = "casesToday";
-const hintStickers = "hintStickers";
-const keyboard = "keyboard";
-const orientation = "orientation";
-const showBody = "showBody";
 const showScramble = "showScramble";
-
-export function getAnimateTurns() {
-    return getBool(animateTurns) ?? true;
-}
-
-export function setAnimateTurns(value) {
-    setBool(animateTurns, value);
-}
 
 type CasesToday = {
     count: number;
@@ -38,33 +24,6 @@ export const CasesTodayStore = {
     },
 };
 
-export function getHintStickers() {
-    return getBool(hintStickers) ?? true;
-}
-
-export function setHintStickers(value) {
-    setBool(hintStickers, value);
-}
-
-export function getKeyboard() {
-    const out = localStorage.getItem(keyboard) ?? "None";
-    if (out == "None" || out == "Show Keys" || out == "Show Moves") return out;
-    console.error("Invalid keyboard value: " + out);
-    return "None";
-}
-
-export function setKeyboard(value) {
-    localStorage.setItem(keyboard, value);
-}
-
-export function getShowBody() {
-    return getBool(showBody) ?? true;
-}
-
-export function setShowBody(value) {
-    setBool(showBody, value);
-}
-
 export const ShowScrambleStore = {
     get: (): boolean => getBool(showScramble) ?? false,
     set: (value: boolean) => setBool(showScramble, value),
@@ -81,26 +40,4 @@ function getBool(key: string): boolean {
 
 function setBool(key: string, value: boolean) {
     localStorage.setItem(key, value ? "1" : "0");
-}
-
-/**
- * Returns the current integer associated with the given key, or null if the given key does not exist.
- */
-function getInt(key: string) {
-    const value = localStorage.getItem(key);
-    if (value === null) return null;
-    return parseInt(value);
-}
-
-function setInt(key: string, value: number) {
-    localStorage.setItem(key, value.toString());
-}
-
-/**
- * Returns the current float associated with the given key, or null if the given key does not exist.
- */
-function getFloat(key: string) {
-    const value = localStorage.getItem(key);
-    if (value === null) return null;
-    return parseFloat(value);
 }
