@@ -3,7 +3,7 @@ import { STICKERS as S } from "../../src/lib/scripts/rubiks-viz/pieces";
 export let algSet = {
     "puzzle": "3x3",
     "gray": [
-        S.UBL, S.UB, S.URB, S.UL, S.U, S.UR, S.ULF, S.UF, S.UFR,
+        S.UBL, S.UB, S.URB, S.UL, S.UR, S.ULF, S.UF, S.UFR,
         S.FRU, S.FU, S.FUL, S.LFU, S.LU, S.LUB, S.BLU, S.BU, S.BUR, S.RBU, S.RU, S.RUF,
     ],
     "cases": [
