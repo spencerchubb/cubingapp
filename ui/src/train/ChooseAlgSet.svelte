@@ -1,6 +1,8 @@
 <script lang="ts">
     import { loadCurrAlg, type State } from "./app";
     import * as AlgSetAPI from "../lib/scripts/api/algSet";
+    import MoreIcon from "../lib/components/icons/MoreIcon.svelte";
+    import { deepCopy } from "../lib/scripts/util";
 
     export let state: State;
     export let callback: Function;
@@ -52,28 +54,10 @@
                         style="padding: 2px; font-size: 1.4rem; min-width: 40px; height: 40px;"
                         on:click={(event) => {
                             event.stopPropagation();
-                            AlgSetAPI.read(algSet.id).then((algSet) => {
-                                callback({
-                                    modalType: "Edit alg set",
-                                    algSetEditing: algSet,
-                                });
-                            });
+                            callback({ modalType: "Alg set actions", algSetEditing: deepCopy(algSet) });
                         }}
                     >
-                        ✍
-                    </button>
-                    <button
-                        class="btn-transparent"
-                        style="padding: 2px; font-size: 1.8rem; min-width: 40px; height: 40px;"
-                        on:click={(event) => {
-                            event.stopPropagation();
-                            callback({
-                                modalType: "Delete alg set",
-                                algSetEditing: { ...algSet },
-                            });
-                        }}
-                    >
-                        🗑
+                        <MoreIcon />
                     </button>
                 </button>
             {/each}

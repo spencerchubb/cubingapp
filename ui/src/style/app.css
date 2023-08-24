@@ -62,6 +62,11 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 4px 2px var(--lightBlue-300);
 }
 
+input[type="checkbox"] {
+    outline: none;
+    box-shadow: none;
+}
+
 input::-moz-placeholder,
 input:-moz-placeholder,
 input::-webkit-input-placeholder,

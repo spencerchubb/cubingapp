@@ -40,10 +40,6 @@ func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	}
 
 	db := db.GetDB()
-	if req.Id == 0 {
-		return db.ReadRecentAlgSet(uid)
-	}
-
 	algSet, err := db.ReadAlgSet(uid, req.Id)
 	if err != nil {
 		return nil, err
@@ -69,9 +65,9 @@ func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
 
 func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
-		Id           int                 `json:"id"`
-		Name         string              `json:"name"`
-		TrainingAlgs []types.TrainingAlg `json:"trainingAlgs"`
+		Id           int    `json:"id"`
+		Name         string `json:"name"`
+		TrainingAlgs []any  `json:"trainingAlgs"`
 	}
 	var req Request
 	err := util.Unmarshal(r.Body, &req)
@@ -99,7 +95,6 @@ func DeleteAlgSet(r *http.Request, uid int) (interface{}, error) {
 	return nil, err
 }
 
-// Helper function for CreatePrebuiltAlgSet
 func getAlgSet(setName string) (*types.AlgSet, error) {
 	algSets, err := util.Once(func() (*[]types.AlgSet, error) {
 		return util.ReadJsonFile[[]types.AlgSet]("../algs/algs.json")
@@ -110,8 +105,8 @@ func getAlgSet(setName string) (*types.AlgSet, error) {
 	algSet := util.Find(*algSets, func(v types.AlgSet) bool {
 		return v.Set == setName
 	})
-	algSet.TrainingAlgs = util.Map(algSet.Algs, func(alg string) types.TrainingAlg {
-		return types.TrainingAlg{Score: 0, Alg: alg}
+	algSet.TrainingAlgs = util.Map(algSet.Algs, func(alg string) interface{} {
+		return map[string]interface{}{"Score": 0, "Alg": alg}
 	})
 	algSet.Set = setName
 	algSet.Name = setName

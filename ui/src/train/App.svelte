@@ -7,12 +7,13 @@
 		computeStats,
 		getCasesToday,
 		getScramble,
+		initScene,
 		loadCurrAlg,
 		nextAlg,
         onChangeOrientation,
 		onClickSolutionButton,
+		saveNewName,
 		setCallback,
-		setScene,
 		setShowScramble,
 	} from "./app";
 	import SideNav from "../lib/components/SideNav.svelte";
@@ -98,10 +99,7 @@
 				<div style="height: 16px;" />
 				<div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
                     <GLManager
-                        onSceneInitialized={(scene) => {
-                            setScene(scene);
-                            loadCurrAlg();
-                        }}
+                        onSceneInitialized={initScene}
                     />
                 </div>
 				<div style="height: 16px" />
@@ -224,67 +222,133 @@
 	>
 		{#if state.modalType === "Choose alg set" || state.algSets?.length === 0}
 			<ChooseAlgSet {state} {callback} />
-        {:else if state.modalType === "Delete alg set"}
-            <div class="col" style="padding: 16px; gap: 16px;">
-                <p>Are you sure you want to delete {state.algSetEditing.name}?</p>
-                <div class="row" style="gap: 16px;">
-                    <button
-                        class="btn-gray"
-                        on:click={() => {
+        {:else if state.modalType === "Alg set actions"}
+            <div class="col" style="padding: 16px;">
+                <h2>Actions for {state.algSetEditing.name}</h2>
+                <button
+                    class="row btn-transparent"
+                    style="width: 100%;"
+                    on:click={(event) => {
+                        callback({modalType: "Rename alg set" });
+                    }}
+                >
+                    <span style="width: 40px; margin-right: 8px; font-size: 1.4rem;">✏</span> Rename
+                </button>
+                <button
+                    class="row btn-transparent"
+                    style="width: 100%;"
+                    on:click={(event) => {
+                        AlgSetAPI.read(state.algSetEditing.id).then(algSet => {
                             callback({
-                                modalType: state.page === "landing"
-                                    ? undefined
-                                    : "Choose alg set",
-                            });
-                        }}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        on:click={() => {
-                            const id = state.algSetEditing.id;
-                            AlgSetAPI.deleteSet(id);
-                            this.callback({
-                                algSets: state.algSets.filter(algSet => algSet.id !== id),
-                            });
-                        }}
-                    >
-                        Delete
-                    </button>
-                </div>
+                                modalType: "Hide algs",
+                                algSetEditing: algSet,
+                            })
+                        });
+                    }}
+                >
+                    <span style="width: 40px; margin-right: 8px; font-size: 1.4rem;">👁</span> Hide algs
+                </button>
+                <button
+                    class="row btn-transparent"
+                    style="width: 100%;"
+                    on:click={(event) => {
+                        const id = state.algSetEditing.id;
+                        AlgSetAPI.deleteSet(id);
+                        this.callback({
+                            modalType: undefined,
+                            algSets: state.algSets.filter(algSet => algSet.id !== id),
+                        });
+                    }}
+                >
+                    <span style="width: 40px; margin-right: 8px; font-size: 1.4rem;">🗑</span> Delete
+                </button>
             </div>
-		{:else if state.modalType === "Edit alg set"}
+		{:else if state.modalType === "Rename alg set"}
             <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
-                <input type="text" bind:value={state.algSetEditing.name} />
+                <input
+                    type="text"
+                    bind:value={state.algSetEditing.name}
+                    on:keydown={(event) => {
+                        if (event.key === "Enter") {
+                            saveNewName();
+                        }
+                    }}
+                />
                 <div class="row" style="gap: 16px;">
                     <button
                         class="btn-gray"
                         on:click={() => {
-                            callback({
-                                modalType: state.page === "landing"
-                                    ? undefined
-                                    : "Choose alg set",
-                            });
+                            callback({ modalType: "Alg set actions", });
                         }}
                     >
                         Cancel
                     </button>
                     <button
-                        on:click={() => {
-                            const algSet = state.algSetEditing;
-                            AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
-                            callback({
-                                modalType: undefined,
-                                algSet: state.algSetEditing,
-                                algSets: state.algSets.map(_algSet => {
-                                    return _algSet.id === algSet.id ? algSet : _algSet;
-                                }),
-                            });
-                            loadCurrAlg();
-                        }}
+                        on:click={saveNewName}
                     >
                         Save
                     </button>
+                </div>
+            </div>
+        {:else if state.modalType === "Hide algs"}
+            <div style="width: 100%; overflow-y: auto;">
+                <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
+                    <button
+                        on:click={() => {
+                            callback({ modalType: "Alg set actions" });
+                        }}
+                    >
+                        Save & Exit
+                    </button>
+                    <div class="row" style="gap: 32px;">
+                        <button
+                            class="btn-gray"
+                            on:click={() => {
+                                for (const alg of state.algSetEditing.trainingAlgs) alg.Hide = true;
+
+                                const { id, name, trainingAlgs } = state.algSetEditing;
+                                AlgSetAPI.update(id, name, trainingAlgs).then(() => {
+                                    callback({ algSet: state.algSetEditing });
+                                });
+                            }}
+                        >Hide all</button>
+                        <button
+                            class="btn-gray"
+                            on:click={() => {
+                                for (const alg of state.algSetEditing.trainingAlgs) delete alg.Hide;
+
+                                const { id, name, trainingAlgs } = state.algSetEditing;
+                                AlgSetAPI.update(id, name, trainingAlgs).then(() => {
+                                    callback({ algSet: state.algSetEditing });
+                                })
+                            }}
+                        >Show all</button>
+                    </div>
+                    <p style="font-weight: bold;">Hidden algs will not appear while training</p>
+                    <div class="col" style="gap: 8px;">
+                        {#each state.algSetEditing.trainingAlgs as alg}
+                            <div
+                                class="row"
+                                style="width: 100%; gap: 8px;"
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={!alg.Hide}
+                                    style="width: 1rem; height: 1rem;"
+                                    on:change={() => {
+                                        if (alg.Hide) delete alg.Hide;
+                                        else alg.Hide = true;
+
+                                        const { id, name, trainingAlgs } = state.algSetEditing;
+                                        AlgSetAPI.update(id, name, trainingAlgs);
+                                    }}
+                                />
+                                <p
+                                    style={alg.Hide ? "text-decoration: line-through;" : ""}
+                                >{alg.Alg}</p>
+                            </div>
+                        {/each}
+                    </div>
                 </div>
             </div>
 		{/if}

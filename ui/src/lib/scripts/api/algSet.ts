@@ -3,10 +3,7 @@ import { post } from "./common";
 export type TrainingAlg = {
     Score: number,
     Alg: string,
-}
-
-type CreateTrainingAlgsResponse = {
-    id: number,
+    Hide?: boolean,
 }
 
 export type MinAlgSet = {
@@ -35,7 +32,7 @@ export async function readAll(): Promise<MinAlgSet[]> {
     return (await post("/readAlgSets", { })) ?? [];
 }
 
-export async function update(id: number, name: string, trainingAlgs: TrainingAlg[]): Promise<void> {
+export async function update(id: number, name: string, trainingAlgs?: TrainingAlg[]): Promise<void> {
     return post("/updateAlgSet", { id, name, trainingAlgs });
 }
 

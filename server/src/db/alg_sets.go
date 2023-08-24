@@ -26,37 +26,11 @@ func (db DB) ReadAlgSet(uid int, id int) (types.AlgSet, error) {
 	return algSet, err
 }
 
-func (db DB) ReadRecentAlgSet(uid int) (types.AlgSet, error) {
-	sql := `
-	select id, set, training_algs from alg_sets 
-	where uid = $1 and deleted is null
-	order by updated
-	limit 1;`
-	row := db.Conn.QueryRow(context.Background(), sql, uid)
-	var algSet types.AlgSet
-	err := row.Scan(&algSet.Id, &algSet.Name, &algSet.TrainingAlgs)
-	if err != nil {
-		return types.AlgSet{}, err
-	}
-
-	// Set 'updated' to now() so it will be sorted to top of list.
-	sql = `
-	update alg_sets
-	set updated = now()
-	where id = $1;`
-	_, err = db.Conn.Exec(context.Background(), sql, algSet.Id)
-	if err != nil {
-		return types.AlgSet{}, err
-	}
-
-	return algSet, err
-}
-
 func (db DB) ReadAlgSets(uid int) ([]types.AlgSet, error) {
 	sql := `
 	select id, name from alg_sets
 	where uid = $1 and deleted is null
-	order by updated;`
+	order by updated desc;`
 	rows, err := db.Conn.Query(context.Background(), sql, uid)
 	if err != nil {
 		return []types.AlgSet{}, err
@@ -75,12 +49,14 @@ func (db DB) ReadAlgSets(uid int) ([]types.AlgSet, error) {
 	return algSets, nil
 }
 
-func (db DB) UpdateAlgSet(uid int, id int, name string, trainingAlgs []types.TrainingAlg) error {
+func (db DB) UpdateAlgSet(uid int, id int, name string, trainingAlgs []any) error {
 	sql := `
 	update alg_sets
-	set name = $3, training_algs = $4, updated = now()
-	where uid = $1 and id = $2;
-	`
+	set
+		name = coalesce($3, name),
+		training_algs = coalesce($4, training_algs),
+		updated = now()
+	where uid = $1 and id = $2;`
 	_, err := db.Conn.Exec(context.Background(), sql, uid, id, name, trainingAlgs)
 	return err
 }

@@ -24,7 +24,7 @@ let internalState: InternalState = {
     postAlg: "",
 };
 
-export type ModalType = undefined | "Choose alg set" | "Delete alg set" | "Edit alg set";
+export type ModalType = undefined | "Choose alg set" | "Alg set actions" | "Rename alg set" | "Hide algs";
 
 export type State = {
     page: "landing" | "train",
@@ -82,6 +82,11 @@ async function initApp() {
     callback(state);
 }
 
+export function initScene(scene: Scene) {
+    internalState.scene = scene;
+    loadCurrAlg();
+}
+
 export function onClickSolutionButton() {
     internalState.showSolution = !internalState.showSolution;
     state.solutionButtonText = internalState.showSolution
@@ -91,10 +96,6 @@ export function onClickSolutionButton() {
         : "Show solution";
 
     callback(state);
-}
-
-export function setScene(scene: Scene) {
-    internalState.scene = scene;
 }
 
 /**
@@ -118,13 +119,26 @@ export function computeStats(): { reps: number, algs: number, ratio: number }[] 
 
 function getFirstAlg(): string {
     if (!state.algSet?.trainingAlgs) {
-        log("No algs")
-        state.modalType = "Choose alg set";
+        state.page = "landing";
         callback(state);
         return "";
     }
-    const trainingAlgs = state.algSet.trainingAlgs;
-    return trainingAlgs[0].Alg;
+
+    // Find the first alg that is not hidden.
+    let alg: AlgSetAPI.TrainingAlg | undefined;
+    for (let i = 0; (!alg || alg.Hide) && i < state.algSet.trainingAlgs.length; i++) {
+        alg = state.algSet.trainingAlgs[i];
+    }
+
+    // If all algs are hidden, go to landing page and show an alert.
+    if (!alg || alg.Hide) {
+        alert(`All algs are hidden in ${state.algSet.name}`);
+        state.page = "landing";
+        callback(state);
+        return "";
+    }
+
+    return alg.Alg;
 }
 
 function setAlgSet(scene: Scene) {
@@ -270,5 +284,21 @@ function incrementCasesToday() {
 
 export function onChangeOrientation(orientation: string) {
     state.orientation = orientation;
+    loadCurrAlg();
+}
+
+export function saveNewName() {
+    const algSet = state.algSetEditing;
+    if (!algSet) {
+        throw new Error("Expected algSetEditing to be defined");
+    }
+    AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
+    callback({
+        modalType: undefined,
+        algSet: state.algSetEditing,
+        algSets: state.algSets?.map(_algSet => {
+            return _algSet.id === algSet.id ? algSet : _algSet;
+        }),
+    });
     loadCurrAlg();
 }
