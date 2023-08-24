@@ -1,0 +1,31 @@
+<script lang="ts">
+    import { getOrientationOptions } from "./orientationOptions";
+
+    export let puzzle: string;
+    export let onChange: (alg: string) => void;
+
+    $: storageKey = `${puzzle}-orientation`;
+    $: orientationOptions = getOrientationOptions(puzzle);
+
+    // Get from localStorage or default to first option.
+    $: orientationValue = localStorage.getItem(storageKey) ?? orientationOptions[0].value;
+
+    function _onChange(event: Event) {
+        const alg = (event.target as HTMLSelectElement).value;
+        localStorage.setItem(storageKey, alg);
+        onChange(alg);
+    }
+</script>
+
+{#if orientationOptions.length > 0}
+    <select
+        placeholder="Color"
+        {...$$props}
+        value={orientationValue}
+        on:change={_onChange}
+    >
+        {#each orientationOptions as option}
+            <option value={option.value}>{option.label}</option>
+        {/each}
+    </select>
+{/if}

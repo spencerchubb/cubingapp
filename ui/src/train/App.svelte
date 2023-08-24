@@ -28,6 +28,7 @@
     import DropDownButton from "../lib/components/DropDownButton.svelte";
     import * as AlgSetAPI from "../lib/scripts/api/algSet";
     import ChooseAlgSet from "./ChooseAlgSet.svelte";
+    import SelectOrientation from "../lib/components/SelectOrientation/SelectOrientation.svelte";
 
 	let drawerIndex = -1;
 
@@ -194,17 +195,13 @@
 						<a href="/keybindings.html">
 							<button>Customize key bindings</button>
 						</a>
-						<div>
-                            <p>orientation</p>
-                            <select bind:value={state.orientation} on:change={onChangeOrientation}>
-                                {#each state.orientationOptions as option}
-                                    <option value={option.value}>{option.label}</option>
-                                {/each}
-                            </select>
-                        </div>
+						<SelectOrientation
+                            puzzle={state.algSet?.puzzle}
+                            onChange={onChangeOrientation}
+                        />
                         <div style="width: 100%; height: 1px; background: var(--gray-600);"></div>
 						<div class="row" style="justify-content: space-between; width: 100%;">
-							<p>show scramble</p>
+							<p>Show scramble</p>
 							<Toggle
 								bind:checked={state.showScramble}
 								on:change={(event) => {

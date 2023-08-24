@@ -1,4 +1,1 @@
-export type Move = {
-    move: string,
-    time: number,
-}
+export type PuzzleTypes = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7" | "Pyraminx";

@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         initApp,
+        onChangeOrientation,
         onScroll,
         play,
         selectVariant,
@@ -10,6 +11,7 @@
     import PauseIcon from "../../src/lib/components/icons/PauseIcon.svelte";
     import PlayIcon from "../../src/lib/components/icons/PlayIcon.svelte";
     import PageSkeleton from "../components/PageSkeleton.svelte";
+    import SelectOrientation from "../../src/lib/components/SelectOrientation/SelectOrientation.svelte";
 
     export let algSet: any;
 
@@ -39,6 +41,11 @@
             <slot></slot>
         </div>
         <div class="col" style="gap: 16px; flex: 10 1 550px;">
+            <SelectOrientation
+                puzzle={algSet.puzzle}
+                onChange={onChangeOrientation}
+                style="align-self: end;"
+            />
             {#each algSet.cases as case_, i}
                 <div class="row case-card">
                     <div
@@ -51,11 +58,11 @@
                                 {case_.name}
                             </p>
                             {#if case_.variants && case_.variants.length > 0}
-                            <select on:change={event => selectVariant(event, i)}>
-                                {#each case_.variants ?? [] as variant, i1}
-                                    <option value={i1}>{variant.name}</option>
-                                {/each}
-                            </select>
+                                <select on:change={event => selectVariant(event, i)}>
+                                    {#each case_.variants ?? [] as variant, i1}
+                                        <option value={i1}>{variant.name}</option>
+                                    {/each}
+                                </select>
                             {/if}
                         </div>
                         {#each case_.algs ?? [] as alg1, i1}

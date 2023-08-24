@@ -42,16 +42,25 @@ let state: State = {
     algPlaying: -1,
 };
 
+let orientationAlg: string = "";
 let shouldRenderCubes = false;
-let renderedScenes = {};
+let renderedScenes: { [key: number]: Scene } = {};
 
 let timer;
 
 export function initApp(algSet) {
+    orientationAlg = localStorage.getItem(`${algSet.puzzle}-orientation`) ?? "";
+
     state.algSet = algSet;
 
     shouldRenderCubes = true;
     renderCubes();
+}
+
+export function onChangeOrientation(_: string) {    
+    // Refreshing is the easiest way to reset the cubes. *shrug*
+    // It works because the SelectOrientation component saves the orientation in localStorage.
+    location.reload();
 }
 
 // Do this lazily because it's slow af on mobile
@@ -81,21 +90,6 @@ export function renderCubes() {
         scene.enableKey = () => false;
         scene.dragEnabled = false;
 
-        if (state.algSet.gray && scene.shapes) {
-            for (const hideIndex of state.algSet.gray) {
-                const shape = scene.shapes[hideIndex];
-                shape.color = shape.getColorBuffer(GRAY);
-            }
-        }
-
-        if (state.algSet.purple && scene.shapes) {
-            for (const hideIndex of state.algSet.purple) {
-                const shape = scene.shapes[hideIndex];
-                shape.color = shape.getColorBuffer(PURPLE);
-            }
-        }
-
-        const variant = state.selectedVariants[i] ?? 0;
         setupAlg(scene, i, 0);
     }
 }
@@ -188,6 +182,18 @@ function setupAlg(scene: Scene, caseIdx: number, algIdx: number) {
     const puzzle = scene.puzzle;
 
     puzzle.solve();
+    puzzle.performAlg(orientationAlg);
+
+    if (scene.shapes) {
+        for (const idx of state.algSet.gray ?? []) {
+            const shape = scene.shapes[scene.puzzle.stickers[idx]];
+            shape.color = shape.getColorBuffer(GRAY);
+        }
+        for (const idx of state.algSet.purple ?? []) {
+            const shape = scene.shapes[scene.puzzle.stickers[idx]];
+            shape.color = shape.getColorBuffer(PURPLE);
+        }
+    }
 
     if (_case.setup) {
         puzzle.performAlg(_case.setup);

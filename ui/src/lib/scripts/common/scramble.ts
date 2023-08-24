@@ -4,6 +4,7 @@ import { scramble_333 } from "../cstimer/scramble_333";
 // Need to do this to register scramblers
 import { scramble2x2Random } from "../cstimer/scramble_222";
 import { scramblePyraRandom } from "../cstimer/scramble_pyraminx";
+import { PuzzleTypes } from "./types";
 
 /* Move set for 4x4 and 5x5 */
 const moveset_45 = [
@@ -42,8 +43,6 @@ const moveset_67 = [
     "3Fw", "3Fw'", "3Fw2",
     "3Bw", "3Bw'", "3Bw2",
 ];
-
-export type PuzzleTypes = "2x2" | "3x3" | "4x4" | "5x5" | "6x6" | "7x7" | "Pyraminx";
 
 export function getScramble(puzzle: PuzzleTypes): string {
     switch (puzzle) {

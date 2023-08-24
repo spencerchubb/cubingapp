@@ -273,11 +273,7 @@ function incrementCasesToday() {
     CasesTodayStore.set(casesToday);
 }
 
-export function onChangeOrientation(event: Event) {
-    const orientation = (event.target as HTMLSelectElement).value;
+export function onChangeOrientation(orientation: string) {
     state.orientation = orientation;
-
-    localStorage.setItem(`${state.algSet.puzzle}-orientation`, orientation);
-
     loadCurrAlg();
 }

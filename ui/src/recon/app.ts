@@ -1,7 +1,6 @@
 import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
-import { Puzzle } from "../lib/scripts/rubiks-viz/puzzle";
 import { replaceAll } from "../lib/scripts/util";
-import { type PuzzleTypes } from "../lib/scripts/common/scramble";
+import { type PuzzleTypes } from "../lib/scripts/common/types";
 
 let callback: (state) => void;
 
