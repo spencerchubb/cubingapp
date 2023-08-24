@@ -1,4 +1,3 @@
-import { algData } from "../lib/scripts/algData";
 import * as AlgSetAPI from "../lib/scripts/api/algSet";
 import { randElement } from "../lib/scripts/common/rand";
 import { GRAY, type Scene, invertAlg, newCube, newPyraminx } from "../lib/scripts/rubiks-viz";
@@ -214,10 +213,6 @@ export async function nextAlg(promote: boolean): Promise<string> {
     incrementCasesToday();
 
     return loadCurrAlg();
-}
-
-export function getAlgSetNames(): string[] {
-    return Object.keys(algData);
 }
 
 export async function getScramble(): Promise<void> {
