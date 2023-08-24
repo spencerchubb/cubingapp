@@ -57,6 +57,7 @@ func ReadAlgSet(r *http.Request, uid int) (interface{}, error) {
 	algSet.Inactive = algSetMetadata.Inactive
 	algSet.Pre = algSetMetadata.Pre
 	algSet.Post = algSetMetadata.Post
+	algSet.Puzzle = algSetMetadata.Puzzle
 	return algSet, err
 
 }

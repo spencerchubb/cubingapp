@@ -3,7 +3,6 @@ CREATE TABLE "alg_sets" (
     "uid" integer NOT NULL,
     "set" varchar NOT NULL,
     "training_algs" json NOT NULL,
-    "puzzle" varchar NOT NULL,
     "deleted" timestamp,
     "updated" timestamp NOT NULL,
     "name" varchar NOT NULL DEFAULT "set",

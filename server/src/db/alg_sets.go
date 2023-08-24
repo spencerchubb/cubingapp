@@ -7,10 +7,10 @@ import (
 
 func (db DB) CreateAlgSet(uid int, algSet types.AlgSet) (int, error) {
 	sql := `
-	insert into alg_sets (uid, set, name, training_algs, puzzle, updated) 
+	insert into alg_sets (uid, set, name, training_algs, updated) 
 	values ($1, $2, $3, $4, $5, now()) 
 	returning id;`
-	row := db.Conn.QueryRow(context.Background(), sql, uid, algSet.Set, algSet.Set, algSet.TrainingAlgs, algSet.Puzzle)
+	row := db.Conn.QueryRow(context.Background(), sql, uid, algSet.Set, algSet.Set, algSet.TrainingAlgs)
 	var id int
 	err := row.Scan(&id)
 	return id, err
@@ -18,23 +18,23 @@ func (db DB) CreateAlgSet(uid int, algSet types.AlgSet) (int, error) {
 
 func (db DB) ReadAlgSet(uid int, id int) (types.AlgSet, error) {
 	sql := `
-	select id, set, training_algs, puzzle, name from alg_sets 
+	select id, set, training_algs, name from alg_sets 
 	where uid = $1 and id = $2;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid, id)
 	var algSet types.AlgSet
-	err := row.Scan(&algSet.Id, &algSet.Set, &algSet.TrainingAlgs, &algSet.Puzzle, &algSet.Name)
+	err := row.Scan(&algSet.Id, &algSet.Set, &algSet.TrainingAlgs, &algSet.Name)
 	return algSet, err
 }
 
 func (db DB) ReadRecentAlgSet(uid int) (types.AlgSet, error) {
 	sql := `
-	select id, set, training_algs, puzzle from alg_sets 
+	select id, set, training_algs from alg_sets 
 	where uid = $1 and deleted is null
 	order by updated
 	limit 1;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid)
 	var algSet types.AlgSet
-	err := row.Scan(&algSet.Id, &algSet.Name, &algSet.TrainingAlgs, &algSet.Puzzle)
+	err := row.Scan(&algSet.Id, &algSet.Name, &algSet.TrainingAlgs)
 	if err != nil {
 		return types.AlgSet{}, err
 	}
