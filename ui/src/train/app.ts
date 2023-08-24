@@ -7,7 +7,6 @@ import { CasesTodayStore, ShowScrambleStore } from "../lib/scripts/store";
 import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
-import { OrientationOptions, cubeOrientationOptions, pyraOrientationOptions } from "./orientation";
 import { scrambleSQ1, simplifySQ1Alg } from "../lib/scripts/cstimer/scramble_sq1";
 
 type InternalState = {
@@ -24,21 +23,24 @@ let internalState: InternalState = {
     postAlg: "",
 };
 
-export type ModalType = undefined | "Choose alg set" | "Alg set actions" | "Rename alg set" | "Hide algs";
+export type ModalType =
+    undefined
+    | "Choose alg set"
+    | "Alg set actions" | "Rename alg set" | "Hide algs"
+    | "Deleted set actions" | "Permanently delete";
 
 export type State = {
-    page: "landing" | "train",
+    page: "landing" | "train" | "deleted sets",
     user?: CubingUser,
     algSet: AlgSetAPI.AlgSet,
     algSetEditing?: AlgSetAPI.AlgSet,
+    algSetDeleting?: AlgSetAPI.AlgSet,
     algSets?: AlgSetAPI.MinAlgSet[],
+    deletedAlgSets?: AlgSetAPI.MinAlgSet[],
     solutionButtonText: string,
     modalType: ModalType,
-    selectedAlg: AlgSetAPI.TrainingAlg,
-    selectedAlgIndex: number,
     showScramble: boolean,
     scramble: string,
-    orientationOptions: OrientationOptions,
     orientation: string,
 }
 
@@ -47,14 +49,13 @@ let state: State = {
     user: undefined,
     algSet: {} as AlgSetAPI.AlgSet,
     algSetEditing: undefined,
+    algSetDeleting: undefined,
     algSets: undefined,
+    deletedAlgSets: undefined,
     solutionButtonText: "Show solution",
     modalType: undefined,
-    selectedAlg: { Score: 0, Alg: "" },
-    selectedAlgIndex: 0,
     showScramble: ShowScrambleStore.get(),
     scramble: "",
-    orientationOptions: cubeOrientationOptions,
     orientation: "",
 };
 
@@ -144,18 +145,12 @@ function getFirstAlg(): string {
 function setAlgSet(scene: Scene) {
     if (state.algSet.puzzle == "2x2") {
         newCube(scene.div, 2);
-
-        state.orientationOptions = cubeOrientationOptions;
     } else if (state.algSet.puzzle == "3x3") {
         newCube(scene.div, 3);
-
-        state.orientationOptions = cubeOrientationOptions;
     } else if (state.algSet.puzzle == "Pyraminx") {
         newPyraminx(scene.div);
-        
-        state.orientationOptions = pyraOrientationOptions;
     } else if (state.algSet.puzzle == "SQ1") {
-        state.orientationOptions = [];
+        // Do nothing
     }
 
     state.orientation = localStorage.getItem(`${state.algSet.puzzle}-orientation`) ?? "";
@@ -284,21 +279,5 @@ function incrementCasesToday() {
 
 export function onChangeOrientation(orientation: string) {
     state.orientation = orientation;
-    loadCurrAlg();
-}
-
-export function saveNewName() {
-    const algSet = state.algSetEditing;
-    if (!algSet) {
-        throw new Error("Expected algSetEditing to be defined");
-    }
-    AlgSetAPI.update(algSet.id, algSet.name, algSet.trainingAlgs);
-    callback({
-        modalType: undefined,
-        algSet: state.algSetEditing,
-        algSets: state.algSets?.map(_algSet => {
-            return _algSet.id === algSet.id ? algSet : _algSet;
-        }),
-    });
     loadCurrAlg();
 }

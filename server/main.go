@@ -128,8 +128,11 @@ func main() {
 	handleFunc("/createAlgSet", endpoints.CreateAlgSet, true)
 	handleFunc("/readAlgSet", endpoints.ReadAlgSet, true)
 	handleFunc("/readAlgSets", endpoints.ReadAlgSets, true)
+	handleFunc("/readDeletedAlgSets", endpoints.ReadDeletedAlgSets, true)
 	handleFunc("/updateAlgSet", endpoints.UpdateAlgSet, true)
 	handleFunc("/deleteAlgSet", endpoints.DeleteAlgSet, true)
+	handleFunc("/deleteAlgSetPermanently", endpoints.DeleteAlgSetPermanently, true)
+	handleFunc("/restoreAlgSet", endpoints.RestoreAlgSet, true)
 
 	handleFunc("/createSession", endpoints.CreateSession, true)
 	handleFunc("/readSessions", endpoints.ReadSessions, true)

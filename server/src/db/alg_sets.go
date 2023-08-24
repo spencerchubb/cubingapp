@@ -49,6 +49,29 @@ func (db DB) ReadAlgSets(uid int) ([]types.AlgSet, error) {
 	return algSets, nil
 }
 
+func (db DB) ReadDeletedAlgSets(uid int) ([]types.AlgSet, error) {
+	sql := `
+	select id, name from alg_sets
+	where uid = $1 and deleted is not null
+	order by deleted desc;`
+	rows, err := db.Conn.Query(context.Background(), sql, uid)
+	if err != nil {
+		return []types.AlgSet{}, err
+	}
+	defer rows.Close()
+
+	var algSets []types.AlgSet
+	for rows.Next() {
+		var algSet types.AlgSet
+		err := rows.Scan(&algSet.Id, &algSet.Name)
+		if err != nil {
+			return []types.AlgSet{}, err
+		}
+		algSets = append(algSets, algSet)
+	}
+	return algSets, nil
+}
+
 func (db DB) UpdateAlgSet(uid int, id int, name string, trainingAlgs []any) error {
 	sql := `
 	update alg_sets
@@ -65,6 +88,25 @@ func (db DB) DeleteAlgSet(uid int, id int) error {
 	sql := `
 	update alg_sets
 	set "deleted" = now()
+	where uid = $1 and id = $2;
+	`
+	_, err := db.Conn.Exec(context.Background(), sql, uid, id)
+	return err
+}
+
+func (db DB) DeleteAlgSetPermanently(uid int, id int) error {
+	sql := `
+	delete from alg_sets
+	where uid = $1 and id = $2;
+	`
+	_, err := db.Conn.Exec(context.Background(), sql, uid, id)
+	return err
+}
+
+func (db DB) RestoreAlgSet(uid int, id int) error {
+	sql := `
+	update alg_sets
+	set "deleted" = null
 	where uid = $1 and id = $2;
 	`
 	_, err := db.Conn.Exec(context.Background(), sql, uid, id)

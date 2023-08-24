@@ -32,10 +32,22 @@ export async function readAll(): Promise<MinAlgSet[]> {
     return (await post("/readAlgSets", { })) ?? [];
 }
 
+export async function readDeleted(): Promise<MinAlgSet[]> {
+    return (await post("/readDeletedAlgSets", { })) ?? [];
+}
+
 export async function update(id: number, name: string, trainingAlgs?: TrainingAlg[]): Promise<void> {
     return post("/updateAlgSet", { id, name, trainingAlgs });
 }
 
 export async function deleteSet(id: number): Promise<void> {
     return post("/deleteAlgSet", { id });
+}
+
+export async function deleteSetPermanently(id: number): Promise<void> {
+    return post("/deleteAlgSetPermanently", { id });
+}
+
+export async function restoreSet(id: number): Promise<void> {
+    return post("/restoreAlgSet", { id });
 }

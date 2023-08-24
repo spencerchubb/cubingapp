@@ -63,6 +63,11 @@ func ReadAlgSets(r *http.Request, uid int) (interface{}, error) {
 	return db.ReadAlgSets(uid)
 }
 
+func ReadDeletedAlgSets(r *http.Request, uid int) (interface{}, error) {
+	db := db.GetDB()
+	return db.ReadDeletedAlgSets(uid)
+}
+
 func UpdateAlgSet(r *http.Request, uid int) (interface{}, error) {
 	type Request struct {
 		Id           int    `json:"id"`
@@ -92,6 +97,36 @@ func DeleteAlgSet(r *http.Request, uid int) (interface{}, error) {
 
 	db := db.GetDB()
 	err = db.DeleteAlgSet(uid, req.Id)
+	return nil, err
+}
+
+func DeleteAlgSetPermanently(r *http.Request, uid int) (interface{}, error) {
+	type Request struct {
+		Id int `json:"id"`
+	}
+	var req Request
+	err := util.Unmarshal(r.Body, &req)
+	if err != nil {
+		return nil, err
+	}
+
+	db := db.GetDB()
+	err = db.DeleteAlgSetPermanently(uid, req.Id)
+	return nil, err
+}
+
+func RestoreAlgSet(r *http.Request, uid int) (interface{}, error) {
+	type Request struct {
+		Id int `json:"id"`
+	}
+	var req Request
+	err := util.Unmarshal(r.Body, &req)
+	if err != nil {
+		return nil, err
+	}
+
+	db := db.GetDB()
+	err = db.RestoreAlgSet(uid, req.Id)
 	return nil, err
 }
 

@@ -61,6 +61,24 @@
                     </button>
                 </button>
             {/each}
+            <button
+                class="btn-transparent"
+                style="
+                    width: 100%;
+                    border: solid 1px var(--gray-500);
+                    margin-top: 16px;"
+                on:click={() => {
+                    AlgSetAPI.readDeleted().then(deletedAlgSets => {
+                        callback({
+                            page: "deleted sets",
+                            modalType: undefined,
+                            deletedAlgSets,
+                        });
+                    });
+                }}
+            >
+                Deleted sets
+            </button>
         </div>
     {/if}
     <div
