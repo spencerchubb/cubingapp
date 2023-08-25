@@ -8,7 +8,7 @@ import (
 func (db DB) CreateAlgSet(uid int, algSet types.AlgSet) (int, error) {
 	sql := `
 	insert into alg_sets (uid, set, name, training_algs, updated) 
-	values ($1, $2, $3, $4, $5, now()) 
+	values ($1, $2, $3, $4, now()) 
 	returning id;`
 	row := db.Conn.QueryRow(context.Background(), sql, uid, algSet.Set, algSet.Set, algSet.TrainingAlgs)
 	var id int
