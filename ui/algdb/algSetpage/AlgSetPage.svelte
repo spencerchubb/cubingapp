@@ -122,6 +122,7 @@
     :global(.about-container a) {
         margin-top: 0.5em;
         display: block;
+        width: fit-content;
     }
 
     .case-card {
