@@ -8,6 +8,7 @@ import { scramble } from "./scramble";
 import { log } from "../lib/scripts/common/vars";
 import { type CubingUser, addAuthCallback } from "../lib/scripts/auth";
 import { scrambleSQ1, simplifySQ1Alg } from "../lib/scripts/cstimer/scramble_sq1";
+import { getInitialOrientation } from "../lib/components/SelectOrientation/orientationOptions";
 
 type InternalState = {
     showSolution: boolean,
@@ -153,7 +154,7 @@ function setAlgSet(scene: Scene) {
         // Do nothing
     }
 
-    state.orientation = localStorage.getItem(`${state.algSet.puzzle}-orientation`) ?? "";
+    state.orientation = getInitialOrientation(state.algSet.puzzle);
 
     callback(state);
 }

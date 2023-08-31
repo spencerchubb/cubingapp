@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getOrientationOptions } from "./orientationOptions";
+    import { getInitialOrientation, getOrientationOptions } from "./orientationOptions";
 
     export let puzzle: string;
     export let onChange: (alg: string) => void;
@@ -8,7 +8,7 @@
     $: orientationOptions = getOrientationOptions(puzzle);
 
     // Get from localStorage or default to first option.
-    $: orientationValue = localStorage.getItem(storageKey) ?? orientationOptions[0].value;
+    $: orientationValue = getInitialOrientation(puzzle);
 
     function _onChange(event: Event) {
         const alg = (event.target as HTMLSelectElement).value;

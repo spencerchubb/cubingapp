@@ -3,6 +3,13 @@ type OrientationOption = {
     value: string,
 };
 
+export function getInitialOrientation(puzzle: string): string {
+    let saved = localStorage.getItem(`${puzzle}-orientation`);
+    if (saved !== null) return saved;
+    const options = getOrientationOptions(puzzle);
+    return options[0].value;
+}
+
 export function getOrientationOptions(puzzle: string): OrientationOption[] {
     switch (puzzle) {
         case "2x2":

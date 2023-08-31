@@ -1,3 +1,4 @@
+import { getInitialOrientation } from '../../src/lib/components/SelectOrientation/orientationOptions';
 import { type Scene, invertAlg, newCube, GRAY, PURPLE } from '../../src/lib/scripts/rubiks-viz';
 
 let callback: (state) => void;
@@ -49,7 +50,7 @@ let renderedScenes: { [key: number]: Scene } = {};
 let timer;
 
 export function initApp(algSet) {
-    orientationAlg = localStorage.getItem(`${algSet.puzzle}-orientation`) ?? "";
+    orientationAlg = getInitialOrientation(algSet.puzzle);
 
     state.algSet = algSet;
 
