@@ -2,10 +2,12 @@
     import {
         initApp,
         onChangeOrientation,
+        onClickSubset,
         onScroll,
         play,
         selectVariant,
         setCallback,
+        type Subsets,
     } from "./algSetPage";
     import { onMount } from "svelte";
     import PauseIcon from "../../src/lib/components/icons/PauseIcon.svelte";
@@ -15,10 +17,30 @@
 
     export let algSet: any;
 
+    let subsets: Subsets = {};
+
+    algSet.cases.forEach(_case => {
+        _case.subsets?.forEach(subset => {
+            subsets[subset] = {
+                cases: (subsets[subset]?.cases ?? 0) + 1,
+                selected: false,
+            };
+        })
+    });
+    
+    let subsetsList = JSON.parse(sessionStorage.getItem("subsets") ?? "[]");
+    for (const subset of subsetsList) subsets[subset].selected = true;
+
+    if (subsetsList.length > 0) {
+        algSet.cases = algSet.cases.filter(_case => {
+            return _case.subsets?.some(subset => subsets[subset].selected);
+        });
+    }
+
     let state = setCallback((newState) => {
         state = newState;
     });
-
+    
     onMount(() => initApp(algSet));
 </script>
 
@@ -41,6 +63,19 @@
             <slot></slot>
         </div>
         <div class="col" style="gap: 16px; flex: 10 1 550px;">
+            <div class="subsets-div">
+                {#each Object.entries(subsets) as [subset, subsetData]}
+                    <button
+                        class={subsetData.selected
+                            ? "subset subset-selected btn-transparent"
+                            : "subset btn-transparent"}
+                        on:click={() => onClickSubset(subsets, subset)}
+                    >
+                        <h3>{subset}</h3>
+                        <p>{subsetData.cases} cases</p>
+                    </button>
+                {/each}
+            </div>
             <SelectOrientation
                 puzzle={algSet.puzzle}
                 onChange={onChangeOrientation}
@@ -123,6 +158,35 @@
         margin-top: 0.5em;
         display: block;
         width: fit-content;
+    }
+
+    .subsets-div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .subset {
+        font-weight: 700;
+        font-size: 1.3rem;
+        border: solid 1px var(--gray-500);
+        border-radius: 4px;
+        color: var(--blue-300);
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .subset-selected {
+        outline: solid 2px var(--blue-300);
+    }
+
+    .subset p {
+        font-weight: normal;
+    }
+
+    .subset h3 {
+        font-size: 1rem;
     }
 
     .case-card {

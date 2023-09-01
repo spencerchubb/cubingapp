@@ -3,6 +3,7 @@ export let algSet = {
     "cases": [
         {
             "name": "EG1 AS 1",
+            "subsets": ["Antisune"],
             "algs": [
                 "y R' F R2 U R' F' U' R U' R'",
                 "y U2 B U' R2 F2 U' F",
@@ -12,6 +13,7 @@ export let algSet = {
         },
         {
             "name": "EG1 AS 2",
+            "subsets": ["Antisune"],
             "algs": [
                 "U R U' R' F' U' F2 R U' R'",
                 "U2 L' U' L F2 U' F' L' U' L",
@@ -21,6 +23,7 @@ export let algSet = {
         },
         {
             "name": "EG1 AS 3",
+            "subsets": ["Antisune"],
             "algs": [
                 "F' R U R' U' R U R2 F' R",
                 "U' R U' R' U2 R' F R2 U2 R' F",
@@ -30,6 +33,7 @@ export let algSet = {
         },
         {
             "name": "EG1 AS 4",
+            "subsets": ["Antisune"],
             "algs": [
                 "R U' R' F' U' R U R' U' F",
                 "U2 F U' L' U L U' F' L' U' L",
@@ -39,6 +43,7 @@ export let algSet = {
         },
         {
             "name": "EG1 AS 5",
+            "subsets": ["Antisune"],
             "algs": [
                 "y' R U R' F' U' R U R' U' R U R'",
                 "d U2 L' U L U' L' U L U L F L' F'",
@@ -48,6 +53,7 @@ export let algSet = {
         },
         {
             "name": "EG1 AS 6",
+            "subsets": ["Antisune"],
             "algs": [
                 "y2 R U' R2 F R U' R' F R F'",
                 "y2 L F' L2 U L U' L' U L F'"
@@ -55,6 +61,7 @@ export let algSet = {
         },
         {
             "name": "EG1 H 1",
+            "subsets": ["H"],
             "algs": [
                 "U' R' F R2 U' R' F R U R' F'",
                 "U' R' F R2 U' R2 U' F U R",
@@ -64,6 +71,7 @@ export let algSet = {
         },
         {
             "name": "EG1 H 2",
+            "subsets": ["H"],
             "algs": [
                 "U' F' U R U' R2 F2 R U' F",
                 "F R U' R2 F U' F2 U R",
@@ -73,6 +81,7 @@ export let algSet = {
         },
         {
             "name": "EG1 H 3",
+            "subsets": ["H"],
             "algs": [
                 "U R' F R F' U2 F R U2 R' F",
                 "R' U' R' F2 U F' R F'",
@@ -82,6 +91,7 @@ export let algSet = {
         },
         {
             "name": "EG1 H 4",
+            "subsets": ["H"],
             "algs": [
                 "U' R U R' F' R U R' U' R U R' U'",
                 "F' U R' F R F' U F2",
@@ -91,6 +101,7 @@ export let algSet = {
         },
         {
             "name": "EG1 L 1",
+            "subsets": ["L"],
             "algs": [
                 "y R U' R' U R U' R2 F' R F",
                 "y U R U R' F' R U2 R' U2 R U R'",
@@ -99,6 +110,7 @@ export let algSet = {
         },
         {
             "name": "EG1 L 2",
+            "subsets": ["L"],
             "algs": [
                 "y' U' R' F R U' R' F R2 U R' F' U2",
                 "y' U2 x R' U' R U' R' U' R U' R' U2 R",
@@ -108,12 +120,14 @@ export let algSet = {
         },
         {
             "name": "EG1 L 3",
+            "subsets": ["L"],
             "algs": [
                 "y R' U R2 U' R2 U' F R2 U' R'"
             ]
         },
         {
             "name": "EG1 L 4",
+            "subsets": ["L"],
             "algs": [
                 "y R' F R2 U R' F' R U2 R'",
                 "y R U2 R' F R U' R2 F' R"
@@ -121,6 +135,7 @@ export let algSet = {
         },
         {
             "name": "EG1 L 5",
+            "subsets": ["L"],
             "algs": [
                 "y2 R U R' F' R U R' U' F R' F' R",
                 "y2 U F' R' F R U' R U R' U' R U R' U'",
@@ -129,6 +144,7 @@ export let algSet = {
         },
         {
             "name": "EG1 L 6",
+            "subsets": ["L"],
             "algs": [
                 "y2 U2 F R U' R' U R' F' R U R' F' R",
                 "y2 R' U2 F R U2 R U' R2 F",
@@ -138,6 +154,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 1",
+            "subsets": ["Pi"],
             "algs": [
                 "y2 U' F U' R' F R U' F2 R U R'",
                 "y2 F2 R U R' U2 R U R' U' F",
@@ -147,6 +164,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 2",
+            "subsets": ["Pi"],
             "algs": [
                 "y' R U' R2 F R2 U' R'",
                 "y' R' F R2 U' R2 F R",
@@ -156,6 +174,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 3",
+            "subsets": ["Pi"],
             "algs": [
                 "y' F R' F U' F2 R U R",
                 "y' F' R U2 R' F' U2 F R' F' R"
@@ -163,6 +182,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 4",
+            "subsets": ["Pi"],
             "algs": [
                 "y' R U' R' U R U' R' F R U' R'",
                 "y' F' R U R' U' R U R' F' R U R'"
@@ -170,6 +190,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 5",
+            "subsets": ["Pi"],
             "algs": [
                 "R U' R2 F R U R U' R' U' R' F R F'",
                 "U' R U R' U R U' R2 F' R F R' F' R",
@@ -179,6 +200,7 @@ export let algSet = {
         },
         {
             "name": "EG1 Pi 6",
+            "subsets": ["Pi"],
             "algs": [
                 "U' R' F' R U' R' F R2 U R' F' R U R'",
                 "U' R' F R F' R' F R2 U R' U' R U' R'",
@@ -188,6 +210,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 1",
+            "subsets": ["Sune"],
             "algs": [
                 "y2 R U R' U F R U' R2 F' R",
                 "y2 U' L F' L2 U' L F U L' U L",
@@ -197,6 +220,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 2",
+            "subsets": ["Sune"],
             "algs": [
                 "R U R' F2 U F R U R'",
                 "U F R' F' R F R U' R' U R' F' R"
@@ -204,6 +228,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 3",
+            "subsets": ["Sune"],
             "algs": [
                 "y2 F R' F' R U R' F' R2 U R'",
                 "y2 U R' F R U2 R U' R2 F2 R F'"
@@ -211,6 +236,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 4",
+            "subsets": ["Sune"],
             "algs": [
                 "U F' R' F R2 U R' U' F R' F' R U",
                 "U F' R' F R2 U R' U' F R' F' R",
@@ -219,6 +245,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 5",
+            "subsets": ["Sune"],
             "algs": [
                 "y R U' R' U R U' R' U F R U' R'",
                 "y U2 L' U' L F U L' U' L U L' U' L",
@@ -228,6 +255,7 @@ export let algSet = {
         },
         {
             "name": "EG1 S 6",
+            "subsets": ["Sune"],
             "algs": [
                 "R' F R2 U' R' U R U' R' F",
                 "R' F R2 U' R' U L F' L' F"
@@ -235,6 +263,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 1",
+            "subsets": ["T"],
             "algs": [
                 "F R U' R2 F' R U R' F' R",
                 "F L F' L2 U' L U L' U' L",
@@ -244,6 +273,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 2",
+            "subsets": ["T"],
             "algs": [
                 "F' R' F R2 U R' U' R U R'",
                 "U2 R U2 R' F R U' R' F' R U R'",
@@ -252,6 +282,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 3",
+            "subsets": ["T"],
             "algs": [
                 "y R U' R2 F R U R U2 R'",
                 "y U2 R' F R2 U' R' U' R' F2 R",
@@ -260,6 +291,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 4",
+            "subsets": ["T"],
             "algs": [
                 "y' U' R' U F R2 U' R2 U' F U' R",
                 "y' R2 B2 U' R' U' R U' R' U R'"
@@ -267,6 +299,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 5",
+            "subsets": ["T"],
             "algs": [
                 "y' R' F' R2 U R' F' R U R'",
                 "y' U2 R U R2 F' R F R' F' R",
@@ -275,6 +308,7 @@ export let algSet = {
         },
         {
             "name": "EG1 T 6",
+            "subsets": ["T"],
             "algs": [
                 "y' U' R U' R' U2 F R U2 R' F",
                 "y' U' R' F R2 U R' F' U2 R' F R F'",
@@ -283,6 +317,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 1",
+            "subsets": ["U"],
             "algs": [
                 "y U2 R U R' U R U R2 F R2 U' R'",
                 "y U2 R U R2 F' R2 U' R' U' R U' R'",
@@ -292,6 +327,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 2",
+            "subsets": ["U"],
             "algs": [
                 "U2 y R' U R' U' R U' R' U' F2 R2",
                 "U' F R2 B R2 F U F2 R2",
@@ -301,6 +337,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 3",
+            "subsets": ["U"],
             "algs": [
                 "F' U2 R U2 R' U2 F",
                 "U y' R U R' F R2 F' R U' R'",
@@ -310,6 +347,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 4",
+            "subsets": ["U"],
             "algs": [
                 "y R' F R F' R' F R2 U' R'",
                 "y U2 R U' R' F R U' R2 F R"
@@ -317,6 +355,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 5",
+            "subsets": ["U"],
             "algs": [
                 "U2 R U' R' U R U' R' U' F R U' R'",
                 "U R' F R F' U R U' R' F R U' R'",
@@ -326,6 +365,7 @@ export let algSet = {
         },
         {
             "name": "EG1 U 6",
+            "subsets": ["U"],
             "algs": [
                 "y2 R' F R U' R' F R U' R U R' F' U2",
                 "y2 R' F R2 U' R' U y' R U R'",

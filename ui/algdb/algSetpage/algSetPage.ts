@@ -8,6 +8,13 @@ export function setCallback(_callback: (state) => void) {
     return state;
 }
 
+export type Subsets = { 
+    [key: string]: { // Key is subset name
+        cases: number,
+        selected?: boolean
+    }
+};
+
 type AlgSetCase = {
     name: string;
     setup?: string;
@@ -49,9 +56,9 @@ let renderedScenes: { [key: number]: Scene } = {};
 
 let timer;
 
-export function initApp(algSet) {
+export function initApp(algSet) {    
     orientationAlg = getInitialOrientation(algSet.puzzle);
-
+    
     state.algSet = algSet;
 
     shouldRenderCubes = true;
@@ -61,6 +68,15 @@ export function initApp(algSet) {
 export function onChangeOrientation(_: string) {    
     // Refreshing is the easiest way to reset the cubes. *shrug*
     // It works because the SelectOrientation component saves the orientation in localStorage.
+    location.reload();
+}
+
+export function onClickSubset(subsets: Subsets, subset: string) {
+    subsets[subset].selected = !subsets[subset].selected;
+    let subsetNames = Object.entries(subsets)
+        .filter(([_, subset]) => subset.selected)
+        .map(([name, _]) => name);
+    sessionStorage.setItem("subsets", JSON.stringify(subsetNames));
     location.reload();
 }
 
