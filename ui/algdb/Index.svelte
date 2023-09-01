@@ -23,9 +23,24 @@
         style="width: 100%; gap: 16px; padding: 16px; overflow-y: auto;"
     >
         <h1>Rubik's Cube Algorithms</h1>
-        <p style="font-style: italic;">
-            Open source database with 3700+ vetted algorithms
+        <p>
+            If you have been looking for an alternative to SpeedcubeDB, look no further.
+            CubingApp is the best alternative to SpeedcubeDB.
         </p>
+        <p>
+            This algorithm database has 3700+ algorithms for 2x2, 3x3, 4x4, Square-1, and more to come soon.
+            I have limited time but I work very hard to add new algorithms.
+            I tend to prioritize requests that will benefit the most amount of people.
+        </p>
+        <p>
+            The database is also open source, so you don't need to worry about it going away like SpeedcubeDB has.
+            If I ever take down CubingApp (which I have no plans to do), the database is <a href="https://github.com/spencerchubb/algdb" class="link">public on github</a> for anyone.
+        </p>
+        <p>
+            That being said, I just have one thing to ask.
+            If your friends also need an alternative to SpeedcubeDB, please spread the word about CubingApp.
+        </p>
+        <p>- Spencer</p>
         <div class="all-cards-div">
             <div class="card">
                 <h2>3x3</h2>
@@ -134,6 +149,11 @@
     h2 {
         width: 100%;
         text-align: center;
+    }
+
+    p {
+        max-width: 600px;
+        width: 100%;
     }
 
     .alg-set {

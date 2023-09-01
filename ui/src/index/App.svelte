@@ -51,7 +51,7 @@
                 <Card
                     class="blue-to-purple"
                     title="Algorithm Database"
-                    text="3700+ Rubik's Cube algorithms"
+                    text="Best alternative to speedcubedb. 3700+ Rubik's Cube algorithms"
                 />
             </a>
             <a href="./recon.html">
