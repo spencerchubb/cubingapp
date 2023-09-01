@@ -14,6 +14,10 @@ https://cubingapp.com/algdb/OH-CMLL.html
 https://cubingapp.com/algdb/OLL.html
 https://cubingapp.com/algdb/OLLCP.html
 https://cubingapp.com/algdb/PLL.html
+https://cubingapp.com/algdb/SQ1-CSP.html
+https://cubingapp.com/algdb/SQ1-Cube-Shape.html
+https://cubingapp.com/algdb/SQ1-EP.html
+https://cubingapp.com/algdb/SQ1-OBL.html
 https://cubingapp.com/algdb/Winter-Variation.html
 https://cubingapp.com/algdb/ZBLL.html
 https://cubingapp.com/blog.html
