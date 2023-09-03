@@ -13,10 +13,10 @@
             ZBLL is useful in many methods, including CFOP, Roux, and ZZ. Advanced cubers may decide to learn some or all of ZBLL depending on their goals.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/OLL.html" class="link">
+        <a href="/algdb/OLL.html" class="link also-use">
             OLL
         </a>
-        <a href="/algdb/PLL.html" class="link">
+        <a href="/algdb/PLL.html" class="link also-use">
             PLL
         </a>
     </div>

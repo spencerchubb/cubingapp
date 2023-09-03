@@ -16,10 +16,10 @@
             The goal of EOLR is to solve edge orientation while getting the UL and UR edgeson bottom. Getting ULUR on bottom allows them to be inserted with just an M2.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/LSE-EO.html" class="link">
+        <a href="/algdb/LSE-EO.html" class="link also-use">
             LSE EO
         </a>
-        <a href="/algdb/CMLL.html" class="link">
+        <a href="/algdb/CMLL.html" class="link also-use">
             CMLL
         </a>
     </div>

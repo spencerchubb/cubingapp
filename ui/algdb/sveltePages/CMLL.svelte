@@ -13,7 +13,7 @@
             In contrast to other algorithm sets like COLL, this algorithm set IS allowed to disturb the M-slice. This gives more freedom and allows more efficient algorithms for some cases.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/OH-CMLL.html" class="link">
+        <a href="/algdb/OH-CMLL.html" class="link also-use">
             OH CMLL
         </a>
     </div>

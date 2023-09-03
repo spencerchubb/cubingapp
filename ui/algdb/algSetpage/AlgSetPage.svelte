@@ -154,7 +154,11 @@
         margin-top: 1em;
     }
 
-    :global(.about-container a) {
+    :global(.about-container li) {
+        margin-top: 0.5em;
+    }
+
+    :global(.also-use) {
         margin-top: 0.5em;
         display: block;
         width: fit-content;

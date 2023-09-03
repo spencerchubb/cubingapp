@@ -15,10 +15,10 @@
             4c: Solve middle edges    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/LSE-EOLR.html" class="link">
+        <a href="/algdb/LSE-EOLR.html" class="link also-use">
             LSE EOLR
         </a>
-        <a href="/algdb/CMLL.html" class="link">
+        <a href="/algdb/CMLL.html" class="link also-use">
             CMLL
         </a>
     </div>

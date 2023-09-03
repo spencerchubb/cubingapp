@@ -18,10 +18,10 @@
             If you want to become a 2x2 master, you should start with CLL, then progress to EG1 and EG2.
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/2x2-EG1.html" class="link">
+        <a href="/algdb/2x2-EG1.html" class="link also-use">
             2x2 EG1
         </a>
-        <a href="/algdb/2x2-EG2.html" class="link">
+        <a href="/algdb/2x2-EG2.html" class="link also-use">
             2x2 EG2
         </a>
     </div>

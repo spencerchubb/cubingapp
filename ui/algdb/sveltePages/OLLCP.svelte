@@ -13,10 +13,10 @@
             OLLCP is typically used with CFOP, and it is an advanced algorithm set. It is recommended to learn OLL and PLL, then decide if OLLCP is worth it for you. Sometimes it is even used with Roux, in a variant called the Pinkie Pie method.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/OLL.html" class="link">
+        <a href="/algdb/OLL.html" class="link also-use">
             OLL
         </a>
-        <a href="/algdb/COLL.html" class="link">
+        <a href="/algdb/COLL.html" class="link also-use">
             COLL
         </a>
     </div>

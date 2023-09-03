@@ -16,7 +16,7 @@
             In addition, COLL can be useful if you plan to learn ZBLL. COLL is a subset of ZBLL, so the algorithms you learn will be useful later on. COLL can also teach you how to recognize corner cases, which can be challenging if you have only learned sets like OLL and PLL.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/ZBLL.html" class="link">
+        <a href="/algdb/ZBLL.html" class="link also-use">
             ZBLL
         </a>
     </div>
