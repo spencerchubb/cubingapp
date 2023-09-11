@@ -83,6 +83,8 @@ export default defineConfig({
         ...blogs(),
         calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
         calculateSoR: resolve(__dirname, 'calculate-sum-of-ranks.html'),
+        coach: resolve(__dirname, 'coach.html'),
+        coachTopics: resolve(__dirname, 'coach-topics.html'),
         index: resolve(__dirname, 'index.html'),
         keybindings: resolve(__dirname, 'keybindings.html'),
         recon: resolve(__dirname, 'recon.html'),

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/style/app.css">
+    <link rel="stylesheet" href="./src/style/colors.css">
+    <title>CubingApp Coaching</title>
+    <link rel="icon" href="./src/assets/favicon.svg" type="image/x-icon">
+</head>
+
+<style>
+    h1, img {
+        margin-top: 1rem;
+    }
+
+    h2, img {
+        margin-top: 1.3rem;
+    }
+
+    p, ul {
+        margin-top: 0.8rem;
+    }
+
+    li {
+        line-height: 1.8rem;
+    }
+
+    h2, li {
+        text-align: left;
+    }
+
+    a {
+        max-width: 400px;
+        width: 100%;
+        margin: 1.5rem auto 1rem auto;
+    }
+
+    button {
+        width: 100%;
+        box-shadow: 0 2px 8px -2px var(--blue-400);
+        font-size: 1.2rem;
+    }
+
+    img {
+        border-radius: 16px;
+        box-shadow: 0 2px 8px -2px white;
+        max-width: 400px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .callout {
+        background-color: var(--blue-200);
+        color: var(--blue-800);
+        font-weight: bold;
+        padding: 0.2em 0.5em;
+        border-radius: 0.2em;
+    }
+</style>
+
+<body style="width: 100%; height: 100%; overflow-y: auto; padding-bottom: 64px;">
+    <div class="col" style="margin: auto; align-items: start; max-width: 700px; width: 100%; padding: 0 16px;">
+        <h1>Become a faster cuber</h1>
+        <p>
+            Are you a beginner wondering what to learn next?
+            Or perhaps you're an advanced cuber, but you've hit a plateau?
+        </p>
+        <p>
+            Now you can get one-on-one coaching from a speedcubing expert.
+        </p>
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+            <button>Set up free session</button>
+        </a>
+        <img src="/public/antique-clock.jpg" alt="Antique clock">
+        <h2>Why choose me as a coach?</h2>
+        <ul>
+            <li>One-one-one coaching sessions</li>
+            <li>Solve analysis</li>
+            <li>Ask me questions via email</li>
+            <li>Access to thousands of speedcubing algorithms</li>
+        </ul>
+        <h2>Pricing</h2>
+        <ul>
+            <li>Intro meeting&nbsp;&nbsp;<span class="callout">FREE</span></li>
+            <li>First coaching session&nbsp;&nbsp;<span class="callout">FREE</span></li>
+            <li>More sessions: $30 for 30 minutes</li>
+            <li>10-session package: Save 20% when you buy the package</li>
+        </ul>
+        <h2>What do sessions look like?</h2>
+        <ul>
+            <li>To make the most of your session, record your solves and send to me beforehand</li>
+            <li>I will analyze your solves before the session</li>
+            <li>During the session, we will discuss solve analysis</li>
+            <li>Brainstorm a training plan</li>
+            <li>Ask me questions</li>
+        </ul>
+        <p>
+            <a href="/coach-topics.html" class="link">
+                More info about what you can learn
+            </a>
+        </p>
+        <h2>Who is the coach?</h2>
+        <img src="/public/headshot.png" alt="Spencer Chubb" />
+        <p>My name is Spencer Chubb, and I made the website cubingapp.com</p>
+        <p>If you are in online cubing communities, you may have seen me around. I also go by:</p>
+        <ul>
+            <li>Spencer131 on speedsolving.com</li>
+            <li>spencerchubb on Reddit (r/Cubers)</li>
+        </ul>
+        <p>I've been cubing for over 10 years and my personal best (unofficial) is under 6 seconds.</p>
+        <p>Ready to break some PBs? 😎</p>
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+            <button>Set up free session</button>
+        </a>
+    </div>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-557337495"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+
+        gtag("config", "AW-557337495");
+        
+        document.querySelector("a").addEventListener("click", (event) => {
+            if (event.target.href === "https://forms.gle/xVJbavRRnVUWLKGG6") {
+                gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
+            }
+        });
+    </script>
+    <script type="module" src="/src/lib/scripts/analytics.ts"></script>
+</body>
+
+</html>
