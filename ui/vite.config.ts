@@ -77,6 +77,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         404: resolve(__dirname, '404.html'),
+        amISubX: resolve(__dirname, 'am-i-sub-x.html'),
         algdb: resolve(__dirname, 'algdb.html'),
         ...algdb(),
         blog: resolve(__dirname, 'blog.html'),
