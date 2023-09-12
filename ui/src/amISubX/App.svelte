@@ -3,6 +3,7 @@
     import SideNav from "../lib/components/SideNav.svelte";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import CoolCalculators from "../lib/components/CoolCalculators.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -95,6 +96,9 @@
                     </tbody>
                 </table>
             {/if}
+        </div>
+        <div style="margin-top: 32px;">
+            <CoolCalculators />
         </div>
         <div style="margin-top: 32px;"></div>
     </div>

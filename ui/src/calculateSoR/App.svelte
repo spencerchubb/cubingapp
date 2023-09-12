@@ -3,12 +3,16 @@
     import SideNav from "../lib/components/SideNav.svelte";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
+    import CoolCalculators from "../lib/components/CoolCalculators.svelte";
+    import { onMount } from "svelte";
 
     let state = setCallback((newState) => {
         state = newState;
     });
 
     let sideNavOpen = false;
+
+    onMount(() => controller.calculate());
 </script>
 
 <main class="col" style="width: 100%; height: 100%; overflow-y: auto;">
@@ -68,6 +72,9 @@
                 </tbody>
             </table>
         {/if}
+        <div style="margin-top: 32px;">
+            <CoolCalculators />
+        </div>
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
             <h2>What is Sum of Ranks (SoR)?</h2>
             <p>

@@ -4,12 +4,16 @@
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import { CONTINENTS, COUNTRIES } from "../lib/scripts/wca";
+    import CoolCalculators from "../lib/components/CoolCalculators.svelte";
+    import { onMount } from "svelte";
 
     let state = setCallback((newState) => {
         state = newState;
     });
 
     let sideNavOpen = false;
+
+    onMount(() => controller.calculateKinchScore());
 </script>
 
 <main class="col" style="width: 100%; height: 100%; overflow-y: auto;">
@@ -102,6 +106,9 @@
                 </tbody>
             </table>
         {/if}
+        <div style="margin-top: 32px;">
+            <CoolCalculators />
+        </div>
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
             <h2>What is a Kinch Rank?</h2>
             <p>

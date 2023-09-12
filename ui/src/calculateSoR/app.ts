@@ -18,10 +18,9 @@ type State = {
 
 const urlParams = new URLSearchParams(window.location.search);
 
-
 let state: State = {
     wcaId: urlParams.get("wcaId") ?? "",
-    loading: true,
+    loading: false,
     error: undefined,
     wcaPerson: undefined,
     totalSingle: undefined,
@@ -30,17 +29,18 @@ let state: State = {
 
 export const controller = {
     calculate: () => {
-        if (!state.loading) {
-            state.loading = true;
-            callback(state);
-        }
-        
         const wcaId = state.wcaId;
+
+        if (!wcaId) return;
 
         // Add to query params
         const url = new URL(window.location.href);
-        setOrDelete(url, "wcaId", wcaId);
+        url.searchParams.set("wcaId", wcaId);
         window.history.pushState({}, "", url.toString());
+
+        console.log({state, callback})
+        state.loading = true;
+        callback(state);
 
         fetchWCAPerson(wcaId).then(wcaPerson => {
             state.wcaPerson = wcaPerson;
@@ -95,15 +95,6 @@ export const controller = {
         });
     },
 };
-
-function setOrDelete(url: URL, key: string, value: string, defaultVal?: string) {
-    if (value && value !== defaultVal) url.searchParams.set(key, value);
-    else url.searchParams.delete(key);
-}
-
-(function initApp() {
-    controller.calculate();
-})();
 
 const maxRanksSingle = {
     "222": 124185,

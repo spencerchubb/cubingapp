@@ -1,5 +1,6 @@
 <script lang="ts">
-    import GlManager from "../lib/components/GLManager.svelte";
+    import CoolCalculators from "../lib/components/CoolCalculators.svelte";
+import GlManager from "../lib/components/GLManager.svelte";
     import type { Scene } from "../lib/scripts/rubiks-viz";
     import Card from "./Card.svelte";
 
@@ -75,31 +76,9 @@
                     text="Memorize algorithms in half the time"
                 />
             </a>
-        </div>
-        <div class="col" style="
-            align-items:start;
-            width: 100%;
-            max-width: 500px;
-            margin-top: 64px;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 2px 16px -4px var(--gray-400);
-            gap: 16px;">
-            <h2>Cool Calculators</h2>
-            <ul>
-                <li>
-                    <a class="link" href="/calculate-kinch.html">
-                        Calculate your Kinch Rank
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li>
-                    <a class="link" href="/calculate-sum-of-ranks.html">
-                        Calculate your Sum of Ranks (SoR)
-                    </a>
-                </li>
-            </ul>
+            <div style="width: 100%; margin-top: 64px;">
+                <CoolCalculators />
+            </div>
         </div>
     </div>
 </div>

@@ -242,7 +242,3 @@ function getStatusText(score: number): string {
     }
     return "World record!";
 }
-
-(function initApp() {
-    controller.calculateKinchScore();
-})();
