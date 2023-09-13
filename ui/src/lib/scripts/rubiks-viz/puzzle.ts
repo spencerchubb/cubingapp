@@ -51,7 +51,7 @@ export abstract class Puzzle {
     affectedStickers: boolean[];
     animationQueue: AnimationData[];
 
-    private keyBindings: KeyBindings;
+    keyBindings: KeyBindings;
 
     constructor() {
         this.animationQueue = [];

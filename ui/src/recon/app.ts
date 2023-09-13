@@ -1,6 +1,7 @@
 import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { replaceAll } from "../lib/scripts/util";
 import { type PuzzleTypes } from "../lib/scripts/common/types";
+import { type Alg, AlgNew, AlgAddMove, AlgSimplify, AlgToString, StringToAlg } from "../lib/scripts/common/alg";
 
 let callback: (state) => void;
 
@@ -12,6 +13,7 @@ export function setCallback(_callback: (state) => void) {
 type State = {
     scene: Scene,
     setup: string,
+    alg: Alg,
     moves: string,
     puzzle: PuzzleTypes,
     playing: boolean,
@@ -23,6 +25,7 @@ type State = {
 let state: State = {
     scene: {} as Scene,
     setup: "",
+    alg: AlgNew(),
     moves: "",
     puzzle: "3x3",
     playing: false,
@@ -37,13 +40,25 @@ export function initApp(scene: Scene, initData: { setup: string, moves: string, 
     state.scene = scene;
 
     state.setup = initData.setup;
+    state.alg = StringToAlg(initData.moves);
     state.moves = initData.moves;
     state.puzzle = initData.puzzle as PuzzleTypes;
 
     setPuzzle(state.scene, state.puzzle);
     updateCubeState(undefined);
 
-    callback(state);
+    // Hook into enableKey so we can record moves.
+    scene.enableKey = (event: KeyboardEvent) => {
+        if (event.ctrlKey) return false;
+
+        // If inside textarea, return false.
+        if (event.target instanceof HTMLTextAreaElement) return false;
+
+        const move = scene.puzzle.keyBindings[event.code];
+        addMove(move);
+
+        return true;
+    }
 }
 
 export function updateCubeState(event) {
@@ -54,10 +69,12 @@ export function updateCubeState(event) {
 
     let { setup, moves, movesCursor } = state;
 
+    state.alg = StringToAlg(moves);
+
     movesCursor = getCursorNotInMiddleOfWord(moves, movesCursor);
     let movesPortion = moves.slice(0, movesCursor);
     let parsedAlg = parseAlg(movesPortion);
-    
+
     let puzzle = state.scene.puzzle;
 
     puzzle.solve();
@@ -200,4 +217,16 @@ function urlSet(url: URL, key: string, value: string, defaultValue: string = "")
     } else {
         url.searchParams.delete(key);
     }
+}
+
+function addMove(move: string) {
+    state.alg = state.alg.slice(0, state.moveIndex);
+    AlgAddMove(state.alg, move);
+    AlgSimplify(state.alg);
+
+    state.moveIndex = state.alg.length;
+    state.maxMoves = state.alg.length;
+
+    state.moves = AlgToString(state.alg);
+    callback(state);
 }
