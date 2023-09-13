@@ -98,7 +98,7 @@
             By the way, the first coaching session is completely free.
             We are confident that you will like it and want to continue.
         </p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
             <button>Set up free session</button>
         </a>
         <h2 id="cfop">CFOP</h2>
@@ -165,7 +165,7 @@
         <p>
             Set up a free session and we'll talk about it.
         </p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
             <button>Set up free session</button>
         </a>
     </div>
@@ -179,10 +179,8 @@
 
         gtag("config", "AW-557337495");
         
-        document.querySelector("a").addEventListener("click", (event) => {
-            if (event.target.href === "https://forms.gle/xVJbavRRnVUWLKGG6") {
-                gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
-            }
+        document.querySelector(".form-link").addEventListener("click", (event) => {
+            gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
         });
     </script>
     <script type="module" src="/src/lib/scripts/analytics.ts"></script>

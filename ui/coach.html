@@ -71,7 +71,7 @@
         <p>
             Now you can get one-on-one coaching from a speedcubing expert.
         </p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
             <button>Set up free session</button>
         </a>
         <img src="/public/antique-clock.jpg" alt="Antique clock">
@@ -112,7 +112,7 @@
         </ul>
         <p>I've been cubing for over 10 years and my personal best (unofficial) is under 6 seconds.</p>
         <p>Ready to break some PBs? 😎</p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6">
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
             <button>Set up free session</button>
         </a>
     </div>
@@ -126,10 +126,8 @@
 
         gtag("config", "AW-557337495");
         
-        document.querySelector("a").addEventListener("click", (event) => {
-            if (event.target.href === "https://forms.gle/xVJbavRRnVUWLKGG6") {
-                gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
-            }
+        document.querySelector(".form-link").addEventListener("click", (event) => {
+            gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
         });
     </script>
     <script type="module" src="/src/lib/scripts/analytics.ts"></script>
