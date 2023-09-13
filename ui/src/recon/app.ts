@@ -2,6 +2,7 @@ import { type Scene, setPuzzle } from "../lib/scripts/rubiks-viz";
 import { replaceAll } from "../lib/scripts/util";
 import { type PuzzleTypes } from "../lib/scripts/common/types";
 import { type Alg, AlgNew, AlgAddMove, AlgSimplify, AlgToString, StringToAlg } from "../lib/scripts/common/alg";
+import { Pyraminx } from "../lib/scripts/rubiks-viz/pyraminx";
 
 let callback: (state) => void;
 
@@ -58,6 +59,11 @@ export function initApp(scene: Scene, initData: { setup: string, moves: string, 
         addMove(move);
 
         return true;
+    }
+
+    scene.onDragMove = (move: string) => {
+        if (!move) return;
+        addMove(move);
     }
 }
 
@@ -222,11 +228,16 @@ function urlSet(url: URL, key: string, value: string, defaultValue: string = "")
 function addMove(move: string) {
     state.alg = state.alg.slice(0, state.moveIndex);
     AlgAddMove(state.alg, move);
-    AlgSimplify(state.alg);
+
+    const modulo = state.puzzle === "Pyraminx" ? 3 : 4;
+    AlgSimplify(state.alg, modulo);
 
     state.moveIndex = state.alg.length;
     state.maxMoves = state.alg.length;
 
     state.moves = AlgToString(state.alg);
+
+    stepper = newStepper(state.scene, state.moves, state.moveIndex);
+
     callback(state);
 }

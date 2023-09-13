@@ -40,11 +40,12 @@ export abstract class DragDetector {
         this.shapes = shapes;
     }
 
-    abstract _onPointerDown(x: number, y: number, puzzle: Puzzle): void;
+    abstract _onPointerDown(x: number, y: number, puzzle: Puzzle): string;
 
-    abstract _onPointerUp(x: number, y: number, puzzle: Puzzle): void;
+    abstract _onPointerUp(x: number, y: number, puzzle: Puzzle): string;
 
-    onPointerDown(x: number, y: number, div: HTMLElement, puzzle: Puzzle) {
+    /* Returns the move to perform, if any */
+    onPointerDown(x: number, y: number, div: HTMLElement, puzzle: Puzzle): string {
         this.numOfPointerMoves = 0;
 
         const clipX = xPixelToClip(x, div.clientWidth);
@@ -54,9 +55,9 @@ export abstract class DragDetector {
 
         [this.stickerOnDown, this.cart2dOnDown] = this.coordsToSticker(clipX, clipY, puzzle);
 
-        if (this.stickerOnDown !== -1) return;
+        if (this.stickerOnDown !== -1) return "";
 
-        this._onPointerDown(clipX, clipY, puzzle);
+        return this._onPointerDown(clipX, clipY, puzzle);
     }
 
     /**
@@ -68,14 +69,15 @@ export abstract class DragDetector {
         this.yOnMove = y;
     }
 
-    onPointerUp(div: HTMLElement, puzzle: Puzzle) {
+    /* Returns the move to perform, if any */
+    onPointerUp(div: HTMLElement, puzzle: Puzzle): string {
         // Do nothing if the pointer movement was tiny.
-        if (this.numOfPointerMoves < 2) return;
+        if (this.numOfPointerMoves < 2) return "";
 
         const xClip = xPixelToClip(this.xOnMove, div.clientWidth);
         const yClip = yPixelToClip(this.yOnMove, div.clientHeight);
 
-        this._onPointerUp(xClip, yClip, puzzle);
+        return this._onPointerUp(xClip, yClip, puzzle);
     }
 
     /**

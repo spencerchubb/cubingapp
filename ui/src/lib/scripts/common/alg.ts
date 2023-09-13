@@ -12,6 +12,13 @@ function StringToMove(str: string): AlgMove {
     for (let i = 0; i < str.length; i++) {
         let c = str[i];
 
+        if (!face) {
+            // If we're still looking for the face, we add the character
+            // no matter what.
+            face += c;
+            continue;
+        }
+
         if (c === "2") {
             pow = 2;
             break;
@@ -54,12 +61,12 @@ export function AlgAddMove(alg: Alg, moveStr: string): Alg {
 /**
  * Mutates `alg` and returns `alg`.
  */
-export function AlgSimplify(alg: Alg): Alg {
+export function AlgSimplify(alg: Alg, modulo: number = 4): Alg {
     for (let i = 0; i < alg.length - 1; i++) {
         const move = alg[i];
         const nextMove = alg[i + 1];
         if (move.face === nextMove.face) {
-            const pow = (move.pow + nextMove.pow) % 4;
+            const pow = (move.pow + nextMove.pow) % modulo;
             if (pow === 0) {
                 alg.splice(i, 2);
                 i -= 2;

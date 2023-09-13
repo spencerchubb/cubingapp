@@ -26,7 +26,7 @@ export class CubeDragDetector extends DragDetector {
     }
 
     // Implement abstract method
-    _onPointerDown(x: number, y: number, puzzle: Puzzle) {
+    _onPointerDown(x: number, y: number, puzzle: Puzzle): string {
         const cube = puzzle as Cube;
 
         const shapes = this.shapes;
@@ -44,22 +44,24 @@ export class CubeDragDetector extends DragDetector {
         const bottomLeft = getXY(cube.layers * (cube.layers + 1) - 1, 0, 1);
         const bottomRight = getXY(sq(cube.layers) * 2 - 1, 2, 3);
         if (y > topLeft.y && x > topLeft.x && x < topRight.x) {
-            cube.cubeRotate(0, true);
+            return "x";
         } else if (x < topLeft.x && y > left.y && y < topLeft.y) {
-            cube.cubeRotate(2, false);
+            return "z'";
         } else if (x > topRight.x && y > right.y && y < topRight.y) {
-            cube.cubeRotate(2, true);
+            return "z";
         } else if (x < bottomLeft.x && y > bottomLeft.y && y < left.y) {
-            cube.cubeRotate(1, true);
+            return "y";
         } else if (x > bottomRight.x && y > bottomRight.y && y < right.y) {
-            cube.cubeRotate(1, false);
+            return "y'";
         } else if (y < bottomLeft.y && x > bottomLeft.x && x < bottomRight.x) {
-            cube.cubeRotate(0, false);
+            return "x'";
         }
+
+        return "";
     }
 
     // Implement abstract method
-    _onPointerUp(x: number, y: number, puzzle: Puzzle) {
+    _onPointerUp(x: number, y: number, puzzle: Puzzle): string {
         const cube = puzzle as Cube;
         let posSlope, negSlope;
         if (this.stickerOnDown !== -1) {
@@ -76,29 +78,59 @@ export class CubeDragDetector extends DragDetector {
 
         if (cube.stickerIsOnFace(this.stickerOnDown, 0)) {
             if (x === this.xOnDown) {
-                cube.turn(0, topColumn(cube, this.stickerOnDown), y > this.yOnDown);
+                const col = topColumn(cube, this.stickerOnDown);
+                return stickerToMove(cube, col, "R", "M'", "L'", "R'", "M", "L", y > this.yOnDown);
             } else {
                 if (slope > posSlope) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), x > this.xOnDown);
+                    const col = topColumn(cube, this.stickerOnDown);
+                    return stickerToMove(cube, col, "R", "M'", "L'", "R'", "M", "L", x > this.xOnDown);
                 } else if (slope < negSlope) {
-                    cube.turn(0, topColumn(cube, this.stickerOnDown), x < this.xOnDown);
+                    const col = topColumn(cube, this.stickerOnDown);
+                    return stickerToMove(cube, col, "R", "M'", "L'", "R'", "M", "L", x < this.xOnDown);
                 } else {
-                    cube.turn(2, topRow(cube, this.stickerOnDown), x > this.xOnDown);
+                    const row = topRow(cube, this.stickerOnDown);
+                    return stickerToMove(cube, row, "F", "S", "B'", "F'", "S'", "B", x > this.xOnDown);
                 }
             }
         } else if (cube.stickerIsOnFace(this.stickerOnDown, 1)) {
             if (x === this.xOnDown) {
-                cube.turn(0, frontColumn(cube, this.stickerOnDown), y > this.yOnDown);
+                const col = frontColumn(cube, this.stickerOnDown);
+                return stickerToMove(cube, col, "R", "M'", "L", "R'", "M", "L'", y > this.yOnDown);
             } else {
                 if (slope > posSlope) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), x > this.xOnDown);
+                    const col = frontColumn(cube, this.stickerOnDown);
+                    return stickerToMove(cube, col, "R", "M'", "L'", "R'", "M", "L", x > this.xOnDown);
                 } else if (slope < negSlope) {
-                    cube.turn(0, frontColumn(cube, this.stickerOnDown), x < this.xOnDown);
+                    const col = frontColumn(cube, this.stickerOnDown);
+                    return stickerToMove(cube, col, "R", "M'", "L'", "R'", "M", "L", x < this.xOnDown);
                 } else {
-                    cube.turn(1, frontRow(cube, this.stickerOnDown), x < this.xOnDown);
+                    const row = frontRow(cube, this.stickerOnDown);
+                    return stickerToMove(cube, row, "U", "E'", "D'", "U'", "E", "D", x < this.xOnDown);
                 }
             }
         }
+
+        return "";
     }
 
+}
+
+/**
+ * 
+ * @param group the row or columns where the sticker is located
+ * @param face1 
+ * @param face2 
+ * @param face3 
+ * @param cw true if clockwise, false if counterclockwise
+ */
+function stickerToMove(cube: Cube, group: number, a1, a2, a3, b1, b2, b3, cw: boolean) {
+    if (group === 0) return cw ? a1 : b1;
+    if (group === cube.layers - 1) return cw ? a3 : b3;
+
+    if (group === cube.layers / 2 - 0.5) {
+        return cw ? a2 : b2;
+    } else if (group < cube.layers / 2) {
+        return `${group + 1}${cw ? a1 : b1}`;
+    }
+    return `${cube.layers - group}${cw ? a3 : b3}`;
 }

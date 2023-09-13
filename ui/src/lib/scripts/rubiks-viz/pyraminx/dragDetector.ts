@@ -33,58 +33,52 @@ export class PyraDragDetector extends DragDetector {
         const bottomY = getXY(0, 0, 1).y;
 
         if (y < bottomY) {
-            puzzle.x(x < top.x);
+            return x < top.x ? "x" : "x'";
         } else if (y < 0.5) {
-            puzzle.y(x < top.x);
-        } else {
-            puzzle.S(x > top.x);
+            return x < top.x ? "y" : "y'";
         }
+        return x > top.x ? "S" : "S'";
     }
 
     // Implement abstract method
-    _onPointerUp(x: number, y: number, puzzle: Puzzle) {
+    _onPointerUp(x: number, y: number, puzzle: Puzzle): string {
         const dragSlope = this.slope(this.xOnDown, this.yOnDown, x, y);
         switch (this.stickerOnDown) {
             case F0:
-                puzzle.F(x < this.xOnDown);
-                break;
+                return x < this.xOnDown ? "F" : "F'";
             case F1:
                 if (x < this.xOnDown) {
-                    dragSlope < -0.3 ? puzzle.L(false) : puzzle.U(true);
+                    return dragSlope < -0.3 ? "L'" : "U";
                 } else {
-                    dragSlope < -0.3 ? puzzle.L(true) : puzzle.U(false);
+                    return dragSlope < -0.3 ? "L" : "U'";
                 }
-                break;
             case F2:
-                puzzle.U(x < this.xOnDown);
-                break;
+                return x < this.xOnDown ? "U" : "U'";
             case F3:
                 if (x < this.xOnDown) {
-                    dragSlope < 0.3 ? puzzle.U(true) : puzzle.R(false);
+                    return dragSlope < 0.3 ? "U" : "R'";
                 } else {
-                    dragSlope < 0.3 ? puzzle.U(false) : puzzle.R(true);
+                    return dragSlope < 0.3 ? "U'" : "R";
                 }
                 break;
             case F4:
-                puzzle.Lw(x > this.xOnDown);
-                break;
+                return x > this.xOnDown ? "l" : "l'";
             case F5:
-                puzzle.L(x > this.xOnDown);
-                break;
+                return x > this.xOnDown ? "L" : "L'";
             case F6:
                 if (x < this.xOnDown) {
-                    dragSlope < 0 ? puzzle.L(false) : puzzle.R(false);
+                    return dragSlope < 0 ? "L'" : "R'";
                 } else {
-                    dragSlope < 0 ? puzzle.L(true) : puzzle.R(true);
+                    return dragSlope < 0 ? "L" : "R";
                 }
                 break;
             case F7:
-                puzzle.R(x > this.xOnDown);
-                break;
+                return x > this.xOnDown ? "R" : "R'";
             case F8:
-                puzzle.Rw(x > this.xOnDown);
-                break;
+                return x > this.xOnDown ? "r" : "r'";
         }
+
+        return "";
     }
 
 }

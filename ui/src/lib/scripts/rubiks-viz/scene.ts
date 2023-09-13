@@ -158,7 +158,9 @@ type Scene = {
     div: HTMLElement,
     puzzle: Puzzle,
     shapes: Shape[] | null,
+    dragDetector: DragDetector,
     dragEnabled: boolean,
+    onDragMove: (move: string) => void,
     enableKey: (event: KeyboardEvent) => boolean,
 };
 
@@ -197,19 +199,23 @@ function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | n
         const puzzle = puzzleConstructor();
         scene.puzzle = puzzle;
         internalScene.perspective = puzzle.getPerspective();
-        scene.shapes = puzzle.getShapes(gl, internalScene.perspective);
+        scene.shapes = puzzle.getShapes(gl, internalScene.perspective) ?? [];
+        scene.dragDetector = puzzle.getDragDetector(scene.shapes);
         return scene;
     }
     
     let puzzle = puzzleConstructor();
     let perspective = puzzle.getPerspective();
-    let shapes = puzzle.getShapes(gl, perspective);
+    let shapes = puzzle.getShapes(gl, perspective) ?? [];
+    let dragDetector = puzzle.getDragDetector(shapes);
 
-    scene = {
+    let _scene: Scene = {
         div,
         puzzle,
         shapes,
+        dragDetector,
         dragEnabled: true,
+        onDragMove: (_) => {},
         enableKey: (_) => true,
     };
 
@@ -219,15 +225,12 @@ function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | n
         spring: new Spring(),
     }
 
-    if (shapes) {
-        let dragDetector = puzzle.getDragDetector(shapes);
-        addDragListeners(div, dragDetector, scene);
-    }
+    addDragListeners(_scene);
 
-    scenes.push(scene);
+    scenes.push(_scene);
     internalScenes.push(internalScene);
     startLoop();
-    return scene;
+    return _scene;
 }
 
 function setPuzzle(scene: Scene, puzzle: string): void {
@@ -261,20 +264,29 @@ function renderWebGLError(div: HTMLElement) {
     div.innerHTML = `<p style="text-align: center; margin-top: 8px;">Sorry, WebGL isn't working. The 3D visuals may not work in this browser 😢</p>`;
 }
 
-function addDragListeners(div: HTMLElement, dragDetector: DragDetector, scene: Scene) {
+function addDragListeners(scene: Scene) {
+    // In pointerdown, pointermove, and pointerup, we get
+    // dragDetector directly from scene in case we change
+    // the dragDetector later. 
+
+    let div = scene.div;
     const pointerdown = (offsetX, offsetY) => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerDown(offsetX, offsetY, div, (scene.puzzle as Cube));
+        const move = scene.dragDetector.onPointerDown(offsetX, offsetY, div, (scene.puzzle as Cube));
+        scene.puzzle.performMove(move, true);
+        scene.onDragMove(move);
     }
 
     const pointermove = (offsetX, offsetY) => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerMove(offsetX, offsetY);
+        scene.dragDetector.onPointerMove(offsetX, offsetY);
     }
 
     const pointerup = () => {
         if (!scene.dragEnabled) return;
-        dragDetector.onPointerUp(div, (scene.puzzle as Cube));
+        const move = scene.dragDetector.onPointerUp(div, (scene.puzzle as Cube));
+        scene.puzzle.performMove(move, true);
+        scene.onDragMove(move);
     }
 
     const calcOffset = (event) => {
