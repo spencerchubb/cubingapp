@@ -20,6 +20,7 @@ https://cubingapp.com/algdb/SQ1-EP.html
 https://cubingapp.com/algdb/SQ1-OBL.html
 https://cubingapp.com/algdb/Winter-Variation.html
 https://cubingapp.com/algdb/ZBLL.html
+https://cubingapp.com/am-i-sub-x.html
 https://cubingapp.com/blog.html
 https://cubingapp.com/blog/deep-dive-on-tony-snyder.html
 https://cubingapp.com/blog/how-to-be-good-at-inspection.html
@@ -31,7 +32,7 @@ https://cubingapp.com/calculate-kinch.html
 https://cubingapp.com/calculate-sum-of-ranks.html
 https://cubingapp.com/keybindings.html
 https://cubingapp.com/recon.html
-https://cubingapp.com/timer.html
+https://cubingapp.com/stats.html
 https://cubingapp.com/train.html
 https://cubingapp.com/tutorials/cfop.html
 https://cubingapp.com/tutorials/f2l.html
