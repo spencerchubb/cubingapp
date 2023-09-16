@@ -62,16 +62,9 @@ import GlManager from "../lib/components/GLManager.svelte";
                     text="Enter a scramble and a solution, then share the link with your friends"
                 />
             </a>
-            <a href="./timer.html">
-                <Card
-                    class="blue-to-purple"
-                    title="Timer"
-                    text="Time yourself with various puzzles. 2x2, 3x3, 4x4, 5x5, 6x6, 7x7, Pyraminx"
-                />
-            </a>
             <a href="./train.html">
                 <Card
-                    class="red-to-orange"
+                    class="blue-to-purple"
                     title="Train"
                     text="Memorize algorithms in half the time"
                 />

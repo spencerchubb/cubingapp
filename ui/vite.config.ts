@@ -90,7 +90,6 @@ export default defineConfig({
         keybindings: resolve(__dirname, 'keybindings.html'),
         recon: resolve(__dirname, 'recon.html'),
         stats: resolve(__dirname, 'stats.html'),
-        timer: resolve(__dirname, 'timer.html'),
         train: resolve(__dirname, 'train.html'),
         ...tutorials(),
       },
