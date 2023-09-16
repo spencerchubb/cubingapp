@@ -9,6 +9,7 @@ export let algSet = {
     "cases": [
         {
             "name": "F2L 1",
+            "subsets": ["One trigger", "Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -48,6 +49,7 @@ export let algSet = {
         },
         {
             "name": "F2L 2",
+            "subsets": ["One trigger", "Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -86,6 +88,7 @@ export let algSet = {
         },
         {
             "name": "F2L 3",
+            "subsets": ["One trigger", "Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -115,6 +118,7 @@ export let algSet = {
         },
         {
             "name": "F2L 4",
+            "subsets": ["One trigger", "Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -145,6 +149,7 @@ export let algSet = {
         },
         {
             "name": "F2L 5",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -181,6 +186,7 @@ export let algSet = {
         },
         {
             "name": "F2L 6",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -217,6 +223,7 @@ export let algSet = {
         },
         {
             "name": "F2L 7",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -255,6 +262,7 @@ export let algSet = {
         },
         {
             "name": "F2L 8",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -290,6 +298,7 @@ export let algSet = {
         },
         {
             "name": "F2L 9",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -327,6 +336,7 @@ export let algSet = {
         },
         {
             "name": "F2L 10",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -363,6 +373,7 @@ export let algSet = {
         },
         {
             "name": "F2L 11",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -400,6 +411,7 @@ export let algSet = {
         },
         {
             "name": "F2L 12",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -440,6 +452,7 @@ export let algSet = {
         },
         {
             "name": "F2L 13",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -473,6 +486,7 @@ export let algSet = {
         },
         {
             "name": "F2L 14",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -506,6 +520,7 @@ export let algSet = {
         },
         {
             "name": "F2L 15",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -547,6 +562,7 @@ export let algSet = {
         },
         {
             "name": "F2L 16",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -588,6 +604,7 @@ export let algSet = {
         },
         {
             "name": "F2L 17",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -622,6 +639,7 @@ export let algSet = {
         },
         {
             "name": "F2L 18",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -654,6 +672,7 @@ export let algSet = {
         },
         {
             "name": "F2L 19",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -690,6 +709,7 @@ export let algSet = {
         },
         {
             "name": "F2L 20",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -725,6 +745,7 @@ export let algSet = {
         },
         {
             "name": "F2L 21",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -763,6 +784,7 @@ export let algSet = {
         },
         {
             "name": "F2L 22",
+            "subsets": ["Split"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -799,6 +821,7 @@ export let algSet = {
         },
         {
             "name": "F2L 23",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -840,6 +863,7 @@ export let algSet = {
         },
         {
             "name": "F2L 24",
+            "subsets": ["Connected"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -879,6 +903,7 @@ export let algSet = {
         },
         {
             "name": "F2L 25",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -920,6 +945,7 @@ export let algSet = {
         },
         {
             "name": "F2L 26",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -960,6 +986,7 @@ export let algSet = {
         },
         {
             "name": "F2L 27",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -993,6 +1020,7 @@ export let algSet = {
         },
         {
             "name": "F2L 28",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1026,6 +1054,7 @@ export let algSet = {
         },
         {
             "name": "F2L 29",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1062,6 +1091,7 @@ export let algSet = {
         },
         {
             "name": "F2L 30",
+            "subsets": ["Corner in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1097,6 +1127,7 @@ export let algSet = {
         },
         {
             "name": "F2L 31",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1138,6 +1169,7 @@ export let algSet = {
         },
         {
             "name": "F2L 32",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1179,6 +1211,7 @@ export let algSet = {
         },
         {
             "name": "F2L 33",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1216,6 +1249,7 @@ export let algSet = {
         },
         {
             "name": "F2L 34",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1254,6 +1288,7 @@ export let algSet = {
         },
         {
             "name": "F2L 35",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1295,6 +1330,7 @@ export let algSet = {
         },
         {
             "name": "F2L 36",
+            "subsets": ["Edge in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1335,6 +1371,7 @@ export let algSet = {
         },
         {
             "name": "F2L 37",
+            "subsets": ["Both in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1373,6 +1410,7 @@ export let algSet = {
         },
         {
             "name": "F2L 38",
+            "subsets": ["Both in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1413,6 +1451,7 @@ export let algSet = {
         },
         {
             "name": "F2L 39",
+            "subsets": ["Both in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1454,6 +1493,7 @@ export let algSet = {
         },
         {
             "name": "F2L 40",
+            "subsets": ["Both in slot"],
             "variants": [
                 {
                     "name": "Front Right",
@@ -1495,6 +1535,7 @@ export let algSet = {
         },
         {
             "name": "F2L 41",
+            "subsets": ["Both in slot"],
             "variants": [
                 {
                     "name": "Front Right",

@@ -8,6 +8,7 @@ export let algSet = {
     "cases": [
         {
             "name": "OLL 1",
+            "subsets": ["Dot"],
             "algs": [
                 "R U2 R2 F R F' U2 R' F R F'",
                 "y R U' R2 D' r U' r' D R2 U R'",
@@ -17,6 +18,7 @@ export let algSet = {
         },
         {
             "name": "OLL 2",
+            "subsets": ["Dot"],
             "algs": [
                 "L F L' U2 L F2 R' F2 R F' L'",
                 "y' R U' R2 D' r U r' D R2 U R'",
@@ -27,6 +29,7 @@ export let algSet = {
         },
         {
             "name": "OLL 3",
+            "subsets": ["Dot"],
             "algs": [
                 "y R' F2 R2 U2 R' F R U2 R2 F2 R",
                 "y' f R U R' U' f' U' F R U R' U' F'",
@@ -36,6 +39,7 @@ export let algSet = {
         },
         {
             "name": "OLL 4",
+            "subsets": ["Dot"],
             "algs": [
                 "y' R' F2 R2 U2 R' F' R U2 R2 F2 R",
                 "y' f R U R' U' f' U F R U R' U' F'",
@@ -45,6 +49,7 @@ export let algSet = {
         },
         {
             "name": "OLL 5",
+            "subsets": ["Square"],
             "algs": [
                 "r' U2 R U R' U r",
                 "y2 l' U2 L U L' U l",
@@ -54,6 +59,7 @@ export let algSet = {
         },
         {
             "name": "OLL 6",
+            "subsets": ["Square"],
             "algs": [
                 "r U2 R' U' R U' r'",
                 "y2 l U2 L' U' L U' l'",
@@ -63,6 +69,7 @@ export let algSet = {
         },
         {
             "name": "OLL 7",
+            "subsets": ["Lightning"],
             "algs": [
                 "r U R' U R U2 r'",
                 "y2 l U L' U L U2 l'",
@@ -72,6 +79,7 @@ export let algSet = {
         },
         {
             "name": "OLL 8",
+            "subsets": ["Lightning"],
             "algs": [
                 "y2 r' U' R U' R' U2 r",
                 "l' U' L U' L' U2 l",
@@ -81,6 +89,7 @@ export let algSet = {
         },
         {
             "name": "OLL 9",
+            "subsets": ["Fish"],
             "algs": [
                 "y R U R' U' R' F R2 U R' U' F'",
                 "R U2 R' U' S' R U' R' S",
@@ -90,6 +99,7 @@ export let algSet = {
         },
         {
             "name": "OLL 10",
+            "subsets": ["Fish"],
             "algs": [
                 "R U R' U R' F R F' R U2 R'",
                 "y F U F' R' F R U' R' F' R",
@@ -99,6 +109,7 @@ export let algSet = {
         },
         {
             "name": "OLL 11",
+            "subsets": ["Lightning"],
             "algs": [
                 "r' R2 U R' U R U2 R' U M'",
                 "y2 r U R' U R' F R F' R U2 r'",
@@ -108,6 +119,7 @@ export let algSet = {
         },
         {
             "name": "OLL 12",
+            "subsets": ["Lightning"],
             "algs": [
                 "y' M' R' U' R U' R' U2 R U' M",
                 "y' S R' U' R U' R' U2 R U2 S'",
@@ -117,6 +129,7 @@ export let algSet = {
         },
         {
             "name": "OLL 13",
+            "subsets": ["Knight"],
             "algs": [
                 "F U R U2 R' U' R U R' F'",
                 "F U R U' R2 F' R U R U' R'",
@@ -126,6 +139,7 @@ export let algSet = {
         },
         {
             "name": "OLL 14",
+            "subsets": ["Knight"],
             "algs": [
                 "R' F R U R' F' R F U' F'",
                 "r U R' U' r' F R2 U R' U' F'",
@@ -135,6 +149,7 @@ export let algSet = {
         },
         {
             "name": "OLL 15",
+            "subsets": ["Knight"],
             "algs": [
                 "r' U' r R' U' R U r' U r",
                 "y2 l' U' l L' U' L U l' U l",
@@ -144,6 +159,7 @@ export let algSet = {
         },
         {
             "name": "OLL 16",
+            "subsets": ["Knight"],
             "algs": [
                 "r U r' R U R' U' r U' r'",
                 "r U M U R' U' r U' r'",
@@ -153,6 +169,7 @@ export let algSet = {
         },
         {
             "name": "OLL 17",
+            "subsets": ["Dot"],
             "algs": [
                 "R U R' U R' F R F' U2 R' F R F'",
                 "y2 F R' F' R U S' R U' R' S",
@@ -162,6 +179,7 @@ export let algSet = {
         },
         {
             "name": "OLL 18",
+            "subsets": ["Dot"],
             "algs": [
                 "y R U2 R2 F R F' U2 M' U R U' r'",
                 "r U R' U R U2 r2 U' R U' R' U2 r",
@@ -171,6 +189,7 @@ export let algSet = {
         },
         {
             "name": "OLL 19",
+            "subsets": ["Dot"],
             "algs": [
                 "y S' R U R' S U' R' F R F'",
                 "M U R U R' U' M' R' F R F'",
@@ -180,6 +199,7 @@ export let algSet = {
         },
         {
             "name": "OLL 20",
+            "subsets": ["Dot", "Corners oriented"],
             "algs": [
                 "r U R' U' M2 U R U' R' U' M'",
                 "S' R U R' S U' M' U R U' r'",
@@ -189,6 +209,7 @@ export let algSet = {
         },
         {
             "name": "OLL 21",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "R U R' U R U' R' U R U2 R'",
                 "y R U2 R' U' R U R' U' R U' R'",
@@ -198,6 +219,7 @@ export let algSet = {
         },
         {
             "name": "OLL 22",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "R U2 R2 U' R2 U' R2 U2 R",
                 "R' U2 R2 U R2 U R2 U2 R'",
@@ -207,6 +229,7 @@ export let algSet = {
         },
         {
             "name": "OLL 23",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "R2 D R' U2 R D' R' U2 R'",
                 "y2 R2 D' R U2 R' D R U2 R",
@@ -216,6 +239,7 @@ export let algSet = {
         },
         {
             "name": "OLL 24",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "r U R' U' r' F R F'",
                 "y2 R' F' r U R U' r' F",
@@ -225,6 +249,7 @@ export let algSet = {
         },
         {
             "name": "OLL 25",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "y F' r U R' U' r' F R",
                 "F R' F' r U R U' r'",
@@ -234,6 +259,7 @@ export let algSet = {
         },
         {
             "name": "OLL 26",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "y R U2 R' U' R U' R'",
                 "R' U' R U' R' U2 R",
@@ -243,6 +269,7 @@ export let algSet = {
         },
         {
             "name": "OLL 27",
+            "subsets": ["Edges oriented"],
             "algs": [
                 "R U R' U R U2 R'",
                 "y' R' U2 R U R' U R",
@@ -252,6 +279,7 @@ export let algSet = {
         },
         {
             "name": "OLL 28",
+            "subsets": ["Corners oriented"],
             "algs": [
                 "r U R' U' M U R U' R'",
                 "y2 M' U M U2 M' U M",
@@ -261,6 +289,7 @@ export let algSet = {
         },
         {
             "name": "OLL 29",
+            "subsets": ["Awkward"],
             "algs": [
                 "r2 D' r U r' D r2 U' r' U' r",
                 "y R U R' U' R U' R' F' U' F R U R'",
@@ -270,6 +299,7 @@ export let algSet = {
         },
         {
             "name": "OLL 30",
+            "subsets": ["Awkward"],
             "algs": [
                 "y' r' D' r U' r' D r2 U' r' U r U r'",
                 "y2 F R' F R2 U' R' U' R U R' F2",
@@ -279,6 +309,7 @@ export let algSet = {
         },
         {
             "name": "OLL 31",
+            "subsets": ["P"],
             "algs": [
                 "R' U' F U R U' R' F' R",
                 "y S R U R' U' f' U' F",
@@ -288,6 +319,7 @@ export let algSet = {
         },
         {
             "name": "OLL 32",
+            "subsets": ["P"],
             "algs": [
                 "S R U R' U' R' F R f'",
                 "y2 L U F' U' L' U L F L'",
@@ -297,6 +329,7 @@ export let algSet = {
         },
         {
             "name": "OLL 33",
+            "subsets": ["T"],
             "algs": [
                 "R U R' U' R' F R F'",
                 "y2 L' U' L U L F' L' F",
@@ -306,6 +339,7 @@ export let algSet = {
         },
         {
             "name": "OLL 34",
+            "subsets": ["C"],
             "algs": [
                 "y f R f' U' r' U' R U M'",
                 "y2 R U R2 U' R' F R U R U' F'",
@@ -315,6 +349,7 @@ export let algSet = {
         },
         {
             "name": "OLL 35",
+            "subsets": ["Fish"],
             "algs": [
                 "R U2 R2 F R F' R U2 R'",
                 "f R U R' U' f' R U R' U R U2 R'",
@@ -324,6 +359,7 @@ export let algSet = {
         },
         {
             "name": "OLL 36",
+            "subsets": ["W"],
             "algs": [
                 "y2 L' U' L U' L' U L U L F' L' F",
                 "y R U R2 F' U' F U R2 U2 R'",
@@ -333,6 +369,7 @@ export let algSet = {
         },
         {
             "name": "OLL 37",
+            "subsets": ["Fish"],
             "algs": [
                 "F R U' R' U' R U R' F'",
                 "F R' F' R U R U' R'",
@@ -342,6 +379,7 @@ export let algSet = {
         },
         {
             "name": "OLL 38",
+            "subsets": ["W"],
             "algs": [
                 "R U R' U R U' R' U' R' F R F'",
                 "y F R U' R' S U' R U R' f'",
@@ -351,6 +389,7 @@ export let algSet = {
         },
         {
             "name": "OLL 39",
+            "subsets": ["Lightning"],
             "algs": [
                 "y' f' r U r' U' r' F r S",
                 "y L F' L' U' L U F U' L'",
@@ -360,6 +399,7 @@ export let algSet = {
         },
         {
             "name": "OLL 40",
+            "subsets": ["Lightning"],
             "algs": [
                 "y R' F R U R' U' F' U R",
                 "y' f R' F' R U R U' R' S'",
@@ -369,6 +409,7 @@ export let algSet = {
         },
         {
             "name": "OLL 41",
+            "subsets": ["Awkward"],
             "algs": [
                 "y2 R U R' U R U2 R' F R U R' U' F'",
                 "y2 F U R2 D R' U' R D' R2 F'",
@@ -378,6 +419,7 @@ export let algSet = {
         },
         {
             "name": "OLL 42",
+            "subsets": ["Awkward"],
             "algs": [
                 "R' U' R U' R' U2 R F R U R' U' F'",
                 "y F S' R U R' U' F' U S",
@@ -387,6 +429,7 @@ export let algSet = {
         },
         {
             "name": "OLL 43",
+            "subsets": ["P"],
             "algs": [
                 "y R' U' F' U F R",
                 "y2 F' U' L' U L F",
@@ -396,6 +439,7 @@ export let algSet = {
         },
         {
             "name": "OLL 44",
+            "subsets": ["P"],
             "algs": [
                 "y2 F U R U' R' F'",
                 "f R U R' U' f'",
@@ -405,6 +449,7 @@ export let algSet = {
         },
         {
             "name": "OLL 45",
+            "subsets": ["T"],
             "algs": [
                 "F R U R' U' F'",
                 "y R' F' U' F U R",
@@ -413,6 +458,7 @@ export let algSet = {
         },
         {
             "name": "OLL 46",
+            "subsets": ["C"],
             "algs": [
                 "R' U' R' F R F' U R",
                 "y2 r' U' F R' F' R U r",
@@ -422,6 +468,7 @@ export let algSet = {
         },
         {
             "name": "OLL 47",
+            "subsets": ["L"],
             "algs": [
                 "F' L' U' L U L' U' L U F",
                 "R' U' R' F R F' R' F R F' U R",
@@ -431,6 +478,7 @@ export let algSet = {
         },
         {
             "name": "OLL 48",
+            "subsets": ["L"],
             "algs": [
                 "F R U R' U' R U R' U' F'",
                 "y2 f U R U' R' U R U' R' f'",
@@ -440,6 +488,7 @@ export let algSet = {
         },
         {
             "name": "OLL 49",
+            "subsets": ["L"],
             "algs": [
                 "y2 r U' r2 U r2 U r2 U' r",
                 "l U' l2 U l2 U l2 U' l",
@@ -449,6 +498,7 @@ export let algSet = {
         },
         {
             "name": "OLL 50",
+            "subsets": ["L"],
             "algs": [
                 "r' U r2 U' r2 U' r2 U r'",
                 "y2 R' F R2 B' R2 F' R2 B R'",
@@ -458,6 +508,7 @@ export let algSet = {
         },
         {
             "name": "OLL 51",
+            "subsets": ["Line"],
             "algs": [
                 "y2 F U R U' R' U R U' R' F'",
                 "f R U R' U' R U R' U' f'",
@@ -467,6 +518,7 @@ export let algSet = {
         },
         {
             "name": "OLL 52",
+            "subsets": ["Line"],
             "algs": [
                 "y2 R' F' U' F U' R U R' U R",
                 "R U R' U R U' B U' B' R'",
@@ -476,6 +528,7 @@ export let algSet = {
         },
         {
             "name": "OLL 53",
+            "subsets": ["L"],
             "algs": [
                 "r' U' R U' R' U R U' R' U2 r",
                 "y2 l' U' L U' L' U L U' L' U2 l",
@@ -485,6 +538,7 @@ export let algSet = {
         },
         {
             "name": "OLL 54",
+            "subsets": ["L"],
             "algs": [
                 "r U R' U R U' R' U R U2 r'",
                 "y' r U2 R' U' R U R' U' R U' r'",
@@ -494,6 +548,7 @@ export let algSet = {
         },
         {
             "name": "OLL 55",
+            "subsets": ["Line"],
             "algs": [
                 "y R' F U R U' R2 F' R2 U R' U' R",
                 "R U2 R2 U' R U' R' U2 F R F'",
@@ -503,6 +558,7 @@ export let algSet = {
         },
         {
             "name": "OLL 56",
+            "subsets": ["Line"],
             "algs": [
                 "r U r' U R U' R' U R U' R' r U' r'",
                 "r U r' U R U' R' M' U R U2 r'",
@@ -512,6 +568,7 @@ export let algSet = {
         },
         {
             "name": "OLL 57",
+            "subsets": ["Corners oriented"],
             "algs": [
                 "R U R' U' M' U R U' r'",
                 "y R U' R' S' R U R' S",

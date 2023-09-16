@@ -1,5 +1,6 @@
 <script lang="ts">
     import {
+        type AlgSet,
         initApp,
         onChangeOrientation,
         onClickSubset,
@@ -15,7 +16,7 @@
     import PageSkeleton from "../components/PageSkeleton.svelte";
     import SelectOrientation from "../../src/lib/components/SelectOrientation/SelectOrientation.svelte";
 
-    export let algSet: any;
+    export let algSet: AlgSet;
 
     let subsets: Subsets = {};
 
@@ -28,12 +29,12 @@
         })
     });
     
-    let subsetsList = JSON.parse(sessionStorage.getItem("subsets") ?? "[]");
-    for (const subset of subsetsList) subsets[subset].selected = true;
+    let subset = sessionStorage.getItem("subset");
 
-    if (subsetsList.length > 0) {
+    if (subset) {
+        subsets[subset].selected = true;
         algSet.cases = algSet.cases.filter(_case => {
-            return _case.subsets?.some(subset => subsets[subset].selected);
+            return _case.subsets?.some(_subset => _subset === subset);
         });
     }
 

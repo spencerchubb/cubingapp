@@ -17,6 +17,7 @@ export type Subsets = {
 
 type AlgSetCase = {
     name: string;
+    subsets?: string[];
     setup?: string;
     algs?: string[];
     variants?: {
@@ -25,7 +26,7 @@ type AlgSetCase = {
     }[];
 }
 
-type AlgSet = {
+export type AlgSet = {
     puzzle: string;
     setup?: string;
     gray?: number[]; // Used to hide stickers
@@ -72,11 +73,12 @@ export function onChangeOrientation(_: string) {
 }
 
 export function onClickSubset(subsets: Subsets, subset: string) {
-    subsets[subset].selected = !subsets[subset].selected;
-    let subsetNames = Object.entries(subsets)
-        .filter(([_, subset]) => subset.selected)
-        .map(([name, _]) => name);
-    sessionStorage.setItem("subsets", JSON.stringify(subsetNames));
+    if (subsets[subset].selected) {
+        sessionStorage.removeItem("subset");
+    } else {
+        sessionStorage.setItem("subset", subset);
+    }
+
     location.reload();
 }
 

@@ -3,6 +3,7 @@ export let algSet = {
     "cases": [
         {
             "name": "Aa perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "x R' U R' D2 R U' R' D2 R2 x'",
                 "R' F R' B2 R F' R' B2 R2",
@@ -11,6 +12,7 @@ export let algSet = {
         },
         {
             "name": "Ab perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "x R2' D2 R U R' D2 R U' R x'",
                 "R2 B2 R F R' B2 R F' R",
@@ -19,18 +21,22 @@ export let algSet = {
         },
         {
             "name": "E perm",
+            "subsets": ["Diag corners"],
             "algs": [
-                "x' R U' R' D R U R' D' R U R' D R U' R' D' x"
+                "x' R U' R' D R U R' D' R U R' D R U' R' D' x",
+                "R' U' R' D' R U' R' D R U R' D' R U R' D R2"
             ]
         },
         {
             "name": "F perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "R' U' F' R U R' U' R' F R2 U' R' U' R U R' U R"
             ]
         },
         {
             "name": "Ga perm",
+            "subsets": ["G perm"],
             "algs": [
                 "R2 U R' U R' U' R U' R2 D U' R' U R D'",
                 "R2 u R' U R' U' R u' R2 F' U F",
@@ -40,6 +46,7 @@ export let algSet = {
         },
         {
             "name": "Gb perm",
+            "subsets": ["G perm"],
             "algs": [
                 "R' U' R U D' R2 U R' U R U' R U' R2 D",
                 "y F' U' F R2 u R' U R U' R u' R2",
@@ -49,6 +56,7 @@ export let algSet = {
         },
         {
             "name": "Gc perm",
+            "subsets": ["G perm"],
             "algs": [
                 "R2 U' R U' R U R' U R2 D' U R U' R' D",
                 "y2 R2 F2 R U2 R U2 R' F R U R' U' R' F R2",
@@ -58,6 +66,7 @@ export let algSet = {
         },
         {
             "name": "Gd perm",
+            "subsets": ["G perm"],
             "algs": [
                 "R U R' U' D R2 U' R U' R' U R' U R2 D'",
                 "D' R U R' U' D R2 U' R U' R' U R' U R2",
@@ -67,6 +76,7 @@ export let algSet = {
         },
         {
             "name": "H perm",
+            "subsets": ["Edge perm"],
             "algs": [
                 "M2 U' M2 U2 M2 U' M2",
                 "M2 U M2 U2 M2 U M2"
@@ -74,6 +84,7 @@ export let algSet = {
         },
         {
             "name": "Ja perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "y2 x R2 F R F' R U2 r' U r U2 x'",
                 "L' U' L F L' U' L U L F' L2 U L",
@@ -83,6 +94,7 @@ export let algSet = {
         },
         {
             "name": "Jb perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "R U R' F' R U R' U' R' F R2 U' R'",
                 "R U2 R' U' R U2 L' U R' U' L",
@@ -92,6 +104,7 @@ export let algSet = {
         },
         {
             "name": "Na perm",
+            "subsets": ["Diag corners"],
             "algs": [
                 "R U R' U R U R' F' R U R' U' R' F R2 U' R' U2 R U' R'",
                 "F' R U R' U' R' F R2 F U' R' U' R U F' R'",
@@ -101,6 +114,7 @@ export let algSet = {
         },
         {
             "name": "Nb perm",
+            "subsets": ["Diag corners"],
             "algs": [
                 "r' D' F r U' r' F' D r2 U r' U' r' F r F'",
                 "R' U R U' R' F' U' F R U R' F R' F' R U' R",
@@ -110,6 +124,7 @@ export let algSet = {
         },
         {
             "name": "Ra perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "y R U' R' U' R U R D R' U' R D' R' U2 R'",
                 "y R U R' F' R U2 R' U2 R' F R U R U2 R'",
@@ -119,6 +134,7 @@ export let algSet = {
         },
         {
             "name": "Rb perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "R' U2 R U2 R' F R U R' U' R' F' R2",
                 "y R2 F R U R U' R' F' R U2 R' U2 R",
@@ -128,6 +144,7 @@ export let algSet = {
         },
         {
             "name": "T perm",
+            "subsets": ["Adj corners"],
             "algs": [
                 "R U R' U' R' F R2 U' R' U' R U R' F'",
                 "R U R' U' R' F R2 U' R' U F' L' U L",
@@ -137,6 +154,7 @@ export let algSet = {
         },
         {
             "name": "Ua perm",
+            "subsets": ["Edge perm"],
             "algs": [
                 "M2 U M' U2 M U M2",
                 "y2 M2 U M U2 M' U M2",
@@ -147,6 +165,7 @@ export let algSet = {
         },
         {
             "name": "Ub perm",
+            "subsets": ["Edge perm"],
             "algs": [
                 "M2 U' M' U2 M U' M2",
                 "y2 M2 U' M U2 M' U' M2",
@@ -156,6 +175,7 @@ export let algSet = {
         },
         {
             "name": "V perm",
+            "subsets": ["Diag corners"],
             "algs": [
                 "R' U R' U' R D' R' D R' U D' R2 U' R2 D R2",
                 "y R U' R U R' D R D' R U' D R2 U R2 D' R2",
@@ -165,6 +185,7 @@ export let algSet = {
         },
         {
             "name": "Y perm",
+            "subsets": ["Diag corners"],
             "algs": [
                 "F R U' R' U' R U R' F' R U R' U' R' F R F'",
                 "F R' F R2 U' R' U' R U R' F' R U R' U' F'",
@@ -174,6 +195,7 @@ export let algSet = {
         },
         {
             "name": "Z perm",
+            "subsets": ["Edge perm"],
             "algs": [
                 "M' U' M2 U' M2 U' M' U2 M2",
                 "M2 U M2 U M' U2 M2 U2 M'",
