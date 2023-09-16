@@ -2,7 +2,7 @@
     <h1>Speedcubing Inspection</h1>
     <p class="date">May 13, 2023</p>
     <p>
-        In the <a class="link" href="/timer.html">CubingApp Timer</a>, there is an option to turn off or turn on inspection. But you may be wondering: What is inspection, and why is it important?
+        If you have ever wanted to go to a Rubik's Cube competition, you may be wondering: What is inspection, and why is it important?
     </p>
     <h2>What is inspection?</h2>
     <p>
