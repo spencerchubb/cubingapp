@@ -134,16 +134,6 @@ func main() {
 	handleFunc("/deleteAlgSetPermanently", endpoints.DeleteAlgSetPermanently, true)
 	handleFunc("/restoreAlgSet", endpoints.RestoreAlgSet, true)
 
-	handleFunc("/createSession", endpoints.CreateSession, true)
-	handleFunc("/readSessions", endpoints.ReadSessions, true)
-	handleFunc("/updateSession", endpoints.UpdateSession, true)
-	handleFunc("/deleteSession", endpoints.DeleteSession, true)
-
-	handleFunc("/createSolve", endpoints.CreateSolve, true)
-	handleFunc("/readSolve", endpoints.ReadSolve, true)
-	handleFunc("/readSolves", endpoints.ReadSolves, true)
-	handleFunc("/deleteSolve", endpoints.DeleteSolve, true)
-
 	go func() {
 		err = listenAndServe()
 		if errors.Is(err, http.ErrServerClosed) {
