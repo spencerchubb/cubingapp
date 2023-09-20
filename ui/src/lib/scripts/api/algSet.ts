@@ -1,5 +1,7 @@
 import { post } from "./common";
 
+// TODO maybe remove api
+
 export type TrainingAlg = {
     Score: number,
     Alg: string,

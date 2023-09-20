@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/Winter-Variation";
+    import { algSet } from "../../src/lib/scripts/algSets/Winter-Variation";
 </script>
 
 <AlgSetPage {algSet}>

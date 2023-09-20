@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/2x2-EG2";
+    import { algSet } from "../../src/lib/scripts/algSets/2x2-EG2";
 </script>
 
 <AlgSetPage {algSet}>

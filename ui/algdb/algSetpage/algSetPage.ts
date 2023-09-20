@@ -1,5 +1,6 @@
 import { getInitialOrientation } from '../../src/lib/components/SelectOrientation/orientationOptions';
 import { type Scene, invertAlg, newCube, GRAY, PURPLE } from '../../src/lib/scripts/rubiks-viz';
+import { AlgSet, AlgSetCase } from '../algSets';
 
 let callback: (state) => void;
 
@@ -8,31 +9,13 @@ export function setCallback(_callback: (state) => void) {
     return state;
 }
 
+// TODO see if this can be removed
 export type Subsets = { 
     [key: string]: { // Key is subset name
         cases: number,
         selected?: boolean
     }
 };
-
-type AlgSetCase = {
-    name: string;
-    subsets?: string[];
-    setup?: string;
-    algs?: string[];
-    variants?: {
-        name: string;
-        algs: string[];
-    }[];
-}
-
-export type AlgSet = {
-    puzzle: string;
-    setup?: string;
-    gray?: number[]; // Used to hide stickers
-    purple?: number[]; // Used to indicate orientation of stickers
-    cases: AlgSetCase[];
-}
 
 type State = {
     algSet: AlgSet,

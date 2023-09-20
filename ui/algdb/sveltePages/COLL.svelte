@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/COLL";
+    import { algSet } from "../../src/lib/scripts/algSets/COLL";
 </script>
 
 <AlgSetPage {algSet}>

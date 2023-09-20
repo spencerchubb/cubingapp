@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/ZBLL";
+    import { algSet } from "../../src/lib/scripts/algSets/ZBLL";
 </script>
 
 <AlgSetPage {algSet}>

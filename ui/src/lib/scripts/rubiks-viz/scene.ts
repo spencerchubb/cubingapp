@@ -179,18 +179,18 @@ const startLoop = once<void, void>(() => {
     requestAnimationFrame(render);
 });
 
-function newCube(div: HTMLElement, layers: number = 3): Scene | null {
+function newCube(div: HTMLElement, layers: number = 3): Scene | undefined {
     return newPuzzle(div, () => new Cube(layers));
 }
 
-function newPyraminx(div: HTMLElement): Scene | null {
+function newPyraminx(div: HTMLElement): Scene | undefined {
     return newPuzzle(div, () => new Pyraminx());
 }
 
-function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | null {
+function newPuzzle(div: HTMLElement, puzzleConstructor: () => Puzzle): Scene | undefined {
     if (!gl) {
         renderWebGLError(div);
-        return null;
+        return undefined;
     }
 
     let scene: Scene | undefined = scenes.find(s => s.div === div);

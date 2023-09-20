@@ -5,6 +5,8 @@
 const casesToday = "casesToday";
 const showScramble = "showScramble";
 
+// TODO maybe remove this file
+
 type CasesToday = {
     count: number;
     msSinceEpoch: number;

@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/OLLCP";
+    import { algSet } from "../../src/lib/scripts/algSets/OLLCP";
 </script>
 
 <AlgSetPage {algSet}>

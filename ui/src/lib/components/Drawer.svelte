@@ -2,32 +2,34 @@
     import XIcon from "./icons/XIcon.svelte";
 
     export let title: string;
-    export let drawerIndex: number;
+    export let drawerOpen: boolean;
 
     function close() {
-        drawerIndex = -1;
+        drawerOpen = false;
     }
 </script>
 
-<div class="drawer">
-    <div class="drawer-header">
-        <p>{title}</p>
-        <button
-            class="btn-transparent"
-            style="width: 36px; padding: 4px;"
-            on:click={() => close()}
+{#if drawerOpen}
+    <div class="drawer">
+        <div class="drawer-header">
+            <p>{title}</p>
+            <button
+                class="btn-transparent"
+                style="width: 36px; padding: 4px;"
+                on:click={() => close()}
+            >
+                <XIcon />
+            </button>
+        </div>
+        <div
+            style="
+            overflow-y: auto;
+            height: calc(100vh - 96px);"
         >
-            <XIcon />
-        </button>
+            <slot />
+        </div>
     </div>
-    <div
-        style="
-        overflow-y: auto;
-        height: calc(100vh - 96px);"
-    >
-        <slot />
-    </div>
-</div>
+{/if}
 
 <style>
     .drawer {

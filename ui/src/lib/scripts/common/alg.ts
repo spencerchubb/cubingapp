@@ -62,6 +62,7 @@ export function AlgAddMove(alg: Alg, moveStr: string): Alg {
  * Mutates `alg` and returns `alg`.
  */
 export function AlgSimplify(alg: Alg, modulo: number = 4): Alg {
+    console.log("simplifying", alg);
     for (let i = 0; i < alg.length - 1; i++) {
         const move = alg[i];
         const nextMove = alg[i + 1];

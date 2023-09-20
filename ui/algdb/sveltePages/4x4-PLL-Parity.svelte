@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/4x4-PLL-Parity";
+    import { algSet } from "../../src/lib/scripts/algSets/4x4-PLL-Parity";
 </script>
 
 <AlgSetPage {algSet}>

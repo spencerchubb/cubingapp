@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="description" content="Memorize algorithms with the power of spaced repetition. You can learn OLL, PLL, CLL, and more.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/style/app.css">
+    <link rel="stylesheet" href="./src/style/colors.css">
     <title>Algorithm Trainer | CubingApp</title>
     <link rel="icon" href="./src/assets/favicon.svg" type="image/x-icon">
-  </head>
-  <body>
-    <div id="app" style="width: 100%; height: 100%;"></div>
+</head>
+
+<body>
     <script>
         // Attach error handler before anything else.
         const session = Math.floor(Math.random() * 1_000_000);
@@ -20,7 +23,11 @@
             });
         }
     </script>
-    <script type="module" src="/src/train/main.ts"></script>
-    <script type="module" src="/src/lib/scripts/analytics.ts"></script>
-  </body>
+    <script type="module">
+        import App from "./train/Index.svelte";
+        new App({ target: document.body });
+    </script>
+    <script type="module" src="./src/lib/scripts/analytics.ts"></script>
+</body>
+
 </html>

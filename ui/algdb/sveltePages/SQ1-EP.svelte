@@ -2,7 +2,7 @@
     import PageSkeleton from "../components/PageSkeleton.svelte";
     import SQ1 from "../components/SQ1.svelte";
 
-    import { algSet } from "../algSets/SQ1-EP";
+    import { algSet } from "../../src/lib/scripts/algSets/SQ1-EP";
 </script>
 
 <PageSkeleton>

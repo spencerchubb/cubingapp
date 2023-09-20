@@ -15,6 +15,8 @@ export function series(n: number) {
     return series(n - 1) + n + 2;
 }
 
+// TODO maybe remove promoteAlg and demoteAlg
+
 /** Mutate algs in place */
 export function promoteAlg(algs: Array<TrainingAlg>) {
     algs[0].Score++;

@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/LSE-EOLR";
+    import { algSet } from "../../src/lib/scripts/algSets/LSE-EOLR";
 </script>
 
 <AlgSetPage {algSet}>

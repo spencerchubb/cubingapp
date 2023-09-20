@@ -1,6 +1,6 @@
 <script>
     import AlgSetPage from "../algSetPage";
-    import { algSet } from "../algSets/OH-CMLL";
+    import { algSet } from "../../src/lib/scripts/algSets/OH-CMLL";
 </script>
 
 <AlgSetPage {algSet}>

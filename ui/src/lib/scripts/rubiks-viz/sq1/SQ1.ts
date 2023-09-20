@@ -14,10 +14,12 @@ export class SQ1 {
     }
 
     svgTop(size: number = 100): string {
+        console.log({top: this.top})
         return getSVG(size, this.top, true);
     }
 
     svgBottom(size: number = 100): string {
+        console.log({bottom: this.bottom})
         return getSVG(size, this.bottom, false);
     }
 
