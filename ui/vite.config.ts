@@ -60,6 +60,7 @@ function train() {
         // "4x4-PLL-Parity",
         "CMLL",
         "COLL",
+        "cross",
         "F2L",
         "LSE-EO",
         // "LSE-EOLR",

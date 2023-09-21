@@ -6,8 +6,18 @@ import { scramble2x2Random } from "../cstimer/scramble_222";
 import { scramblePyraRandom } from "../cstimer/scramble_pyraminx";
 import { PuzzleTypes } from "./types";
 
+/* Move set for 3x3 */
+export const moveset_3 = [
+    "U", "U'", "U2",
+    "D", "D'", "D2",
+    "R", "R'", "R2",
+    "L", "L'", "L2",
+    "F", "F'", "F2",
+    "B", "B'", "B2",
+];
+
 /* Move set for 4x4 and 5x5 */
-const moveset_45 = [
+export const moveset_45 = [
     "U", "U'", "U2",
     "D", "D'", "D2",
     "R", "R'", "R2",
@@ -23,7 +33,7 @@ const moveset_45 = [
 ];
 
 /* Move set for 6x6 and 7x7 */
-const moveset_67 = [
+export const moveset_67 = [
     "U", "U'", "U2",
     "D", "D'", "D2",
     "R", "R'", "R2",
@@ -70,7 +80,7 @@ export function getScramble(puzzle: PuzzleTypes): string {
  * Note that this does not generate a random state scramble.
  * For big cubes, it takes too long to generate random state scrambles.
  */
-function getRandomMoveScramble(moves: string[], len: number) {
+export function getRandomMoveScramble(moves: string[], len: number) {
     let scram: string[] = [];
     while (scram.length < len){
         const move = randElement(moves);

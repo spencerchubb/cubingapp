@@ -1,6 +1,6 @@
 <script lang="ts">
     import CoolCalculators from "../lib/components/CoolCalculators.svelte";
-import GlManager from "../lib/components/GLManager.svelte";
+    import GLManager from "../lib/components/GLManager.svelte";
     import type { Scene } from "../lib/scripts/rubiks-viz";
     import Card from "./Card.svelte";
 
@@ -35,7 +35,7 @@ import GlManager from "../lib/components/GLManager.svelte";
                 padding-bottom: 16px;
                 margin: 16px 32px;">
                 <div style="width: 200px; height: 200px;">
-                    <GlManager
+                    <GLManager
                         onSceneInitialized={_scene => {
                             scene = _scene;
                             _scene.dragEnabled = false;

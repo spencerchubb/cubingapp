@@ -1,7 +1,8 @@
 export type AlgMove = { face: string, pow: number };
 export type Alg = AlgMove[];
 
-export function AlgNew(): Alg {
+export function AlgNew(alg?: string): Alg {
+    if (alg) return StringToAlg(alg);
     return [] as Alg;
 }
 
@@ -61,8 +62,19 @@ export function AlgAddMove(alg: Alg, moveStr: string): Alg {
 /**
  * Mutates `alg` and returns `alg`.
  */
+export function AlgInvert(alg: Alg): Alg {
+    return alg
+        .reverse()
+        .map(move => {
+            const pow = (4 - move.pow) % 4;
+            return { face: move.face, pow };
+        });
+}
+
+/**
+ * Mutates `alg` and returns `alg`.
+ */
 export function AlgSimplify(alg: Alg, modulo: number = 4): Alg {
-    console.log("simplifying", alg);
     for (let i = 0; i < alg.length - 1; i++) {
         const move = alg[i];
         const nextMove = alg[i + 1];

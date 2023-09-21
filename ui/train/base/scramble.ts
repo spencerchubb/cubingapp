@@ -72,34 +72,27 @@ export function scramble(puzzle: string, alg: string): string {
     cube.solve();
     cube.performAlg(alg);
 
-    let [ep, eo] = getPermAndOri(cube, edges, 12);
-    let [cp, co] = getPermAndOri(cube, corners, 8);
+    let [ep, eo] = getPermAndOri(cube, edges);
+    let [cp, co] = getPermAndOri(cube, corners);
 
     return scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
 }
 
-function getPermAndOri(puzzle: Puzzle, pieces: number[][], numPieces: number): [number[], number[]] {
+function getPermAndOri(puzzle: Puzzle, pieces: number[][]): [number[], number[]] {
+    let numPieces = pieces.length;
     let perm = new Array(numPieces);
     let ori = new Array(numPieces);
 
     const stickers = puzzle.stickers;
     for (let i = 0; i < numPieces; i++) {
-        const piece = findPiece(puzzle, pieces[i], pieces);
-        perm[i] = piece;
+        perm[i] = findPiece(puzzle, pieces[i], pieces);
         ori[i] = pieces[i].findIndex(e => {
             const sticker = stickers[e];
             const isWhite = 0 <= sticker && sticker < 9;
             const isYellow = 18 <= sticker && sticker < 27;
-            return isWhite || isYellow;
+            return isWhite || isYellow
+                || sticker === S.FL || sticker === S.FR || sticker === S.BL || sticker === S.BR;
         });
-        if (ori[i] === -1 && pieces[i].length == 2) {
-            // No white or yellow sticker was found, and the length is 2.
-            // That means this is an E-slice edge.
-            const edgeSticker = pieces[i][0];
-            ori[i] = pieces[i].findIndex(e => {
-                return e === S.FL || e === S.FR || e === S.BL || e === S.BR;
-            })
-        }
     }
 
     return [perm, ori];
