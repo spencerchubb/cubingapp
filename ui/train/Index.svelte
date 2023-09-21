@@ -12,7 +12,7 @@
         <NavBarIcon on:click={() => (sideNavOpen = true)}>
             <MenuIcon />
         </NavBarIcon>
-        <a href="https://github.com/spencerchubb/train/">
+        <a href="https://github.com/spencerchubb/algdb/">
             <NavBarIcon>
                 <GithubIcon />
             </NavBarIcon>
