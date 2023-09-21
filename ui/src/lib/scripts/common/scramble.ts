@@ -82,7 +82,7 @@ export function getScramble(puzzle: PuzzleTypes): string {
  */
 export function getRandomMoveScramble(moves: string[], len: number) {
     let scram: string[] = [];
-    while (scram.length < len){
+    while (scram.length < len) {
         const move = randElement(moves);
         // Don't allow consecutive moves of the same face.
         if (scram.length > 0 && scram[scram.length - 1][0] === move[0]) continue;
