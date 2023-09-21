@@ -43,6 +43,14 @@ describe("AlgSimplify", () => {
         expect(AlgSimplify(alg)).toEqual(StringToAlg(""));
     });
 
+    it("should work with U D U", () => {
+        let alg = AlgNew("B L' R U' D U L");
+        expect(AlgSimplify(alg)).toEqual(AlgNew("B L' R D L"));
+
+        alg = AlgNew("B L' R U D U L");
+        expect(AlgSimplify(alg)).toEqual(AlgNew("B L' R U2 D L"));
+    });
+
     it("should work with long algs", () => {
         let alg = StringToAlg("R U F F' U' R' U L D L' D' D L R R2 R2");
         // R U F cancels with F' U' R'

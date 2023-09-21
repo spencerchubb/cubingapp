@@ -5,38 +5,51 @@
     import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
     import { type Scene } from "../../src/lib/scripts/rubiks-viz";
     import { scramble_333 } from "../../src/lib/scripts/cstimer/scramble_333";
-    import { getRandomMoveScramble, moveset_3 } from "../../src/lib/scripts/common/scramble";
-    import { AlgInvert, AlgNew, AlgToString } from "../../src/lib/scripts/common/alg";
+    import { AlgNew, AlgSimplify, AlgToString } from "../../src/lib/scripts/common/alg";
+    import * as solver from "@spencerchubb/solver";
 
     let scene: Scene;
 
-    let numMoves: number = 3;
+    let numMoves: number = parseInt(localStorage.getItem("numMoves") ?? "3");
 
-    let setup: string;
     let scramble: string;
-    let solution: string;
+    let solution: string = "";
+
+    function onChangeNumMoves(event: Event) {
+        const value = (event.target as HTMLInputElement).value;
+        localStorage.setItem("numMoves", value);
+        numMoves = parseInt(value);
+        newCase();
+    }
 
     function setupCase() {
         scene.puzzle.solve();
-        scene.puzzle.performAlg(setup);
         scene.puzzle.performAlg(scramble);
     }
 
-    function newCase() {
-        // Get scramble that leaves cross solved
-        setup = scramble_333.getAnyScramble(0xffffffff3210, 0x000000000000, 0xffffffff, 0xffffffff, null, null, null, null);
-
-        scramble = getRandomMoveScramble(moveset_3, numMoves);
-        
-        let inverted = AlgInvert(AlgNew(scramble));
-
-        // D moves are redundant at the end of a cross solution, so try again.
-        if (inverted[inverted.length - 1].face === "D") {
+    async function newCase() {
+        scramble = "loading...";
+        let possibleScram = scramble_333.getRandomScramble();
+        let solutions = (await solver.solve({
+            alg: possibleScram,
+            moves: "U U' D D' L L' R R' F F' B B'",
+            disregard: [0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19],
+            maxSolutions: 1,
+        }));
+        let first = solutions[0].split(" ");
+        if (first.length < numMoves) {
             newCase();
             return;
         }
 
-        solution = AlgToString(inverted);
+        const pre = first.slice(0, first.length - numMoves).join(" ");
+        const post = first.slice(first.length - numMoves).join(" ");
+
+        // Add it to the scramble
+        scramble = AlgToString(AlgSimplify([...AlgNew(possibleScram), ...AlgNew(pre)]));
+
+        solution = post;
+        
         setupCase();
     }
 
@@ -52,17 +65,27 @@
         <!-- empty div so the text is centered -->
         <div style="width: 48px;"></div>
 	</nav>
-    <div class="col" style="width: 100%; height: 100%; padding: 16px; gap: 16px;">
+    <div class="col" style="
+        width: 100%;
+        height: 100%;
+        padding: 16px;
+        gap: 16px;
+        overflow-y: auto;">
         <div class="row" style="gap: 8px;">
             <p>Num Moves</p>
-            <input
-                type="number"
-                min="1"
-                max="8"
-                bind:value={numMoves}
-                on:change={() => newCase()}
-            />
+            <select
+                on:change={onChangeNumMoves}
+                value={numMoves}
+            >
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+            </select>
         </div>
+        <p>{scramble}</p>
         <div style="border-radius: 8px; box-shadow: 0 0 4px 2px var(--gray-600);">
             <GLManager
                 onSceneInitialized={_scene => {

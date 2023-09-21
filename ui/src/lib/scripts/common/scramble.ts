@@ -6,18 +6,8 @@ import { scramble2x2Random } from "../cstimer/scramble_222";
 import { scramblePyraRandom } from "../cstimer/scramble_pyraminx";
 import { PuzzleTypes } from "./types";
 
-/* Move set for 3x3 */
-export const moveset_3 = [
-    "U", "U'", "U2",
-    "D", "D'", "D2",
-    "R", "R'", "R2",
-    "L", "L'", "L2",
-    "F", "F'", "F2",
-    "B", "B'", "B2",
-];
-
 /* Move set for 4x4 and 5x5 */
-export const moveset_45 = [
+const moveset_45 = [
     "U", "U'", "U2",
     "D", "D'", "D2",
     "R", "R'", "R2",
@@ -33,7 +23,7 @@ export const moveset_45 = [
 ];
 
 /* Move set for 6x6 and 7x7 */
-export const moveset_67 = [
+ const moveset_67 = [
     "U", "U'", "U2",
     "D", "D'", "D2",
     "R", "R'", "R2",

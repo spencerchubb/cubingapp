@@ -71,15 +71,25 @@ export function AlgInvert(alg: Alg): Alg {
         });
 }
 
+const oppFaces = {
+    "U": "D",
+    "D": "U",
+    "L": "R",
+    "R": "L",
+    "F": "B",
+    "B": "F",
+};
+
 /**
  * Mutates `alg` and returns `alg`.
  */
 export function AlgSimplify(alg: Alg, modulo: number = 4): Alg {
     for (let i = 0; i < alg.length - 1; i++) {
         const move = alg[i];
-        const nextMove = alg[i + 1];
-        if (move.face === nextMove.face) {
-            const pow = (move.pow + nextMove.pow) % modulo;
+        const next = alg[i + 1];
+        const nextNext = alg[i + 2];
+        if (move.face === next.face) {
+            const pow = (move.pow + next.pow) % modulo;
             if (pow === 0) {
                 alg.splice(i, 2);
                 i -= 2;
@@ -87,6 +97,21 @@ export function AlgSimplify(alg: Alg, modulo: number = 4): Alg {
             } else {
                 move.pow = pow;
                 alg.splice(i + 1, 1);
+                i--;
+            }
+        }
+
+        // This handles cases like U D U
+        if (nextNext && oppFaces[move.face] === next.face && move.face === nextNext.face) {
+            const pow = (move.pow + nextNext.pow) % modulo;
+            if (pow === 0) {
+                // Remove 'move' and 'nextNext', but leave 'next'
+                alg.splice(i, 1);
+                alg.splice(i + 1, 1);
+                i--;
+            } else {
+                move.pow = pow;
+                alg.splice(i + 2, 1);
                 i--;
             }
         }

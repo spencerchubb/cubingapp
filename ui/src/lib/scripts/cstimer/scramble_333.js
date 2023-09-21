@@ -303,7 +303,7 @@ export var scramble_333 = (function(getNPerm, setNPerm, set8Perm, getNParity, rn
 			solution = search0.solution(posit, 21, probeMax, 1, 2, lastAxisFilter, firstAxisFilter);
 		} while (solution.length <= 3);
 
-		return solution;
+		return solution.trim();
 	}
 
 	return {
