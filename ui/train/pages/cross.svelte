@@ -7,6 +7,7 @@
     import { scramble_333 } from "../../src/lib/scripts/cstimer/scramble_333";
     import { AlgNew, AlgSimplify, AlgToString } from "../../src/lib/scripts/common/alg";
     import * as solver from "@spencerchubb/solver";
+    import Tooltip from "../../src/lib/components/Tooltip.svelte";
 
     let scene: Scene;
 
@@ -53,6 +54,14 @@
         setupCase();
     }
 
+    document.addEventListener("keydown", event => {
+        if (event.key === "Backspace") {
+            setupCase();
+        } else if (event.key === "Enter") {
+            newCase();
+        }
+    });
+
     let sideNavOpen = false;
 </script>
 
@@ -95,16 +104,16 @@
             />
         </div>
         <div class="row" style="gap: 16px;">
-            <button
-                on:click={() => setupCase()}
-            >
-                Reset
-            </button>
-            <button
-                on:click={() => newCase()}
-            >
-                Next
-            </button>
+            <Tooltip text="Reset (Backspace)">
+                <button on:click={() => setupCase()}>
+                    Reset
+                </button>
+            </Tooltip>
+            <Tooltip text="Next (Enter)">
+                <button on:click={() => newCase()}>
+                    Next
+                </button>
+            </Tooltip>
         </div>
         <details>
             <summary>Solution</summary>
