@@ -239,6 +239,38 @@ canvas {
     to { transform: rotate(360deg); }
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.15s ease-in-out;
+    position: absolute;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 12px -2px var(--gray-500);
+}
+
+.dropdown-content a {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    color: var(--gray-100);
+    background: var(--gray-900);
+}
+
+.dropdown-content a:hover {
+    background: var(--gray-800);
+}
+
+.dropdown:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+}
+
 .firebase-emulator-warning {
     display: none;
 }

@@ -41,12 +41,15 @@
         position: absolute;
         z-index: 1;
         visibility: hidden;
+        opacity: 0;
+        transition: all 0.15s ease-in-out;
     }
 
     /* Styles for desktop hover (not mobile) */
     @media (hover: hover) {
         .tooltip:hover span {
             visibility: visible;
+            opacity: 1;
         }
     }
 </style>
