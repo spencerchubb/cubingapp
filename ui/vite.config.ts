@@ -60,7 +60,6 @@ function train() {
         // "4x4-PLL-Parity",
         "CMLL",
         "COLL",
-        "cross",
         "F2L",
         "LSE-EO",
         // "LSE-EOLR",
@@ -74,6 +73,9 @@ function train() {
         // "SQ1-OBL",
         "Winter-Variation",
         "ZBLL",
+        "cross",
+        "xcross",
+        "roux-fb",
     ];
     const result = {};
     for (const page of pages) {
