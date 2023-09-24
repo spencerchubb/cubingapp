@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "build": "vite build",
-    "buildDev": "vite build --mode development --watch"
+    "buildDev": "vite build --mode development --watch",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@jest/globals": "^29.6.2",
