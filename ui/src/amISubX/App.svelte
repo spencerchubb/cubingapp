@@ -1,9 +1,10 @@
 <script lang="ts">
-    import { displayFilePicker, setCallback } from "./app";
+    import { handleTimerData, onChangeSolves, setCallback } from "./app";
     import SideNav from "../lib/components/SideNav.svelte";
     import NavBarIcon from "../lib/components/NavBarIcon.svelte";
     import MenuIcon from "../lib/components/icons/MenuIcon.svelte";
     import CoolCalculators from "../lib/components/CoolCalculators.svelte";
+    import UploadTimerData from "../lib/components/UploadTimerData.svelte";
 
     let state = setCallback((newState) => {
         state = newState;
@@ -25,54 +26,38 @@
         <!-- empty div so the text is centered -->
         <div style="width: 48px;"></div>
     </nav>
-    <div class="col" style="width: 100%; padding: 16px; gap: 16px;">
-        <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
+    <div class="col" style="width: 100%; padding: 0 16px; margin-bottom: 32px;">
+        <div class="col" style="width: 100%; max-width: 600px;">
             <h2>How do I know if I'm sub-X?</h2>
             <p>
                 Have you ever wondered if you are sub-10, sub-15, sub-20, etc?
-                Many speedcubers have asked this question over the years.
-            </p>
-            <p>
                 Typically cubers say that an average of 100 solves is enough to know if you are sub-X.
             </p>
             <p>
-                Sometimes people debate whether 100 solves is enough, and the number can vary.
-                Some say that you really need 500 or even 1000 solves to be sure.
+                The right number of solves is a matter of opinion.
+                Some people say that you need 500 or even 1000 solves to be sure.
             </p>
             <h2>A better way</h2>
             <p>
-                In statistics, there is a concept called 'confidence'.
-                It basically means "How sure are we that this is correct?"
-            </p>
-            <p>
-                Instead of saying "100 solves is good enough", we can calculate how confident we are that you are sub-X.
+                This tool uses a statistical formula called 'confidence intervals'.
             </p>
             <p>
                 In any average, there is a chance that you got lucky or unlucky, so we can never know the "true" average with 100% confidence.
                 The confidence score tells us how confident we are that the "true" average is sub-X.
             </p>
-            <h2>How to use</h2>
-            <p>
-                At the moment this only works with csTimer.
-                If you want it to work with more timers or have other ideas, let me know!
-            </p>
-            <ol>
-                <li>Go to csTimer</li>
-                <li>
-                    Click the 'Export' button (kind of looks like a rectangle with an arrow pointing up)
-                </li>
-                <li>Click 'Export to file'</li>
-                <li>Upload that file below</li>
-            </ol>
-            <button
-                on:click={displayFilePicker}
-            >
-                Upload csTimer data
-            </button>
-            {#if state.error}
-                <p style="color: red;">{state.error}</p>
-            {/if}
+            <div style="margin-top: 32px;"></div>
+            <UploadTimerData callback={handleTimerData} />
+            <div class="row" style="margin-top: 16px; gap: 16px;">
+                <p style="margin: 0; font-weight: bold; align-self: center;">Solves</p>
+                <input
+                    type="number"
+                    min="1"
+                    value={state.solves}
+                    on:change={onChangeSolves}
+                />
+            </div>
             {#if state.intervals}
+                <div style="margin-top: 32px;"></div>
                 <table>
                     <thead>
                         <tr>
@@ -113,5 +98,9 @@
 
     h2 {
         margin-top: 32px;
+    }
+
+    p {
+        margin-top: 16px;
     }
 </style>

@@ -1,7 +1,9 @@
 import { parsers } from "./parsers";
 
+export type Penalty = undefined | "+2" | "DNF";
+
 export type Solve = {
-    penalty: undefined | "+2" | "DNF",
+    penalty: Penalty,
     timeInMs: number,
     timestamp: number,
 }

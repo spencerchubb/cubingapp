@@ -1,5 +1,5 @@
 import { TimerData, parseTimerData } from "../lib/scripts/timerData";
-import { Penalty } from "../lib/scripts/api/solves";
+import { type Penalty } from "../lib/scripts/timerData";
 
 declare const Plotly: any;
 
@@ -11,38 +11,17 @@ export function setCallback(_callback: (state) => void) {
 }
 
 type State = {
-    filename: string,
     timerData?: TimerData,
 }
 
 let state: State = {
-    filename: "No file chosen",
     timerData: undefined,
 };
 
-export function displayFilePicker() {
-    const input = document.createElement("input") as HTMLInputElement;
-    input.type = "file";
-    input.onchange = () => {
-        if (!input.files) return;
-        const file = input.files[0];
-        if (file) {
-            state.filename = file.name;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                const result = reader.result as string;
-                state.timerData = parseTimerData(result);
-                console.log(state.timerData);
-
-                renderTimeSeries();
-
-                callback(state);
-            };
-            reader.readAsText(file);
-        }
-    };
-    input.click();
+export function handleTimerData(timerData: TimerData) {
+    state.timerData = timerData;
+    renderTimeSeries();
+    callback(state);
 }
 
 function renderTimeSeries() {
@@ -170,9 +149,4 @@ function calculateAveragesOfN(solves: { penalty: Penalty, timeInMs: number }[], 
     });
 
     return averages;
-}
-
-function millisecondsToDate(timestamp: number): string {
-    const date = new Date(timestamp * 1000);
-    return `${date.getMonth() + 1}/${date.getDate()}`;
 }
