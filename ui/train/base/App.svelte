@@ -90,18 +90,18 @@
                 />
                 <div style="width: 100%; height: 1px; background: var(--gray-600);"></div>
                 {#if Object.entries(state.subsets).length > 0}
-                    <div class="col" style="width: 100%; align-items: start; gap: 8px;">
+                    <div class="col" style="width: 100%; align-items: start; gap: 12px;">
                         <h2 style="font-size: 1rem;">Subsets</h2>
                         {#each Object.entries(state.subsets) as [subset, checked]}
-                            <div class="row" style="gap: 8px;">
+                            <label class="row" style="gap: 8px;">
                                 <input
                                     type="checkbox"
                                     on:change={onSelectSubset}
                                     {checked}
                                     value={subset}
                                 />
-                                <p>{subset}</p>
-                            </div>
+                                {subset}
+                            </label>
                         {/each}
                     </div>
                 {/if}
@@ -141,5 +141,10 @@
 
     details > *:not(summary) {
         padding: 12px;
+    }
+
+    label:hover {
+        cursor: pointer;
+        text-decoration: underline;
     }
 </style>

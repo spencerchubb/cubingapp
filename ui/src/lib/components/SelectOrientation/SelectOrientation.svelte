@@ -23,6 +23,7 @@
         {...$$props}
         value={orientationValue}
         on:change={_onChange}
+        name="Select orientation"
     >
         {#each orientationOptions as option}
             <option value={option.value}>{option.label}</option>
