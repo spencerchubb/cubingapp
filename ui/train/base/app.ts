@@ -170,19 +170,15 @@ export function getScramble(): string | undefined {
         }
     }
 
-    console.log({alg})
+    alg = removeRotations(alg);
     alg = `${state.preAlg} ${invertAlg(alg)} ${invertAlg(state.postAlg)}`.trim();
-    console.log({alg})
     
     if (state.algSet?.puzzle == "SQ1") {
-        console.log({alg})
         alg = simplifySQ1Alg(alg);
-        console.log({alg})
         return scrambleSQ1(alg);
     }
-    
+
     // Remove rotations because they mess with the scrambler.
-    alg = removeRotations(alg);
     return scramble(state.algSet?.puzzle ?? "", alg);
 }
 

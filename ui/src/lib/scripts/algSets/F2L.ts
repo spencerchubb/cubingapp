@@ -6,7 +6,7 @@ export let algSet = {
         S.UBL, S.UB, S.URB, S.UL, S.UR, S.ULF, S.UF, S.UFR,
         S.FRU, S.FU, S.FUL, S.LFU, S.LU, S.LUB, S.BLU, S.BU, S.BUR, S.RBU, S.RU, S.RUF,
     ],
-    "pre": ["F R U R' U' F'", "F U R U' R' F'", "R U R' U R U2 R'", "R U2 R' U' R U' R'"],
+    "pre": ["F R U R' U' F' U", "F U R U' R' F' U2", "R U R' U' R' F R F' U'", "R' U' R' F R F' U R"],
     "post": ["", "U", "U'", "U2"],
     "cases": [
         {
@@ -269,7 +269,7 @@ export let algSet = {
                 {
                     "name": "Front Right",
                     "algs": [
-                        "d R' U2 R U R' U2 R",
+                        "y' R' U2 R U R' U2 R",
                         "F' U' L' U2 L U' F"
                     ]
                 },
