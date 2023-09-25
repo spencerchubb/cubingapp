@@ -16,6 +16,7 @@
     import SelectOrientation from "../../src/lib/components/SelectOrientation/SelectOrientation.svelte";
     import { type AlgSet } from "../../src/lib/scripts/algSets";
     import { AlgSimplify, AlgToString, StringToAlg } from "../../src/lib/scripts/common/alg";
+    import Tooltip from "../../src/lib/components/Tooltip.svelte";
 
     export let algSet: AlgSet;
 
@@ -25,6 +26,14 @@
 	let state = setCallback((newState) => {
 		state = Object.assign(state, newState);
 	});
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Backspace") {
+            setupCase();
+        } else if (event.key === "Enter") {
+            newCase();
+        }
+    });
 
     // TODO: maybe remove ChartIcon and ProfileIcon
 </script>
@@ -57,16 +66,20 @@
                 />
             </div>
             <div class="row" style="gap: 16px;">
-                <button
-                    on:click={() => setupCase()}
-                >
-                    Reset
-                </button>
-                <button
-                    on:click={() => newCase()}
-                >
-                    Next
-                </button>
+                <Tooltip text="Reset (Backspace)">
+                    <button
+                        on:click={() => setupCase()}
+                    >
+                        Reset
+                    </button>
+                </Tooltip>
+                <Tooltip text="Next (Enter)">
+                    <button
+                        on:click={() => newCase()}
+                    >
+                        Next
+                    </button>
+                </Tooltip>
             </div>
             <details>
                 <summary>Solutions</summary>
