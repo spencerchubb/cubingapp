@@ -1,6 +1,5 @@
 <script lang="ts">
     import {
-        type AlgSet,
         initApp,
         onChangeOrientation,
         onClickSubset,
@@ -15,6 +14,7 @@
     import PlayIcon from "../../src/lib/components/icons/PlayIcon.svelte";
     import PageSkeleton from "../components/PageSkeleton.svelte";
     import SelectOrientation from "../../src/lib/components/SelectOrientation/SelectOrientation.svelte";
+    import { type AlgSet } from "../../src/lib/scripts/algSets";
 
     export let algSet: AlgSet;
 

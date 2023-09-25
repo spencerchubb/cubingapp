@@ -34,8 +34,6 @@
             newCase();
         }
     });
-
-    // TODO: maybe remove ChartIcon and ProfileIcon
 </script>
 
 <main class="col" style="width: 100%; height: 100%;">

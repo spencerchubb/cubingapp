@@ -103,31 +103,31 @@ function tutorials() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    svelte(),
-    wasm(),
-  ],
-  build: {
-    rollupOptions: {
-      input: {
-        404: resolve(__dirname, '404.html'),
-        amISubX: resolve(__dirname, 'am-i-sub-x.html'),
-        algdb: resolve(__dirname, 'algdb.html'),
-        ...algdb(),
-        blog: resolve(__dirname, 'blog.html'),
-        ...blogs(),
-        calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
-        calculateSoR: resolve(__dirname, 'calculate-sum-of-ranks.html'),
-        coach: resolve(__dirname, 'coach.html'),
-        coachTopics: resolve(__dirname, 'coach-topics.html'),
-        index: resolve(__dirname, 'index.html'),
-        keybindings: resolve(__dirname, 'keybindings.html'),
-        recon: resolve(__dirname, 'recon.html'),
-        stats: resolve(__dirname, 'stats.html'),
-        train: resolve(__dirname, 'train.html'),
-        ...train(),
-        ...tutorials(),
-      },
+    plugins: [
+        svelte(),
+        wasm(),
+    ],
+    build: {
+        rollupOptions: {
+            input: {
+                404: resolve(__dirname, '404.html'),
+                amISubX: resolve(__dirname, 'am-i-sub-x.html'),
+                algdb: resolve(__dirname, 'algdb.html'),
+                ...algdb(),
+                blog: resolve(__dirname, 'blog.html'),
+                ...blogs(),
+                calculateKinch: resolve(__dirname, 'calculate-kinch.html'),
+                calculateSoR: resolve(__dirname, 'calculate-sum-of-ranks.html'),
+                coach: resolve(__dirname, 'coach.html'),
+                coachTopics: resolve(__dirname, 'coach-topics.html'),
+                index: resolve(__dirname, 'index.html'),
+                keybindings: resolve(__dirname, 'keybindings.html'),
+                recon: resolve(__dirname, 'recon.html'),
+                stats: resolve(__dirname, 'stats.html'),
+                train: resolve(__dirname, 'train.html'),
+                ...train(),
+                ...tutorials(),
+            },
+        },
     },
-  },
 })

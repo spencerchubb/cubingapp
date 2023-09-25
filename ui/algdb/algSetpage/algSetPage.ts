@@ -1,6 +1,6 @@
 import { getInitialOrientation } from '../../src/lib/components/SelectOrientation/orientationOptions';
 import { type Scene, invertAlg, newCube, GRAY, PURPLE } from '../../src/lib/scripts/rubiks-viz';
-import { AlgSet, AlgSetCase } from '../algSets';
+import { AlgSet, AlgSetCase } from '../../src/lib/scripts/algSets';
 
 let callback: (state) => void;
 
@@ -9,7 +9,6 @@ export function setCallback(_callback: (state) => void) {
     return state;
 }
 
-// TODO see if this can be removed
 export type Subsets = { 
     [key: string]: { // Key is subset name
         cases: number,
