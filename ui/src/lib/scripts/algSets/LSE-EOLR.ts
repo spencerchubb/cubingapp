@@ -1,231 +1,289 @@
-import { STICKERS as S } from "../rubiks-viz/pieces";
+import { randElement } from "../common/rand";
+
+function preNormal(): string {
+    let mSlice = ["M' U2 M U2", "M U2 M' U2", "M' U2 M2 U2 M'"];
+    let setup = ["U M2 U", "U M2 U'", "U' M2 U", "U' M2 U'", "U M2 U2", "U' M2 U2"];
+    return `${randElement(mSlice)} ${randElement(setup)}`;
+}
+
+function prePseudo(): string {
+    let mSlice = ["M' U2 M U2 M'", "M U2 M' U2 M", "M' U2 M2 U2"];
+    let setup = ["U M2 U", "U M2 U'", "U' M2 U", "U' M2 U'", "U M2 U2", "U' M2 U2"];
+    return `${randElement(mSlice)} ${randElement(setup)}`;
+}
 
 export let algSet = {
     "puzzle": "3x3",
-    "gray": [S.FU, S.F, S.FD, S.BU, S.B, S.BD],
-    "purple": [S.UB, S.UL, S.UR, S.UF, S.U, S.DF, S.DB, S.D],
-    "pre": ["U' M2 U"],
+    "pre": preNormal,
     "post": ["", "U", "U2", "U'"],
-    "setup": "U' M2",
     "cases": [
         {
             "name": "Arrow (UF DF)",
-            "setup": "M' U' M2",
+            "subsets": ["Arrow"],
+            "pre": prePseudo,
             "algs": ["M"]
         },
         {
             "name": "Arrow (UB UR)",
+            "subsets": ["Arrow"],
             "algs": ["M' U' M'"]
         },
         {
             "name": "Arrow (UB UR)",
+            "subsets": ["Arrow"],
             "algs": ["M' U M"]
         },
         {
             "name": "Arrow (UB UR)",
+            "subsets": ["Arrow"],
             "algs": ["M' U M"]
         },
         {
             "name": "Arrow (UF UR)",
-            "setup": "M' U' M2",
+            "subsets": ["Arrow"],
+            "pre": prePseudo,
             "algs": ["U M' U2 M U M"]
         },
         {
             "name": "Arrow (UD UB)",
-            "setup": "M' U' M2",
+            "subsets": ["Arrow"],
+            "pre": prePseudo,
             "algs": ["U' M U' M' U' M"]
         },
         {
             "name": "1 / 1 (UF UR)",
+            "subsets": ["1 / 1"],
             "algs": ["M' U M' U M U M"]
         },
         {
             "name": "1 / 1 (UF DF)",
+            "subsets": ["1 / 1"],
             "algs": ["M U M' U M U M'", "U' M' U M' U2 M U M"]
         },
         {
             "name": "1 / 1 (UF DB)",
+            "subsets": ["1 / 1"],
             "algs": ["M U' M' U' M U' M'", "M' U' M' U' M U M"]
         },
         {
             "name": "1 / 1 (UF UB)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["M U' M' U2 M' U2 M' U M"]
         },
         {
             "name": "1 / 1 (UR UB)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["M U' M' U' M'"]
         },
         {
             "name": "1 / 1 (UR UL)",
+            "subsets": ["1 / 1"],
             "algs": ["U' M' U M' U2 M U M'"]
         },
         {
             "name": "1 / 1 (UR DF)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["M' U' M' U' M'"]
         },
         {
             "name": "1 / 1 (UR DB)",
+            "subsets": ["1 / 1"],
             "algs": ["M U M' U M U M"]
         },
         {
             "name": "1 / 1 (UB DF)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["U M' U2 M U M U M' U M'"]
         },
         {
             "name": "1 / 1 (UB DB)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["U' M' U M' U2 M'"]
         },
         {
             "name": "1 / 1 (DF DB)",
-            "setup": "M' U' M2",
+            "subsets": ["1 / 1"],
+            "pre": prePseudo,
             "algs": ["M' U' M' U2 M' U2 M' U M"]
         },
         {
             "name": "2 Adj / 2 (UF UL)",
+            "subsets": ["2 Adj / 2"],
             "algs": ["U M' U2 M U M U M"]
         },
         {
             "name": "2 Adj / 2 (UF UR)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 2"],
+            "pre": prePseudo,
             "algs": ["M' U' M U2 M U2 M' U M'"]
         },
         {
             "name": "2 Adj / 2 (UF UB)",
+            "subsets": ["2 Adj / 2"],
             "algs": ["U M' U' M' U' M' U' M"]
         },
         {
             "name": "2 Adj / 2 (UL UB)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 2"],
+            "pre": prePseudo,
             "algs": ["U' M2 U M'"]
         },
         {
             "name": "2 Adj / 2 (UF DF)",
+            "subsets": ["2 Adj / 2"],
             "algs": ["U' M2 U M U M"]
         },
         {
             "name": "2 Adj / 2 (UL DF)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 2"],
+            "pre": prePseudo,
             "algs": ["U2 M' U2 M' U M'"]
         },
         {
             "name": "2 Adj / 2 (DF DB)",
+            "subsets": ["2 Adj / 2"],
             "algs": ["U M' U' M' U' M' U' M'"]
         },
         {
             "name": "2 Adj / 0 (UF UL)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 0"],
+            "pre": prePseudo,
             "algs": ["U M' U' M' U2 M"]
         },
         {
             "name": "2 Adj / 0 (UF UR)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 0"],
+            "pre": prePseudo,
             "algs": ["M' U2 M' U' M' U' M U' M"]
         },
         {
             "name": "2 Adj / 0 (UF UB)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 0"],
+            "pre": prePseudo,
             "algs": ["M' U M U M' U2 M U' M"]
         },
         {
             "name": "2 Adj / 0 (UL UB)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Adj / 0"],
+            "pre": prePseudo,
             "algs": ["U M' U' M' U M U' M' U' M"]
         },
         {
             "name": "2 Adj / 0 (UF DF)",
+            "subsets": ["2 Adj / 0"],
             "algs": ["U2 M U M' U2 M U' M'"]
         },
         {
             "name": "2 Adj / 0 (UL DF)",
+            "subsets": ["2 Adj / 0"],
             "algs": ["M' U M' U2 M' U M"]
         },
         {
             "name": "2 Adj / 0 (DF DB)",
+            "subsets": ["2 Adj / 0"],
             "algs": ["M' U M' U2 M' U' M'"]
         },
         {
             "name": "2 Opp / 2 (UF UR)",
+            "subsets": ["2 Opp / 2"],
             "algs": ["M' U2 M' U2 M U M"]
         },
         {
             "name": "2 Opp / 2 (UR UL)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Opp / 2"],
+            "pre": prePseudo,
             "algs": ["M2 U' M' U2 M' U2 M"]
         },
         {
             "name": "2 Opp / 2 (UF DF)",
+            "subsets": ["2 Opp / 2"],
             "algs": ["M2 U' M' U2 M' U2 M' U M'"]
         },
         {
             "name": "2 Opp / 2 (DF DB)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Opp / 2"],
+            "pre": prePseudo,
             "algs": ["M' U2 M' U2 M'"]
         },
         {
             "name": "2 Opp / 2 (UR DF)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Opp / 2"],
+            "pre": prePseudo,
             "algs": ["M' U2 M U M U2 M' U' M'"]
         },
         {
             "name": "2 Opp / 2 (UF UB)",
+            "subsets": ["2 Opp / 2"],
             "algs": ["M' U2 M' U2 M U' M U' M' U2 M"]
         },
         {
             "name": "2 Opp / 0 (UF UR)",
+            "subsets": ["2 Opp / 0"],
             "algs": ["M' U' M U M' U M'"]
         },
         {
             "name": "2 Opp / 0 (UF UB)",
+            "subsets": ["2 Opp / 0"],
             "algs": ["M' U' M U M' U' M'"]
         },
         {
             "name": "2 Opp / 0 (UF DF)",
+            "subsets": ["2 Opp / 0"],
             "algs": ["M U M' U' M U' M'"]
         },
         {
             "name": "2 Opp / 0 (UR DF)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Opp / 0"],
+            "pre": prePseudo,
             "algs": ["M' U M U' M"]
         },
         {
             "name": "2 Opp / 0 (UR UL)",
-            "setup": "M' U' M2",
+            "subsets": ["2 Opp / 0"],
+            "pre": prePseudo,
             "algs": ["M' U' M' U' M' U2 M U' M'"]
         },
         {
             "name": "2 Opp / 0 (DF DB)",
+            "subsets": ["2 Opp / 0"],
             "algs": ["R U R' U' M' U R U' r'", "U S R' F R S' R' F' R"]
         },
         {
             "name": "0 / 2 (UF UR)",
-            "setup": "M' U' M2",
+            "subsets": ["0 / 2"],
+            "pre": prePseudo,
             "algs": ["M' U' M' U M'"]
         },
         {
             "name": "0 / 2 (UL UR)",
-            "setup": "M' U' M2",
+            "subsets": ["0 / 2"],
+            "pre": prePseudo,
             "algs": ["M' U' M U' M U2 M' U' M"]
         },
         {
             "name": "0 / 2 (UF DF)",
+            "subsets": ["0 / 2"],
             "algs": ["U M' U' M' U M U M"]
         },
         {
             "name": "0 / 2 (DF DB)",
+            "subsets": ["0 / 2"],
             "algs": ["M' U' M' U M U' M'"]
         },
         {
             "name": "All 6 (UF DF)",
-            "setup": "M' U' M2",
+            "subsets": ["All 6"],
+            "pre": prePseudo,
             "algs": ["U' M U M' U' M U' M' U2 M"]
         },
         {
             "name": "All 6 (DF DB)",
+            "subsets": ["All 6"],
             "algs": ["M' U' M' U' M U' M' U2 M' U' M"]
         }
     ]

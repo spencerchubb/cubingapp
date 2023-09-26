@@ -15,7 +15,6 @@
 	import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
     import SelectOrientation from "../../src/lib/components/SelectOrientation/SelectOrientation.svelte";
     import { type AlgSet } from "../../src/lib/scripts/algSets";
-    import { AlgSimplify, AlgToString, StringToAlg } from "../../src/lib/scripts/common/alg";
     import Tooltip from "../../src/lib/components/Tooltip.svelte";
 
     export let algSet: AlgSet;
@@ -83,8 +82,8 @@
                 <summary>Solutions</summary>
                 <div>
                     <ul style="padding-left: 24px;">
-                        {#each state.currentCase?.algs ?? state.currentCase?.variants[0].algs ?? [] as alg}
-                            <li>{AlgToString(AlgSimplify(StringToAlg(`${state.postAlg} ${alg}`.trim())))}</li>
+                        {#each state.solutions as solution}
+                            <li>{solution}</li>
                         {/each}
                     </ul>
                 </div>

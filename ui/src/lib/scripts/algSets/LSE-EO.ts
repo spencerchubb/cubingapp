@@ -1,10 +1,13 @@
-import { STICKERS as S } from "../rubiks-viz/pieces";
+import { randElement } from "../common/rand";
 
 export let algSet = {
     "puzzle": "3x3",
-    "gray": [S.FU, S.F, S.FD, S.BU, S.B, S.BD, S.LU, S.RU],
-    "purple": [S.UB, S.UL, S.UR, S.UF, S.U, S.DF, S.DB, S.D],
-    "pre": ["U' M2 U"],
+    "pre": () => {
+        const segments = ["M2 U", "M2 U'", "M2 U2", "M' U2 M U", "M' U2 M' U'"];
+        let alg = randElement(segments);
+        for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`;
+        return alg;
+    },
     "post": ["", "U", "U2", "U'"],
     "cases": [
         {

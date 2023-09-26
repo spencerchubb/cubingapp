@@ -1,3 +1,4 @@
+import { randElement } from "../common/rand";
 import { STICKERS as S } from "../rubiks-viz/pieces";
 
 export let algSet = {
@@ -5,8 +6,8 @@ export let algSet = {
     "gray": [
         S.FRU, S.FU, S.FUL, S.LFU, S.LU, S.LUB, S.BLU, S.BU, S.BUR, S.RBU, S.RU, S.RUF,
     ],
-    "pre": ["R' F R' B2 R F' R' B2 R2", "R U R' F' R U R' U' R' F R2 U' R'", "R U R' U' R' F R2 U' R' U' R U R' F'", "M2 U M U2 M' U M2"],
-    "post": ["", "U", "U'", "U2"],
+    "pre": () => randElement(["R' F R' B2 R F' R' B2 R2", "R U R' F' R U R' U' R' F R2 U' R'", "R U R' U' R' F R2 U' R' U' R U R' F'", "M2 U M U2 M' U M2"]),
+    "post": () => randElement(["", "U", "U'", "U2"]),
     "cases": [
         {
             "name": "OLL 1",

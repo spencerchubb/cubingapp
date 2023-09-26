@@ -1,4 +1,5 @@
 import { STICKERS as S } from "../rubiks-viz/pieces";
+import { randElement } from "../common/rand";
 
 export let algSet = {
     "puzzle": "3x3",
@@ -9,8 +10,8 @@ export let algSet = {
         S.DF, S.DB,
         S.BD, S.B, S.BU,
     ],
-    "pre": ["M' U' M U", "M' U M U'", "M U' M' U", "M U M' U'"],
-    "post": ["", "U", "U'", "U2"],
+    "pre": () => randElement(["M' U' M U", "M' U M U'", "M U' M' U", "M U M' U'"]),
+    "post": () => randElement(["", "U", "U'", "U2"]),
     "cases": [
         {
             "name": "O Adjacent",

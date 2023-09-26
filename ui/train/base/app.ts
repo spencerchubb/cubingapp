@@ -6,15 +6,20 @@ import { scrambleSQ1, simplifySQ1Alg } from "../../src/lib/scripts/cstimer/scram
 import { getInitialOrientation } from "../../src/lib/components/SelectOrientation/orientationOptions";
 import { AlgSetCase, type AlgSet } from "../../src/lib/scripts/algSets";
 import { removeRotations } from "./algConvert";
+import { StringToAlg, AlgToString, AlgSimplify } from "../../src/lib/scripts/common/alg";
 
 type InternalState = {
     scene?: Scene,
     orientation: string,
+    preAlg: string,
+    postAlg: string,
 }
 
 let internalState: InternalState = {
     scene: undefined,
     orientation: "",
+    preAlg: "",
+    postAlg: "",
 };
 
 export type State = {
@@ -22,8 +27,7 @@ export type State = {
     currentCase?: AlgSetCase,
     subsets: { [key: string]: boolean }, // Key is subset, value indicates whether it is selected
     scramble: string,
-    preAlg: string,
-    postAlg: string,
+    solutions: string[]
 }
 
 let state: State = {
@@ -31,8 +35,7 @@ let state: State = {
     currentCase: undefined,
     subsets: JSON.parse((localStorage.getItem(`${location.pathname}-subsets`) ?? "{}")),
     scramble: "",
-    preAlg: "",
-    postAlg: "",
+    solutions: [],
 };
 
 export let callback: (state) => void;
@@ -141,10 +144,18 @@ export function newCase(): void {
         console.log("No pre/post algs");
         return;
     }
-    state.preAlg = randElement(state.algSet.pre);
-    state.postAlg = randElement(state.algSet.post);
+
+    // First priority is the setup for this specific case.
+    let pre = state.currentCase?.pre ?? state.algSet.pre;
+    internalState.preAlg = pre();
+    internalState.postAlg = state.algSet.post();
 
     state.scramble = getScramble() ?? "error";
+
+    let algs = state.currentCase?.algs ?? (state.currentCase?.variants ?? [])[0].algs ?? [];
+    state.solutions = algs.map(alg => {
+        return AlgToString(AlgSimplify(StringToAlg(`${internalState.postAlg} ${alg}`.trim())));
+    });
 
     setupCase();
 
@@ -170,15 +181,16 @@ export function getScramble(): string | undefined {
         }
     }
 
+    // Remove rotations because they mess with the scrambler.
     alg = removeRotations(alg);
-    alg = `${state.preAlg} ${invertAlg(alg)} ${invertAlg(state.postAlg)}`.trim();
+
+    alg = `${internalState.preAlg} ${invertAlg(alg)} ${invertAlg(internalState.postAlg)}`.trim();
     
     if (state.algSet?.puzzle == "SQ1") {
         alg = simplifySQ1Alg(alg);
         return scrambleSQ1(alg);
     }
 
-    // Remove rotations because they mess with the scrambler.
     return scramble(state.algSet?.puzzle ?? "", alg);
 }
 

@@ -54,11 +54,11 @@
                 <a class="alg-set" href="/train/CMLL.html">
                     CMLL
                 </a>
-                <a class="alg-set" href="/train/OH-CMLL.html">
-                    OH CMLL
-                </a>
                 <a class="alg-set" href="/train/LSE-EO.html">
                     LSE EO
+                </a>
+                <a class="alg-set" href="/train/LSE-EOLR.html">
+                    LSE EOLR
                 </a>
             </div>
             <div class="card">

@@ -1,13 +1,15 @@
+import { randElement } from "../common/rand";
+
 export let algSet = {
     "puzzle": "SQ1",
     "set": "SQ1 Cube Shape",
-    "pre": [
+    "pre": () => randElement([
         "1,0 / 3,3 / 6,-3 / -1,0",
         "0,-1 / -3,3 / 3,6 / 0,1",
         "1,0 / -,3 / 3,6 / -1,0",
         "0,-1 / -3,6 / 3,-3 / 0,1"
-    ],
-    "post": ["0,0", "6,0", "0,6", "6,6"],
+    ]),
+    "post": () => randElement(["0,0", "6,0", "0,6", "6,6"]),
     "cases": [
         {
             "name": "Kite & Kite",

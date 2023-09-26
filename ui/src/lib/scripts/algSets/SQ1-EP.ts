@@ -1,7 +1,9 @@
+import { randElement } from "../common/rand";
+
 export let algSet = {
     "puzzle": "SQ1",
-    "pre": ["0,0", "6,0", "0,6", "6,6"],
-    "post": ["0,0", "6,0", "0,6", "6,6"],
+    "pre": () => randElement(["0,0", "6,0", "0,6", "6,6"]),
+    "post": () => randElement(["0,0", "6,0", "0,6", "6,6"]),
     "cases": [
         {
             "name": "Opp & Solved",
