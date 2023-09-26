@@ -73,7 +73,9 @@ function train() {
         // "SQ1-OBL",
         "Winter-Variation",
         "ZBLL",
+        "2x2x2",
         "cross",
+        "eoline",
         "xcross",
         "roux-fb",
     ];

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import SideNav from "../src/lib/components/SideNav.svelte";
-    import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
-    import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
-    import GithubIcon from "../src/lib/components/icons/GithubIcon.svelte";
+    import SideNav from "../../src/lib/components/SideNav.svelte";
+    import NavBarIcon from "../../src/lib/components/NavBarIcon.svelte";
+    import MenuIcon from "../../src/lib/components/icons/MenuIcon.svelte";
+    import GithubIcon from "../../src/lib/components/icons/GithubIcon.svelte";
 
     let sideNavOpen = false;
 </script>
@@ -74,6 +74,24 @@
                 </a>
                 <a class="alg-set" href="/train/2x2-EG2.html">
                     EG2
+                </a>
+            </div>
+            <div class="card">
+                <h2>Blocks</h2>
+                <a class="alg-set" href="/train/cross.html">
+                    Cross
+                </a>
+                <a class="alg-set" href="/train/xcross.html">
+                    XCross
+                </a>
+                <a class="alg-set" href="/train/roux-fb.html">
+                    Roux FB
+                </a>
+                <a class="alg-set" href="/train/eoline.html">
+                    EOLine
+                </a>
+                <a class="alg-set" href="/train/2x2x2.html">
+                    2x2x2
                 </a>
             </div>
         </div>

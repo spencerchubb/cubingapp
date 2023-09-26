@@ -6,6 +6,7 @@
     name="XCross"
     minMoves={3}
     maxMoves={11}
+    onlyOrientation={[]}
     disregard={[0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 18, 19]}
     gray={[
         0, 1, 2, 3, 5, 6, 7, 8, // U

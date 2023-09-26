@@ -14,6 +14,7 @@
     export let name: string;
     export let minMoves: number;
     export let maxMoves: number;
+    export let onlyOrientation: number[];
     export let disregard: number[];
     export let gray: number[];
 
@@ -57,6 +58,7 @@
         let solutions = (await solver.solve({
             alg: possibleScram,
             moves: "U U' D D' L L' R R' F F' B B'",
+            onlyOrientation: onlyOrientation,
             disregard: disregard,
             maxSolutions: 1,
         }));
@@ -135,6 +137,12 @@
                     </a>
                     <a href="/train/roux-fb.html">
                         Roux FB
+                    </a>
+                    <a href="/train/eoline.html">
+                        EOLine
+                    </a>
+                    <a href="/train/2x2x2.html">
+                        2x2x2
                     </a>
                 </div>
             </div>
