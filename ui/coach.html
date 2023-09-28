@@ -6,35 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./src/style/app.css">
     <link rel="stylesheet" href="./src/style/colors.css">
-    <title>CubingApp Coaching</title>
+    <title>Cubing Coach</title>
     <link rel="icon" href="./src/assets/favicon.svg" type="image/x-icon">
 </head>
 
 <style>
-    h1, img {
-        margin-top: 1rem;
-    }
-
-    h2, img {
-        margin-top: 1.3rem;
-    }
-
-    p, ul {
-        margin-top: 0.8rem;
-    }
-
     li {
         line-height: 1.8rem;
     }
 
-    h2, li {
+    h2,
+    li {
         text-align: left;
     }
 
     a {
+        color: white;
         max-width: 400px;
         width: 100%;
-        margin: 1.5rem auto 1rem auto;
     }
 
     button {
@@ -45,11 +34,6 @@
 
     img {
         border-radius: 16px;
-        box-shadow: 0 2px 8px -2px white;
-        max-width: 400px;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .callout {
@@ -61,58 +45,86 @@
     }
 </style>
 
-<body style="width: 100%; height: 100%; overflow-y: auto; padding-bottom: 64px;">
-    <div class="col" style="margin: auto; align-items: start; max-width: 700px; width: 100%; padding: 0 16px;">
-        <h1>Become a faster cuber</h1>
-        <p>
-            Are you a beginner wondering what to learn next?
-            Or perhaps you're an advanced cuber, but you've hit a plateau?
+<body class="col" style="width: 100%; height: 100%; overflow-y: auto; padding-bottom: 96px;">
+    <div class="col" style=" align-items: start; width: 100%; max-width: 700px; padding: 0 16px; margin: auto;">
+        <h1 class="header" style="margin-top: 15%; font-size: 2.5rem;">Get faster at cubing</h1>
+        <p class="subheader" style="margin-top: 1rem; font-size: 1.5rem; line-height: 1.8rem;">
+            Reach your speedcubing goals with 1-on-1 coaching
         </p>
-        <p>
-            Now you can get one-on-one coaching from a speedcubing expert.
-        </p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
-            <button>Set up free session</button>
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link" style="margin-top: 2rem; min-width: 100%;">
+            <button>
+                Book free session
+            </button>
         </a>
-        <img src="/public/antique-clock.jpg" alt="Antique clock">
-        <h2>Why choose me as a coach?</h2>
-        <ul>
-            <li>One-one-one coaching sessions</li>
-            <li>Solve analysis</li>
-            <li>Ask me questions via email</li>
-            <li>Access to thousands of speedcubing algorithms</li>
-        </ul>
-        <h2>Pricing</h2>
-        <ul>
-            <li>First coaching session&nbsp;&nbsp;<span class="callout">FREE</span></li>
-            <li>More sessions: $30 for 30 minutes</li>
-            <li>10-session package: Save 20% when you buy the package</li>
-        </ul>
-        <h2>What do sessions look like?</h2>
-        <ul>
-            <li>To make the most of your session, record your solves and send to me beforehand</li>
-            <li>I will analyze your solves before the session</li>
-            <li>During the session, we will discuss solve analysis</li>
-            <li>Brainstorm a training plan</li>
-            <li>Ask me questions</li>
-        </ul>
-        <p>
-            <a href="/coach-topics.html" class="link">
-                More info about what you can learn
-            </a>
+        <h2 style="margin-top: 3rem;">Everyone needs a coach</h2>
+        <p style="margin-top: 1rem;">
+            Even Michael Jordan and Serena Williams have a coach, and they are the best in the world.
         </p>
-        <h2>Who is the coach?</h2>
-        <img src="/public/headshot.png" alt="Spencer Chubb" />
-        <p>My name is Spencer Chubb, and I made the website cubingapp.com</p>
-        <p>If you are in online cubing communities, you may have seen me around. I also go by:</p>
-        <ul>
+        <div style="margin-top: 2rem; width: 100%; display: flex; gap: 1rem;">
+                <div style="width: 50%;">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="/public/michael_jordan.jpg" alt="Michael Jordan" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                    Michael Jordan with coach Phil Jackson
+                </p>
+            </div>
+            <div style="width: 50%;">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="/public/serena_williams.jpg" alt="Serena Williams" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                    Serena Williams with coach Patrick Mouratoglou
+                </p>
+            </div>
+        </div>
+        <div style="margin-top: 3rem; width: 100%; border: solid 1px var(--gray-500); border-radius: 16px; padding: 16px;">
+            <h2>Benefits</h2>
+            <ul style="margin-top: 1rem;">
+                <li>One-one-one coaching sessions</li>
+                <li>Solve analysis</li>
+                <li>Ask me questions via email</li>
+                <li>Access to thousands of speedcubing algorithms</li>
+            </ul>
+        </div>
+    </div>
+    <h2 style="margin-top: 3rem; display: flex; flex-wrap: wrap;">Lessons</h2>
+    <div style="margin-top: 0.5rem; width: 100%; max-width: 1000px; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 16px;">
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">Cross & F2L</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">OLL & PLL</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">Roux</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">ZZ</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">Lookahead</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">Fingertricks</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">One-Handed</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">Blindfolded</p>
+        <p style="width: 300px; padding: 1rem; border-bottom: solid 1px var(--gray-500);">And More</p>
+    </div>
+    <div class="col" style="align-items: start; width: 100%; max-width: 700px; padding: 0 16px; margin: auto;">
+        <div style="margin-top: 3rem; width: 100%; border: solid 1px var(--gray-500); border-radius: 16px; padding: 16px;">
+            <h2>Pricing</h2>
+            <ul style="margin-top: 1rem;">
+                <li>First coaching session&nbsp;&nbsp;<span class="callout">FREE</span></li>
+                <li>More sessions: $30 for 30 minutes</li>
+                <li>10-session package: Save 20% when you buy the package</li>
+            </ul>
+        </div>
+        <h2 style="margin-top: 3rem; width: 100%; text-align: center;">Meet the coach 👋</h2>
+        <img src="/public/headshot.png" alt="Spencer Chubb" style="margin: 1rem auto 0 auto;" />
+        <p style="margin-top: 2rem;">
+            My name is Spencer Chubb.
+            I can solve the cube in under 10 seconds on average, and my best time is 5.74 seconds.
+        </p>
+        <p style="margin-top: 1rem;">If you frequent online cubing communities, you may have seen me. My handles are:</p>
+        <ul style="margin-top: 1rem;">
             <li>Spencer131 on speedsolving.com</li>
             <li>spencerchubb on Reddit (r/Cubers)</li>
         </ul>
-        <p>I've been cubing for over 10 years and my personal best (unofficial) is under 6 seconds.</p>
-        <p>Ready to break some PBs? 😎</p>
-        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link">
-            <button>Set up free session</button>
+        <p style="margin-top: 1rem;">It only takes 30 seconds to book your free session!</p>
+        <a href="https://forms.gle/xVJbavRRnVUWLKGG6" target="_blank" class="form-link" style="margin-top: 2rem; min-width: 100%;">
+            <button>
+                Book free session
+            </button>
         </a>
     </div>
 
@@ -120,13 +132,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-557337495"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag("js", new Date());
 
         gtag("config", "AW-557337495");
-        
+
         document.querySelector(".form-link").addEventListener("click", (event) => {
-            gtag("event", "conversion", {"send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC"});
+            gtag("event", "conversion", { "send_to": "AW-557337495/1kUICKzmk98YEJeX4YkC" });
         });
     </script>
     <script type="module" src="/src/lib/scripts/analytics.ts"></script>
