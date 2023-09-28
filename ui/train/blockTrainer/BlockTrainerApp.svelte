@@ -17,6 +17,10 @@
     export let onlyOrientation: number[];
     export let disregard: number[];
     export let gray: number[];
+    export let ep = 0xffffffffffff;
+    export let eo = 0xffffffffffff;
+    export let cp = 0xffffffff;
+    export let co = 0xffffffff;
 
     let scene: Scene;
 
@@ -54,7 +58,7 @@
 
     async function newCase() {
         scramble = "loading...";
-        let possibleScram = scramble_333.getRandomScramble();
+        let possibleScram = scramble_333.getAnyScramble(ep, eo, cp, co, null, null, null, null);
         let solutions = (await solver.solve({
             alg: possibleScram,
             moves: "U U' D D' L L' R R' F F' B B'",
@@ -141,8 +145,14 @@
                     <a href="/train/eoline.html">
                         EOLine
                     </a>
+                    <a href="/train/eocross.html">
+                        EOCross
+                    </a>
                     <a href="/train/2x2x2.html">
                         2x2x2
+                    </a>
+                    <a href="/train/2x2x2-2x2x3.html">
+                        2x2x2 ➡ 2x2x3
                     </a>
                 </div>
             </div>

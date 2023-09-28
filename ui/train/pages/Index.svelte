@@ -90,8 +90,14 @@
                 <a class="alg-set" href="/train/eoline.html">
                     EOLine
                 </a>
+                <a class="alg-set" href="/train/eocross.html">
+                    EOCross
+                </a>
                 <a class="alg-set" href="/train/2x2x2.html">
                     2x2x2
+                </a>
+                <a class="alg-set" href="/train/2x2x2-2x2x3.html">
+                    2x2x2 ➡ 2x2x3
                 </a>
             </div>
         </div>
