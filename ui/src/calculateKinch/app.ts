@@ -221,9 +221,9 @@ function getScoreColor(score) {
     }
 
     // Calculate the red, green, and blue components of the color.
-    // Divide by 140 to darken and improve contrast with white text.
+    // Divide by 120 to darken and improve contrast with white text.
     var red = Math.round((100 - score) * 255 / 120);
-    var green = Math.round((score) * 255 / 140);
+    var green = Math.round((score) * 255 / 120);
     var blue = 0;
 
     // Return the RGB string

@@ -62,11 +62,15 @@
                         <td>{state.totalSingle}</td>
                         <td>{state.totalAverage}</td>
                     </tr>
-                    {#each Object.entries(state.wcaPerson.personal_records) as [event, record]}
+                    {#each state.data as element}
                         <tr>
-                            <td>{event}</td>
-                            <td>{record.single?.world_rank ?? "N/A"}</td>
-                            <td>{record.average?.world_rank ?? "N/A"}</td>
+                            <td>{element.event}</td>
+                            <td style="background: {element.singleColor}">
+                                {element.single}
+                            </td>
+                            <td style="background: {element.averageColor}">
+                                {element.average}
+                            </td>
                         </tr>
                     {/each}
                 </tbody>
