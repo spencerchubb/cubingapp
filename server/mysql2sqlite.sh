@@ -1,23 +1,38 @@
 #!/bin/bash
 
-# Set the source directory
-src_dir="./WCA_export"
+# Get url from first param
+url=$1
 
-# Check if the source directory exists
-if [ ! -d "$src_dir" ]; then
-  echo "Source directory '$src_dir' does not exist."
-  exit 1
+# Get folder name from url
+src_dir=${url##*/}
+
+# If not downloaded already, download the zip file
+if [ ! -f "$src_dir" ]; then
+    wget $url
 fi
 
+unzip "$src_dir" -d WCA_export
+rm "$src_dir"
+
 # Loop through the .tsv files in the source directory
-for file in "$src_dir"/*.tsv; do
-    # Get the base filename without the directory path
-    base_filename=$(basename "$file")
-
-    # Remove Wca_export_ from the filename
-    new_filename=${base_filename#WCA_export_}
-
-    mv "$file" "$src_dir/$new_filename"
+cd WCA_export
+for file in *.tsv; do
+    # Remove WCA_export_ from the filename
+    new_filename=${file#WCA_export_}
+    echo "$file" "$new_filename"
+    mv "$file" "$new_filename"
 done
+rm championships.tsv
+rm Formats.tsv
+rm Results.tsv
+rm RoundTypes.tsv
+rm Scrambles.tsv
+cd ..
 
-csvs-to-sqlite ./WCA_export/*.tsv wca.db -s $'\t'
+# Remove the old database
+rm src/wca.db
+
+# Convert the .tsv files to a sqlite database
+csvs-to-sqlite WCA_export/*.tsv "src/wca.db" -s $'\t'
+
+sqlite3 src/wca.db < ./setup.sql

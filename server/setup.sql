@@ -1,10 +1,3 @@
--- Drop unnecessary tables
-DROP TABLE championships;
-DROP TABLE Formats;
-DROP TABLE Results;
-DROP TABLE RoundTypes;
-DROP TABLE Scrambles;
-
 -- Create indices
 CREATE INDEX idx_Persons_id ON Persons(id);
 CREATE INDEX idx_RanksSingle_eventId ON RanksSingle(eventId);
