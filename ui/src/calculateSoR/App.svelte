@@ -109,7 +109,7 @@
                 multiple ways to measure your all-round abilities.
             </p>
         </div>
-        <div style="margin-top: 32px;" />
+        <div style="margin-top: 32px;"></div>
     </div>
     <SideNav bind:open={sideNavOpen} />
 </main>
