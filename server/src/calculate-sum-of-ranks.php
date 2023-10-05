@@ -173,7 +173,7 @@
                 all-round abilities of a cuber. If you want to know your Kinch
                 Score, you can visit our <a
                     class="link"
-                    href="/calculate-kinch.html">Kinch Calculator</a
+                    href="/calculate-kinch">Kinch Calculator</a
                 > as well.
             </p>
             <p style="margin-top: 0.8rem;">

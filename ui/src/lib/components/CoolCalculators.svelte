@@ -12,7 +12,7 @@
     <h2>Cool Calculators</h2>
     <ul class="col" style="align-items: start; gap: 8px;">
         <li>
-            <a class="link" href="/calculate-kinch.html">
+            <a class="link" href="/calculate-kinch">
                 Calculate your Kinch Rank
             </a>
         </li>
