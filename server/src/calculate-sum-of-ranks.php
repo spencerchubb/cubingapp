@@ -43,15 +43,17 @@
                 Calculate
             </button>
         </form>
-        <?php if ($wcaId !== null): ?>
+        <?php if ($wcaId): ?>
             <?php
             error_reporting(E_ALL);
             ini_set("display_errors", 1);
             $db = new SQLite3("wca.db");
+
             if (!$db) {
                 die("Error connecting to the database: " . $db->lastErrorMsg());
             }
-            $singleQuery = `
+
+            $singleQuery = "
             WITH User AS (
                 SELECT p.countryId, c.continentId
                 FROM Persons p
@@ -68,8 +70,8 @@
             FROM Events e
             LEFT JOIN RanksSingle r ON e.id = r.eventId AND r.personId = :wcaId
             WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
-            `;
-            $averageQuery = `
+            ";
+            $averageQuery = "
             WITH User AS (
                 SELECT p.countryId, c.continentId
                 FROM Persons p
@@ -86,15 +88,17 @@
             FROM Events e
             LEFT JOIN RanksAverage r ON e.id = r.eventId AND r.personId = :wcaId
             WHERE e.id <> '333ft' AND e.id <> '333mbf' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
-            `;
+            ";
+
             $query = $type === "Single" ? $singleQuery : $averageQuery;
             $stmt = $db->prepare($query);
             $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
             $result = $stmt->execute();
+
             if (!$result) {
                 die("Error executing the query.");
             }
-            echo "<table border='1' style='margin-top: 3rem;'>";
+            echo "<table style='margin-top: 3rem;'>";
             echo "<tr>
                 <th>Event</th>
                 <th>World Rank</th>
@@ -115,13 +119,16 @@
                 // append row to rows
                 $rows[] = $row;
             }
+
+            $db->close();
+
             echo "<tr>";
             echo "<td>Sum</td>";
             echo "<td>" . $worldSum . "</td>";
             echo "<td>" . $continentSum . "</td>";
             echo "<td>" . $countrySum . "</td>";
             echo "</tr>";
-            // Define a function to render a cell
+
             function renderCell($value, $maxValue) {
                 if ($maxValue == 0) {
                     return "<td>N/A</td>";
@@ -130,6 +137,7 @@
                 $textColor = "hsl(" . (100 - $percent) . "deg 100% 50%)";
                 return "<td style='color: " . $textColor . ";'>" . $value . "</td>";
             }
+
             foreach ($rows as $row) {
                 echo "<tr>";
                 echo "<td>" . $row["eventId"] . "</td>";
@@ -138,9 +146,8 @@
                 echo renderCell($row["countryRank"], $row["maxCountryRank"]);
                 echo "</tr>";
             }
+            
             echo "</table>";
-            // Step 7: Close the database connection
-            $db->close();
             ?>
         <?php endif; ?>
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">

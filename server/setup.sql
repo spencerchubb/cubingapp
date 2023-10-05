@@ -2,8 +2,14 @@
 CREATE INDEX idx_Persons_id ON Persons(id);
 CREATE INDEX idx_RanksSingle_eventId ON RanksSingle(eventId);
 CREATE INDEX idx_RanksSingle_personId ON RanksSingle(personId);
+CREATE INDEX idx_RanksSingle_worldRank ON RanksSingle(worldRank);
+CREATE INDEX idx_RanksSingle_continentRank ON RanksSingle(continentRank);
+CREATE INDEX idx_RanksSingle_countryRank ON RanksSingle(countryRank);
 CREATE INDEX idx_RanksAverage_eventId ON RanksAverage(eventId);
 CREATE INDEX idx_RanksAverage_personId ON RanksAverage(personId);
+CREATE INDEX idx_RanksAverage_worldRank ON RanksAverage(worldRank);
+CREATE INDEX idx_RanksAverage_continentRank ON RanksAverage(continentRank);
+CREATE INDEX idx_RanksAverage_countryRank ON RanksAverage(countryRank);
 CREATE INDEX idx_Persons_countryId ON Persons(countryId);
 
 -- add countryId column and populate
