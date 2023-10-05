@@ -44,6 +44,8 @@
             </button>
         </form>
         <?php if ($wcaId): ?>
+            <div style="margin-top: 3rem;"></div>
+            <?php include "php/wca_attribution.php" ?>
             <?php
             error_reporting(E_ALL);
             ini_set("display_errors", 1);
@@ -98,7 +100,7 @@
             if (!$result) {
                 die("Error executing the query.");
             }
-            echo "<table style='margin-top: 3rem;'>";
+            echo "<table style='margin-top: 1rem;'>";
             echo "<tr>
                 <th>Event</th>
                 <th>World Rank</th>
