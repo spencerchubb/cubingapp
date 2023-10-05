@@ -21,7 +21,7 @@
             $region = $_GET["region"] ?? "World";
         ?>
         <form
-            action="calculate-kinch.php"
+            action="calculate-kinch"
             method="GET"
             style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 24px 16px;"
         >

@@ -20,7 +20,7 @@
             $type = $_GET["type"] ?? "Single";
         ?>
         <form
-            action="calculate-sum-of-ranks.php"
+            action="calculate-sum-of-ranks"
             method="GET"
             style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 24px 16px;"
         >
