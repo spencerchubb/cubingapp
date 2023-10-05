@@ -15,3 +15,9 @@ sudo a2enmod ssl # For https
 sudo a2ensite gci.conf
 sudo service apache2 reload
 sudo service apache2 restart
+
+# Apache status/logs
+systemctl status apache2.service
+journalctl -xeu apache2.service
+tail -f /var/log/apache2/access.log
+tail -f /var/log/apache2/error.log
