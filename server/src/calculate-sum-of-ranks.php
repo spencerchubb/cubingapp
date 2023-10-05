@@ -155,10 +155,10 @@
         <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
             <h2>What is Sum of Ranks (SoR)?</h2>
             <p style="margin-top: 0.8rem;">
-                Sum of Ranks is one way of measuring a cuber"s overall
+                Sum of Ranks is one way of measuring a cuber's overall
                 performance rather than measuring just one event. To compute a
-                Sum of Ranks, we simply add up the cuber"s rank in each event.
-                It is possible to compute a cuber"s Sum of Ranks at a global
+                Sum of Ranks, we simply add up the cuber's rank in each event.
+                It is possible to compute a cuber's Sum of Ranks at a global
                 level, continental level, and national level.
             </p>
             <h2>What does my Sum of Ranks mean?</h2>
@@ -178,7 +178,7 @@
             </p>
             <p style="margin-top: 0.8rem;">
                 Different aggregation methods will have different tradeoffs, and
-                some will debate which methods are better. That"s why we provide
+                some will debate which methods are better. That's why we provide
                 multiple ways to measure your all-round abilities.
             </p>
         </div>
