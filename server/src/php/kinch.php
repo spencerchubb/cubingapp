@@ -21,6 +21,12 @@ function calcKinchScores($results) {
             $personalScore = mbldScore($single);
             $recordScore = mbldScore($bestSingle);
 
+            // If nobody has a score, use 100
+            if (!$recordScore) {
+                array_push($scores, array($eventId, 100));
+                continue;
+            }
+
             array_push($scores, array($eventId, $personalScore / $recordScore * 100));
             continue;
         }
