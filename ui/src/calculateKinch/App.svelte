@@ -154,7 +154,7 @@
             </ul>
             <h2>Alternatives to Kinch Ranks</h2>
             <p>
-                As mentioned before, Kinch Ranks is just one way to measure the all-round abilities of a cuber. If you want to know your Sum of Ranks, you can visit our <a class="link" href="/calculate-sum-of-ranks.html">Sum of Ranks Calculator</a> as well.
+                As mentioned before, Kinch Ranks is just one way to measure the all-round abilities of a cuber. If you want to know your Sum of Ranks, you can visit our <a class="link" href="/calculate-sum-of-ranks">Sum of Ranks Calculator</a> as well.
             </p>
             <p>
                 Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.

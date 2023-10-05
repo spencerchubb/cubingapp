@@ -17,7 +17,7 @@
             </a>
         </li>
         <li>
-            <a class="link" href="/calculate-sum-of-ranks.html">
+            <a class="link" href="/calculate-sum-of-ranks">
                 Calculate your Sum of Ranks (SoR)
             </a>
         </li>
