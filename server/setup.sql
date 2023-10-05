@@ -6,15 +6,6 @@ CREATE INDEX idx_RanksAverage_eventId ON RanksAverage(eventId);
 CREATE INDEX idx_RanksAverage_personId ON RanksAverage(personId);
 CREATE INDEX idx_Persons_countryId ON Persons(countryId);
 
--- Create and populate CompetitorCounts table
-DROP TABLE CompetitorCounts;
-CREATE TABLE CompetitorCounts (
-    region TEXT,
-    eventId TEXT,
-    type TEXT,
-    count INTEGER
-);
-
 -- add countryId column and populate
 ALTER TABLE RanksSingle ADD COLUMN countryId TEXT;
 UPDATE RanksSingle SET countryId = (SELECT countryId FROM Persons WHERE id = RanksSingle.personId);
