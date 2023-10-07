@@ -21,3 +21,11 @@ systemctl status apache2.service
 journalctl -xeu apache2.service
 tail -f /var/log/apache2/access.log
 tail -f /var/log/apache2/error.log
+
+# If needed, run npm i -g esbuild
+esbuild packages/rubiks-viz/index.ts \
+    --outdir="src/js/rubiks-viz" \
+    --bundle \
+    --minify \
+    --keep-names \
+    --format=esm

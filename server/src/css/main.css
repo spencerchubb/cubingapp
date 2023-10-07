@@ -201,20 +201,6 @@ canvas {
     align-items: center;
 }
 
-.blue-to-purple {
-    background-image: linear-gradient(135deg,
-            hsl(240deg 47% 23%) 0%,
-            hsl(266deg 42% 27%) 50%,
-            hsl(286deg 36% 30%) 100%);
-}
-
-.red-to-orange {
-    background-image: linear-gradient(135deg,
-            hsl(0deg 64% 31%) 0%,
-            hsl(15deg 76% 32%) 50%,
-            hsl(27deg 94% 31%) 100%);
-}
-
 .text-gradient {
     background-clip: text;
     -webkit-background-clip: text;

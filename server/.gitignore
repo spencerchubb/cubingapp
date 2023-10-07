@@ -1,3 +1,6 @@
 deploy.sh
 WCA_export/
 wca.db
+
+# Compiled javascript
+src/js/rubiks-viz/
