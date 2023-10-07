@@ -34,23 +34,6 @@ function algdb() {
     return result;
 }
 
-function blogs() {
-    const pages = [
-        "deep-dive-on-tony-snyder",
-        "how-to-be-good-at-inspection",
-        "is-speedcubing-a-sport",
-        "mental-load",
-        "practicing-with-unlimited-inspection",
-        "spaced-repetition",
-    ];
-    const result = {};
-    for (const page of pages) {
-        const path = resolve(__dirname, 'blog', `${page}.html`);
-        result[`blog/${page}`] = path;
-    }
-    return result;
-}
-
 function train() {
     const pages = [
         "2x2-CLL",
@@ -89,21 +72,6 @@ function train() {
     return result;
 }
 
-function tutorials() {
-    const pages = [
-        "cfop",
-        "f2l",
-        "inspection",
-        "oll",
-        "pll",
-    ];
-    const result = {};
-    for (const page of pages) {
-        const path = resolve(__dirname, 'tutorials', `${page}.html`);
-        result[`tutorials/${page}`] = path;
-    }
-    return result;
-}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -118,14 +86,11 @@ export default defineConfig({
                 amISubX: resolve(__dirname, 'am-i-sub-x.html'),
                 algdb: resolve(__dirname, 'algdb.html'),
                 ...algdb(),
-                blog: resolve(__dirname, 'blog.html'),
-                ...blogs(),
                 keybindings: resolve(__dirname, 'keybindings.html'),
                 recon: resolve(__dirname, 'recon.html'),
                 stats: resolve(__dirname, 'stats.html'),
                 train: resolve(__dirname, 'train.html'),
                 ...train(),
-                ...tutorials(),
             },
         },
     },
