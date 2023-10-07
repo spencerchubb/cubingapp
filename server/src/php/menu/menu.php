@@ -8,6 +8,7 @@
         transition: transform 0.3s ease-in-out;
         position: absolute;
         background: var(--gray-700);
+        min-width: 200px;
         height: 100vh;"
 >
     <div class="row" style="justify-content: space-between; padding: 8px;">
