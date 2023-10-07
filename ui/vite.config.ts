@@ -120,7 +120,6 @@ export default defineConfig({
                 ...algdb(),
                 blog: resolve(__dirname, 'blog.html'),
                 ...blogs(),
-                index: resolve(__dirname, 'index.html'),
                 keybindings: resolve(__dirname, 'keybindings.html'),
                 recon: resolve(__dirname, 'recon.html'),
                 stats: resolve(__dirname, 'stats.html'),
