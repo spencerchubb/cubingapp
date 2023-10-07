@@ -434,4 +434,6 @@
     }
 </style>
 
+<?php include "php/gtag.php" ?>
+
 </html>
