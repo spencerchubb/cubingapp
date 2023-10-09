@@ -84,12 +84,10 @@ export default defineConfig({
             input: {
                 404: resolve(__dirname, '404.html'),
                 amISubX: resolve(__dirname, 'am-i-sub-x.html'),
-                algdb: resolve(__dirname, 'algdb.html'),
                 ...algdb(),
                 keybindings: resolve(__dirname, 'keybindings.html'),
                 recon: resolve(__dirname, 'recon.html'),
                 stats: resolve(__dirname, 'stats.html'),
-                train: resolve(__dirname, 'train.html'),
                 ...train(),
             },
         },

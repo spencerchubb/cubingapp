@@ -1,46 +1,24 @@
-<script lang="ts">
-    import SideNav from "../src/lib/components/SideNav.svelte";
-    import NavBarIcon from "../src/lib/components/NavBarIcon.svelte";
-    import MenuIcon from "../src/lib/components/icons/MenuIcon.svelte";
-    import GithubIcon from "../src/lib/components/icons/GithubIcon.svelte";
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="Rubik's Cube algorithm database with 4,000 algorithms">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+    <title>Rubik's Cube Algorithms</title>
+</head>
 
-    let sideNavOpen = false;
-</script>
-
-<main class="col" style="width: 100%; height: 100%;">
-    <nav class="navbar" style="justify-content: space-between;">
-        <NavBarIcon on:click={() => (sideNavOpen = true)}>
-            <MenuIcon />
-        </NavBarIcon>
-        <a href="https://github.com/spencerchubb/algdb/">
-            <NavBarIcon>
-                <GithubIcon />
-            </NavBarIcon>
-        </a>
+<body style="width: 100%; height: 100%;">
+    <nav>
+        <?php include_once "php/menu/menuIcon.php" ?>
+        <?php include_once "php/menu/menu.php" ?>
     </nav>
-    <div
-        class="col"
-        style="width: 100%; gap: 16px; padding: 16px; overflow-y: auto;"
-    >
+    <main class="col" style="width: 100%; height: 100%; align-items: center; padding: 16px; overflow-y: auto;">
         <h1>Rubik's Cube Algorithms</h1>
-        <p>
-            If you have been looking for an alternative to SpeedcubeDB, look no further.
-            CubingApp is the best alternative to SpeedcubeDB.
+        <p style="margin-top: 16px; font-style: italic;">
+            Algorithm database with 4,000 algorithms for 3x3, 2x2, Square-1, and more
         </p>
-        <p>
-            This algorithm database has 3700+ algorithms for 2x2, 3x3, 4x4, Square-1, and more to come soon.
-            I have limited time but I work very hard to add new algorithms.
-            I tend to prioritize requests that will benefit the most amount of people.
-        </p>
-        <p>
-            The database is also open source, so you don't need to worry about it going away like SpeedcubeDB has.
-            If I ever take down CubingApp (which I have no plans to do), the database is <a href="https://github.com/spencerchubb/algdb" class="link">public on github</a> for anyone.
-        </p>
-        <p>
-            That being said, I just have one thing to ask.
-            If your friends also need an alternative to SpeedcubeDB, please spread the word about CubingApp.
-        </p>
-        <p>- Spencer</p>
         <div class="all-cards-div">
             <div class="card">
                 <h2>3x3</h2>
@@ -118,15 +96,16 @@
                 </a>
             </div>
         </div>
-    </div>
-    <SideNav bind:open={sideNavOpen} />
-</main>
+        <div style="margin-top: 96px;"></div>
+    </main>
+</body>
 
 <style>
     .all-cards-div {
         gap: 16px;
         display: flex;
         flex-direction: column;
+        margin-top: 32px;
     }
 
     @media (min-width: 1000px) {
@@ -141,19 +120,14 @@
         width: 100%;
         max-width: 400px;
         border: solid 1px var(--gray-500);
-        box-shadow: 0 0 4px 2px var(--gray-600);
+        box-shadow: 0 2px 8px -2px var(--gray-400);
         border-radius: 16px;
         padding: 16px;
     }
 
-    h2 {
+    .card h2 {
         width: 100%;
         text-align: center;
-    }
-
-    p {
-        max-width: 600px;
-        width: 100%;
     }
 
     .alg-set {
@@ -171,3 +145,7 @@
         background: var(--gray-600);
     }
 </style>
+
+<?php include "php/gtag.php" ?>
+
+</html>
