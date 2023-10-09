@@ -239,11 +239,14 @@
             error_reporting(E_ALL);
             ini_set("display_errors", 1);
             $db = new SQLite3("wca.db");
+
             if (!$db) {
                 die("Error connecting to the database: " . $db->lastErrorMsg());
             }
 
             function buildStatement($db, $wcaId, $region) {
+                // The GROUP BY ensures we only get one row per event.
+                // Sometimes people are tied for first place.
                 $worldQuery = "
                 SELECT
                     e.id as eventId,
@@ -256,7 +259,8 @@
                 LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
                 LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.worldRank = 1
                 LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.worldRank = 1
-                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
+                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+                GROUP BY e.id;
                 ";   
                 $continentQuery = "
                 SELECT
@@ -276,7 +280,8 @@
                     ON e.id = ra2.eventId
                         AND ra2.continentId = :regionId
                         AND ra2.continentRank = 1
-                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
+                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+                GROUP BY e.id;
                 ";
                 $countryQuery = "
                 SELECT
@@ -296,7 +301,8 @@
                     ON e.id = ra2.eventId
                         AND ra2.countryId = :regionId
                         AND ra2.countryRank = 1
-                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
+                WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+                GROUP BY e.id;
                 ";
 
                 $strings = explode("-", $region);
