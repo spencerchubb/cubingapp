@@ -395,7 +395,8 @@
                 // This brings h closer to 100 to make the color more green
                 $h = 58.5 * log10(0.5 * $percent + 1);
                 $textColor = "hsl(" . $h . "deg 100% 50%)";
-                return "<td style='color: " . $textColor . ";'>" . $percent . "</td>";
+                $rounded = round($percent, 2);
+                return "<td style='color: " . $textColor . ";'>" . $rounded . "</td>";
             }
 
             echo "<tr>";
@@ -405,7 +406,7 @@
 
             foreach ($scores as $score) {
                 echo "<tr>";
-                echo "<td>" . $score[0]. "</td>";
+                echo "<td>" . $score[0] . "</td>";
                 echo renderCell($score[1]);
                 echo "</tr>";
             }
