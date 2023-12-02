@@ -11,6 +11,10 @@ sudo cp gci.conf /etc/apache2/sites-available/gci.conf
 sudo a2enmod rewrite # For rewriting urls
 sudo a2enmod ssl # For https
 
+# For proxying to nissy server
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+
 # To activate
 sudo a2ensite gci.conf
 sudo service apache2 reload
@@ -25,6 +29,13 @@ tail -f /var/log/apache2/error.log
 # If needed, run npm i -g esbuild
 esbuild packages/rubiks-viz/index.ts \
     --outdir="src/js/rubiks-viz" \
+    --bundle \
+    --minify \
+    --keep-names \
+    --format=esm
+
+esbuild packages/timerData/src/index.ts \
+    --outdir="src/js/timerData" \
     --bundle \
     --minify \
     --keep-names \

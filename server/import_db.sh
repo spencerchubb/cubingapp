@@ -6,6 +6,11 @@
 # Get url from first param
 url=$1
 
+# If url contains sql, replace with tsv
+if [[ $url == *"sql"* ]]; then
+    url=${url/sql/tsv}
+fi
+
 # Get folder name from url
 src_dir=${url##*/}
 
@@ -28,15 +33,22 @@ done
 rm championships.tsv
 rm eligible_country_iso2s_for_championship.tsv
 rm Formats.tsv
-rm Results.tsv
 rm RoundTypes.tsv
 rm Scrambles.tsv
 cd ..
 
 # Remove the old database
-rm src/wca.db
+rm wca.db
 
 # Convert the .tsv files to a sqlite database
-csvs-to-sqlite WCA_export/*.tsv "src/wca.db" -s $'\t'
+csvs-to-sqlite WCA_export/*.tsv "wca.db" -s $'\t'
 
-sqlite3 src/wca.db < ./setup.sql
+sqlite3 wca.db < ./setup.sql
+
+# Zip wca.db
+zip wca.db.zip wca.db
+
+# Upload to server
+sudo scp -i ~/aws-key-pair.pem wca.db.zip ubuntu@ec2-3-224-45-240.compute-1.amazonaws.com:/home/ubuntu
+
+rm wca.db.zip
