@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Best tool for speedcubers to calculate their Kinch score.">
+    <meta name="description" content="Tool for speedcubers to calculate their personal record streak at WCA competitions">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
@@ -87,11 +87,11 @@
                 if (!array_key_exists($competitionId, $competitions)) {
                     $competitions[$competitionId] = array();
                 }
-                $competitions[$competitionId] += [array(
+                $competitions[$competitionId][] = array(
                     "eventId" => $eventId,
                     "best" => $best,
                     "average" => $average
-                )];
+                );
             }
 
             $db->close();
@@ -100,7 +100,7 @@
                 if ($result == 0 || $result == -1) {
                     return false;
                 }
-
+                
                 if (!array_key_exists($eventId, $records)) {
                     return true;
                 }
@@ -117,6 +117,7 @@
                     $eventId = $result["eventId"];
                     $best = $result["best"];
                     $average = $result["average"];
+
 
                     if (is_record($eventId, $best, $bestSingles)) {
                         $bestSingles[$eventId] = $best;
