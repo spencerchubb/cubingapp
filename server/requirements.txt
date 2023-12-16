@@ -1,3 +1,0 @@
-datasette
-csvs-to-sqlite
-pip install 'pandas==1.4.0' # this version is required for csvs-to-sqlite to work

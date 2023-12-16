@@ -40,15 +40,8 @@ cd ..
 # Remove the old database
 rm wca.db
 
-# Convert the .tsv files to a sqlite database
-csvs-to-sqlite WCA_export/*.tsv "wca.db" -s $'\t'
+python3 import_db.py
 
 sqlite3 wca.db < ./setup.sql
 
-# Zip wca.db
-zip wca.db.zip wca.db
-
-# Upload to server
-sudo scp -i ~/aws-key-pair.pem wca.db.zip ubuntu@ec2-3-224-45-240.compute-1.amazonaws.com:/home/ubuntu
-
-rm wca.db.zip
+sudo mv wca.db /var/www/html
