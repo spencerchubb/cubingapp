@@ -162,7 +162,9 @@
 
             ?>
         <?php endif; ?>
-        <div class="col" style="width: 100%; max-width: 600px; gap: 16px;">
+        <div style="margin-top: 64px;">
+            <?php include "php/cool_calculators.php" ?>
+        </div>
         <div style="margin-top: 96px;"></div>
     </main>
 </body>
