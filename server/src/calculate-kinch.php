@@ -304,7 +304,7 @@
                 LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.worldRank = 1
                 WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
                 GROUP BY e.id;
-                ";   
+                ";
                 $continentQuery = "
                 SELECT
                     e.id as eventId,
@@ -464,6 +464,9 @@
             <p>
                 Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
             </p>
+        </div>
+        <div style="margin-top: 64px;">
+            <?php include "php/cool_calculators.php" ?>
         </div>
         <div style="margin-top: 96px;"></div>
     </main>

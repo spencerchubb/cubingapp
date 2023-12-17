@@ -182,6 +182,9 @@
                 multiple ways to measure your all-round abilities.
             </p>
         </div>
+        <div style="margin-top: 64px;">
+            <?php include "php/cool_calculators.php" ?>
+        </div>
         <div style="margin-top: 96px;"></div>
     </main>
 </body>
