@@ -20,7 +20,7 @@
             $wcaId = $_GET["wcaId"] ?? null;
         ?>
         <form
-            action="record-streak.php"
+            action="record-streak"
             method="GET"
             style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 24px 16px;"
         >
