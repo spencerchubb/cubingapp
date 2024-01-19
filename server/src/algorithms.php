@@ -22,80 +22,98 @@
         <div class="all-cards-div">
             <div class="card">
                 <h2>3x3</h2>
-                <a class="alg-set" href="/algdb/F2L.html">
+                <a class="alg-set" href="/algorithms/F2L.html">
                     F2L
                 </a>
-                <a class="alg-set" href="/algdb/OLL.html">
+                <a class="alg-set" href="/algorithms/OLL.html">
                     OLL
                 </a>
-                <a class="alg-set" href="/algdb/PLL.html">
+                <a class="alg-set" href="/algorithms/PLL.html">
                     PLL
                 </a>
-                <a class="alg-set" href="/algdb/Winter-Variation.html">
+                <a class="alg-set" href="/algorithms/Winter-Variation.html">
                     Winter Variation
                 </a>
-                <a class="alg-set" href="/algdb/COLL.html">
+                <a class="alg-set" href="/algorithms/COLL.html">
                     COLL
                 </a>
-                <a class="alg-set" href="/algdb/OLLCP.html">
+                <a class="alg-set" href="/algorithms/OLLCP.html">
                     OLLCP
                 </a>
-                <a class="alg-set" href="/algdb/ZBLL.html">
+                <a class="alg-set" href="/algorithms/ZBLL.html">
                     ZBLL
                 </a>
             </div>
             <div class="card">
                 <h2>3x3 Roux</h2>
-                <a class="alg-set" href="/algdb/CMLL.html">
+                <a class="alg-set" href="/algorithms/CMLL.html">
                     CMLL
                 </a>
-                <a class="alg-set" href="/algdb/OH-CMLL.html">
+                <a class="alg-set" href="/algorithms/OH-CMLL.html">
                     OH CMLL
                 </a>
-                <a class="alg-set" href="/algdb/LSE-EO.html">
+                <a class="alg-set" href="/algorithms/LSE-EO.html">
                     LSE EO
                 </a>
-                <a class="alg-set" href="/algdb/LSE-EOLR.html">
+                <a class="alg-set" href="/algorithms/LSE-EOLR.html">
                     LSE EOLR
                 </a>
             </div>
             <div class="card">
                 <h2>2x2</h2>
-                <a class="alg-set" href="/algdb/2x2-PBL.html">
+                <a class="alg-set" href="/algorithms/2x2-PBL.html">
                     PBL
                 </a>
-                <a class="alg-set" href="/algdb/2x2-CLL.html">
+                <a class="alg-set" href="/algorithms/2x2-CLL.html">
                     CLL
                 </a>
-                <a class="alg-set" href="/algdb/2x2-EG1.html">
+                <a class="alg-set" href="/algorithms/2x2-EG1.html">
                     EG1
                 </a>
-                <a class="alg-set" href="/algdb/2x2-EG2.html">
+                <a class="alg-set" href="/algorithms/2x2-EG2.html">
                     EG2
                 </a>
             </div>
             <div class="card">
                 <h2>Square-1</h2>
-                <a class="alg-set" href="/algdb/SQ1-Cube-Shape.html">
+                <a class="alg-set" href="/algorithms/SQ1-Cube-Shape.html">
                     SQ1 Cube Shape
                 </a>
-                <a class="alg-set" href="/algdb/SQ1-CSP.html">
+                <a class="alg-set" href="/algorithms/SQ1-CSP.html">
                     SQ1 CSP
                 </a>
-                <a class="alg-set" href="/algdb/SQ1-EP.html">
+                <a class="alg-set" href="/algorithms/SQ1-EP.html">
                     SQ1 EP
                 </a>
-                <a class="alg-set" href="/algdb/SQ1-OBL.html">
+                <a class="alg-set" href="/algorithms/SQ1-OBL.html">
                     SQ1 OBL
                 </a>
             </div>
             <div class="card">
                 <h2>Other</h2>
-                <a class="alg-set" href="/algdb/4x4-PLL-Parity.html">
+                <a class="alg-set" href="/algorithms/4x4-PLL-Parity.html">
                     4x4 PLL Parity
                 </a>
             </div>
         </div>
+        <h2 class="subheader">About the algorithm database</h2>
+        <p class="bodytext">
+            CubingApp has the highest quality algorithms for a multitude of puzzles.
+            All algorithms are hand picked and optimized for speedcubing.
+        </p>
+        <p class="bodytext">
+            There is an algorithm for nearly every situation, and if you can't find what you're looking for, we welcome feedback.
+            Whether you are a beginner, intermediate, or advanced cuber, you can find the right algorithms for you.
+        </p>
+        <h2 class="subheader">How you can help</h2>
+        <p class="bodytext">
+            This website would not be possible without the help of the cubing community.
+        </p>
+        <p class="bodytext">
+            The database is regularly updated with the best algorithms as new discoveries are made in cubing.
+            Many cubers have suggested algorithms and algorithm sets.
+            You can also <a href="https://forms.gle/VBNee1DN55hsneDeA" class="link">suggest algorithms here</a>.
+        </p>
         <div style="margin-top: 96px;"></div>
     </main>
 </body>
@@ -143,6 +161,19 @@
 
     .alg-set:hover {
         background: var(--gray-600);
+    }
+
+    .subheader {
+        align-self: center;
+        max-width: 600px;
+        margin-top: 32px;
+    }
+
+    .bodytext {
+        align-self: center;
+        max-width: 600px;
+        line-height: 1.5rem;
+        margin-top: 16px;
     }
 </style>
 
