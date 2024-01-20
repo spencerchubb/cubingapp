@@ -32,7 +32,7 @@
                 The algorithm F R U R' U' R U R' U' F' is just F, followed by the trigger twice, followed by F'.
             </li>
             <li>
-                Use the <a href="/train.html" class="link">CubingApp algorithm trainer</a>
+                Use the <a href="/train" class="link">CubingApp algorithm trainer</a>
             </li>
         </ol>
         <h2>Cubers also use</h2>

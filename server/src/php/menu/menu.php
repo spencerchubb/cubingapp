@@ -34,7 +34,7 @@
                 <span>✍</span>Recon Tool
             </button>
         </a>
-        <a href="/train.html">
+        <a href="/train">
             <button>
                 <span>🧠</span>Train
             </button>

@@ -40,7 +40,7 @@
                 <h2>Recon Tool</h2>
                 <p>Enter a scramble and a solution, then share the link with your friends</p>
             </a>
-            <a href="/train.html" class="card blue-to-purple">
+            <a href="/train" class="card blue-to-purple">
                 <h2>Train</h2>
                 <p>Memorize algorithms in half the time</p>
             </a>

@@ -19,7 +19,7 @@
             Most cubers recommend learning PLL before OLL because you only need to learn 21 algorithms to improve your times.
         </p>
         <p>
-            Check out the <a href="/train.html" class="link">CubingApp algorithm trainer</a> if you want to memorize the algorithms as easily as possible.
+            Check out the <a href="/train" class="link">CubingApp algorithm trainer</a> if you want to memorize the algorithms as easily as possible.
         </p>
         <p>
             For advanced cubers, there are more technique to learn beyond the standard 21 algorithms.
