@@ -36,10 +36,10 @@
             </li>
         </ul>
         <h2>Cubers also use</h2>
-        <a href="/algdb/F2L.html" class="link also-use">
+        <a href="/algorithms/F2L" class="link also-use">
             F2L
         </a>
-        <a href="/algdb/OLL.html" class="link also-use">
+        <a href="/algorithms/OLL" class="link also-use">
             OLL
         </a>
     </div>

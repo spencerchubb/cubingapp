@@ -23,13 +23,13 @@
             For this reason, PBL is a very easy algorithm set to learn.
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/2x2-CLL.html" class="link also-use">
+        <a href="/algorithms/2x2-CLL" class="link also-use">
             2x2 CLL
         </a>
-        <a href="/algdb/2x2-EG1.html" class="link also-use">
+        <a href="/algorithms/2x2-EG1" class="link also-use">
             2x2 EG1
         </a>
-        <a href="/algdb/2x2-EG2.html" class="link also-use">
+        <a href="/algorithms/2x2-EG2" class="link also-use">
             2x2 EG2
         </a>
     </div>

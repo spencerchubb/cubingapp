@@ -22,76 +22,76 @@
         <div class="all-cards-div">
             <div class="card">
                 <h2>3x3</h2>
-                <a class="alg-set" href="/algorithms/F2L.html">
+                <a class="alg-set" href="/algorithms/F2L">
                     F2L
                 </a>
-                <a class="alg-set" href="/algorithms/OLL.html">
+                <a class="alg-set" href="/algorithms/OLL">
                     OLL
                 </a>
-                <a class="alg-set" href="/algorithms/PLL.html">
+                <a class="alg-set" href="/algorithms/PLL">
                     PLL
                 </a>
-                <a class="alg-set" href="/algorithms/Winter-Variation.html">
+                <a class="alg-set" href="/algorithms/Winter-Variation">
                     Winter Variation
                 </a>
-                <a class="alg-set" href="/algorithms/COLL.html">
+                <a class="alg-set" href="/algorithms/COLL">
                     COLL
                 </a>
-                <a class="alg-set" href="/algorithms/OLLCP.html">
+                <a class="alg-set" href="/algorithms/OLLCP">
                     OLLCP
                 </a>
-                <a class="alg-set" href="/algorithms/ZBLL.html">
+                <a class="alg-set" href="/algorithms/ZBLL">
                     ZBLL
                 </a>
             </div>
             <div class="card">
                 <h2>3x3 Roux</h2>
-                <a class="alg-set" href="/algorithms/CMLL.html">
+                <a class="alg-set" href="/algorithms/CMLL">
                     CMLL
                 </a>
-                <a class="alg-set" href="/algorithms/OH-CMLL.html">
+                <a class="alg-set" href="/algorithms/OH-CMLL">
                     OH CMLL
                 </a>
-                <a class="alg-set" href="/algorithms/LSE-EO.html">
+                <a class="alg-set" href="/algorithms/LSE-EO">
                     LSE EO
                 </a>
-                <a class="alg-set" href="/algorithms/LSE-EOLR.html">
+                <a class="alg-set" href="/algorithms/LSE-EOLR">
                     LSE EOLR
                 </a>
             </div>
             <div class="card">
                 <h2>2x2</h2>
-                <a class="alg-set" href="/algorithms/2x2-PBL.html">
+                <a class="alg-set" href="/algorithms/2x2-PBL">
                     PBL
                 </a>
-                <a class="alg-set" href="/algorithms/2x2-CLL.html">
+                <a class="alg-set" href="/algorithms/2x2-CLL">
                     CLL
                 </a>
-                <a class="alg-set" href="/algorithms/2x2-EG1.html">
+                <a class="alg-set" href="/algorithms/2x2-EG1">
                     EG1
                 </a>
-                <a class="alg-set" href="/algorithms/2x2-EG2.html">
+                <a class="alg-set" href="/algorithms/2x2-EG2">
                     EG2
                 </a>
             </div>
             <div class="card">
                 <h2>Square-1</h2>
-                <a class="alg-set" href="/algorithms/SQ1-Cube-Shape.html">
+                <a class="alg-set" href="/algorithms/SQ1-Cube-Shape">
                     SQ1 Cube Shape
                 </a>
-                <a class="alg-set" href="/algorithms/SQ1-CSP.html">
+                <a class="alg-set" href="/algorithms/SQ1-CSP">
                     SQ1 CSP
                 </a>
-                <a class="alg-set" href="/algorithms/SQ1-EP.html">
+                <a class="alg-set" href="/algorithms/SQ1-EP">
                     SQ1 EP
                 </a>
-                <a class="alg-set" href="/algorithms/SQ1-OBL.html">
+                <a class="alg-set" href="/algorithms/SQ1-OBL">
                     SQ1 OBL
                 </a>
             </div>
             <div class="card">
                 <h2>Other</h2>
-                <a class="alg-set" href="/algorithms/4x4-PLL-Parity.html">
+                <a class="alg-set" href="/algorithms/4x4-PLL-Parity">
                     4x4 PLL Parity
                 </a>
             </div>

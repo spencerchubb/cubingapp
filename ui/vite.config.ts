@@ -3,7 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 import wasm from "vite-plugin-wasm";
 
-function algdb() {
+function algorithms() {
     const pages = [
         "2x2-CLL",
         "2x2-EG1",
@@ -28,8 +28,8 @@ function algdb() {
     ];
     const result = {};
     for (const page of pages) {
-        const path = resolve(__dirname, 'algdb', `${page}.html`);
-        result[`algdb/${page}`] = path;
+        const path = resolve(__dirname, 'algorithms', `${page}.html`);
+        result[`algorithms/${page}`] = path;
     }
     return result;
 }
@@ -82,9 +82,7 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                404: resolve(__dirname, '404.html'),
-                amISubX: resolve(__dirname, 'am-i-sub-x.html'),
-                ...algdb(),
+                ...algorithms(),
                 keybindings: resolve(__dirname, 'keybindings.html'),
                 recon: resolve(__dirname, 'recon.html'),
                 stats: resolve(__dirname, 'stats.html'),

@@ -32,15 +32,15 @@
             </div>
         </div>
         <div class="col" style="margin-top: 32px; gap: 16px;">
-            <a href="./algdb.html" class="card blue-to-purple">
-                <h2>Algorithm Database</h2>
-                <p>Best alternative to speedcubedb. 3700+ Rubik's Cube algorithms</p>
+            <a href="/algorithms" class="card blue-to-purple">
+                <h2>Algorithms</h2>
+                <p>4000+ Rubik's Cube algorithms</p>
             </a>
-            <a href="./recon.html" class="card red-to-orange">
+            <a href="/recon.html" class="card red-to-orange">
                 <h2>Recon Tool</h2>
                 <p>Enter a scramble and a solution, then share the link with your friends</p>
             </a>
-            <a href="./train.html" class="card blue-to-purple">
+            <a href="/train.html" class="card blue-to-purple">
                 <h2>Train</h2>
                 <p>Memorize algorithms in half the time</p>
             </a>

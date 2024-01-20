@@ -45,9 +45,9 @@
         </button>
     </div>
     <div style="display: flex; flex-direction: column; padding: 0 8px; gap: 8px;">
-        <a href="/algdb.html">
+        <a href="/algorithms">
             <button>
-                <span>📚</span>Alg DB
+                <span>📚</span>Algorithms
             </button>
         </a>
         <a href="/recon.html">

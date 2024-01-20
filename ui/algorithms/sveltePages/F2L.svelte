@@ -16,10 +16,10 @@
             This algorithm set is different from other sets. With sets like OLL and PLL, you learn them through rote memorization. However, with F2L it is recommended to understand the algorithms intuitively.    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/OLL.html" class="link also-use">
+        <a href="/algorithms/OLL" class="link also-use">
             OLL
         </a>
-        <a href="/algdb/PLL.html" class="link also-use">
+        <a href="/algorithms/PLL" class="link also-use">
             PLL
         </a>
     </div>

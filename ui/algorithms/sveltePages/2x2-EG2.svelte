@@ -15,10 +15,10 @@
             EG2: First layer has a diagonal swap. This occurs 1/6th of the time    
         </p>
         <h2>Cubers also use</h2>
-        <a href="/algdb/2x2-CLL.html" class="link also-use">
+        <a href="/algorithms/2x2-CLL" class="link also-use">
             2x2 CLL
         </a>
-        <a href="/algdb/2x2-EG1.html" class="link also-use">
+        <a href="/algorithms/2x2-EG1" class="link also-use">
             2x2 EG1
         </a>
     </div>
