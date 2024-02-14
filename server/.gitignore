@@ -2,5 +2,7 @@ deploy.sh
 WCA_export/
 wca.db
 
+src/algorithms/vids/
+
 # Compiled javascript
 src/js/

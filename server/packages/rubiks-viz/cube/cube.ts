@@ -335,4 +335,48 @@ export class Cube extends Puzzle {
             bottom: corners.bottomLeft + this.layers * (numEdges - edge),
         };
     }
+
+    getSvg(size: number): string {
+
+        const colors = ["white", "green", "yellow", "blue", "orange", "red"];
+        const layersSq = sq(this.layers);
+        const stickerToColor = (i: number) => colors[Math.floor(this.stickers[i] / layersSq)];
+        const pad = size / 7;
+        const round = size / 25;
+        const stickerSize = (size - pad * 2) / this.layers;
+        const shapes: string[] = [];
+
+        // Middle of svg
+        for (let i = 0; i < layersSq; i++) {
+            const x = i % this.layers;
+            const y = Math.floor(i / this.layers);
+            shapes.push(`<rect x="${pad + x * stickerSize}" y="${pad + y * stickerSize}" width="${stickerSize}" height="${stickerSize}" rx="${round}" fill="${stickerToColor(i)}" />`);
+        }
+
+        // Bottom of svg
+        for (let i = layersSq; i < 2 * layersSq; i += this.layers) {
+            const x = (i - layersSq) / this.layers;
+            shapes.push(`<rect x="${pad + x * stickerSize}" y="${size - pad}" width="${stickerSize}" height="${pad}" rx="${round}" fill="${stickerToColor(i)}" />`);
+        }
+
+        // Top of svg
+        for (let i = 3 * layersSq + this.layers - 1; i < 4 * layersSq; i += this.layers) {
+            const x = (i - (3 * layersSq + this.layers - 1)) / this.layers;
+            shapes.push(`<rect x="${pad + x * stickerSize}" y="${0}" width="${stickerSize}" height="${pad}" rx="${round}" fill="${stickerToColor(i)}" />`);
+        }
+
+        // Left of svg
+        for (let i = 4 * layersSq; i < 5 * layersSq; i += this.layers) {
+            const y = (i - 4 * layersSq) / this.layers;
+            shapes.push(`<rect x="${0}" y="${pad + y * stickerSize}" width="${pad}" height="${stickerSize}" rx="${round}" fill="${stickerToColor(i)}" />`);
+        }
+
+        // Right of svg
+        for (let i = 5 * layersSq; i < 6 * layersSq; i += this.layers) {
+            const y = 2 - (i - 5 * layersSq) / this.layers;
+            shapes.push(`<rect x="${size - pad}" y="${pad + y * stickerSize}" width="${pad}" height="${stickerSize}" rx="${round}" fill="${stickerToColor(i)}" />`);
+        }
+
+        return `<svg stroke="black" width="${size}" height="${size}">${shapes.join("")}</svg>`;
+    }
 }

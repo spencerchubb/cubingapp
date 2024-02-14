@@ -9,7 +9,7 @@
     <title>Rubik's Cube Algorithms</title>
 </head>
 
-<body style="width: 100%; height: 100%;">
+<body class="col" style="width: 100%; height: 100%;">
     <nav>
         <?php include_once "php/menu/menuIcon.php" ?>
         <?php include_once "php/menu/menu.php" ?>
@@ -114,7 +114,7 @@
             Many cubers have suggested algorithms and algorithm sets.
             You can also <a href="https://forms.gle/VBNee1DN55hsneDeA" class="link">suggest algorithms here</a>.
         </p>
-        <div style="margin-top: 96px;"></div>
+        <div style="margin-top: 64px;"></div>
     </main>
 </body>
 
