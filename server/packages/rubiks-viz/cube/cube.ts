@@ -338,7 +338,7 @@ export class Cube extends Puzzle {
 
     getSvg(size: number): string {
 
-        const colors = ["white", "green", "yellow", "blue", "orange", "red"];
+        const colors = ["white", "green", "yellow", "blue", "orange", "red", "gray"];
         const layersSq = sq(this.layers);
         const stickerToColor = (i: number) => colors[Math.floor(this.stickers[i] / layersSq)];
         const pad = size / 7;
@@ -348,8 +348,8 @@ export class Cube extends Puzzle {
 
         // Middle of svg
         for (let i = 0; i < layersSq; i++) {
-            const x = i % this.layers;
-            const y = Math.floor(i / this.layers);
+            const x = Math.floor(i / this.layers);
+            const y = i % this.layers;
             shapes.push(`<rect x="${pad + x * stickerSize}" y="${pad + y * stickerSize}" width="${stickerSize}" height="${stickerSize}" rx="${round}" fill="${stickerToColor(i)}" />`);
         }
 

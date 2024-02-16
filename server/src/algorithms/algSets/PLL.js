@@ -79,7 +79,7 @@ export let algSet = {
         "Gc perm": {
             "subset": "G perm",
             "algs": {
-                "U2 R2 F2 R U2 R U2 R' F R U R' U' R' F R2": {
+                "R2 F2 R U2 R U2 R' F R U R' U' R' F R2": {
                     vid: "PLL/Gc.mp4",
                     notes: []
                 },
@@ -114,8 +114,8 @@ export let algSet = {
                     notes: []
                 },
                 "L' U' L F L' U' L U L F' L2 U L": {},
-                "U R' U L' U2 R U' R' U2 R L": {},
-                "U2 R' U2 R U R' U2 L U' R U L'": {}
+                "R' U L' U2 R U' R' U2 R L": {},
+                "R' U2 R U R' U2 L U' R U L'": {}
             }
         },
         "Jb perm": {
@@ -163,7 +163,7 @@ export let algSet = {
                     vid: "PLL/Ra.mp4",
                     notes: []
                 },
-                "U R U R' F' R U2 R' U2 R' F R U R U2 R'": {}
+                "R U R' F' R U2 R' U2 R' F R U R U2 R'": {}
             }
         },
         "Rb perm": {
