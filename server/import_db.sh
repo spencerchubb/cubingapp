@@ -44,4 +44,5 @@ python3 import_db.py
 
 sqlite3 wca.db < ./setup.sql
 
-sudo mv wca.db /var/www/html
+# Move to the root directory
+sudo mv wca.db /wca.db

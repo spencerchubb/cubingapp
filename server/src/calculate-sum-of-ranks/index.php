@@ -20,7 +20,7 @@
             $type = $_GET["type"] ?? "Single";
         ?>
         <form
-            action="calculate-sum-of-ranks"
+            action="/calculate-sum-of-ranks"
             method="GET"
             style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 24px 16px;"
         >
@@ -49,7 +49,7 @@
             <?php
             error_reporting(E_ALL);
             ini_set("display_errors", 1);
-            $db = new SQLite3("wca.db");
+            $db = new SQLite3("/wca.db");
 
             if (!$db) {
                 die("Error connecting to the database: " . $db->lastErrorMsg());
