@@ -1,0 +1,360 @@
+function randElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+export let algSet = {
+    "puzzle": "2x2",
+    "diagramType": "2D",
+    "pre": () => randElement(["", "U", "U'", "U2"]),
+    "post": () => randElement(["", "U", "U'", "U2"]),
+    "subsets": ["AS", "H", "L", "Pi", "S", "T", "U"],
+    "cases": {
+        "EG2 AS 1": {
+            "algs": {
+                "F R2 U R' U2 R U R2 U F'": {},
+                "U2 R' U2 R2 U' R' U R' F R F R2": {},
+                "x U' R2 F R2 F' U R' U2 R' U x'": {},
+                "R U2 R' F R' F' R U' R U' R F2 R2": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 AS 2": {
+            "algs": {
+                "U2 R' F' R U' R' F2 R' F2 R2": {},
+                "U2 L' U' L U' L' U2 L' F2 R2": {},
+                "U R U2 R' U' R U' R B2 R2": {},
+                "R' U' R U' R' U2 R' F2 R2": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 AS 3": {
+            "algs": {
+                "U2 R' F R F' R U R B2 R2": {},
+                "U2 R' F R F' R U R F2 R2": {},
+                "U2 L' U L F' R U R B2 R2": {},
+                "U2 L' U L F2 L2 F R U R'": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 AS 4": {
+            "algs": {
+                "U2 F' L F L' U2 L' U2 L' B2 L2": {},
+                "U' R' U R' F R2 F R2 F'": {},
+                "U2 F' R U R' U2 R' F2 R' F2 R2": {},
+                "U' R' U L' U R2 U R2 U'": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 AS 5": {
+            "algs": {
+                "R' U' R U' R' U' R' F2 R F' R": {},
+                "U2 F R F' U R2 F' R U' R": {},
+                "U2 R U2 R' U2 R' F R F R2 F2": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 AS 6": {
+            "algs": {
+                "U2 R2 F2 R F R F' R U R'": {},
+                "R2 F2 R U L U' R U L'": {},
+                "U2 L' U' L U L F' L' F L' U' L U' L' U2 L' B2 L2": {},
+                "U R U R2 F' R F R U' R2 F R' F2 R2": {}
+            },
+            "subset": "AS"
+        },
+        "EG2 H 1": {
+            "algs": {
+                "R2 F U2 F2 R2 F' R2": {},
+                "R U' R' F R' F' R2 U' R' F R' F' R' F2 R2": {},
+                "U F R U R' U' R U R' U' R U R' U' F' R2 F2 R2 U'": {},
+                "U F2 R U2 R2 F2 R' F2": {}
+            },
+            "subset": "H"
+        },
+        "EG2 H 2": {
+            "algs": {
+                "U R2 B2 U2 R' U2 R2": {},
+                "U R2 U2 R' U2 B2 R2": {},
+                "U R2 U2 R' U2 F2 R2": {}
+            },
+            "subset": "H"
+        },
+        "EG2 H 3": {
+            "algs": {
+                "R' U' R U2 R2 F' R U' F R": {},
+                "U2 R U R' U R U R' F R' F' R' F2 R2": {},
+                "U R' U' F R U' R U R' U2 R' F": {}
+            },
+            "subset": "H"
+        },
+        "EG2 H 4": {
+            "algs": {
+                "U' R U2 B2 R' U R U' B R'": {},
+                "U2 F R2 U' R2 U' R2 U R2 F R2 F2": {},
+                "U2 F R2 U' R2 U' R2 U R2 F B2 R2 F2 R2 U2": {},
+                "U R U' R' F U2 R2 F' R F' R": {}
+            },
+            "subset": "H"
+        },
+        "EG2 L 1": {
+            "algs": {
+                "U L2 B2 L U' L' U L F' L F": {},
+                "U R2 B2 R2 F R' F' R U R U' R'": {},
+                "U R' U' R' F' R U' R U' R' F R": {},
+                "U F U' R U R U' R' U R F'": {}
+            },
+            "subset": "L"
+        },
+        "EG2 L 2": {
+            "algs": {
+                "U2 F2 R2 F R U R' U' R' F R": {},
+                "U2 R2 B2 R' U R U' R' F R' F'": {},
+                "R U' R' U R U' R' F R' F' R2 U R B2 R2": {}
+            },
+            "subset": "L"
+        },
+        "EG2 L 3": {
+            "algs": {
+                "U2 R2 U' R U2 R' U2 R U' F2 R2": {},
+                "U R' U' F2 R U2 R' U2 F R": {},
+                "U2 R2 F2 R U R' U2 R U' R' U R U' R2": {},
+                "U' R U R' U R U' R' U R U' R' U R U2 R B2 R2": {}
+            },
+            "subset": "L"
+        },
+        "EG2 L 4": {
+            "algs": {
+                "U' R' U L' U2 R' F R U' R' U' F' x2": {},
+                "U R U2 R2 F R F' R U2 R B2 R2": {},
+                "U' R' U' R U R' F' R U R' U' R' F' R2": {}
+            },
+            "subset": "L"
+        },
+        "EG2 L 5": {
+            "algs": {
+                "U F R' F' R U R U' R B2 R2": {},
+                "U F R' F' R U R U' R F2 R2": {}
+            },
+            "subset": "L"
+        },
+        "EG2 L 6": {
+            "algs": {
+                "U2 F' R U R' U' R' F R' F2 R2": {},
+                "R U R U' R' F R' F R2 B2": {},
+                "U F R U' R' U' R U R' F R2 B2": {}
+            },
+            "subset": "L"
+        },
+        "EG2 Pi 1": {
+            "algs": {
+                "F U' R U2 R U' R' U R' F'": {},
+                "U' R' U' R' F R F' R U' R' U2 R' F2 R2": {},
+                "U' F2 U' F2 R U2 R F2 U' R2": {},
+                "R' F' U' F U' R U R' U R' F2 R2 U'": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 Pi 2": {
+            "algs": {
+                "R U2 R2 U R' F2 R2 F'": {},
+                "R U' R2 U R2 U R2 U' R' F2 R2": {},
+                "R' U2 R2 U' R' F2 R2 F'": {},
+                "R' U R2 U' R2 U' R2 U R B2 R2": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 Pi 3": {
+            "algs": {
+                "U F R2 U' R2 U R2 U R2 F R2 F2 U2": {},
+                "U2 R' F' U R' F R2 U2 R' U R": {},
+                "U' R U' R U' R' U R' F R2 F R2 F2": {},
+                "U' R U' R U' R' U R' F R2 F' R2 F2 R2": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 Pi 4": {
+            "algs": {
+                "U2 R' F R F' R U' R' U' R U' R F2 R2": {},
+                "U R U' F U' F' R F2 U2 R' U": {},
+                "R U' R' F L' U L U R' F R' F2 R2": {},
+                "R U' R' F R' F R U R' F R' F2 R2 U2": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 Pi 5": {
+            "algs": {
+                "U' R' F' R' F2 R2 U R' U2 R U": {},
+                "U' R' F' R' F2 R2 U R' U2 R": {},
+                "U F U R U' R' U R U' R2 F' R U R U' R F2 R2 U'": {},
+                "U F R' F' R U2 R U' R' U R U2 R B2 R2": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 Pi 6": {
+            "algs": {
+                "U R' U2 R U' R2 F2 R F R U'": {},
+                "U R' U2 R U' R2 F2 R F R": {},
+                "R U2 R' U' R U R' U2 R' F R F' R2 F2 R2": {},
+                "R U2 R' U' R U R' U2 R' F R F' R2 B2 R2": {}
+            },
+            "subset": "Pi"
+        },
+        "EG2 S 1": {
+            "algs": {
+                "U' F U' R2 U' R' U2 R U' R2 F' U'": {},
+                "R2 F2 R U R U' R' F R' F' R2 U R' U' R": {},
+                "U' R' F R2 F' U' R' U' R2 U R B2 R2": {},
+                "U' R' F R2 F' U' R' U' R2 U R F2 R2": {}
+            },
+            "subset": "S"
+        },
+        "EG2 S 2": {
+            "algs": {
+                "U' R2 F2 R U2 R U R' U R": {},
+                "R U R' U R U2 R B2 R2": {},
+                "R2 B2 R' U R' U R U2 R'": {},
+                "U' R' U2 R U R' U R' F2 R2": {}
+            },
+            "subset": "S"
+        },
+        "EG2 S 3": {
+            "algs": {
+                "R U' R' F R' F' R' F2 R2": {},
+                "R U' R' F2 R2 F' L' U' L": {}
+            },
+            "subset": "S"
+        },
+        "EG2 S 4": {
+            "algs": {
+                "F R' F' R U2 R U2 R B2 R2": {},
+                "U F R2 F' R2 F' R U' R": {}
+            },
+            "subset": "S"
+        },
+        "EG2 S 5": {
+            "algs": {
+                "R' U R' F R2 U' F R' F'": {},
+                "U2 R' F R' F2 R U R U R' U R": {},
+                "R' U R' F R2 D' R U' R'": {},
+                "R' F2 R U2 R U' R' F R2 F2 R2": {}
+            },
+            "subset": "S"
+        },
+        "EG2 S 6": {
+            "algs": {
+                "R2 B2 R' U' R' F R' F' R": {},
+                "R2 F2 R' U' R' F R' F' R": {},
+                "U2 R U' R U' R' U R' U' F R' F' R2 B2 R2": {},
+                "R U R' U' R' F R F' R U R' U R U2 R B2 R2": {}
+            },
+            "subset": "S"
+        },
+        "EG2 T 1": {
+            "algs": {
+                "U R' F' R U R U' R' F' R2 B2 U": {},
+                "U R' F' R U R U' R' F' R2 F2": {},
+                "U' F R F' R U R' U' R B2 R2": {},
+                "U' F R F' U' R' U' R' F2 R2": {}
+            },
+            "subset": "T"
+        },
+        "EG2 T 2": {
+            "algs": {
+                "U F R' U2 R' U' R U2 F'": {},
+                "U' R U R' U' R' F R F' R2 F2 R2": {},
+                "U F R' U2 R' U' R U2 F' U": {},
+                "U x U' R' F R' F' R U R' U2 R2": {}
+            },
+            "subset": "T"
+        },
+        "EG2 T 3": {
+            "algs": {
+                "R' U R U2 R2 F' R U' R": {},
+                "U R' U R' F U' R U R2": {},
+                "R U2 R' U' R U' R2 U2 R U R' U R' F2 R2 U'": {},
+                "U2 R' U R' U2 R U2 R' U R2 U' R B2 R2": {}
+            },
+            "subset": "T"
+        },
+        "EG2 T 4": {
+            "algs": {
+                "R2 F2 R U' F R' F' R U R": {},
+                "U R U2 R2 F R F' R U' R' U R U2 R F2 R2 U": {},
+                "U2 R2 B2 R2 F R U R' U' F'": {},
+                "F2 R2 F U' R' F R F": {}
+            },
+            "subset": "T"
+        },
+        "EG2 T 5": {
+            "algs": {
+                "U' R' U2 R U' R' F R' F R F' R": {},
+                "R' U R U2 R2 F R F' R' F2 R2": {},
+                "U R' F2 R U' R' U R' F R U' R": {}
+            },
+            "subset": "T"
+        },
+        "EG2 T 6": {
+            "algs": {
+                "U R' U2 R' F2 R F2 R": {},
+                "U R' U2 R' F2 R F2 R U": {},
+                "U z' U' R2 U' R2 U R2 U R2 z": {},
+                "U2 F R U R' U' R U' R' U' R U R' F' R2 B2 R2": {}
+            },
+            "subset": "T"
+        },
+        "EG2 U 1": {
+            "algs": {
+                "R2 U2 R U R' U F' R U' R": {},
+                "U' F U' R U2 R U' R' U2 R' U' F'": {},
+                "U' R' U R' F U' R U' R U2 R2": {},
+                "U' R' U R' F U' R U' R' U2 R2": {}
+            },
+            "subset": "U"
+        },
+        "EG2 U 2": {
+            "algs": {
+                "U' F R U R' U' F R2 B2": {},
+                "U' F R U R' U' F R2 B2 U'": {},
+                "U F U R U' R' F R2 F2": {},
+                "U' F R U R' U' F R2 F2": {}
+            },
+            "subset": "U"
+        },
+        "EG2 U 3": {
+            "algs": {
+                "R' F' U' R U2 R' U F R": {},
+                "U2 R' U' R U R' F2 R U' R' U R": {},
+                "R U R' U' R B2 R' U R U' R'": {},
+                "U' F R' F' R U' R U' R' U2 R U' R F2 R2": {}
+            },
+            "subset": "U"
+        },
+        "EG2 U 4": {
+            "algs": {
+                "R' F' U' F U2 L' U2 R U' L": {},
+                "U' R2 F2 R U R U2 R2 F R F' R": {},
+                "F R U R' U' F R U R' U' F R U R F2 R2 U2": {},
+                "U2 F R U R' U2 F' R U' R' F' R2 B2": {}
+            },
+            "subset": "U"
+        },
+        "EG2 U 5": {
+            "algs": {
+                "U2 R2 B2 R' U R' U' R' F R F'": {},
+                "U2 R2 B2 R' U R' U' R' F R F' U2": {},
+                "R' F R2 U' R' F R' F' R U R' F' R' F2 R2": {},
+                "R' U R' F R F' R U2 R' U R' F2 R2": {}
+            },
+            "subset": "U"
+        },
+        "EG2 U 6": {
+            "algs": {
+                "U2 R2 F2 R F' R U L F' L' F": {},
+                "U2 R2 B2 R2 F R F' R U R' U' R'": {},
+                "R U' R2 F R F' R U R' U' R U R F2 R2": {},
+                "U2 R2 F2 R F' R U R U' R' F U2": {}
+            },
+            "subset": "U"
+        }
+    }
+}

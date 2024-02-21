@@ -373,10 +373,35 @@ export class Cube extends Puzzle {
 
         // Right of svg
         for (let i = 5 * layersSq; i < 6 * layersSq; i += this.layers) {
-            const y = 2 - (i - 5 * layersSq) / this.layers;
+            const y = (this.layers - 1) - (i - 5 * layersSq) / this.layers;
             shapes.push(`<rect x="${size - pad}" y="${pad + y * stickerSize}" width="${pad}" height="${stickerSize}" rx="${round}" fill="${stickerToColor(i)}" />`);
         }
 
         return `<svg stroke="black" width="${size}" height="${size}">${shapes.join("")}</svg>`;
+    }
+
+    getSvg3D(size: number): string {
+        const cubeSize = size * 0.65;
+        const half = cubeSize / 2;
+
+        const range = (start: number, end: number) => Array.from({length: (end - start)}, (v, k) => k + start);
+
+        const colors = ["white", "green", "yellow", "blue", "orange", "red", "gray"];
+        const layersSq = sq(this.layers);
+        const stickerToColor = (i: number) => colors[Math.floor(this.stickers[i] / layersSq)];
+
+        const stickerSize = 100 / this.layers;
+        
+        return `<div style="width: ${cubeSize}px; height: ${cubeSize}px; transform: rotateX(-30deg) rotateY(-30deg); transform-style: preserve-3d;">
+            <div style="transform: rotateX(90deg) translateZ(${half}px); position: absolute; width: 100%; height: 100%; display: flex; flex-wrap: wrap; flex-direction: column;">
+                ${range(0, layersSq).map(i => `<div style="background: ${stickerToColor(i)}; width: ${stickerSize}%; height: ${stickerSize}%; border: solid 1px black; border-radius: 6px;"></div>`).join("")}
+            </div>
+            <div style="transform: translateZ(${half}px); position: absolute; width: 100%; height: 100%; display: flex; flex-wrap: wrap; flex-direction: column;">
+                ${range(1 * layersSq, 2 * layersSq).map(i => `<div style="background: ${stickerToColor(i)}; width: ${stickerSize}%; height: ${stickerSize}%; border: solid 1px black; border-radius: 6px;"></div>`).join("")}
+            </div>
+            <div style="transform: rotateY(90deg) translateZ(${half}px); position: absolute; width: 100%; height: 100%; display: flex; flex-wrap: wrap; flex-direction: column;">
+                ${range(5 * layersSq, 6 * layersSq).map(i => `<div style="background: ${stickerToColor(i)}; width: ${stickerSize}%; height: ${stickerSize}%; border: solid 1px black; border-radius: 6px;"></div>`).join("")}
+            </div>
+        </div>`;
     }
 }
