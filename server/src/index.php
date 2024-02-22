@@ -45,7 +45,7 @@
                 <a href="/calculate-sum-of-ranks" class="link">Calculate Sum of Ranks (SoR)</a>
             </li>
             <li>
-                <a href="/algorithms" class="link">Personal Record Streak</a>
+                <a href="/record-streak" class="link">Personal Record Streak</a>
             </li>
         </ul>
         <h2 style="width: 100%; margin-top: 32px;">
