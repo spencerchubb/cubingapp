@@ -26,7 +26,7 @@ export let algSet = {
             },
             "subset": "Arrow"
         },
-        "Arrow (UD UB)": {
+        "Arrow (DF DB)": {
             "algs": {
                 "U' M U' M' U' M": { setup: setupPseudo }
             },
@@ -45,7 +45,7 @@ export let algSet = {
             },
             "subset": "1 / 1"
         },
-        "1 / 1 (UF DB)": {
+        "1 / 1 (UF DF)": {
             "algs": {
                 "M U' M' U' M U' M'": { setup: setupNormal },
                 "M' U' M' U' M U M": {}

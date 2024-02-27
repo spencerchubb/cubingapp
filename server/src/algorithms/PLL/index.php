@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="472 Rubik's Cube algorithms for ZBLL (Permutation of Last Layer)">
+    <meta name="description" content="21 Rubik's Cube algorithms for PLL (Permutation of Last Layer)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">

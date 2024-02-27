@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>PLL Algorithms</title>
+    <title>LSE EOLR Algorithms</title>
 </head>
 
 <body class="col" style="width: 100%; height: 100%;">
@@ -15,7 +15,7 @@
         <?php include_once "../../php/menu/menu.php" ?>
     </nav>
     <main style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
-        <h1 style="text-align: center;">LSE EO Algorithms</h1>
+        <h1 style="text-align: center;">LSE EOLR Algorithms</h1>
 
         <p class="bodytext">
             Roux EOLR is an advanced Roux technique that stands for Edge Orientation Left and Right.

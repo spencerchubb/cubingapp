@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="472 Rubik's Cube algorithms for ZBLL (Permutation of Last Layer)">
+    <meta name="description" content="Rubik's Cube algorithms for Winter Variation (WV)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>PLL Algorithms</title>
+    <title>Winter Variation Algorithms</title>
 </head>
 
 <body class="col" style="width: 100%; height: 100%;">
