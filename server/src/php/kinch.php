@@ -38,6 +38,12 @@ function calcKinchScores($results) {
                 continue;
             }
 
+            // This can happen if a person has multiple countryIds and one of the countries has no result for the event.
+            if (!$bestSingle || !$bestAverage) {
+                array_push($scores, array($eventId, 100));
+                continue;
+            }
+
             // If no average, using single
             if (!$average) {
                 array_push($scores, array($eventId, $bestSingle / $single * 100));
@@ -54,6 +60,13 @@ function calcKinchScores($results) {
 
         if (!$average) {
             array_push($scores, array($eventId, 0));
+            continue;
+        }
+
+
+        // This can happen if a person has multiple countryIds and one of the countries has no result for the event.
+        if (!$bestAverage) {
+            array_push($scores, array($eventId, 100));
             continue;
         }
 
