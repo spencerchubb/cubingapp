@@ -122,8 +122,8 @@ function renderAlgs(algSet, state) {
         cube.performAlg(alg);
 
         let diagram = {
-            "2D": cube.getSvg(130),
-            "3D": cube.getSvg3D(130),
+            "2D": cube.getSvg(100),
+            "3D": cube.getSvg3D(100),
         }[algSet.diagramType];
         if (!diagram) console.error("Invalid diagram type:", algSet.diagramType);
 
@@ -163,6 +163,8 @@ function renderAlgs(algSet, state) {
     });
 }
 
+// This page is designed to fit many algs on the screen while being legible.
+// The reason for this decision is it seems users want that.
 let style = `
 #subsetsRoot {
     display: flex;
@@ -182,36 +184,40 @@ let style = `
 
 #algsRoot {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .alg-card {
     width: 100%;
+    flex: 1 1 500px;
     padding: 12px;
-    margin: 24px 0;
     border: solid 1px var(--gray-600);
     border-radius: 8px;
-    box-shadow: 0 0 8px 0 var(--gray-600);
+    box-shadow: 0 2px 8px -2px var(--gray-500);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
+    justify-content: start;
+    gap: 12px;
 }
 
 .alg-card-diagram {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
 }
 
 .alg-card-info {
-    flex: 1 1 450px;
+    /* Make info take up remaining space without cutting off others */
+    flex: 1 0 0;
 }
 
 .alg-card-name {
     width: 100%;
     margin-bottom: 8px;
+    font-size: 18px;
 }
 
 .alg-card-text {
