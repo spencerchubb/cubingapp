@@ -19,15 +19,19 @@
 
         <p class="bodytext">
             Roux EOLR is an advanced Roux technique that stands for Edge Orientation Left and Right.
-            EOLR combines substeps 4a and 4b to save moves, and ultimately make the solve faster.
+            EOLR combines substeps 4a and 4b to save moves.
         </p>
         <p class="bodytext">
-            The EOLR algorithms should be intuitive, meaning that you can understand the solutions rather than memorizing the solutions with brute force.
-            Due to the intuitive nature, this algorithm set does not include mirror cases.
+            The goal of EOLR is to orient edges while getting UL and UR on bottom.
+            After that, you can insert UL UR with M2.
         </p>
         <p class="bodytext">
-            The goal of EOLR is to solve edge orientation while getting the UL and UR edgeson bottom.
-            Getting ULUR on bottom allows them to be inserted with just an M2.
+            EOLR is intuitive, which means you can learn the solutions without rote memorization.
+            Due to the intuitive nature, this page does not show all the mirrored algorithms.
+        </p>
+        <p class="bodytext">
+            On this page, the letters in parentheses are the positions of the UL UR edges.
+            For example, (UF DF) means the edges are in the up-front and down-front positions.
         </p>
 
         <div id="subsetsRoot"></div>
