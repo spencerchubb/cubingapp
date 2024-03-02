@@ -1,4 +1,4 @@
-https://cubingapp.com
+https://cubingapp.com/
 https://cubingapp.com/algorithms/
 https://cubingapp.com/algorithms/2x2-CLL/
 https://cubingapp.com/algorithms/2x2-EG1/
@@ -25,6 +25,7 @@ https://cubingapp.com/calculate-kinch/
 https://cubingapp.com/calculate-sum-of-ranks/
 https://cubingapp.com/keybindings.html
 https://cubingapp.com/kinch-ranks/
+https://cubingapp.com/nissy/
 https://cubingapp.com/recon.html
 https://cubingapp.com/record-streak/
 https://cubingapp.com/stats.html
