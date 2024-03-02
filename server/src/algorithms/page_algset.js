@@ -70,9 +70,8 @@ export function initPage(algSet) {
         });
     }
 
-    const orientationSelect = q("#orientationSelect");
-    orientationSelect.value = state.orientation;
-    orientationSelect.onchange = (event) => {
+    orientationInput.value = state.orientation;
+    orientationInput.onchange = (event) => {
         state.orientation = event.target.value;
         localStorage.setItem(orientationKey, state.orientation);
         renderAlgs(algSet, state);

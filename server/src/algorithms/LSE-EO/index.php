@@ -29,16 +29,7 @@
         </p>
 
         <div id="subsetsRoot"></div>
-        <div style="margin: 20px; display: flex; justify-content: center;">
-            <select id="orientationSelect">
-                <option value="x2">White Bottom</option>
-                <option value="">Yellow Bottom</option>
-                <option value="x">Green Bottom</option>
-                <option value="x'">Blue Bottom</option>
-                <option value="z">Orange Bottom</option>
-                <option value="z'">Red Bottom</option>
-            </select>
-        </div>
+        <?php include "../../php/orientation_input.php" ?>
         <div id="algsRoot"></div>
 
         <div style="margin-top: 64px;"></div>
