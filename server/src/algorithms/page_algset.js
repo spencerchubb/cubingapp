@@ -106,7 +106,7 @@ function renderAlgs(algSet, state) {
 
         const layers = parseInt(algSet.puzzle[0]); // Example: "3x3" -> "3"
         const cube = new Cube(layers);
-        cube.performMove(state.orientation);
+        cube.performAlg(state.orientation);
 
         if (algSet.gray) {
             algSet.gray.forEach(sticker => {
