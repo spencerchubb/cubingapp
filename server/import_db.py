@@ -18,31 +18,31 @@ if '.sql' in url:
 # Get folder name from url
 folder = url.split('/')[-1]
 
-# # If not downloaded already, download the zip file
-# if not os.path.exists(f'{folder}.zip'):
-#     os.system(f'wget {url}')
+# If not downloaded already, download the zip file
+if not os.path.exists(f'{folder}.zip'):
+    os.system(f'wget {url}')
 
-# # Remove WCA_export/ if it exists
-# if os.path.exists('WCA_export'):
-#     os.system('rm -r WCA_export')
+# Remove WCA_export/ if it exists
+if os.path.exists('WCA_export'):
+    os.system('rm -r WCA_export')
 
-# # unzip the folder into a folder called WCA_export
-# if not os.path.exists('WCA_export'):
-#     os.system(f'unzip {folder} -d WCA_export')
-#     os.system(f'rm {folder}')
+# unzip the folder into a folder called WCA_export
+if not os.path.exists('WCA_export'):
+    os.system(f'unzip {folder} -d WCA_export')
+    os.system(f'rm {folder}')
 
-# # Loop through files in WCA_export/
-# for filename in os.listdir('WCA_export'):
-#     # Remove WCA_export_ from the filename
-#     new_name = filename.replace('WCA_export_', '')
-#     os.rename(f'WCA_export/{filename}', f'WCA_export/{new_name}')
+# Loop through files in WCA_export/
+for filename in os.listdir('WCA_export'):
+    # Remove WCA_export_ from the filename
+    new_name = filename.replace('WCA_export_', '')
+    os.rename(f'WCA_export/{filename}', f'WCA_export/{new_name}')
 
-# # Remove files that aren't needed for cubingapp
-# os.remove('WCA_export/championships.tsv')
-# os.remove('WCA_export/eligible_country_iso2s_for_championship.tsv')
-# os.remove('WCA_export/Formats.tsv')
-# os.remove('WCA_export/RoundTypes.tsv')
-# os.remove('WCA_export/Scrambles.tsv')
+# Remove files that aren't needed for cubingapp
+os.remove('WCA_export/championships.tsv')
+os.remove('WCA_export/eligible_country_iso2s_for_championship.tsv')
+os.remove('WCA_export/Formats.tsv')
+os.remove('WCA_export/RoundTypes.tsv')
+os.remove('WCA_export/Scrambles.tsv')
 
 filename = 'wca.db'
 dirname = 'WCA_export'
@@ -59,9 +59,6 @@ start = time.time()
 
 filenames = os.listdir(dirname)
 filenames = [f for f in filenames if f.endswith('.tsv')]
-
-conn = sqlite3.connect('wca.db')
-c = conn.cursor()
 
 for filename in filenames:
     table_name = filename.split('.')[0]
@@ -100,6 +97,25 @@ print(f'Finished convert tsv to sqlite in {time.time() - start:.2f} seconds')
 
 print('Starting indices and columns creation')
 start = time.time()
+
+# Remove unnecessary columns to reduce database size.
+# Results is the largest table so this gets the most benefit.
+c.execute('ALTER TABLE Results DROP COLUMN personName;')
+c.execute('ALTER TABLE Results DROP COLUMN roundTypeId;')
+c.execute('ALTER TABLE Results DROP COLUMN pos;')
+c.execute('ALTER TABLE Results DROP COLUMN formatId;')
+c.execute('ALTER TABLE Results DROP COLUMN value1;')
+c.execute('ALTER TABLE Results DROP COLUMN value2;')
+c.execute('ALTER TABLE Results DROP COLUMN value3;')
+c.execute('ALTER TABLE Results DROP COLUMN value4;')
+c.execute('ALTER TABLE Results DROP COLUMN value5;')
+c.execute('ALTER TABLE Results DROP COLUMN regionalSingleRecord;')
+c.execute('ALTER TABLE Results DROP COLUMN regionalAverageRecord;')
+c.execute('ALTER TABLE Results DROP COLUMN personCountryId;')
+
+# VACUUM to reduce size. SQLite doesn't automatically reclaim space after deleting.
+conn.commit()
+c.execute('VACUUM;')
 
 # These SQL commands create indices and new columns.
 # Since the database is read-only, we do a lot of pre-computation to make queries faster.
