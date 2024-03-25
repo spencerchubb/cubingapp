@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="Enter your location to see World Cube Association (WCA) Competitions sorted by distance.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+    <title>WCA Comps sorted by distance</title>
+</head>
+
+<script>
+function q(selector) {
+    return document.querySelector(selector);
+}
+
+function E(name, props, children) {
+    const ele = document.createElement(name);
+    for (const [key, value] of Object.entries(props)) {
+        ele[key] = value;
+    }
+
+    children = children || [];
+    for (const child of children) {
+        ele.appendChild(child);
+    }
+    return ele;
+}
+
+function searchResultHref(wcaId) {
+    return `/calculate-kinch?wcaId=${wcaId}`;
+}
+
+function setUrlParam(key, value) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (value) urlParams.set(key, value);
+    else urlParams.delete(key);
+    window.location.search = urlParams.toString();
+}
+
+function goToPage(page, pages) {
+    page = Math.max(1, page);
+    page = Math.min(pages, page);
+    setUrlParam('page', page);
+}
+
+</script>
+
+<body style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+    <nav>
+        <?php include_once "../php/menu/menuIcon.php" ?>
+        <?php include_once "../php/menu/menu.php" ?>
+    </nav>
+    <main style="width: 100%; height: 100%; align-items: center; padding: 16px; overflow-y: auto;">
+        <h1 style="text-align: center;">WCA Comps sorted by distance</h1>
+        <?php
+            $lat = $_GET["lat"];
+            $lon = $_GET["lon"];
+        ?>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
+            <a class="link" href="https://www.latlong.net/" target="_blank" style="margin-top: 16px;">Get latitude & longitude here</a>
+            <input id="lat" type="number" placeholder="Latitude" value="<?php echo $lat ?>" style="width: 100%; max-width: 300px;" />
+            <input id="lon" type="number" placeholder="Longitude" value="<?php echo $lon ?>" style="width: 100%; max-width: 300px;" />
+            <?php if ($lat && $lon) { ?>
+                <p>Bookmark the page to save your latitude and longitude!</p>
+            <?php } ?>
+            <script>
+                q("#lat").addEventListener("change", (event) => setUrlParam("lat", event.target.value));
+                q("#lon").addEventListener("change", (event) => setUrlParam("lon", event.target.value));
+            </script>
+        </div>
+        <div style="margin-top: 2rem;"></div>
+        <?php
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        $db = new SQLite3("/wca.db");
+
+        if (!$db) {
+            die("Error connecting to the database: " . $db->lastErrorMsg());
+        }
+
+        $query = "select id, name, cityName, countryId, latitude, longitude, eventSpecs, month, day, endMonth, endDay from Competitions where year >= 2024 and endMonth >= 3 and endDay >= 24 order by year, endMonth, endDay";
+        $stmt = $db->prepare($query);
+        $rows = $stmt->execute();
+
+        function numToMonth($num) {
+            return [
+                1 => "Jan",
+                2 => "Feb",
+                3 => "Mar",
+                4 => "Apr",
+                5 => "May",
+                6 => "Jun",
+                7 => "Jul",
+                8 => "Aug",
+                9 => "Sep",
+                10 => "Oct",
+                11 => "Nov",
+                12 => "Dec"
+            ][$num];
+        }
+
+        // Show as a range if the dates are different, just once if dates are the same.
+        function formatDateRange($month, $day, $endMonth, $endDay) {
+            if ($month === $endMonth && $day === $endDay) {
+                $month = numToMonth($month);
+                return "$month $day";
+            }
+            $month = numToMonth($month);
+            $endMonth = numToMonth($endMonth);
+            return "$month $day - $endMonth $endDay";
+        }
+
+        function haversineDistance($lat1, $lon1, $lat2, $lon2, $unit = 'km') {
+            $earthRadius = [
+                'km' => 6371.0, // kilometers
+                'mi' => 3958.8, // miles
+                'nm' => 3440.1, // nautical miles
+            ];
+        
+            $lat1 = deg2rad($lat1);
+            $lon1 = deg2rad($lon1);
+            $lat2 = deg2rad($lat2);
+            $lon2 = deg2rad($lon2);
+        
+            $dLat = $lat2 - $lat1;
+            $dLon = $lon2 - $lon1;
+        
+            $angle = 2 * asin(sqrt(pow(sin($dLat / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($dLon / 2), 2)));
+            return $angle * $earthRadius[$unit];
+        }
+        
+        echo "<div class='table-wrapper' style='margin: 1rem auto;'><table>";
+        echo "<tr>
+            <th>Date</th>
+            <th>Distance (km)</th>
+            <th>Name</th>
+            <th>Events</th>
+        </tr>";
+
+        $array = array();
+        while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
+            $array[] = $row;
+        }
+
+        if ($lat && $lon) {
+            foreach ($array as &$row) {
+                // Divide by 1000000 because database stores them as integers.
+                $row["distance"] = haversineDistance($lat, $lon, $row["latitude"] / 1000000, $row["longitude"] / 1000000);
+            }
+            usort($array, function($a, $b) {
+                return $a["distance"] - $b["distance"];
+            });
+        }
+
+        foreach ($array as $row) {
+            $id = $row["id"];
+            $dateRange = formatDateRange($row["month"], $row["day"], $row["endMonth"], $row["endDay"]);
+            $distance = round($row["distance"] ?? 0);
+            $name = $row["name"];
+            $events = $row["eventSpecs"];
+            echo "<tr>
+                <td>$dateRange</td>
+                <td>$distance</td>
+                <td>
+                    <a class='link' href='https://www.worldcubeassociation.org/competitions/$id'>$name</a>
+                </td>
+                <td>$events</td>
+            </tr>";
+        }
+
+        $db->close();
+
+        echo "</table></div>";
+        ?>
+        <div style="margin-top: 96px;"></div>
+    </main>
+</body>
+
+<style>
+    .table-wrapper {
+        max-width: 100%;
+        width: fit-content;
+        overflow-x: auto;
+    }
+
+    table tr:nth-child(even) {
+        background: var(--gray-900);
+    }
+</style>
+
+<?php include "../php/gtag.php" ?>
+
+</html>
