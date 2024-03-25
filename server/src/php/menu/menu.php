@@ -25,20 +25,17 @@
         </button>
     </div>
     <div style="display: flex; flex-direction: column; padding: 8px; gap: 12px;">
-        <a href="/algorithms">
-            <button>
-                <span>📚</span>Algorithms
-            </button>
+        <a href="/">
+            <button>Home</button>
         </a>
-        <a href="/recon.html">
-            <button>
-                <span>✍</span>Recon Tool
-            </button>
+        <a href="/kinch-ranks/">
+            <button>Kinch</button>
         </a>
-        <a href="/train">
-            <button>
-                <span>🧠</span>Train
-            </button>
+        <a href="/sum-of-ranks/">
+            <button>Sum of Ranks</button>
+        </a>
+        <a href="/algorithms/">
+            <button>Algorithms</button>
         </a>
     </div>
 </div>
@@ -68,12 +65,5 @@
     a button {
         width: 100%;
         text-align: left;
-        padding-left: 0;
-    }
-
-    a button span {
-        width: 48px;
-        display: inline-block;
-        text-align: center;
     }
 </style>
