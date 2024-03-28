@@ -118,7 +118,10 @@ function setUrlParam(key, value) {
             die("Error connecting to the database: " . $db->lastErrorMsg());
         }
 
-        $query = "select id, name, cityName, countryId, latitude, longitude, eventSpecs, month, day, endMonth, endDay from Competitions where year >= 2024 and endMonth >= 3 and endDay >= 24 order by year, endMonth, endDay";
+        $currentYear = date("Y");
+        $currentMonth = date("n");
+        $currentDay = date("j");
+        $query = "select id, name, cityName, countryId, latitude, longitude, eventSpecs, month, day, endMonth, endDay from Competitions where year >= $currentYear and month >= $currentMonth and day >= $currentDay or (year >= $currentYear and month > $currentMonth) or year > $currentYear order by year, endMonth, endDay";
         $stmt = $db->prepare($query);
         $rows = $stmt->execute();
 
