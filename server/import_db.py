@@ -261,7 +261,7 @@ def get_sum_of_ranks(id, maxes, singleOrAvg, regionType):
         MAX(CASE WHEN eventId = 333 THEN {regionType}Rank ELSE NULL END) AS '333',
         MAX(CASE WHEN eventId = '333bf' THEN {regionType}Rank ELSE NULL END) AS '333bf',
         MAX(CASE WHEN eventId = '333fm' THEN {regionType}Rank ELSE NULL END) AS '333fm',
-        MAX(CASE WHEN eventId = '333mbf' THEN {regionType}Rank ELSE NULL END) AS '333mbf',
+        {f"MAX(CASE WHEN eventId = '333mbf' THEN {regionType}Rank ELSE NULL END) AS '333mbf'," if singleOrAvg == 'Single' else ''}
         MAX(CASE WHEN eventId = '333oh' THEN {regionType}Rank ELSE NULL END) AS '333oh',
         MAX(CASE WHEN eventId = 444 THEN {regionType}Rank ELSE NULL END) AS '444',
         MAX(CASE WHEN eventId = '444bf' THEN {regionType}Rank ELSE NULL END) AS '444bf',
