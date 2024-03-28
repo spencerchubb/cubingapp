@@ -27,23 +27,12 @@ function E(name, props, children) {
     return ele;
 }
 
-function searchResultHref(wcaId) {
-    return `/calculate-kinch?wcaId=${wcaId}`;
-}
-
 function setUrlParam(key, value) {
     const urlParams = new URLSearchParams(window.location.search);
     if (value) urlParams.set(key, value);
     else urlParams.delete(key);
     window.location.search = urlParams.toString();
 }
-
-function goToPage(page, pages) {
-    page = Math.max(1, page);
-    page = Math.min(pages, page);
-    setUrlParam('page', page);
-}
-
 </script>
 
 <body style="display: flex; flex-direction: column; width: 100%; height: 100%;">
@@ -56,6 +45,29 @@ function goToPage(page, pages) {
         <?php
             $lat = $_GET["lat"];
             $lon = $_GET["lon"];
+
+            // Array of event ids.
+            $events = $_GET["events"] ? explode("-", $_GET["events"]) : [];
+
+            $eventIdToName = [
+                "333" => "3x3",
+                "222" => "2x2",
+                "444" => "4x4",
+                "555" => "5x5",
+                "666" => "6x6",
+                "777" => "7x7",
+                "333bf" => "3BLD",
+                "333fm" => "FMC",
+                "333oh" => "OH",
+                "clock" => "Clock",
+                "minx" => "Mega",
+                "pyram" => "Pyra",
+                "skewb" => "Skewb",
+                "sq1" => "SQ1",
+                "444bf" => "4BLD",
+                "555bf" => "5BLD",
+                "333mbf" => "MBLD",
+            ];
         ?>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
             <a class="link" href="https://www.latlong.net/" target="_blank" style="margin-top: 16px;">Get latitude & longitude here</a>
@@ -71,6 +83,33 @@ function goToPage(page, pages) {
         </div>
         <div style="margin-top: 2rem;"></div>
         <?php
+        // For each eventIdToName, render a button
+        echo "<div style='display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;'>";
+        foreach ($eventIdToName as $eventId => $eventName) {
+            $selected = in_array($eventId, $events) ? "event-button-selected" : "";
+            $onclick = "onClickEventButton('$eventId')";
+            echo "<button class='event-button $selected' data-event='$eventId'>$eventName</button>";
+        }
+        echo "
+            <script>
+                let events = new URLSearchParams(window.location.search).get('events');
+                if (events) events = events.split('-');
+                else events = [];
+
+                function onClickEventButton(event) {
+                    console.log(event);
+                    const eventId = event.target.getAttribute('data-event');
+                    if (!events.includes(eventId)) {
+                        events.push(eventId);
+                    } else {
+                        events.splice(events.indexOf(eventId), 1);
+                    }
+                    setUrlParam('events', events.join('-'));
+                }
+                document.querySelectorAll('.event-button').forEach(b => b.addEventListener('click', onClickEventButton))
+            </script>
+        </div>";
+
         error_reporting(E_ALL);
         ini_set("display_errors", 1);
         $db = new SQLite3("/wca.db");
@@ -108,15 +147,11 @@ function goToPage(page, pages) {
             }
             $month = numToMonth($month);
             $endMonth = numToMonth($endMonth);
-            return "$month $day - $endMonth $endDay";
+            return "$month $day-$endMonth $endDay";
         }
 
-        function haversineDistance($lat1, $lon1, $lat2, $lon2, $unit = 'km') {
-            $earthRadius = [
-                'km' => 6371.0, // kilometers
-                'mi' => 3958.8, // miles
-                'nm' => 3440.1, // nautical miles
-            ];
+        function haversineDistanceKm($lat1, $lon1, $lat2, $lon2) {
+            $earthRadius = 6371.0;
         
             $lat1 = deg2rad($lat1);
             $lon1 = deg2rad($lon1);
@@ -127,13 +162,14 @@ function goToPage(page, pages) {
             $dLon = $lon2 - $lon1;
         
             $angle = 2 * asin(sqrt(pow(sin($dLat / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($dLon / 2), 2)));
-            return $angle * $earthRadius[$unit];
+            return $angle * $earthRadius;
         }
         
         echo "<div class='table-wrapper' style='margin: 1rem auto;'><table>";
         echo "<tr>
             <th>Date</th>
-            <th>Distance (km)</th>
+            <th>km</th>
+            <th>mi</th>
             <th>Name</th>
             <th>Events</th>
         </tr>";
@@ -143,29 +179,50 @@ function goToPage(page, pages) {
             $array[] = $row;
         }
 
+        // If events specified, filter by events.
+        if ($events) {
+            $array = array_filter($array, function($row) use ($events) {
+                $eventSpecs = explode(" ", $row["eventSpecs"]);
+                foreach ($events as $event) {
+                    if (!in_array($event, $eventSpecs)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
         if ($lat && $lon) {
             foreach ($array as &$row) {
                 // Divide by 1000000 because database stores them as integers.
-                $row["distance"] = haversineDistance($lat, $lon, $row["latitude"] / 1000000, $row["longitude"] / 1000000);
+                $row["km"] = haversineDistanceKm($lat, $lon, $row["latitude"] / 1000000, $row["longitude"] / 1000000);
+                $row["mi"] = $row["km"] * 0.621371;
             }
             usort($array, function($a, $b) {
-                return $a["distance"] - $b["distance"];
+                return $a["km"] - $b["km"];
             });
         }
 
         foreach ($array as $row) {
             $id = $row["id"];
             $dateRange = formatDateRange($row["month"], $row["day"], $row["endMonth"], $row["endDay"]);
-            $distance = round($row["distance"] ?? 0);
+            $km = round($row["km"] ?? 0);
             $name = $row["name"];
-            $events = $row["eventSpecs"];
+            $eventSpecs = $row["eventSpecs"];
+
+            // Split $eventSpecs by space, map to name, join with space.
+            $eventSpecs = implode(" ", array_map(function($event) use ($eventIdToName) {
+                return $eventIdToName[$event];
+            }, explode(" ", $eventSpecs)));
+
             echo "<tr>
                 <td>$dateRange</td>
-                <td>$distance</td>
+                <td>$km</td>
+                <td>" . round($km * 0.621371) . "</td>
                 <td>
                     <a class='link' href='https://www.worldcubeassociation.org/competitions/$id'>$name</a>
                 </td>
-                <td>$events</td>
+                <td class='cubing-icons events-cell'>$eventSpecs</td>
             </tr>";
         }
 
@@ -178,6 +235,19 @@ function goToPage(page, pages) {
 </body>
 
 <style>
+    .event-button {
+        background: transparent;
+        outline: solid 1px var(--gray-600);
+    }
+
+    .event-button:hover {
+        background: var(--gray-600);
+    }
+
+    .event-button-selected {
+        outline: solid 2px var(--lightBlue-300);
+    }
+
     .table-wrapper {
         max-width: 100%;
         width: fit-content;
