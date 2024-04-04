@@ -50,10 +50,13 @@
                 <a href="/calculate-sum-of-ranks" class="link">Calculate Sum of Ranks (SoR)</a>
             </li>
             <li>
-                <a href="/competitions" class="link">WCA Comps sorted by distance</a> <span style="color: var(--green-400); font-weight: bold; margin-left: 8px;">New!</span>
+                <a href="/name-ranks" class="link">Name Ranks</a> <span style="color: var(--green-400); font-weight: bold; margin-left: 8px;">New!</span>
             </li>
             <li>
                 <a href="/record-streak" class="link">Personal Record Streak</a>
+            </li>
+            <li>
+                <a href="/competitions" class="link">WCA Comps sorted by distance</a> <span style="color: var(--green-400); font-weight: bold; margin-left: 8px;">New!</span>
             </li>
         </ul>
         <h2 style="width: 100%; margin-top: 32px;">

@@ -4,45 +4,45 @@ import sqlite3
 import sys
 import time
 
-if len(sys.argv) < 2:
-    print('Get url from https://www.worldcubeassociation.org/export/results')
-    exit()
+# Usage: python3 import_db.py <URL>
+# Get url from https://www.worldcubeassociation.org/export/results
+if len(sys.argv) == 2:
 
-# Get url from first param
-url = sys.argv[1]
+    # Get url from first param
+    url = sys.argv[1]
 
-# If url contains .sql, replace with .tsv
-if '.sql' in url:
-    url = url.replace('.sql', '.tsv')
+    # If url contains .sql, replace with .tsv
+    if '.sql' in url:
+        url = url.replace('.sql', '.tsv')
 
-# Get folder name from url
-folder = url.split('/')[-1]
+    # Get folder name from url
+    folder = url.split('/')[-1]
 
-# If not downloaded already, download the zip file
-if not os.path.exists(f'{folder}.zip'):
-    os.system(f'wget {url}')
+    # If not downloaded already, download the zip file
+    if not os.path.exists(f'{folder}.zip'):
+        os.system(f'wget {url}')
 
-# Remove WCA_export/ if it exists
-if os.path.exists('WCA_export'):
-    os.system('rm -r WCA_export')
+    # Remove WCA_export/ if it exists
+    if os.path.exists('WCA_export'):
+        os.system('rm -r WCA_export')
 
-# unzip the folder into a folder called WCA_export
-if not os.path.exists('WCA_export'):
-    os.system(f'unzip {folder} -d WCA_export')
-    os.system(f'rm {folder}')
+    # unzip the folder into a folder called WCA_export
+    if not os.path.exists('WCA_export'):
+        os.system(f'unzip {folder} -d WCA_export')
+        os.system(f'rm {folder}')
 
-# Loop through files in WCA_export/
-for filename in os.listdir('WCA_export'):
-    # Remove WCA_export_ from the filename
-    new_name = filename.replace('WCA_export_', '')
-    os.rename(f'WCA_export/{filename}', f'WCA_export/{new_name}')
+    # Loop through files in WCA_export/
+    for filename in os.listdir('WCA_export'):
+        # Remove WCA_export_ from the filename
+        new_name = filename.replace('WCA_export_', '')
+        os.rename(f'WCA_export/{filename}', f'WCA_export/{new_name}')
 
-# Remove files that aren't needed for cubingapp
-os.remove('WCA_export/championships.tsv')
-os.remove('WCA_export/eligible_country_iso2s_for_championship.tsv')
-os.remove('WCA_export/Formats.tsv')
-os.remove('WCA_export/RoundTypes.tsv')
-os.remove('WCA_export/Scrambles.tsv')
+    # Remove files that aren't needed for cubingapp
+    os.remove('WCA_export/championships.tsv')
+    os.remove('WCA_export/eligible_country_iso2s_for_championship.tsv')
+    os.remove('WCA_export/Formats.tsv')
+    os.remove('WCA_export/RoundTypes.tsv')
+    os.remove('WCA_export/Scrambles.tsv')
 
 filename = 'wca.db'
 dirname = 'WCA_export'
@@ -146,6 +146,17 @@ c.execute('UPDATE RanksAverage SET continentId = (SELECT continentId FROM Countr
 c.execute('ALTER TABLE Persons ADD COLUMN continentId TEXT;')
 c.execute('UPDATE Persons SET continentId = (SELECT continentId FROM Countries WHERE id = Persons.countryId);')
 c.execute('CREATE INDEX idx_Persons_continentId ON Persons(continentId);')
+
+# Create and set name columns
+c.execute('ALTER TABLE RanksSingle ADD COLUMN name TEXT;')
+c.execute('UPDATE RanksSingle SET name = (SELECT name FROM Persons WHERE id = RanksSingle.personId);')
+c.execute('ALTER TABLE RanksAverage ADD COLUMN name TEXT;')
+c.execute('UPDATE RanksAverage SET name = (SELECT name FROM Persons WHERE id = RanksAverage.personId);')
+
+# Cast eventId to TEXT
+c.execute('UPDATE Events SET id = CAST(id AS TEXT);')
+c.execute('UPDATE RanksSingle SET eventId = CAST(eventId AS TEXT);')
+c.execute('UPDATE RanksAverage SET eventId = CAST(eventId AS TEXT);')
 
 # Add kinch and sum of ranks columns
 c.execute('ALTER TABLE Persons ADD COLUMN countryKinch REAL;')
@@ -257,18 +268,18 @@ def get_kinch_score(id, bests):
 def get_sum_of_ranks(id, maxes, singleOrAvg, regionType):
     sor_query = f'''
     SELECT
-        MAX(CASE WHEN eventId = 222 THEN {regionType}Rank ELSE NULL END) AS '222',
-        MAX(CASE WHEN eventId = 333 THEN {regionType}Rank ELSE NULL END) AS '333',
+        MAX(CASE WHEN eventId = '222' THEN {regionType}Rank ELSE NULL END) AS '222',
+        MAX(CASE WHEN eventId = '333' THEN {regionType}Rank ELSE NULL END) AS '333',
         MAX(CASE WHEN eventId = '333bf' THEN {regionType}Rank ELSE NULL END) AS '333bf',
         MAX(CASE WHEN eventId = '333fm' THEN {regionType}Rank ELSE NULL END) AS '333fm',
         {f"MAX(CASE WHEN eventId = '333mbf' THEN {regionType}Rank ELSE NULL END) AS '333mbf'," if singleOrAvg == 'Single' else ''}
         MAX(CASE WHEN eventId = '333oh' THEN {regionType}Rank ELSE NULL END) AS '333oh',
-        MAX(CASE WHEN eventId = 444 THEN {regionType}Rank ELSE NULL END) AS '444',
+        MAX(CASE WHEN eventId = '444' THEN {regionType}Rank ELSE NULL END) AS '444',
         MAX(CASE WHEN eventId = '444bf' THEN {regionType}Rank ELSE NULL END) AS '444bf',
-        MAX(CASE WHEN eventId = 555 THEN {regionType}Rank ELSE NULL END) AS '555',
+        MAX(CASE WHEN eventId = '555' THEN {regionType}Rank ELSE NULL END) AS '555',
         MAX(CASE WHEN eventId = '555bf' THEN {regionType}Rank ELSE NULL END) AS '555bf',
-        MAX(CASE WHEN eventId = 666 THEN {regionType}Rank ELSE NULL END) AS '666',
-        MAX(CASE WHEN eventId = 777 THEN {regionType}Rank ELSE NULL END) AS '777',
+        MAX(CASE WHEN eventId = '666' THEN {regionType}Rank ELSE NULL END) AS '666',
+        MAX(CASE WHEN eventId = '777' THEN {regionType}Rank ELSE NULL END) AS '777',
         MAX(CASE WHEN eventId = 'clock' THEN {regionType}Rank ELSE NULL END) AS 'clock',
         MAX(CASE WHEN eventId = 'minx' THEN {regionType}Rank ELSE NULL END) AS 'minx',
         MAX(CASE WHEN eventId = 'pyram' THEN {regionType}Rank ELSE NULL END) AS 'pyram',
