@@ -23,8 +23,10 @@ https://cubingapp.com/algorithms/ZBLL/
 https://cubingapp.com/am-i-sub-x/
 https://cubingapp.com/calculate-kinch/
 https://cubingapp.com/calculate-sum-of-ranks/
+https://cubingapp.com/competitions/
 https://cubingapp.com/keybindings.html
 https://cubingapp.com/kinch-ranks/
+https://cubingapp.com/name-ranks/
 https://cubingapp.com/nissy/
 https://cubingapp.com/recon.html
 https://cubingapp.com/record-streak/
