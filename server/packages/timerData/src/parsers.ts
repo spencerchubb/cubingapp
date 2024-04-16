@@ -1,10 +1,11 @@
 import { type TimerData } from "./index";
 
-// TODO: Block Keeper, ChaoTimer, Prisma Puzzle Timer, qqtimer, Twisty Timer, ZYX Timer
+// TODO: Block Keeper, ChaoTimer, Prisma Puzzle Timer, qqtimer, ZYX Timer
 
 // Supported timers:
 // - CsTimer
 // - CubeDesk
+// - Twisty Timer
 
 export type Parser = {
     name: string,
@@ -66,7 +67,7 @@ export const csTimerTxt: Parser = {
     },
 }
 
-export const CubeDesk = {
+export const CubeDesk: Parser = {
     name: "CubeDesk",
     is: (str: string) => str.startsWith('{"sessions":'),
     parse: (str: string) => {
@@ -90,8 +91,39 @@ export const CubeDesk = {
     },
 }
 
+// Twisty Timer experts don't show +2 and adds 2 seconds automatically.
+export const TwistyTimer: Parser = {
+    name: "TwistyTimer",
+    is: (str: string) => str.startsWith('"'),
+    parse: (str: string) => {
+        const lines = str.trim().split("\n");
+        return [
+            {
+                sessionName: "Twisty Timer Session",
+                solves: lines.map(line => {
+                    let [time, scramble, date, penalty] = line.split(";");
+
+                    console.log({ time, scramble, date, penalty });
+                    // Remove first and last characters (quotes).
+                    time = time.slice(1, -1);
+                    scramble = scramble.slice(1, -1);
+                    date = date.slice(1, -1);
+                    penalty = penalty?.slice(1, -1);
+
+                    return {
+                        penalty: penalty === "DNF" ? "DNF" : undefined,
+                        timeInMs: time === "--" ? 0 : Math.floor(Number(time) * 1000),
+                        timestamp: new Date(date).getTime(),
+                    };
+                }),
+            },
+        ];
+    },
+}
+
 export const parsers: Parser[] = [
     csTimerCsv,
     csTimerTxt,
     CubeDesk,
+    TwistyTimer,
 ];

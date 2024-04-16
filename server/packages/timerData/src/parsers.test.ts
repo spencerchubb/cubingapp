@@ -43,6 +43,30 @@ const expectedData = [
     },
 ];
 
+// Twisty Timer exports don't have multiple sessions, don't have +2s, and don't show a time for DNFs.
+const expectedDataTwistyTimer = [
+    {
+        sessionName: "Twisty Timer Session",
+        solves: [
+            {
+                penalty: undefined,
+                timeInMs: 1110,
+                timestamp: 1713227629829,
+            },
+            {
+                penalty: "DNF",
+                timeInMs: 0,
+                timestamp: 1713227685021,
+            },
+            {
+                penalty: undefined,
+                timeInMs: 3840,
+                timestamp: 1713227666168,
+            },
+        ],
+    },
+];
+
 describe("parsers", () => {
     it("should parse csTimerCsv", () => {
         let str = readFileSync(`${__dirname}/examples/csTimerCsv.csv`, "utf8");
@@ -86,5 +110,12 @@ describe("parsers", () => {
         expect(parsers.CubeDesk.is(str)).toBe(true);
         expect(parsers.CubeDesk.parse(str)).toEqual(expectedData);
         expect(isOthers(str, "CubeDesk")).toBe(false);
+    });
+
+    it("should parse TwistyTimer", () => {
+        let str = readFileSync(`${__dirname}/examples/TwistyTimer.txt`, "utf8");
+        expect(parsers.TwistyTimer.is(str)).toBe(true);
+        expect(parsers.TwistyTimer.parse(str)).toEqual(expectedDataTwistyTimer);
+        expect(isOthers(str, "TwistyTimer")).toBe(false);
     });
 });

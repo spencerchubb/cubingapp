@@ -150,6 +150,7 @@
             E("ul", { style: "margin-top: 8px;" }, [
                 E("li", { textContent: "csTimer" }),
                 E("li", { textContent: "CubeDesk" }),
+                E("li", { textContent: "Twisty Timer" }),
                 E("li", { textContent: "Other (tell me and I'll add it)" }),
             ]),
             E("div", { className: "row", style: "gap: 16px; margin-top: 24px;" }, [
