@@ -69,7 +69,7 @@ function setUrlParam(key, value) {
             $name = $_GET["name"];
             $event = $_GET["event"] ?? "333";
             $type = $_GET["type"] ?? "Single";
-            $nameType = $_GET["nameType"] ?? "any"; // Options are first, last, any
+            $nameType = $_GET["nameType"] ?? "any"; // Options are first, last, any, advanced
             $page = $_GET["page"] ?? 1;
             $perPage = 20;
         ?>
@@ -91,7 +91,7 @@ function setUrlParam(key, value) {
             </select>
             <select id="nameType" style="width: 100%; max-width: 300px;">
                 <?php
-                    foreach([["first", "First name exact"], ["last", "Last name exact"], ["any", "Any name part"]] as $element) {
+                    foreach([["first", "First name exact"], ["last", "Last name exact"], ["any", "Any name part"], ["advanced", "Advanced mode"]] as $element) {
                         echo createOption($element[0], $element[1], $nameType);
                     }
                 ?>
@@ -127,6 +127,8 @@ function setUrlParam(key, value) {
                 $stmt->bindValue(":name", "$name %", SQLITE3_TEXT);
             } else if ($nameType === "last") {
                 $stmt->bindValue(":name", "% $name", SQLITE3_TEXT);
+            } else if ($nameType === "advanced") {
+                $stmt->bindValue(":name", $name, SQLITE3_TEXT);
             } else {
                 $stmt->bindValue(":name", "%$name%", SQLITE3_TEXT);
             }
@@ -223,9 +225,10 @@ function setUrlParam(key, value) {
         <div class="info-div">
             <h2>Name type options:</h2>
             <ul>
-                <li><span class="bold">First name exact:</span> Match if the first name is exactly the same. For example, "jon" matches "Jon Doe" but not "Jonathan Doe".</li>
-                <li><span class="bold">Last name exact:</span> Match if the last name is exactly the same. For example, "smith" matches "Alice Smith" but not "Alice Smithson".</li>
-                <li><span class="bold">Any name part:</span> Match if any part of the name is the same. For example, "son" matches "Jackson Brown".</li>
+                <li><b>First name exact:</b> Match if the first name is exactly the same. For example, "jon" matches "Jon Doe" but not "Jonathan Doe".</li>
+                <li><b>Last name exact:</b> Match if the last name is exactly the same. For example, "smith" matches "Alice Smith" but not "Alice Smithson".</li>
+                <li><b>Any name part:</b> Match if any part of the name is the same. For example, "son" matches "Jackson Brown".</li>
+                <li><b>Advanced mode:</b> Use your own SQLite pattern! See <a class="link" href="https://www.sqlitetutorial.net/sqlite-like/">this tutorial</a> to learn how to use SQLite patterns.</li>
             </ul>
         </div>
         <div style="margin-top: 96px;"></div>
@@ -252,12 +255,10 @@ function setUrlParam(key, value) {
         margin: 0 auto;
     }
 
-    .info-div h2 {
-        margin-top: 32px;
-    }
-
-    .bold {
-        font-weight: bold;
+    .info-div ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
     }
 </style>
 
