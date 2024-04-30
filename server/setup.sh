@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt install apache2 sqlite3 php libapache2-mod-php php-sqlite3
+sudo apt install apache2 sqlite3 php libapache2-mod-php php-sqlite3 composer
 
 # Edit apache config
 cd /etc/apache2/sites-available

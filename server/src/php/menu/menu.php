@@ -24,7 +24,7 @@
             </svg>
         </button>
     </div>
-    <div style="display: flex; flex-direction: column; padding: 8px; gap: 12px;">
+    <div class="sidenav-buttons" style="display: flex; flex-direction: column; padding: 8px; gap: 12px;">
         <a href="/">
             <button>Home</button>
         </a>
@@ -62,7 +62,7 @@
 </script>
 
 <style>
-    a button {
+    .sidenav-buttons button {
         width: 100%;
         text-align: left;
     }

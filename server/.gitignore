@@ -6,3 +6,4 @@ src/algorithms/vids/
 
 # Compiled javascript
 src/js/
+src/vendor/
