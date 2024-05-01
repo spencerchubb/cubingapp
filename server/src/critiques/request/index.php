@@ -75,8 +75,8 @@
                 const formData = new FormData();
                 formData.append("title", title);
                 formData.append("body", body);
-                formData.append("video", video);
 
+                submitButton.textContent = "Submitting...";
                 const response = await fetch("/critiques/request/submit.php", {
                     method: "POST",
                     body: formData,
@@ -84,11 +84,22 @@
 
                 const res = await response.json();
                 console.log(res);
-                if (res.success) {
-                    window.location.href = `/critiques/?post=${res.post_id}`;
-                } else {
+                if (!res.success) {
                     alert(res.error);
+                    return;
                 }
+
+                submitButton.textContent = "Uploading...";
+                const presignedUrl = res.presignedUrl;
+                const uploadResponse = await fetch(presignedUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "video/mp4",
+                    },
+                    body: video,
+                });
+
+                window.location.href = `/critiques/?post=${res.postId}`;
             };
 
             videoInput.onchange = () => {

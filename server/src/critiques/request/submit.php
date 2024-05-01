@@ -29,59 +29,69 @@ $bucket = 'cubingapp-critique-videos';
 //     ]
 // }
 
-// Returns NULL if successful, error message otherwise.
-function uploadToS3($bucket, $key, $filename) {
-    try {
-        // https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_provider.html#ini-provider
-        // Place credentials in /.aws/credentials
-        // Specify region, aws_access_key_id, and aws_secret_access_key.
-        $credentialProvider = CredentialProvider::ini();
-        $credentialProvider = CredentialProvider::memoize($credentialProvider); // Cache to avoid loading every time.
+// CORS policy to allow all origins to PUT objects.
+// [
+//     {
+//         "AllowedHeaders": [
+//             "*"
+//         ],
+//         "AllowedMethods": [
+//             "PUT"
+//         ],
+//         "AllowedOrigins": [
+//             "*"
+//         ]
+//     }
+// ]
+
+function getPresignedUrl($bucket, $key) {
+    // https://docs.aws.amazon.com/sdk-for-php/v3/developer-guide/guide_credentials_provider.html#ini-provider
+    // Place credentials in /.aws/credentials
+    // Specify region, aws_access_key_id, and aws_secret_access_key.
+    $credentialProvider = CredentialProvider::ini();
+    $credentialProvider = CredentialProvider::memoize($credentialProvider); // Cache to avoid loading every time.
+
+    $s3 = new S3Client([
+        'version' => '2006-03-01',
+        'region' => 'us-east-1',
+        'credentials' => $credentialProvider,
+    ]);
+    $cmd = $s3->getCommand('PutObject', [
+        'Bucket' => $bucket,
+        'Key' => $key,
+        'ContentType' => 'video/mp4',
+    ]);
     
-        $s3 = new S3Client([
-            'version' => '2006-03-01',
-            'region' => 'us-east-1',
-            'credentials' => $credentialProvider,
-        ]);
-        $result = $s3->putObject([
-            'Bucket' => $bucket,
-            'Key' => $key,
-            'SourceFile' => $filename,
-        ]);
-    
-        return NULL;
-    } catch (S3Exception $e) {
-        return $e->getMessage();
-    }
+    $request = $s3->createPresignedRequest($cmd, '+5 minutes');
+    $presignedUrl = (string)$request->getUri();
+    return $presignedUrl;
 }
 
 $title = $_POST['title'];
 $body = $_POST['body'];
-$video = $_FILES['video'];
 
 include_once "../../account/util.php";
 $user = getLoggedInUser($db);
 if (!$user) {
     http_response_code(401);
-    die("You must be logged in to submit a post.");
+    echo json_encode(array("success" => false, "error" => "You must be logged in to submit a post."));
 }
 
 $filename = bin2hex(random_bytes(16)) . ".mp4";
-
-$upload_error = uploadToS3($bucket, $filename, $video['tmp_name']);
-if ($upload_error) {
-    echo json_encode(array("success" => false, "error" => $upload_error));
-    return;
-}
+$presignedUrl = getPresignedUrl($bucket, $filename);
 
 $stmt = $db->prepare("INSERT INTO posts (user_id, title, body, video_filename) VALUES (:user_id, :title, :body, :video_filename)");
 $stmt->bindValue(':user_id', $user['id']);
 $stmt->bindValue(':title', $title);
 $stmt->bindValue(':body', $body);
 $stmt->bindValue(':video_filename', $filename);
-$stmt->execute();
+$exec_output = $stmt->execute();
 
-$post_id = $db->lastInsertRowID();
+if (!$exec_output) {
+    echo json_encode(array("success" => false, "error" => $db->lastErrorMsg()));
+    return;
+}
 
-echo json_encode(array("success" => true, "post_id" => $post_id));
+$postId = $db->lastInsertRowID();
+echo json_encode(array("success" => true, "postId" => $postId, "presignedUrl" => $presignedUrl));
 ?>

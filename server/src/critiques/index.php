@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Kinch ranks leaderboard based on World Cube Association data">
+    <meta name="description" content="Request and give critiques for Rubik's Cube speedsolving">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
