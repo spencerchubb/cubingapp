@@ -155,6 +155,15 @@ button:disabled {
     cursor: pointer;
 }
 
+.white-link {
+    color: var(--gray-100);
+    text-decoration: none;
+}
+
+.white-link:hover {
+    text-decoration: underline;
+}
+
 body {
     margin: 0;
     background-color: var(--gray-800);

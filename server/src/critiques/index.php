@@ -10,42 +10,6 @@
 </head>
 
 <style>
-    .critique-div {
-        padding: 8px 0;
-        border-bottom: solid 1px var(--gray-500);
-    }
-
-    .critique-div h2 a {
-        font-size: 1.2rem;
-        color: var(--gray-100);
-    }
-
-    .critique-div h2 a:hover {
-        text-decoration: underline;
-    }
-
-    .critique-details {
-        margin-top: 4px;
-        font-size: 0.8rem;
-        color: var(--gray-300);
-    }
-
-    .critique-body {
-        margin-top: 4px;
-        white-space: pre-wrap;
-        max-height: 7rem;
-        overflow: hidden;
-    }
-
-    .critique-user-link {
-        color: var(--gray-300);
-        text-decoration: none;
-    }
-
-    .critique-user-link:hover {
-        text-decoration: underline;
-    }
-
     .comment-div {
         padding: 8px 0;
         border-bottom: solid 1px var(--gray-500);
@@ -66,36 +30,7 @@
     <?php include_once "navbar.php" ?>
     <main style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
         <?php
-        // https://stackoverflow.com/questions/1416697/converting-timestamp-to-time-ago-in-php-e-g-1-day-ago-2-days-ago
-        function time_elapsed_string($datetime) {
-            // Specify UTC because SQLite3 CURRENT_TIMESTAMP uses UTC.
-            $now = new DateTime('now', new DateTimeZone('UTC'));
-            $ago = new DateTime($datetime, new DateTimeZone('UTC'));
-            $diff = $now->diff($ago);
-        
-            $diff->w = floor($diff->d / 7);
-            $diff->d -= $diff->w * 7;
-        
-            $string = array(
-                'y' => 'year',
-                'm' => 'month',
-                'w' => 'week',
-                'd' => 'day',
-                'h' => 'hour',
-                'i' => 'minute',
-                's' => 'second',
-            );
-            foreach ($string as $k => &$v) {
-                if ($diff->$k) {
-                    $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-                } else {
-                    unset($string[$k]);
-                }
-            }
-        
-            $string = array_slice($string, 0, 1);
-            return $string ? implode(', ', $string) . ' ago' : 'just now';
-        }
+        include_once __DIR__ . "/common.php";
         
         if (isset($_GET['post'])) {
             // Get post
@@ -171,20 +106,8 @@
                 JOIN users ON posts.user_id = users.id
                 ORDER BY posts.created_at DESC");
             $rows = $stmt->execute();
-
-            while ($row = $rows->fetchArray()) {
-                $post_id = $row['id'];
-                $username = $row['username'];
-                $time_elapsed = time_elapsed_string($row['created_at']);
-                echo "<div class='critique-div'>";
-                echo "<h2><a href='/critiques/?post=$post_id'>" . $row['title'] . "</a></h2>";
-                echo "<p class='critique-details'>By $username $time_elapsed</p>";
-                echo "<p class='critique-body'>" . $row['body'] . "</p>";
-                echo "</div>";
-            }
-
+            renderPosts($rows);
             echo "</div>";
-
             ?>
         <?php } ?>
         <div style="margin-top: 96px;"></div>

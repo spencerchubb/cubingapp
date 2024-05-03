@@ -1,15 +1,5 @@
-<style>
-    .navbar-link {
-        color: var(--gray-100);
-        text-decoration: none;
-    }
-
-    .navbar-link:hover {
-        text-decoration: underline;
-    }
-</style>
 <nav style="justify-content: space-between; padding: 0 12px;">
-    <a href="/critiques/" class="navbar-link">Critiques Home</a>
+    <a href="/critiques/" class="white-link">Critiques Home</a>
 
     <?php
     error_reporting(E_ALL);
@@ -22,9 +12,9 @@
     include_once __DIR__ . "/../account/util.php";
     $user = getLoggedInUser($db);
     if ($user) {
-        echo "<a href='/account/' class='navbar-link'>" . $user['username'] . "</a>";
+        echo "<a href='/account/' class='white-link'>" . $user['username'] . "</a>";
     } else {
-        echo "<a href='/account/' class='navbar-link'>Login</a>";
+        echo "<a href='/account/' class='white-link'>Login</a>";
     }
     ?>
 </nav>

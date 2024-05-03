@@ -27,7 +27,7 @@
     }
 </style>
 
-<body style="display: flex; flex-direction: column; width: 100%; height: 100%; align-items: center; padding: 0 16px;">
+<body style="padding: 0 16px;">
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
@@ -36,26 +36,43 @@
         exit;
     }
 
+    include_once __DIR__ . "/../critiques/common.php";
     include_once "util.php";
 
     $user = getLoggedInUser($db);
     if ($user) {
         $user_id = $user['id'];
         $username = $user['username'];
+
+        echo "<div style='width: 100%; max-width: 800px; margin: auto;'>";
         echo "<h1 style='margin-top: 1rem;'>Logged in as " . $username . "</h1>";
         echo "<button id='logoutButton' style='margin-top: 1rem;'>Logout</button>";
+
+        // Render user's posts
+        $stmt = $db->prepare("
+                SELECT posts.id, posts.created_at, users.username, posts.title, posts.body
+                FROM posts
+                JOIN users ON users.id = :user_id AND posts.user_id = :user_id 
+                ORDER BY posts.created_at DESC");
+        $stmt->bindValue(":user_id", $user_id, SQLITE3_INTEGER);
+        $rows = $stmt->execute();
+        renderPosts($rows);
+
+        echo "</div>";
     } else { ?>
-        <div id="loginForm" class="form">
-            <h2>Login to cubingapp</h2>
-            <input type="text" id="loginUsername" placeholder="Username" />
-            <input type="password" id="loginPassword" placeholder="Password" />
-            <button id="loginButton">Login</button>
-        </div>
-        <div id="createAccountForm" class="form">
-            <h2>Create account</h2>
-            <input type="text" id="createAccountUsername" placeholder="Username" />
-            <input type="password" id="createAccountPassword" placeholder="Password" />
-            <button id="createAccountButton">Create account</button>
+        <div style="display: flex; flex-direction: column; width: 100%; height: 100%; align-items: center;">
+            <div id="loginForm" class="form">
+                <h2>Login to cubingapp</h2>
+                <input type="text" id="loginUsername" placeholder="Username" />
+                <input type="password" id="loginPassword" placeholder="Password" />
+                <button id="loginButton">Login</button>
+            </div>
+            <div id="createAccountForm" class="form">
+                <h2>Create account</h2>
+                <input type="text" id="createAccountUsername" placeholder="Username" />
+                <input type="password" id="createAccountPassword" placeholder="Password" />
+                <button id="createAccountButton">Create account</button>
+            </div>
         </div>
     <?php } ?>
 
