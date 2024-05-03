@@ -12,6 +12,15 @@ function getUserByToken($db, $auth_token) {
     return $row;
 }
 
+function getUserByUsername($db, $username) {
+    $stmt = $db->prepare("SELECT id, username FROM users WHERE username = :username");
+    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+
+    $result = $stmt->execute();
+    $row = $result->fetchArray();
+    return $row;
+}
+
 function getLoggedInUser($db) {
     if (isset($_COOKIE['auth_token'])) {
         $auth_token = $_COOKIE['auth_token'];

@@ -39,25 +39,38 @@
     include_once __DIR__ . "/../critiques/common.php";
     include_once "util.php";
 
-    $user = getLoggedInUser($db);
-    if ($user) {
+    function renderUserPosts($db, $user_id) {
+        $stmt = $db->prepare("
+            SELECT posts.id, posts.created_at, users.username, posts.title, posts.body
+            FROM posts
+            JOIN users ON users.id = :user_id AND posts.user_id = :user_id 
+            ORDER BY posts.created_at DESC");
+        $stmt->bindValue(":user_id", $user_id, SQLITE3_INTEGER);
+        $rows = $stmt->execute();
+        renderPosts($rows);
+    }
+
+    // Order of precedence:
+    // 1. If 'user' is set in the query string, show that user's posts.
+    // 2. Else if the user is logged in, show their posts.
+    // 3. Else show login form.
+    if (isset($_GET['user'])) {
+        $user = getUserByUsername($db, $_GET['user']);
+        $user_id = $user['id'];
+        $username = $user['username'];
+        
+        echo "<div style='width: 100%; max-width: 800px; margin: auto;'>";
+        echo "<h1 style='margin-top: 1rem;'>$username's account</h1>";
+        renderUserPosts($db, $user_id);
+        echo "</div>";
+    } else if ($user = getLoggedInUser($db)) {
         $user_id = $user['id'];
         $username = $user['username'];
 
         echo "<div style='width: 100%; max-width: 800px; margin: auto;'>";
-        echo "<h1 style='margin-top: 1rem;'>Logged in as " . $username . "</h1>";
+        echo "<h1 style='margin-top: 1rem;'>Logged in as $username</h1>";
         echo "<button id='logoutButton' style='margin-top: 1rem;'>Logout</button>";
-
-        // Render user's posts
-        $stmt = $db->prepare("
-                SELECT posts.id, posts.created_at, users.username, posts.title, posts.body
-                FROM posts
-                JOIN users ON users.id = :user_id AND posts.user_id = :user_id 
-                ORDER BY posts.created_at DESC");
-        $stmt->bindValue(":user_id", $user_id, SQLITE3_INTEGER);
-        $rows = $stmt->execute();
-        renderPosts($rows);
-
+        renderUserPosts($db, $user_id);
         echo "</div>";
     } else { ?>
         <div style="display: flex; flex-direction: column; width: 100%; height: 100%; align-items: center;">

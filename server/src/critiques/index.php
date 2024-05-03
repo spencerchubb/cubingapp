@@ -15,11 +15,6 @@
         border-bottom: solid 1px var(--gray-500);
     }
 
-    .comment-details {
-        font-size: 0.8rem;
-        color: var(--gray-300);
-    }
-
     .comment-body {
         margin-top: 4px;
         white-space: pre-wrap;
@@ -64,7 +59,7 @@
                 $username = $row['username'];
                 $comment = $row['comment'];
                 $comments_div .= "<div class='comment-div'>
-                    <p class='comment-details'>$username $time_elapsed</p>
+                    <p class='user-and-time'>By <a href='/account/?user=$username'>$username</a> $time_elapsed</p>
                     <p class='comment-body'>$comment</p>
                 </div>";
             }

@@ -4,10 +4,19 @@
         border-bottom: solid 1px var(--gray-500);
     }
 
-    .critique-details {
+    .user-and-time {
         margin-top: 4px;
         font-size: 0.8rem;
         color: var(--gray-300);
+    }
+
+    .user-and-time a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .user-and-time a:hover {
+        text-decoration: underline;
     }
 
     .critique-body {
@@ -15,15 +24,6 @@
         white-space: pre-wrap;
         max-height: 7rem;
         overflow: hidden;
-    }
-
-    .critique-user-link {
-        color: var(--gray-300);
-        text-decoration: none;
-    }
-
-    .critique-user-link:hover {
-        text-decoration: underline;
     }
 </style>
 
@@ -67,17 +67,11 @@ function renderPosts($rows) {
         $username = $row['username'];
         $time_elapsed = time_elapsed_string($row['created_at']);
         $body = $row['body'];
-        // echo "<div class='critique-div'>";
-        // echo "<h2><a href='/critiques/?post=$post_id' class='white-link'>" . $row['title'] . "</a></h2>";
-        // echo "<p class='critique-details'>By $username $time_elapsed</p>";
-        // echo "<p class='critique-body'>" . $row['body'] . "</p>";
-        // echo "</div>";
         echo "<div class='critique-div'>
         <h2><a href='/critiques/?post=$post_id' class='white-link'>$title</a></h2>
-        <p class='critique-details'>By $username $time_elapsed</p>
+        <p class='user-and-time'>By <a href='/account/?user=$username'>$username</a> $time_elapsed</p>
         <p class='critique-body'>$body</p>
         </div>";
-
     }
 }
 ?>
