@@ -65,9 +65,6 @@
         <div class="divider"></div>
         <ul style="width: 100%;">
             <li>
-                <a href="/nissy" class="link">Web Nissy</a> (FMC tool for EO, DR, HTR)
-            </li>
-            <li>
                 <a href="/recon.html" class="link">Recon Tool</a>
             </li>
             <li>

@@ -11,10 +11,6 @@ sudo cp gci.conf /etc/apache2/sites-available/gci.conf
 sudo a2enmod rewrite # For rewriting urls
 sudo a2enmod ssl # For https
 
-# For proxying to nissy server
-sudo a2enmod proxy
-sudo a2enmod proxy_http
-
 # To activate
 sudo a2ensite gci.conf
 sudo service apache2 reload
