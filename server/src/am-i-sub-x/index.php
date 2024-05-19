@@ -235,6 +235,6 @@
     }
 </script>
 
-<?php include "php/gtag.php" ?>
+<?php include "../php/gtag.php" ?>
 
 </html>
