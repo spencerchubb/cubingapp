@@ -34,7 +34,7 @@ export const csTimerCsv: Parser = {
                         : penalizedTime.endsWith("+")
                         ? "+2"
                         : undefined;
-                    const timeInMs = Math.floor(Number(originalTime) * 100);
+                    const timeInMs = Math.floor(Number(originalTime) * 1000);
                     const timestamp = new Date(date).getTime();
 
                     return { penalty, timeInMs, timestamp };
@@ -103,7 +103,6 @@ export const TwistyTimer: Parser = {
                 solves: lines.map(line => {
                     let [time, scramble, date, penalty] = line.split(";");
 
-                    console.log({ time, scramble, date, penalty });
                     // Remove first and last characters (quotes).
                     time = time.slice(1, -1);
                     scramble = scramble.slice(1, -1);
