@@ -105,7 +105,7 @@
                     return true;
                 }
 
-                return $result < $records[$eventId];
+                return $result <= $records[$eventId];
             }
 
             // Iterate over competitions
