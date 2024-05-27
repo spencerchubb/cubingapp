@@ -9,6 +9,29 @@
     <title>Record Streak Calculator for Cubing</title>
 </head>
 
+<script>
+function q(selector) {
+    return document.querySelector(selector);
+}
+
+function E(name, props, children) {
+    const ele = document.createElement(name);
+    for (const [key, value] of Object.entries(props)) {
+        ele[key] = value;
+    }
+
+    children = children || [];
+    for (const child of children) {
+        ele.appendChild(child);
+    }
+    return ele;
+}
+
+function searchResultHref(wcaId) {
+    return `/record-streak?wcaId=${wcaId}`;
+}
+</script>
+
 <body style="width: 100%; height: 100%;">
     <nav>
         <?php include_once "../php/menu/menuIcon.php" ?>
@@ -19,25 +42,9 @@
         <?php
             $wcaId = $_GET["wcaId"] ?? null;
         ?>
-        <form
-            action="/record-streak"
-            method="GET"
-            style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr auto; gap: 24px 16px;"
-        >
-            <p>WCA ID</p>
-            <input
-                type="text"
-                value="<?php echo $wcaId; ?>"
-                name="wcaId"
-                placeholder="Enter WCA ID"
-            />
-            <button
-                type="submit"
-                style="grid-column: 1 / 3; margin-top: 0.5rem;"
-            >
-                Calculate
-            </button>
-        </form>
+        <div style="margin-top: 24px; width: 100%; max-width: 300px;">
+            <?php include "../php/search/element.php" ?>
+        </div>
         <?php if ($wcaId): ?>
             <div style="margin-top: 3rem;"></div>
             <?php include "../php/wca_attribution.php" ?>
@@ -162,6 +169,26 @@
 
             ?>
         <?php endif; ?>
+        <div class="info-div">
+            <h2>What is this?</h2>
+            <p>
+                This tool calculates personal record streaks at WCA competitions.
+                Just search for a WCA competitor, and we will calculate the record streak.
+            </p>
+            <p>
+                We calculate two metrics. In some cases, they may be the same!
+            </p>
+            <ul>
+                <li>Current streak</li>
+                <li>Longest streak</li>
+            </ul>
+            <h2>How does it work?</h2>
+            <p>
+                First we fetch all the competitions that a cubers has participated in.
+                Then we go through each competition and check: Have they set or tied a personal record in at least one event?
+                If so, their streak continues.
+            </p>
+        </div>
         <div style="margin-top: 64px;">
             <?php include "../php/cool_calculators.php" ?>
         </div>
@@ -179,6 +206,24 @@
 
     .card li {
         margin-top: 8px;
+    }
+
+    .info-div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 600px;
+        gap: 16px;
+        margin: 0 auto;
+    }
+
+    .info-div h2 {
+        margin-top: 32px;
+    }
+
+    .info-div p, .info-div ul, .info-div li {
+        align-self: start;
+        line-height: 1.5rem;
     }
 </style>
 
