@@ -55,7 +55,8 @@
                 SELECT r.competitionId, r.eventId, r.best, r.average
                 FROM Results r
                 JOIN Competitions c ON r.competitionId = c.id
-                WHERE personId = :wcaId;
+                WHERE personId = :wcaId
+                ORDER BY c.end_date;
                 ";
                 
                 $stmt = $db->prepare($query);
