@@ -58,11 +58,13 @@ function searchResultHref(wcaId) {
             }
 
             function buildStatement($db, $wcaId) {
+                # Order by start date because comps are not always in date order, especially early comps.
                 $query = "
                 SELECT r.competitionId, r.eventId, r.best, r.average
                 FROM Results r
                 JOIN Competitions c ON r.competitionId = c.id
-                WHERE personId = :wcaId;
+                WHERE personId = :wcaId
+                ORDER BY c.startDate ASC;
                 ";
                 
                 $stmt = $db->prepare($query);
