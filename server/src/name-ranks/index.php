@@ -64,6 +64,8 @@ function setUrlParam(key, value) {
                 "444bf" => "4BLD",
                 "555bf" => "5BLD",
                 "333mbf" => "MBLD",
+                "Kinch" => "Kinch",
+                "Sum of Ranks" => "Sum of Ranks",
             ];
 
             $name = $_GET["name"];
@@ -120,6 +122,21 @@ function setUrlParam(key, value) {
                 from Ranks$type
                 where (name like :name or name like :name1) and eventId = :event
                 limit 1000;";
+
+            if ($event === "Kinch" || $event === "Sum of Ranks") {
+                $query = "select id as personId, name, worldKinch as best
+                    from Persons
+                    where name like :name or name like :name1
+                    order by worldKinch desc
+                    limit 1000;";
+            }
+            if ($event === "Sum of Ranks") {
+                $query = "select id as personId, name, worldSor$type as best
+                from Persons
+                where name like :name or name like :name1
+                order by best asc
+                limit 1000;";
+            }
 
             $stmt = $db->prepare($query);
             if ($nameType === "first") {
@@ -181,6 +198,10 @@ function setUrlParam(key, value) {
                 return sprintf('%d/%d %s', $solved, $attempted, timeToStr($centiseconds));
             }
 
+            function kinchOrSorToStr($score) {
+                return round($score, 2);
+            }
+
             $scoreToStrFunction = [
                 "333" => "timeToStr",
                 "222" => "timeToStr",
@@ -199,6 +220,8 @@ function setUrlParam(key, value) {
                 "444bf" => "timeToStr",
                 "555bf" => "timeToStr",
                 "333mbf" => "mbldScoreToStr",
+                "Kinch" => "kinchOrSorToStr",
+                "Sum of Ranks" => "kinchOrSorToStr",
             ][$event];
 
             $i = 1;
