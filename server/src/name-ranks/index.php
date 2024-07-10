@@ -123,14 +123,13 @@ function setUrlParam(key, value) {
                 where (name like :name or name like :name1) and eventId = :event
                 limit 1000;";
 
-            if ($event === "Kinch" || $event === "Sum of Ranks") {
+            if ($event === "Kinch") {
                 $query = "select id as personId, name, worldKinch as best
                     from Persons
                     where name like :name or name like :name1
                     order by worldKinch desc
                     limit 1000;";
-            }
-            if ($event === "Sum of Ranks") {
+            } else if ($event === "Sum of Ranks") {
                 $query = "select id as personId, name, worldSor$type as best
                 from Persons
                 where name like :name or name like :name1
