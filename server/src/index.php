@@ -65,12 +65,6 @@
         <div class="divider"></div>
         <ul style="width: 100%;">
             <li>
-                <a href="/recon.html" class="link">Recon Tool</a>
-            </li>
-            <li>
-                <a href="/train" class="link">Trainers</a>
-            </li>
-            <li>
                 <a href="https://github.com/spencerchubb/cubingapp" class="link">GitHub</a> (CubingApp is open source!)
             </li>
         </ul>
