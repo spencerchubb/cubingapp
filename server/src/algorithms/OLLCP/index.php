@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Rubik's Cube algorithms for OLLCP (Orientation of Last Layer & Corner Permutation)">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/colors.css">
@@ -9,44 +8,37 @@
     <title>OLLCP Algorithms</title>
 </head>
 
-<body class="col" style="width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../../php/menu/menuIcon.php" ?>
-        <?php include_once "../../php/menu/menu.php" ?>
-    </nav>
-    <main style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
-        <h1 style="text-align: center;">OLL Algorithms</h1>
+<?php
+include_once "../style.php";
+include_once "../colorScheme.php";
+?>
 
-        <p class="bodytext">
-            OLLCP stands for Orientation of Last Layer and Corner Permutation. As the name implies, this step solves OLL and corner permutation at the same time.
-        </p>
-        <p class="bodytext">
-            OLLCP is typically used with CFOP, and it is an advanced algorithm set. It is recommended to learn OLL and PLL, then decide if OLLCP is worth it for you. Sometimes it is even used with Roux, in a variant called the Pinkie Pie method.
-        </p>
+<body>
+    <?php
+    include_once "../../php/menu.php";
+    $subsets = [];
+    ?>
 
-        <div id="subsetsRoot"></div>
-        <?php include "../../php/orientation_input.php" ?>
-        <div id="algsRoot"></div>
+    <main>
+        <div style="width: 100%; max-width: 700px; height: 100%;">
+            <h1>OLLCP Algorithms</h1>
+            <p class="bodytext">OLLCP stands for Orientation of Last Layer and Corner Permutation. As the name implies, this step solves OLL and corner permutation at the same time.</p>
+			<p class="bodytext">OLLCP is typically used with CFOP, and it is an advanced algorithm set. It is recommended to learn OLL and PLL, then decide if OLLCP is worth it for you. Sometimes it is even used with Roux, in a variant called the Pinkie Pie method.</p>
+            
+            <?php
+            include_once "../colorSelect.php";
+            include_once "../subsetsNarrow.php";
+            include_once "./algs.php";
+            ?>
+        </div>
 
-        <div style="margin-top: 64px;"></div>
+        <?php include_once "../subsetsWide.php" ?>
     </main>
 </body>
 
-<script type="module">
-    import { algSet } from "./algSet.js";
-    import { initPage } from "../page_algset.js";
-    initPage(algSet);
-</script>
-
-<style>
-    .bodytext {
-        max-width: 600px;
-        align-self: start;
-        line-height: 1.5rem;
-        margin: 20px auto;
-    }
-</style>
-
-<?php include "../../php/gtag.php" ?>
+<?php
+include_once "../listeners.php";
+include "../../php/gtag.php";
+?>
 
 </html>

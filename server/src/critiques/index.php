@@ -37,6 +37,7 @@
             $rows = $stmt->execute();
             $row = $rows->fetchArray();
 
+            $post_id = $row['id'];
             $post_video = $row['video_filename'];
             $post_time_elapsed = time_elapsed_string($row['created_at']);
             $post_title = $row['title'];
@@ -74,11 +75,16 @@
                 $comment_input = "<a href='/account/'><button style='margin-top: 16px; width: 100%;'>Login to give critique</button></a>";
             }
 
+            $edit_post_button = "";
+            if ($user && $post_username === $user['username']) {
+                $edit_post_button = "| <a href='/critiques/request/?post=$post_id'>edit</a>";
+            }
+
             echo "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: start; gap: 16px;'>
                 <video controls style='width: min(500px, 100%);'><source src='https://cubingapp-critique-videos.s3.amazonaws.com/$post_video' type='video/mp4'></video>
                 <div style='flex: 1 1 500px; max-width: 700px;'>
                     <h2>$post_title</h2>
-                    <p class='user-and-time'>By <a href='/account/?user=$post_username'>$post_username</a> $post_time_elapsed</p>
+                    <p class='user-and-time'>By <a href='/account/?user=$post_username'>$post_username</a> $post_time_elapsed $edit_post_button</p>
                     <p style='margin-top: 4px; white-space: pre-wrap;'>$post_body</p>
                     $comment_input
                     $comments_div

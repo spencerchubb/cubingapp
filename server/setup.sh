@@ -1,6 +1,9 @@
 sudo apt-get update
 sudo apt install apache2 sqlite3 php libapache2-mod-php php-sqlite3 composer
 
+# Remove index.html so it doesn't override index.php
+sudo rm /var/www/html/index.html
+
 # Edit apache config
 cd /etc/apache2/sites-available
 sudo cp 000-default.conf gci.conf
