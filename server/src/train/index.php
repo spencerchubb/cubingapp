@@ -9,12 +9,10 @@
     <title>Cubing Trainer</title>
 </head>
 
-<body style="width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main class="col" style="width: 100%; height: 100%; align-items: center; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main class="col" style="padding: 16px;">
         <h1>Cubing Trainer</h1>
         <p style="margin-top: 16px; font-style: italic;">
             Memorize algorithms in half the time

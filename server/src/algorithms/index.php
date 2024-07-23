@@ -9,12 +9,10 @@
     <title>Rubik's Cube Algorithms</title>
 </head>
 
-<body class="col" style="width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main class="col" style="width: 100%; height: 100%; align-items: center; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main class="col">
         <h1>Rubik's Cube Algorithms</h1>
         <p style="margin-top: 16px; font-style: italic;">
             Algorithm database with 4,000 algorithms for 3x3, 2x2, Square-1, and more

@@ -42,12 +42,10 @@ function onChangeType(event) {
 }
 </script>
 
-<body class="col" style="width: 100%; height: 100%;">
-    <nav>
-        <?php include "../php/menu/menuIcon.php" ?>
-        <?php include "../php/menu/menu.php" ?>
-    </nav>
-    <main style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main>
         <h1 style="text-align: center;">Calculate Sum of Ranks (SoR)</h1>
         <?php
             $wcaId = $_GET["wcaId"] ?? null;

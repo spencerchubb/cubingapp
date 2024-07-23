@@ -10,6 +10,13 @@ html {
     overflow: auto;
 }
 
+main {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 16px;
+}
+
 p,
 h1,
 h2,

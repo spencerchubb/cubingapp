@@ -52,12 +52,10 @@ function onChangeType(event) {
 }
 </script>
 
-<body style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main>
         <h1 style="text-align: center;">Sum of Ranks Leaderboard</h1>
         <?php
             $region = $_GET["region"] ?? "World";

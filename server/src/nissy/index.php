@@ -8,12 +8,10 @@
     <title>Web Nissy</title>
 </head>
 
-<body style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main class="info-div" style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main class="info-div">
         <p>
             I have decided to shut down Web Nissy.
             Thank you to everyone who gave feedback, especially my friends in the FMC discord server.

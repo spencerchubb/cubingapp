@@ -34,12 +34,9 @@
 </style>
 
 <body style="width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
+    <?php include_once "../php/menu.php"; ?>
 
-    <main class="col" style="height: 100%; overflow-y: auto; padding: 0 16px;">
+    <main class="col">
         <div class="col" style="width: 100%; max-width: 600px;">
             <h2 class="subheader">How do I know if I'm sub-X?</h2>
             <p class="bodytext">

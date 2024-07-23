@@ -9,8 +9,8 @@
     <title>CubingApp Home</title>
 </head>
 
-<body style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
-    <div style="width: 100%; max-width: 600px; margin: 0 auto;">
+<body>
+    <main>
         <?php
             if (http_response_code() === 404) {
                 echo "<p style='color: var(--red-500); font-size: 1.2rem; text-align: center; margin-bottom: 1rem; padding: 0.5rem; background: var(--gray-900); border-radius: 8px;'>404: Page not found</p>";
@@ -68,7 +68,7 @@
                 <a href="https://github.com/spencerchubb/cubingapp" class="link">GitHub</a> (CubingApp is open source!)
             </li>
         </ul>
-    </div>
+    </main>
     <div style="margin-top: 96px;"></div>
 </body>
 

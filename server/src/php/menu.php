@@ -217,3 +217,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll(".expandableButton").forEach(ele => {
+        ele.onclick = () => {
+            ele.parentElement.classList.toggle("expandableOpen");
+        }
+    });
+
+    menuIcon.onclick = () => document.body.classList.toggle("menuOpen");
+    menuClose.onclick = () => document.body.classList.remove("menuOpen");
+    menuBackground.onclick = () => document.body.classList.remove("menuOpen");
+</script>

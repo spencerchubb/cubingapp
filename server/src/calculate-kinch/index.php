@@ -42,12 +42,10 @@ function onChangeRegion(event) {
 }
 </script>
 
-<body style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main class="col" style="width: 100%; height: 100%; align-items: center; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main class="col">
         <?php
             $wcaId = $_GET["wcaId"] ?? null;
             $region = $_GET["region"] ?? "World";

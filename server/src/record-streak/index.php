@@ -32,12 +32,10 @@ function searchResultHref(wcaId) {
 }
 </script>
 
-<body style="width: 100%; height: 100%;">
-    <nav>
-        <?php include_once "../php/menu/menuIcon.php" ?>
-        <?php include_once "../php/menu/menu.php" ?>
-    </nav>
-    <main class="col" style="width: 100%; height: 100%; padding: 16px; overflow-y: auto;">
+<body>
+    <?php include_once "../php/menu.php"; ?>
+
+    <main class="col">
         <h1 style="margin-top: 0.25rem;">Record Streak Calculator</h1>
         <?php
             $wcaId = $_GET["wcaId"] ?? null;
