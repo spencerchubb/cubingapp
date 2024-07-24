@@ -1,6 +1,6 @@
 <style>
     main {
-        padding: 16px;
+        display: flex;
         gap: 32px;
     }
 
