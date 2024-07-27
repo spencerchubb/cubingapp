@@ -180,11 +180,14 @@ c.execute('CREATE INDEX idx_Persons_countrySorAverage ON Persons(countrySorAvera
 c.execute('CREATE INDEX idx_Persons_continentSorAverage ON Persons(continentSorAverage);')
 c.execute('CREATE INDEX idx_Persons_worldSorAverage ON Persons(worldSorAverage);')
 
-# Create startDate and endDate columns.
+# Create startDate and endDate columns
 c.execute('ALTER TABLE Competitions ADD COLUMN startDate TEXT;')
 c.execute('ALTER TABLE Competitions ADD COLUMN endDate TEXT;')
 c.execute('UPDATE Competitions SET startDate = printf("%04d-%02d-%02d", year, month, day);')
 c.execute('UPDATE Competitions SET endDate = printf("%04d-%02d-%02d", year, endMonth, endDay);')
+
+# Create Birthdays table
+c.execute('CREATE TABLE Birthdays(competitionId TEXT, personId TEXT, name TEXT, date TEXT);')
 
 print(f'Finished indices and columns creation in {time.time() - start:.2f} seconds')
 print('Starting kinch and sum of ranks calculation')
@@ -425,3 +428,6 @@ for i, person in enumerate(persons):
 conn.commit()
 
 print(f'Finished kinch and sum of ranks calculation in {time.time() - start:.2f} seconds')
+
+from birthdays import populate_birthdays_table
+populate_birthdays_table()
