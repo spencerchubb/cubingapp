@@ -207,6 +207,7 @@
         </button>
         <div class="expandableChild">
             <a href="/am-i-sub-x" class="menuLink">Am I Sub-X?</a>
+            <a href="/birthdays" class="menuLink">WCA Birthdays</a>
             <a href="/competitions" class="menuLink">Competition Distance</a>
             <a href="/calculate-kinch" class="menuLink">Kinch Calculator</a>
             <a href="/kinch-ranks" class="menuLink">Kinch Leaderboard</a>
