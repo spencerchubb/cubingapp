@@ -9,29 +9,6 @@
     <title>Record Streak Calculator for Cubing</title>
 </head>
 
-<script>
-function q(selector) {
-    return document.querySelector(selector);
-}
-
-function E(name, props, children) {
-    const ele = document.createElement(name);
-    for (const [key, value] of Object.entries(props)) {
-        ele[key] = value;
-    }
-
-    children = children || [];
-    for (const child of children) {
-        ele.appendChild(child);
-    }
-    return ele;
-}
-
-function searchResultHref(wcaId) {
-    return `/record-streak?wcaId=${wcaId}`;
-}
-</script>
-
 <body>
     <?php include_once "../php/menu.php"; ?>
 
@@ -41,7 +18,10 @@ function searchResultHref(wcaId) {
             $wcaId = $_GET["wcaId"] ?? null;
         ?>
         <div style="margin-top: 24px; width: 100%; max-width: 300px;">
-            <?php include "../php/search/element.php" ?>
+            <?php
+            include "../php/search/element.php";
+            renderSearchElement("/record-streak", $wcaId);
+            ?>
         </div>
         <?php if ($wcaId): ?>
             <div style="margin-top: 3rem;"></div>

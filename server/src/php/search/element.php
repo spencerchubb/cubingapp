@@ -1,14 +1,16 @@
-<div id="search-dropdown" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
+<?php function renderSearchElement($path, $wcaId) { ?>
+
+<div id="searchDropdown" style="position: relative; display: inline-block; width: 100%; max-width: 300px;">
     <input
-        id="search-wca-persons"
+        id="searchInput"
         type="text"
         placeholder="Search name or WCA ID"
         style="width: 100%;"
         value="<?php echo $wcaId ?>"
     />
     <div
-        id="search-results"
-        style="position: absolute; width: 100%;"
+        id="searchResults"
+        style="display: flex; flex-direction: column; position: absolute; width: 100%;"
     ></div>
 </div>
 
@@ -19,20 +21,27 @@
         border-top: none;
         border-radius: 0px;
         padding: 0.5rem 1rem;
-    }
+        cursor: pointer;
 
-    .search-result:hover {
-        background: var(--gray-800);
+        &:hover {
+            background: var(--gray-800);
+        }
+
+        & h2 {
+            font-size: 16px;
+        }
+
+        & p {
+            margin-top: 4px;
+            font-size: 14px;
+            color: var(--gray-300);
+        }
     }
 </style>
 
 <script>
     const DEBOUNCE_TIME = 300;
     let debounceTimeout;
-
-    const searchDropdown = q("#search-dropdown");
-    const input = q("#search-wca-persons");
-    const searchResults = q("#search-results");
 
     // Hide when user clicks out of the search dropdown.
     document.addEventListener("click", event => {
@@ -43,8 +52,8 @@
         }
     });
     
-    // Perform search on every keyup, but only after debounce time.
-    input.addEventListener("keyup", event => {
+    // Perform search for each letter typed, but only after debounce time.
+    searchInput.addEventListener("keydown", event => {
         clearTimeout(debounceTimeout);
 
         debounceTimeout = setTimeout(() => {
@@ -52,17 +61,20 @@
             fetch(`/php/search/search.php?q=${value}`)
                 .then(res => res.json())
                 .then(json => {
-                    searchResults.innerHTML = "";
-                    searchResults.appendChild(E("div", {
-                        style: "display: flex; flex-direction: column;"
-                    }, json.map(result => E("a", { className: "search-result", href: searchResultHref(result.id) }, [
-                        E("p", { textContent: result.name, style: "text-align: left; font-weight: bold;" }),
-                        E("p", { textContent: result.id, style: "text-align: left; font-size: 0.9rem;" }),
-                    ]))));
+                    searchResults.innerHTML = json.map(result => {
+                        return `<a class="search-result" href="<?php echo $path ?>?wcaId=${result.id}">
+                            <h2>${result.name}</h2>
+                            <p>${result.id}</p>
+                        </a>`;
+                    }).join("")
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
         }, DEBOUNCE_TIME);
     });
+
 </script>
+
+<!-- End renderSearchElement -->
+<?php } ?>

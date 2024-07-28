@@ -11,57 +11,11 @@
     <title>WCA Birthdays</title>
 </head>
 
-<style>
-    .subheader {
-        margin-top: 32px;
-    }
-    
-    .bodytext {
-        align-self: start;
-        line-height: 1.5rem;
-        margin-top: 16px;
-    }
-
-    .output-card {
-        width: 300px;
-        font-size: 1.5rem;
-        line-height: 2rem;
-        border: solid 1px var(--gray-500);
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 2px 8px -2px var(--gray-500);
-    }
-</style>
-
-<script>
-function q(selector) {
-    return document.querySelector(selector);
-}
-
-function E(name, props, children) {
-    const ele = document.createElement(name);
-    for (const [key, value] of Object.entries(props)) {
-        ele[key] = value;
-    }
-
-    children = children || [];
-    for (const child of children) {
-        ele.appendChild(child);
-    }
-    return ele;
-}
-
-function searchResultHref(wcaId) {
-    return `/birthdays?wcaId=${wcaId}`;
-}
-</script>
-
 <body>
     <?php include_once "../php/menu.php"; ?>
     
     <main>
         <?php
-
         error_reporting(E_ALL);
         ini_set("display_errors", 1);
         $db = new SQLite3("/wca.db");
@@ -93,6 +47,7 @@ function searchResultHref(wcaId) {
         }
 
         include "../php/search/element.php";
+        renderSearchElement("/birthdays", $wcaId);
 
         echo "<div style='margin-top: 16px;'>
         <input id='month' style='width: 90px;' type='number' placeholder='Month' value='$month' min='1' max='12' />

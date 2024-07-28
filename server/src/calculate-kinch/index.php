@@ -10,27 +10,6 @@
 </head>
 
 <script>
-function q(selector) {
-    return document.querySelector(selector);
-}
-
-function E(name, props, children) {
-    const ele = document.createElement(name);
-    for (const [key, value] of Object.entries(props)) {
-        ele[key] = value;
-    }
-
-    children = children || [];
-    for (const child of children) {
-        ele.appendChild(child);
-    }
-    return ele;
-}
-
-function searchResultHref(wcaId) {
-    return `/calculate-kinch?wcaId=${wcaId}`;
-}
-
 function setUrlParam(key, value) {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set(key, value);
@@ -57,10 +36,13 @@ function onChangeRegion(event) {
             <div style="margin-top: 1rem;"></div>
             <a href="/kinch-ranks" class="link">Go to Kinch leaderboard</a>
             <div style="margin-top: 1.5rem;"></div>
-            <?php include "../php/search/element.php" ?>
+            <?php
+            include "../php/search/element.php";
+            renderSearchElement("/calculate-kinch", $wcaId);
+            ?>
             <div style="margin-top: 1.5rem;"></div>
             <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
-            <script>q("#select-region").addEventListener("change", onChangeRegion)</script>
+            <script>document.querySelector("#select-region").addEventListener("change", onChangeRegion)</script>
         </div>
         <?php if ($wcaId): ?>
             <div style="margin-top: 1rem;"></div>

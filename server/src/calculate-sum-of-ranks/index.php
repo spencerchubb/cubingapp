@@ -10,27 +10,6 @@
 </head>
 
 <script>
-function q(selector) {
-    return document.querySelector(selector);
-}
-
-function E(name, props, children) {
-    const ele = document.createElement(name);
-    for (const [key, value] of Object.entries(props)) {
-        ele[key] = value;
-    }
-
-    children = children || [];
-    for (const child of children) {
-        ele.appendChild(child);
-    }
-    return ele;
-}
-
-function searchResultHref(wcaId) {
-    return `/calculate-sum-of-ranks?wcaId=${wcaId}`;
-}
-
 function setUrlParam(key, value) {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set(key, value);
@@ -57,7 +36,10 @@ function onChangeType(event) {
             <div style="margin-top: 1rem;"></div>
             <a href="/sum-of-ranks" class="link">Go to Sum of Ranks leaderboard</a>
             <div style="margin-top: 1.5rem;"></div>
-            <?php include "../php/search/element.php" ?>
+            <?php
+            include "../php/search/element.php";
+            renderSearchElement("/calculate-sum-of-ranks", $wcaId);
+            ?>
             <div style="margin-top: 1.5rem;"></div>
             <select
                 id="select-type"
@@ -66,7 +48,7 @@ function onChangeType(event) {
                 <option value="Single" <?php echo $type === "Single" ? "selected" : "" ?>>Single</option>
                 <option value="Average" <?php echo $type === "Average" ? "selected" : "" ?>>Average</option>
             </select>
-            <script>q("#select-type").addEventListener("change", onChangeType)</script>
+            <script>document.querySelector("#select-type").addEventListener("change", onChangeType)</script>
         </div>
         <?php if ($wcaId): ?>
             <?php
