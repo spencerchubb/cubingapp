@@ -1,5 +1,7 @@
 {
     "puzzle": "SQ1",
+    "before": "() => \"\"",
+    "after": "() => \"\"",
     "texts": [
         "Square-1 OBL stands for Orient Both Layers, and it is an advanced Square-1 technique. The simpler method is to orient corners and then orient edges separately. Orienting both layers simultaneously is faster, but it requires a lot more learning."
     ],

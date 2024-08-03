@@ -2,6 +2,8 @@
     "puzzle": "2x2",
     "diagramType": "2D",
     "subsets": ["Antisune", "H", "L", "Pi", "Sune", "T", "U"],
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "2x2 CLL stands for Corners of Last Layer, and it is used to solve the last layer of the 2x2 Rubik's Cube. This algorithm set is for cubers who want to take 2x2 more seriously. With CLL, you'll be able to solve the last layer in one step instead of two.",
         "After CLL, you can also learn EG1 and EG2. These algorithm sets are used to solve the cube after solving the first face (NOT the first layer). Solving one face is a lot less restrictive than solving one layer, so this leads to more efficient solutions. If you want to become a 2x2 master, you should start with CLL, then progress to EG1 and EG2."
@@ -29,8 +31,7 @@
             "algs": {
                 "U2 F' L F L' U2 L' U2 L": {},
                 "U2 F' R U R' U2 R' F2 R": {},
-                "x' U' R U L' U2 R' U2 R": {},
-                "R' U L U' R U L'": {}
+                "x' U' R U L' U2 R' U2 R": {}
             },
             "subset": "Antisune"
         },

@@ -4,7 +4,6 @@
     <meta name="description" content="Take speedcubing to the next level. We offer an algorithm database, a reconstruction tool, a timer, and an algorithm trainer.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>CubingApp Home</title>
 </head>

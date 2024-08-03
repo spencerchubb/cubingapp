@@ -3,6 +3,8 @@
     "diagramType": "2D",
     "gray": [1, 3, 5, 7, 12, 14, 21, 23, 30, 32, 39, 48],
     "subsets": ["O", "H", "Pi", "U", "T", "Sune", "Antisune", "L"],
+    "before": "() => randElement([\"M' U' M U\", \"M' U M U'\", \"M U' M' U\", \"M U M' U'\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "CMLL is the third step of the Roux method, after solving the first two blocks. The goal of this step is to solve the corners of the last layer without considering the M-slice.",
         "In contrast to other algorithm sets like COLL, this algorithm set IS allowed to disturb the M-slice. This gives more freedom and allows more efficient algorithms for some cases."

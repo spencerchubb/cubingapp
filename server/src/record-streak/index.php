@@ -4,7 +4,6 @@
     <meta name="description" content="Tool for speedcubers to calculate their personal record streak at WCA competitions">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>Record Streak Calculator for Cubing</title>
 </head>

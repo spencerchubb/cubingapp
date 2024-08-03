@@ -1,6 +1,8 @@
 {
     "puzzle": "2x2",
     "diagramType": "3D",
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "PBL stands for Permutation of Both Layers, and it is the third step of the Ortega method. Ortega is a good intermediate method for 2x2 solvers who have already learned the beginner method.",
         "Here is how the Ortega method works: Beginner method starts with the first layer, but Ortega starts with just a face. In other words, the first layer doesn't have to be permuted correctly. The second step of Ortega is to orient the last layer, and lastly, you do PBL to finish the 2x2.",
@@ -13,13 +15,13 @@
                 "U R' F R F' R U2 R' U R U2 R'": {}
             }
         },
-        "Opp": {
+        "Diag": {
             "algs": {
                 "R U' R' U' F2 U' R U R' U F2": {},
                 "F R U' R' U' R U R' F' R U R' U' R' F R F'": {}
             }
         },
-        "Opp Opp": {
+        "Diag Diag": {
             "algs": {
                 "R2 F2 R2": {},
                 "R2 B2 R2": {}
@@ -31,13 +33,13 @@
                 "R2 U' B2 U2 R2 U' R2'": {}
             }
         },
-        "Adj Opp": {
+        "Adj Diag": {
             "algs": {
                 "U2 R' U R' F2 R F' R": {},
                 "R' F R' F2 R U' R": {}
             }
         },
-        "Opp Adj": {
+        "Diag Adj": {
             "algs": {
                 "R2 U R2 U' R2 U R2 U' R2": {},
                 "R' D R' F2 R D' R": {}

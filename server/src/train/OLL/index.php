@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+<title>OLL Trainer</title>
+</head>
+
+<?php
+include_once "../style.php";
+?>
+
+<style>
+#scrambleText {
+    font-size: 20px;
+    text-align: center;
+}
+
+#time {
+    margin-top: 16px;
+    padding: 32px;
+    width: 100%;
+    border: solid 1px var(--gray-500);
+    font-family: monospace;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    transition: none;
+    background: transparent;
+
+    &:hover {
+        background: var(--gray-600);
+    }
+}
+
+#resetButton, #deleteLastButton, #allButton, #noneButton {
+    padding: 4px 8px;
+    background: none;
+    border: solid 1px var(--gray-500);
+
+    &:hover {
+        background: var(--gray-600);
+    }
+}
+</style>
+
+<body>
+<?php
+include_once "../../php/menu.php";
+$subsets = ["Edges oriented", "Corners oriented", "Dot", "Square", "Line", "Fish", "Lightning", "Knight", "Awkward", "P shape", "T shape", "C shape", "L shape", "W shape"];
+?>
+
+<main style="overflow-y: auto; padding: 0;">
+    <div style="padding: 16px 16px 0 16px;">
+        <p id="scrambleText">&nbsp;</p>
+        <button id="time">0.00</button>
+        <div id="solutionExpandable" class="expandable" style="margin-top: 16px; border: solid 1px var(--gray-500);">
+            <button class="expandableButton">
+                <p>Solution</p>
+                <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92"></path></svg>
+            </button>
+            <div id="solutionDiv" class="expandableChild" style="padding: 8px;"></div>
+        </div>
+        <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
+            <p>times</p>
+            <button id="resetButton">reset</button>
+            <button id="deleteLastButton">delete last</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 16px; padding: 0 16px; display: flex; align-items: center; gap: 8px;">
+        <p id="numCasesSelected" style="color: var(--gray-300);"></p>
+        <div style="flex-grow: 1;"></div>
+        <button id="allButton">all</button>
+        <button id="noneButton">none</button>
+    </div>
+
+    <div id="subsetsDiv"></div>
+
+    <div style="min-height: 80px;"></div>
+</main>
+
+</body>
+
+<script>
+function randElement(list) {
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+const algSet = {"puzzle":"3x3","diagramType":"2D","gray":[9,12,15,29,32,35,36,39,42,45,48,51],"subsets":["Edges oriented","Corners oriented","Dot","Square","Line","Fish","Lightning","Knight","Awkward","P shape","T shape","C shape","L shape","W shape"],"before":"() => randElement([\"R' F R' B2 R F' R' B2 R2\", \"R U R' F' R U R' U' R' F R2 U' R'\", \"R U R' U' R' F R2 U' R' U' R U R' F'\", \"M2 U M U2 M' U M2\"])","after":"() => randElement([\"\", \"U\", \"U'\", \"U2\"])","texts":["Orientation of Last Layer (also called OLL) is the third step of the CFOP Rubik's Cube method. CFOP stands for Cross, F2L, OLL, and PLL.","These algorithms are used to orient the last layer of the Rubik's Cube. That means if you start by solving the white cross, the goal of OLL is to get all the yellow stickers on top.","OLL has 57 algorithms, and that number can sound scary but it's not that bad. You may know 9 of the algorithms already from 2-Look OLL, so that cuts the total down to 48 algorithms.","This site tells you all 57 OLL algorithms, the fingertricks, and how to remember them. Many cases are mirrors, inverses, or have common triggers, so it's not that hard to remember the algorithms."],"cases":{"OLL 1":{"subset":"Dot","algs":{"R U2 R2 F R F' U2 R' F R F'":{"note":"R U2 R' sledge U2 sledge"},"R U' R2 D' r U' r' D R2 U R'":{}}},"OLL 2":{"subset":"Dot","algs":{"(r U r') U2 (R U2 R') U2 (r U' r')":{},"R U' R2 D' r U r' D R2 U R'":{},"F R U R' U' S R U R' U' f'":{}}},"OLL 3":{"subset":"Dot","algs":{"R' F2 R2 U2 R' F R U2 R2 F2 R":{"note":"Inverse of OLL 4"},"f (R U R' U') f' U' F (R U R' U') F'":{},"r' R2 U R' U r U2 r' U M'":{}}},"OLL 4":{"subset":"Dot","algs":{"R' F2 R2 U2 R' F' R U2 R2 F2 R":{"note":"Inverse of OLL 3"},"f R U R' U' f' U F R U R' U' F'":{},"M U' r U2 r' U' R U' R' M'":{}}},"OLL 5":{"subset":"Square","algs":{"r' U2 R U R' U r":{"note":"Wide sune"}}},"OLL 6":{"subset":"Square","algs":{"r U2 R' U' R U' r'":{"note":"Wide antisune"}}},"OLL 7":{"subset":"Lightning","algs":{"r U R' U R U2 r'":{"note":"Wide sune"}}},"OLL 8":{"subset":"Lightning","algs":{"r' U' R U' R' U2 r":{"note":"Wide antisune"}}},"OLL 9":{"subset":"Fish","algs":{"(R U R' U') R' F R2 U R' U' F'":{"note":"sexy R' F R sexy F'"},"R U2 R' U' S' R U' R' S":{},"F' U' F r U' r' U r U r'":{}}},"OLL 10":{"subset":"Fish","algs":{"R U R' U R' F R F' R U2 R'":{"note":"Sune with sledge in the middle"},"F U F' R' F R U' R' F' R":{}}},"OLL 11":{"subset":"Lightning","algs":{"S R U R' U R U2 R' U2 S'":{"note":"S sune U2 S'"},"r' R2 U R' U R U2 R' U M'":{"note":"M sune U M'"}}},"OLL 12":{"subset":"Lightning","algs":{"S R' U' R U' R' U2 R U2 S'":{"note":"S antisune U2 S'"},"r R2' U' R U' R' U2 R U' M":{"note":"M' antisune U' M"},"F (R U R' U') F' U F (R U R' U') F'":{}}},"OLL 13":{"subset":"Knight","algs":{"F U R U' R2 F' R U R U' R'":{"note":"Inverse of OLL 9, F inverse sexy R' F' R inverse sexy"},"F U R U2 R' U' R U R' F'":{}}},"OLL 14":{"subset":"Knight","algs":{"(R' F R) U (R' F' R) (F U' F')":{}}},"OLL 15":{"subset":"Knight","algs":{"l' U' l L' U' L U l' U l":{}}},"OLL 16":{"subset":"Knight","algs":{"r U r' R U R' U' r U' r'":{}}},"OLL 17":{"subset":"Dot","algs":{"F R' F' R U S' R U' R' S":{"note":"Hedge inverse sexy with S moves inserted"},"F R' F' R2 r' U R U' R' U' M'":{"note":"Hedge inverse sexy with M moves inserted"},"(R U R' U) (R' F R F') U2 (R' F R F')":{},"F' r U r' U' S r' F r S'":{}}},"OLL 18":{"subset":"Dot","algs":{"R U2 R2 F R F' U2 M' U R U' r'":{},"r U R' U R U2 r2 U' R U' R' U2 r":{"note":"Wide sune, wide antisune"}}},"OLL 19":{"subset":"Dot","algs":{"S' R U R' S U' R' F R F'":{"note":"Sexy sledge with S moves inserted"},"R' U2 F R U R' U' F2 U2 F R":{},"r U2 R' U' R U' r2 U2 R U R' U r":{"note":"Wide antisune, wide sune"}}},"OLL 20":{"subset":"Dot","algs":{"S R' U' R U R U R U' R' S'":{},"r U R' U' M2 U R U' R' U' M'":{}}},"OLL 21":{"subset":"Edges oriented","algs":{"R U R' U R U' R' U R U2 R'":{"note":"Double sune"},"R U2 R' U' R U R' U' R U' R'":{"note":"Double antisune"},"F (R U R' U') (R U R' U') (R U R' U') F'":{"note":"F triple sexy F'"}}},"OLL 22":{"subset":"Edges oriented","algs":{"R U2 R2 U' R2 U' R2 U2 R":{}}},"OLL 23":{"subset":"Edges oriented","algs":{"R2 D R' U2 R D' R' U2 R'":{}}},"OLL 24":{"subset":"Edges oriented","algs":{"r U R' U' r' F R F'":{}}},"OLL 25":{"subset":"Edges oriented","algs":{"F' r U R' U' r' F R":{}}},"OLL 26":{"subset":"Edges oriented","algs":{"R U2 R' U' R U' R'":{}}},"OLL 27":{"subset":"Edges oriented","algs":{"R U R' U R U2 R'":{}}},"OLL 28":{"subset":"Corners oriented","algs":{"R' F R S R' F' R S'":{"note":"Inverse of OLL 57, Can be written as commutator [R' F R, S]"},"M' U' M U2 M' U' M":{},"r U R' U' M U R U' R'":{}}},"OLL 29":{"subset":"Awkward","algs":{"r2 D' r U r' D r2 U' r' U' r":{}}},"OLL 30":{"subset":"Awkward","algs":{"r' D' r U' r' D r2 U' r' U r U r'":{},"F R' F R2 U' R' U' R U R' F2":{},"F U R U2 R' U' R U2 R' U' F'":{}}},"OLL 31":{"subset":"P shape","algs":{"R' U' F U R U' R' F' R":{"note":"R' U' (OLL 44) R"}}},"OLL 32":{"subset":"P shape","algs":{"S R U R' U' R' F R f'":{"note":"S sexy sledge S'"},"L U F' U' L' U L F L'":{}}},"OLL 33":{"subset":"T shape","algs":{"(R U R' U') (R' F R F')":{}}},"OLL 34":{"subset":"C shape","algs":{"f R f' U' r' U' R U M'":{},"R U R2 U' R' F R U R U' F'":{},"F R U R' U' R' F' r U R U' r'":{}}},"OLL 35":{"subset":"Fish","algs":{"R U2 R2 F R F' R U2 R'":{"note":"R U2 R' sledge R U2 R'"}}},"OLL 36":{"subset":"W shape","algs":{"R U R' F' R U R' U' R' F R U' R' F R F'":{},"R' F' U' F2 U R U' R' F' R":{},"R U R2 F' U' F U R2 U2 R'":{}}},"OLL 37":{"subset":"Fish","algs":{"F R U' R' U' R U R' F'":{},"F R' F' R U R U' R'":{}}},"OLL 38":{"subset":"W shape","algs":{"R U R' U R U' R' U' R' F R F'":{},"F R U' R' S U' R U R' f'":{}}},"OLL 39":{"subset":"Lightning","algs":{"f' r U r' U' r' F r S":{},"L F' L' U' L U F U' L'":{},"R U R' F' U' F U R U2 R'":{}}},"OLL 40":{"subset":"Lightning","algs":{"R' F R U R' U' F' U R":{},"f R' F' R U R U' R' S'":{}}},"OLL 41":{"subset":"Awkward","algs":{"R U R' U R U2 R' F R U R' U' F'":{"note":"Sune F sexy F'"},"F U R2 D R' U' R D' R2 F'":{}}},"OLL 42":{"subset":"Awkward","algs":{"R' U' R U' R' U2 R F R U R' U' F'":{"note":"Antisune F sexy F'"}}},"OLL 43":{"subset":"P shape","algs":{"R' U' F' U F R":{},"F' U' L' U L F":{}}},"OLL 44":{"subset":"P shape","algs":{"F U R U' R' F'":{}}},"OLL 45":{"subset":"T shape","algs":{"F R U R' U' F'":{}}},"OLL 46":{"subset":"C shape","algs":{"R' U' R' F R F' U R":{}}},"OLL 47":{"subset":"L shape","algs":{"F' (L' U' L U) (L' U' L U) F":{}}},"OLL 48":{"subset":"L shape","algs":{"F (R U R' U') (R U R' U') F'":{}}},"OLL 49":{"subset":"L shape","algs":{"r U' r2 U r2 U r2 U' r":{}}},"OLL 50":{"subset":"L shape","algs":{"r' U r2 U' r2 U' r2 U r'":{}}},"OLL 51":{"subset":"Line","algs":{"F (U R U' R') (U R U' R') F'":{}}},"OLL 52":{"subset":"Line","algs":{"R' F' U' F U' R U R' U R":{}}},"OLL 53":{"subset":"L shape","algs":{"r' U' R U' R' U R U' R' U2 r":{"note":"Double wide antisune"}}},"OLL 54":{"subset":"L shape","algs":{"r U R' U R U' R' U R U2 r'":{"note":"Double wide sune"}}},"OLL 55":{"subset":"Line","algs":{"R' F U R U' R2 F' R2 U R' U' R":{},"R U2 R2 U' R U' R' U2 F R F'":{},"R' F R U R U' R2 F' R2 U' R' U R U R'":{},"F U' R2 D R' U2 R D' R2 U F'":{}}},"OLL 56":{"subset":"Line","algs":{"r U r' U R U' R' U R U' R' r U' r'":{},"F R U R' U' R F' r U R' U' r'":{}}},"OLL 57":{"subset":"Corners oriented","algs":{"S R' F R S' R' F' R":{"note":"Inverse of OLL 28, Can be written as commutator [S, R' F R]"},"R U R' U' M' U R U' r'":{}}}}};
+const before = () => randElement(["R' F R' B2 R F' R' B2 R2", "R U R' F' R U R' U' R' F R2 U' R'", "R U R' U' R' F R2 U' R' U' R U R' F'", "M2 U M U2 M' U M2"]);
+const after = () => randElement(["", "U", "U'", "U2"]);
+</script>
+
+<?php
+include_once "../main.php";
+include "../../php/gtag.php";
+?>
+
+</html>

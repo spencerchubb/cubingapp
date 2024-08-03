@@ -8,6 +8,7 @@
 	},
 	"author": "Spencer Chubb <spencerchubb@gmail.com>",
 	"devDependencies": {
+		"esbuild": "^0.23.0",
 		"firebase": "^9.16.0",
 		"firebase-tools": "^12.4.0",
 		"ts-loader": "^9.4.1",

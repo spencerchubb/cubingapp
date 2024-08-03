@@ -2,6 +2,8 @@
     "puzzle": "3x3",
     "diagramType": "2D",
     "subsets": ["Adj corners", "Diag corners", "G perm", "Edge perm"],
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "Permutation of Last Layer (also called PLL) is the last step of the CFOP Rubik's Cube method. CFOP stands for Cross, F2L, OLL, and PLL.",
         "Up to this point, the first two layers should be solved, and the last layer should be oriented. After PLL, the entire Rubik's Cube should be solved.",

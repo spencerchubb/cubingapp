@@ -6,6 +6,8 @@
         9, 12, 15, 29, 32, 35, 36, 39, 42, 45, 48, 51
     ],
     "subsets": ["Basic insert", "Split", "Connected", "Corner in slot", "Edge in slot", "Both in slot"],
+    "before": "() => randElement([\"F R U R' U' F' U\", \"F U R U' R' F' U2\", \"R U R' U' R' F R F' U'\", \"R' U' R' F R F' U R\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "First Two Layers (also called F2L) is the second step of the CFOP Rubik's Cube method. F2L is involves solving a corner and an edge at the same time, which is much faster than solving them separately.",
         "It is highly recommended to learn F2L intuitively <i>before</i> learning these algorithms. These F2L algorithms are optimized for speed, and some are hard to remember. If you try to memorize these algorithms without an intuitive understanding, you will just make it harder for yourself.",

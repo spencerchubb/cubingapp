@@ -27,10 +27,6 @@ function invertMove(move) {
     return move + "'";
 }
 
-function round(num, digits) {
-    return Math.floor(num * Math.pow(10, digits)) / Math.pow(10, digits);
-}
-
 function sq(x) {
     return x * x;
 }
@@ -923,7 +919,6 @@ files.forEach(file => {
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>${name.replaceAll("-", " ")} Algorithms</title>
 </head>
@@ -961,8 +956,112 @@ include "../../php/gtag.php";
 ?>
 
 </html>
-`,
-    );
+`);
+
+    fs.writeFileSync(
+        `../server/src/train/${name}/index.php`,
+        `<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
+<title>${name.replaceAll("-", " ")} Trainer</title>
+</head>
+
+<?php
+include_once "../style.php";
+?>
+
+<style>
+#scrambleText {
+    font-size: 20px;
+    text-align: center;
+}
+
+#time {
+    margin-top: 16px;
+    padding: 32px;
+    width: 100%;
+    border: solid 1px var(--gray-500);
+    font-family: monospace;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    transition: none;
+    background: transparent;
+
+    &:hover {
+        background: var(--gray-600);
+    }
+}
+
+#resetButton, #deleteLastButton, #allButton, #noneButton {
+    padding: 4px 8px;
+    background: none;
+    border: solid 1px var(--gray-500);
+
+    &:hover {
+        background: var(--gray-600);
+    }
+}
+</style>
+
+<body>
+<?php
+include_once "../../php/menu.php";
+$subsets = [${algSet.subsets?.map(subset => `"${subset}"`).join(", ") ?? ""}];
+?>
+
+<main style="overflow-y: auto; padding: 0;">
+    <div style="padding: 16px 16px 0 16px;">
+        <p id="scrambleText">&nbsp;</p>
+        <button id="time">0.00</button>
+        <div id="solutionExpandable" class="expandable" style="margin-top: 16px; border: solid 1px var(--gray-500);">
+            <button class="expandableButton">
+                <p>Solution</p>
+                <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92"></path></svg>
+            </button>
+            <div id="solutionDiv" class="expandableChild" style="padding: 8px;"></div>
+        </div>
+        <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
+            <p>times</p>
+            <button id="resetButton">reset</button>
+            <button id="deleteLastButton">delete last</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 16px; padding: 0 16px; display: flex; align-items: center; gap: 8px;">
+        <p id="numCasesSelected" style="color: var(--gray-300);"></p>
+        <div style="flex-grow: 1;"></div>
+        <button id="allButton">all</button>
+        <button id="noneButton">none</button>
+    </div>
+
+    <div id="subsetsDiv"></div>
+
+    <div style="min-height: 80px;"></div>
+</main>
+
+</body>
+
+<script>
+function randElement(list) {
+    return list[Math.floor(Math.random() * list.length)];
+}
+
+const algSet = ${JSON.stringify(algSet)};
+const before = ${algSet.before};
+const after = ${algSet.after};
+</script>
+
+<?php
+include_once "../main.php";
+include "../../php/gtag.php";
+?>
+
+</html>
+`);
 
     console.log(`Finished ${name} in ${Date.now() - start} ms`);
 });

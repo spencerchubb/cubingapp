@@ -1,5 +1,7 @@
 {
     "puzzle": "SQ1",
+    "before": "() => randElement([\"1,0 / 3,3 / 6,-3 / -1,0\", \"0,-1 / -3,3 / 3,6 / 0,1\", \"1,0 / -,3 / 3,6 / -1,0\", \"0,-1 / -3,6 / 3,-3 / 0,1\"])",
+    "after": "() => randElement([\"0,0\", \"6,0\", \"0,6\", \"6,6\"])",
     "texts": [
         "\"Cubeshape Parity, as the name suggests, involves fixing parity errors on the Square-1 during the cubeshape step. The main advantage to this method is that checking for parity occurs during inspection, which isn't factored into your final time.\" - <a href='http://brandonlin.com/cubing/csp.html' class='link'>Brandon Lin</a>"
     ],

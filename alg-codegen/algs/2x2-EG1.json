@@ -2,6 +2,8 @@
     "puzzle": "2x2",
     "diagramType": "2D",
     "subsets": ["Antisune", "H", "L", "Pi", "Sune", "T", "U"],
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "EG1 is commonly learned after CLL. CLL, EG1, and EG2 go hand in hand. These three algorithm sets will allow you to solve the entire cube after solving one face.",
         "CLL: First layer is solved. This occurs 1/6th of the time<br> EG1: First layer has an adjacent swap. This occurs 4/6th of the time<br> EG2: First layer has a diagonal swap. This occurs 1/6th of the time"

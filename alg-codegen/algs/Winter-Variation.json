@@ -2,6 +2,8 @@
     "puzzle": "3x3",
     "diagramType": "3D",
     "gray": [9, 12, 15, 29, 32, 35, 36, 39, 42, 45, 48, 51],
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "Winter Variation (also called WV) is an advanced variation that's useful for methods like CFOP and ZZ. You can use Winter Variation when you have the last pair paired up, and the edges are oriented. Winter variation allows you to skip OLL by altering how you insert the last pair. This technique is commonly called 'influencing' OLL."
     ],

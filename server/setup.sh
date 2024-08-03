@@ -26,14 +26,28 @@ tail -f /var/log/apache2/access.log
 tail -f /var/log/apache2/error.log
 
 # If needed, run npm i -g esbuild
-esbuild packages/rubiks-viz/index.ts \
+../node_modules/.bin/esbuild packages/alg/index.ts \
+    --outdir="src/js/alg" \
+    --bundle \
+    --minify \
+    --keep-names \
+    --format=esm
+
+../node_modules/.bin/esbuild packages/rubiks-viz/index.ts \
     --outdir="src/js/rubiks-viz" \
     --bundle \
     --minify \
     --keep-names \
     --format=esm
 
-esbuild packages/timerData/src/index.ts \
+../node_modules/.bin/esbuild packages/scramble/index.ts \
+    --outdir="src/js/scramble" \
+    --bundle \
+    --minify \
+    --keep-names \
+    --format=esm
+
+../node_modules/.bin/esbuild packages/timerData/src/index.ts \
     --outdir="src/js/timerData" \
     --bundle \
     --minify \

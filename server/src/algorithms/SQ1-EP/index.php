@@ -3,7 +3,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>SQ1 EP Algorithms</title>
 </head>
@@ -16,7 +15,7 @@ include_once "../colorScheme.php";
 <body>
     <?php
     include_once "../../php/menu.php";
-    $subsets = [];
+    $subsets = ["Bottom Solved", "Top Opp", "Top Adj", "Top Ua", "Top Ub", "Top H", "Top Z", "Top Solved"];
     ?>
 
     <main>

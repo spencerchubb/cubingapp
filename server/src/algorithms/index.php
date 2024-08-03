@@ -4,7 +4,6 @@
     <meta name="description" content="Rubik's Cube algorithm database with 4,000 algorithms">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>Rubik's Cube Algorithms</title>
 </head>

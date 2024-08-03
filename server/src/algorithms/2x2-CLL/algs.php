@@ -69,7 +69,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>CLL AS 3</h3>
-        <p>&#8226; U2 F' L F L' U2 L' U2 L</p><p>&#8226; U2 F' R U R' U2 R' F2 R</p><p>&#8226; x' U' R U L' U2 R' U2 R</p><p>&#8226; R' U L U' R U L'</p>
+        <p>&#8226; U2 F' L F L' U2 L' U2 L</p><p>&#8226; U2 F' R U R' U2 R' F2 R</p><p>&#8226; x' U' R U L' U2 R' U2 R</p>
     </div>
 </div>
 <div class="alg-card">

@@ -6,6 +6,11 @@ describe("AlgToString", () => {
         const alg = StringToAlg("R U2 F'");
         expect(AlgToString(alg)).toEqual("R U2 F'");
     });
+
+    it("should work with extra space", () => {
+        const alg = StringToAlg("R U2 F' ");
+        expect(AlgToString(alg)).toEqual("R U2 F'");
+    });
 });
 
 describe("AlgInvert", () => {

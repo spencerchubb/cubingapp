@@ -2,6 +2,8 @@
     "puzzle": "3x3",
     "diagramType": "3D",
     "gray": [12, 14, 30, 32, 39, 48],
+    "before": "() => { const segments = [\"M2 U\", \"M2 U'\", \"M2 U2\", \"M' U2 M U\", \"M' U2 M' U'\"]; let alg = randElement(segments); for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`; return alg; }",
+    "after": "() => randElement([\"\", \"U\", \"U2\", \"U'\"])",
     "texts": [
         "Last Six Edges Edge Orientation (LSE EO) is a substep of the Roux method. Since LSE is the 4th step, the substeps are typically called 4a, 4b, and 4c. This algorithm set is for substep 4a.",
         "4a: Edge orientation (EO)<br> 4b: Solve upper left and upper right edges (ULUR)<br> 4c: Solve middle edges"

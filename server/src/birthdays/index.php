@@ -6,7 +6,6 @@
     <meta name="description" content="Find out your WCA birthday, or in other words, the day of your first competition">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>WCA Birthdays</title>
 </head>

@@ -3,6 +3,8 @@
     "diagramType": "2D",
     "gray": [12, 32, 39, 48],
     "subsets": ["Antisune", "Sune", "L", "U", "T", "Pi", "H"],
+    "before": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "COLL is an algorithm set to solve the corners of the last layer when edges are already oriented. This algorithm set is typically used in CFOP, but it is optional. Cubers who learn COLL only use it when a good opportunity arises.",
         "The advantage of COLL is that it will lead to a PLL where the corners are solved. There is a 1/12th chance of a PLL skip, a good chance of a U perm, and it could also be an H perm or Z perm. COLL can give an advantage because U perms are faster than other PLLs like G, V, N, and E.",

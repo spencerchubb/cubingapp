@@ -4,7 +4,6 @@
     <meta name="description" content="Enter a WCA ID to calculate the Sum of Ranks for that competitor.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>Calculate Sum of Ranks (SoR)</title>
 </head>

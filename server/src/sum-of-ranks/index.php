@@ -4,7 +4,6 @@
     <meta name="description" content="Sum of ranks leaderboard based on World Cube Association data">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/colors.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>Sum of Ranks Leaderboard</title>
 </head>

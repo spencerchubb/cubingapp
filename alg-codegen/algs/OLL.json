@@ -3,6 +3,8 @@
     "diagramType": "2D",
     "gray": [9, 12, 15, 29, 32, 35, 36, 39, 42, 45, 48, 51],
     "subsets": ["Edges oriented", "Corners oriented", "Dot", "Square", "Line", "Fish", "Lightning", "Knight", "Awkward", "P shape", "T shape", "C shape", "L shape", "W shape"],
+    "before": "() => randElement([\"R' F R' B2 R F' R' B2 R2\", \"R U R' F' R U R' U' R' F R2 U' R'\", \"R U R' U' R' F R2 U' R' U' R U R' F'\", \"M2 U M U2 M' U M2\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "Orientation of Last Layer (also called OLL) is the third step of the CFOP Rubik's Cube method. CFOP stands for Cross, F2L, OLL, and PLL.",
         "These algorithms are used to orient the last layer of the Rubik's Cube. That means if you start by solving the white cross, the goal of OLL is to get all the yellow stickers on top.",

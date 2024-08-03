@@ -1,5 +1,7 @@
 {
     "puzzle": "SQ1",
+    "before": "() => randElement([\"1,0 / 3,3 / 6,-3 / -1,0\", \"0,-1 / -3,3 / 3,6 / 0,1\", \"1,0 / -,3 / 3,6 / -1,0\", \"0,-1 / -3,6 / 3,-3 / 0,1\"])",
+    "after": "() => randElement([\"0,0\", \"6,0\", \"0,6\", \"6,6\"])",
     "texts": [
         "There are a variety of methods for solving the Square-1, but the first step is always Cube Shape (sometimes abbreviated as SQ1 CS). The goal of this step is to make the puzzle shaped like a cube."
     ],
