@@ -3,7 +3,7 @@
     "diagramType": "3D",
     "gray": [12, 14, 30, 32],
     "subsets": ["Arrow", "1 / 1", "2 Adj / 2", "2 Adj / 0", "2 Opp / 2", "2 Opp / 0", "0 / 2", "All 6"],
-    "before": "() => \"\"",
+    "before": "() => randElement([\"M' U2 M U2\", \"U2 M2 U2 M2\", \"M U2 M' U2\", \"M2 U2 M U2 M\"])",
     "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
     "texts": [
         "Roux EOLR is an advanced Roux technique that stands for Edge Orientation Left and Right. EOLR combines substeps 4a and 4b to save moves.",

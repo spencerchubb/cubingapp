@@ -117,32 +117,25 @@ function onlyRUF(alg) {
 }
 
 function getScramble(_before, _after, algs) {
-    let alg = algs[0];
-
-    console.log({_before, _after, alg})
+    let algObj = algs[0];
 
     // 2x2 algs should only contain RUF moves
     if (algSet.puzzle === "2x2") {
         let i = 1;
-        while (!onlyRUF(alg)) {
-            alg = algs[i];
+        while (!onlyRUF(alg.alg)) {
+            algObj = algs[i];
             i++;
         }
     }
 
+    let alg = algObj.alg;
     alg = removeParen(alg);
 
     // Remove rotations because they mess with the scrambler.
     alg = removeRotations(alg);
 
-    alg = `${_before} ${invertAlg(alg)} ${invertAlg(_after)}`;
-    console.log(alg);
+    alg = `${_before} ${algObj.setup} ${invertAlg(alg)} ${invertAlg(_after)}`;
     
-    // if (algSet.puzzle == "SQ1") {
-    //     alg = simplifySQ1Alg(alg);
-    //     return scrambleSQ1(alg);
-    // }
-
     return scramble(algSet.puzzle, alg);
 }
 
@@ -155,13 +148,16 @@ function nextCase() {
     currentCase = randElement(selectedCases);
     const { subsetName, caseName } = currentCase;
 
-    const algs = Object.keys(subsets[subsetName][caseName].algs);
+    const algs = Object.entries(subsets[subsetName][caseName].algs).map(entry => {
+        return { alg: entry[0], ...entry[1] };
+    });
     const _before = before();
     const _after = after();
     const scram = getScramble(_before, _after, algs);
     scrambleText.textContent = scram;
 
     solutionDiv.innerHTML = algs.map(alg => {
+        alg = alg.alg;
         alg = removeParen(alg);
         alg = AlgToString(AlgSimplify(StringToAlg(`${_after} ${alg}`)));
         return `<p>&#8226; ${alg}</p>`;
@@ -259,10 +255,8 @@ Object.entries(algSet.cases).forEach(([caseName, caseData]) => {
         times: [],
     }
 });
-console.log("subsets:", subsets);
 
 const cachedData = JSON.parse(localStorage.getItem(location.pathname) ?? "{}");
-console.log("cachedData:", cachedData);
 Object.entries(cachedData).forEach(([k1, v1]) => {
     if (k1 in subsets) {
         Object.entries(v1).forEach(([k2, v2]) => {
@@ -316,7 +310,6 @@ function renderSelectedCases(subsets) {
             document.querySelector(`input[data-case="${caseName}"`).checked = _case.selected;
         });
     });
-    console.log(selectedCases);
 
     numCasesSelected.textContent = `${selectedCases.length} cases`;
     cacheData(subsets);
@@ -336,7 +329,6 @@ function cacheData(subsets) {
         });
     });
 
-    console.log("toCache:", toCache);
     localStorage.setItem(location.pathname, JSON.stringify(toCache));
 }
 
