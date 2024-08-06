@@ -958,6 +958,9 @@ include "../../php/gtag.php";
 </html>
 `);
 
+    // Make a train page for every alg set except 4x4-PLL-Parity
+    if (name === "4x4-PLL-Parity") return;
+
     fs.writeFileSync(
         `../server/src/train/${name}/index.php`,
         `<!DOCTYPE html>
