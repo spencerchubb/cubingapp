@@ -16,7 +16,7 @@
 
 <script type="module">
 import { scramble } from "../../js/scramble/index.js";
-import { AlgSimplify, AlgToString, StringToAlg } from "../../js/alg/index.js";
+import { AlgSimplify, AlgToString, simplifySQ1Alg, StringToAlg } from "../../js/alg/index.js";
 
 let selectedCases = [];
 let currentCase;
@@ -159,7 +159,14 @@ function nextCase() {
     solutionDiv.innerHTML = algs.map(alg => {
         alg = alg.alg;
         alg = removeParen(alg);
-        alg = AlgToString(AlgSimplify(StringToAlg(`${_after} ${alg}`)));
+        alg = `${_after} ${alg}`;
+
+        if (algSet.puzzle === "SQ1") {
+            alg = simplifySQ1Alg(alg);
+        } else {
+            alg = AlgToString(AlgSimplify(StringToAlg(alg)));
+        }
+
         return `<p>&#8226; ${alg}</p>`;
     }).join("");
 

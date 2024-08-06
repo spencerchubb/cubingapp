@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { AlgNew, AlgToString, AlgSimplify, StringToAlg, AlgInvert } from "./alg";
+import { AlgNew, AlgToString, AlgSimplify, simplifySQ1Alg, StringToAlg, AlgInvert } from "./";
 
 describe("AlgToString", () => {
     it("should work", () => {
@@ -63,4 +63,11 @@ describe("AlgSimplify", () => {
         let alg = StringToAlg("R R Rw Rw r r");
         expect(AlgSimplify(alg)).toEqual(StringToAlg("R2 Rw2 r2"));
     });
+});
+
+describe("simplifySQ1Alg", () => {
+    it("should simplify sq1 alg", () => {
+        const alg = "-3,-3 -2,0 / 0,3 / -1,-1 / 1,-2 / 2,0 6,0";
+        expect(simplifySQ1Alg(alg)).toEqual("-5,-3 / 0,3 / -1,-1 / 1,-2 / -4,0");
+    })
 });
