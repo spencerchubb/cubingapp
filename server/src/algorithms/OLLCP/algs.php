@@ -44,6 +44,7 @@ customElements.define("x-l", Left);
 customElements.define("x-r", Right);
 customElements.define("x-t", Transparent);
 </script>
+<h2 id="OLL_1">OLL 1</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-l></x-l><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-f></x-f><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-r></x-r><div></div><x-r></x-r><x-u></x-u><x-t></x-t><x-f></x-f><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -98,6 +99,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R U' R2 D' r U' r' D R2 U R'</p><p>&#8226; U R' U R2 D r' U r D' R2 U' R</p>
     </div>
 </div>
+<h2 id="OLL_2">OLL 2</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-u></x-u><x-t></x-t><x-u></x-u><x-r></x-r><div></div><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-f></x-f><div></div><x-r></x-r><x-f></x-f><x-t></x-t><x-l></x-l><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -152,6 +154,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R' F' U2 r U R' U R2 U2 r'</p><p>&#8226; U2 F R' F' R U2 F R' F' R2 U2 R'</p><p>&#8226; U2 F' L F U2 l' U' L U' L2 U2 l</p>
     </div>
 </div>
+<h2 id="OLL_3">OLL 3</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-r></x-r><div></div><x-b></x-b><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-l></x-l><x-b></x-b><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -206,6 +209,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' r U r' U2 r U2 R' U r' F R F'</p><p>&#8226; f U R U' R' f' F R' F' R U R U' R'</p><p>&#8226; U' L F L' U2 L F2 l' U L' U l F'</p>
     </div>
 </div>
+<h2 id="OLL_4">OLL 4</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t><x-r></x-r><x-u></x-u><div></div><x-r></x-r><x-b></x-b><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-b></x-b><div></div><x-l></x-l><x-u></x-u><x-t></x-t><x-u></x-u><x-u></x-u><x-f></x-f><x-t></x-t>
@@ -260,6 +264,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 f' U' L' U L f F' L F L' U' L' U L</p><p>&#8226; U' R' F' R U2 R' F2 r U' R U' r' F</p>
     </div>
 </div>
+<h2 id="OLL_5">OLL 5</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-r></x-r><div></div><x-b></x-b><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><x-f></x-f><x-l></x-l><x-t></x-t><x-l></x-l><div></div><x-u></x-u><x-t></x-t>
@@ -314,6 +319,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U F' L' U L U' L' U2 L U F</p>
     </div>
 </div>
+<h2 id="OLL_6">OLL 6</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><div></div><x-u></x-u><x-t></x-t><x-l></x-l><x-u></x-u><x-u></x-u><x-l></x-l><x-f></x-f><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-f></x-f><div></div><x-r></x-r><x-u></x-u><x-t></x-t><x-u></x-u><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -368,6 +374,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U F R U' R' U R U2 R' U' F'</p>
     </div>
 </div>
+<h2 id="OLL_7">OLL 7</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-l></x-l><x-t></x-t><x-b></x-b><x-l></x-l><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -422,6 +429,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R' F' R U2 R U2 R'</p>
     </div>
 </div>
+<h2 id="OLL_8">OLL 8</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t><x-r></x-r><x-u></x-u><div></div><x-r></x-r><x-b></x-b><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-b></x-b><x-u></x-u><x-l></x-l><x-u></x-u><x-t></x-t><x-u></x-u><div></div><x-f></x-f><x-t></x-t>
@@ -476,6 +484,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 F' L F L' U2 L' U2 L</p>
     </div>
 </div>
+<h2 id="OLL_9">OLL 9</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t><x-b></x-b><x-u></x-u><div></div><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-l></x-l><x-u></x-u><x-f></x-f><x-u></x-u><x-t></x-t><x-u></x-u><div></div><x-r></x-r><x-t></x-t>
@@ -530,6 +539,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R U R2 F' U' F U R U' R U' R'</p><p>&#8226; U2 l' U2 L U' R U2 r' F U' R U' R'</p><p>&#8226; U' F R U R' U' R U' R' U R U2 R' U' F'</p>
     </div>
 </div>
+<h2 id="OLL_10">OLL 10</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-l></x-l><x-t></x-t><x-b></x-b><x-l></x-l><x-u></x-u><x-f></x-f><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-u></x-u><div></div><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -584,6 +594,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; r U2 R' U L' U2 l F' U L' U L</p><p>&#8226; U' F' L' U' L U L' U L U' L' U2 L U F</p><p>&#8226; U2 R' U' R U F R U R' U' F' R' U R</p>
     </div>
 </div>
+<h2 id="OLL_11">OLL 11</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><x-l></x-l><div></div><x-f></x-f><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -638,6 +649,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; f U R U' R2 F' R U R U' R' S'</p><p>&#8226; U2 R U R' U' R' F R F' U2 R U R' U' R' F R F'</p><p>&#8226; L F' L F' l' U2 L' U l U2 F' L'</p>
     </div>
 </div>
+<h2 id="OLL_12">OLL 12</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><div></div><x-u></x-u><x-t></x-t><x-l></x-l><x-u></x-u><x-u></x-u><x-l></x-l><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-r></x-r><x-f></x-f><div></div><x-r></x-r><x-u></x-u><x-t></x-t><x-u></x-u><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -692,6 +704,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' F U R U2 R' U R U R' U R U' R' F'</p><p>&#8226; R U R' U' R' F R2 U' R' U R U2 R' U' F'</p><p>&#8226; U2 R' F R' F r U2 R U' r' U2 F R</p><p>&#8226; R2 D' r U r' F r U r' F2 D R2</p>
     </div>
 </div>
+<h2 id="OLL_13">OLL 13</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-b></x-b><x-t></x-t><x-r></x-r><x-b></x-b><div></div><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><div></div><x-r></x-r><x-f></x-f><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -746,6 +759,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F U R U' R2 F' R U R U' R'</p>
     </div>
 </div>
+<h2 id="OLL_14">OLL 14</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-u></x-u><x-t></x-t><x-l></x-l><x-u></x-u><div></div><x-l></x-l><x-f></x-f><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-r></x-r><x-f></x-f><div></div><x-r></x-r><x-u></x-u><x-t></x-t><x-u></x-u><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -800,6 +814,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R U2 R' U2 R U' R' F' U' F R U R'</p><p>&#8226; U2 F' U' r' F r2 U r' U' r' F r</p><p>&#8226; U2 F' U' L' U L2 F L' U' L' U L</p><p>&#8226; f R' D' R U R' D R2 U' R' f'</p>
     </div>
 </div>
+<h2 id="OLL_15">OLL 15</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-r></x-r><x-t></x-t><x-f></x-f><x-r></x-r><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><x-f></x-f><x-l></x-l><x-t></x-t><x-l></x-l><div></div><x-u></x-u><x-t></x-t>
@@ -854,6 +869,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R U2 R2 U' R2 B U' B' R2 U R</p><p>&#8226; U' L F' L' U' L U F L' U L U2 L'</p><p>&#8226; L U2 L2 U' L2 F U' F' L2 U L</p>
     </div>
 </div>
+<h2 id="OLL_16">OLL 16</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-u></x-u><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-f></x-f><x-r></x-r><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-r></x-r><x-u></x-u><x-b></x-b><x-u></x-u><x-t></x-t><x-u></x-u><div></div><x-l></x-l><x-t></x-t>
@@ -908,6 +924,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R' F R U R' U' F' R U' R' U2 R</p><p>&#8226; U2 R D r' U r D' R2 F' U' F R</p><p>&#8226; U S' R' U' R f R' U R2 U' R' F'</p>
     </div>
 </div>
+<h2 id="OLL_17">OLL 17</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -962,6 +979,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R U R' U R' F R F' U2 R' F R F'</p><p>&#8226; f R U R' U' y x U R' U' R' F R F'</p><p>&#8226; U2 F U R U' R' U F' L' U' L y' R U' R'</p><p>&#8226; U' r U' r' F U2 F U' R U' R' F'</p>
     </div>
 </div>
+<h2 id="OLL_18">OLL 18</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><div></div><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t>
@@ -1016,6 +1034,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R U R' U y' R' U2 R' F R F'</p><p>&#8226; U' r U' r' F U F U' R U R' U' F'</p><p>&#8226; F R U R' d R' U2 R' F R F'</p><p>&#8226; U2 F R' F' R U2 F R' F' R U' R U' R'</p>
     </div>
 </div>
+<h2 id="OLL_19">OLL 19</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-l></x-l><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-f></x-f><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-r></x-r><x-t></x-t>
@@ -1070,6 +1089,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U S r' F' r S' U r U' r' F</p><p>&#8226; U' F R U' R' F R' F' R U R U R' U' F'</p><p>&#8226; U' R' U' F' U F2 R U R' U' F' U R</p><p>&#8226; U' R' U' F U r U2 r' R U R' F' R</p>
     </div>
 </div>
+<h2 id="OLL_20">OLL 20</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-f></x-f><x-t></x-t><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-r></x-r><x-t></x-t>
@@ -1124,6 +1144,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R U R' U' R' F R F' R U2 R2 F R F' R U2 R'</p><p>&#8226; F R' F R2 U R' U' F2 U' r U' r' F</p><p>&#8226; F R' F R2 U R' U' F2 U' L F' L' F</p><p>&#8226; U2 F' L F' L2 U' L U F2 U R' F R F'</p>
     </div>
 </div>
+<h2 id="OLL_21">OLL 21</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-u></x-u><x-b></x-b><x-u></x-u><x-t></x-t><x-r></x-r><div></div><x-l></x-l><x-t></x-t>
@@ -1178,6 +1199,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; R U R' U R U L' U R' U' L</p><p>&#8226; R U R' U R U r' F R' F' r</p><p>&#8226; R' U' R U' R' U' L U' R U L'</p><p>&#8226; R' F' R U2 R U2 R' F U' R U' R'</p>
     </div>
 </div>
+<h2 id="OLL_22">OLL 22</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-u></x-u><x-t></x-t><x-u></x-u><x-b></x-b><x-u></x-u><x-l></x-l><x-f></x-f><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-f></x-f><div></div><x-u></x-u><x-t></x-t>
@@ -1232,6 +1254,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U F U R U' R' U R U2 R' U' R U R' F'</p><p>&#8226; U F R2 U' R2 U R2 U S R2 f'</p><p>&#8226; R' U' F' R U R' U' R' F R2 U2 R' U2 R</p>
     </div>
 </div>
+<h2 id="OLL_23">OLL 23</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><x-u></x-u><x-b></x-b><x-l></x-l><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t>
@@ -1286,6 +1309,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; R' U R U R' F' R U R' U' R' F R2 U' R' U' R</p><p>&#8226; L2 D L' U2 L D' L' U2 L'</p><p>&#8226; x' R U' R' D R U2 R' D' R U' R' x</p><p>&#8226; R' U' R U' R' U2 R2 U' L' U R' U' L</p>
     </div>
 </div>
+<h2 id="OLL_24">OLL 24</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-r></x-r><x-u></x-u><x-u></x-u><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><div></div><x-b></x-b><x-t></x-t>
@@ -1340,6 +1364,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R' F' r U R U' r' F</p><p>&#8226; U' F R F' r U R' U' r'</p><p>&#8226; U2 x' R U R' D R U' R' D' x</p><p>&#8226; U l' U' L U R U' r' F</p>
     </div>
 </div>
+<h2 id="OLL_25">OLL 25</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><x-l></x-l><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -1394,6 +1419,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R' F' R U R' U' R' F R2 U' R' U2 R</p><p>&#8226; U' R U2 R D R' U2 R D' R2</p><p>&#8226; U x' R U R' D R U2 R' D' R U R' x</p>
     </div>
 </div>
+<h2 id="OLL_26">OLL 26</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-u></x-u><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-r></x-r><x-b></x-b><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-b></x-b><x-u></x-u><x-l></x-l><x-u></x-u><x-t></x-t><x-u></x-u><div></div><x-f></x-f><x-t></x-t>
@@ -1448,6 +1474,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R L' U' L U R' U2 L' U2 L</p>
     </div>
 </div>
+<h2 id="OLL_27">OLL 27</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-l></x-l><x-t></x-t><x-b></x-b><x-l></x-l><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -1502,6 +1529,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; L' R U R' U' L U2 R U2 R'</p>
     </div>
 </div>
+<h2 id="OLL_28">OLL 28</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-u></x-u><x-f></x-f><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -1556,6 +1584,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R' F R' F2 r U' r' F2 R2</p><p>&#8226; U' r' U L' U2 R U' R' U2 r L</p><p>&#8226; r U R' U' r' F R2 U' R' U' R U R' F'</p><p>&#8226; U' x' L' U L' U2 R U' R' U2 L2 x</p>
     </div>
 </div>
+<h2 id="OLL_29">OLL 29</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><div></div><x-b></x-b><x-t></x-t><x-u></x-u><x-r></x-r><x-u></x-u><x-l></x-l><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t>
@@ -1610,6 +1639,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' F R U R' U' F' r' F' r U r U' r' F</p><p>&#8226; U' F R F' r U R2 U' M U R U' R'</p><p>&#8226; U f U R U' F' R U R' U' R' S'</p><p>&#8226; U' M' U' M U' l' U' l F U F' l' U l</p>
     </div>
 </div>
+<h2 id="OLL_30">OLL 30</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-l></x-l><x-t></x-t><x-u></x-u><x-b></x-b><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-r></x-r><x-t></x-t>
@@ -1664,6 +1694,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' S' R' U' R f R' U R U' F'</p><p>&#8226; U R' F' r U M R U' r' F M'</p><p>&#8226; R U R2 F' R U R U' R' F U' R' F R F'</p><p>&#8226; U2 M U' L' U' L U L F' L' F M'</p>
     </div>
 </div>
+<h2 id="OLL_31">OLL 31</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-b></x-b><x-t></x-t><x-u></x-u><x-r></x-r><div></div><x-l></x-l><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t>
@@ -1718,6 +1749,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R' U' F U R U' R' F' R</p><p>&#8226; U S' r' F' r U r U' r' f</p><p>&#8226; U2 R' U' r' D' r U r' D r R</p><p>&#8226; U R' F R U R' U' F2 U F R</p>
     </div>
 </div>
+<h2 id="OLL_32">OLL 32</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><div></div><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-u></x-u><x-u></x-u><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><div></div><x-b></x-b><x-t></x-t>
@@ -1772,6 +1804,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' f R U' R' U S' R U R' F'</p><p>&#8226; U2 F' L F L' U' L' U' L U L' U L</p><p>&#8226; U F U R U' F' r U R' U' r'</p><p>&#8226; R U2 R' F' L' U L F R U2 R'</p>
     </div>
 </div>
+<h2 id="OLL_33">OLL 33</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-r></x-r><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-u></x-u><x-u></x-u><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><div></div><x-b></x-b><x-t></x-t>
@@ -1826,6 +1859,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' F R U' R' U R U R' F'</p><p>&#8226; U r' F' r U r U' r' F</p><p>&#8226; U' R' U' R U R B' R' B</p><p>&#8226; U' R' U' R U R f' U' f</p>
     </div>
 </div>
+<h2 id="OLL_34">OLL 34</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><div></div><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -1880,6 +1914,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' f R f' U' r' U' R U M'</p><p>&#8226; R U R2 U' R' F R U R U' F'</p><p>&#8226; R U R' d' R' F' r U r' R</p><p>&#8226; R U R' y' U' r' U' R U M'</p>
     </div>
 </div>
+<h2 id="OLL_35">OLL 35</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-u></x-u><x-l></x-l><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -1934,6 +1969,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; L' U2 L U y' r U' r' U r U r'</p><p>&#8226; U R2 F R F' R U2 R' U R U2 R' U' R</p><p>&#8226; U2 R' U2 R U y r U' r' U r U r'</p><p>&#8226; U2 R' U2 R U F R' F' U F R F'</p>
     </div>
 </div>
+<h2 id="OLL_36">OLL 36</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-r></x-r><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-u></x-u><x-f></x-f><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-l></x-l><x-b></x-b><x-t></x-t><x-b></x-b><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -1988,6 +2024,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U r U' r2 D r2 U' r2 U r2 U D' r'</p><p>&#8226; U' R U2 r D r' U2 r D' r' R'</p><p>&#8226; U' R U R' U' F' U2 F U R U R'</p>
     </div>
 </div>
+<h2 id="OLL_37">OLL 37</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-r></x-r><div></div><x-b></x-b><x-t></x-t><x-u></x-u><x-f></x-f><x-u></x-u><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-b></x-b><x-u></x-u><div></div><x-f></x-f><x-l></x-l><x-t></x-t><x-l></x-l><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -2042,6 +2079,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; r U2 R2 D' R U' R' D R2 U' r'</p><p>&#8226; U' R' U R U R2 F R2 U R' U' F' U2 R</p><p>&#8226; U R U R' U R' U' R U' R' U2 F R F'</p><p>&#8226; U' F R U' R' U2 R U R' F' R U R' U' R' F R F'</p>
     </div>
 </div>
+<h2 id="OLL_38">OLL 38</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -2096,6 +2134,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R U R' U' F' U R U R' U' R' F R F'</p><p>&#8226; F R U' R2 F R F' U' F2 r U r2 F2 r</p><p>&#8226; U2 R2 u' R U' R U R' u R F' U' F R</p><p>&#8226; U2 F U R2 D R' U2 R D' R' U R' F'</p>
     </div>
 </div>
+<h2 id="OLL_39">OLL 39</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-l></x-l><x-t></x-t><x-u></x-u><x-r></x-r><div></div><x-u></x-u><x-b></x-b><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><div></div><x-r></x-r><x-f></x-f><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -2150,6 +2189,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 F U R2 D r' U2 r D' R' U R' F'</p><p>&#8226; U' R' U' R U' R U R' U' R' U2 F R F'</p>
     </div>
 </div>
+<h2 id="OLL_40">OLL 40</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><x-u></x-u><x-b></x-b><x-r></x-r><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -2204,6 +2244,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R U R' F' U' F R U R' U' R U' R'</p>
     </div>
 </div>
+<h2 id="OLL_41">OLL 41</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-u></x-u><x-t></x-t><x-b></x-b><x-l></x-l><x-u></x-u><x-l></x-l><x-f></x-f><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-r></x-r><x-t></x-t>
@@ -2258,6 +2299,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R' F' U2 R U R' U R U' R U' R'</p><p>&#8226; F R' F' U2 R U R U' R' U R' U R</p>
     </div>
 </div>
+<h2 id="OLL_42">OLL 42</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><x-u></x-u><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t>
@@ -2312,6 +2354,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R' U' F' U F U' R U' R2 D' R U2 R' D R2</p><p>&#8226; R' U2 R2 U R' U' R U R2 U R2 U' R2 F R F'</p><p>&#8226; U2 R U R' U R' F R F R U2 R' U2 R' F2 R</p><p>&#8226; F R U R' y' R' U' R' F R2 U R' U' F'</p>
     </div>
 </div>
+<h2 id="OLL_43">OLL 43</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-u></x-u><x-t></x-t><x-f></x-f><x-r></x-r><div></div><x-r></x-r><x-b></x-b><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-b></x-b><x-u></x-u><x-u></x-u><x-u></x-u><x-f></x-f><x-t></x-t><x-l></x-l><div></div><x-l></x-l><x-t></x-t>
@@ -2366,6 +2409,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 R U' R' U' F' U2 F U R U' R'</p><p>&#8226; R U R' F' U2 R U R' U' R' F R2 U' R'</p><p>&#8226; U2 R r D r' U2 r D' r' U2 R'</p>
     </div>
 </div>
+<h2 id="OLL_44">OLL 44</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><div></div><x-b></x-b><x-l></x-l><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-u></x-u><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t>
@@ -2420,6 +2464,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' f R U' R D R' U2 R D' R2 U' f'</p><p>&#8226; U r U R2 D' R U R' D R2 U2 r'</p><p>&#8226; U x' R U' R' D R U l' U R U' R' F'</p>
     </div>
 </div>
+<h2 id="OLL_45">OLL 45</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><div></div><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><x-u></x-u><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-u></x-u><x-u></x-u><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t>
@@ -2474,6 +2519,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; R U' L' U R' U' L F R U R' U' F'</p><p>&#8226; U' F R U' R D R' U2 R D' R2 U' F'</p>
     </div>
 </div>
+<h2 id="OLL_46">OLL 46</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-u></x-u><x-u></x-u><x-u></x-u><x-t></x-t><x-r></x-r><x-b></x-b><div></div><x-b></x-b><x-l></x-l><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t>
@@ -2528,6 +2574,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 r U' r' U' r U r' U' F' U2 F</p><p>&#8226; U R U R' U R U' R' F' U F R U' R'</p><p>&#8226; U2 r U' r' U' r U r' U' y L' U2 L</p>
     </div>
 </div>
+<h2 id="OLL_47">OLL 47</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t><x-u></x-u><x-l></x-l><div></div><x-f></x-f><x-r></x-r><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-b></x-b><x-u></x-u><x-l></x-l><x-b></x-b><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -2582,6 +2629,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R' F R U R' U' F' R' F R F' U R</p><p>&#8226; f' U f U2 R' U' R U' R2 U2 R</p><p>&#8226; F R U R' U2 F' U2 F U R U' R' U' F'</p><p>&#8226; U F' L' U L U L' U2 L U L' U' L U F</p>
     </div>
 </div>
+<h2 id="OLL_48">OLL 48</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-u></x-u><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-f></x-f><x-r></x-r><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-b></x-b><div></div><x-l></x-l><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -2636,6 +2684,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; F R' F' U2 R U R' U R2 U2 R'</p><p>&#8226; U F R U' R' U' R U2 R' U' R U R' U' F'</p>
     </div>
 </div>
+<h2 id="OLL_49">OLL 49</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-u></x-u><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-f></x-f><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-b></x-b><div></div><x-l></x-l><x-b></x-b><x-t></x-t><x-r></x-r><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -2690,6 +2739,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' R' F R f' U2 R' F R F2 U2 f</p><p>&#8226; U' F' L' U L U L' U' L U' L' U L F</p><p>&#8226; F' L F l' U2 F' L F L2 U2 l</p>
     </div>
 </div>
+<h2 id="OLL_50">OLL 50</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-b></x-b><x-u></x-u><x-u></x-u><x-t></x-t><x-u></x-u><x-r></x-r><div></div><x-b></x-b><x-l></x-l><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-f></x-f><x-u></x-u><x-r></x-r><x-f></x-f><x-t></x-t><x-l></x-l><div></div><x-u></x-u><x-t></x-t>
@@ -2744,6 +2794,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U2 F R' F' r U2 F R' F' R2 U2 r'</p><p>&#8226; U' F R U' R' U' R U R' U R U' R' F'</p><p>&#8226; f R U R' U R' D' R U2 R' D R f'</p>
     </div>
 </div>
+<h2 id="OLL_51">OLL 51</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-u></x-u><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-l></x-l><x-f></x-f><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><div></div><x-b></x-b><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><x-u></x-u><x-t></x-t>
@@ -2798,6 +2849,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; R' U2 R U2 F R U R' U' F' R' U R</p>
     </div>
 </div>
+<h2 id="OLL_52">OLL 52</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-u></x-u><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-f></x-f><x-r></x-r><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-b></x-b><x-u></x-u><x-l></x-l><x-b></x-b><x-t></x-t><x-r></x-r><div></div><x-u></x-u><x-t></x-t>
@@ -2852,6 +2904,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R U R' F' U' F U R' U' R2 U' R2 U2 R</p><p>&#8226; U F U R' U' R F' R2 F R F' U R</p><p>&#8226; U2 R U R' U2 R U2 R' U R U R' U R U' R2 F R F'</p>
     </div>
 </div>
+<h2 id="OLL_53">OLL 53</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><div></div><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><x-u></x-u><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-b></x-b><div></div><x-b></x-b><x-u></x-u><x-t></x-t><x-r></x-r><x-u></x-u><x-l></x-l><x-t></x-t>
@@ -2906,6 +2959,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R' F R F' U' F R' F' R2 U' R'</p><p>&#8226; U' R U' R' U R U' R' U2 F' U F R U R'</p><p>&#8226; U R' F R F' U2 l2 F' l' U l'</p>
     </div>
 </div>
+<h2 id="OLL_54">OLL 54</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-f></x-f><x-u></x-u><x-f></x-f><x-t></x-t><x-u></x-u><x-l></x-l><div></div><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-b></x-b><x-u></x-u><x-b></x-b><x-u></x-u><x-t></x-t><x-r></x-r><div></div><x-l></x-l><x-t></x-t>
@@ -2960,6 +3014,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U r U' r' F U2 r2 F r U' r</p><p>&#8226; U' R B' R' B U2 R2 F R F' R</p><p>&#8226; U L F' L' F U2 r2 F r U' r</p>
     </div>
 </div>
+<h2 id="OLL_55">OLL 55</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-r></x-r><div></div><x-r></x-r><x-t></x-t><x-u></x-u><x-f></x-f><x-u></x-u><x-b></x-b><x-u></x-u><x-u></x-u><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-l></x-l><x-u></x-u><x-l></x-l><x-u></x-u><x-t></x-t><x-b></x-b><div></div><x-f></x-f><x-t></x-t>
@@ -3014,6 +3069,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R' F U R U' R2 F' R2 U R' U' R</p>
     </div>
 </div>
+<h2 id="OLL_56">OLL 56</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-l></x-l><x-t></x-t><x-u></x-u><x-b></x-b><div></div><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-u></x-u><x-r></x-r><div></div><x-r></x-r><x-u></x-u><x-t></x-t><x-f></x-f><x-u></x-u><x-b></x-b><x-t></x-t>
@@ -3068,6 +3124,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; r U R' U R U r' U' r U r' F' U F</p><p>&#8226; U2 F R U' R' F' U' F R U' l' U R' U' R U' x'</p><p>&#8226; U2 F R U R' U2 y' R' U2 L R U' R' U L'</p><p>&#8226; r U R' U R U r' U' r U r' y' R' U R</p>
     </div>
 </div>
+<h2 id="OLL_57">OLL 57</h2>
 <div class="alg-card">
     <div class="viz-2d-3x3">
         <x-t></x-t><x-l></x-l><x-u></x-u><x-r></x-r><x-t></x-t><x-f></x-f><x-u></x-u><div></div><x-u></x-u><x-f></x-f><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-r></x-r><x-u></x-u><div></div><x-u></x-u><x-l></x-l><x-t></x-t><x-b></x-b><x-u></x-u><x-b></x-b><x-t></x-t>

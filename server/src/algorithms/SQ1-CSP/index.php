@@ -15,7 +15,7 @@ include_once "../colorScheme.php";
 <body>
     <?php
     include_once "../../php/menu.php";
-    $subsets = [];
+    $subsets = ["1 Slash", "2 Slashes", "3 Slashes", "4 Slashes", "5 Slashes", "6 Slashes", "7 Slashes"];
     ?>
 
     <main>

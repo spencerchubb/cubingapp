@@ -48,7 +48,7 @@ include_once "../style.php";
 <body>
 <?php
 include_once "../../php/menu.php";
-$subsets = [];
+$subsets = ["Adj", "Diag"];
 ?>
 
 <main style="overflow-y: auto; padding: 0;">
@@ -88,7 +88,7 @@ function randElement(list) {
     return list[Math.floor(Math.random() * list.length)];
 }
 
-const algSet = {"puzzle":"2x2","diagramType":"3D","before":"() => randElement([\"\", \"U\", \"U'\", \"U2\"])","after":"() => randElement([\"\", \"U\", \"U'\", \"U2\"])","texts":["PBL stands for Permutation of Both Layers, and it is the third step of the Ortega method. Ortega is a good intermediate method for 2x2 solvers who have already learned the beginner method.","Here is how the Ortega method works: Beginner method starts with the first layer, but Ortega starts with just a face. In other words, the first layer doesn't have to be permuted correctly. The second step of Ortega is to orient the last layer, and lastly, you do PBL to finish the 2x2.","PBL only has 6 cases, and you may already know 2 of the cases from other methods: J Perm and Y Perm. For this reason, PBL is a very easy algorithm set to learn."],"cases":{"Adj":{"algs":{"R U R' F' R U R' U' R' F R2 U' R' U'":{},"U R' F R F' R U2 R' U R U2 R'":{}}},"Diag":{"algs":{"R U' R' U' F2 U' R U R' U F2":{},"F R U' R' U' R U R' F' R U R' U' R' F R F'":{}}},"Diag Diag":{"algs":{"R2 F2 R2":{},"R2 B2 R2":{}}},"Adj Adj":{"algs":{"R2 U' R2 U2 F2 U' R2":{},"R2 U' B2 U2 R2 U' R2'":{}}},"Adj Diag":{"algs":{"U2 R' U R' F2 R F' R":{},"R' F R' F2 R U' R":{}}},"Diag Adj":{"algs":{"R2 U R2 U' R2 U R2 U' R2":{},"R' D R' F2 R D' R":{}}}}};
+const algSet = {"puzzle":"2x2","diagramType":"3D","subsets":["Adj","Diag"],"before":"() => randElement([\"\", \"U\", \"U'\", \"U2\"])","after":"() => randElement([\"\", \"U\", \"U'\", \"U2\"])","texts":["PBL stands for Permutation of Both Layers, and it is the third step of the Ortega method. Ortega is a good intermediate method for 2x2 solvers who have already learned the beginner method.","Here is how the Ortega method works: Beginner method starts with the first layer, but Ortega starts with just a face. In other words, the first layer doesn't have to be permuted correctly. The second step of Ortega is to orient the last layer, and lastly, you do PBL to finish the 2x2.","PBL only has 6 cases, and you may already know 2 of the cases from other methods: J Perm and Y Perm. For this reason, PBL is a very easy algorithm set to learn."],"cases":{"Adj":{"algs":{"R U R' F' R U R' U' R' F R2 U' R' U'":{},"U R' F R F' R U2 R' U R U2 R'":{}},"subset":"Adj"},"Diag":{"algs":{"R U' R' U' F2 U' R U R' U F2":{},"F R U' R' U' R U R' F' R U R' U' R' F R F'":{}},"subset":"Diag"},"Diag Diag":{"algs":{"R2 F2 R2":{},"R2 B2 R2":{}},"subset":"Diag"},"Adj Adj":{"algs":{"R2 U' R2 U2 F2 U' R2":{},"R2 U' B2 U2 R2 U' R2'":{}},"subset":"Adj"},"Adj Diag":{"algs":{"U2 R' U R' F2 R F' R":{},"R' F R' F2 R U' R":{}},"subset":"Adj"},"Diag Adj":{"algs":{"R2 U R2 U' R2 U R2 U' R2":{},"R' D R' F2 R D' R":{}},"subset":"Diag"}}};
 const before = () => randElement(["", "U", "U'", "U2"]);
 const after = () => randElement(["", "U", "U'", "U2"]);
 </script>

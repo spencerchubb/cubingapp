@@ -44,6 +44,7 @@ customElements.define("x-l", Left);
 customElements.define("x-r", Right);
 customElements.define("x-t", Transparent);
 </script>
+<h2 id="3_Oriented">3 Oriented</h2>
 <div class="alg-card">
     <div class="viz-3x3">
         <div><div><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-f></x-f><x-f></x-f></div><div><div></div><x-f></x-f><x-f></x-f><div></div><x-f></x-f><x-f></x-f><x-d></x-d><x-u></x-u><x-u></x-u></div><div><x-r></x-r><div></div><div></div><x-r></x-r><x-r></x-r><x-r></x-r><div></div><x-r></x-r><x-r></x-r></div></div>
@@ -53,6 +54,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U' L' U2 R U' R' U2 L</p>
     </div>
 </div>
+<h2 id="2_Oriented">2 Oriented</h2>
 <div class="alg-card">
     <div class="viz-3x3">
         <div><div><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-f></x-f></div><div><div></div><x-f></x-f><x-f></x-f><div></div><x-f></x-f><x-f></x-f><x-d></x-d><x-u></x-u><div></div></div><div><x-r></x-r><div></div><x-u></x-u><x-r></x-r><x-r></x-r><x-r></x-r><x-u></x-u><x-r></x-r><x-r></x-r></div></div>
@@ -107,6 +109,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; U R U R' U' R U' R'</p>
     </div>
 </div>
+<h2 id="1_Oriented">1 Oriented</h2>
 <div class="alg-card">
     <div class="viz-3x3">
         <div><div><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><x-u></x-u><x-f></x-f><x-f></x-f></div><div><div></div><x-f></x-f><x-f></x-f><div></div><x-f></x-f><x-f></x-f><x-d></x-d><x-u></x-u><div></div></div><div><x-r></x-r><div></div><div></div><x-r></x-r><x-r></x-r><x-r></x-r><div></div><x-r></x-r><x-r></x-r></div></div>
@@ -215,6 +218,7 @@ customElements.define("x-t", Transparent);
         <p>&#8226; R' F2 R2 U' R' U' R U R' F2</p>
     </div>
 </div>
+<h2 id="0_Oriented">0 Oriented</h2>
 <div class="alg-card">
     <div class="viz-3x3">
         <div><div><div></div><x-u></x-u><div></div><x-u></x-u><x-u></x-u><x-u></x-u><div></div><x-f></x-f><x-f></x-f></div><div><div></div><x-f></x-f><x-f></x-f><div></div><x-f></x-f><x-f></x-f><x-d></x-d><x-u></x-u><x-u></x-u></div><div><x-r></x-r><div></div><div></div><x-r></x-r><x-r></x-r><x-r></x-r><x-u></x-u><x-r></x-r><x-r></x-r></div></div>

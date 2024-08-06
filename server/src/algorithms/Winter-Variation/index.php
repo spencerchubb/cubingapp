@@ -15,7 +15,7 @@ include_once "../colorScheme.php";
 <body>
     <?php
     include_once "../../php/menu.php";
-    $subsets = [];
+    $subsets = ["3 Oriented", "2 Oriented", "1 Oriented", "0 Oriented"];
     ?>
 
     <main>

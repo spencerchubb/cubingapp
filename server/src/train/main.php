@@ -134,7 +134,7 @@ function getScramble(_before, _after, algs) {
     // Remove rotations because they mess with the scrambler.
     alg = removeRotations(alg);
 
-    alg = `${_before} ${algObj.setup} ${invertAlg(alg)} ${invertAlg(_after)}`;
+    alg = `${_before} ${algObj.setup ?? ""} ${invertAlg(alg)} ${invertAlg(_after)}`;
     
     return scramble(algSet.puzzle, alg);
 }

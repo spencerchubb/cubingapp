@@ -15,7 +15,7 @@ include_once "../colorScheme.php";
 <body>
     <?php
     include_once "../../php/menu.php";
-    $subsets = [];
+    $subsets = ["Adj", "Diag"];
     ?>
 
     <main>

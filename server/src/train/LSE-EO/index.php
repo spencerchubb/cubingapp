@@ -48,7 +48,7 @@ include_once "../style.php";
 <body>
 <?php
 include_once "../../php/menu.php";
-$subsets = [];
+$subsets = ["3-mover", "5-mover", "7-mover", "11-mover"];
 ?>
 
 <main style="overflow-y: auto; padding: 0;">
@@ -88,7 +88,7 @@ function randElement(list) {
     return list[Math.floor(Math.random() * list.length)];
 }
 
-const algSet = {"puzzle":"3x3","diagramType":"3D","gray":[12,14,30,32,39,48],"before":"() => { const segments = [\"M2 U\", \"M2 U'\", \"M2 U2\", \"M' U2 M U\", \"M' U2 M' U'\"]; let alg = randElement(segments); for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`; return alg; }","after":"() => randElement([\"\", \"U\", \"U2\", \"U'\"])","texts":["Last Six Edges Edge Orientation (LSE EO) is a substep of the Roux method. Since LSE is the 4th step, the substeps are typically called 4a, 4b, and 4c. This algorithm set is for substep 4a.","4a: Edge orientation (EO)<br> 4b: Solve upper left and upper right edges (ULUR)<br> 4c: Solve middle edges"],"cases":{"Front Arrow":{"algs":{"M' U M":{}}},"Back Arrow":{"algs":{"M U M'":{}}},"Front 1 / 1":{"algs":{"M U' M' U' M U' M'":{},"M U M' U M U M'":{}}},"Back 1 / 1":{"algs":{"M' U' M U' M' U' M'":{},"M' U M U M' U M":{}}},"2 Adj / 2":{"algs":{"M2 U' M' U' M'":{}}},"2 Adj / 0":{"algs":{"M' U' M' U2 M' U' M'":{}}},"2 Opp / 2":{"algs":{"M' U2 M' U2 M U' M'":{}}},"2 Opp / 0":{"algs":{"M' U' M U M' U' M'":{}}},"0 / 2":{"algs":{"M' U' M' U M U' M'":{}}},"4 / 0":{"algs":{"M' U2 M' U2 M' U' M'":{},"M' U2 M' U2 M' U M'":{}}},"All 6":{"algs":{"M' U' M' U2 M' U' M U' M' U' M'":{}}}}};
+const algSet = {"puzzle":"3x3","diagramType":"3D","gray":[12,14,30,32,39,48],"subsets":["3-mover","5-mover","7-mover","11-mover"],"before":"() => { const segments = [\"M2 U\", \"M2 U'\", \"M2 U2\", \"M' U2 M U\", \"M' U2 M' U'\"]; let alg = randElement(segments); for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`; return alg; }","after":"() => randElement([\"\", \"U\", \"U2\", \"U'\"])","texts":["Last Six Edges Edge Orientation (LSE EO) is a substep of the Roux method. Since LSE is the 4th step, the substeps are typically called 4a, 4b, and 4c. This algorithm set is for substep 4a.","4a: Edge orientation (EO)<br> 4b: Solve upper left and upper right edges (ULUR)<br> 4c: Solve middle edges"],"cases":{"Front Arrow":{"algs":{"M' U M":{}},"subset":"3-mover"},"Back Arrow":{"algs":{"M U M'":{}},"subset":"3-mover"},"2 Adj / 2":{"algs":{"M2 U' M' U' M'":{}},"subset":"5-mover"},"Front 1 / 1":{"algs":{"M U' M' U' M U' M'":{},"M U M' U M U M'":{}},"subset":"7-mover"},"Back 1 / 1":{"algs":{"M' U' M U' M' U' M'":{},"M' U M U M' U M":{}},"subset":"7-mover"},"2 Adj / 0":{"algs":{"M' U' M' U2 M' U' M'":{}},"subset":"7-mover"},"2 Opp / 2":{"algs":{"M' U2 M' U2 M U' M'":{}},"subset":"7-mover"},"2 Opp / 0":{"algs":{"M' U' M U M' U' M'":{}},"subset":"7-mover"},"0 / 2":{"algs":{"M' U' M' U M U' M'":{}},"subset":"7-mover"},"4 / 0":{"algs":{"M' U2 M' U2 M' U' M'":{},"M' U2 M' U2 M' U M'":{}},"subset":"7-mover"},"All 6":{"algs":{"M' U' M' U2 M' U' M U' M' U' M'":{}},"subset":"11-mover"}}};
 const before = () => { const segments = ["M2 U", "M2 U'", "M2 U2", "M' U2 M U", "M' U2 M' U'"]; let alg = randElement(segments); for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`; return alg; };
 const after = () => randElement(["", "U", "U2", "U'"]);
 </script>

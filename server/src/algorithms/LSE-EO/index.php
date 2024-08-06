@@ -15,7 +15,7 @@ include_once "../colorScheme.php";
 <body>
     <?php
     include_once "../../php/menu.php";
-    $subsets = [];
+    $subsets = ["3-mover", "5-mover", "7-mover", "11-mover"];
     ?>
 
     <main>

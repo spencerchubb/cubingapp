@@ -1,864 +1,1029 @@
 {
     "puzzle": "SQ1",
+    "subsets": ["1 Slash", "2 Slashes", "3 Slashes", "4 Slashes", "5 Slashes", "6 Slashes", "7 Slashes"],
     "before": "() => randElement([\"1,0 / 3,3 / 6,-3 / -1,0\", \"0,-1 / -3,3 / 3,6 / 0,1\", \"1,0 / -,3 / 3,6 / -1,0\", \"0,-1 / -3,6 / 3,-3 / 0,1\"])",
     "after": "() => randElement([\"0,0\", \"6,0\", \"0,6\", \"6,6\"])",
     "texts": [
         "There are a variety of methods for solving the Square-1, but the first step is always Cube Shape (sometimes abbreviated as SQ1 CS). The goal of this step is to make the puzzle shaped like a cube."
     ],
     "cases": {
-        "Kite & Kite": {
+        "Kite / Kite": {
             "algs": {
                 "/": {}
-            }
+            },
+            "subset": "1 Slash"
         },
-        "Barrel & Barrel": {
+        "Barrel / Barrel": {
             "algs": {
                 "/ 3,3 /": {},
                 "/ -3,-3 /": {}
-            }
+            },
+            "subset": "2 Slashes"
         },
-        "Left Fist & Right Fist": {
+        "Left Fist / Right Fist": {
             "algs": {
                 "/ 3,0 / -1,1": {},
                 "/ -3,0 / -1,1": {}
-            }
+            },
+            "subset": "2 Slashes"
         },
-        "Right Fist & Left Fist": {
+        "Right Fist / Left Fist": {
             "algs": {
                 "/ 3,0 /": {},
                 "/ -3,0 /": {}
-            }
+            },
+            "subset": "2 Slashes"
         },
-        "Square & Shield": {
+        "Square / Shield": {
             "algs": {
                 "/ 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Shield & Square": {
+        "Shield / Square": {
             "algs": {
                 "/ -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Muffin & Square": {
+        "Muffin / Square": {
             "algs": {
                 "/ 2,0 / 3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Square & Muffin": {
+        "Square / Muffin": {
             "algs": {
                 "/ 0,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Left Pawn & Right Pawn": {
+        "Left Pawn / Right Pawn": {
             "algs": {
                 "/ -1,4 / -3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Right Pawn & Left Pawn": {
+        "Right Pawn / Left Pawn": {
             "algs": {
                 "/ -4,1 / 3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Scallop & Scallop": {
+        "Scallop / Scallop": {
             "algs": {
                 "/ 1,2 / -3,-3 /": {},
                 "/ -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Kite & Scallop": {
+        "Kite / Scallop": {
             "algs": {
                 "/ 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Barrel & Kite": {
+        "Barrel / Kite": {
             "algs": {
                 "/ -3,0 / -3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Muffin & Muffin": {
+        "Muffin / Muffin": {
             "algs": {
                 "/ -2,0 / 3,3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Shield & Shield": {
+        "Shield / Shield": {
             "algs": {
                 "/ 1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Kite & Barrel": {
+        "Kite / Barrel": {
             "algs": {
                 "/ 0,3 / 0,3 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Scallop & Kite": {
+        "Scallop / Kite": {
             "algs": {
                 "/ -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "3 Slashes"
         },
-        "Pair & 4-2 Right": {
+        "Pair / 4-2 Right": {
             "algs": {
                 "/ -2,0 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 2-2-2": {
+        "Pair / 2-2-2": {
             "algs": {
                 "/ 0,2 / -1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-2 Left & Pair": {
+        "4-2 Left / Pair": {
             "algs": {
                 "/ 2,0 / -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "2-2-2 & Pair": {
+        "2-2-2 / Pair": {
             "algs": {
                 "/ -2,0 / 0,1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 4-1-1": {
+        "Pair / 4-1-1": {
             "algs": {
                 "/ -4,0 / 4,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-1-1 & Pair": {
+        "4-1-1 / Pair": {
             "algs": {
                 "/ 0,4 / 4,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 5-1 Left": {
+        "Pair / 5-1 Left": {
             "algs": {
                 "/ -2,3 / -2,-1 / -3,0  / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "5-1 Left & Pair": {
+        "5-1 Left / Pair": {
             "algs": {
                 "/ -3,2 / -2,-1 / 0,-3 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "8 Edges & Star": {
+        "8 Edges / Star": {
             "algs": {
                 "/ 2,4 / -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "5-1 Right & Pair": {
+        "5-1 Right / Pair": {
             "algs": {
                 "/ 3,-2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 5-1 Right": {
+        "Pair / 5-1 Right": {
             "algs": {
                 "/ -2,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 4-2 Left": {
+        "Pair / 4-2 Left": {
             "algs": {
                 "/ 0,2 / 2,1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-2 Right & Pair": {
+        "4-2 Right / Pair": {
             "algs": {
                 "/ 0,4 / 1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Shield & Muffin": {
+        "Shield / Muffin": {
             "algs": {
                 "/ 0,-3 / 2,1 / 3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Star & 6-2": {
+        "Star / 6-2": {
             "algs": {
                 "/ 2,4 / -4,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "6-2 & Star": {
+        "6-2 / Star": {
             "algs": {
                 "/ -4,-2 / -1,4 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Right Pawn & Right Pawn": {
+        "Right Pawn / Right Pawn": {
             "algs": {
                 "/ -1,2 / 2,2 / 0,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Fist & Right Pawn": {
+        "Left Fist / Right Pawn": {
             "algs": {
                 "/ -1,0 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Left Pawn & Right Fist": {
+        "Left Pawn / Right Fist": {
             "algs": {
                 "/ 4,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Right Fist & Left Pawn": {
+        "Right Fist / Left Pawn": {
             "algs": {
                 "/ 0,-4 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Star & 8 Edges": {
+        "Star / 8 Edges": {
             "algs": {
                 "/ -4,-2 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Right Pawn & Left Fist": {
+        "Right Pawn / Left Fist": {
             "algs": {
                 "/ 0,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Pair & 6": {
+        "Pair / 6": {
             "algs": {
                 "/ -4,0 / -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "6 & Pair": {
+        "6 / Pair": {
             "algs": {
                 "/ 0,4 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Muffin & Shield": {
+        "Muffin / Shield": {
             "algs": {
                 "/ 3,0 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "5-1 Left & Arrow": {
+        "5-1 Left / Arrow": {
             "algs": {
                 "/ 0,4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "5-1 Right & Arrow": {
+        "5-1 Right / Arrow": {
             "algs": {
                 "/ 0,-4 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-2-1 Right & Arrow": {
+        "3-2-1 Right / Arrow": {
             "algs": {
                 "/ -1,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Scallop & Barrel": {
+        "Scallop / Barrel": {
             "algs": {
                 "/ 4,0 / -1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Barrel & Scallop": {
+        "Barrel / Scallop": {
             "algs": {
                 "/ 0,-4 / 0,1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Star & 4-4": {
+        "Star / 4-4": {
             "algs": {
                 "/ -2,-2 / 1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Crown & 4-2 Right": {
+        "Crown / 4-2 Right": {
             "algs": {
                 "/ -3,-2 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Crown & 4-2 Left": {
+        "Crown / 4-2 Left": {
             "algs": {
                 "/ 0,-4 / 3,-2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "4-2 Left & Crown": {
+        "4-2 Left / Crown": {
             "algs": {
                 "/ 2,3 / -2,-1 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-4 & Star": {
+        "4-4 / Star": {
             "algs": {
                 "/ 2,2 / 0,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 5-1 Right": {
+        "Arrow / 5-1 Right": {
             "algs": {
                 "/ -4,0 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 5-1 Left": {
+        "Arrow / 5-1 Left": {
             "algs": {
                 "/ 4,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 3-2-1 Right": {
+        "Arrow / 3-2-1 Right": {
             "algs": {
                 "/ 2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-3 & Arrow": {
+        "3-3 / Arrow": {
             "algs": {
                 "/ 0,-2 / -1,4 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-2 Right & Crown": {
+        "4-2 Right / Crown": {
             "algs": {
                 "/ -2,-3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 3-2-1 Left": {
+        "Arrow / 3-2-1 Left": {
             "algs": {
                 "/ 2,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-2-1 Left & Arrow": {
+        "3-2-1 Left / Arrow": {
             "algs": {
                 "/ 0,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 3-3": {
+        "Arrow / 3-3": {
             "algs": {
                 "/ -2,0 / -5,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "4-1-1 & Arrow": {
+        "4-1-1 / Arrow": {
             "algs": {
                 "/ 2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Arrow & 4-1-1": {
+        "Arrow / 4-1-1": {
             "algs": {
                 "/ 0,-2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Kite & Right Pawn": {
+        "Kite / Right Pawn": {
             "algs": {
                 "/ -1,0 / 0,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Right Fist": {
+        "Scallop / Right Fist": {
             "algs": {
                 "/ 0,1 / -4,0 / 4,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Scallop": {
+        "Left Pawn / Scallop": {
             "algs": {
                 "/ 3,2 / -3,2 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Left Fist": {
+        "Shield / Left Fist": {
             "algs": {
                 "/ 0,1 / -2,0 / -2,5 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Kite & Left Pawn": {
+        "Kite / Left Pawn": {
             "algs": {
                 "/ 1,0 / -1,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Left Pawn": {
+        "Scallop / Left Pawn": {
             "algs": {
                 "/ -2,-3 / -2,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Scallop": {
+        "Right Pawn / Scallop": {
             "algs": {
                 "/ -3,-2 / 3,-2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Fist & Scallop": {
+        "Right Fist / Scallop": {
             "algs": {
                 "/ -1,0 / 0,4 / 1,-4 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Kite": {
+        "Right Pawn / Kite": {
             "algs": {
                 "/ 0,-1 / 2,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Left Fist": {
+        "Scallop / Left Fist": {
             "algs": {
                 "/ 0,-1 / 4,0 / -4,1 / 3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Kite": {
+        "Shield / Kite": {
             "algs": {
                 "/ 0,-2 / -1,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Fist & Scallop": {
+        "Left Fist / Scallop": {
             "algs": {
                 "/ 1,0 / 0,-4 / -1,4 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Muffin & Scallop": {
+        "Muffin / Scallop": {
             "algs": {
                 "/ 0,2 / -3,4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Kite & Shield": {
+        "Kite / Shield": {
             "algs": {
                 "/ -2,0 / 2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Muffin": {
+        "Scallop / Muffin": {
             "algs": {
                 "/ -2,0 / -4,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Right Pawn": {
+        "Scallop / Right Pawn": {
             "algs": {
                 "/ 2,3 / 2,-3 / 2,1 / 3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Barrel & Left Pawn": {
+        "Barrel / Left Pawn": {
             "algs": {
                 "/ 1,-2 / -3,4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Barrel": {
+        "Left Pawn / Barrel": {
             "algs": {
                 "/ 2,-1 / -4,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Square & Scallop": {
+        "Square / Scallop": {
             "algs": {
                 "/ 0,-2 / 0,4 / -2,-1 / 0,-3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Barrel & Right Pawn": {
+        "Barrel / Right Pawn": {
             "algs": {
                 "/ 1,-2 / 4,-3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Barrel": {
+        "Shield / Barrel": {
             "algs": {
                 "/ -2,0 / 2,0 / -1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Barrel & Shield": {
+        "Barrel / Shield": {
             "algs": {
                 "/ 0,2 / 0,-2 / 0,1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Kite": {
+        "Left Pawn / Kite": {
             "algs": {
                 "/ 0,1 / 2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Square & Left Pawn": {
+        "Square / Left Pawn": {
             "algs": {
                 "/ 3,-2 / 0,2 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Barrel": {
+        "Right Pawn / Barrel": {
             "algs": {
                 "/ 2,-1 / 3,-4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Square": {
+        "Left Pawn / Square": {
             "algs": {
                 "/ 2,-3 / -2,0 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Square & Right Pawn": {
+        "Square / Right Pawn": {
             "algs": {
                 "1,0 / 0,-1 / 0,2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Square": {
+        "Right Pawn / Square": {
             "algs": {
                 "0,-1 / 1,0 / -2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Shield": {
+        "Scallop / Shield": {
             "algs": {
                 "/ -2,0 / 4,0 / 2,1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Scallop & Square": {
+        "Scallop / Square": {
             "algs": {
                 "/ 2,0 / -4,0 / 1,2 / 3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "4-1-1 & Crown": {
+        "4-1-1 / Crown": {
             "algs": {
                 "/ 3,-2 / 0,4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Shield": {
+        "Left Pawn / Shield": {
             "algs": {
                 "/ 0,-1 / 2,-3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "4-2 Right & Arrow": {
+        "4-2 Right / Arrow": {
             "algs": {
                 "/ -4,3 / -3,2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Arrow & 4-2 Right": {
+        "Arrow / 4-2 Right": {
             "algs": {
                 "/ -4,3 / -3,2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "4-2 Left & Arrow": {
+        "4-2 Left / Arrow": {
             "algs": {
                 "/ -3,4 / -2,3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Arrow & 4-2 Left": {
+        "Arrow / 4-2 Left": {
             "algs": {
                 "/ 0,-3 / -4,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "6 & Arrow": {
+        "6 / Arrow": {
             "algs": {
                 "/ -3,-4 / -2,3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Arrow & 6": {
+        "Arrow / 6": {
             "algs": {
                 "/ -3,-2 / 2,-3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "3-2-1 Right & Pair": {
+        "3-2-1 Right / Pair": {
             "algs": {
                 "/ 0,-5 / -3,4 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "3-2-1 Left & Pair": {
+        "3-2-1 Left / Pair": {
             "algs": {
                 "/ 0,5 / -3,2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 5-1 Right": {
+        "Crown / 5-1 Right": {
             "algs": {
                 "/ 0,3 / 4,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "5-1 Right & Crown": {
+        "5-1 Right / Crown": {
             "algs": {
                 "/ 3,0 / 0,4 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 5-1 Left": {
+        "Crown / 5-1 Left": {
             "algs": {
                 "/ -4,1 / 0,-4 / 0,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 4-1-1": {
+        "Crown / 4-1-1": {
             "algs": {
                 "/ -2,3 / 4,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 6": {
+        "Crown / 6": {
             "algs": {
                 "/ 3,2 / 2,4 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "3-2-1 Left & Crown": {
+        "3-2-1 Left / Crown": {
             "algs": {
                 "/ 4,0 / 2,-3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 3-2-1 Left": {
+        "Crown / 3-2-1 Left": {
             "algs": {
                 "/ -3,-2 / 1,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-2-1 Right & Crown": {
+        "3-2-1 Right / Crown": {
             "algs": {
                 "/ 2,3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Crown & 3-2-1 Right": {
+        "Crown / 3-2-1 Right": {
             "algs": {
                 "/ 3,2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-3 & Crown": {
+        "3-3 / Crown": {
             "algs": {
                 "/ -2,1 / -2,0 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Crown & 3-3": {
+        "Crown / 3-3": {
             "algs": {
                 "/ 1,-2 / 0,-2 / -1,-2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "5-1 Left & Crown": {
+        "5-1 Left / Crown": {
             "algs": {
                 "/ -3,0 / 0,-4 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Pair & 3-2-1 Left": {
+        "Pair / 3-2-1 Left": {
             "algs": {
                 "/ -5,0 / -2,3 / 2,1 / 3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Pair & 3-2-1 Right": {
+        "Pair / 3-2-1 Right": {
             "algs": {
                 "0,2 / -2,2 / 0,-4 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Muffin & Right Pawn": {
+        "Muffin / Right Pawn": {
             "algs": {
                 "/ 0,-1 / 0,2 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Fist & Shield": {
+        "Left Fist / Shield": {
             "algs": {
                 "/ -1,0 / 0,2 / -5,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Muffin": {
+        "Left Pawn / Muffin": {
             "algs": {
                 "/ 1,0 / -2,0 / 2,1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Muffin & Left Pawn": {
+        "Muffin / Left Pawn": {
             "algs": {
                 "/ 0,-1 / 0,2 / -1,-2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "6 & Crown": {
+        "6 / Crown": {
             "algs": {
                 "/ 3,2 / 2,4 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Left Pawn": {
+        "Shield / Left Pawn": {
             "algs": {
                 "/ 1,0 / 3,-2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Shield": {
+        "Right Pawn / Shield": {
             "algs": {
                 "/ 1,0 / -2,3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Right Pawn": {
+        "Shield / Right Pawn": {
             "algs": {
                 "/ 0,-1 / -3,2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Fist & Shield": {
+        "Right Fist / Shield": {
             "algs": {
                 "/ -1,-2 / 0,2 / -5,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Muffin": {
+        "Right Pawn / Muffin": {
             "algs": {
                 "/ -1,0 / 2,0 / -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Right Fist": {
+        "Shield / Right Fist": {
             "algs": {
                 "/ -1,-2 / 0,2 / -5,2 / 0,3 / -1,1": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Fist & Left Pawn": {
+        "Left Fist / Left Pawn": {
             "algs": {
                 "/ 0,2 / 0,-4 / 5,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Pawn & Right Fist": {
+        "Right Pawn / Right Fist": {
             "algs": {
                 "/ 0,2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "3-3 & Pair": {
+        "3-3 / Pair": {
             "algs": {
                 "/ 0,-2 / 3,0 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Right Fist & Right Pawn": {
+        "Right Fist / Right Pawn": {
             "algs": {
                 "/ -2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "4 Slashes"
         },
-        "Left Pawn & Left Fist": {
+        "Left Pawn / Left Fist": {
             "algs": {
                 "/ -2,0 / 4,0 / 2,-5 / 0,3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Pair & 3-3": {
+        "Pair / 3-3": {
             "algs": {
                 "/ 2,0 / 0,-3 / 2,1 / 3,0 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Left Pawn & Left Pawn": {
+        "Left Pawn / Left Pawn": {
             "algs": {
                 "/ 1,0 / -2,-2 / -1,-2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Shield & Scallop": {
+        "Shield / Scallop": {
             "algs": {
                 "/ 0,2 / 0,-4 / -1,-2 / -3,-3 /": {}
-            }
+            },
+            "subset": "5 Slashes"
         },
-        "Barrel & Square": {
+        "Barrel / Square": {
             "algs": {
                 "/ 2,2 / -2,-1 / 2,2 / -1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Square & Right Fist": {
+        "Square / Right Fist": {
             "algs": {
                 "1,0 / -1,0 / 0,-4 / 1,2 / 0,-2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "7 Slashes"
         },
-        "Kite & Right Fist": {
+        "Kite / Right Fist": {
             "algs": {
                 "/ 0,2 / 1,0 / 0,-2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Observatory & Star": {
+        "Observatory / Star": {
             "algs": {
                 "1,0 / 0,-2 / -1,-2 /  2,-3 / -2,-1 / -3,0 / -1,1": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Square & Barrel": {
+        "Square / Barrel": {
             "algs": {
                 "/ 2,2 / -1,2 / 2,2 / 0,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Star & 5-3": {
+        "Star / 5-3": {
             "algs": {
                 "0,3 / -4,0 / -2,-1 / -3,2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "5-3 & Star": {
+        "5-3 / Star": {
             "algs": {
                 "/ 0,4 / 1,2 / -2,3 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Star & Observatory": {
+        "Star / Observatory": {
             "algs": {
                 "/ -2,0 / -2,-1 / -3,2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Right Fist & Square": {
+        "Right Fist / Square": {
             "algs": {
                 "0,-1 / 0,1 / 4,0 / -2,-1 / 2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "7 Slashes"
         },
-        "Square & Left Fist": {
+        "Square / Left Fist": {
             "algs": {
                 "/ 0,4 / -2,-1 / 0,2 / 2,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Left Fist & Square": {
+        "Left Fist / Square": {
             "algs": {
                 "/ -4,0 / 1,2 / -2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Right Fist & Barrel": {
+        "Right Fist / Barrel": {
             "algs": {
                 "/ -2,0 / -1,0 / 2,0 / 1,2 / -3,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Left Fist & Left Fist": {
+        "Left Fist / Left Fist": {
             "algs": {
                 "/ 0,-2 / 0,2 / 0,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Arrow & 2-2-2": {
+        "Arrow / 2-2-2": {
             "algs": {
                 "/ 0,-1 / 0,2 / 2,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Muffin & Left Fist": {
+        "Muffin / Left Fist": {
             "algs": {
                 "/ 0,-4 / 1,0 / 0,-2 / -4,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Left Fist & Muffin": {
+        "Left Fist / Muffin": {
             "algs": {
                 "/ 4,0 / 0,-1 / 2,0 / -1,4 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Muffin & Right Fist": {
+        "Muffin / Right Fist": {
             "algs": {
                 "/ 0,-4 / 1,2 / 0,-2 / -4,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Right Fist & Muffin": {
+        "Right Fist / Muffin": {
             "algs": {
                 "/ 4,0 / -2,-1 / 2,0 / -1,4 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Right Fist & Right Fist": {
+        "Right Fist / Right Fist": {
             "algs": {
                 "/ 2,0 / -2,0 / 2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "2-2-2 & Crown": {
+        "2-2-2 / Crown": {
             "algs": {
                 "/ 6,-3 / 2,0 / 2,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "2-2-2 & Arrow": {
+        "2-2-2 / Arrow": {
             "algs": {
                 "/ -1,0 / 2,0 / 0,-2 / 0,1 / 0,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Barrel & Right Fist": {
+        "Barrel / Right Fist": {
             "algs": {
                 "/ 0,2 / 0,1 / 0,-2 / -2,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Left Fist & Barrel": {
+        "Left Fist / Barrel": {
             "algs": {
                 "/ 2,0 / 1,0 / -2,0 / -1,-2 / -3,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Kite & Muffin": {
+        "Kite / Muffin": {
             "algs": {
                 "/ 3,2 / 0,-2 / 0,2 / 0,-1 / 3,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Muffin & Kite": {
+        "Muffin / Kite": {
             "algs": {
                 "/ 2,3 / -2,0 / 2,0 / -1,0 / -3,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Right Fist & Kite": {
+        "Right Fist / Kite": {
             "algs": {
                 "/ -2,0 / 0,-1 / 2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Kite & Left Fist": {
+        "Kite / Left Fist": {
             "algs": {
                 "/ 0,2 / 1,0 / 0,-2 / -1,-2 / 0,-3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Left Fist & Kite": {
+        "Left Fist / Kite": {
             "algs": {
                 "/ -2,0 / 0,-1 / 2,0 / -1,-2 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Barrel & Muffin": {
+        "Barrel / Muffin": {
             "algs": {
                 "/ -3,-2 / 0,-2 / 0,2 / 0,-1 / 0,-3 / -1,1": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Muffin & Barrel": {
+        "Muffin / Barrel": {
             "algs": {
                 "/ 2,3 / 2,0 / -2,0 / 1,0 / 3,0 / -1,1": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Barrel & Left Fist": {
+        "Barrel / Left Fist": {
             "algs": {
                 "/ 0,-2 / 0,-1 / 0,2 / 2,1 / 3,3 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Crown & 2-2-2": {
+        "Crown / 2-2-2": {
             "algs": {
                 "/ 0,3 / 2,0 / 2,1 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "6 Slashes"
         },
-        "Kite & Square": {
+        "Kite / Square": {
             "algs": {
                 "/ -1,0 / 2,0 / -2,0 / 2,0 / -1,0 / -3,0 /": {}
-            }
+            },
+            "subset": "7 Slashes"
         },
-        "Square & Kite": {
+        "Square / Kite": {
             "algs": {
                 "/ 0,1 / 0,-2 / 0,2 / 0,-2 / 0,1 / 0,3 /": {}
-            }
-        },
-        "Square & Square": {
-            "algs": {
-                "": {}
-            }
+            },
+            "subset": "7 Slashes"
         }
     }
 }

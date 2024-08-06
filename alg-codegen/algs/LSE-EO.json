@@ -2,6 +2,7 @@
     "puzzle": "3x3",
     "diagramType": "3D",
     "gray": [12, 14, 30, 32, 39, 48],
+    "subsets": ["3-mover", "5-mover", "7-mover", "11-mover"],
     "before": "() => { const segments = [\"M2 U\", \"M2 U'\", \"M2 U2\", \"M' U2 M U\", \"M' U2 M' U'\"]; let alg = randElement(segments); for (let i = 0; i < 5; i++) alg += ` ${randElement(segments)}`; return alg; }",
     "after": "() => randElement([\"\", \"U\", \"U2\", \"U'\"])",
     "texts": [
@@ -12,60 +13,71 @@
         "Front Arrow": {
             "algs": {
                 "M' U M": {}
-            }
+            },
+            "subset": "3-mover"
         },
         "Back Arrow": {
             "algs": {
                 "M U M'": {}
-            }
+            },
+            "subset": "3-mover"
+        },
+        "2 Adj / 2": {
+            "algs": {
+                "M2 U' M' U' M'": {}
+            },
+            "subset": "5-mover"
         },
         "Front 1 / 1": {
             "algs": {
                 "M U' M' U' M U' M'": {},
                 "M U M' U M U M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "Back 1 / 1": {
             "algs": {
                 "M' U' M U' M' U' M'": {},
                 "M' U M U M' U M": {}
-            }
-        },
-        "2 Adj / 2": {
-            "algs": {
-                "M2 U' M' U' M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "2 Adj / 0": {
             "algs": {
                 "M' U' M' U2 M' U' M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "2 Opp / 2": {
             "algs": {
                 "M' U2 M' U2 M U' M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "2 Opp / 0": {
             "algs": {
                 "M' U' M U M' U' M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "0 / 2": {
             "algs": {
                 "M' U' M' U M U' M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "4 / 0": {
             "algs": {
                 "M' U2 M' U2 M' U' M'": {},
                 "M' U2 M' U2 M' U M'": {}
-            }
+            },
+            "subset": "7-mover"
         },
         "All 6": {
             "algs": {
                 "M' U' M' U2 M' U' M U' M' U' M'": {}
-            }
+            },
+            "subset": "11-mover"
         }
     }
 }
