@@ -30,8 +30,7 @@
 
         if ($wcaId) {
             $stmt = $db->prepare("
-            SELECT DISTINCT competitionId, personId, name, date FROM Birthdays b
-            JOIN persons p ON p.id=b.personId
+            SELECT DISTINCT competitionId, personId, name, date FROM Birthdays
             WHERE personId=:personId;");
             $stmt->bindValue(":personId", $wcaId, SQLITE3_TEXT);
             $rows = $stmt->execute();
@@ -73,8 +72,7 @@
 
         // DISTINCT is needed in case someone appears multiple times, such as 2012BUBE01
         $stmt = $db->prepare("
-            SELECT DISTINCT competitionId, personId, name, date FROM Birthdays b
-            JOIN persons p ON p.id=b.personId
+            SELECT DISTINCT competitionId, personId, name, date FROM Birthdays
             WHERE date LIKE '%-$month-$day';");
         $rows = $stmt->execute();
 
