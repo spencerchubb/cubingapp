@@ -217,6 +217,11 @@
             <a href="/sum-of-ranks" class="menuLink">SoR Leaderboard</a>
         </div>
     </div>
+
+    <p style="padding: 16px; color: var(--gray-300); font-size: 14px;">
+        Happy WCA birthday to Carter Thomas, member of WCA Advisory Council!
+        <a href="/birthdays" class="link">See today's WCA birthdays</a>
+    </p>
 </div>
 
 <script>

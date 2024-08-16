@@ -139,13 +139,11 @@ function getScramble(_before, _after, algs) {
     return scramble(algSet.puzzle, alg);
 }
 
-function nextCase() {
-    if (selectedCases.length === 0) {
-        alert("Select at least 1 case to train");
-        return;
-    }
+// List of indices
+let caseHistory = [];
 
-    currentCase = randElement(selectedCases);
+function renderCase(caseIndex) {
+    currentCase = selectedCases[caseIndex];
     const { subsetName, caseName } = currentCase;
 
     const algs = Object.entries(subsets[subsetName][caseName].algs).map(entry => {
@@ -154,6 +152,7 @@ function nextCase() {
     const _before = before();
     const _after = after();
     const scram = getScramble(_before, _after, algs);
+    nameText.textContent = caseName;
     scrambleText.textContent = scram;
 
     solutionDiv.innerHTML = algs.map(alg => {
@@ -172,6 +171,28 @@ function nextCase() {
 
     // Close solution
     solutionExpandable.classList.remove("expandableOpen");
+}
+
+function prevCase() {
+    if (caseHistory.length <= 1) {
+        alert("No previous cases yet");
+        return;
+    }
+    caseHistory.pop();
+
+    const caseIndex = caseHistory[caseHistory.length - 1];
+    renderCase(caseIndex);
+}
+
+function nextCase() {
+    if (selectedCases.length === 0) {
+        alert("Select at least 1 case to train");
+        return;
+    }
+
+    const randIndex = Math.floor(Math.random() * selectedCases.length);
+    caseHistory.push(randIndex);
+    renderCase(randIndex);
 }
 
 function calcMean(times) {
@@ -341,6 +362,9 @@ function cacheData(subsets) {
 
 renderSelectedCases(subsets);
 nextCase();
+
+leftArrow.onclick = () => prevCase();
+rightArrow.onclick = () => nextCase();
 
 resetButton.onclick = () => {
     const confirmed = confirm(`Do you want to reset your times for ${document.title}?`);

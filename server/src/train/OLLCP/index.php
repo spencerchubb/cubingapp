@@ -12,8 +12,41 @@ include_once "../style.php";
 ?>
 
 <style>
+#leftArrow {
+  width: 0; 
+  height: 0; 
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent; 
+  border-right: 18px solid var(--gray-300);
+  cursor: pointer;
+
+  &:hover {
+    border-right-color: var(--gray-400);
+  }
+}
+
+#rightArrow {
+  width: 0; 
+  height: 0; 
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 18px solid var(--gray-300);
+  cursor: pointer;
+  
+  &:hover {
+    border-left-color: var(--gray-400);
+  }
+}
+
+#nameText {
+    font-size: 15px;
+    color: var(--gray-300);
+}
+
 #scrambleText {
+    margin-top: 16px;
     font-size: 20px;
+    line-height: 28px;
     text-align: center;
 }
 
@@ -53,6 +86,11 @@ $subsets = ["OLL 1", "OLL 2", "OLL 3", "OLL 4", "OLL 5", "OLL 6", "OLL 7", "OLL 
 
 <main style="overflow-y: auto; padding: 0;">
     <div style="padding: 16px 16px 0 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div id="leftArrow"></div>
+            <p id="nameText">&nbsp;</p>
+            <div id="rightArrow"></div>
+        </div>
         <p id="scrambleText">&nbsp;</p>
         <button id="time">0.00</button>
         <div id="solutionExpandable" class="expandable" style="margin-top: 16px; border: solid 1px var(--gray-500);">
