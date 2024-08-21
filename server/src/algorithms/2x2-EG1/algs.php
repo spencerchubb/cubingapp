@@ -51,7 +51,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 AS 1</h3>
-        <p>&#8226; U R' F R2 U R' F' U' R U' R'</p><p>&#8226; U U2 B U' R2 F2 U' F</p><p>&#8226; R' U' R U' R' U2 R r2 R U2 R' U' R U2 R' F R' F' R U2</p><p>&#8226; U U' L' U' L U' F' L' U L2 F L'</p>
+        <p>&#8226; U R' F R2 U R' F' U' R U' R'</p><p>&#8226; U' B U' R2 F2 U' F</p><p>&#8226; R' U' R U' R' U2 R r2 R U2 R' U' R U2 R' F R' F' R U2</p><p>&#8226; L' U' L U' F' L' U L2 F L'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -87,7 +87,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 AS 5</h3>
-        <p>&#8226; U' R U R' F' U' R U R' U' R U R'</p><p>&#8226; d U2 L' U L U' L' U L U L F L' F'</p><p>&#8226; U' U2 F' R' F R U R U R' U' R U R'</p><p>&#8226; U' U2 L' U L U' L' U L U L F L' F'</p>
+        <p>&#8226; U' R U R' F' U' R U R' U' R U R'</p><p>&#8226; d U2 L' U L U' L' U L U L F L' F'</p><p>&#8226; U F' R' F R U R U R' U' R U R'</p><p>&#8226; U L' U L U' L' U L U L F L' F'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -143,7 +143,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 L 1</h3>
-        <p>&#8226; U R U' R' U R U' R2 F' R F</p><p>&#8226; U U R U R' F' R U2 R' U2 R U R'</p><p>&#8226; U U F R U' R' F' R U R' F' R U R'</p>
+        <p>&#8226; U R U' R' U R U' R2 F' R F</p><p>&#8226; U2 R U R' F' R U2 R' U2 R U R'</p><p>&#8226; U2 F R U' R' F' R U R' F' R U R'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -152,7 +152,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 L 2</h3>
-        <p>&#8226; U' U' R' F R U' R' F R2 U R' F' U2</p><p>&#8226; U' U2 x R' U' R U' R' U' R U' R' U2 R</p><p>&#8226; U' U' L' U L U' L' U L2 F L' F'</p><p>&#8226; U' U' R' F R U' R' F R2 U R' F'</p>
+        <p>&#8226; U2 R' F R U' R' F R2 U R' F' U2</p><p>&#8226; U x R' U' R U' R' U' R U' R' U2 R</p><p>&#8226; U2 L' U L U' L' U L2 F L' F'</p><p>&#8226; U2 R' F R U' R' F R2 U R' F'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -179,7 +179,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 L 5</h3>
-        <p>&#8226; U2 R U R' F' R U R' U' F R' F' R</p><p>&#8226; U2 U F' R' F R U' R U R' U' R U R' U'</p><p>&#8226; U2 L' U L y' R U2 R U' R2</p>
+        <p>&#8226; U2 R U R' F' R U R' U' F R' F' R</p><p>&#8226; U' F' R' F R U' R U R' U' R U R' U'</p><p>&#8226; U2 L' U L y' R U2 R U' R2</p>
     </div>
 </div>
 <div class="alg-card">
@@ -188,7 +188,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 L 6</h3>
-        <p>&#8226; U2 U2 F R U' R' U R' F' R U R' F' R</p><p>&#8226; U2 R' U2 F R U2 R U' R2 F</p><p>&#8226; U2 U' L' U' L F L' U' L U F' L F L'</p><p>&#8226; U R U' R' U' y R U R2 F' R</p>
+        <p>&#8226; F R U' R' U R' F' R U R' F' R</p><p>&#8226; U2 R' U2 F R U2 R U' R2 F</p><p>&#8226; U L' U' L F L' U' L U F' L F L'</p><p>&#8226; U R U' R' U' y R U R2 F' R</p>
     </div>
 </div>
 <h2 id="Pi">Pi</h2>
@@ -198,7 +198,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 Pi 1</h3>
-        <p>&#8226; U2 U' F U' R' F R U' F2 R U R'</p><p>&#8226; U2 F2 R U R' U2 R U R' U' F</p><p>&#8226; U' R U' R2 F R2 U' R F2 R2 U'</p><p>&#8226; U' R' F R2 U' R2 F R' F2 R2</p>
+        <p>&#8226; U F U' R' F R U' F2 R U R'</p><p>&#8226; U2 F2 R U R' U2 R U R' U' F</p><p>&#8226; U' R U' R2 F R2 U' R F2 R2 U'</p><p>&#8226; U' R' F R2 U' R2 F R' F2 R2</p>
     </div>
 </div>
 <div class="alg-card">
@@ -253,7 +253,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 S 1</h3>
-        <p>&#8226; U2 R U R' U F R U' R2 F' R</p><p>&#8226; U2 U' L F' L2 U' L F U L' U L</p><p>&#8226; U2 U F' L U2 F2 R U' x'</p><p>&#8226; U2 U' R U' R2 F' R F U R' F R</p>
+        <p>&#8226; U2 R U R' U F R U' R2 F' R</p><p>&#8226; U L F' L2 U' L F U L' U L</p><p>&#8226; U' F' L U2 F2 R U' x'</p><p>&#8226; U R U' R2 F' R F U R' F R</p>
     </div>
 </div>
 <div class="alg-card">
@@ -271,7 +271,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 S 3</h3>
-        <p>&#8226; U2 F R' F' R U R' F' R2 U R'</p><p>&#8226; U2 U R' F R U2 R U' R2 F2 R F'</p>
+        <p>&#8226; U2 F R' F' R U R' F' R2 U R'</p><p>&#8226; U' R' F R U2 R U' R2 F2 R F'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -289,7 +289,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 S 5</h3>
-        <p>&#8226; U R U' R' U R U' R' U F R U' R'</p><p>&#8226; U U2 L' U' L F U L' U' L U L' U' L</p><p>&#8226; U U2 R2 F U' R U' R U' F2</p><p>&#8226; U R U' R' U R U' R' U' R' F' R F</p>
+        <p>&#8226; U R U' R' U R U' R' U F R U' R'</p><p>&#8226; U' L' U' L F U L' U' L U L' U' L</p><p>&#8226; U' R2 F U' R U' R U' F2</p><p>&#8226; U R U' R' U R U' R' U' R' F' R F</p>
     </div>
 </div>
 <div class="alg-card">
@@ -326,7 +326,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 T 3</h3>
-        <p>&#8226; U R U' R2 F R U R U2 R'</p><p>&#8226; U U2 R' F R2 U' R' U' R' F2 R</p><p>&#8226; U U2 L' U L2 F' L' U' L' U2 L U2</p>
+        <p>&#8226; U R U' R2 F R U R U2 R'</p><p>&#8226; U' R' F R2 U' R' U' R' F2 R</p><p>&#8226; U' L' U L2 F' L' U' L' U2 L U2</p>
     </div>
 </div>
 <div class="alg-card">
@@ -335,7 +335,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 T 4</h3>
-        <p>&#8226; U' U' R' U F R2 U' R2 U' F U' R</p><p>&#8226; U' R2 B2 U' R' U' R U' R' U R'</p>
+        <p>&#8226; U2 R' U F R2 U' R2 U' F U' R</p><p>&#8226; U' R2 B2 U' R' U' R U' R' U R'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -344,7 +344,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 T 5</h3>
-        <p>&#8226; U' R' F' R2 U R' F' R U R'</p><p>&#8226; U' U2 R U R2 F' R F R' F' R</p><p>&#8226; U' U2 R U R2 F' R F R' F' R U2</p>
+        <p>&#8226; U' R' F' R2 U R' F' R U R'</p><p>&#8226; U R U R2 F' R F R' F' R</p><p>&#8226; U R U R2 F' R F R' F' R U2</p>
     </div>
 </div>
 <div class="alg-card">
@@ -353,7 +353,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 T 6</h3>
-        <p>&#8226; U' U' R U' R' U2 F R U2 R' F</p><p>&#8226; U' U' R' F R2 U R' F' U2 R' F R F'</p><p>&#8226; U' R U R' F R U R' F U' R U' R'</p>
+        <p>&#8226; U2 R U' R' U2 F R U2 R' F</p><p>&#8226; U2 R' F R2 U R' F' U2 R' F R F'</p><p>&#8226; U' R U R' F R U R' F U' R U' R'</p>
     </div>
 </div>
 <h2 id="U">U</h2>
@@ -363,7 +363,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 U 1</h3>
-        <p>&#8226; U U2 R U R' U R U R2 F R2 U' R'</p><p>&#8226; U U2 R U R2 F' R2 U' R' U' R U' R'</p><p>&#8226; U U2 R U' R2 F R2 U R' U' R U' R'</p><p>&#8226; U2 R2 U' R' U' R U' R' U R'</p>
+        <p>&#8226; U' R U R' U R U R2 F R2 U' R'</p><p>&#8226; U' R U R2 F' R2 U' R' U' R U' R'</p><p>&#8226; U' R U' R2 F R2 U R' U' R U' R'</p><p>&#8226; U2 R2 U' R' U' R U' R' U R'</p>
     </div>
 </div>
 <div class="alg-card">
@@ -390,7 +390,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 U 4</h3>
-        <p>&#8226; U R' F R F' R' F R2 U' R'</p><p>&#8226; U U2 R U' R' F R U' R2 F R</p>
+        <p>&#8226; U R' F R F' R' F R2 U' R'</p><p>&#8226; U' R U' R' F R U' R2 F R</p>
     </div>
 </div>
 <div class="alg-card">
@@ -408,6 +408,6 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 U 6</h3>
-        <p>&#8226; U2 R' F R U' R' F R U' R U R' F' U2</p><p>&#8226; U2 R' F R2 U' R' U y' R U R'</p><p>&#8226; U2 U L F' L' F U' L' U L F' L' U L</p><p>&#8226; U2 U2 F' U R U2 R' F U2 F</p>
+        <p>&#8226; U2 R' F R U' R' F R U' R U R' F' U2</p><p>&#8226; U2 R' F R2 U' R' U y' R U R'</p><p>&#8226; U' L F' L' F U' L' U L F' L' U L</p><p>&#8226; F' U R U2 R' F U2 F</p>
     </div>
 </div>
