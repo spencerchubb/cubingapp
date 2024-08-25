@@ -1,1 +1,0 @@
-export { Pyraminx } from "./pyraminx";
