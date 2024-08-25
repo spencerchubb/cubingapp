@@ -269,7 +269,8 @@
         "EG1 T 4": {
             "algs": {
                 "U2 R' U F R2 U' R2 U' F U' R": {},
-                "U' R2 B2 U' R' U' R U' R' U R'": {}
+                "U' R2 B2 U' R' U' R U' R' U R'": {},
+                "U2 R U' R' F' U' F R' F' R F": {}
             },
             "subset": "T"
         },
