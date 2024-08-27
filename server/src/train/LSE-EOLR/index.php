@@ -50,24 +50,7 @@ include_once "../style.php";
     text-align: center;
 }
 
-#time {
-    margin-top: 16px;
-    padding: 32px;
-    width: 100%;
-    border: solid 1px var(--gray-500);
-    font-family: monospace;
-    font-size: 32px;
-    font-weight: bold;
-    text-align: center;
-    transition: none;
-    background: transparent;
-
-    &:hover {
-        background: var(--gray-600);
-    }
-}
-
-#resetButton, #deleteLastButton, #allButton, #noneButton {
+#resetButton, #deleteLastButton {
     padding: 4px 8px;
     background: none;
     border: solid 1px var(--gray-500);
@@ -92,7 +75,6 @@ $subsets = ["Arrow", "1 / 1", "2 Adj / 2", "2 Adj / 0", "2 Opp / 2", "2 Opp / 0"
             <div id="rightArrow"></div>
         </div>
         <p id="scrambleText">&nbsp;</p>
-        <button id="time">0.00</button>
         <div id="solutionExpandable" class="expandable" style="margin-top: 16px; border: solid 1px var(--gray-500);">
             <button class="expandableButton">
                 <p>Solution</p>
@@ -100,21 +82,14 @@ $subsets = ["Arrow", "1 / 1", "2 Adj / 2", "2 Adj / 0", "2 Opp / 2", "2 Opp / 0"
             </button>
             <div id="solutionDiv" class="expandableChild" style="padding: 8px;"></div>
         </div>
-        <div style="margin-top: 16px; display: flex; align-items: center; gap: 8px;">
-            <p>times</p>
-            <button id="resetButton">reset</button>
-            <button id="deleteLastButton">delete last</button>
+        <div style="margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <p>Frequency:</p>
+            <input type="number" id="frequencyInput" min="0" style="width: 80px;" />
+            <button id="frequencyQuestionButton" style="background: none; border: solid 2px #888; border-radius: 50%; padding: 0; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center;">?</button>
         </div>
     </div>
 
-    <div style="margin-top: 16px; padding: 0 16px; display: flex; align-items: center; gap: 8px;">
-        <p id="numCasesSelected" style="color: var(--gray-300);"></p>
-        <div style="flex-grow: 1;"></div>
-        <button id="allButton">all</button>
-        <button id="noneButton">none</button>
-    </div>
-
-    <div id="subsetsDiv"></div>
+    <div id="subsetsDiv" style="margin-top: 16px;"></div>
 
     <div style="min-height: 80px;"></div>
 </main>

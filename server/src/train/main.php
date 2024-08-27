@@ -1,15 +1,25 @@
 <style>
 #subsetsDiv {
-
     .expandableChild {
         padding-left: 32px;
         padding-right: 16px;
     }
+}
 
-    input[type=checkbox] {
-        min-width: 18px;
-        width: 18px;
-        height: 18px;
+.frequencyInput {
+    width: 60px;
+    padding: 0;
+    padding-bottom: 4px;
+    outline: none;
+    border-bottom: solid 2px #666;
+    box-shadow: none;
+    border-radius: 0;
+    box-sizing: border-box;
+
+    &:focus {
+        box-shadow: none;
+        outline: none;
+        border-bottom: solid 2px white;
     }
 }
 </style>
@@ -18,20 +28,12 @@
 import { scramble } from "../../js/scramble/index.js";
 import { AlgSimplify, AlgToString, simplifySQ1Alg, StringToAlg } from "../../js/alg/index.js";
 
-let selectedCases = [];
+let availableCases = [];
 let currentCase;
-let canStart = true;
-let running = false;
-let startTime;
-let elapsed;
 
 function round(val, digits) {
     const pow = Math.pow(10, digits);
     return Math.floor(val * pow) / pow;
-}
-
-function formatTime(milliseconds) {
-    return round(milliseconds / 1000, 2).toFixed(2);
 }
 
 function removeParen(alg) {
@@ -143,10 +145,11 @@ function getScramble(_before, _after, algs) {
 let caseHistory = [];
 
 function renderCase(caseIndex) {
-    currentCase = selectedCases[caseIndex];
+    currentCase = availableCases[caseIndex];
     const { subsetName, caseName } = currentCase;
 
-    const algs = Object.entries(subsets[subsetName][caseName].algs).map(entry => {
+    const _case = subsets[subsetName][caseName];
+    const algs = Object.entries(_case.algs).map(entry => {
         return { alg: entry[0], ...entry[1] };
     });
     const _before = before();
@@ -171,6 +174,8 @@ function renderCase(caseIndex) {
 
     // Close solution
     solutionExpandable.classList.remove("expandableOpen");
+
+    frequencyInput.value = _case.freq;
 }
 
 function prevCase() {
@@ -185,90 +190,9 @@ function prevCase() {
 }
 
 function nextCase() {
-    if (selectedCases.length === 0) {
-        alert("Select at least 1 case to train");
-        return;
-    }
-
-    const randIndex = Math.floor(Math.random() * selectedCases.length);
+    const randIndex = Math.floor(Math.random() * availableCases.length);
     caseHistory.push(randIndex);
     renderCase(randIndex);
-}
-
-function calcMean(times) {
-    if (!times || !times.length) return "N/A";
-    let sum = 0;
-    for (let i = 0; i < times.length; i++) sum += times[i];
-    let mean = sum / times.length;
-    return formatTime(mean);
-}
-
-function step(timestamp) {
-    if (!running) return;
-    if (!startTime) startTime = timestamp;
-
-    elapsed = timestamp - startTime;
-    time.textContent = formatTime(elapsed);
-
-    requestAnimationFrame(step);
-}
-
-function startTimer() {
-    time.style.color = "";
-
-    if (!running && canStart) {
-        running = true;
-
-        startTime = undefined;
-        requestAnimationFrame(step);
-
-    } else {
-        canStart = true;
-    }
-}
-
-function stopTimer() {
-    time.style.color = "#00ff55";
-
-    if (running) {
-        // Push to end of list
-        subsets[currentCase.subsetName][currentCase.caseName].times.push(Math.floor(elapsed));
-
-        // While more than 5 times, remove from beginning of list
-        while (subsets[currentCase.subsetName][currentCase.caseName].times.length > 5)
-            subsets[currentCase.subsetName][currentCase.caseName].times.shift();
-
-        document.querySelector(`p[data-case="${currentCase.caseName}"]`).textContent = calcMean(subsets[currentCase.subsetName][currentCase.caseName].times);
-        cacheData(subsets);
-
-        // We don't want timer to start on space bar release
-        canStart = false;
-        running = false;
-
-        startTime = undefined;
-        nextCase();
-    }
-}
-
-document.onkeyup = event => {
-    if (event.code === "Space") {
-        startTimer();
-    }
-}
-document.onkeydown = event => {
-    if (event.code === "Space") {
-        event.preventDefault();
-        event.stopPropagation();
-
-        stopTimer();
-    }
-}
-
-time.onmouseup = event => {
-    startTimer();
-}
-time.onmousedown = event => {
-    stopTimer();
 }
 
 const subsets = {};
@@ -279,69 +203,85 @@ Object.entries(algSet.cases).forEach(([caseName, caseData]) => {
 
     subsets[caseData.subset][caseName] = {
         algs: caseData.algs,
-        selected: true,
-        times: [],
+        freq: 1,
     }
 });
 
 const cachedData = JSON.parse(localStorage.getItem(location.pathname) ?? "{}");
-Object.entries(cachedData).forEach(([k1, v1]) => {
-    if (k1 in subsets) {
-        Object.entries(v1).forEach(([k2, v2]) => {
-            if (k2 in subsets[k1]) {
-                subsets[k1][k2].selected = v2.selected;
-                subsets[k1][k2].times = v2.times ?? [];
-            }
-        });
-    }
-});
+function cachedDataValid() {
+    // Schema should be as follows
+    // { subset: { case: number representing frequency } }
+
+    if (typeof cachedData !== "object") return false;
+    const subsetName = Object.keys(cachedData)[0];
+    const cases = cachedData[subsetName];
+    if (typeof cases !== "object") return false;
+    const caseName = Object.keys(cases)[0];
+    const freq = cases[caseName];
+    if (typeof freq !== "number") return false;
+    return true;
+}
+
+if (cachedDataValid()) {
+    Object.entries(cachedData).forEach(([k1, v1]) => {
+        if (k1 in subsets) {
+            Object.entries(v1).forEach(([k2, v2]) => {
+                if (k2 in subsets[k1]) {
+                    subsets[k1][k2].freq = v2;
+                }
+            });
+        }
+    });
+}
 
 subsetsDiv.innerHTML = Object.entries(subsets).map(([subsetName, cases]) => {
-    const allSelected = Object.values(cases).map(caseData => caseData.selected).every(e => e);
     return `<div class="expandable">
         <button class="expandableButton expandableSubset">
-            <input type="checkbox" checked="${allSelected}" data-subset="${subsetName}" />
             <p>${subsetName}</p>
             <div style="flex-grow: 1;"></div>
+            <input data-subset="${subsetName}" type="number" min="0" class="frequencyInput" placeholder="Freq" />
             <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92"></path></svg>
         </button>
         <div class="expandableChild">
             <div style="display: flex;">
-                <p style="margin-left: 26px; font-weight: bold; font-size: 14px;">Case</p>
+                <p style="font-weight: bold; font-size: 14px;">Case</p>
                 <div style="flex: 1;"></div>
-                <p style="font-weight: bold; font-size: 14px;">mo5</p>
+                <p style="font-weight: bold; font-size: 14px;">Frequency</p>
             </div>
-        ${Object.entries(cases).map(([caseName, caseData]) => {
-            return `<div style="display: flex; align-items: center; padding: 4px 0; gap: 8px;">
-                <input type="checkbox" checked="${caseData.selected}" data-subset="${subsetName}" data-case="${caseName}" />
-                <p>${caseName}</p>
-                <div style="flex: 1;"></div>
-                <p data-case="${caseName}">${calcMean(caseData.times)}</p>
-            </div>`;
-        }).join("")}
+            ${Object.entries(cases).map(([caseName, caseData]) => {
+                return `<div style="display: flex; align-items: center; padding: 4px 0; gap: 16px;">
+                    <p>${caseName}</p>
+                    <div style="flex: 1;"></div>
+                    <input data-subset="${subsetName}" data-case="${caseName}" type="number" min="0" class="frequencyInput" value="${caseData.freq}" />
+                </div>`;
+            }).join("")}
         </div>
     </div>`;
 }).join("");
 
-function renderSelectedCases(subsets) {
-    selectedCases = [];
-
+function setAvailableCases(subsets) {
+    let availableCases = [];
     Object.entries(subsets).forEach(([subsetName, cases]) => {
-        const subsetCheckbox = document.querySelector(`input[data-subset="${subsetName}"`);
-        const allSelected = Object.entries(cases).every(([caseName, _case]) => _case.selected);
-        subsetCheckbox.checked = allSelected;
-
-        Object.entries(cases).forEach(([caseName, _case]) => {
-            if (_case.selected) {
-                selectedCases.push({ subsetName, caseName });
+        Object.entries(cases).forEach(([caseName, caseData]) => {
+            for (let i = 0; i < Math.ceil(caseData.freq); i++) {
+                availableCases.push({ subsetName, caseName });
             }
-            document.querySelector(`input[data-case="${caseName}"`).checked = _case.selected;
         });
     });
 
-    numCasesSelected.textContent = `${selectedCases.length} cases`;
-    cacheData(subsets);
+    // If all frequencies are 0, make all cases available
+    if (availableCases.length === 0) {
+        Object.entries(subsets).forEach(([subsetName, cases]) => {
+            Object.entries(cases).forEach(([caseName, caseData]) => {
+                availableCases.push({ subsetName, caseName });
+            });
+        });
+    }
+
+    return availableCases;
 }
+
+availableCases = setAvailableCases(subsets);
 
 function cacheData(subsets) {
     let toCache = {};
@@ -350,68 +290,74 @@ function cacheData(subsets) {
         toCache[subsetName] = {};
 
         Object.entries(cases).forEach(([caseName, _case]) => {
-            toCache[subsetName][caseName] = {
-                selected: _case.selected,
-                times: _case.times,
-            }
+            toCache[subsetName][caseName] = _case.freq;
         });
     });
 
     localStorage.setItem(location.pathname, JSON.stringify(toCache));
 }
 
-renderSelectedCases(subsets);
 nextCase();
 
-leftArrow.onclick = () => prevCase();
-rightArrow.onclick = () => nextCase();
+frequencyInput.onchange = event => {
+    event.stopPropagation();
+    const value = Math.ceil(event.target.value);
 
-resetButton.onclick = () => {
-    const confirmed = confirm(`Do you want to reset your times for ${document.title}?`);
-    if (confirmed) {
-        localStorage.removeItem(location.pathname);
-        location.reload();
-    }
+    const { subsetName, caseName } = currentCase;
+    subsets[subsetName][caseName].freq = value;
+
+    // Update the corresponding frequencyInput
+    document.querySelector(`.frequencyInput[data-case="${caseName}"]`).value = value;
+
+    cacheData(subsets);
+    setAvailableCases(subsets);
 }
 
-allButton.onclick = () => {
-    Object.values(subsets).forEach(cases => {
-        Object.values(cases).forEach(_case => {
-            _case.selected = true;
-        });
-    });
-    renderSelectedCases(subsets);
-}
+document.querySelectorAll(".frequencyInput").forEach(ele => {
+    ele.onclick = event => event.stopPropagation();
 
-noneButton.onclick = () => {
-    Object.values(subsets).forEach(cases => {
-        Object.values(cases).forEach(_case => {
-            _case.selected = false;
-        });
-    });
-    renderSelectedCases(subsets);
-}
-
-document.querySelectorAll("input[type=checkbox]").forEach(ele => {
-    ele.onclick = (event) => {
-        event.stopPropagation();
+    ele.onchange = event => {
+        const value = Math.ceil(event.target.value);
 
         const subsetName = ele.getAttribute("data-subset");
         const caseName = ele.getAttribute("data-case");
 
         if (caseName) {
-            // Check or uncheck the specific case
-            subsets[subsetName][caseName].selected = event.target.checked;
+            // If caseName, update specific case
+            subsets[subsetName][caseName].freq = value;
+
+            // Update the main frequencyInput if it's the current case
+            if (subsetName === currentCase.subsetName && caseName === currentCase.caseName) {
+                frequencyInput.value = value;
+            }
         } else {
-            // Check or uncheck the entire subset
-            Object.values(subsets[subsetName]).forEach(_case => {
-                _case.selected = event.target.checked;
+            // If no caseName, update the whole subset
+            Object.keys(subsets[subsetName]).forEach(caseName => {
+                subsets[subsetName][caseName].freq = value;
+
+                if (subsetName === currentCase.subsetName && caseName === currentCase.caseName) {
+                    frequencyInput.value = value;
+                }
+
+                // Update all frequencyInputs in the subset
+                document.querySelectorAll(`.frequencyInput[data-subset="${subsetName}"]`).forEach(ele => {
+                    ele.value = event.target.value;
+                });
             });
         }
 
-        renderSelectedCases(subsets);
-    }
+        cacheData(subsets);
+        setAvailableCases(subsets);
+    };
 });
+
+leftArrow.onclick = () => prevCase();
+rightArrow.onclick = () => nextCase();
+
+frequencyQuestionButton.onclick = () => alert(
+`0 = Never
+Lower = Less frequent
+Higher = More frequent`);
 
 document.querySelectorAll(".expandableButton").forEach(ele => {
     ele.onclick = () => {

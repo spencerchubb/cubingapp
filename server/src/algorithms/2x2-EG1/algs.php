@@ -335,7 +335,7 @@ customElements.define("x-t", Transparent);
     </div>
     <div class="info">
         <h3>EG1 T 4</h3>
-        <p>&#8226; U2 R' U F R2 U' R2 U' F U' R</p><p>&#8226; U' R2 B2 U' R' U' R U' R' U R'</p>
+        <p>&#8226; U2 R' U F R2 U' R2 U' F U' R</p><p>&#8226; U' R2 B2 U' R' U' R U' R' U R'</p><p>&#8226; U2 R U' R' F' U' F R' F' R F</p>
     </div>
 </div>
 <div class="alg-card">
