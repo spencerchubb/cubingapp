@@ -209,12 +209,10 @@
             <a href="/am-i-sub-x" class="menuLink">Am I Sub-X?</a>
             <a href="/birthdays" class="menuLink">WCA Birthdays</a>
             <a href="/competitions" class="menuLink">Competition Distance</a>
-            <a href="/calculate-kinch" class="menuLink">Kinch Calculator</a>
-            <a href="/kinch-ranks" class="menuLink">Kinch Leaderboard</a>
+            <a href="/kinch-ranks" class="menuLink">Kinch Ranks</a>
             <a href="/name-ranks" class="menuLink">Name Ranks</a>
             <a href="/record-streak" class="menuLink">Record Streak</a>
-            <a href="/calculate-sum-of-ranks" class="menuLink">SoR Calculator</a>
-            <a href="/sum-of-ranks" class="menuLink">SoR Leaderboard</a>
+            <a href="/sum-of-ranks" class="menuLink">Sum of Ranks</a>
         </div>
     </div>
 </div>

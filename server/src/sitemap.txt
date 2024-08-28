@@ -22,8 +22,6 @@ https://cubingapp.com/algorithms/Winter-Variation/
 https://cubingapp.com/algorithms/ZBLL/
 https://cubingapp.com/am-i-sub-x/
 https://cubingapp.com/birthdays/
-https://cubingapp.com/calculate-kinch/
-https://cubingapp.com/calculate-sum-of-ranks/
 https://cubingapp.com/competitions/
 https://cubingapp.com/kinch-ranks/
 https://cubingapp.com/name-ranks/

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Kinch ranks leaderboard based on World Cube Association data">
+    <meta name="description" content="Kinch Ranks leaderboard and calculator based on World Cube Association data">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>Kinch Ranks Leaderboard</title>
+    <title>Kinch Ranks</title>
 </head>
 
 <script>
@@ -26,27 +26,232 @@ function onChangeRegion(event) {
 }
 </script>
 
+<?php
+$wcaId = $_GET["wcaId"] ?? null;
+$region = $_GET["region"] ?? "World";
+$page = $_GET["page"] ?? 1;
+$perPage = 20;
+?>
+
 <body>
-    <?php include_once "../php/menu.php"; ?>
+<?php include_once "../php/menu.php"; ?>
 
-    <main>
-        <h1 style="text-align: center;">Kinch Ranks Leaderboard</h1>
-        <?php
-            $region = $_GET["region"] ?? "World";
-            $page = $_GET["page"] ?? 1;
+<main>
+    <h1 style="text-align: center; margin-bottom: 8px;">Kinch Ranks</h1>
+    <?php include "../php/wca_attribution.php" ?>
 
-            $perPage = 20;
-        ?>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
+    <?php if ($wcaId) { ?>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="margin-top: 2rem;"></div>
+            <a href="/kinch-ranks" class="link">View leaderboard</a>
+            <div style="margin-top: 1rem;"></div>
             <?php
-            include "../php/wca_attribution.php";
             include "../php/search/element.php";
-            renderSearchElement("/calculate-kinch", $wcaId);
+            renderSearchElement("/kinch-ranks", $wcaId);
+            ?>
+            <div style="margin-top: 1rem;"></div>
+            <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
+            <script>document.querySelector("#select-region").addEventListener("change", onChangeRegion)</script>
+        </div>
+        <div style="margin-top: 1rem;"></div>
+        <?php
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        $db = new SQLite3("/wca.db");
+
+        if (!$db) {
+            die("Error connecting to the database: " . $db->lastErrorMsg());
+        }
+
+        function buildKinchStatement($db, $wcaId, $region) {
+            // The GROUP BY ensures we only get one row per event.
+            // Sometimes people are tied for first place.
+            $worldQuery = "
+            SELECT
+                e.id as eventId,
+                rs1.best AS single,
+                ra1.best AS average,
+                rs2.best AS bestSingle,
+                ra2.best AS bestAverage
+            FROM Events e
+            LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
+            LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
+            LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.worldRank = 1
+            LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.worldRank = 1
+            WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+            GROUP BY e.id;
+            ";
+            $continentQuery = "
+            SELECT
+                e.id as eventId,
+                rs1.best AS single,
+                ra1.best AS average,
+                rs2.best AS bestSingle,
+                ra2.best AS bestAverage
+            FROM Events e
+            LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
+            LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
+            LEFT JOIN RanksSingle rs2
+                ON e.id = rs2.eventId
+                    AND rs2.continentId = :regionId
+                    AND rs2.continentRank = 1
+            LEFT JOIN RanksAverage ra2
+                ON e.id = ra2.eventId
+                    AND ra2.continentId = :regionId
+                    AND ra2.continentRank = 1
+            WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+            GROUP BY e.id;
+            ";
+            $countryQuery = "
+            SELECT
+                e.id as eventId,
+                rs1.best AS single,
+                ra1.best AS average,
+                rs2.best AS bestSingle,
+                ra2.best AS bestAverage
+            FROM Events e
+            LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
+            LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
+            LEFT JOIN RanksSingle rs2
+                ON e.id = rs2.eventId
+                    AND rs2.countryId = :regionId
+                    AND rs2.countryRank = 1
+            LEFT JOIN RanksAverage ra2
+                ON e.id = ra2.eventId
+                    AND ra2.countryId = :regionId
+                    AND ra2.countryRank = 1
+            WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
+            GROUP BY e.id;
+            ";
+
+            $strings = explode("-", $region);
+            if ($strings[0] === "continent") {
+                $stmt = $db->prepare($continentQuery);
+                $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+                // Continents start with underscore in the database
+                $stmt->bindValue(":regionId", "_" . $strings[1], SQLITE3_TEXT);
+                return $stmt;
+            } else if ($strings[0] === "country") {
+                $stmt = $db->prepare($countryQuery);
+                $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+                $stmt->bindValue(":regionId", $strings[1], SQLITE3_TEXT);
+                return $stmt;
+            }
+            
+            $stmt = $db->prepare($worldQuery);
+            $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+            return $stmt;
+        }
+        
+        // Fetch official results from the database
+        $stmt = buildKinchStatement($db, $wcaId, $region);
+        $rows = $stmt->execute();
+
+        $results = array();
+        while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
+            array_push($results, $row);
+        }
+
+        echo "<div class='table-wrapper' style='margin: 1rem auto;'><table>";
+        echo "<tr>
+            <th>Event</th>
+            <th>Score</th>
+            <th>Result</th>
+        </tr>";
+
+        include "../php/kinch.php";
+        $scores = calcKinchScores($results);
+        $averageScore = calcAverageKinchScore($scores);
+
+        function buildRankStatement($db, $averageScore, $wcaId, $region) {
+            $worldQuery = "
+            SELECT COUNT() AS count FROM Persons p1
+            JOIN Persons p2 ON p2.id = :wcaId AND p1.worldKinch > p2.worldKinch;";
+            $continentQuery = "
+            SELECT COUNT() AS count FROM Persons p1
+            JOIN Persons p2 ON p2.id = :wcaId AND p1.continentId = p2.continentId AND p1.continentKinch > p2.continentKinch;";
+            $countryQuery = "
+            SELECT COUNT() AS count FROM Persons p1
+            JOIN Persons p2 ON p2.id = :wcaId AND p1.countryId = p2.countryID AND p1.countryKinch > p2.countryKinch;";
+
+            $strings = explode("-", $region);
+            if ($strings[0] === "continent") {
+                $stmt = $db->prepare($continentQuery);
+                // Continents start with underscore in the database
+                $stmt->bindValue(":regionId", "_" . $strings[1], SQLITE3_TEXT);
+                $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+                return $stmt;
+            } else if ($strings[0] === "country") {
+                $stmt = $db->prepare($countryQuery);
+                $stmt->bindValue(":regionId", $strings[1], SQLITE3_TEXT);
+                $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+                return $stmt;
+            }
+            
+            $stmt = $db->prepare($worldQuery);
+            $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+            return $stmt;
+        }
+
+        $stmt = buildRankStatement($db, $averageScore, $wcaId, $region);
+        $rows = $stmt->execute();
+        $row = $rows->fetchArray(SQLITE3_ASSOC);
+        $rank = $row["count"] + 1;
+
+        $db->close();
+
+        function renderCell($percent) {
+            // This brings h closer to 100 to make the color more green
+            $h = 58.5 * log10(0.5 * $percent + 1);
+            $textColor = "hsl(" . $h . "deg 100% 50%)";
+            $percent = round($percent, 2);
+            return "<td style='color: " . $textColor . ";'>" . $percent . "</td>";
+        }
+
+        echo "<tr>
+            <td>Rank</td>
+            <td>$rank</td>
+            <td></td>
+        </tr>";
+
+        echo "<tr>";
+        echo "<td>Overall</td>";
+        echo renderCell($averageScore);
+        echo "<td></td>";
+        echo "</tr>";
+
+        function formatResult($event, $result) {
+            if ($event === "333mbf") {
+                return formatMbld($result);
+            } else if ($event === "333fm") {
+                return $result;
+            }
+            return $result / 100;
+        }
+
+        foreach ($scores as $row) {
+            $event = $row[0];
+            $score = round($row[1], 2);
+            $result = $row[2];
+            $result = formatResult($event, $result);
+            echo "<tr>";
+            echo "<td>$event</td>";
+            echo renderCell($score);
+            echo "<td>$result</td>";
+            echo "</tr>";
+        }
+
+        echo "</table></div>";
+    } else { ?>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 2rem;">
+            <?php
+            include "../php/search/element.php";
+            renderSearchElement("/kinch-ranks", $wcaId);
             ?>
             <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
             <script>document.querySelector("#select-region").addEventListener("change", onChangeRegion)</script>
         </div>
-        <div style="margin-top: 2rem;"></div>
+        <div style="margin-top: 1rem;"></div>
         <?php
         error_reporting(E_ALL);
         ini_set("display_errors", 1);
@@ -160,7 +365,7 @@ function onChangeRegion(event) {
             echo "<tr>
                 <td>$index</td>
                 <td>
-                    <a href='/calculate-kinch?wcaId=$id&region=$region' class='link'>$name</a>
+                    <a href='/kinch-ranks?wcaId=$id&region=$region' class='link'>$name</a>
                 </td>
                 <td>$score</td>
             </tr>";
@@ -172,58 +377,61 @@ function onChangeRegion(event) {
 
         echo "</table></div>";
         ?>
-        <div class="info-div">
-            <h2>What is Kinch?</h2>
-            <p>
-                The Kinch system is one way of measuring a cuber's overall performance rather than measuring just one event.
-                To compute a Kinch Score, we compute the average of each event ratio, where an event ratio is your personal record divided by the world record.
-            </p>
-            <p>
-                The Multi-blind score is calculated by summing the points and the proportion of the hour left. That means the time is also incorporated into the Kinch Score.
-            </p>
-            <p>
-                There is one more special rule about calculating the Kinch Score. We take your better score between:
-            </p>
-            <ul>
-                <li>FMC single and average</li>
-                <li>3BLD single and average</li>
-                <li>4BLD single and average</li>
-                <li>5BLD single and average</li>
-            </ul>
-            <h2>What does my Kinch Score mean?</h2>
-            <p>
-                Higher scores are better. The maximum you can get is 100, assuming you hold the world record in every event.
-            </p>
-            <p>
-                For example, the best Kinch Score in the world (at the time of writing) is Stanley Chapel with a score of 74.
-            </p>
-            <h2>What is the origin of Kinch?</h2>
-            <p>
-                It was introduced on speedsolving.com by kinch2002 in
-                <a href="https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/" class="link">this post</a>
-                😊
-            </p>
-            <h2>Why use Kinch?</h2>
-            <p>
-                Kinch and Sum of Ranks are both ways to measure the all-round performance of a cuber, and each has pros and cons.
-                Here are a few reasons why kinch2002 devised the system.
-            </p>
-            <ul>
-                <li>Kinch combines the singles and averages</li>
-                <li>You are not penalized as heavily for not having competed in an event</li>
-                <li>Avoids event biases - For example, you have to be <b>really</b> good at 3x3 to have a good Sum of Ranks</li>
-                <li>In Sum of Ranks, there is no incentive for the world record holder to improve that event</li>
-            </ul>
-            <h2>Alternatives to Kinch</h2>
-            <p>
-                As mentioned before, Kinch is just one way to measure the all-round abilities of a cuber. If you want to know your Sum of Ranks, you can visit our <a class="link" href="/calculate-sum-of-ranks">Sum of Ranks Calculator</a> as well.
-            </p>
-            <p>
-                Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
-            </p>
-        </div>
-        <div style="margin-top: 96px;"></div>
-    </main>
+    <?php } ?>
+
+    <div class="info-div">
+        <h2>What is Kinch Ranks?</h2>
+        <p>
+            The Kinch system is one way of measuring a cuber's overall performance rather than measuring just one event.
+            To compute a Kinch Score, we compute the average of each event ratio, where an event ratio is your personal record divided by the world record.
+        </p>
+        <p>
+            The Multi-blind score is calculated by summing the points and the proportion of the hour left. That means the time is also incorporated into the Kinch Score.
+        </p>
+        <p>
+            There is one more special rule about calculating the Kinch Score. We take your better score between:
+        </p>
+        <ul>
+            <li>FMC single and average</li>
+            <li>3BLD single and average</li>
+            <li>4BLD single and average</li>
+            <li>5BLD single and average</li>
+        </ul>
+        <h2>What does my Kinch Score mean?</h2>
+        <p>
+            Higher scores are better. The maximum you can get is 100, assuming you hold the world record in every event.
+        </p>
+        <p>
+            For example, the best Kinch Score in the world (at the time of writing) is Stanley Chapel with a score of 74.
+        </p>
+        <h2>How did Kinch Ranks start?</h2>
+        <p>
+            It was introduced on speedsolving.com by kinch2002 in
+            <a href="https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/" class="link">this post</a>
+            😊
+        </p>
+        <h2>Why use Kinch?</h2>
+        <p>
+            Kinch and Sum of Ranks are both ways to measure the all-round performance of a cuber, and each has pros and cons.
+            Here are a few reasons why kinch2002 devised the system.
+        </p>
+        <ul>
+            <li>Kinch combines the singles and averages</li>
+            <li>You are not penalized as heavily for not having competed in an event</li>
+            <li>Avoids event biases - For example, you have to be <b>really</b> good at 3x3 to have a good Sum of Ranks</li>
+            <li>In Sum of Ranks, there is no incentive for the world record holder to improve that event</li>
+        </ul>
+        <h2>Alternatives to Kinch</h2>
+        <p>
+            As mentioned before, Kinch is just one way to measure the all-round abilities of a cuber. If you want to know your Sum of Ranks, you can visit our <a class="link" href="/sum-of-ranks">Sum of Ranks</a> page as well.
+        </p>
+        <p>
+            Different aggregation methods will have different tradeoffs, and some will debate which methods are better. That's why we provide multiple ways to measure your all-round abilities.
+        </p>
+    </div>
+    <div style="margin-top: 96px;"></div>
+</main>
+
 </body>
 
 <style>

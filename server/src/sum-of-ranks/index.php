@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Sum of ranks leaderboard based on World Cube Association data">
+    <meta name="description" content="Sum of ranks leaderboard and calculator based on World Cube Association data">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>Sum of Ranks Leaderboard</title>
+    <title>Sum of Ranks</title>
 </head>
 
 <script>
@@ -30,28 +30,156 @@ function onChangeType(event) {
 }
 </script>
 
+<?php
+$wcaId = $_GET["wcaId"] ?? null;
+$region = $_GET["region"] ?? "World";
+$page = $_GET["page"] ?? 1;
+$type = $_GET["type"] ?? "Single";
+$perPage = 20;
+?>
+
 <body>
-    <?php include_once "../php/menu.php"; ?>
+<?php include_once "../php/menu.php"; ?>
 
-    <main>
-        <h1 style="text-align: center;">Sum of Ranks Leaderboard</h1>
-        <?php
-            $region = $_GET["region"] ?? "World";
-            $page = $_GET["page"] ?? 1;
-            $type = $_GET["type"] ?? "Single";
+<main>
+    <h1 style="text-align: center; margin-bottom: 8px;">Sum of Ranks</h1>
+    <?php include "../php/wca_attribution.php"; ?>
 
-            $perPage = 20;
-        ?>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
+    <?php if ($wcaId) { ?>
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center;">
+            <a class="link" href="/sum-of-ranks">View leaderboard</a>
+            <div style="margin-top: 1rem;"></div>
             <?php
-            include "../php/wca_attribution.php";
-            include "../php/search/element.php";
-            renderSearchElement("/calculate-sum-of-ranks", $wcaId);
+                include "../php/search/element.php";
+                renderSearchElement("/sum-of-ranks", $wcaId);
             ?>
-            <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
             <select
                 id="select-type"
-                style="width: 100%; max-width: 300px;"
+                style="margin-top: 1rem; width: 100%; max-width: 300px;"
+            >
+                <option value="Single" <?php echo $type === "Single" ? "selected" : "" ?>>Single</option>
+                <option value="Average" <?php echo $type === "Average" ? "selected" : "" ?>>Average</option>
+            </select>
+            <script>
+                document.querySelector("#select-type").addEventListener("change", onChangeType);
+            </script>
+        </div>
+        <?php
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        $db = new SQLite3("/wca.db");
+
+        if (!$db) {
+            die("Error connecting to the database: " . $db->lastErrorMsg());
+        }
+
+        $query = "
+        WITH User AS (
+            SELECT p.countryId, c.continentId
+            FROM Persons p
+            JOIN Countries c ON c.id = p.countryId AND p.id = :wcaId
+        )
+        SELECT
+            e.id AS eventId,
+            r.worldRank,
+            (SELECT COUNT(*) FROM Ranks$type r WHERE r.eventId = e.id) AS maxWorldRank,
+            r.continentRank,
+            (SELECT COUNT(*) FROM Ranks$type r WHERE r.continentId = (SELECT continentId FROM User) AND r.eventId = e.id) AS maxContinentRank,
+            r.countryRank,
+            (SELECT COUNT(*) FROM Ranks$type r WHERE r.countryId = (SELECT countryId FROM User) AND r.eventId = e.id) AS maxCountryRank
+        FROM Events e
+        LEFT JOIN Ranks$type r ON e.id = r.eventId AND r.personId = :wcaId
+        WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic';
+        ";
+
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+        $result = $stmt->execute();
+
+        echo "<div class='table-wrapper' style='margin: 2rem auto;'><table>";
+        echo "<tr>
+            <th>Event</th>
+            <th>World</th>
+            <th>Continent</th>
+            <th>Country</th>
+        </tr>";
+        $rows = array();
+        $worldSum = 0;
+        $continentSum = 0;
+        $countrySum = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $row["worldRank"] = $row["worldRank"] ?? $row["maxWorldRank"];
+            $row["continentRank"] = $row["continentRank"] ?? $row["maxContinentRank"];
+            $row["countryRank"] = $row["countryRank"] ?? $row["maxCountryRank"];
+            $worldSum += $row["worldRank"];
+            $continentSum += $row["continentRank"];
+            $countrySum += $row["countryRank"];
+            // append row to rows
+            $rows[] = $row;
+        }
+
+        // Get user's ranking in country, continent, and world based on their sum of ranks.
+        $stmt = $db->prepare("
+        SELECT
+            (SELECT COUNT(*) FROM Persons p2
+                WHERE countrySor$type < $countrySum AND p2.countryId = p1.countryId) AS countryCount,
+            (SELECT COUNT(*) FROM Persons p2
+                WHERE continentSor$type < $continentSum AND p2.continentId = p1.continentId) AS continentCount,
+            (SELECT COUNT(*) FROM Persons
+                WHERE worldSor$type < $worldSum) AS worldCount
+        FROM Persons p1 WHERE id = :wcaId;
+        ");
+        $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+        $countryRank = $row["countryCount"] + 1;
+        $continentRank = $row["continentCount"] + 1;
+        $worldRank = $row["worldCount"] + 1;
+
+        $db->close();
+
+        echo "<tr>
+            <td>Rank</td>
+            <td>$worldRank</td>
+            <td>$continentRank</td>
+            <td>$countryRank</td>
+        </tr>
+        <tr>
+            <td>Sum</td>
+            <td>$worldSum</td>
+            <td>$continentSum</td>
+            <td>$countrySum</td>
+        </tr>";
+
+        function renderCell($value, $maxValue) {
+            if ($maxValue == 0) {
+                return "<td>N/A</td>";
+            }
+            $percent = $value / $maxValue * 100;
+            $textColor = "hsl(" . (100 - $percent) . "deg 100% 50%)";
+            return "<td style='color: " . $textColor . ";'>" . $value . "</td>";
+        }
+
+        foreach ($rows as $row) {
+            echo "<tr>";
+            echo "<td>" . $row["eventId"] . "</td>";
+            echo renderCell($row["worldRank"], $row["maxWorldRank"]);
+            echo renderCell($row["continentRank"], $row["maxContinentRank"]);
+            echo renderCell($row["countryRank"], $row["maxCountryRank"]);
+            echo "</tr>";
+        }
+        
+        echo "</table></div>";
+    } else { ?>
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; align-items: center;">
+            <?php
+                include "../php/search/element.php";
+                renderSearchElement("/sum-of-ranks", $wcaId);
+            ?>
+            <div style="margin-top: 1rem; width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
+            <select
+                id="select-type"
+                style="margin-top: 1rem; width: 100%; max-width: 300px;"
             >
                 <option value="Single" <?php echo $type === "Single" ? "selected" : "" ?>>Single</option>
                 <option value="Average" <?php echo $type === "Average" ? "selected" : "" ?>>Average</option>
@@ -111,7 +239,7 @@ function onChangeType(event) {
         $pageEnd = min($pages, $page + 2);
         $previousPage = max(1, $page - 1);
         $nextPage = min($pages, $page + 1);
-        echo "<div class='page-selector-box' style='margin-top: 2rem;'>";
+        echo "<div class='page-selector-box' style='margin-top: 1rem;'>";
         echo "<button class='page-button' onclick='goToPage($previousPage, $pages)'>◀</button>";
         for ($i = $pageStart; $i <= $pageEnd; $i++) {
             $class = ($i == $page) ? 'page-button page-button-active' : 'page-button';
@@ -181,10 +309,9 @@ function onChangeType(event) {
             $name = $row["name"];
             $id = $row["id"];
             $sum = round($row["sum"], 2);
-            // style='min-width: 0; text-wrap: nowrap; text-overflow: ellipsis;'
             echo "<tr>
                 <td>$index</td>
-                <td><a href='/calculate-sum-of-ranks?wcaId=$id' class='link'>$name</a></td>
+                <td><a href='/sum-of-ranks?wcaId=$id' class='link'>$name</a></td>
                 <td>$sum</td>
             </tr>";
 
@@ -194,37 +321,36 @@ function onChangeType(event) {
         $db->close();
 
         echo "</table></div>";
-        ?>
-                <div class="info-div">
-            <h2>What is Sum of Ranks (SoR)?</h2>
-            <p>
-                Sum of Ranks is one way of measuring a cuber's overall
-                performance rather than measuring just one event. To compute a
-                Sum of Ranks, we simply add up the cuber's rank in each event.
-                It is possible to compute a cuber's Sum of Ranks at a global
-                level, continental level, and national level.
-            </p>
-            <h2>What does my Sum of Ranks mean?</h2>
-            <p>
-                Lower scores are better. For example, since the world record
-                holder is ranked 1st in the world, their rank for that event is
-                1.
-            </p>
-            <h2>Alternatives to Sum of Ranks</h2>
-            <p>
-                Sum of Ranks is just one way to measure the all-round abilities of a cuber.
-                If you want to know your Kinch score, you can visit our <a class="link" href="/calculate-kinch">Kinch Calculator</a> as well.
-            </p>
-            <p>
-                Different methods will have different tradeoffs, and not everyone agrees on which is better.
-                That's why we provide multiple ways to measure your all-round abilities.
-            </p>
-        </div>
-        <div style="margin: 64px auto; width: fit-content;">
-            <?php include "../php/cool_calculators.php" ?>
-        </div>
-        <div style="margin-top: 96px;"></div>
-    </main>
+
+    } // end if-else
+    ?>
+    <div class="info-div">
+        <h2>What is Sum of Ranks (SoR)?</h2>
+        <p>
+            Sum of Ranks is one way of measuring a cuber's overall
+            performance rather than measuring just one event. To compute a
+            Sum of Ranks, we simply add up the cuber's rank in each event.
+            It is possible to compute a cuber's Sum of Ranks at a global
+            level, continental level, and national level.
+        </p>
+        <h2>What does my Sum of Ranks mean?</h2>
+        <p>
+            Lower scores are better. For example, since the world record
+            holder is ranked 1st in the world, their rank for that event is
+            1.
+        </p>
+        <h2>Alternatives to Sum of Ranks</h2>
+        <p>
+            Sum of Ranks is just one way to measure the all-round abilities of a cuber.
+            If you want to know your Kinch score, you can visit our <a class="link" href="/kinch-ranks">Kinch Ranks</a> page as well.
+        </p>
+        <p>
+            Different methods will have different tradeoffs, and not everyone agrees on which is better.
+            That's why we provide multiple ways to measure your all-round abilities.
+        </p>
+    </div>
+    <div style="margin-top: 96px;"></div>
+</main>
 </body>
 
 <style>
