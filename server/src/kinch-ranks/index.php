@@ -26,6 +26,58 @@ function onChangeRegion(event) {
 }
 </script>
 
+<style>
+    .table-wrapper {
+        max-width: 100%;
+        width: fit-content;
+        overflow-x: auto;
+    }
+
+    table tr:nth-child(even) {
+        background: var(--gray-900);
+    }
+
+    .info-div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 600px;
+        gap: 16px;
+        margin: 0 auto;
+    }
+
+    .info-div h2 {
+        margin-top: 32px;
+    }
+
+    .info-div p, .info-div ul, .info-div li {
+        align-self: start;
+        line-height: 1.5rem;
+    }
+
+    .page-selector-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 12px 0;
+    }
+
+    .page-button {
+        padding: 12px 8px;
+        background: transparent;
+    }
+
+    .page-button:hover {
+        background: var(--gray-900);
+    }
+
+    .page-button-active {
+        background: var(--gray-900);
+        outline: solid 1px var(--gray-600);
+    }
+</style>
+
 <?php
 $wcaId = $_GET["wcaId"] ?? null;
 $region = $_GET["region"] ?? "World";
@@ -433,62 +485,6 @@ $perPage = 20;
 </main>
 
 </body>
-
-<style>
-    .table-wrapper {
-        max-width: 100%;
-        width: fit-content;
-        overflow-x: auto;
-    }
-
-    table tr:nth-child(even) {
-        background: var(--gray-900);
-    }
-
-    .info-div {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 600px;
-        gap: 16px;
-        margin: 0 auto;
-    }
-
-    .info-div h2 {
-        margin-top: 32px;
-    }
-
-    .info-div p, .info-div ul, .info-div li {
-        align-self: start;
-        line-height: 1.5rem;
-    }
-
-    .page-selector-box {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 12px 0;
-    }
-
-    .page-button {
-        padding: 12px 8px;
-        background: transparent;
-    }
-
-    .page-button:hover {
-        background: var(--gray-900);
-    }
-
-    .page-button-active {
-        background: var(--gray-900);
-        outline: solid 1px var(--gray-600);
-    }
-
-    tr:nth-child(even) {
-        background: var(--gray-900);
-    }
-</style>
 
 <?php include "../php/gtag.php" ?>
 

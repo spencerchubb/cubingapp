@@ -27,14 +27,31 @@ function onChangeRegion(event) {
 </script>
 
 <style>
+.table-wrapper {
+    max-width: 100%;
+    width: fit-content;
+    overflow-x: auto;
+}
+
+table tr:nth-child(even) {
+    background: var(--gray-900);
+}
+
+/* Less padding so rows aren't too tall */
+tr td:nth-child(2) {
+    padding: 0 16px 0 8px;
+}
+
 h2 {
     margin-top: 24px;
     font-size: 18px;
 }
 
 input {
-    margin-top: 8px;
     width: 100%;
+    padding: 4px;
+    border-radius: 4px;
+    background: none;
 }
 
 #calculateButton {
@@ -98,113 +115,259 @@ input {
         "sq1" => array("single" => null, "average" => null),
     );
 
+    $tableRows = array(
+        array(
+            "type" => "average",
+            "event" => "222",
+            "label" => "2x2 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "333",
+            "label" => "3x3 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "event" => "333bf",
+            "label" => "3BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "333bf",
+            "label" => "3BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "event" => "333fm",
+            "label" => "FMC Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "333fm",
+            "label" => "FMC Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "event" => "333mbf",
+            "label" => "Multiblind",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "333oh",
+            "label" => "OH Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "444",
+            "label" => "4x4 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "event" => "444bf",
+            "label" => "4BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "444bf",
+            "label" => "4BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "555",
+            "label" => "5x5 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "event" => "555bf",
+            "label" => "5BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "555bf",
+            "label" => "5BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "666",
+            "label" => "6x6 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "777",
+            "label" => "7x7 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "clock",
+            "label" => "Clock Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "minx",
+            "label" => "Mega Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "pyram",
+            "label" => "Pyra Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "skewb",
+            "label" => "Skewb Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "event" => "sq1",
+            "label" => "SQ1 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+    );
+    $averageScore = "";
+
+    function formatResult($event, $type, $result) {
+        if ($event === "333mbf") {
+            return formatMbld($result);
+        } else if ($event === "333fm"  && $type === "single") {
+            return $result;
+        }
+        return $result / 100;
+    }
+
     if ($customResults) {
         include "../../php/kinch.php";
+
+        // { eventId: { single, average, bestSingle, bestAverage }}
+        $calcKinchInput = array();
 
         // Fetch official results from the database
         $stmt = buildKinchStatement($db);
         $rows = $stmt->execute();
 
-        $results = array();
         while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
-            array_push($results, $row);
-        }
 
-        foreach ($results as $index => $row) {
             $eventId = $row["eventId"];
             $customResult = $customResults[$eventId];
 
-            if (isset($customResult["single"])) $results[$index]["single"] = $customResult["single"];
-            else $results[$index]["single"] = null;
-            
-            if (isset($customResult["average"])) $results[$index]["average"] = $customResult["average"];
-            else $results[$index]["average"] = null;
+            // Populate bestSingle and bestAverage
+            $calcKinchInput[$eventId] = array(
+                "eventId" => $eventId,
+                "bestSingle" => $row["bestSingle"],
+                "bestAverage" => $row["bestAverage"],
+            );
 
-            if ($eventId == "333mbf") $formattedResults[$eventId] = array(
-                "single" => formatMbld($customResult["single"]), // either formatMbld is wrong or encodeMbld is wrong
-            );
-            else if ($eventId == "333fm" || $eventId == "333bf" || $eventId == "444bf" || $eventId == "555bf") $formattedResults[$eventId] = array(
-                "single" => $customResult["single"],
-                "average" => $customResult["average"],
-            );
-            else $formattedResults[$eventId] = array(
-                "average" => $customResult["average"],
-            );
+            // Populate single and average if they exist
+            foreach ($customResult as $singleOrAvg => $result) {
+                if ($singleOrAvg === "single") {
+                    $calcKinchInput[$eventId]["single"] = $result;
+                } else if ($singleOrAvg === "average") {
+                    $calcKinchInput[$eventId]["average"] = $result;
+                }
+            }
         }
 
-        $scores = calcKinchScores($results);
+        $scores = calcKinchScores($calcKinchInput);
+        foreach ($scores as $scoreRow) {
+            $eventId = $scoreRow[0];
+            $score = $scoreRow[1];
+            $result = $scoreRow[2];
+            $type = $scoreRow[3];
+
+            $tableRowIndex = -1;
+            foreach ($tableRows as $index => $row) {
+                if ($row["event"] == $eventId && $row["type"] == $type) {
+                    $tableRowIndex = $index;
+                }
+            }
+
+            if ($tableRowIndex === -1) continue;
+            if (!$score) continue;
+            $tableRows[$tableRowIndex]["score"] = round($score, 2);
+            $tableRows[$tableRowIndex]["result"] = formatResult($eventId, $type, $result);
+        }
+
+
         $averageScore = calcAverageKinchScore($scores);
         $averageScore = round($averageScore, 2);
-
-        echo "<p style='margin-top: 16px;'>Kinch Score: $averageScore</p>";
     }
 
     $db->close();
     ?>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Result</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Overall</td>
+                    <td></td>
+                    <td><?php echo $averageScore; ?></td>
+                </tr>
+                <?php foreach ($tableRows as $row) { ?>
+                    <tr>
+                        <td><?php echo $row["label"] ?></td>
+                        <td>
+                            <input
+                                placeholder="<?php echo $row["label"] ?>"
+                                data-type="<?php echo $row["type"] ?>"
+                                data-event="<?php echo $row["event"] ?>"
+                                value="<?php echo $row["result"] ?>"
+                            />
+                        </td>
+                        <td><?php echo $row["score"] ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
     
-    <h2>2x2 Average</h2>
-    <input id="average2x2" type="number" placeholder="2x2 Average" value="<?php echo $formattedResults["222"]["average"] / 100 ?>" />
-
-    <h2>3x3 Average</h2>
-    <input id="average3x3" type="number" placeholder="3x3 Average" value="<?php echo $formattedResults["333"]["average"] / 100 ?>" />
-
-    <h2>3x3 Blind Single</h2>
-    <input id="single3bld" type="number" placeholder="3x3 Blind Single" value="<?php echo $formattedResults["333bf"]["single"] / 100 ?>" />
-
-    <h2>3x3 Blind Average</h2>
-    <input id="average3bld" type="number" placeholder="3x3 Blind Average" value="<?php echo $formattedResults["333bf"]["average"] / 100 ?>" />
-
-    <h2>3x3 Fewest Moves Single</h2>
-    <input id="single3fm" type="number" placeholder="3x3 Fewest Moves Single" value="<?php echo $formattedResults["333fm"]["single"] ?>" />
-
-    <h2>3x3 Fewest Moves Average</h2>
-    <input id="average3fm" type="number" placeholder="3x3 Fewest Moves Average" value="<?php echo $formattedResults["333fm"]["average"] / 100 ?>" />
-
-    <h2>3x3 Multiblind</h2>
-    <input id="multi" type="text" placeholder="solved/attempted HH:MM:SS" value="<?php echo $formattedResults["333mbf"]["single"] ?>" />
-
-    <h2>3x3 One-Handed Average</h2>
-    <input id="average333oh" type="number" placeholder="3x3 One-Handed Average" value="<?php echo $formattedResults["333oh"]["average"] / 100 ?>" />
-
-    <h2>4x4 Average</h2>
-    <input id="average4x4" type="number" placeholder="4x4 Average" value="<?php echo $formattedResults["444"]["average"] / 100 ?>" />
-
-    <h2>4x4 Blind Single</h2>
-    <input id="single4bld" type="number" placeholder="4x4 Blind Single" value="<?php echo $formattedResults["444bf"]["single"] / 100 ?>" />
-
-    <h2>4x4 Blind Average</h2>
-    <input id="average4bld" type="number" placeholder="4x4 Blind Average" value="<?php echo $formattedResults["444bf"]["average"] / 100 ?>" />
-
-    <h2>5x5 Average</h2>
-    <input id="average5x5" type="number" placeholder="5x5 Average" value="<?php echo $formattedResults["555"]["average"] / 100 ?>" />
-
-    <h2>5x5 Blind Single</h2>
-    <input id="single5bld" type="number" placeholder="5x5 Blind Single" value="<?php echo $formattedResults["555bf"]["single"] / 100 ?>" />
-
-    <h2>5x5 Blind Average</h2>
-    <input id="average5bld" type="number" placeholder="5x5 Blind Average" value="<?php echo $formattedResults["555bf"]["average"] / 100 ?>" />
-
-    <h2>6x6 Average</h2>
-    <input id="average6x6" type="number" placeholder="6x6 Average" value="<?php echo $formattedResults["666"]["average"] / 100 ?>" />
-
-    <h2>7x7 Average</h2>
-    <input id="average7x7" type="number" placeholder="7x7 Average" value="<?php echo $formattedResults["777"]["average"] / 100 ?>" />
-
-    <h2>Clock Average</h2>
-    <input id="clock" type="number" placeholder="Clock Average" value="<?php echo $formattedResults["clock"]["average"] / 100 ?>" />
-
-    <h2>Megaminx Average</h2>
-    <input id="megaminx" type="number" placeholder="Megaminx Average" value="<?php echo $formattedResults["minx"]["average"] / 100 ?>" />
-
-    <h2>Pyraminx Average</h2>
-    <input id="pyraminx" type="number" placeholder="Pyraminx Average" value="<?php echo $formattedResults["pyram"]["average"] / 100 ?>" />
-
-    <h2>Skewb Average</h2>
-    <input id="skewb" type="number" placeholder="Skewb Average" value="<?php echo $formattedResults["skewb"]["average"] / 100 ?>" />
-    
-    <h2>Square-1 Average</h2>
-    <input id="square1" type="number" placeholder="Square-1 Average" value="<?php echo $formattedResults["sq1"]["average"] / 100 ?>" />
-
     <button id="calculateButton">Calculate</button>
 
     <div style="margin-top: 150px;"></div>
@@ -225,104 +388,63 @@ function encodeMbld(solved, attempted, hours, minutes, seconds) {
 
 calculateButton.onclick = () => {
 
-    // Validate mbld
-    let multiEncoded;
-    if (multi.value) {
-        const regex = /(\d+)\/(\d+) (\d+):(\d+):(\d+)/;
-        if (!regex.test(multi.value)) {
-            alert("Multiblind format should be \"Solved/Attempted HH:MM:SS\"");
-            return;
-        } else {
-            const [_, solved, attempted, hours, minutes, seconds] = multi.value.match(regex);
-            multiEncoded = encodeMbld(parseInt(solved), parseInt(attempted), parseInt(hours), parseInt(minutes), parseInt(seconds));
-        }
-    } else {
-        multiEncoded = null;
-    }
+    let results = {};
+    document.querySelectorAll("input").forEach(input => {
+        const eventId = input.dataset.event;
+        const type = input.dataset.type;
 
-    let customResults = {
-        "222": { "average": average2x2.value * 100 },
-        "333": { "average": average3x3.value * 100 },
-        "333bf": { "single": single3bld.value * 100, "average": average3bld.value * 100 },
-        "333fm": { "single": parseInt(single3fm.value), "average": average3fm.value * 100 },
-        "333mbf": { "single": multiEncoded },
-        "333oh": { "average": average333oh.value * 100 },
-        "444": { "average": average4x4.value * 100 },
-        "444bf": { "single": single4bld.value * 100, "average": average4bld.valu * 100 },
-        "555": { "average": average5x5.value * 100 },
-        "555bf": { "single": single5bld.value * 100, "average": average5bld.value * 100 },
-        "666": { "average": average6x6.value * 100 },
-        "777": { "average": average7x7.value * 100 },
-        "clock": { "average": clock.value * 100 },
-        "minx": { "average": megaminx.value * 100 },
-        "pyram": { "average": pyraminx.value * 100 },
-        "skewb": { "average": skewb.value * 100 },
-        "sq1": { "average": square1.value * 100 },
-    };
+        if (!results[eventId]) results[eventId] = {};
+
+        if (eventId === "333mbf") {
+
+            // Validate mbld
+            if (input.value) {
+                const regex = /(\d+)\/(\d+) (\d+):(\d+):(\d+)/;
+                if (!regex.test(input.value)) {
+                    alert("Multiblind format should be \"Solved/Attempted HH:MM:SS\"");
+                    return;
+                } else {
+                    const [_, solved, attempted, hours, minutes, seconds] = input.value.match(regex);
+                    results[eventId]["single"] = encodeMbld(parseInt(solved), parseInt(attempted), parseInt(hours), parseInt(minutes), parseInt(seconds));
+                }
+            } else {
+                results[eventId]["single"] = 0;
+            }
+        } else if (eventId === "333fm" && type === "single") {
+            results[eventId]["single"] = parseInt(input.value);
+        } else {
+            results[eventId][type] = input.value * 100;
+        }
+    });
+    // console.log(results);
+
+    // let customResults = {
+    //     "222": { "average": average2x2.value * 100 },
+    //     "333": { "average": average3x3.value * 100 },
+    //     "333bf": { "single": single3bld.value * 100, "average": average3bld.value * 100 },
+    //     "333fm": { "single": parseInt(single3fm.value), "average": average3fm.value * 100 },
+    //     "333mbf": { "single": multiEncoded },
+    //     "333oh": { "average": average333oh.value * 100 },
+    //     "444": { "average": average4x4.value * 100 },
+    //     "444bf": { "single": single4bld.value * 100, "average": average4bld.valu * 100 },
+    //     "555": { "average": average5x5.value * 100 },
+    //     "555bf": { "single": single5bld.value * 100, "average": average5bld.value * 100 },
+    //     "666": { "average": average6x6.value * 100 },
+    //     "777": { "average": average7x7.value * 100 },
+    //     "clock": { "average": clock.value * 100 },
+    //     "minx": { "average": megaminx.value * 100 },
+    //     "pyram": { "average": pyraminx.value * 100 },
+    //     "skewb": { "average": skewb.value * 100 },
+    //     "sq1": { "average": square1.value * 100 },
+    // };
 
     const url = new URL(window.location.href);
-    url.searchParams.set("results", JSON.stringify(customResults));
+    url.searchParams.set("results", JSON.stringify(results));
     location.href = url;
 }
 </script>
 
 </body>
-
-<style>
-    .table-wrapper {
-        max-width: 100%;
-        width: fit-content;
-        overflow-x: auto;
-    }
-
-    table tr:nth-child(even) {
-        background: var(--gray-900);
-    }
-
-    .info-div {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: 600px;
-        gap: 16px;
-        margin: 0 auto;
-    }
-
-    .info-div h2 {
-        margin-top: 32px;
-    }
-
-    .info-div p, .info-div ul, .info-div li {
-        align-self: start;
-        line-height: 1.5rem;
-    }
-
-    .page-selector-box {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 12px 0;
-    }
-
-    .page-button {
-        padding: 12px 8px;
-        background: transparent;
-    }
-
-    .page-button:hover {
-        background: var(--gray-900);
-    }
-
-    .page-button-active {
-        background: var(--gray-900);
-        outline: solid 1px var(--gray-600);
-    }
-
-    tr:nth-child(even) {
-        background: var(--gray-900);
-    }
-</style>
 
 <?php include "../../php/gtag.php" ?>
 
