@@ -8,6 +8,8 @@
 //     - 4bld single and 4bld average  
 //     - 5bld single and 5bld average  
 // See the original explanation for more: https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/
+// Returns a list of arrays, where each array has eventId, score, result, and type.
+// TODO: Refactor to make output easier to use instead of arbitrary array.
 function calcKinchScores($results) {
     $scores = array();
     foreach ($results as $result) {
@@ -23,51 +25,56 @@ function calcKinchScores($results) {
 
             // If nobody has a score, use 100
             if (!$recordScore) {
-                array_push($scores, array($eventId, 100, null));
+                array_push($scores, array($eventId, 100, null, "single"));
                 continue;
             }
 
-            array_push($scores, array($eventId, $personalScore / $recordScore * 100, $single));
+            array_push($scores, array($eventId, $personalScore / $recordScore * 100, $single, "single"));
             continue;
         }
 
         if ($eventId === "333fm" || $eventId === "333bf" || $eventId === "444bf" || $eventId === "555bf") {
-            // If neither single nor average, use 0
-            if (!$single && !$average) {
-                array_push($scores, array($eventId, 0, null));
+            // If no single use 0. If no single, they also don't have an average.
+            if (!$single) {
+                array_push($scores, array($eventId, 0, null, "single"));
                 continue;
             }
 
             // This can happen if a person has multiple countryIds and one of the countries has no result for the event.
             if (!$bestSingle || !$bestAverage) {
-                array_push($scores, array($eventId, 100, null));
+                array_push($scores, array($eventId, 100, null, "single"));
                 continue;
             }
 
             // If no average, using single
             if (!$average) {
-                array_push($scores, array($eventId, $bestSingle / $single * 100, $single));
+                array_push($scores, array($eventId, $bestSingle / $single * 100, $single, "single"));
                 continue;
             }
 
             // If there is an average, use the better of the two
-            $maxScore = max($bestSingle / $single * 100, $bestAverage / $average * 100);
-            array_push($scores, array($eventId, $maxScore, $single));
+            $singleScore = $bestSingle / $single * 100;
+            $averageScore = $bestAverage / $average * 100;
+            if ($singleScore > $averageScore) {
+                array_push($scores, array($eventId, $singleScore, $single, "single"));
+            } else {
+                array_push($scores, array($eventId, $averageScore, $average, "average"));
+            }
             continue;
         }
 
         if (!$average) {
-            array_push($scores, array($eventId, 0, null));
+            array_push($scores, array($eventId, 0, null, "single"));
             continue;
         }
 
         // This can happen if a person has multiple countryIds and one of the countries has no result for the event.
         if (!$bestAverage) {
-            array_push($scores, array($eventId, 100, null));
+            array_push($scores, array($eventId, 100, null, "single"));
             continue;
         }
 
-        array_push($scores, array($eventId, $bestAverage / $average * 100, $average));
+        array_push($scores, array($eventId, $bestAverage / $average * 100, $average, "average"));
     }
     return $scores;
 }
