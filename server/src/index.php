@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Take speedcubing to the next level. We offer an algorithm database, a reconstruction tool, a timer, and an algorithm trainer.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
     <title>CubingApp Home</title>
 </head>
+
+<style>
+.card {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #555;
+    padding: 16px;
+    max-width: 450px;
+    width: 100%;
+    min-height: 180px;
+
+    & h2 {
+        font-size: 18px;
+    }
+
+    & p {
+        margin-top: 4px;
+    }
+
+    & .action {
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+.algSetGroup {
+    margin-top: 24px;
+
+    & h2 {
+        font-size: 18px;
+        padding-bottom: 4px;
+        border-bottom: solid 1px #555;
+    }
+}
+.algLinks {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+</style>
+
+<?php include "./php/search/element.php"; ?>
 
 <body>
     <main>
@@ -16,68 +61,89 @@
             }
         ?>
         <h1 style="text-align: center;">CubingApp Home</h1>
-        <h2 style="width: 100%;  margin-top: 32px;">
-            <a href="/algorithms" class="link" style="color: inherit;">Algorithms</a>
-        </h2>
-        <div class="divider"></div>
-        <ul style="width: 100%;">
-            <li>
-                <a href="/algorithms" class="link">See all sets</a> (2x2, 3x3, SQ1, etc)
-            </li>
-            <li>
-                <a href="/algorithms/F2L" class="link">F2L</a>
-            </li>
-            <li>
-                <a href="/algorithms/OLL" class="link">OLL</a>
-            </li>
-            <li>
-                <a href="/algorithms/PLL" class="link">PLL</a>
-            </li>
-        </ul>
-        <h2 style="width: 100%; margin-top: 32px;">
-            Calculators
-        </h2>
-        <div class="divider"></div>
-        <ul style="width: 100%;">
-            <li>
-                <a href="/am-i-sub-x" class="link">Am I Sub-X?</a>
-            </li>
-            <li>
-                <a href="/calculate-kinch" class="link">Calculate Kinch Score</a>
-            </li>
-            <li>
-                <a href="/calculate-sum-of-ranks" class="link">Calculate Sum of Ranks (SoR)</a>
-            </li>
-            <li>
-                <a href="/name-ranks" class="link">Name Ranks</a> <span style="color: var(--green-400); font-weight: bold; margin-left: 8px;">New!</span>
-            </li>
-            <li>
-                <a href="/record-streak" class="link">Personal Record Streak</a>
-            </li>
-            <li>
-                <a href="/competitions" class="link">WCA Comps sorted by distance</a> <span style="color: var(--green-400); font-weight: bold; margin-left: 8px;">New!</span>
-            </li>
-        </ul>
-        <h2 style="width: 100%; margin-top: 32px;">
-            Other
-        </h2>
-        <div class="divider"></div>
-        <ul style="width: 100%;">
-            <li>
-                <a href="https://github.com/spencerchubb/cubingapp" class="link">GitHub</a> (CubingApp is open source!)
-            </li>
-        </ul>
+        <div style="margin-top: 24px; display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+            <div class="card">
+                <h2>Name Ranks</h2>
+                <p>Who are the fastest cubers with your name?</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <input id="nameRanksInput" type="text" placeholder="Name" style="width: 100%;" />
+                    <button id="nameRanksGo">Go</button>
+                </div>
+            </div>
+            <div class="card">
+                <h2>WCA Birthdays</h2>
+                <p>A WCA Birthday is the day of someone's first WCA competition</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <a href="/birthdays" style="width: 100%;"><button style="width: 100%;">See today's birthdays</button></a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Kinch Ranks</h2>
+                <p>Kinch Ranks is a way to measure all-round cubing ability instead of just one event</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <a href="/kinch-ranks" style="width: 100%;"><button style="width: 100%;">Kinch Ranks Leaderboard</button></a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Sum of Ranks</h2>
+                <p>Sum of Ranks is a way to measure all-round cubing ability instead of just one event</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <a href="/sum-of-ranks" style="width: 100%;"><button style="width: 100%;">Sum of Ranks Leaderboard</button></a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Record Streak</h2>
+                <p>How many competitions in a row did you get a personal record (PR)?</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <?php renderSearchElement("/record-streak", ""); ?>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Competitions</h2>
+                <p>Find WCA competitions nearest to you</p>
+                <div style="flex-grow: 1"></div>
+                <div class="action">
+                    <a href="/competitions" style="width: 100%;"><button style="width: 100%;">WCA Competitions</button></a>
+                </div>
+            </div>
+        </div>
+
+        <?php include "./php/algSetGroups.php"; ?>
+
+        <?php
+        foreach ($algSetGroups as $groupName => $group) {
+            echo "<div class='algSetGroup'>";
+                echo "<h2>$groupName Algs</h2>";
+                echo "</button>";
+                echo "<div class='algLinks'>";
+                    foreach ($group as $alg) {
+                        $alg = str_replace("-", " ", $alg);
+                        echo "<a href='/algorithms/$alg' class='link'>$alg</a>";
+                    }
+                echo "</div>";
+            echo "</div>";
+        }
+        ?>
+
+        <div style="margin-top: 150px;"></div>
+        <p>
+            If you made it this far and you know what github is, 
+            <a href="https://github.com/spencerchubb/cubingapp" class="link">star the repo!</a>
+        </p>
     </main>
-    <div style="margin-top: 96px;"></div>
 </body>
 
-<style>
-    .divider {
-        width: 100%;
-        border-top: solid 1px var(--gray-600);
-        margin: 8px 0;
+<script>
+    nameRanksInput.onkeydown = event => {
+        if (event.key === "Enter") location.href = `/name-ranks/?name=${nameRanksInput.value}`;
     }
-</style>
+    nameRanksGo.onclick = () => location.href = `/name-ranks/?name=${nameRanksInput.value}`;
+</script>
 
 <?php include "php/gtag.php" ?>
 

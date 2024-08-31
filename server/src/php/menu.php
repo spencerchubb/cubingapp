@@ -135,71 +135,29 @@
 
 <div id="menuBackground"></div>
 
+<?php include "algSetGroups.php"; ?>
+
 <div id="menu">
     <svg id="menuClose" class="iconButton" viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="12" stroke-linecap="round">
         <path d="M 10,10 L 90,90" />
         <path d="M 90,10 L 10,90" />
     </svg>
-    <div class="expandable">
-        <button class="expandableButton">
-            <p>3x3 Algs</p>
-            <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
-        </button>
-        <div class="expandableChild">
-            <a href="/algorithms/F2L" class="menuLink">F2L</a>
-            <a href="/algorithms/OLL" class="menuLink">OLL</a>
-            <a href="/algorithms/PLL" class="menuLink">PLL</a>
-            <a href="/algorithms/Winter-Variation" class="menuLink">Winter Variation</a>
-            <a href="/algorithms/COLL" class="menuLink">COLL</a>
-            <a href="/algorithms/OLLCP" class="menuLink">OLLCP</a>
-            <a href="/algorithms/ZBLL" class="menuLink">ZBLL</a>
-        </div>
-    </div>
-    <div class="expandable">
-        <button class="expandableButton">
-            <p>Roux Algs</p>
-            <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
-        </button>
-        <div class="expandableChild">
-            <a href="/algorithms/CMLL" class="menuLink">CMLL</a>
-            <a href="/algorithms/OH-CMLL" class="menuLink">OH CMLL</a>
-            <a href="/algorithms/LSE-EO" class="menuLink">LSE EO</a>
-            <a href="/algorithms/LSE-EOLR" class="menuLink">LSE EOLR</a>
-        </div>
-    </div>
-    <div class="expandable">
-        <button class="expandableButton">
-            <p>2x2 Algs</p>
-            <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
-        </button>
-        <div class="expandableChild">
-            <a href="/algorithms/2x2-PBL" class="menuLink">PBL</a>
-            <a href="/algorithms/2x2-CLL" class="menuLink">CLL</a>
-            <a href="/algorithms/2x2-EG1" class="menuLink">EG1</a>
-            <a href="/algorithms/2x2-EG2" class="menuLink">EG2</a>
-        </div>
-    </div>
-    <div class="expandable">
-        <button class="expandableButton">
-            <p>Square-1 Algs</p>
-            <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
-        </button>
-        <div class="expandableChild">
-            <a href="/algorithms/SQ1-Cube-Shape" class="menuLink">SQ1 Cube Shape</a>
-            <a href="/algorithms/SQ1-CSP" class="menuLink">SQ1 CSP</a>
-            <a href="/algorithms/SQ1-EP" class="menuLink">SQ1 EP</a>
-            <a href="/algorithms/SQ1-OBL" class="menuLink">SQ1 OBL</a>
-        </div>
-    </div>
-    <div class="expandable">
-        <button class="expandableButton">
-            <p>Other Algs</p>
-            <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
-        </button>
-        <div class="expandableChild">
-            <a href="/algorithms/4x4-PLL-Parity" class="menuLink">4x4 PLL Parity</a>
-        </div>
-    </div>
+    <?php
+    foreach ($algSetGroups as $groupName => $group) {
+        echo "<div class='expandable'>";
+            echo "<button class='expandableButton'>";
+                echo "<p>$groupName Algs</p>";
+                echo "<svg viewBox='0 0 100 100' stroke='var(--gray-100)' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M 25,8 L 75,50 L 25,92' /></svg>";
+            echo "</button>";
+            echo "<div class='expandableChild'>";
+                foreach ($group as $alg) {
+                    $alg = str_replace("-", " ", $alg);
+                    echo "<a href='/algorithms/$alg' class='menuLink'>$alg</a>";
+                }
+            echo "</div>";
+        echo "</div>";
+    }
+    ?>
     <div class="expandable">
         <button class="expandableButton">
             <p>Calculators</p>
