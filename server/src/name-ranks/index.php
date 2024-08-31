@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="See how you compare against cubers with your name">
+    <meta name="description" content="Who are the fastest cubers with your name?">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
@@ -39,7 +39,7 @@ function setUrlParam(key, value) {
 
     <main>
         <h1 style="text-align: center;">Name Ranks</h1>
-        <p style="text-align: center; margin-top: 16px;">See how you compare against cubers with your name</p>
+        <p style="text-align: center; margin-top: 16px;">Who are the fastest cubers with your name?</p>
         <?php
             include_once "../php/option.php";
 
