@@ -1,0 +1,56 @@
+{
+    "puzzle": "3x3",
+    "diagramType": "2D",
+    "subsets": ["Corners", "Edges"],
+    "texts": [
+        "PLL stands for Permutation of Last Layer. 2 Look PLL is good for beginners or intermediate solvers.",
+        "Before PLL, you need to orient the last layer, or in other words, solve the top face.",
+        "To do 2 Look PLL, first you solve the corners, and then you solve the edges."
+    ],
+    "cases": {
+        "Matching Corners (aka Headlights)": {
+            "algs": {
+                "R' F R' B2 R F' R' B2 R2": {}
+            },
+            "subset": "Corners"
+        },
+        "No Matching (aka No Headlights)": {
+            "algs": {
+                "F (R U' R' U') (R U R' F') (R U R' U') (R' F R F')": {}
+            },
+            "subset": "Corners"
+        },
+        "Ua perm": {
+            "algs": {
+                "M2 U M U2 M' U M2": {
+                    "note": "Inverse of Ub perm"
+                },
+                "R U' R U R U R U' R' U' R2": {},
+                "R U R' U R' U' R2 U' R' U R' U R": {}
+            },
+            "subset": "Edges"
+        },
+        "Ub perm": {
+            "algs": {
+                "M2 U' M U2 M' U' M2": {
+                    "note": "Inverse of Ua perm"
+                },
+                "R2' U R U R' U' R3 U' R' U R'": {},
+                "R' U R' U' R' U' R' U R U R2": {}
+            },
+            "subset": "Edges"
+        },
+        "H perm": {
+            "algs": {
+                "M2 U' M2 U2 M2 U' M2": {}
+            },
+            "subset": "Edges"
+        },
+        "Z perm": {
+            "algs": {
+                "M2 U' M2 U' M' U2 M2 U2 M' U2": {}
+            },
+            "subset": "Edges"
+        }
+    }
+}
