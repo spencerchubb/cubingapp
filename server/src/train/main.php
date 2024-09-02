@@ -28,9 +28,6 @@
 import { scramble } from "../../js/scramble/index.js";
 import { AlgSimplify, AlgToString, simplifySQ1Alg, StringToAlg } from "../../js/alg/index.js";
 
-let availableCases = [];
-let currentCase;
-
 function round(val, digits) {
     const pow = Math.pow(10, digits);
     return Math.floor(val * pow) / pow;
@@ -234,6 +231,9 @@ if (cachedDataValid()) {
     });
 }
 
+let availableCases = getAvailableCases(subsets);
+let currentCase;
+
 subsetsDiv.innerHTML = Object.entries(subsets).map(([subsetName, cases]) => {
     return `<div class="expandable">
         <button class="expandableButton expandableSubset">
@@ -259,7 +259,7 @@ subsetsDiv.innerHTML = Object.entries(subsets).map(([subsetName, cases]) => {
     </div>`;
 }).join("");
 
-function setAvailableCases(subsets) {
+function getAvailableCases(subsets) {
     let availableCases = [];
     Object.entries(subsets).forEach(([subsetName, cases]) => {
         Object.entries(cases).forEach(([caseName, caseData]) => {
@@ -278,10 +278,10 @@ function setAvailableCases(subsets) {
         });
     }
 
+    console.log("subsets:", subsets);
+    console.log("availableCases:", availableCases);
     return availableCases;
 }
-
-availableCases = setAvailableCases(subsets);
 
 function cacheData(subsets) {
     let toCache = {};
@@ -310,7 +310,7 @@ frequencyInput.onchange = event => {
     document.querySelector(`.frequencyInput[data-case="${caseName}"]`).value = value;
 
     cacheData(subsets);
-    setAvailableCases(subsets);
+    availableCases = getAvailableCases(subsets);
 }
 
 document.querySelectorAll(".frequencyInput").forEach(ele => {
@@ -347,7 +347,7 @@ document.querySelectorAll(".frequencyInput").forEach(ele => {
         }
 
         cacheData(subsets);
-        setAvailableCases(subsets);
+        availableCases = getAvailableCases(subsets);
     };
 });
 
