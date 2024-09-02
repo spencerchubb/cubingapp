@@ -1041,7 +1041,7 @@ $subsets = [${algSet.subsets?.map(subset => `"${subset}"`).join(", ") ?? ""}];
         </div>
         <p id="scrambleText">&nbsp;</p>
         <div id="solutionExpandable" class="expandable" style="margin-top: 16px; border: solid 1px var(--gray-500);">
-            <button class="expandableButton">
+            <button id="solutionButton" class="expandableButton">
                 <p>Solution</p>
                 <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92"></path></svg>
             </button>

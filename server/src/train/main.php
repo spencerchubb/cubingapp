@@ -192,6 +192,10 @@ function nextCase() {
     renderCase(randIndex);
 }
 
+function toggleSolution() {
+    solutionExpandable.classList.toggle("expandableOpen");
+}
+
 const subsets = {};
 Object.entries(algSet.cases).forEach(([caseName, caseData]) => {
     if (!subsets[caseData.subset]) {
@@ -278,8 +282,6 @@ function getAvailableCases(subsets) {
         });
     }
 
-    console.log("subsets:", subsets);
-    console.log("availableCases:", availableCases);
     return availableCases;
 }
 
@@ -298,6 +300,54 @@ function cacheData(subsets) {
 }
 
 nextCase();
+
+function isTouchScreen() {
+    return window.ontouchstart !== undefined;
+}
+
+function showTooltip(target, tooltip, above) {
+    if (isTouchScreen()) return;
+
+    tooltip.style.display = "block";
+
+    const targetRect = target.getBoundingClientRect();
+    const targetHeight = targetRect.bottom - targetRect.top;
+
+    let tooltipRect = tooltip.getBoundingClientRect();
+    let tooltipHeight = tooltipRect.bottom - tooltipRect.top;
+
+    if (above) {
+        tooltip.style.top = targetRect.top - tooltipHeight - 8 + "px";
+    } else {
+        tooltip.style.top = targetRect.bottom + 8 + "px";
+    }
+    tooltip.style.left = target.getBoundingClientRect().left + target.offsetWidth / 2 - tooltip.offsetWidth / 2 + "px";
+
+    // If to left of screen, move to right
+    tooltipRect = tooltip.getBoundingClientRect();
+    if (tooltipRect.left < 0) {
+        tooltip.style.left = "16px";
+    }
+    if (tooltipRect.right > window.innerWidth) {
+        tooltip.style.left = window.innerWidth - tooltip.offsetWidth - 16 + "px";
+    }
+}
+
+function renderTooltip(target, above, text) {
+    const tooltip = document.createElement("p");
+    tooltip.style.display = "none";
+    tooltip.style.position = "absolute";
+    tooltip.style.background = "#181818";
+    tooltip.style.color = "#eee";
+    tooltip.style.padding = "8px";
+    tooltip.style.borderRadius = "8px";
+    tooltip.style.whiteSpace = "nowrap";
+    tooltip.textContent = text;
+    document.body.appendChild(tooltip);
+
+    target.onmouseover = () => showTooltip(target, tooltip, above);
+    target.onmouseout = () => tooltip.style.display = "none";
+}
 
 frequencyInput.onchange = event => {
     event.stopPropagation();
@@ -353,12 +403,31 @@ document.querySelectorAll(".frequencyInput").forEach(ele => {
 
 leftArrow.onclick = () => prevCase();
 rightArrow.onclick = () => nextCase();
+solutionButton.onclick = () => toggleSolution();
+
+renderTooltip(leftArrow, false, "Previous case (Backspace)");
+renderTooltip(rightArrow, false, "Next case (Enter)");
+renderTooltip(solutionButton, true, "Toggle solution (Space)");
 
 frequencyQuestionButton.onclick = () => alert(
 `0 = Never
 Lower = Less frequent
 Higher = More frequent`);
 
+document.onkeydown = event => {
+    const targetIsInput = event.target.tagName === "INPUT";
+    if (targetIsInput) return;
+
+    if (event.code === "Backspace") {
+        prevCase();
+    } else if (event.code === "Enter") {
+        nextCase();
+    } else if (event.code === "Space") {
+        toggleSolution();
+    }
+}
+
+// Listeners for alg subset expandables
 document.querySelectorAll(".expandableButton").forEach(ele => {
     ele.onclick = () => {
         ele.parentElement.classList.toggle("expandableOpen");
