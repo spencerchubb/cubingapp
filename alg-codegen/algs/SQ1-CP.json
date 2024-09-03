@@ -1,0 +1,60 @@
+{
+    "puzzle": "SQ1",
+    "gray": [],
+    "subsets": ["Top Adj", "Top Opp", "Top Solved"],
+    "before": "() => randElement([\"/ 3,-3 / -3,3 /\", \"/ -3,3 / 3,-3 /\", \"/ 0,-3 / 3,3 / -3,0 /\", \"/ -3,0 / 3,3 / 0,-3 /\"])",
+    "after": "() => randElement([\"0,0\", \"6,0\", \"0,6\", \"6,6\"])",
+    "texts": [
+        "CP stands for Corner Permutation. Before this step, you have to complete Cube Shape, Corner Orientation, and Edge Orientation."    ],
+    "cases": {
+        "Adj / Adj": {
+            "algs": {
+                "/ -3,0 / 3,3 / 0,-3 /": {}
+            },
+            "subset": "Top Adj"
+        },
+        "Adj / Opp": {
+            "algs": {
+                "/ 0,-3 / 0,3 / 0,-3 / 0,3 /": {}
+            },
+            "subset": "Top Adj"
+        },
+        "Adj / Solved": {
+            "algs": {
+                "/ 3,-3 / -3,0 / 0,3 / 0,-3 / 0,3 /": {}
+            },
+            "subset": "Top Adj"
+        },
+        "Opp / Opp": {
+            "algs": {
+                "/ 3,-3 / -3,3 / ": {}
+            },
+            "subset": "Top Opp"
+        },
+        "Opp / Adj": {
+            "algs": {
+                "/ -3,0 / 3,0 / -3,0 / 3,0 / ": {}
+            },
+            "subset": "Top Opp"
+        },
+        "Opp / Solved": {
+            "algs": {
+                "/ -3,-3 / -3,0 / -3,-3 / -3,0 / -3,-3 / ": {}
+            },
+            "subset": "Top Opp"
+        },
+        "Solved / Adj": {
+            "algs": {
+                "/ 3,-3 / 0,3 / -3,0 / 3,0 / -3,0 / ": {}
+            },
+            "subset": "Top Solved"
+        },
+        "Solved / Opp": {
+            "algs": {
+                "/ 3,3 / 0,3 / 3,3 / 0,3 / 3,3 / ": {}
+            },
+            "subset": "Top Solved"
+        }
+
+    }
+}

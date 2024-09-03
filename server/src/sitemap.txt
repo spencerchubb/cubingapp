@@ -1,5 +1,8 @@
 https://cubingapp.com/
 https://cubingapp.com/algorithms/
+https://cubingapp.com/algorithms/2-Look-CMLL/
+https://cubingapp.com/algorithms/2-Look-OLL/
+https://cubingapp.com/algorithms/2-Look-PLL/
 https://cubingapp.com/algorithms/2x2-CLL/
 https://cubingapp.com/algorithms/2x2-EG1/
 https://cubingapp.com/algorithms/2x2-EG2/
@@ -14,8 +17,10 @@ https://cubingapp.com/algorithms/OH-CMLL/
 https://cubingapp.com/algorithms/OLL/
 https://cubingapp.com/algorithms/OLLCP/
 https://cubingapp.com/algorithms/PLL/
+https://cubingapp.com/algorithms/SQ1-CP/
 https://cubingapp.com/algorithms/SQ1-CSP/
 https://cubingapp.com/algorithms/SQ1-Cube-Shape/
+https://cubingapp.com/algorithms/SQ1-EO/
 https://cubingapp.com/algorithms/SQ1-EP/
 https://cubingapp.com/algorithms/SQ1-OBL/
 https://cubingapp.com/algorithms/Winter-Variation/
@@ -28,6 +33,9 @@ https://cubingapp.com/name-ranks/
 https://cubingapp.com/record-streak/
 https://cubingapp.com/sum-of-ranks/
 https://cubingapp.com/train/
+https://cubingapp.com/train/2-Look-CMLL/
+https://cubingapp.com/train/2-Look-OLL/
+https://cubingapp.com/train/2-Look-PLL/
 https://cubingapp.com/train/2x2-CLL/
 https://cubingapp.com/train/2x2-EG1/
 https://cubingapp.com/train/2x2-EG2/
@@ -41,8 +49,10 @@ https://cubingapp.com/train/OH-CMLL/
 https://cubingapp.com/train/OLL/
 https://cubingapp.com/train/OLLCP/
 https://cubingapp.com/train/PLL/
+https://cubingapp.com/train/SQ1-CP/
 https://cubingapp.com/train/SQ1-CSP/
 https://cubingapp.com/train/SQ1-Cube-Shape/
+https://cubingapp.com/train/SQ1-EO/
 https://cubingapp.com/train/SQ1-EP/
 https://cubingapp.com/train/SQ1-OBL/
 https://cubingapp.com/train/Winter-Variation/
