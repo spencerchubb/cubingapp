@@ -30,18 +30,20 @@
 
         if ($wcaId) {
             $stmt = $db->prepare("
-            SELECT DISTINCT competitionId, personId, name, date FROM Birthdays
+            SELECT c.name as competitionName, b.name as personName, b.date
+            FROM Birthdays b
+            JOIN Competitions c on b.competitionId = c.id
             WHERE personId=:personId;");
             $stmt->bindValue(":personId", $wcaId, SQLITE3_TEXT);
             $rows = $stmt->execute();
             $row = $rows->fetchArray(SQLITE3_ASSOC);
 
-            $competitionId = $row["competitionId"];
-            $name = $row["name"];
+            $competitionName = $row["competitionName"];
+            $personName = $row["personName"];
             $date = $row["date"];
             $age = $year - intval(substr($date, 0, 4));
 
-            echo "<p style='margin-bottom: 16px;'>$name's first competition was $competitionId on $date.</p>";
+            echo "<p style='margin-bottom: 16px;'>$personName's first competition was $competitionName on $date.</p>";
         }
 
         include "../php/search/element.php";
