@@ -1,4 +1,4 @@
-<select id="select-region" style="width: 100%;">
+<select id="selectRegion" style="width: 100%;">
     <?php
     include_once "option.php";
     echo createOption("World", "World", $region);

@@ -38,7 +38,7 @@ table tr:nth-child(even) {
 }
 
 /* Less padding so rows aren't too tall */
-tr td:nth-child(2) {
+tr td:nth-child(3) {
     padding: 0 16px 0 8px;
 }
 
@@ -76,10 +76,169 @@ input {
         die("Error connecting to the database: " . $db->lastErrorMsg());
     }
 
-    function buildKinchStatement($db) {
+    $customResults = json_decode($_GET["results"] ?? "{}", true);
+
+    // Empty defaults in case no custom results are provided
+    $kinchOutput = array(
+        array(
+            "type" => "average",
+            "eventId" => "222",
+            "label" => "2x2 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "333",
+            "label" => "3x3 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "eventId" => "333bf",
+            "label" => "3BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "333bf",
+            "label" => "3BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "eventId" => "333fm",
+            "label" => "FMC Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "333fm",
+            "label" => "FMC Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "eventId" => "333mbf",
+            "label" => "Multiblind",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "333oh",
+            "label" => "OH Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "444",
+            "label" => "4x4 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "eventId" => "444bf",
+            "label" => "4BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "444bf",
+            "label" => "4BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "555",
+            "label" => "5x5 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "single",
+            "eventId" => "555bf",
+            "label" => "5BLD Single",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "555bf",
+            "label" => "5BLD Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "666",
+            "label" => "6x6 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "777",
+            "label" => "7x7 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "clock",
+            "label" => "Clock Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "minx",
+            "label" => "Mega Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "pyram",
+            "label" => "Pyra Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "skewb",
+            "label" => "Skewb Avg",
+            "result" => "",
+            "score" => "",
+        ),
+        array(
+            "type" => "average",
+            "eventId" => "sq1",
+            "label" => "SQ1 Avg",
+            "result" => "",
+            "score" => "",
+        ),
+    );
+    $averageScore = "";
+
+    if ($customResults) {
+        include "../../php/event_utils.php";
+        include "../../php/kinch.php";
+
+        $calcKinchInput = array();
+
         // The GROUP BY ensures we only get one row per event.
         // Sometimes people are tied for first place.
-        $worldQuery = "
+        $query = "
         SELECT
             e.id as eventId,
             rs2.best AS bestSingle,
@@ -90,201 +249,10 @@ input {
         WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
         GROUP BY e.id;
         ";
-        $stmt = $db->prepare($worldQuery);
-        return $stmt;
-    }
-    
-    $customResults = json_decode($_GET["results"] ?? "{}", true);
-    $formattedResults = array(
-        "222" => array("single" => null, "average" => null),
-        "333" => array("single" => null, "average" => null),
-        "333bf" => array("single" => null, "average" => null),
-        "333fm" => array("single" => null, "average" => null),
-        "333mbf" => array("single" => null, "average" => null),
-        "333oh" => array("single" => null, "average" => null),
-        "444" => array("single" => null, "average" => null),
-        "444bf" => array("single" => null, "average" => null),
-        "555" => array("single" => null, "average" => null),
-        "555bf" => array("single" => null, "average" => null),
-        "666" => array("single" => null, "average" => null),
-        "777" => array("single" => null, "average" => null),
-        "clock" => array("single" => null, "average" => null),
-        "minx" => array("single" => null, "average" => null),
-        "pyram" => array("single" => null, "average" => null),
-        "skewb" => array("single" => null, "average" => null),
-        "sq1" => array("single" => null, "average" => null),
-    );
-
-    $tableRows = array(
-        array(
-            "type" => "average",
-            "event" => "222",
-            "label" => "2x2 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "333",
-            "label" => "3x3 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "single",
-            "event" => "333bf",
-            "label" => "3BLD Single",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "333bf",
-            "label" => "3BLD Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "single",
-            "event" => "333fm",
-            "label" => "FMC Single",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "333fm",
-            "label" => "FMC Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "single",
-            "event" => "333mbf",
-            "label" => "Multiblind",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "333oh",
-            "label" => "OH Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "444",
-            "label" => "4x4 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "single",
-            "event" => "444bf",
-            "label" => "4BLD Single",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "444bf",
-            "label" => "4BLD Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "555",
-            "label" => "5x5 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "single",
-            "event" => "555bf",
-            "label" => "5BLD Single",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "555bf",
-            "label" => "5BLD Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "666",
-            "label" => "6x6 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "777",
-            "label" => "7x7 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "clock",
-            "label" => "Clock Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "minx",
-            "label" => "Mega Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "pyram",
-            "label" => "Pyra Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "skewb",
-            "label" => "Skewb Avg",
-            "result" => "",
-            "score" => "",
-        ),
-        array(
-            "type" => "average",
-            "event" => "sq1",
-            "label" => "SQ1 Avg",
-            "result" => "",
-            "score" => "",
-        ),
-    );
-    $averageScore = "";
-
-    function formatResult($event, $type, $result) {
-        if ($event === "333mbf") {
-            return formatMbld($result);
-        } else if ($event === "333fm"  && $type === "single") {
-            return $result;
-        }
-        return $result / 100;
-    }
-
-    if ($customResults) {
-        include "../../php/kinch.php";
-
-        // { eventId: { single, average, bestSingle, bestAverage }}
-        $calcKinchInput = array();
-
-        // Fetch official results from the database
-        $stmt = buildKinchStatement($db);
+        $stmt = $db->prepare($query);
         $rows = $stmt->execute();
 
+        // Format to fit what calcKinch expects
         while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
 
             $eventId = $row["eventId"];
@@ -307,29 +275,20 @@ input {
             }
         }
 
-        $scores = calcKinchScores($calcKinchInput);
-        foreach ($scores as $scoreRow) {
-            $eventId = $scoreRow[0];
-            $score = $scoreRow[1];
-            $result = $scoreRow[2];
-            $type = $scoreRow[3];
+        $kinchOutput = calcKinch($calcKinchInput);
+        $averageScore = calcAverageKinchScore($kinchOutput);
 
-            $tableRowIndex = -1;
-            foreach ($tableRows as $index => $row) {
-                if ($row["event"] == $eventId && $row["type"] == $type) {
-                    $tableRowIndex = $index;
-                }
+        for ($i = 0; $i < count($kinchOutput); $i++) {
+            $eventName = $eventIdToName[$kinchOutput[$i]["eventId"]];
+
+            if ($kinchOutput[$i]["type"] === "single") {
+                $kinchOutput[$i]["label"] = $eventName . " Single";
+            } else if ($kinchOutput[$i]["type"] === "average") {
+                $kinchOutput[$i]["label"] = $eventName . " Avg";
+            } else {
+                $kinchOutput[$i]["label"] = $eventName;
             }
-
-            if ($tableRowIndex === -1) continue;
-            if (!$score) continue;
-            $tableRows[$tableRowIndex]["score"] = round($score, 2);
-            $tableRows[$tableRowIndex]["result"] = formatResult($eventId, $type, $result);
         }
-
-
-        $averageScore = calcAverageKinchScore($scores);
-        $averageScore = round($averageScore, 2);
     }
 
     $db->close();
@@ -340,28 +299,28 @@ input {
             <thead>
                 <tr>
                     <th>Event</th>
-                    <th>Result</th>
                     <th>Score</th>
+                    <th>Result</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Overall</td>
-                    <td></td>
                     <td><?php echo $averageScore; ?></td>
+                    <td></td>
                 </tr>
-                <?php foreach ($tableRows as $row) { ?>
+                <?php foreach ($kinchOutput as $row) { ?>
                     <tr>
                         <td><?php echo $row["label"] ?></td>
+                        <td><?php echo $row["score"] ?></td>
                         <td>
                             <input
                                 placeholder="<?php echo $row["label"] ?>"
                                 data-type="<?php echo $row["type"] ?>"
-                                data-event="<?php echo $row["event"] ?>"
+                                data-event="<?php echo $row["eventId"] ?>"
                                 value="<?php echo $row["result"] ?>"
                             />
                         </td>
-                        <td><?php echo $row["score"] ?></td>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -20,10 +20,6 @@ function goToPage(page, pages) {
     page = Math.min(pages, page);
     setUrlParam('page', page);
 }
-
-function onChangeRegion(event) {
-    setUrlParam('region', event.target.value);
-}
 </script>
 
 <style>
@@ -103,7 +99,9 @@ $perPage = 20;
             ?>
             <div style="margin-top: 1rem;"></div>
             <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
-            <script>document.querySelector("#select-region").addEventListener("change", onChangeRegion)</script>
+            <script>
+                selectRegion.onchange = event => setUrlParam('region', event.target.value);
+            </script>
         </div>
         <div style="margin-top: 1rem;"></div>
         <?php
@@ -212,7 +210,8 @@ $perPage = 20;
         </tr>";
 
         include "../php/kinch.php";
-        $scores = calcKinchScores($results);
+        include "../php/event_utils.php";
+        $scores = calcKinch($results);
         $averageScore = calcAverageKinchScore($scores);
 
         function buildRankStatement($db, $averageScore, $wcaId, $region) {
@@ -272,24 +271,12 @@ $perPage = 20;
         echo "<td></td>";
         echo "</tr>";
 
-        function formatResult($event, $result) {
-            if ($event === "333mbf") {
-                return formatMbld($result);
-            } else if ($event === "333fm") {
-                return $result;
-            }
-            return $result / 100;
-        }
-
         foreach ($scores as $row) {
-            $event = $row[0];
-            $score = round($row[1], 2);
-            $result = $row[2];
-            $result = formatResult($event, $result);
+            $eventName = $eventIdToName[$row["eventId"]];
             echo "<tr>";
-            echo "<td>$event</td>";
-            echo renderCell($score);
-            echo "<td>$result</td>";
+            echo "<td>$eventName</td>";
+            echo renderCell($row["score"]);
+            echo "<td>$row[result]</td>";
             echo "</tr>";
         }
 
@@ -301,7 +288,9 @@ $perPage = 20;
             renderSearchElement("/kinch-ranks", $wcaId);
             ?>
             <div style="width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
-            <script>document.querySelector("#select-region").addEventListener("change", onChangeRegion)</script>
+            <script>
+                selectRegion.onchange = event => setUrlParam('region', event.target.value);
+            </script>
         </div>
         <div style="margin-top: 1rem;"></div>
         <?php

@@ -40,31 +40,13 @@ function setUrlParam(key, value) {
     <main>
         <h1 style="text-align: center;">WCA Comps sorted by distance</h1>
         <?php
+            include "../php/event_utils.php";
+
             $lat = $_GET["lat"];
             $lon = $_GET["lon"];
 
             // Array of event ids.
             $events = $_GET["events"] ? explode("-", $_GET["events"]) : [];
-
-            $eventIdToName = [
-                "333" => "3x3",
-                "222" => "2x2",
-                "444" => "4x4",
-                "555" => "5x5",
-                "666" => "6x6",
-                "777" => "7x7",
-                "333bf" => "3BLD",
-                "333fm" => "FMC",
-                "333oh" => "OH",
-                "clock" => "Clock",
-                "minx" => "Mega",
-                "pyram" => "Pyra",
-                "skewb" => "Skewb",
-                "sq1" => "SQ1",
-                "444bf" => "4BLD",
-                "555bf" => "5BLD",
-                "333mbf" => "MBLD",
-            ];
         ?>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
             <a class="link" href="https://www.latlong.net/" target="_blank" style="margin-top: 16px;">Get latitude & longitude here</a>
