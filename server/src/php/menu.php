@@ -151,8 +151,8 @@
             echo "</button>";
             echo "<div class='expandableChild'>";
                 foreach ($group as $alg) {
-                    $alg = str_replace("-", " ", $alg);
-                    echo "<a href='/algorithms/$alg' class='menuLink'>$alg</a>";
+                    $algName = str_replace("-", " ", $alg);
+                    echo "<a href='/algorithms/$algName' class='menuLink'>$alg</a>";
                 }
             echo "</div>";
         echo "</div>";
