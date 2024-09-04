@@ -152,7 +152,7 @@
             echo "<div class='expandableChild'>";
                 foreach ($group as $alg) {
                     $algName = str_replace("-", " ", $alg);
-                    echo "<a href='/algorithms/$algName' class='menuLink'>$alg</a>";
+                    echo "<a href='/algorithms/$alg' class='menuLink'>$algName</a>";
                 }
             echo "</div>";
         echo "</div>";
