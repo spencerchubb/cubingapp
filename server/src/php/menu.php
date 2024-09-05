@@ -150,9 +150,9 @@
                 echo "<svg viewBox='0 0 100 100' stroke='var(--gray-100)' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M 25,8 L 75,50 L 25,92' /></svg>";
             echo "</button>";
             echo "<div class='expandableChild'>";
-                foreach ($group as $alg) {
-                    $alg = str_replace("-", " ", $alg);
-                    echo "<a href='/algorithms/$alg' class='menuLink'>$alg</a>";
+                foreach ($group as $algSet) {
+                    $algSetWithSpaces = str_replace("-", " ", $algSet);
+                    echo "<a href='/algorithms/$algSet' class='menuLink'>$algSetWithSpaces</a>";
                 }
             echo "</div>";
         echo "</div>";
