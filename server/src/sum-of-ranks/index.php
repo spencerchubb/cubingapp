@@ -20,14 +20,6 @@ function goToPage(page, pages) {
     page = Math.min(pages, page);
     setUrlParam('page', page);
 }
-
-function onChangeRegion(event) {
-    setUrlParam('region', event.target.value);
-}
-
-function onChangeType(event) {
-    setUrlParam("type", event.target.value);
-}
 </script>
 
 <?php
@@ -54,14 +46,14 @@ $perPage = 20;
                 renderSearchElement("/sum-of-ranks", $wcaId);
             ?>
             <select
-                id="select-type"
+                id="selectType"
                 style="margin-top: 1rem; width: 100%; max-width: 300px;"
             >
                 <option value="Single" <?php echo $type === "Single" ? "selected" : "" ?>>Single</option>
                 <option value="Average" <?php echo $type === "Average" ? "selected" : "" ?>>Average</option>
             </select>
             <script>
-                document.querySelector("#select-type").addEventListener("change", onChangeType);
+                selectType.onchange = event => setUrlParam("type", event.target.value);
             </script>
         </div>
         <?php
@@ -178,15 +170,15 @@ $perPage = 20;
             ?>
             <div style="margin-top: 1rem; width: 100%; max-width: 300px;"><?php include "../php/select_region.php" ?></div>
             <select
-                id="select-type"
+                id="selectType"
                 style="margin-top: 1rem; width: 100%; max-width: 300px;"
             >
                 <option value="Single" <?php echo $type === "Single" ? "selected" : "" ?>>Single</option>
                 <option value="Average" <?php echo $type === "Average" ? "selected" : "" ?>>Average</option>
             </select>
             <script>
-                document.querySelector("#select-region").addEventListener("change", onChangeRegion);
-                document.querySelector("#select-type").addEventListener("change", onChangeType);
+                selectRegion.onchange = event => setUrlParam("region", event.target.value);
+                selectType.onchange = event => setUrlParam("type", event.target.value);
             </script>
         </div>
         <?php

@@ -19,6 +19,15 @@ $eventIdToName = [
     "333mbf" => "MBLD",
 ];
 
+include_once "option.php";
+function selectEvent($selectedEvent, $eventIdToName) {
+    echo "<select id='selectEvent' style='width: 100%;'>";
+    foreach ($eventIdToName as $id => $name) {
+        echo createOption($id, $name, $selectedEvent);
+    }
+    echo "</select>";
+}
+
 function formatResult($event, $type, $result) {
     if ($event === "333mbf") {
         return formatMbld($result);
