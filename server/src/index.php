@@ -121,9 +121,9 @@
                 echo "<h2>$groupName Algs</h2>";
                 echo "</button>";
                 echo "<div class='algLinks'>";
-                    foreach ($group as $alg) {
-                        $alg = str_replace("-", " ", $alg);
-                        echo "<a href='/algorithms/$alg' class='link'>$alg</a>";
+                    foreach ($group as $algSet) {
+                        $algSetWithSpaces = str_replace("-", " ", $algSet);
+                        echo "<a href='/algorithms/$algSet' class='link'>$algSetWithSpaces</a>";
                     }
                 echo "</div>";
             echo "</div>";
