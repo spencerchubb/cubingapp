@@ -27,7 +27,10 @@ https://cubingapp.com/algorithms/Winter-Variation/
 https://cubingapp.com/algorithms/ZBLL/
 https://cubingapp.com/am-i-sub-x/
 https://cubingapp.com/birthdays/
+https://cubingapp.com/blog/is-speedcubing-a-sport/
 https://cubingapp.com/competitions/
+https://cubingapp.com/contributor-ranks/
+https://cubingapp.com/event-comparisons/
 https://cubingapp.com/kinch-ranks/
 https://cubingapp.com/name-ranks/
 https://cubingapp.com/record-streak/
