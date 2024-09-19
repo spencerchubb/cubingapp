@@ -130,6 +130,12 @@
         }
         ?>
 
+        <h2 style="margin-top: 32px;">Blog Posts</h2>
+        <ul style="margin-top: 8px;">
+            <li><a href="/blog/best-speedcubing-method" class="link">What is the best speedcubing method?</a></li>
+            <li><a href="/blog/is-speedcubing-a-sport" class="link">Is speedcubing a sport?</a></li>
+        </ul>
+
         <div style="margin-top: 150px;"></div>
         <p>
             If you made it this far and you know what github is, 
