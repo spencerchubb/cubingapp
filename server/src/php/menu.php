@@ -6,17 +6,17 @@
         flex-direction: row;
     }
 
+    .hoverHighlight:hover {
+        transition: all 0.15s ease-in-out;
+        background: var(--gray-600);
+    }
+
     .iconButton {
         width: 48px;
         height: 48px;
         cursor: pointer;
         padding: 10px;
         border-radius: 8px;
-        transition: all 0.15s ease-in-out;
-
-        &:hover {
-            background: var(--gray-600);
-        }
     }
     #menu {
         min-width: 250px;
@@ -103,9 +103,7 @@
         gap: 8px;
         border-radius: 0;
 
-        &:hover {
-            background: var(--gray-600);
-        }
+        &:hover { background: var(--gray-600); }
     }
 
     /* Hide child by default */
@@ -117,7 +115,6 @@
         display: block;
         padding: 0.5rem 1rem 0.5rem 2rem;
         color: var(--gray-100);
-        transition: all 0.15s ease-in-out;
 
         &:hover {
             background: var(--gray-600);
@@ -126,7 +123,7 @@
 </style>
 
 <div class="topBar">
-    <svg id="menuIcon" class="iconButton" viewBox="0 0 100 100" stroke="var(--gray-100)"  stroke-width="10">
+    <svg id="menuIcon" class="iconButton hoverHighlight" viewBox="0 0 100 100" stroke="var(--gray-100)"  stroke-width="10">
         <path d="M 0,15 h 100" />
         <path d="M 0,50 h 100" />
         <path d="M 0,85 h 100" />
@@ -138,39 +135,47 @@
 <?php include "algSetGroups.php"; ?>
 
 <div id="menu">
-    <svg id="menuClose" class="iconButton" viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="12" stroke-linecap="round">
+    <svg id="menuClose" class="iconButton hoverHighlight" viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="12" stroke-linecap="round">
         <path d="M 10,10 L 90,90" />
         <path d="M 90,10 L 10,90" />
     </svg>
+    <a
+        href="/"
+        class="hoverHighlight"
+        style="display: flex; align-items: center; gap: 12px; padding: 8px 16px; color: var(--gray-100); font-weight: bold;"
+    >
+        <img src="/assets/favicon.svg" alt="Logo" width="24" height="24">
+        CubingApp
+    </a>
     <?php
     foreach ($algSetGroups as $groupName => $group) {
         echo "<div class='expandable'>";
-            echo "<button class='expandableButton'>";
+            echo "<button class='expandableButton hoverHighlight'>";
                 echo "<p>$groupName Algs</p>";
                 echo "<svg viewBox='0 0 100 100' stroke='var(--gray-100)' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M 25,8 L 75,50 L 25,92' /></svg>";
             echo "</button>";
             echo "<div class='expandableChild'>";
                 foreach ($group as $algSet) {
                     $algSetWithSpaces = str_replace("-", " ", $algSet);
-                    echo "<a href='/algorithms/$algSet' class='menuLink'>$algSetWithSpaces</a>";
+                    echo "<a href='/algorithms/$algSet' class='menuLink hoverHighlight'>$algSetWithSpaces</a>";
                 }
             echo "</div>";
         echo "</div>";
     }
     ?>
     <div class="expandable">
-        <button class="expandableButton">
+        <button class="expandableButton hoverHighlight">
             <p>Calculators</p>
             <svg viewBox="0 0 100 100" stroke="var(--gray-100)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M 25,8 L 75,50 L 25,92" /></svg>
         </button>
         <div class="expandableChild">
-            <a href="/am-i-sub-x" class="menuLink">Am I Sub-X?</a>
-            <a href="/birthdays" class="menuLink">WCA Birthdays</a>
-            <a href="/competitions" class="menuLink">Competition Distance</a>
-            <a href="/kinch-ranks" class="menuLink">Kinch Ranks</a>
-            <a href="/name-ranks" class="menuLink">Name Ranks</a>
-            <a href="/record-streak" class="menuLink">Record Streak</a>
-            <a href="/sum-of-ranks" class="menuLink">Sum of Ranks</a>
+            <a href="/am-i-sub-x" class="menuLink hoverHighlight">Am I Sub-X?</a>
+            <a href="/birthdays" class="menuLink hoverHighlight">WCA Birthdays</a>
+            <a href="/competitions" class="menuLink hoverHighlight">Competition Distance</a>
+            <a href="/kinch-ranks" class="menuLink hoverHighlight">Kinch Ranks</a>
+            <a href="/name-ranks" class="menuLink hoverHighlight">Name Ranks</a>
+            <a href="/record-streak" class="menuLink hoverHighlight">Record Streak</a>
+            <a href="/sum-of-ranks" class="menuLink hoverHighlight">Sum of Ranks</a>
         </div>
     </div>
 </div>
