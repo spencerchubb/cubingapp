@@ -36,7 +36,7 @@ blogStyle();
         This might make some people mad right off the bat, but here is my reasoning.
     </p>
     <p>
-        About 95% of <a>top cubers</a> use CFOP, and the remaining cubers use Roux.
+        About 95% of <a href="/ranks">top cubers</a> use CFOP, and the remaining cubers use Roux.
         Now some people might use this is evidence that CFOP is better than Roux, but let's not jump to conclusions.
     </p>
     <p>
