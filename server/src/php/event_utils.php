@@ -31,7 +31,7 @@ function selectEvent($selectedEvent, $eventIdToName) {
 function formatResult($event, $type, $result) {
     if ($event === "333mbf") {
         return formatMbld($result);
-    } else if ($event === "333fm"  && $type === "single") {
+    } else if ($event === "333fm"  && strtolower($type) === "single") {
         return $result;
     }
     return $result / 100;

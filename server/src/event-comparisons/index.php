@@ -142,7 +142,7 @@ $type = $_GET["type"] ?? "Single";
         while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
             echo "<tr>
                 <td>" . $eventIdToName[$row["eventId"]] . "</td>
-                <td>" . formatResult($row["eventId"], strtolower($type), $row["result"]) . "</td>
+                <td>" . formatResult($row["eventId"], $type, $row["result"]) . "</td>
                 <td>$row[name]</td>
             </tr>";
         }
