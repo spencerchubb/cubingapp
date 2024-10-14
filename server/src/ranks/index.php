@@ -56,7 +56,6 @@ $perPage = 100;
             selectEvent.onchange = event => setUrlParam("event", event.target.value);
             selectRegion.onchange = event => setUrlParam("region", event.target.value);
             selectType.onchange = event => setUrlParam("type", event.target.value);
-            contributorsCheckbox.onchange = event => setUrlParam("contributors", event.target.checked);
         </script>
     </div>
     <?php
