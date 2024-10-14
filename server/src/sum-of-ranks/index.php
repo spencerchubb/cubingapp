@@ -1,3 +1,28 @@
+<?php
+$wcaId = $_GET["wcaId"] ?? null;
+$region = $_GET["region"] ?? "World";
+$page = $_GET["page"] ?? 1;
+$type = $_GET["type"] ?? "Single";
+$perPage = 20;
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+$db = new SQLite3("/wca.db");
+
+if (!$db) {
+    die("Error connecting to the database: " . $db->lastErrorMsg());
+}
+
+$name = "";
+if ($wcaId) {
+    $stmt = $db->prepare("SELECT name FROM Persons WHERE id = :wcaId");
+    $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
+    $rows = $stmt->execute();
+    $row = $rows->fetchArray(SQLITE3_ASSOC);
+    $name = $row["name"];
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>Sum of Ranks</title>
+    <title><?php echo $name ? "$name: Sum of Ranks" : "Sum of Ranks"; ?></title>
 </head>
 
 <script>
@@ -22,19 +47,13 @@ function goToPage(page, pages) {
 }
 </script>
 
-<?php
-$wcaId = $_GET["wcaId"] ?? null;
-$region = $_GET["region"] ?? "World";
-$page = $_GET["page"] ?? 1;
-$type = $_GET["type"] ?? "Single";
-$perPage = 20;
-?>
-
 <body>
 <?php include_once "../php/menu.php"; ?>
 
 <main>
-    <h1 style="text-align: center; margin-bottom: 8px;">Sum of Ranks</h1>
+    <h1 style="text-align: center; margin-bottom: 8px;">
+        <?php echo $name ? "$name: Sum of Ranks" : "Sum of Ranks"; ?>
+    </h1>
     <?php include "../php/wca_attribution.php"; ?>
 
     <?php if ($wcaId) { ?>
@@ -57,13 +76,6 @@ $perPage = 20;
             </script>
         </div>
         <?php
-        error_reporting(E_ALL);
-        ini_set("display_errors", 1);
-        $db = new SQLite3("/wca.db");
-
-        if (!$db) {
-            die("Error connecting to the database: " . $db->lastErrorMsg());
-        }
 
         $query = "
         WITH User AS (
