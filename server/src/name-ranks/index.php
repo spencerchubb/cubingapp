@@ -154,77 +154,16 @@ function setUrlParam(key, value) {
             echo "<tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Score</th>
+                <th>Result</th>
             </tr>";
 
-            function timeToStr($centiseconds) {
-                $h = 360000;
-                $m = 6000;
-                $hours = floor($centiseconds / $h);
-                $minutes = floor(($centiseconds % $h) / $m);
-                $seconds = floor((($centiseconds % $h) % $m) / 100);
-                $milliseconds = $centiseconds % 100;
-            
-                // 02d means 2 digits with leading zeros if necessary.
-                if ($hours) {
-                    return sprintf('%d:%02d:%02d.%02d', $hours, $minutes, $seconds, $milliseconds);
-                } else if ($minutes) {
-                    return sprintf('%d:%02d.%02d', $minutes, $seconds, $milliseconds);
-                }
-                return sprintf('%d.%02d', $seconds, $milliseconds);
-            }
-
-            $fmcScoreToStr = [
-                "Single" => function ($score) {
-                    return $score;
-                },
-                "Average" => function ($score) {
-                    return $score / 100;
-                },
-            ][$type];
-
-            function mbldScoreToStr($value) {
-                $seconds = floor($value / 100) % 1e5;
-                $centiseconds = $seconds === 99999 ? null : $seconds * 100;
-                
-                $points = 99 - (floor($value / 1e7) % 100);
-                $missed = $value % 100;
-                $solved = $points + $missed;
-                $attempted = $solved + $missed;
-                return sprintf('%d/%d %s', $solved, $attempted, timeToStr($centiseconds));
-            }
-
-            function kinchOrSorToStr($score) {
-                return round($score, 2);
-            }
-
-            $scoreToStrFunction = [
-                "333" => "timeToStr",
-                "222" => "timeToStr",
-                "444" => "timeToStr",
-                "555" => "timeToStr",
-                "666" => "timeToStr",
-                "777" => "timeToStr",
-                "333bf" => "timeToStr",
-                "333fm" => $fmcScoreToStr,
-                "333oh" => "timeToStr",
-                "clock" => "timeToStr",
-                "minx" => "timeToStr",
-                "pyram" => "timeToStr",
-                "skewb" => "timeToStr",
-                "sq1" => "timeToStr",
-                "444bf" => "timeToStr",
-                "555bf" => "timeToStr",
-                "333mbf" => "mbldScoreToStr",
-                "Kinch" => "kinchOrSorToStr",
-                "Sum of Ranks" => "kinchOrSorToStr",
-            ][$event];
+            include "../php/event_utils.php";
 
             $i = 1;
             while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
                 $personId = $row["personId"];
                 $name = $row["name"];
-                $best = $scoreToStrFunction($row["best"]);
+                $best = formatResult($event, $type, $row["best"]);
 
                 echo "<tr>
                     <td>$i</td>

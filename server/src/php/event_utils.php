@@ -33,8 +33,29 @@ function formatResult($event, $type, $result) {
         return formatMbld($result);
     } else if ($event === "333fm"  && strtolower($type) === "single") {
         return $result;
+    } else if ($event === "Kinch") {
+        return sprintf("%.2f", $result);
+    } else if ($event === "Sum of Ranks") {
+        return $result;
     }
-    return $result / 100;
+    return timeToStr($result);
+}
+
+function timeToStr($centiseconds) {
+    $h = 360000;
+    $m = 6000;
+    $hours = floor($centiseconds / $h);
+    $minutes = floor(($centiseconds % $h) / $m);
+    $seconds = floor((($centiseconds % $h) % $m) / 100);
+    $milliseconds = $centiseconds % 100;
+
+    // 02d means 2 digits with leading zeros if necessary.
+    if ($hours) {
+        return sprintf('%d:%02d:%02d.%02d', $hours, $minutes, $seconds, $milliseconds);
+    } else if ($minutes) {
+        return sprintf('%d:%02d.%02d', $minutes, $seconds, $milliseconds);
+    }
+    return sprintf('%d.%02d', $seconds, $milliseconds);
 }
 
 function formatMbld($value) {
@@ -47,12 +68,8 @@ function formatMbld($value) {
     $seconds = floor($value / 100) % 1e5;
     $points = 99 - (floor($value / 1e7) % 100);
     $centiseconds = $seconds === 99999 ? null : $seconds * 100;
-    $hours = floor($centiseconds / 360000);
-    $minutes = floor(($centiseconds % 360000) / 6000);
-    $seconds = floor(($centiseconds % 6000) / 100);
 
-    $proportionOfHourLeft = 1 - $centiseconds / 360000;
-
-    return "$solved/$attempted $hours:$minutes:$seconds";
+    $time = timeToStr($centiseconds);
+    return "$solved/$attempted $time";
 }
 ?>
