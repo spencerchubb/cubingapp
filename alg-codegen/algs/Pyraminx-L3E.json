@@ -1,0 +1,19 @@
+{
+    "puzzle": "Pyramix",
+     "texts": [
+        "L3E stands for Last 3 Edges. L3E is a pyraminx method that solves the last 3 edges."
+    ],
+    "cases": [   
+        {
+            "name": "CLL AS 1",
+            "subsets": ["Down-Edge Solved"],
+            "algs": [
+                "(R U' R') U' (R U' R')'",
+                "L' U L) U (L' U L)'",
+                "(R' L R L') U (L' U' L)'",
+                "L (U R U' R') L'"        
+             
+        }
+    }
+}
+       
