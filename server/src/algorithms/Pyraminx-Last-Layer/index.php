@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>4x4 PLL Parity Algorithms</title>
+    <title>Pyraminx Last Layer Algorithms</title>
 </head>
 
 <?php
@@ -20,12 +20,12 @@ include_once "../colorScheme.php";
 
     <main>
         <div style="width: 100%; max-width: 700px; height: 100%;">
-            <h1>4x4 PLL Parity Algorithms</h1>
-            <p class="bodytext">When you are solving a 4x4, PLL parity can significantly slow down a solve. Luckily, there are some tricks you can use to minimize the damage without learning too mamny new algorithms.</p>
-			<p class="bodytext">Some algorithms in this set are similar to PLL algorithms you already know, except there is a parity algorithm mixed in. By doing the parity algorithm strategically, you can turn a slow PLL into a fast PLL.</p>
+            <h1>Pyraminx Last Layer Algorithms</h1>
+            <p class="bodytext">The Layer By Layer (LBL) method for the Pyraminx has two main steps: 1) Solve the first layer and 2) solve the last layer. These 5 algorithms are used to solve the last layer of the Pyraminx.</p>
+			<p class="bodytext">Some cubers refer to this step as Last 3 Edges, or L3E for short.</p>
             
             <?php
-            include_once "../colorSelect.php";
+            
             include_once "../subsetsNarrow.php";
             include_once "./algs.php";
             ?>

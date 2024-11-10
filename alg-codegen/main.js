@@ -586,11 +586,11 @@ class SQ1 {
     }
 
     svgTop() {
-        return getSVG(this.top, true);
+        return this.getSvg(this.top, true);
     }
 
     svgBottom() {
-        return getSVG(this.bottom, false);
+        return this.getSvg(this.bottom, false);
     }
 
     performAlg(alg) {
@@ -633,121 +633,209 @@ class SQ1 {
     }
 
     U(n) {
-        this.top = turnFace(-n, this.top);
+        this.top = this.turnFace(-n, this.top);
     }
 
     D(n) {
-        this.bottom = turnFace(n, this.bottom);
+        this.bottom = this.turnFace(n, this.bottom);
     }
 
+    getTotal(face) {
+        let total = 0;
+        for (const value of face) {
+            total += value % 2 === 0 ? 2 : 1;
+        }
+        return total;
+    }
+    
+    turnFace(n, face) {
+        let count = 0;
+        let index = 0;
+        let total = this.getTotal(face);
+    
+        if (n < 0) {
+            n = total + n;
+        }
+    
+        // Even numbers are worth 2, odd numbers are worth 1
+        for (const value of face) {
+            count += value % 2 === 0 ? 2 : 1;
+            index += 1;
+    
+            if (count === n) break;
+        }
+    
+        let beginning = face.slice(0, index);
+        let end = face.slice(index);
+        return end.concat(beginning);
+    }
+
+    getSvg(face, top) {
+        const pieces = [
+            [DARK_GRAY, BLUE, RED],
+            [DARK_GRAY, BLUE],
+            [DARK_GRAY, ORANGE, BLUE],
+            [DARK_GRAY, ORANGE],
+            [DARK_GRAY, GREEN, ORANGE],
+            [DARK_GRAY, GREEN],
+            [DARK_GRAY, RED, GREEN],
+            [DARK_GRAY, RED],
+            [WHITE, RED, BLUE],
+            [WHITE, BLUE],
+            [WHITE, BLUE, ORANGE],
+            [WHITE, ORANGE],
+            [WHITE, ORANGE, GREEN],
+            [WHITE, GREEN],
+            [WHITE, GREEN, RED],
+            [WHITE, RED],
+        ];
+    
+        let size = 100;
+        let mid = size / 2;
+        let pad = 0.15 * size; // padding around the whole thing
+        let width = 0.1 * size; // width of outer pieces
+        let inner = (width + pad - mid) / Math.tan(75 * Math.PI / 180) + mid; // inner width of corner
+        let outer = (pad - mid) / Math.tan(75 * Math.PI / 180) + mid; // outer width of corner
+    
+        let corner1 = `${mid},${mid} ${inner},${size - width - pad} ${width + pad},${size - width - pad} ${width + pad},${size - inner}`;
+        let corner2 = `${pad},${size - pad} ${width + pad},${size - width - pad} ${width + pad},${size - inner} ${pad},${size - outer}`;
+        let corner3 = `${pad},${size - pad} ${width + pad},${size - width - pad} ${inner},${size - width - pad} ${outer},${size - pad}`;
+        let edge1 = `${mid},${mid} ${size - inner},${size - width - pad} ${inner},${size - width - pad}`;
+        let edge2 = `${outer},${size - pad} ${inner},${size - width - pad} ${size - inner},${size - width - pad} ${size - outer},${size - pad}`;
+    
+        if (!top) {
+            [corner2, corner3] = [corner3, corner2];
+        }
+    
+        let angle = 0; // angle in degrees
+        let polygons = [];
+        for (let i = 0; i < face.length; i++) {
+            const piece = pieces[face[i]];
+            if (piece.length === 3) {
+                polygons.push({ points: rotatePoints2d(corner1, mid, mid, angle), fill: piece[0] });
+                polygons.push({ points: rotatePoints2d(corner2, mid, mid, angle), fill: piece[1] });
+                polygons.push({ points: rotatePoints2d(corner3, mid, mid, angle), fill: piece[2] });
+    
+                angle -= 60;
+            } else if (piece.length === 2) {
+                polygons.push({ points: rotatePoints2d(edge1, mid, mid, angle - 30), fill: piece[0] });
+                polygons.push({ points: rotatePoints2d(edge2, mid, mid, angle - 30), fill: piece[1] });
+    
+                angle -= 30;
+            } else {
+                console.error("Invalid piece length:", piece);
+            }
+        }
+    
+        return `<svg viewBox="0 0 ${size} ${size}" stroke-linejoin="round">${polygons.map(polygon => {
+                return `<polygon points="${polygon.points}" fill="${polygon.fill}"/>`;
+            }).join("")}</svg>`;
+    }
 }
 
-function getTotal(face) {
-    let total = 0;
-    for (const value of face) {
-        total += value % 2 === 0 ? 2 : 1;
+function cycle(state, cycle, clockwise) {
+    if (!clockwise) cycle.reverse();
+    const temp = state[cycle[cycle.length - 1]];
+    for (let i = cycle.length - 1; i > 0; i--) {
+        state[cycle[i]] = state[cycle[i - 1]];
     }
-    return total;
+    state[cycle[0]] = temp;
 }
 
-function turnFace(n, face) {
-    let count = 0;
-    let index = 0;
-    let total = getTotal(face);
-
-    if (n < 0) {
-        n = total + n;
-    }
-
-    // Even numbers are worth 2, odd numbers are worth 1
-    for (const value of face) {
-        count += value % 2 === 0 ? 2 : 1;
-        index += 1;
-
-        if (count === n) break;
-    }
-
-    let beginning = face.slice(0, index);
-    let end = face.slice(index);
-    return end.concat(beginning);
+function cycles(state, cycles, clockwise) {
+    cycles.forEach(_cycle => cycle(state, _cycle, clockwise));
 }
 
-const pieces = [
-    [DARK_GRAY, BLUE, RED],
-    [DARK_GRAY, BLUE],
-    [DARK_GRAY, ORANGE, BLUE],
-    [DARK_GRAY, ORANGE],
-    [DARK_GRAY, GREEN, ORANGE],
-    [DARK_GRAY, GREEN],
-    [DARK_GRAY, RED, GREEN],
-    [DARK_GRAY, RED],
-    [WHITE, RED, BLUE],
-    [WHITE, BLUE],
-    [WHITE, BLUE, ORANGE],
-    [WHITE, ORANGE],
-    [WHITE, ORANGE, GREEN],
-    [WHITE, GREEN],
-    [WHITE, GREEN, RED],
-    [WHITE, RED],
-];
-
-function numToLetter(num) {
-    if (num < 1) {
-        throw new Error('Number must be greater than 0');
+class Pyraminx {
+    constructor() {
+        this.state = [
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
+            1, 1, 1, 1, 1, 1, 1, 1, 1,
+            2, 2, 2, 2, 2, 2, 2, 2, 2,
+            3, 3, 3, 3, 3, 3, 3, 3, 3,
+        ];
     }
 
-    let result = '';
-    while (num > 0) {
-        num--; // Adjust for 0-indexing
-        let charCode = (num % 26) + 97; // 97 is the char code for 'a'
-        result = String.fromCharCode(charCode) + result;
-        num = Math.floor(num / 26);
-    }
-
-    return result;
-}
-
-function getSVG(face, top) {
-    let size = 100;
-    let mid = size / 2;
-    let pad = 0.15 * size; // padding around the whole thing
-    let width = 0.1 * size; // width of outer pieces
-    let inner = (width + pad - mid) / Math.tan(75 * Math.PI / 180) + mid; // inner width of corner
-    let outer = (pad - mid) / Math.tan(75 * Math.PI / 180) + mid; // outer width of corner
-
-    let corner1 = `${mid},${mid} ${inner},${size - width - pad} ${width + pad},${size - width - pad} ${width + pad},${size - inner}`;
-    let corner2 = `${pad},${size - pad} ${width + pad},${size - width - pad} ${width + pad},${size - inner} ${pad},${size - outer}`;
-    let corner3 = `${pad},${size - pad} ${width + pad},${size - width - pad} ${inner},${size - width - pad} ${outer},${size - pad}`;
-    let edge1 = `${mid},${mid} ${size - inner},${size - width - pad} ${inner},${size - width - pad}`;
-    let edge2 = `${outer},${size - pad} ${inner},${size - width - pad} ${size - inner},${size - width - pad} ${size - outer},${size - pad}`;
-
-    if (!top) {
-        [corner2, corner3] = [corner3, corner2];
-    }
-
-    let angle = 0; // angle in degrees
-    let polygons = [];
-    for (let i = 0; i < face.length; i++) {
-        const piece = pieces[face[i]];
-        if (piece.length === 3) {
-            polygons.push({ points: rotatePoints2d(corner1, mid, mid, angle), fill: piece[0] });
-            polygons.push({ points: rotatePoints2d(corner2, mid, mid, angle), fill: piece[1] });
-            polygons.push({ points: rotatePoints2d(corner3, mid, mid, angle), fill: piece[2] });
-
-            angle -= 60;
-        } else if (piece.length === 2) {
-            polygons.push({ points: rotatePoints2d(edge1, mid, mid, angle - 30), fill: piece[0] });
-            polygons.push({ points: rotatePoints2d(edge2, mid, mid, angle - 30), fill: piece[1] });
-
-            angle -= 30;
-        } else {
-            console.error("Invalid piece length:", piece);
+    performMove(move) {
+        const F1 = 0, F2 = 1, F3 = 2, F4 = 3, F5 = 4, F6 = 5, F7 = 6, F8 = 7, F9 = 8;
+        const L1 = 9, L2 = 10, L3 = 11, L4 = 12, L5 = 13, L6 = 14, L7 = 15, L8 = 16, L9 = 17;
+        const R1 = 18, R2 = 19, R3 = 20, R4 = 21, R5 = 22, R6 = 23, R7 = 24, R8 = 25, R9 = 26;
+        const D1 = 27, D2 = 28, D3 = 29, D4 = 30, D5 = 31, D6 = 32, D7 = 33, D8 = 34, D9 = 35;
+    
+        const U_CYCLES = [[F2, L2, R2], [F3, L3, R3], [F4, L4, R4]];
+        const U_TIP_CYCLES = [[F1, L1, R1]];
+        const L_CYCLES = [[F2, D4, L7], [F6, D3, L8], [F7, D2, L4]];
+        const L_TIP_CYCLES = [[F5, D1, L9]];
+        const R_CYCLES = [[F4, R7, D4], [F8, R6, D8], [F7, R2, D7]];
+        const R_TIP_CYCLES = [[F9, R5, D9]];
+    
+        switch (move) {
+            case "U":
+                cycles(this.state, U_CYCLES, true);
+                cycles(this.state, U_TIP_CYCLES, true);
+                break;
+            case "U'":
+                cycles(this.state, U_CYCLES, false);
+                cycles(this.state, U_TIP_CYCLES, false);
+                break;
+            case "L":
+                cycles(this.state, L_CYCLES, true);
+                cycles(this.state, L_TIP_CYCLES, true);
+                break;
+            case "L'":
+                cycles(this.state, L_CYCLES, false);
+                cycles(this.state, L_TIP_CYCLES, false);
+                break;
+            case "R":
+                cycles(this.state, R_CYCLES, true);
+                cycles(this.state, R_TIP_CYCLES, true);
+                break;
+            case "R'":
+                cycles(this.state, R_CYCLES, false);
+                cycles(this.state, R_TIP_CYCLES, false);
+                break;
+            default:
+                console.error("Invalid move:", move);
         }
     }
 
-    return `<svg viewBox="0 0 ${size} ${size}" stroke-linejoin="round">${polygons.map(polygon => {
-            return `<polygon points="${polygon.points}" fill="${polygon.fill}"/>`;
-        }).join("")}</svg>`;
+    performAlg(alg) {
+        alg = alg.replaceAll("(", "").replaceAll(")", "");
+        alg = alg.split(" ");
+        alg.forEach(move => {
+            this.performMove(move);
+        });
+    }
+
+    getSvg() {
+        const colors = ["#0f0", "#f00", "#00f", "#ff0"];
+    
+        const polygons = [
+            // tip
+            "500,577 666,673 334,673",
+    
+            // second layer
+            "500,770 334,673 166,770",
+            "500,770 666,673 334,673",
+            "500,770 666,673 834,770",
+    
+            // first layer
+            "10,860 166,770 334,860",
+            "500,770 334,860 166,770",
+            "500,770 334,860 666,860",
+            "500,770 666,860 834,770",
+            "990,860 666,860 834,770"
+        ];
+    
+        let html = "<svg id='svg' viewBox='0 0 1000 870' stroke='black' stroke-width='8' stroke-linejoin='round'>";  
+        polygons.forEach((points, i) => {
+            html += `<polygon fill="${colors[this.state[i]]}" points="${points}" />`;
+            html += `<polygon fill="${colors[this.state[i + 9]]}" points="${rotatePoints2d(points, 500, 577, 240)}" />`;
+            html += `<polygon fill="${colors[this.state[i + 18]]}" points="${rotatePoints2d(points, 500, 577, 120)}" />`;
+        });
+        html += "</svg>";
+        return html;
+    }
 }
 
 function rotatePoints2d(points, cx, cy, angle) {
@@ -756,7 +844,7 @@ function rotatePoints2d(points, cx, cy, angle) {
         let xFloat = parseFloat(x);
         let yFloat = parseFloat(y);
         let [nx, ny] = rotatePoint2d(xFloat, yFloat, cx, cy, angle);
-        return `${nx},${ny}`;
+        return `${Math.floor(nx)},${Math.floor(ny)}`;
     }).join(" ");
 }
 
@@ -766,7 +854,7 @@ function rotatePoint2d(x, y, cx, cy, angle) {
     let sin = Math.sin(radians);
     let nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
     let ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
-    return [Math.floor(nx), Math.floor(ny)];
+    return [nx, ny];
 }
 
 function renderCase(algSet, caseName, _case) {
@@ -781,11 +869,12 @@ function renderCase(algSet, caseName, _case) {
     let puzzle;
     if (algSet.puzzle === "SQ1") {
         puzzle = new SQ1();
+    } else if (algSet.puzzle === "Pyraminx") {
+        puzzle = new Pyraminx();
     } else {
         const layers = parseInt(algSet.puzzle[0]); // Example: "3x3" -> "3"
         puzzle = new Cube(layers);
     }
-    // cube.performAlg(state.orientation);
 
     if (algSet.gray) {
         algSet.gray.forEach(sticker => {
@@ -805,6 +894,9 @@ function renderCase(algSet, caseName, _case) {
     if (algSet.puzzle === "SQ1") {
         diagram = `${puzzle.svgTop()}${puzzle.svgBottom()}`;
         className = "viz-sq1";
+    } else if (algSet.puzzle === "Pyraminx") {
+        diagram = puzzle.getSvg();
+        className = "viz-pyraminx";
     } else if (algSet.diagramType === "2D") {
         diagram = puzzle.getSvg();
         className = `viz-2d-${algSet.puzzle}`;
@@ -940,7 +1032,7 @@ include_once "../colorScheme.php";
             ${algSet.texts.map(text => `<p class="bodytext">${text}</p>`).join("\n\t\t\t")}
             
             <?php
-            ${algSet.puzzle === "SQ1" ? "" : `include_once "../colorSelect.php";`}
+            ${algSet.puzzle === "SQ1" || algSet.puzzle === "Pyraminx" ? "" : `include_once "../colorSelect.php";`}
             include_once "../subsetsNarrow.php";
             include_once "./algs.php";
             ?>
