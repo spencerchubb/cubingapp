@@ -79,9 +79,6 @@
             line-height: 22px;
         }
 
-        & .info {
-            /* flex: 1 1 500px; */
-        }
 
         & p {
             display: flex;
@@ -184,8 +181,8 @@
         box-sizing: border-box;
         background: gray;
     }
-
     .viz-sq1 {
+        min-width: 150px;
         display: flex;
 
         & svg {
@@ -193,6 +190,9 @@
             height: 100px;
             stroke: black;
         }
+    }
+    .viz-pyraminx {
+        width: 200px;
     }
 
     video {

@@ -1,0 +1,24 @@
+{
+    "puzzle": "Pyraminx",
+    "texts": [
+        "The Layer By Layer (LBL) method for the Pyraminx has two main steps: 1) Solve the first layer and 2) solve the last layer. These 5 algorithms are used to solve the last layer of the Pyraminx.",
+        "Some cubers refer to this step as Last 3 Edges, or L3E for short."
+    ],
+    "cases": {
+        "Sune": {
+            "algs": {"(R U R') U (R U R')": {}}
+        },
+        "Antisune": {
+            "algs": {"(R U' R') U' (R U' R')": {}}
+        },
+        "2-flip": {
+            "algs": {"(L R' L' R) (U' R U R')": {}}
+        },
+        "R' unsexy R": {
+            "algs": {"R' (U' L' U L) R": {}}
+        },
+        "L unsexy L'": {
+            "algs": {"L (U R U' R') L'": {}}
+        }
+    }
+}

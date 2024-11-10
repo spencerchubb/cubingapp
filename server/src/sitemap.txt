@@ -17,6 +17,7 @@ https://cubingapp.com/algorithms/OH-CMLL/
 https://cubingapp.com/algorithms/OLL/
 https://cubingapp.com/algorithms/OLLCP/
 https://cubingapp.com/algorithms/PLL/
+https://cubingapp.com/algorithms/Pyraminx-Last-Layer/
 https://cubingapp.com/algorithms/SQ1-CP/
 https://cubingapp.com/algorithms/SQ1-CSP/
 https://cubingapp.com/algorithms/SQ1-Cube-Shape/
