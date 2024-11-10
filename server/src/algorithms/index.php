@@ -72,6 +72,12 @@
                 </a>
             </div>
             <div class="card">
+                <h2>Pyraminx</h2>
+                <a class="alg-set" href="/algorithms/Pyraminx-Last-Layer">
+                    Pyraminx Last Layer
+                </a>
+            </div>
+            <div class="card">
                 <h2>Square-1</h2>
                 <a class="alg-set" href="/algorithms/SQ1-Cube-Shape">
                     SQ1 Cube Shape
