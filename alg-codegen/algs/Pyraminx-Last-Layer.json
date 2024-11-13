@@ -1,24 +1,127 @@
 {
     "puzzle": "Pyraminx",
     "texts": [
-        "The Layer By Layer (LBL) method for the Pyraminx has two main steps: 1) Solve the first layer and 2) solve the last layer. These 5 algorithms are used to solve the last layer of the Pyraminx.",
-        "Some cubers refer to this step as Last 3 Edges, or L3E for short."
+        "Last 4 Edges (L4E) is an advanced Pyraminx method where you first make a V on the bottom, and insert the last bottom edge and solve the remaining 3 edges simultaneously.",
+        "Algorithms sourced from: <a href=\"https://cubing.mikeg.me.uk/cubing-algs/html/l4e.html\">https://cubing.mikeg.me.uk/cubing-algs/html/l4e.html</a>"
     ],
     "cases": {
-        "Sune": {
-            "algs": {"(R U R') U (R U R')": {}}
+        "Down-Edge Solved": {
+            "Down-Edge Solved #1": {
+                "algs": ["Skip"]
+            },
+            "Down-Edge Solved #2": {
+                "algs": ["(R U' R') U' (R U' R)"]
+            },
+            "Down-Edge Solved #3": {
+                "algs": ["(L' U L) U (L' U L)"]
+            },
+            "Down-Edge Solved #4": {
+                "algs": ["(R' L R L') U (L' U' L)"]
+            },
+            "Down-Edge Solved #5": {
+                "algs": ["L (U R U' R') L'"]
+            },
+            "Down-Edge Solved #6": {
+                "algs": ["R' (U' L' U L) R"]
+            }
         },
-        "Antisune": {
-            "algs": {"(R U' R') U' (R U' R')": {}}
+        "Down-Edge Flipped": {
+            "Down-Edge Flipped #1": {
+                "algs": ["(R' L R L') U (R' L R L') U (R' L R L')"]
+            },
+            "Down-Edge Flipped #2": {
+                "algs": ["(L R' L' R) U (L R' L' R)"]
+            },
+            "Down-Edge Flipped #3": {
+                "algs": ["(R' L R L') U' (R' L R L')"]
+            },
+            "Down-Edge Flipped #4": {
+                "algs": ["U' (R' L R L') (R U' R')", "U (L R' L' R) (L' U L)"]
+            },
+            "Down-Edge Flipped #5": {
+                "algs": ["U' (R U' R') (L' U' L)"]
+            },
+            "Down-Edge Flipped #6": {
+                "algs": ["U (L' U L) (R U R')"]
+            }
         },
-        "2-flip": {
-            "algs": {"(L R' L' R) (U' R U R')": {}}
+        "Upper-Edge Solved": {
+            "Upper-Edge Solved #1": {
+                "algs": ["U L' U' L"]
+            },
+            "Upper-Edge Solved #2": {
+                "algs": ["U' R U R'"]
+            },
+            "Upper-Edge Solved #3": {
+                "algs": ["U' R U R'"]
+            },
+            "Upper-Edge Solved #4": {
+                "algs": ["R' L R L'"]
+            },
+            "Upper-Edge Solved #5": {
+                "algs": ["R' L R L2' U L"]
+            },
+            "Upper-Edge Solved #6": {
+                "algs": ["L R' L' R2 U' R'"]
+            },
+            "Upper-Edge Solved #7": {
+                "algs": ["R U' R'"]
+            },
+            "Upper-Edge Solved #8": {
+                "algs": ["L' U L"]
+            }
         },
-        "R' unsexy R": {
-            "algs": {"R' (U' L' U L) R": {}}
+        "Upper-Edge Flipped": {
+            "Upper-Edge Flipped #1": {
+                "algs": ["(R U R') U (R' L R L')"]
+            },
+            "Upper-Edge Flipped #2": {
+                "algs": ["(L' U' L) U' (L R' L' R)"]
+            },
+            "Upper-Edge Flipped #3": {
+                "algs": ["U (L' U L) U' (R U R')"]
+            },
+            "Upper-Edge Flipped #4": {
+                "algs": ["U' (R U' R') U (L' U' L)"]
+            },
+            "Upper-Edge Flipped #5": {
+                "algs": ["(R U R') U (L' U L)"]
+            },
+            "Upper-Edge Flipped #6": {
+                "algs": ["(L' U' L) U' (R U' R')"]
+            },
+            "Upper-Edge Flipped #7": {
+                "algs": ["U (R' L R L') U (L' U L)"]
+            },
+            "Upper-Edge Flipped #8": {
+                "algs": ["U' (L R' L' R) U' (R U' R')"]
+            }
         },
-        "L unsexy L'": {
-            "algs": {"L (U R U' R') L'": {}}
+        "Nothing Placed": {
+            "Nothing Placed #1": {
+                "algs": ["U R U' R2' L R L'"]
+            },
+            "Nothing Placed #2": {
+                "algs": ["U' L' U L2 R' L' R"]
+            },
+            "Nothing Placed #3": {
+                "algs": ["U' (L' U' L) U (R U R')"]
+            },
+            "Nothing Placed #4": {
+                "algs": ["U (R U R') U' (L' U' L)"]
+            },
+            "Nothing Placed #5": {
+                "algs": ["U (R U' R') U' (R U R')"]
+            },
+            "Nothing Placed #6": {
+                "algs": ["U' (L' U L) U (L' U' L)"]
+            },
+            "Nothing Placed #7": {
+                "algs": ["U' (L' U L) (R U' R')"]
+            },
+            "Nothing Placed #8": {
+                "algs": ["U (R U' R') (L' U L)"]
+            }
         }
     }
 }
