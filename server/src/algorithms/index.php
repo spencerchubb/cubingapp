@@ -76,6 +76,9 @@
                 <a class="alg-set" href="/algorithms/Pyraminx-Last-Layer">
                     Pyraminx Last Layer
                 </a>
+                <a class="alg-set" href="/algorithms/Pyraminx-L4E">
+                    Pyraminx L4E
+                </a>
             </div>
             <div class="card">
                 <h2>Square-1</h2>

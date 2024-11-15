@@ -6,19 +6,29 @@
     ],
     "cases": {
         "Sune": {
-            "algs": {"(R U R') U (R U R')": {}}
+            "algs": {
+                "(R U R') U (R U R')": {}
+            }
         },
         "Antisune": {
-            "algs": {"(R U' R') U' (R U' R')": {}}
+            "algs": {
+                "(R U' R') U' (R U' R')": {}
+            }
         },
         "2-flip": {
-            "algs": {"(L R' L' R) (U' R U R')": {}}
+            "algs": {
+                "(L R' L' R) (U' R U R')": {}
+            }
         },
         "R' unsexy R": {
-            "algs": {"R' (U' L' U L) R": {}}
+            "algs": {
+                "R' (U' L' U L) R": {}
+            }
         },
         "L unsexy L'": {
-            "algs": {"L (U R U' R') L'": {}}
+            "algs": {
+                "L (U R U' R') L'": {}
+            }
         }
     }
 }

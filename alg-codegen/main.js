@@ -20,8 +20,6 @@ function invertMove(move) {
         return `${-top},${-bot}`;
     } else if (move.endsWith("'")) {
         return move.slice(0, -1);
-    } else if (move.endsWith("2")) {
-        return move;
     }
 
     return move + "'";
@@ -779,18 +777,22 @@ class Pyraminx {
                 cycles(this.state, U_TIP_CYCLES, false);
                 break;
             case "L":
+            case "L2'":
                 cycles(this.state, L_CYCLES, true);
                 cycles(this.state, L_TIP_CYCLES, true);
                 break;
             case "L'":
+            case "L2":
                 cycles(this.state, L_CYCLES, false);
                 cycles(this.state, L_TIP_CYCLES, false);
                 break;
             case "R":
+            case "R2'":
                 cycles(this.state, R_CYCLES, true);
                 cycles(this.state, R_TIP_CYCLES, true);
                 break;
             case "R'":
+            case "R2":
                 cycles(this.state, R_CYCLES, false);
                 cycles(this.state, R_TIP_CYCLES, false);
                 break;
