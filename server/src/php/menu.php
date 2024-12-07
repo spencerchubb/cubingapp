@@ -178,6 +178,7 @@
             <a href="/sum-of-ranks" class="menuLink hoverHighlight">Sum of Ranks</a>
         </div>
     </div>
+    <a href="/feedback" class="hoverHighlight" style="display: flex; padding: 8px 16px; color: var(--gray-100);">Feedback</a>
 </div>
 
 <script>

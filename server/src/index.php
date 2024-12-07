@@ -138,8 +138,9 @@
 
         <div style="margin-top: 150px;"></div>
         <p>
-            If you made it this far and you know what github is, 
-            <a href="https://github.com/spencerchubb/cubingapp" class="link">star the repo!</a>
+            <a class="link" href="/feedback">Feedback</a>
+            |
+            <a class="link" href="https://github.com/spencerchubb/cubingapp">GitHub</a>
         </p>
     </main>
 </body>
