@@ -1,5 +1,6 @@
 deploy.sh
 WCA_export/
+WCA_export.zip
 wca.db
 
 src/algorithms/vids/
