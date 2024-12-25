@@ -95,8 +95,12 @@ if ($wcaId) {
     <?php include_once "../php/menu.php"; ?>
 
     <main>
+        <p>Want to see your 2024 cubing wrapped?</p>
+        <div style="min-height: 8px;"></div>
+        <?php include "../php/search/element.php"; renderSearchElement("/wrapped", ""); ?>
+
     <?php if ($wcaId): ?>
-        <h1>2024 Cubing Wrapped for <a href="/persons?wcaId=<?php echo $wcaId ?>" class="link"><?php echo $person["name"] ?></a></h1>
+        <h1 style="margin-top: 32px;">2024 Cubing Wrapped for <a href="/persons?wcaId=<?php echo $wcaId ?>" class="link"><?php echo $person["name"] ?></a></h1>
         <p style="margin-top: 16px; max-width: 600px;">
             2024 has been a record-breaking year for cubing.
             This year had the most competitions of any year in the history of the WCA: 2,145 competitions.
@@ -144,8 +148,6 @@ if ($wcaId) {
             <li>Continental: <?php echo $records["Continental"] ?></li>
             <li>National: <?php echo $records["National"] ?></li>
         </ul>
-    <?php else: ?>
-        <h1>Cubing Wrapped</h1>
     <?php endif; ?>
     <div style="min-height: 100px;"></div>
     </main>
