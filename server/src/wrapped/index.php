@@ -52,12 +52,12 @@ if ($wcaId) {
             $events[$row["eventId"]] += 1;
         }
 
-        if ($row["best"] == $singles[$row["eventId"]]["best"]) {
+        if (isset($singles[$row["eventId"]]) && $row["best"] == $singles[$row["eventId"]]["best"]) {
             $eventId = $row["eventId"];
             $result = formatResult($eventId, "single", $row["best"]);
             $personalBests[] = "$eventIdToName[$eventId] Single: $result";
         }
-        if ($row["average"] == $averages[$row["eventId"]]["best"]) {
+        if (isset($averages[$row["eventId"]]) && $row["average"] == $averages[$row["eventId"]]["best"]) {
             $eventId = $row["eventId"];
             $result = formatResult($eventId, "average", $row["average"]);
             $personalBests[] = "$eventIdToName[$eventId] Average: $result";
