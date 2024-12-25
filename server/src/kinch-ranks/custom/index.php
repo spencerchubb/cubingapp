@@ -375,27 +375,6 @@ calculateButton.onclick = () => {
             results[eventId][type] = input.value * 100;
         }
     });
-    // console.log(results);
-
-    // let customResults = {
-    //     "222": { "average": average2x2.value * 100 },
-    //     "333": { "average": average3x3.value * 100 },
-    //     "333bf": { "single": single3bld.value * 100, "average": average3bld.value * 100 },
-    //     "333fm": { "single": parseInt(single3fm.value), "average": average3fm.value * 100 },
-    //     "333mbf": { "single": multiEncoded },
-    //     "333oh": { "average": average333oh.value * 100 },
-    //     "444": { "average": average4x4.value * 100 },
-    //     "444bf": { "single": single4bld.value * 100, "average": average4bld.valu * 100 },
-    //     "555": { "average": average5x5.value * 100 },
-    //     "555bf": { "single": single5bld.value * 100, "average": average5bld.value * 100 },
-    //     "666": { "average": average6x6.value * 100 },
-    //     "777": { "average": average7x7.value * 100 },
-    //     "clock": { "average": clock.value * 100 },
-    //     "minx": { "average": megaminx.value * 100 },
-    //     "pyram": { "average": pyraminx.value * 100 },
-    //     "skewb": { "average": skewb.value * 100 },
-    //     "sq1": { "average": square1.value * 100 },
-    // };
 
     const url = new URL(window.location.href);
     url.searchParams.set("results", JSON.stringify(results));

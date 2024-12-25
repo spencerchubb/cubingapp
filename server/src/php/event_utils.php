@@ -17,6 +17,8 @@ $eventIdToName = [
     "444bf" => "4BLD",
     "555bf" => "5BLD",
     "333mbf" => "MBLD",
+    "Kinch" => "Kinch",
+    "Sum of Ranks" => "Sum of Ranks",
 ];
 
 include_once "option.php";

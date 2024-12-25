@@ -42,28 +42,7 @@ function setUrlParam(key, value) {
         <p style="text-align: center; margin-top: 16px;">Who are the fastest cubers with your name?</p>
         <?php
             include_once "../php/option.php";
-
-            $eventIdToName = [
-                "333" => "3x3",
-                "222" => "2x2",
-                "444" => "4x4",
-                "555" => "5x5",
-                "666" => "6x6",
-                "777" => "7x7",
-                "333bf" => "3BLD",
-                "333fm" => "FMC",
-                "333oh" => "OH",
-                "clock" => "Clock",
-                "minx" => "Mega",
-                "pyram" => "Pyra",
-                "skewb" => "Skewb",
-                "sq1" => "SQ1",
-                "444bf" => "4BLD",
-                "555bf" => "5BLD",
-                "333mbf" => "MBLD",
-                "Kinch" => "Kinch",
-                "Sum of Ranks" => "Sum of Ranks",
-            ];
+            include "../php/event_utils.php";
 
             $name = $_GET["name"];
             $event = $_GET["event"] ?? "333";
@@ -156,8 +135,6 @@ function setUrlParam(key, value) {
                 <th>Name</th>
                 <th>Result</th>
             </tr>";
-
-            include "../php/event_utils.php";
 
             $i = 1;
             while ($row = $rows->fetchArray(SQLITE3_ASSOC)) {
