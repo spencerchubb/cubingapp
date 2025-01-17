@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Enter your location to see World Cube Association (WCA) Competitions sorted by distance.">
+    <meta name="description" content="Find cubing competitions near you by entering your location. There are competitions all around the world, and this is the easiest way to find some nearby.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" href="/assets/favicon.svg" type="image/x-icon">
-    <title>WCA Comps sorted by distance</title>
+    <title>Cubing Competitions Near Me</title>
 </head>
 
+<style>
+#placesDiv {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    gap: 8px;
+
+    & a {
+        border: solid 1px #555;
+        border-radius: 4px;
+        padding: 4px;
+        background: #181818;
+        color: #ddd;
+
+        &:hover {
+            background: #444;
+        }
+    }
+}
+
+.event-button {
+    background: transparent;
+    outline: solid 1px var(--gray-600);
+}
+
+.event-button:hover {
+    background: var(--gray-600);
+}
+
+.event-button-selected {
+    outline: solid 2px var(--lightBlue-300);
+}
+
+.table-wrapper {
+    max-width: 100%;
+    width: fit-content;
+    overflow-x: auto;
+}
+
+table tr:nth-child(even) {
+    background: var(--gray-900);
+}
+</style>
+
+
 <script>
-function q(selector) {
-    return document.querySelector(selector);
-}
-
-function E(name, props, children) {
-    const ele = document.createElement(name);
-    for (const [key, value] of Object.entries(props)) {
-        ele[key] = value;
-    }
-
-    children = children || [];
-    for (const child of children) {
-        ele.appendChild(child);
-    }
-    return ele;
-}
-
 function setUrlParam(key, value) {
     const urlParams = new URLSearchParams(window.location.search);
     if (value) urlParams.set(key, value);
@@ -38,33 +66,39 @@ function setUrlParam(key, value) {
     <?php include_once "../php/menu.php"; ?>
 
     <main>
-        <h1 style="text-align: center;">WCA Comps sorted by distance</h1>
         <?php
             include "../php/event_utils.php";
 
+            $name = $_GET["name"];
             $lat = $_GET["lat"];
             $lon = $_GET["lon"];
 
             // Array of event ids.
             $events = $_GET["events"] ? explode("-", $_GET["events"]) : [];
         ?>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: 1rem;">
-            <a class="link" href="https://www.latlong.net/" target="_blank" style="margin-top: 16px;">Get latitude & longitude here</a>
-            <input id="lat" type="number" placeholder="Latitude" value="<?php echo $lat ?>" style="width: 100%; max-width: 300px;" />
-            <input id="lon" type="number" placeholder="Longitude" value="<?php echo $lon ?>" style="width: 100%; max-width: 300px;" />
-            <?php if ($lat && $lon) { ?>
-                <p>Bookmark the page to save your latitude and longitude!</p>
-            <?php } ?>
-            <script>
-                q("#lat").addEventListener("change", (event) => setUrlParam("lat", event.target.value));
-                q("#lon").addEventListener("change", (event) => setUrlParam("lon", event.target.value));
-            </script>
+        <h1>Cubing Competitions Near Me</h1>
+        <p style="color: #ccc; font-size: 15px; margin-top: 8px;">
+            Your location is: <?php echo $name ?? "Unknown" ?>
+        </p>
+        <?php
+            if ($name) echo "<p style='font-weight: bold; margin-top: 8px;'>Bookmark to save your location!</p>";
+        ?>
+        <div style="display: flex; gap: 8px; margin-top: 32px;">
+            <input
+                type="text"
+                id="placeInput"
+                placeholder="Name of place"
+            />
+            <button id="findButton">Find</button>
         </div>
-        <div style="margin-top: 2rem;"></div>
+        <p style="color: #ccc; font-size: 15px; margin-top: 8px;">Give details for best accuracy. Name, Address, City, State/Province, Zip Code, Country</p>
+        <div id="placesDiv"></div>
+        <div style="margin-top: 32px;"></div>
         <?php
         // For each eventIdToName, render a button
-        echo "<div style='display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;'>";
+        echo "<div style='display: flex; flex-wrap: wrap; gap: 8px;'>";
         foreach ($eventIdToName as $eventId => $eventName) {
+            if ($eventId == "Kinch" || $eventId == "Sum of Ranks") continue;
             $selected = in_array($eventId, $events) ? "event-button-selected" : "";
             $onclick = "onClickEventButton('$eventId')";
             echo "<button class='event-button $selected' data-event='$eventId'>$eventName</button>";
@@ -216,30 +250,35 @@ function setUrlParam(key, value) {
     </main>
 </body>
 
-<style>
-    .event-button {
-        background: transparent;
-        outline: solid 1px var(--gray-600);
+<script>
+function renderPlaces(places) {
+    placesDiv.innerHTML = "";
+    if (places.length === 0) {
+        placesDiv.innerHTML = "<p>No places found. 1) Check spelling 2) Try another place 3) Add more details</p>";
+        return;
     }
+    places.forEach(place => {
+        const lat = place["lat"];
+        const lon = place["lon"];
+        const name = place["display_name"];
 
-    .event-button:hover {
-        background: var(--gray-600);
-    }
+        // Set search params in this fashion to deal with spaces and special characters.
+        const url = new URL(location.href);
+        url.searchParams.set("lat", lat);
+        url.searchParams.set("lon", lon);
+        url.searchParams.set("name", name);
+        placesDiv.innerHTML += `<a href=${url}>${name}</a>`;
+    });
+}
 
-    .event-button-selected {
-        outline: solid 2px var(--lightBlue-300);
-    }
-
-    .table-wrapper {
-        max-width: 100%;
-        width: fit-content;
-        overflow-x: auto;
-    }
-
-    table tr:nth-child(even) {
-        background: var(--gray-900);
-    }
-</style>
+findButton.onclick = () => {
+    fetch(`https://geocode.maps.co/search?q=${placeInput.value}&api_key=678a635a5efbd709855403bsn03f239`)
+        .then(res => res.json())
+        .then(data => {
+            renderPlaces(data);
+        });
+}
+</script>
 
 <?php include "../php/gtag.php" ?>
 
