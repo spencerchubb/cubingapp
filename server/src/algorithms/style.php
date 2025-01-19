@@ -133,7 +133,7 @@
         grid-template-columns: 2fr 3fr 3fr 3fr 3fr 2fr;
     }
 
-    .viz-2x2, .viz-3x3, .viz-4x4 {
+    .viz-2x2, .viz-3x3, .viz-4x4, .viz-2d-Skewb {
         display: flex;
         justify-content: center;
         align-items: center;

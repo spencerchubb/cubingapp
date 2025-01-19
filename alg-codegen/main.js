@@ -768,34 +768,16 @@ class Pyraminx {
         const R_TIP_CYCLES = [[F9, R5, D9]];
     
         switch (move) {
-            case "U":
-                cycles(this.state, U_CYCLES, true);
-                cycles(this.state, U_TIP_CYCLES, true);
-                break;
-            case "U'":
-                cycles(this.state, U_CYCLES, false);
-                cycles(this.state, U_TIP_CYCLES, false);
-                break;
+            case "U": cycles(this.state, U_CYCLES, true); cycles(this.state, U_TIP_CYCLES, true); break;
+            case "U'": cycles(this.state, U_CYCLES, false); cycles(this.state, U_TIP_CYCLES, false); break;
             case "L":
-            case "L2'":
-                cycles(this.state, L_CYCLES, true);
-                cycles(this.state, L_TIP_CYCLES, true);
-                break;
+            case "L2'": cycles(this.state, L_CYCLES, true); cycles(this.state, L_TIP_CYCLES, true); break;
             case "L'":
-            case "L2":
-                cycles(this.state, L_CYCLES, false);
-                cycles(this.state, L_TIP_CYCLES, false);
-                break;
+            case "L2": cycles(this.state, L_CYCLES, false); cycles(this.state, L_TIP_CYCLES, false); break;
             case "R":
-            case "R2'":
-                cycles(this.state, R_CYCLES, true);
-                cycles(this.state, R_TIP_CYCLES, true);
-                break;
+            case "R2'": cycles(this.state, R_CYCLES, true); cycles(this.state, R_TIP_CYCLES, true); break;
             case "R'":
-            case "R2":
-                cycles(this.state, R_CYCLES, false);
-                cycles(this.state, R_TIP_CYCLES, false);
-                break;
+            case "R2": cycles(this.state, R_CYCLES, false); cycles(this.state, R_TIP_CYCLES, false); break;
             default:
                 console.error("Invalid move:", move);
         }
@@ -826,7 +808,7 @@ class Pyraminx {
             "500,770 334,860 166,770",
             "500,770 334,860 666,860",
             "500,770 666,860 834,770",
-            "990,860 666,860 834,770"
+            "990,860 666,860 834,770",
         ];
     
         let html = "<svg id='svg' viewBox='0 0 1000 870' stroke='black' stroke-width='8' stroke-linejoin='round'>";  
@@ -837,6 +819,74 @@ class Pyraminx {
         });
         html += "</svg>";
         return html;
+    }
+}
+
+class Skewb {
+    constructor() {
+        this.stickers = {
+            "U": 0, "UBL": 0, "URB": 0, "UFR": 0, "ULF": 0,
+            "F": 1, "FUL": 1, "FRU": 1, "FDR": 1, "FLD": 1,
+            "R": 2, "RUF": 2, "RBU": 2, "RDB": 2, "RFD": 2,
+            "B": 3, "BLU": 3, "BUR": 3, "BDL": 3, "BRD": 3,
+            "L": 4, "LFU": 4, "LUB": 4, "LDF": 4, "LBD": 4,
+            "D": 5, "DFL": 5, "DRF": 5, "DLB": 5, "DBR": 5,
+        };
+    }
+
+    performMove(move) {
+        const R_CYCLES = [["U", "R", "F"], ["UFR", "RUF", "FRU"], ["ULF", "RBU", "FDR"], ["FUL", "URB", "RFD"], ["LFU", "BUR", "DRF"]];
+        const F_CYCLES = [["U", "F", "L"], ["ULF", "FUL", "LFU"], ["UFR", "FLD", "LUB"], ["FRU", "LDF", "UBL"], ["RUF", "DFL", "BLU"]];
+        const Y_CYCLES = [["F", "L", "B", "R"], ["ULF", "UBL", "URB", "UFR"], ["LFU", "BLU", "RBU", "FRU"], ["FUL", "LUB", "BUR", "RUF"], ["DFL", "DLB", "DBR", "DRF"], ["FLD", "LBD", "BRD", "RFD"], ["LDF", "BDL", "RDB", "FDR"]];
+        const Z_CYCLES = [["U", "R", "D", "L"], ["ULF", "RUF", "DRF", "LDF"], ["LFU", "UFR", "RFD", "DFL"], ["FUL", "FRU", "FDR", "FLD"], ["UBL", "RBU", "DBR", "LBD"], ["BLU", "BUR", "BRD", "BDL"], ["LUB", "URB", "RDB", "DLB"]];
+
+        switch (move) {
+            case "R": cycles(this.stickers, R_CYCLES, true); break;
+            case "R'": cycles(this.stickers, R_CYCLES, false); break;
+            case "F": cycles(this.stickers, F_CYCLES, true); break;
+            case "F'": cycles(this.stickers, F_CYCLES, false); break;
+            case "y": cycles(this.stickers, Y_CYCLES, true); break;
+            case "y2":
+            case "y2'": cycles(this.stickers, Y_CYCLES, true); cycles(this.stickers, Y_CYCLES, true); break;
+            case "y'": cycles(this.stickers, Y_CYCLES, false); break;
+            case "z": cycles(this.stickers, Z_CYCLES, true); break;
+            case "z2":
+            case "z2'": cycles(this.stickers, Z_CYCLES, true); cycles(this.stickers, Z_CYCLES, true); break;
+            case "z'": cycles(this.stickers, Z_CYCLES, false); break;
+            default: console.error("Invalid move:", move);
+        }
+    }
+
+    performAlg(alg) {
+        alg = alg.replaceAll("(", "").replaceAll(")", "");
+        alg = alg.split(" ");
+        alg.forEach(move => {
+            this.performMove(move);
+        });
+    }
+
+    getSvg() {
+        const colors = ["var(--u-face)", "var(--f-face)", "var(--r-face)", "var(--b-face)", "var(--l-face)", "var(--d-face)", "#808080"];
+    
+        return `<svg id='svg' viewBox='0 0 1000 1000' stroke='black' stroke-width='8' stroke-linejoin='round'>
+            <polygon fill="${colors[this.stickers['U']]}" points="500,250 750,500 500,750 250,500" />
+            <polygon fill="${colors[this.stickers['UBL']]}" points="250,250 500,250 250,500" />
+            <polygon fill="${colors[this.stickers['URB']]}" points="750,250 500,250 750,500" />
+            <polygon fill="${colors[this.stickers['UFR']]}" points="750,500 500,750 750,750" />
+            <polygon fill="${colors[this.stickers['ULF']]}" points="250,500 500,750 250,750" />
+            <polygon fill="${colors[this.stickers['FUL']]}" points="250,750 500,750 250,995" />
+            <polygon fill="${colors[this.stickers['F']]}" points="500,750 750,995 250,995" />
+            <polygon fill="${colors[this.stickers['FRU']]}" points="750,750 500,750 750,995" />
+            <polygon fill="${colors[this.stickers['RUF']]}" points="750,750 750,500 990,750" />
+            <polygon fill="${colors[this.stickers['R']]}" points="990,750 990,250 750,500" />
+            <polygon fill="${colors[this.stickers['RBU']]}" points="750,250 750,500 990,250" />
+            <polygon fill="${colors[this.stickers['BLU']]}" points="250,250 500,250 250,10" />
+            <polygon fill="${colors[this.stickers['B']]}" points="500,250 250,10 750,10" />
+            <polygon fill="${colors[this.stickers['BUR']]}" points="750,250 500,250 750,10" />
+            <polygon fill="${colors[this.stickers['LFU']]}" points="250,750 250,500 10,750" />
+            <polygon fill="${colors[this.stickers['L']]}" points="10,750 10,250 250,500" />
+            <polygon fill="${colors[this.stickers['LUB']]}" points="250,250 250,500 10,250" />
+        </svg>`;
     }
 }
 
@@ -873,6 +923,8 @@ function renderCase(algSet, caseName, _case) {
         puzzle = new SQ1();
     } else if (algSet.puzzle === "Pyraminx") {
         puzzle = new Pyraminx();
+    } else if (algSet.puzzle === "Skewb") {
+        puzzle = new Skewb();
     } else {
         const layers = parseInt(algSet.puzzle[0]); // Example: "3x3" -> "3"
         puzzle = new Cube(layers);
@@ -880,6 +932,12 @@ function renderCase(algSet, caseName, _case) {
 
     if (algSet.gray) {
         algSet.gray.forEach(sticker => {
+            // Skewb is a special case. The gray color is associated with index 6.
+            if (algSet.puzzle === "Skewb") {
+                puzzle.stickers[sticker] = 6;
+                return;
+            }
+            
             // Colors are determined by the face the sticker is on.
             // For example, on a 3x3 cube, 0-8 is white, 45-53 is red, etc.
             // 54 is higher than any face, so it's gray.
