@@ -20,6 +20,7 @@
         <ul>
             <li><a class="link" href="https://www.speedsolving.com/threads/cubingapp-suggestion-thread.90733/">SpeedSolving.com Thread</a></li>
             <li>Email me: spencerchubb@gmail.com</li>
+            <li><a class="link" href="https://github.com/spencerchubb/cubingapp/issues/">Lodge an issue on GitHub</a> or make a a class="link" href="https://github.com/spencerchubb/cubingapp/pulls/">Pull request on GitHub</a></li>
         </ul>
         <p style="margin-top: 32px;">
             Many of the features you see on CubingApp were suggested by cubers like you.
