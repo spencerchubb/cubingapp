@@ -8,4 +8,4 @@ Don't include obvious mirrors. For example, include R U R' U R U2 R', but do not
 
 # Feedback and suggestions
 
-Feedback and suggestions that will benefit CubingApp can be submitted in [this](https://www.speedsolving.com/threads/cubingapp-suggestion-thread.90733/) SpeedSolving Forums thread. 
+Please see [CubingApp.com/feedback](https://cubingapp.com/feedback/) for information on giving feedback to CubingApp. 
