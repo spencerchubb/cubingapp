@@ -19,6 +19,9 @@ sudo a2ensite gci.conf
 sudo service apache2 reload
 sudo service apache2 restart
 
+# Verify apache config is valid
+sudo apachectl configtest
+
 # Apache status/logs
 systemctl status apache2.service
 journalctl -xeu apache2.service
