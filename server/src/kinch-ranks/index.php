@@ -436,7 +436,7 @@ function goToPage(page, pages) {
         <h2>What is Kinch Ranks?</h2>
         <p>
             The Kinch system is one way of measuring a cuber's overall performance rather than measuring just one event.
-            To compute a Kinch Score, we compute the average of each event ratio, where an event ratio is your personal record divided by the world record.
+            To compute a Kinch Score, we compute the average of each event ratio, where an event ratio is 100 times the world record divided by your personal record.
         </p>
         <p>
             The Multi-blind score is calculated by summing the points and the proportion of the hour left. That means the time is also incorporated into the Kinch Score.
