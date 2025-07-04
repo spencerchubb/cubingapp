@@ -88,6 +88,9 @@
                 <a class="alg-set" href="/algorithms/SQ1-CSP">
                     SQ1 CSP
                 </a>
+                <a class="alg-set" href="/algorithms/SQ1-CP">
+                    SQ1 CP
+                </a>
                 <a class="alg-set" href="/algorithms/SQ1-EP">
                     SQ1 EP
                 </a>
