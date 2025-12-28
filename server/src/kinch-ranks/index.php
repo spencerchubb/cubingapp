@@ -126,8 +126,6 @@ function goToPage(page, pages) {
         <?php
 
         function buildKinchStatement($db, $wcaId, $region) {
-            // The GROUP BY ensures we only get one row per event.
-            // Sometimes people are tied for first place.
             $worldQuery = "
             SELECT
                 e.id as eventId,
@@ -138,8 +136,8 @@ function goToPage(page, pages) {
             FROM Events e
             LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
             LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
-            LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.worldRank = 1
-            LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.worldRank = 1
+            LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.worldRank = (SELECT MIN(worldRank) FROM RanksSingle WHERE eventId = e.id)
+            LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.worldRank = (SELECT MIN(worldRank) FROM RanksAverage WHERE eventId = e.id)
             WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
             GROUP BY e.id;
             ";
@@ -153,14 +151,10 @@ function goToPage(page, pages) {
             FROM Events e
             LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
             LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
-            LEFT JOIN RanksSingle rs2
-                ON e.id = rs2.eventId
-                    AND rs2.continentId = :regionId
-                    AND rs2.continentRank = 1
-            LEFT JOIN RanksAverage ra2
-                ON e.id = ra2.eventId
-                    AND ra2.continentId = :regionId
-                    AND ra2.continentRank = 1
+            LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.continentId = :regionId 
+                AND rs2.continentRank = (SELECT MIN(continentRank) FROM RanksSingle WHERE eventId = e.id AND continentId = :regionId)
+            LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.continentId = :regionId 
+                AND ra2.continentRank = (SELECT MIN(continentRank) FROM RanksAverage WHERE eventId = e.id AND continentId = :regionId)
             WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
             GROUP BY e.id;
             ";
@@ -174,14 +168,10 @@ function goToPage(page, pages) {
             FROM Events e
             LEFT JOIN RanksSingle rs1 ON e.id = rs1.eventId AND rs1.personId = :wcaId
             LEFT JOIN RanksAverage ra1 ON e.id = ra1.eventId AND ra1.personId = :wcaId
-            LEFT JOIN RanksSingle rs2
-                ON e.id = rs2.eventId
-                    AND rs2.countryId = :regionId
-                    AND rs2.countryRank = 1
-            LEFT JOIN RanksAverage ra2
-                ON e.id = ra2.eventId
-                    AND ra2.countryId = :regionId
-                    AND ra2.countryRank = 1
+            LEFT JOIN RanksSingle rs2 ON e.id = rs2.eventId AND rs2.countryId = :regionId 
+                AND rs2.countryRank = (SELECT MIN(countryRank) FROM RanksSingle WHERE eventId = e.id AND countryId = :regionId)
+            LEFT JOIN RanksAverage ra2 ON e.id = ra2.eventId AND ra2.countryId = :regionId 
+                AND ra2.countryRank = (SELECT MIN(countryRank) FROM RanksAverage WHERE eventId = e.id AND countryId = :regionId)
             WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
             GROUP BY e.id;
             ";
@@ -190,7 +180,6 @@ function goToPage(page, pages) {
             if ($strings[0] === "continent") {
                 $stmt = $db->prepare($continentQuery);
                 $stmt->bindValue(":wcaId", $wcaId, SQLITE3_TEXT);
-                // Continents start with underscore in the database
                 $stmt->bindValue(":regionId", "_" . $strings[1], SQLITE3_TEXT);
                 return $stmt;
             } else if ($strings[0] === "country") {
