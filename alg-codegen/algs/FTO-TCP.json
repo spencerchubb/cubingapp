@@ -1,0 +1,134 @@
+
+{
+    "puzzle": "Pyraminx",
+    "subsets": [
+        "Even TCP",
+        "Odd TCP",
+        "2-flip TCP"
+    ],
+    "texts": [
+         "Characters in Curly Brackets {} signify the U Face and F Face of the puzzle, in that order, and characters in square brackets [] signify U or U' setup moves."
+    ],
+    "cases": {
+        "#1": {
+            "subset": "Even TCP",
+            "algs": {
+                "{B,U} U' R U R'": {},
+                "{R,BR} R' U R U'": {}
+            }
+        },
+        "#2": {
+            "subset": "Even TCP",
+            "algs": {
+                "{B,U} (U' R U) (R D R' U' R D') (R' U R) ": {},
+                "{R,BR} (R' U R U' (R' U R' D' R U' R' D R2)": {}
+            }
+        },
+        "#3": {
+            "subset": "Even TCP",
+            "algs": {
+                "{B,U} (U' R' D R') (U R D' R)": {},
+                "[U] {R,BR} (R D' R U)": {}
+            }
+        },
+        "#4": {
+            "subset": "Even TCP",
+            "algs": {
+                "{B, BL} U R' U' R": {},
+                "{L,U} R U' R' U": {}
+            }
+        },
+        "#5": {
+            "subset": "Even TCP",
+            "algs": {
+                "{B,BL} (U R' U') (R' D' R U R' D) (R U' R)": {},
+                "{L,U} (R U' R' U) (R U' R D R' U R D' R2')": {}
+            }
+        },
+        "#6": {
+            "subset": "Even TCP)",
+            "algs": {
+                "{B,BL} (U R D' R) (U' R' D R')": {},
+                "[U'] {L,U} (R' D R' R') (R D' R U)": {}
+            }
+        },
+        "#7": {
+            "subset": "Odd TCP",
+            "algs": {
+                "{R,BR} U D' (R U' R) D (B,BR) (R U' R' U)": {},
+                "{R,BR} U D, (R U' R') D (L,D) (U R' U' R)": {}
+            }
+        },
+        "#8": {
+            "subset": "Odd TCP",
+            "algs": {
+                "[U'] {B,U] (R' D' R U') RR' D' R' U) (R D' R) ": {},
+                "[U'] {B,U} (R' D' R U' (R' D R2 U) R'": {}
+            }
+        },
+        "#9": {
+            "subset": "Odd TCP",
+            "algs": {
+                "[U'] {B,U} (R' D' R U') (R' D R2 U) R'": {}
+            }
+        },
+        "#10": {
+            "subset": "Odd TCP",
+            "algs": {
+                "{L,U} U' D (R' U R) D' {L,D} (R' U R U')": {}
+            }
+        },
+        "#11": {
+            "subset": "Odd TCP",
+            "algs": {
+                "{L,U} (R' D R' U') (R D R U) (R' D R)": {}
+            }
+        },
+        "#12": {
+            "subset": "Odd TCP",
+            "algs": {
+                "[U] {R,U} (R BR R' L) (R BR' R2' L' R)": {},
+                "[U] {L,U} R U' R2' D') (R U R' D) R": {},
+                "[U] {B,BL} (R D R' U) (R D' R U') R": {}
+            }
+        },
+        "#13": {
+            "subset": "2-flip TCP",
+            "algs": {
+                "{R,BR} (R' U' Rw' R U') R U Rw R' U)": {}
+            }
+        },
+        "#14": {
+            "subset": "2-flip TCP",
+            "algs": {
+                "{L,U} (R U Rw R' U) (R' U' Rw' R U')": {}
+            }
+        },
+        "#15": {
+            "subset": "2-flip TCP ",
+            "algs": {
+                "{B,U} (R U' R' U) {L,D} (R' U R U')": {},
+                "{R,U} (U' R U R') {L,D} (U R' U' R)": {},
+                "{R,BR} (R' U' R) {B,BR} (U' R U R') L": {}
+            }
+        },
+        "#16": {
+            "subset": "2-flip TCP",
+            "algs": {
+                "{R,BR} (U Rw' U' R) (U Rw R2' U') R": {}
+            }
+        },
+        "$17": {
+            "subset": "2-flip TCP",
+            "algs": {
+                "{L,U} (U' Rw U R') (U' Rw2 R' U) R'": {}
+            }
+        },
+        "#18": {
+            "subset": "2-flip tcp",
+            "algs": {
+                "{R,BR} (R' U' R D') (R U' R' D) (R' U' R)": {}
+            }
+        }
+    }
+}
