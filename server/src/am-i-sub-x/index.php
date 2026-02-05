@@ -147,6 +147,7 @@
                 E("li", { textContent: "csTimer" }),
                 E("li", { textContent: "CubeDesk" }),
                 E("li", { textContent: "Twisty Timer" }),
+                E("li", { textContent: "Last Cube X" }),
                 E("li", { textContent: "Other (tell me and I'll add it)" }),
             ]),
             E("div", { className: "row", style: "gap: 16px; margin-top: 24px;" }, [

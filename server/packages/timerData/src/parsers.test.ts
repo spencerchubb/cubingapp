@@ -67,6 +67,34 @@ const expectedDataTwistyTimer = [
     },
 ];
 
+const expectedDataLastCubeX = [
+    {
+        sessionName: "3x3x3 - export",
+        solves: [
+            {
+                penalty: undefined,
+                timeInMs: 1113,
+                timestamp: 1700974002000,
+            },
+            {
+                penalty: "DNF",
+                timeInMs: 1844,
+                timestamp: 1700974010000,
+            },
+        ],
+    },
+    {
+        sessionName: "3x3x3 - Session A",
+        solves: [
+            {
+                penalty: "+2",
+                timeInMs: 688,
+                timestamp: 1700974007000,
+            },
+        ],
+    },
+];
+
 describe("parsers", () => {
     it("should parse csTimerCsv", () => {
         let str = readFileSync(`${__dirname}/examples/csTimerCsv.csv`, "utf8");
@@ -78,17 +106,17 @@ describe("parsers", () => {
                     {
                         penalty: undefined,
                         timeInMs: 1113,
-                        timestamp: 1700974002000,
+                        timestamp: 1700956002000,
                     },
                     {
                         penalty: "DNF",
                         timeInMs: 1844,
-                        timestamp: 1700974010000,
+                        timestamp: 1700956010000,
                     },
                     {
                         penalty: "+2",
                         timeInMs: 688,
-                        timestamp: 1700974007000,
+                        timestamp: 1700956007000,
                     },
                 ],
             },
@@ -117,5 +145,12 @@ describe("parsers", () => {
         expect(parsers.TwistyTimer.is(str)).toBe(true);
         expect(parsers.TwistyTimer.parse(str)).toEqual(expectedDataTwistyTimer);
         expect(isOthers(str, "TwistyTimer")).toBe(false);
+    });
+
+    it("should parse LastCubeX", () => {
+        let str = readFileSync(`${__dirname}/examples/LastCubeX.csv`, "utf8");
+        expect(parsers.LastCubeX.is(str)).toBe(true);
+        expect(parsers.LastCubeX.parse(str)).toEqual(expectedDataLastCubeX);
+        expect(isOthers(str, "LastCubeX")).toBe(false);
     });
 });

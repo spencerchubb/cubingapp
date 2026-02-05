@@ -1,0 +1,4 @@
+Puzzle;Session;Time(millis);Date(millis);Scramble;Penalty;Remark;Reconstruction
+"3x3x3";"export";"1113";"1700974002000";"R U R' U'";"0";"";""
+"3x3x3";"export";"1844";"1700974010000";"F R U R' U' F'";"2";"";""
+"3x3x3";"Session A";"688";"1700974007000";"L U2 L' U2";"1";"";""

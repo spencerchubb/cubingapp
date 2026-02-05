@@ -6,6 +6,7 @@ import { type TimerData } from "./index";
 // - CsTimer
 // - CubeDesk
 // - Twisty Timer
+// - Last Cube X
 
 export type Parser = {
     name: string,
@@ -35,7 +36,18 @@ export const csTimerCsv: Parser = {
                         ? "+2"
                         : undefined;
                     const timeInMs = Math.floor(Number(originalTime) * 1000);
-                    const timestamp = new Date(date).getTime();
+                    const timestamp = (() => {
+                        const [datePart, timePart] = date.trim().split(" ");
+                        const [year, month, day] = (datePart ?? "").split("-").map(Number);
+                        const [hour, minute, second] = (timePart ?? "").split(":").map(Number);
+
+                        if ([year, month, day, hour, minute, second].some(Number.isNaN)) {
+                            return new Date(date).getTime();
+                        }
+
+                        // csTimer CSV doesn't include a timezone; treat it as UTC for stability.
+                        return Date.UTC(year, month - 1, day, hour, minute, second);
+                    })();
 
                     return { penalty, timeInMs, timestamp };
                 }),
@@ -120,9 +132,70 @@ export const TwistyTimer: Parser = {
     },
 }
 
+export const LastCubeX: Parser = {
+    name: "LastCubeX",
+    is: (str: string) =>
+        str.startsWith("Puzzle;Session;Time(millis);Date(millis);Scramble;Penalty;Remark;Reconstruction"),
+    parse: (str: string) => {
+        const lines = str.trim().split("\n");
+        lines.shift();
+
+        const sessions: Record<string, { sessionName: string; solves: { penalty: "DNF" | "+2" | undefined; timeInMs: number; timestamp: number }[] }> = {};
+        const sessionOrder: string[] = [];
+
+        const unquote = (value: string) => {
+            const trimmed = value.trim();
+            if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+                return trimmed.slice(1, -1);
+            }
+            return trimmed;
+        };
+
+        const parsePenalty = (value: string) => {
+            const raw = value.trim();
+            if (!raw || raw === "0") return undefined;
+            if (raw === "DNF" || raw === "2") return "DNF";
+            if (raw === "+2" || raw === "1") return "+2";
+
+            const numeric = Number(raw);
+            if (numeric === 2000) return "+2";
+            if (numeric < 0) return "DNF";
+
+            return undefined;
+        };
+
+        for (const line of lines) {
+            if (!line.trim()) continue;
+            const values = line.split(";");
+            const puzzle = unquote(values[0] ?? "");
+            const session = unquote(values[1] ?? "");
+            const timeInMs = Number(unquote(values[2] ?? "0"));
+            const timestamp = Number(unquote(values[3] ?? "0"));
+            const penalty = parsePenalty(unquote(values[5] ?? ""));
+
+            const sessionNameBase = session.trim();
+            const puzzleName = puzzle.trim();
+            const sessionName =
+                puzzleName && sessionNameBase
+                    ? `${puzzleName} - ${sessionNameBase}`
+                    : puzzleName || sessionNameBase || "Last Cube X Session";
+
+            if (!sessions[sessionName]) {
+                sessions[sessionName] = { sessionName, solves: [] };
+                sessionOrder.push(sessionName);
+            }
+
+            sessions[sessionName].solves.push({ penalty, timeInMs, timestamp });
+        }
+
+        return sessionOrder.map(name => sessions[name]);
+    },
+}
+
 export const parsers: Parser[] = [
     csTimerCsv,
     csTimerTxt,
     CubeDesk,
     TwistyTimer,
+    LastCubeX,
 ];
