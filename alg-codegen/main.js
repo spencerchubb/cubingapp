@@ -587,8 +587,8 @@ class SQ1 {
         return this.getSvg(this.top, true);
     }
 
-    svgBottom() {
-        return this.getSvg(this.bottom, false);
+    svgBottom(mirror) {
+        return this.getSvg(this.bottom, false, mirror);
     }
 
     performAlg(alg) {
@@ -668,7 +668,7 @@ class SQ1 {
         return end.concat(beginning);
     }
 
-    getSvg(face, top) {
+    getSvg(face, top, mirror = false) {
         const pieces = [
             [DARK_GRAY, BLUE, RED],
             [DARK_GRAY, BLUE],
@@ -724,10 +724,19 @@ class SQ1 {
                 console.error("Invalid piece length:", piece);
             }
         }
-    
-        return `<svg viewBox="0 0 ${size} ${size}" stroke-linejoin="round">${polygons.map(polygon => {
-                return `<polygon points="${polygon.points}" fill="${polygon.fill}"/>`;
-            }).join("")}</svg>`;
+
+        // Generate the inner HTML for the polygons
+        let svgContent = polygons.map(polygon => {
+            return `<polygon points="${polygon.points}" fill="${polygon.fill}"/>`;
+        }).join("");
+
+        // If mirror=true, wrap in a group that mirrors vertically.
+        // translate(0, size) moves it down, scale(1, -1) flips it over the X axis.
+        if (mirror) {
+            svgContent = `<g transform="translate(0, ${size}) scale(1, -1)">${svgContent}</g>`;
+        }
+
+        return `<svg viewBox="0 0 ${size} ${size}" stroke-linejoin="round">${svgContent}</svg>`;
     }
 }
 
@@ -909,7 +918,7 @@ function rotatePoint2d(x, y, cx, cy, angle) {
     return [nx, ny];
 }
 
-function renderCase(algSet, caseName, _case) {
+function renderCase(algSetName, algSet, caseName, _case) {
     const entries = Object.entries(_case.algs);
     let alg = entries[0][0];
 
@@ -952,7 +961,8 @@ function renderCase(algSet, caseName, _case) {
     let className;
 
     if (algSet.puzzle === "SQ1") {
-        diagram = `${puzzle.svgTop()}${puzzle.svgBottom()}`;
+        const mirrorBottom = algSetName === "SQ1-Cube-Shape" || algSetName === "SQ1-CSP";
+        diagram = `${puzzle.svgTop()}${puzzle.svgBottom(mirrorBottom)}`;
         className = "viz-sq1";
     } else if (algSet.puzzle === "Pyraminx") {
         diagram = puzzle.getSvg();
@@ -984,7 +994,7 @@ function renderCase(algSet, caseName, _case) {
 
 // We define a custom element for each sticker to make the
 // html output as concise as possible.
-function renderAlgs(algSet) {
+function renderAlgs(algSetName, algSet) {
     let html = `<script>
 class Up extends HTMLElement {
     connectedCallback() {
@@ -1039,13 +1049,13 @@ customElements.define("x-t", Transparent);
             // Render cases in this subset
             Object.entries(algSet.cases).forEach(([caseName, _case]) => {
                 if (subset !== _case.subset) return;
-                html += renderCase(algSet, caseName, _case);
+                html += renderCase(algSetName, algSet, caseName, _case);
             });
         })
     } else {
         // Render all cases
         Object.entries(algSet.cases).forEach(([caseName, _case]) => {
-            html += renderCase(algSet, caseName, _case);
+            html += renderCase(algSetName, algSet, caseName, _case);
         });
     }
 
@@ -1061,7 +1071,7 @@ files.forEach(file => {
     const algSet = JSON.parse(fs.readFileSync(`./algs/${file}`));
     fs.writeFileSync(
         `../server/src/algorithms/${name}/algs.php`,
-        renderAlgs(algSet),
+        renderAlgs(name, algSet),
     );
 
     fs.writeFileSync(
