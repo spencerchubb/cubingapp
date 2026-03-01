@@ -1,0 +1,69 @@
+{
+    "puzzle": "3x3",
+    "diagramType": "2D",
+    "gray": [1, 3, 5, 7, 12, 14, 21, 23, 30, 32, 39, 48],
+    "subsets": ["Orient", "Permute"],
+    "before": "() => randElement([\"M' U' M U\", \"M' U M U'\", \"M U' M' U\", \"M U M' U'\"])",
+    "after": "() => randElement([\"\", \"U\", \"U'\", \"U2\"])",
+    "texts": [
+        "CMLL stands for Corners of Last Layer ignoring the M slice. That means the M slice can be modified during CMLL. 2 Look CMLL is good for beginners or intermediate Roux solvers.",
+        "After you have solved the first two blocks, you can do CMLL to solve the corners.",
+        "To do 2 Look CMLL, first you orient the corners, and then you permute the corners."
+    ],
+    "cases": {
+        "Sune": {
+            "algs": {
+                "R U R' U R U2 R'": {}
+            },
+            "subset": "Orient"
+        },
+        "Antisune": {
+            "algs": {
+                "R U2 R' U' R U' R'": { "note": "Inverse of Sune" }
+            },
+            "subset": "Orient"
+        },
+        "H CMLL": {
+            "algs": {
+                "U R U R' U R U' R' U R U2 R'": { "note": "Double Sune with cancellation" }
+            },
+            "subset": "Orient"
+        },
+        "T CMLL": {
+            "algs": {
+                "R U R' U' R' F R F'": { "note": "Sexy sledge" }
+            },
+            "subset": "Orient"
+        },
+        "L CMLL": {
+            "algs": {
+                "F R' F' R U R U' R'": { "note": "Inverse of T CMLL" }
+            },
+            "subset": "Orient"
+        },
+        "U CMLL": {
+            "algs": {
+                "F (R U R' U') F'": { "note": "F sexy F'" }
+            },
+            "subset": "Orient"
+        },
+        "Pi CMLL": {
+            "algs": {
+                "F (R U R' U') (R U R' U') F'": { "note": "F double sexy F'" }
+            },
+            "subset": "Orient"
+        },
+        "Adjacent Swap": {
+            "algs": {
+                "R U R' F' R U R' U' R' F R2 U' R' U'": { "note": "J Perm" }
+            },
+            "subset": "Permute"
+        },
+        "Diagonal Swap": {
+            "algs": {
+                "F R U' R' U' R U R' F' R U R' U' R' F R F'": { "note": "Y Perm" }
+            },
+            "subset": "Permute"
+        }
+    }
+}

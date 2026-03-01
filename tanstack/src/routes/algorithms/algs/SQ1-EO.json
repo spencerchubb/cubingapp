@@ -1,0 +1,57 @@
+{
+    "puzzle": "SQ1",
+    "gray": [],
+    "subsets": ["EO Algs"],
+    "before": "() => randElement([\"/ 3,-3 / -3,3 /\", \"/ -3,3 / 3,-3 /\", \"/ 0,-3 / 3,3 / -3,0 /\", \"/ -3,0 / 3,3 / 0,-3 /\"])",
+    "after": "() => randElement([\"0,0\", \"6,0\", \"0,6\", \"6,6\"])",
+    "texts": [
+        "EO stands for Edge Orientation. Before this step, you have to complete Cube Shape and Corner Orientation.", 
+        "After EO, the top and bottom faces should be solved."
+    ],
+    "cases": {
+        "1 / 1": {
+            "algs": {
+                "1,0 / 3,0 / 3,0 / -1,-1 / -2,1 / -3,0 / -1,0": {}
+            },
+            "subset": "EO Algs"
+        },
+        "Opp / Opp": {
+            "algs": {
+                "1,0 / -1,-1 / 0,1": { "note": "Basically just an M2" }
+            },
+            "subset": "EO Algs"
+        },
+        "4 / 4": {
+            "algs": {
+                "1,0 / -1,-1 / -2,4 / -1,-1 / 0,1": { "note": "M2 U' D M2" }
+            },
+            "subset": "EO Algs"
+        },
+        "Adj / Adj": {
+            "algs": {
+                "1,0 / 3,0 / -1,-1 / -3,0 / 0,1": {}
+            },
+            "subset": "EO Algs"
+        },
+        "3 / 3": {
+            "algs": {
+                "1,0 / 3,0 / 3,0 / -1,-1 / -3,0 / -3,0 / 0,1": {}
+            },
+            "subset": "EO Algs"
+        },
+        "Adj / Opp": {
+            "algs": {
+                "1,0 / 0,-3 / 0,3 / 2,-1 / -3,0 / 0,1": { "note": "Fastest alg" },
+                "1,0 / 3,0 / 3,0 / -1,-1 / -2,1 / -4,-1 / 1,0": { "note": "Preserves CP" }
+            },
+            "subset": "EO Algs"
+        },
+        "Opp / Adj": {
+            "algs": {
+                "0,-1 / 3,0 / -3,0 / 1,-2 / 0,3 / -1,0": { "note": "Fastest alg" },
+                "0,-1 / 0,-3 / 0,-3 / 1,1 / -1,2 / 1,4 / -1,0": { "note": "Preserves CP" }
+            },
+            "subset": "EO Algs"
+        }
+    }
+}

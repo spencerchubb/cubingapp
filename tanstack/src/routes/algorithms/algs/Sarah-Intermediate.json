@@ -1,0 +1,75 @@
+{
+    "puzzle": "Skewb",
+    "diagramType": "2D",
+    "gray": ["F", "R", "B", "L", "FUL", "FRU", "RUF", "RBU", "BUR", "BLU", "LUB", "LFU"],
+    "subsets": ["1 Trigger", "2 Triggers", "3 Triggers"],
+    "texts": [
+        "Sarah's Intermediate is a skewb method for solvers who recently learned the beginner method and want to get faster. It is a great choice for cubers who don't want to put in a ton of effort, because there are only ten cases.",
+        "The steps for Sarah's Intermediate method are as follows: 1) Solve the first side. 2) Solve the opposite side. 3) Solve the centers.",
+        "The first and third steps are done the same way as in Sarah's Beginner method. Step 2 is done with some combination of sledgehammers (R' F R F') and hedgeslammers (F R' F' R). At most you will need 3 triggers.",
+        "Sarah Strong created this method, so the information on this page is credited to her."
+    ],
+    "cases": {
+        "Sledgehammer": {
+            "subset": "1 Trigger",
+            "algs": {
+                "R' F R F'": {}
+            }
+        },
+        "Hedgeslammer": {
+            "subset": "1 Trigger",
+            "algs": {
+                "F R' F' R": {}
+            }
+        },
+        "Double Sledge": {
+            "subset": "2 Triggers",
+            "algs": {
+                "(R' F R F') (R' F R F')": {},
+                "y2 (F R' F' R) (F R' F' R)": {}
+            }
+        },
+        "Sledge y Sledge": {
+            "subset": "2 Triggers",
+            "algs": {
+                "(R' F R F') y (R' F R F')": {}
+            }
+        },
+        "Sledge y' Sledge": {
+            "subset": "2 Triggers",
+            "algs": {
+                "(R' F R F') y' (R' F R F')": {}
+            }
+        },
+        "Hedge y Hedge": {
+            "subset": "2 Triggers",
+            "algs": {
+                "(F R' F' R) y (F R' F' R)": {}
+            }
+        },
+        "Hedge y' Hedge": {
+            "subset": "2 Triggers",
+            "algs": {
+                "(F R' F' R) y' (F R' F' R)": {}
+            }
+        },
+        "Sledge y Hedge y Hedge": {
+            "subset": "3 Triggers",
+            "algs": {
+                "(R' F R F') y (F R' F' R) y (F R' F' R)": {}
+            }
+        },
+        "Sledge y Hedge y' Hedge": {
+            "subset": "3 Triggers",
+            "algs": {
+                "(R' F R F') y (F R' F' R) y' (F R' F' R)": {}
+            }
+        },
+        "Sledge y' Hedge y Hedge": {
+            "subset": "3 Triggers",
+            "algs": {
+                "(R' F R F') y' (F R' F' R) y (F R' F' R)": {}
+            }
+        }
+    }
+}
