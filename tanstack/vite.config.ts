@@ -6,6 +6,8 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
 
+const shouldPrerender = process.env.DISABLE_PRERENDER !== '1'
+
 const config = defineConfig({
   plugins: [
     devtools(),
@@ -17,7 +19,7 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart({
       prerender: {
-        enabled: true,
+        enabled: shouldPrerender,
         crawlLinks: true, // Discovers all linkable pages
       },
       sitemap: {
