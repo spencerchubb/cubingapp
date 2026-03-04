@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useCallback } from 'react'
 import { Cube, SQ1, Pyraminx, Skewb, invertAlg } from '../../utils/puzzles'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
@@ -234,15 +234,16 @@ function AlgSetPage() {
         <div className="prose">
           <h1>{displayName} Algorithms</h1>
           {algSet.texts.map((text, i) => (
-            <p key={i}>
-              {text}
-            </p>
+            <p
+              key={i}
+              dangerouslySetInnerHTML={{ __html: text }}
+            />
           ))}
         </div>
 
         {showColorScheme && (
           <label
-            className="flex items-center gap-2"
+            className="mt-4 flex items-center gap-2"
           >
             Color scheme (bottom):&nbsp;
             <NativeSelect
