@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import SearchElement from '../components/SearchElement'
-import { Button } from '../components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -33,76 +34,73 @@ function Home() {
     <main>
       <h1 className="text-4xl font-bold text-center">CubingApp Home</h1>
 
-      <div className="mt-8 flex flex-wrap gap-6 justify-center">
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Ranks</h2>
-          <p>Who are the fastest cubers in each event?</p>
+      <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Ranks</h2>
+          <p className="mt-1">Who are the fastest cubers in each event or region?</p>
           <div className="flex-1"></div>
-          <div className="action">
+          <div className="mt-4 flex justify-between items-center gap-3">
             <Link to="/ranks" className="w-full">
-              <Button className="w-full">Ranks Leaderboard</Button>  
+              <Button className="w-full">View Ranks</Button>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Name Ranks</h2>
-          <p>Who are the fastest cubers with your name?</p>
-          <div style={{ flexGrow: 1 }}></div>
-          <div className="action">
-            <input
-              id="nameRanksInput"
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Name Ranks</h2>
+          <p className="mt-1">Who are the fastest cubers with your name?</p>
+          <div className="flex-1"></div>
+          <div className="mt-4 flex justify-between items-center gap-3">
+            <Input
               type="text"
               placeholder="Name"
-              style={{ width: '100%' }}
+              className="w-full"
               value={nameRanksInput}
               onChange={(e) => setNameRanksInput(e.target.value)}
               onKeyDown={handleNameRanksKeyDown}
             />
-            <button id="nameRanksGo" onClick={handleNameRanksGo}>
-              Go
-            </button>
+            <Button onClick={handleNameRanksGo}>Go</Button>
           </div>
         </div>
 
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Kinch Ranks</h2>
-          <p>Kinch Ranks is a way to measure all-round cubing ability instead of just one event</p>
-          <div style={{ flexGrow: 1 }}></div>
-          <div className="action">
-            <Link to="/kinch-ranks" style={{ width: '100%' }}>
-              <button style={{ width: '100%' }}>Kinch Ranks Leaderboard</button>
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Kinch Ranks</h2>
+          <p className="mt-1">Kinch Ranks is a way to measure all-round cubing ability instead of just one event</p>
+          <div className="flex-1"></div>
+          <div className="mt-4 flex justify-between items-center gap-3">
+            <Link to="/kinch-ranks" className="w-full">
+              <Button className="w-full">Kinch Ranks Leaderboard</Button>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Sum of Ranks</h2>
-          <p>Sum of Ranks is a way to measure all-round cubing ability instead of just one event</p>
-          <div style={{ flexGrow: 1 }}></div>
-          <div className="action">
-            <Link to="/sum-of-ranks" style={{ width: '100%' }}>
-              <button style={{ width: '100%' }}>Sum of Ranks Leaderboard</button>
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Sum of Ranks</h2>
+          <p className="mt-1">Sum of Ranks is a way to measure all-round cubing ability instead of just one event</p>
+          <div className="flex-1"></div>
+          <div className="mt-4 flex justify-between items-center gap-3">
+            <Link to="/sum-of-ranks" className="w-full">
+              <Button className="w-full">Sum of Ranks Leaderboard</Button>
             </Link>
           </div>
         </div>
 
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Record Streak</h2>
-          <p>How many competitions in a row did you get a personal record (PR)?</p>
-          <div style={{ flexGrow: 1 }}></div>
-          <div className="action">
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Record Streak</h2>
+          <p className="mt-1">How many competitions in a row did you get a personal record (PR)?</p>
+          <div className="flex-1"></div>
+          <div className="mt-4 flex justify-between items-center gap-3">
             <SearchElement path="/record-streak" />
           </div>
         </div>
 
-        <div className="flex flex-col w-full max-w-md p-4 gap-4 border border-gray-500">
-          <h2>Competitions</h2>
-          <p>Find WCA competitions nearest to you</p>
-          <div style={{ flexGrow: 1 }}></div>
-          <div className="action">
-            <Link to="/competitions" style={{ width: '100%' }}>
-              <button style={{ width: '100%' }}>WCA Competitions</button>
+        <div className="flex flex-col w-full max-w-md min-h-[180px] p-4 border border-[#555]">
+          <h2 className="text-lg font-bold">Competitions</h2>
+          <p className="mt-1">Find WCA competitions nearest to you</p>
+          <div className="flex-1"></div>
+          <div className="mt-4 flex justify-between items-center gap-3">
+            <Link to="/competitions" className="w-full">
+              <Button className="w-full">WCA Competitions</Button>
             </Link>
           </div>
         </div>
@@ -110,17 +108,17 @@ function Home() {
 
       {Object.entries(algSetGroups).map(([groupName, group]) => (
         <div key={groupName} className="mt-8">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl font-bold pb-1 border-b border-[#555]">
             {groupName} Algs
           </h2>
-          <div className="flex flex-wrap gap-3 border-t border-gray-500 pt-2 mt-2">
+          <div className="text-lg mt-2 flex flex-wrap gap-y-2 gap-x-4">
             {group.map((algSet) => {
               const algSetWithSpaces = algSet.replace(/-/g, ' ')
               return (
                 <Link
                   key={algSet}
                   to={`/algorithms/${algSet}`}
-                  className="link text-lg"
+                  className="link"
                 >
                   {algSetWithSpaces}
                 </Link>
@@ -130,8 +128,8 @@ function Home() {
         </div>
       ))}
 
-      <div style={{ marginTop: '150px' }}></div>
-      <p>
+      <div className="mt-[150px]"></div>
+      <p className="text-center">
         <Link className="link" to="/feedback">
           Feedback
         </Link>
