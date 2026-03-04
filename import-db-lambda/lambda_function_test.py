@@ -1,3 +1,7 @@
-from lambda_function import lambda_handler
+from lambda_function import (
+    # download,
+    transform,
+)
 
-lambda_handler(None, None)
+# download()  # Uncomment to download once
+transform()

@@ -3,12 +3,16 @@ import json
 import math
 import os
 import resource
+import shutil
 import sqlite3
+import urllib.request
 from io import StringIO
 
 import boto3
 import pandas as pd
 import paramiko
+
+EXPORT_DIR = "/tmp/WCA_export"
 
 
 def my_print(msg):
@@ -17,47 +21,44 @@ def my_print(msg):
     print(f"{memory_mb:.2f} MB - {msg}")
 
 
-def lambda_handler(event, context):
-    # url = "https://www.worldcubeassociation.org/export/results/v2/tsv"
+def download():
+    url = "https://www.worldcubeassociation.org/export/results/v2/tsv"
 
-    # # If url contains .sql, replace with .tsv
-    # url = url.replace(".sql", ".tsv")
+    my_print("Download")
+    urllib.request.urlretrieve(url, f"{EXPORT_DIR}.zip")
 
-    # my_print("Download")
-    # urllib.request.urlretrieve(url, "/tmp/WCA_export.zip")
+    if os.path.exists(EXPORT_DIR):
+        shutil.rmtree(EXPORT_DIR)
 
-    # if os.path.exists("/tmp/WCA_export"):
-    #     shutil.rmtree("/tmp/WCA_export")
+    my_print("Unzip")
+    shutil.unpack_archive(f"{EXPORT_DIR}.zip", EXPORT_DIR)
 
-    # my_print("Unzip")
-    # shutil.unpack_archive("/tmp/WCA_export.zip", "/tmp/WCA_export")
+    my_print("Rename")
+    for filename in os.listdir(EXPORT_DIR):
+        # Remove WCA_export_ from the filename
+        new_name = filename.replace("WCA_export_", "")
+        os.rename(f"{EXPORT_DIR}/{filename}", f"{EXPORT_DIR}/{new_name}")
 
-    # my_print("Rename")
-    # for filename in os.listdir("/tmp/WCA_export"):
-    #     # Remove WCA_export_ from the filename
-    #     new_name = filename.replace("WCA_export_", "")
-    #     os.rename(f"/tmp/WCA_export/{filename}", f"/tmp/WCA_export/{new_name}")
+    my_print("Remove unnecessary files")
 
-    # my_print("Remove unnecessary files")
+    def remove_if_exists(path):
+        if os.path.exists(path):
+            os.remove(path)
 
-    # def remove_if_exists(path):
-    #     if os.path.exists(path):
-    #         os.remove(path)
+    remove_if_exists(f"{EXPORT_DIR}/championships.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/eligible_country_iso2s_for_championship.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/formats.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/round_types.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/scrambles.tsv")
 
-    # remove_if_exists("/tmp/WCA_export/championships.tsv")
-    # remove_if_exists("/tmp/WCA_export/eligible_country_iso2s_for_championship.tsv")
-    # remove_if_exists("/tmp/WCA_export/formats.tsv")
-    # remove_if_exists("/tmp/WCA_export/round_types.tsv")
-    # remove_if_exists("/tmp/WCA_export/scrambles.tsv")
+    # Legacy export names
+    remove_if_exists(f"{EXPORT_DIR}/Formats.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/RoundTypes.tsv")
+    remove_if_exists(f"{EXPORT_DIR}/Scrambles.tsv")
 
-    # # Legacy export names
-    # remove_if_exists("/tmp/WCA_export/Formats.tsv")
-    # remove_if_exists("/tmp/WCA_export/RoundTypes.tsv")
-    # remove_if_exists("/tmp/WCA_export/Scrambles.tsv")
 
-    export_dir = "/tmp/WCA_export"
-
-    filenames = os.listdir(export_dir)
+def transform():
+    filenames = os.listdir(EXPORT_DIR)
     filenames = [f for f in filenames if f.endswith(".tsv")]
 
     def normalize_tablename(name):
@@ -140,7 +141,7 @@ def lambda_handler(event, context):
             }
 
         df = pd.read_csv(
-            f"{export_dir}/{filename}",
+            f"{EXPORT_DIR}/{filename}",
             delimiter="\t",
             usecols=lambda c: c not in cols_to_drop,
             dtype=column_dtypes,
@@ -618,9 +619,6 @@ def lambda_handler(event, context):
                 scores.append(bestAverage / average * 100)
 
         avgScore = sum(scores) / len(scores)
-        if personId == "2011BANS02":
-            my_print(f"scores: {scores}")
-            my_print(f"avgScore: {avgScore}")
         return avgScore
 
     persons = dfs["persons"]
@@ -666,7 +664,7 @@ def lambda_handler(event, context):
     persons = dfs["ranks_single"].sort_values("worldRank")["personId"].unique()
 
     my_print("Create miscellaneous")
-    with open(f"{export_dir}/metadata.json", "r") as f:
+    with open(f"{EXPORT_DIR}/metadata.json", "r") as f:
         data = json.loads(f.read())
 
         dfs["miscellaneous"] = pd.DataFrame(
@@ -682,8 +680,18 @@ def lambda_handler(event, context):
         conn = sqlite3.connect("/tmp/wca.db")
 
         try:
-            df.to_sql(table_name, conn, if_exists="replace", index=False)
-            my_print(f"{table_name}: table created")
+            my_print(f"Creating {table_name} table")
+            df.to_sql(
+                table_name,
+                conn,
+                if_exists="replace",
+                index=False,
+                # Use chunks to reduce memory. This reduced ~2GB in my testing
+                # By default, pandas writes all rows at once
+                chunksize=1_000,
+                method="multi",
+            )
+            my_print(f"Created {table_name} table")
         except Exception as e:
             my_print(f"Error: {e}")
         finally:
@@ -740,6 +748,8 @@ def lambda_handler(event, context):
     conn.commit()
     conn.close()
 
+
+def upload():
     # Get environment variables
     vps_ip = os.environ["IP"]
     vps_user = os.environ["USER"]
@@ -780,4 +790,9 @@ def lambda_handler(event, context):
 
     ssh.close()
 
+
+def lambda_handler(event, context):
+    download()
+    transform()
+    upload()
     return {"statusCode": 200, "body": "Success!"}
