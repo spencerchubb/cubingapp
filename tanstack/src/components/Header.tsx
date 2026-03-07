@@ -145,13 +145,6 @@ export default function Header() {
           </button>
           <div className="expandableChild">
             <Link
-              to="/am-i-sub-x"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Am I Sub-X?
-            </Link>
-            <Link
               to="/competitions"
               className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
