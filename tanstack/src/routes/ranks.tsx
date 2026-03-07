@@ -21,7 +21,6 @@ interface RanksData {
   results: RankResult[]
   totalCount: number
   pages: number
-  exportDate: string
 }
 
 const getRanks = createServerFn({ method: 'GET' })
@@ -38,13 +37,6 @@ const getRanks = createServerFn({ method: 'GET' })
     const perPage = 100
 
     const db = await wcaDb()
-
-    // Get export date
-    const exportDateStmt = db.query(
-      "SELECT value FROM Miscellaneous WHERE key = 'export_date'"
-    )
-    const exportDateRow = exportDateStmt.get() as { value: string } | undefined
-    const exportDate = exportDateRow?.value || ''
 
     // Build where conditions based on region
     let whereConditions = ''
@@ -93,7 +85,6 @@ const getRanks = createServerFn({ method: 'GET' })
       results,
       totalCount,
       pages,
-      exportDate,
     } as RanksData
   })
 
@@ -167,14 +158,6 @@ function Ranks() {
       <h1 className="text-4xl font-bold">
         Ranks
       </h1>
-      <p
-        style={{
-          fontSize: '1rem',
-          color: 'var(--gray-300)',
-        }}
-      >
-        WCA data from {data.exportDate}
-      </p>
 
       <NativeSelect
         value={localEvent}
@@ -231,11 +214,8 @@ function Ranks() {
             <TableRow key={`${row.personId}-${row.rank}`}>
               <TableCell><b>{row.rank}</b></TableCell>
               <TableCell>
-                <Link
-                  to={`/persons?wcaId=${row.personId}`}
-                  className="link"
-                >
-                  {row.name}  
+                <Link to="/persons" search={{ wcaId: row.personId }}>
+                  {row.name}
                 </Link>
               </TableCell>
               <TableCell>{formatResult(event, type, row.best)}</TableCell>

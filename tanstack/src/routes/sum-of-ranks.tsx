@@ -366,14 +366,6 @@ function SumOfRanks() {
           <ChevronRightIcon className="size-6 text-gray-400" />
           {personData.name}
         </h1>
-        <p
-          style={{
-            fontSize: '1rem',
-            color: 'var(--gray-300)',
-          }}
-        >
-          WCA data from {personData.exportDate}
-        </p>
 
         <SearchElement
           path="/sum-of-ranks"
@@ -465,14 +457,6 @@ function SumOfRanks() {
         <h1 className="text-4xl font-bold">
           Sum of Ranks
         </h1>
-        <p
-          style={{
-            fontSize: '1rem',
-            color: 'var(--gray-300)',
-          }}
-        >
-          WCA data from {leaderboardData.exportDate}
-        </p>
 
         <SearchElement
           path="/sum-of-ranks"

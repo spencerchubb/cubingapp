@@ -73,41 +73,18 @@ export default function SearchElement({ path, wcaId = '', className }: SearchEle
         onFocus={() => setIsVisible(true)}
       />
       {isVisible && results.length > 0 && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'absolute',
-            width: '100%',
-            zIndex: 1000,
-          }}
-        >
+        <div className="flex flex-col absolute w-full z-1000">
           {results.map((result) => (
             <Link
               key={result.wca_id}
               to={path}
               search={{ wcaId: result.wca_id }}
-              className="search-result"
-              style={{
-                background: 'var(--gray-900)',
-                border: 'solid 1px var(--gray-500)',
-                borderTop: 'none',
-                borderRadius: '0px',
-                padding: '0.5rem 1rem',
-                cursor: 'pointer',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'var(--gray-800)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--gray-900)'
-              }}
+              className="bg-gray-900 hover:bg-gray-800 border border-gray-500 border-t-0 rounded-none p-2 cursor-pointer text-none"
             >
-              <h2 style={{ fontSize: '16px', margin: 0, color: 'var(--gray-100)' }}>
+              <h2 className="font-bold">
                 {result.name}
               </h2>
-              <p style={{ marginTop: '4px', fontSize: '14px', color: 'var(--gray-300)' }}>
+              <p className="mt-1 text-gray-300">
                 {result.wca_id}
               </p>
             </Link>

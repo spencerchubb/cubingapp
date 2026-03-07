@@ -70,30 +70,6 @@ main {
     padding: 16px;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-label {
-    margin: 0;
-    padding: 0;
-    color: var(--gray-100);
-}
-
-p {
-    font-size: 1rem;
-    line-height: 1.4rem;
-}
-
-li {
-    font-size: 1rem;
-    line-height: 1.8rem;
-}
-
 ul,
 ol {
     margin: 0;

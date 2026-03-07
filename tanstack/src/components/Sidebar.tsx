@@ -18,7 +18,7 @@ const algSetGroups: Record<string, string[]> = {
   Other: ['4x4-PLL-Parity'],
 }
 
-export default function Header() {
+export function Sidebar() {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<
@@ -41,11 +41,10 @@ export default function Header() {
   return (
     <>
       {/* Top bar - only visible on mobile */}
-      <div className="topBar">
+      <div className="hidden max-md:flex w-full border-b border-gray-600">
         <svg
-          className="w-12 h-12 p-2 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
+          className="w-12 h-12 stroke-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
           viewBox="0 0 100 100"
-          stroke="var(--gray-100)"
           strokeWidth="10"
           onClick={() => setIsMenuOpen(true)}
         >
@@ -57,17 +56,20 @@ export default function Header() {
 
       {/* Menu background overlay - only visible on mobile when menu is open */}
       {isMenuOpen && (
-        <div id="menuBackground" onClick={() => setIsMenuOpen(false)} />
+        <div
+          className="hidden max-md:block fixed top-0 left-0 w-full h-full bg-black/50 z-1"
+          onClick={() => setIsMenuOpen(false)}
+        />
       )}
 
       {/* Sidebar menu */}
-      <div id="menu" className={isMenuOpen ? 'menuOpen' : ''}>
+      <div
+        className={`min-w-[250px] max-w-[250px] border-r border-gray-600 pb-[100px] overflow-y-auto bg-gray-800 max-md:absolute max-md:top-0 max-md:left-0 max-md:h-full max-md:z-2 ${isMenuOpen ? 'max-md:block' : 'max-md:hidden'}`}
+      >
         {/* Close button - only visible on mobile */}
         <svg
-          id="menuClose"
-          className="w-12 h-12 p-2 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors"
+          className="hidden max-md:block w-12 h-12 p-2 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors stroke-gray-100"
           viewBox="0 0 100 100"
-          stroke="var(--gray-100)"
           strokeWidth="12"
           strokeLinecap="round"
           onClick={() => setIsMenuOpen(false)}
@@ -80,7 +82,7 @@ export default function Header() {
         <Link
           to="/"
           onClick={() => setIsMenuOpen(false)}
-          className="flex items-center gap-2 px-4 py-2 text-gray-100 font-bold hover:bg-gray-600 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 stroke-gray-100 font-bold hover:bg-gray-600 transition-colors"
         >
           <img src="/favicon.svg" alt="Logo" width="24" height="24" />
           CubingApp
@@ -88,18 +90,15 @@ export default function Header() {
 
         {/* Algorithm groups */}
         {Object.entries(algSetGroups).map(([groupName, algSets]) => (
-          <div
-            key={groupName}
-            className={`expandable ${expandedGroups[groupName] ? 'expandableOpen' : ''}`}
-          >
+          <div key={groupName}>
             <button
-              className="expandableButton"
+              className="w-full bg-transparent flex justify-between items-center gap-2 rounded-none py-2 px-4 border-none stroke-gray-100 font-[Verdana,sans-serif] text-base cursor-pointer hover:bg-gray-600"
               onClick={() => toggleGroup(groupName)}
             >
               <p>{groupName} Algs</p>
               <svg
+                className={`w-4 h-4 stroke-gray-100 transition-transform duration-300 ${expandedGroups[groupName] ? 'rotate-90' : ''}`}
                 viewBox="0 0 100 100"
-                stroke="var(--gray-100)"
                 strokeWidth="16"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -108,12 +107,14 @@ export default function Header() {
                 <path d="M 25,8 L 75,50 L 25,92" />
               </svg>
             </button>
-            <div className="expandableChild">
+            <div
+              className={`${expandedGroups[groupName] ? 'flex flex-col' : 'hidden'}`}
+            >
               {algSets.map((algSet) => (
                 <Link
                   key={algSet}
                   to={`/algorithms/${algSet}`}
-                  className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+                  className="pl-8 pr-2 py-2 stroke-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {formatAlgSetName(algSet)}
@@ -124,17 +125,15 @@ export default function Header() {
         ))}
 
         {/* Calculators expandable section */}
-        <div
-          className={`expandable ${expandedGroups.Calculators ? 'expandableOpen' : ''}`}
-        >
+        <div>
           <button
-            className="expandableButton"
+            className="w-full bg-transparent flex justify-between items-center gap-2 rounded-none py-2 px-4 border-none text-gray-100 font-[Verdana,sans-serif] text-base cursor-pointer hover:bg-gray-600"
             onClick={() => toggleGroup('Calculators')}
           >
             <p>Calculators</p>
             <svg
+              className={`w-4 h-4 stroke-gray-100 transition-transform duration-300 ${expandedGroups.Calculators ? 'rotate-90' : ''}`}
               viewBox="0 0 100 100"
-              stroke="var(--gray-100)"
               strokeWidth="16"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -143,45 +142,47 @@ export default function Header() {
               <path d="M 25,8 L 75,50 L 25,92" />
             </svg>
           </button>
-          <div className="expandableChild">
+          <div
+            className={`${expandedGroups.Calculators ? 'flex flex-col' : 'hidden'}`}
+          >
             <Link
               to="/competitions"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Competition Distance
             </Link>
             <Link
               to="/kinch-ranks"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Kinch Ranks
             </Link>
             <Link
               to="/name-ranks"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Name Ranks
             </Link>
             <Link
               to="/ranks"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Ranks
             </Link>
             <Link
               to="/record-streak"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Record Streak
             </Link>
             <Link
               to="/sum-of-ranks"
-              className="pl-8 pr-2 py-2 text-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
+              className="pl-8 pr-2 py-2 decoration-0 hover:bg-gray-600 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Sum of Ranks

@@ -3,16 +3,21 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { WcaDate } from "@/components/WcaDate"
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className={cn(
+        "relative w-fit overflow-x-auto border border-gray-500",
+        className
+      )}
     >
+      <WcaDate className="px-4 py-2 bg-gray-900 w-full italic" />
       <table
         data-slot="table"
-        className={cn("w-full border border-gray-500", className)}
+        className="w-full"
         {...props}
       />
     </div>
@@ -23,7 +28,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("bg-gray-900 border border-gray-500", className)}
+      className={cn("bg-gray-900 border-b border-gray-500", className)}
       {...props}
     />
   )
@@ -73,7 +78,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
       data-slot="table-cell"
-      className={cn("px-4 py-2 text-left text-gray-100 text-nowrap", className)}
+      className={cn("px-4 py-2 text-left text-gray-100 text-nowrap [&_a]:text-sky-500 [&_a]:hover:underline", className)}
       {...props}
     />
   )
