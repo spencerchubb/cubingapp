@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
@@ -206,14 +206,13 @@ function NameRanks() {
               <TableRow key={`${row.personId}-${index}`}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
-                  <a
+                  <Link
                     className="link"
-                    href={`https://worldcubeassociation.org/persons/${row.personId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    to="/persons"
+                    search={{ wcaId: row.personId }}
                   >
                     {row.name}
-                  </a>
+                  </Link>
                 </TableCell>
                 <TableCell>{formatResult(event, type, row.best)}</TableCell>
               </TableRow>
