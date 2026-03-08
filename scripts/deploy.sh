@@ -3,10 +3,10 @@ set -e
 
 cd "$(dirname "$0")"
 
-# Load env vars (USER + IP2)
-source .env
+# Load env vars (USER + IP)
+source ../.env
 
-cd tanstack
+cd ../tanstack
 
 APP_DIR="/var/www/app"
 SSH_KEY="~/.ssh/cubingapp"
@@ -57,13 +57,38 @@ fi
 COPYFILE_DISABLE=1 tar -C "$STAGING_DIR" -czf deploy.tar.gz .output package.json bun.lock
 
 echo "📤 Uploading to VPS..."
-scp -i ~/.ssh/cubingapp deploy.tar.gz $USER@$IP2:/tmp/
+scp -i ~/.ssh/cubingapp deploy.tar.gz $USER@$IP:/tmp/
+scp -i ~/.ssh/cubingapp gci.conf $USER@$IP:/tmp/gci.conf
 
 echo "🚀 Deploying on VPS..."
-ssh -T -i ~/.ssh/cubingapp $USER@$IP2 << EOF
+ssh -T -i ~/.ssh/cubingapp $USER@$IP << EOF
   set -e
   export BUN_INSTALL="\$HOME/.bun"
   export PATH="\$BUN_INSTALL/bin:\$PATH"
+
+  # Verify SSL certificate files exist
+  if [ ! -f /etc/letsencrypt/live/cubingapp.com/fullchain.pem ]; then
+    echo "❌ SSL fullchain not found. Make sure to set up letsencrypt"
+    exit 1
+  fi
+  if [ ! -f /etc/letsencrypt/live/cubingapp.com/privkey.pem ]; then
+    echo "❌ SSL privkey not found. Make sure to set up letsencrypt"
+    exit 1
+  fi
+
+  # Set up Apache config
+  sudo apt update
+  sudo apt install apache2 -y
+  echo "🔧 Configuring Apache..."
+  mkdir -p /etc/apache2/sites-available
+  sudo cp /tmp/gci.conf /etc/apache2/sites-available/gci.conf
+  sudo a2enmod rewrite ssl
+  sudo a2enmod proxy
+  sudo a2enmod proxy_http
+  sudo a2enmod headers
+  sudo a2ensite gci.conf
+  sudo apachectl configtest
+  sudo systemctl reload apache2
 
   mkdir -p $APP_DIR
   cd $APP_DIR
