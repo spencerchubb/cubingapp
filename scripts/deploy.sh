@@ -4,7 +4,9 @@ set -e
 cd "$(dirname "$0")"
 
 # Load env vars (USER + IP2)
-source ../.env
+source .env
+
+cd tanstack
 
 APP_DIR="/var/www/app"
 SSH_KEY="~/.ssh/cubingapp"
