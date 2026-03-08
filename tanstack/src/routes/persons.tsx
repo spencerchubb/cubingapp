@@ -251,13 +251,13 @@ function Persons() {
             <TableRow>
               <TableCell>Sum of Ranks</TableCell>
               <TableCell></TableCell>
-              <TableCell>{data.person.worldSorSingle.toFixed(2)}</TableCell>
-              <TableCell>{data.person.continentSorSingle.toFixed(2)}</TableCell>
-              <TableCell>{data.person.countrySorSingle.toFixed(2)}</TableCell>
+              <TableCell>{data.person.worldSorSingle}</TableCell>
+              <TableCell>{data.person.continentSorSingle}</TableCell>
+              <TableCell>{data.person.countrySorSingle}</TableCell>
               <TableCell></TableCell>
-              <TableCell>{data.person.worldSorAverage.toFixed(2)}</TableCell>
-              <TableCell>{data.person.continentSorAverage.toFixed(2)}</TableCell>
-              <TableCell>{data.person.countrySorAverage.toFixed(2)}</TableCell>
+              <TableCell>{data.person.worldSorAverage}</TableCell>
+              <TableCell>{data.person.continentSorAverage}</TableCell>
+              <TableCell>{data.person.countrySorAverage}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
