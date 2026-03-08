@@ -60,11 +60,11 @@ const getPersonKinchData = createServerFn({ method: 'GET' })
         LEFT JOIN ranks_single rs2
           ON e.id = rs2.eventId
             AND rs2.continentId = ?
-            AND rs2.continentRank = 1
+            AND rs2.continentRank = (SELECT MIN(continentRank) FROM ranks_single WHERE eventId = e.id AND continentId = ?)
         LEFT JOIN ranks_average ra2
           ON e.id = ra2.eventId
             AND ra2.continentId = ?
-            AND ra2.continentRank = 1
+            AND ra2.continentRank = (SELECT MIN(continentRank) FROM ranks_average WHERE eventId = e.id AND continentId = ?)
         WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
         GROUP BY e.id;
       `
@@ -83,11 +83,11 @@ const getPersonKinchData = createServerFn({ method: 'GET' })
         LEFT JOIN ranks_single rs2
           ON e.id = rs2.eventId
             AND rs2.countryId = ?
-            AND rs2.countryRank = 1
+            AND rs2.countryRank = (SELECT MIN(countryRank) FROM ranks_single WHERE eventId = e.id AND countryId = ?)
         LEFT JOIN ranks_average ra2
           ON e.id = ra2.eventId
             AND ra2.countryId = ?
-            AND ra2.countryRank = 1
+            AND ra2.countryRank = (SELECT MIN(countryRank) FROM ranks_average WHERE eventId = e.id AND countryId = ?)
         WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
         GROUP BY e.id;
       `
@@ -102,8 +102,8 @@ const getPersonKinchData = createServerFn({ method: 'GET' })
         FROM Events e
         LEFT JOIN ranks_single rs1 ON e.id = rs1.eventId AND rs1.personId = ?
         LEFT JOIN ranks_average ra1 ON e.id = ra1.eventId AND ra1.personId = ?
-        LEFT JOIN ranks_single rs2 ON e.id = rs2.eventId AND rs2.worldRank = 1
-        LEFT JOIN ranks_average ra2 ON e.id = ra2.eventId AND ra2.worldRank = 1
+        LEFT JOIN ranks_single rs2 ON e.id = rs2.eventId AND rs2.worldRank = (SELECT MIN(worldRank) FROM ranks_single WHERE eventId = e.id)
+        LEFT JOIN ranks_average ra2 ON e.id = ra2.eventId AND ra2.worldRank = (SELECT MIN(worldRank) FROM ranks_average WHERE eventId = e.id)
         WHERE e.id <> '333ft' AND e.id <> '333mbo' AND e.id <> 'magic' AND e.id <> 'mmagic'
         GROUP BY e.id;
       `
@@ -113,9 +113,9 @@ const getPersonKinchData = createServerFn({ method: 'GET' })
     let results: KinchResult[]
     if (regionId) {
       if (strings[0] === 'continent') {
-        results = stmt.all(wcaId, wcaId, regionId, regionId) as KinchResult[]
+        results = stmt.all(wcaId, wcaId, regionId, regionId, regionId, regionId) as KinchResult[]
       } else {
-        results = stmt.all(wcaId, wcaId, regionId, regionId) as KinchResult[]
+        results = stmt.all(wcaId, wcaId, regionId, regionId, regionId, regionId) as KinchResult[]
       }
     } else {
       results = stmt.all(wcaId, wcaId) as KinchResult[]
