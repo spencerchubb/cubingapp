@@ -4,6 +4,7 @@ import { Cube, SQ1, Pyraminx, Skewb, invertAlg } from '../../utils/puzzles'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Button } from '@/components/ui/button'
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
+import { Link } from '@/components/ui/link'
 
 interface AlgData {
   note?: string
@@ -150,17 +151,21 @@ function AlgSetPage() {
       const entries = Object.entries(caseData.algs)
 
       return (
-        <div key={caseName} className="alg-card">
+        <div key={caseName} className="w-full flex gap-4 p-4 border-t border-gray-500">
           <div
             className={className}
             dangerouslySetInnerHTML={{ __html: diagram }}
           />
-          <div className="info">
+          <div className="prose">
             <h3>{caseName}</h3>
             {entries.map(([alg, algData]) => (
               <p key={alg}>
                 &#8226; {alg}
-                {algData.note && <span className="note">{algData.note}</span>}
+                {algData.note && <span
+                  className="text-gray-400 text-sm ml-2"
+                >
+                  {algData.note}
+                </span>}
               </p>
             ))}
           </div>
@@ -182,14 +187,6 @@ function AlgSetPage() {
         x-l { background: var(--l-face); }
         x-r { background: var(--r-face); }
         x-t { background: transparent; border: none !important; }
-
-        .alg-card {
-          width: 100%; padding: 16px 0; border-bottom: solid 1px var(--gray-600);
-          display: flex; justify-content: start; gap: 12px;
-        }
-        .alg-card h3 { font-size: 16px; line-height: 22px; }
-        .alg-card p { display: flex; flex-wrap: wrap; }
-        .alg-card .note { color: var(--gray-400); font-size: 14px; margin-left: 12px; }
 
         .viz-2d-2x2, .viz-2d-3x3, .viz-2d-4x4 {
           min-width: 100px; width: 100px; height: 100px; display: grid;
@@ -237,6 +234,7 @@ function AlgSetPage() {
             <p
               key={i}
               dangerouslySetInnerHTML={{ __html: text }}
+              className="[&_a]:text-sky-500 [&_a]:no-underline [&_a]:hover:underline"
             />
           ))}
         </div>
@@ -275,13 +273,13 @@ function AlgSetPage() {
             {subsetsExpanded && (
               <div className="border-t border-gray-500 rounded-none flex flex-col p-4 gap-2">
                 {algSet.subsets.map((s) => (
-                  <a
+                  <Link
                     key={s}
-                    href={`#${s.replace(/ /g, '_')}`}
+                    to={`#${s.replace(/ /g, '_')}`}
                     className="text-gray-100 hover:underline hover:text-sky-500"
                   >
                     {s}
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -298,7 +296,7 @@ function AlgSetPage() {
               <div key={subset}>
                 <h2
                   id={subset.replace(/ /g, '_')}
-                  className="mt-8 text-2xl font-bold"
+                  className="mt-8 mb-2 text-2xl font-bold"
                 >
                   {subset}
                 </h2>
@@ -313,13 +311,13 @@ function AlgSetPage() {
         <div className="hidden lg:flex flex-col w-xs h-fit p-4 gap-2 border border-gray-500">
           <h2 className="text-2xl font-bold">Subsets</h2>
           {algSet.subsets.map((s) => (
-            <a
+            <Link
               key={s}
-              href={`#${s.replace(/ /g, '_')}`}
+              to={`#${s.replace(/ /g, '_')}`}
               className="text-gray-100 hover:underline hover:text-sky-500"
             >
               {s}
-            </a>
+            </Link>
           ))}
         </div>
       )}

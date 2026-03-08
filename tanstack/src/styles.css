@@ -29,12 +29,3 @@ main {
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6, .prose p, .prose ul, .prose ol {
   color: var(--color-gray-100);
 }
-.prose a {
-  color: var(--color-sky-500);
-  text-decoration: none;
-  cursor: pointer;
-}
-.prose a:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}

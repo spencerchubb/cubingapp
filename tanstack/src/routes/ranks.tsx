@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
@@ -8,6 +8,7 @@ import { SelectRegion } from '@/components/SelectRegion'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Pagination } from '@/components/ui/pagination'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Link } from '@/components/ui/link'
 
 export interface RankResult {
   personId: string

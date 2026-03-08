@@ -1,8 +1,9 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import SearchElement from '../components/SearchElement'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Link } from "@/components/ui/link"
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -118,7 +119,6 @@ function Home() {
                 <Link
                   key={algSet}
                   to={`/algorithms/${algSet}`}
-                  className="link"
                 >
                   {algSetWithSpaces}
                 </Link>
@@ -130,13 +130,13 @@ function Home() {
 
       <div className="mt-[150px]"></div>
       <p className="text-center">
-        <Link className="link" to="/feedback">
+        <Link to="/feedback">
           Feedback
         </Link>
         {' | '}
-        <a className="link" href="https://github.com/spencerchubb/cubingapp">
+        <Link to="https://github.com/spencerchubb/cubingapp">
           GitHub
-        </a>
+        </Link>
       </p>
     </main>
   )

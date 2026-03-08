@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
@@ -7,6 +7,7 @@ import { wcaDb } from '../utils/wca-db'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Link } from '@/components/ui/link'
 
 export interface NameRankResult {
   personId: string
@@ -207,7 +208,6 @@ function NameRanks() {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>
                   <Link
-                    className="link"
                     to="/persons"
                     search={{ wcaId: row.personId }}
                   >
@@ -238,13 +238,13 @@ function NameRanks() {
           </li>
           <li>
             <b>Advanced mode:</b> Use your own SQLite pattern! See{' '}
-            <a
-              href="https://www.sqlitetutorial.net/sqlite-like/"
+            <Link
+              to="https://www.sqlitetutorial.net/sqlite-like/"
               target="_blank"
               rel="noopener noreferrer"
             >
               this tutorial
-            </a>{' '}
+            </Link>{' '}
             to learn how to use SQLite patterns.
           </li>
         </ul>

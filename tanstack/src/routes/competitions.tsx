@@ -7,6 +7,7 @@ import { wcaDb } from '../utils/wca-db'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Link } from '@/components/ui/link'
 
 interface CompetitionRow {
   id: string
@@ -264,9 +265,12 @@ function Competitions() {
                 <TableCell>{km}</TableCell>
                 <TableCell>{mi}</TableCell>
                 <TableCell>
-                  <a className="link" href={`https://www.worldcubeassociation.org/competitions/${row.id}`}>
+                  <Link
+                    to={`https://www.worldcubeassociation.org/competitions/${row.id}`}
+                    target="_blank"
+                  >
                     {row.name}
-                  </a>
+                  </Link>
                 </TableCell>
                 <TableCell className="cubing-icons events-cell">{eventNames}</TableCell>
               </TableRow>

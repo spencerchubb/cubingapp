@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
@@ -10,6 +10,7 @@ import { ChevronRightIcon } from 'lucide-react'
 import { SelectRegion } from '@/components/SelectRegion'
 import { Pagination } from "@/components/ui/pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Link } from '@/components/ui/link'
 
 interface LeaderboardResult {
   name: string
@@ -334,7 +335,7 @@ function KinchRanks() {
       {wcaId ? (
         <>
           <h2 className="text-2xl font-bold flex items-center gap-2">
-            <Link to="/kinch-ranks" className="link">Kinch Ranks</Link>
+            <Link to="/kinch-ranks">Kinch Ranks</Link>
             <ChevronRightIcon className="size-6 text-gray-400" />
             {loaderData?.personName}
           </h2>
@@ -436,7 +437,6 @@ function KinchRanks() {
                             <Link
                               to="/kinch-ranks"
                               search={{ wcaId: row.wca_id, region }}
-                              className="link"
                             >
                               {row.name}
                             </Link>
@@ -487,13 +487,13 @@ function KinchRanks() {
         <h2>How did Kinch Ranks start?</h2>
         <p>
           It was introduced on speedsolving.com by kinch2002 in{' '}
-          <a
-            href="https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/"
+          <Link
+            to="https://www.speedsolving.com/threads/all-round-rankings-kinchranks.53353/"
             target="_blank"
             rel="noopener noreferrer"
           >
             this post
-          </a>
+          </Link>
           &nbsp;😊
         </p>
         <h2>Why use Kinch?</h2>
@@ -514,7 +514,7 @@ function KinchRanks() {
         <p>
           As mentioned before, Kinch is just one way to measure the all-round abilities of a
           cuber. If you want to know your Sum of Ranks, you can visit our{' '}
-          <Link className="link" to="/sum-of-ranks">
+          <Link to="/sum-of-ranks">
             Sum of Ranks
           </Link>{' '}
           page as well.

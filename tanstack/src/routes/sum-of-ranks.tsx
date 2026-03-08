@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
@@ -9,6 +9,7 @@ import { ChevronRightIcon } from 'lucide-react'
 import { Pagination } from "@/components/ui/pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
+import { Link } from '@/components/ui/link'
 
 interface PersonDetailRow {
   eventId: string
@@ -362,7 +363,7 @@ function SumOfRanks() {
     return (
       <main>
         <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Link to="/sum-of-ranks" className="link">Sum of Ranks</Link>
+          <Link to="/sum-of-ranks">Sum of Ranks</Link>
           <ChevronRightIcon className="size-6 text-gray-400" />
           {personData.name}
         </h1>
@@ -435,7 +436,7 @@ function SumOfRanks() {
           <p>
             Sum of Ranks is just one way to measure the all-round abilities of a
             cuber. If you want to know your Kinch score, you can visit our{' '}
-            <Link className="link" to="/kinch-ranks">
+            <Link to="/kinch-ranks">
               Kinch Ranks
             </Link>{' '}
             page as well.
@@ -505,7 +506,6 @@ function SumOfRanks() {
                   <TableCell><b>{rank}</b></TableCell>
                   <TableCell>
                     <Link
-                      className="link"
                       to="/sum-of-ranks"
                       search={{ wcaId: row.wca_id }}
                     >

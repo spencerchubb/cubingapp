@@ -78,7 +78,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
       data-slot="table-cell"
-      className={cn("px-4 py-2 text-left text-gray-100 text-nowrap [&_a]:text-sky-500 [&_a]:hover:underline", className)}
+      className={cn("px-4 py-2 text-left text-gray-100 text-nowrap", className)}
       {...props}
     />
   )
