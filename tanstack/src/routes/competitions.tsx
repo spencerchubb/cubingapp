@@ -90,8 +90,8 @@ export const Route = createFileRoute('/competitions')({
     z
       .object({
         name: z.string().optional(),
-        lat: z.string().optional(),
-        lon: z.string().optional(),
+        lat: z.number().optional(),
+        lon: z.number().optional(),
         events: z.coerce.string().optional(),
       })
       .parse(search),
