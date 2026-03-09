@@ -4,7 +4,8 @@ import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { eventIdToName, formatResult } from '../utils/event-utils'
 import { wcaDb } from '../utils/wca-db'
-import { SelectRegion } from '@/components/SelectRegion'
+import { SelectRegionMulti } from '@/components/SelectRegionMulti'
+import { CONTINENTS, COUNTRIES } from '@/lib/regions'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Pagination } from '@/components/ui/pagination'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -39,29 +40,36 @@ const getRanks = createServerFn({ method: 'GET' })
 
     const db = await wcaDb()
 
-    // Build where conditions based on region
+    // Build where conditions based on region (comma-separated)
+    const regions = region.split(',').filter(Boolean)
     let whereConditions = ''
     let rankColumn = 'worldRank'
-    let regionValue: string | null = null
+    const params: string[] = [event]
 
-    if (region.startsWith('continent-')) {
-      const continentId = '_' + region.substring('continent-'.length)
-      whereConditions = ' AND continentId = ?'
-      regionValue = continentId
+    const continents = regions.filter((r) => CONTINENTS.includes(r))
+    const countries = regions.filter((r) => COUNTRIES.includes(r))
+
+    if (continents.length > 0 && countries.length === 0) {
+      const placeholders = continents.map(() => '?').join(',')
+      whereConditions = ` AND continentId IN (${placeholders})`
+      params.push(...continents.map((c) => '_' + c))
       rankColumn = 'continentRank'
-    } else if (region.startsWith('country-')) {
-      const countryId = region.substring('country-'.length)
-      whereConditions = ' AND countryId = ?'
-      regionValue = countryId
+    } else if (countries.length > 0 && continents.length === 0) {
+      const placeholders = countries.map(() => '?').join(',')
+      whereConditions = ` AND countryId IN (${placeholders})`
+      params.push(...countries)
       rankColumn = 'countryRank'
+    } else if (continents.length > 0 && countries.length > 0) {
+      const cPlaceholders = continents.map(() => '?').join(',')
+      const kPlaceholders = countries.map(() => '?').join(',')
+      whereConditions = ` AND (continentId IN (${cPlaceholders}) OR countryId IN (${kPlaceholders}))`
+      params.push(...continents.map((c) => '_' + c), ...countries)
+      rankColumn = 'worldRank'
     }
 
     // Get total count
-    let countQuery = `SELECT COUNT() as count FROM ranks_${type} WHERE eventId = ? ${whereConditions}`
-    const countStmt = db.query(countQuery)
-    const countRow = regionValue
-      ? (countStmt.get(event, regionValue) as { count: number })
-      : (countStmt.get(event) as { count: number })
+    const countQuery = `SELECT COUNT() as count FROM ranks_${type} WHERE eventId = ? ${whereConditions}`
+    const countRow = db.query(countQuery).get(...params) as { count: number }
     const totalCount = countRow.count
     const pages = Math.ceil(totalCount / perPage)
 
@@ -70,15 +78,12 @@ const getRanks = createServerFn({ method: 'GET' })
     const lowerBound = (validPage - 1) * perPage
     const upperBound = lowerBound + perPage
 
-    // Get results - use the actual rank column name in WHERE clause
-    let query = `SELECT personId, name, best, countryId, ${rankColumn} as rank
+    // Get results
+    const query = `SELECT personId, name, best, countryId, ${rankColumn} as rank
       FROM ranks_${type} ranks
       WHERE eventId = ? AND ${rankColumn} >= ${lowerBound} AND ${rankColumn} <= ${upperBound} ${whereConditions}
       ORDER BY worldRank`
-    const stmt = db.query(query)
-    const results = regionValue
-      ? (stmt.all(event, regionValue) as RankResult[])
-      : (stmt.all(event) as RankResult[])
+    const results = db.query(query).all(...params) as RankResult[]
 
     db.close()
 
@@ -114,7 +119,7 @@ export const Route = createFileRoute('/ranks')({
   },
   loaderDeps: ({ search }) => ({
     event: search.event || '333',
-    region: search.region || 'World',
+    region: search.region || '',
     type: search.type || 'single',
     page: search.page || 1,
   }),
@@ -129,7 +134,7 @@ function Ranks() {
   const navigate = Route.useNavigate()
 
   const event = search.event || '333'
-  const region = search.region || 'World'
+  const region = search.region || ''
   const type = search.type || 'single'
   const page = search.page || 1
 
@@ -174,7 +179,7 @@ function Ranks() {
           </NativeSelectOption>
         ))}
       </NativeSelect>
-      <SelectRegion
+      <SelectRegionMulti
         region={localRegion}
         setRegion={(region) => {
           setLocalRegion(region)
