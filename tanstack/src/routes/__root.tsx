@@ -3,6 +3,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { useEffect } from 'react'
 import { Sidebar } from '../components/Sidebar'
+import { NotFound } from '../components/NotFound'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -32,6 +33,7 @@ export const Route = createRootRoute({
     ],
   }),
 
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
 

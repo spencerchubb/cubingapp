@@ -1,22 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-
-// Algorithm set groups matching PHP algSetGroups.php
-const algSetGroups: Record<string, string[]> = {
-  '3x3': ['F2L', 'OLL', 'PLL', 'Winter-Variation', 'COLL', 'OLLCP', 'ZBLL'],
-  Roux: ['CMLL', 'OH-CMLL', 'LSE-EO', 'LSE-EOLR'],
-  '2x2': ['2x2-PBL', '2x2-CLL', '2x2-EG1', '2x2-EG2'],
-  Pyraminx: ['Pyraminx-Last-Layer', 'Pyraminx-L4E'],
-  Skewb: ['Sarah-Intermediate', 'Sarah-Advanced'],
-  'Square-1': [
-    'SQ1-Cube-Shape',
-    'SQ1-CSP',
-    'SQ1-CP',
-    'SQ1-EP',
-    'SQ1-OBL',
-  ],
-  Other: ['4x4-PLL-Parity'],
-}
+import { algSetGroups } from '@/routes/algorithms/algSetGroups'
 
 export function Sidebar() {
   const location = useLocation()
@@ -113,7 +97,8 @@ export function Sidebar() {
               {algSets.map((algSet) => (
                 <Link
                   key={algSet}
-                  to={`/algorithms/${algSet}`}
+                  to="/algorithms/$algSet"
+                  params={{ algSet }}
                   className="pl-8 pr-2 py-2 stroke-gray-100 decoration-0 hover:bg-gray-600 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
