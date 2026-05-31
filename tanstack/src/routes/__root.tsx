@@ -1,6 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { useEffect } from 'react'
 import { Sidebar } from '../components/Sidebar'
 import appCss from '../styles.css?url'
 
@@ -29,21 +30,32 @@ export const Route = createRootRoute({
         href: appCss,
       },
     ],
-    scripts: [
-      {
-        src: 'https://www.googletagmanager.com/gtag/js?id=G-YR33BDCQDY',
-        async: true,
-      },
-      {
-        children: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-YR33BDCQDY');`,
-      },
-    ],
   }),
 
   shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // Load after hydration to avoid "Hydration failed" error.
+  useEffect(() => {
+    if (document.getElementById('ga-gtag')) return
+
+    const GA_MEASUREMENT_ID = 'G-YR33BDCQDY'
+    const script = document.createElement('script')
+    script.id = 'ga-gtag'
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+    document.head.appendChild(script)
+
+    const w = window as unknown as { dataLayer: unknown[] }
+    w.dataLayer = w.dataLayer || []
+    function gtag(...args: unknown[]) {
+      w.dataLayer.push(args)
+    }
+    gtag('js', new Date())
+    gtag('config', GA_MEASUREMENT_ID)
+  }, [])
+
   return (
     <html lang="en">
       <head>
