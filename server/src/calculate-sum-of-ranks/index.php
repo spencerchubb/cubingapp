@@ -1,1 +1,0 @@
-<?php include_once "../sum-of-ranks/index.php"; ?>
